@@ -130,7 +130,7 @@ class InteractionButton extends StatelessWidget {
       case InteractionType.thisIsMe:
         return AppAssets.icons.labelMe.path; // label_me
       case InteractionType.lookingForThis:
-        return AppAssets.icons.labelNeed.path; // label_need
+        return AppAssets.icons.labelSearch.path; // label_search
       case InteractionType.knowSomeone:
         return AppAssets.icons.labelAt.path; // label_at
       case InteractionType.notRelevant:

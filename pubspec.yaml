@@ -37,6 +37,9 @@ dependencies:
   
   # Supabase Flutter integration
   supabase_flutter: ^2.9.1
+  
+  # Cached network image voor remote icons
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

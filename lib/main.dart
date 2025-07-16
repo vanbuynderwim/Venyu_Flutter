@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
+import 'models/models.dart';
 import 'models/test_models.dart';
-import 'models/enums/interaction_type.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
@@ -69,6 +69,14 @@ class HomePage extends StatelessWidget {
               'Make the net work',
               style: AppTextStyles.appSubtitle,
             ),
+            const SizedBox(height: 32),
+            
+            // TagView demonstration
+            const _TagViewDemo(),
+            const SizedBox(height: 32),
+            
+            // OptionButton with TagViews demonstration
+            const _OptionButtonWithTagsDemo(),
             const SizedBox(height: 32),
             
             // Typography demonstration
@@ -327,6 +335,24 @@ class HomePage extends StatelessWidget {
               },
               spacing: 12,
             ),
+            const SizedBox(height: 32),
+            
+            // OptionButton demonstration
+            Text('Option Buttons:', style: AppTextStyles.headline),
+            const SizedBox(height: 16),
+            
+            // Single select example (like countries)
+            Text('Single Select (Countries):', style: AppTextStyles.subheadline),
+            const SizedBox(height: 8),
+            
+            _SingleSelectDemo(),
+            const SizedBox(height: 24),
+            
+            // Multi select example (like meeting preferences)
+            Text('Multi Select (Meeting Preferences):', style: AppTextStyles.subheadline),
+            const SizedBox(height: 8),
+            
+            _MultiSelectDemo(),
           ],
         ),
       ),
@@ -355,6 +381,336 @@ class _ColorBox extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(name, style: AppTextStyles.caption1),
+      ],
+    );
+  }
+}
+
+/// Demo voor single select OptionButtons (zoals landen)
+class _SingleSelectDemo extends StatefulWidget {
+  @override
+  State<_SingleSelectDemo> createState() => _SingleSelectDemoState();
+}
+
+class _SingleSelectDemoState extends State<_SingleSelectDemo> {
+  String? selectedCountry;
+
+  final List<SimpleOption> countries = [
+    SimpleOption(
+      id: 'be',
+      title: 'België',
+      icon: 'location',
+      color: AppColors.textPrimary,
+    ),
+    SimpleOption(
+      id: 'nl',
+      title: 'Nederland',
+      icon: 'location',
+      color: AppColors.textPrimary,
+    ),
+    SimpleOption(
+      id: 'fr',
+      title: 'Frankrijk',
+      icon: 'location',
+      color: AppColors.textPrimary,
+    ),
+    SimpleOption(
+      id: 'de',
+      title: 'Duitsland',
+      icon: 'location',
+      color: AppColors.textPrimary,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: countries.map((country) => 
+        OptionButton(
+          option: country,
+          isSelected: selectedCountry == country.id,
+          isMultiSelect: false,
+          onSelect: () {
+            setState(() {
+              selectedCountry = country.id;
+            });
+            debugPrint('Selected country: ${country.title}');
+          },
+        ),
+      ).toList(),
+    );
+  }
+}
+
+/// Demo voor multi select OptionButtons (zoals ontmoetingsvoorkeuren)
+class _MultiSelectDemo extends StatefulWidget {
+  @override
+  State<_MultiSelectDemo> createState() => _MultiSelectDemoState();
+}
+
+class _MultiSelectDemoState extends State<_MultiSelectDemo> {
+  Set<String> selectedPreferences = {};
+
+  final List<SimpleOption> preferences = [
+    SimpleOption(
+      id: 'linkedin',
+      title: 'LinkedIn',
+      emoji: '💼',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'video',
+      title: 'Videocall',
+      emoji: '📹',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'phone',
+      title: 'Telefoon',
+      emoji: '📞',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'office',
+      title: 'Kantoor',
+      emoji: '🏢',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'coffee',
+      title: 'Koffie',
+      emoji: '☕',
+      color: AppColors.primary,
+      badge: 2,
+    ),
+    SimpleOption(
+      id: 'lunch',
+      title: 'Lunch',
+      emoji: '🍽️',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'walk',
+      title: 'Wandeling',
+      emoji: '🚶',
+      color: AppColors.primary,
+    ),
+    SimpleOption(
+      id: 'bike',
+      title: 'Fietsen',
+      emoji: '🚴',
+      color: AppColors.primary,
+      list: [
+        Tag(id: '1', label: 'Recreatief', emoji: '😊'),
+        Tag(id: '2', label: 'Sportief', icon: 'fitness'),
+        Tag(id: '3', label: 'Stad', emoji: '🏙️'),
+      ],
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: preferences.map((preference) => 
+        OptionButton(
+          option: preference,
+          isSelected: selectedPreferences.contains(preference.id),
+          isMultiSelect: true,
+          onSelect: () {
+            setState(() {
+              if (selectedPreferences.contains(preference.id)) {
+                selectedPreferences.remove(preference.id);
+              } else {
+                selectedPreferences.add(preference.id);
+              }
+            });
+            debugPrint('Selected preferences: $selectedPreferences');
+          },
+        ),
+      ).toList(),
+    );
+  }
+}
+
+/// TagView demonstration - verschillende categorieën zoals in de Swift app
+class _TagViewDemo extends StatelessWidget {
+  const _TagViewDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('TagView Demonstratie', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        // Ontmoetingsvoorkeuren
+        _buildTagSection('Ontmoetingsvoorkeur', [
+          Tag(id: '1', label: 'LinkedIn', emoji: '💼'),
+          Tag(id: '2', label: 'Koffie', emoji: '☕'),
+        ]),
+        
+        const SizedBox(height: 16),
+        
+        // Netwerkdoelen
+        _buildTagSection('Netwerkdoelen', [
+          Tag(id: '3', label: 'Netwerk uitbreiden', emoji: '🌐'),
+          Tag(id: '4', label: 'Bedrijfsgroei', emoji: '📈'),
+        ]),
+        
+        const SizedBox(height: 16),
+        
+        // Ondernemerservaring
+        _buildTagSection('Ondernemerservaring', [
+          Tag(id: '5', label: '11-20 jaar ervaring', emoji: '👨‍💼'),
+        ]),
+        
+        const SizedBox(height: 16),
+        
+        // Talen
+        _buildTagSection('Talen', [
+          Tag(id: '6', label: 'Engels', emoji: '🇬🇧'),
+          Tag(id: '7', label: 'Nederlands', emoji: '🇳🇱'),
+        ]),
+        
+        const SizedBox(height: 16),
+        
+        // Land
+        _buildTagSection('Land', [
+          Tag(id: '8', label: 'België', emoji: '🇧🇪'),
+        ]),
+        
+        const SizedBox(height: 16),
+        
+        // Mixed tags met icons en emoji's
+        _buildTagSection('Mixed Icons & Emojis', [
+          Tag(id: '9', label: 'Technologie', icon: 'bulb'),
+          Tag(id: '10', label: 'Startup', emoji: '🚀'),
+          Tag(id: '11', label: 'Marketing', icon: 'card'),
+          Tag(id: '12', label: 'Financiën', emoji: '💰'),
+          Tag(id: '13', label: 'Healthcare', icon: 'handshake'),
+          Tag(id: '14', label: 'Sport', emoji: '⚽'),
+          Tag(id: '15', label: 'Muziek', emoji: '🎵'),
+        ]),
+      ],
+    );
+  }
+  
+  Widget _buildTagSection(String title, List<Tag> tags) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppTextStyles.footnote.copyWith(
+            color: AppColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: tags.map((tag) => 
+            TagView(
+              id: tag.id,
+              label: tag.label,
+              icon: tag.icon,
+              emoji: tag.emoji,
+              fontSize: AppTextStyles.footnote,
+              iconSize: 14,
+            ),
+          ).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+/// OptionButton with TagViews demonstration - zoals in de Swift app screenshot
+class _OptionButtonWithTagsDemo extends StatefulWidget {
+  const _OptionButtonWithTagsDemo();
+
+  @override
+  State<_OptionButtonWithTagsDemo> createState() => _OptionButtonWithTagsDemoState();
+}
+
+class _OptionButtonWithTagsDemoState extends State<_OptionButtonWithTagsDemo> {
+  String? selectedOption;
+
+  final List<SimpleOption> profileOptions = [
+    SimpleOption(
+      id: 'networking_goals',
+      title: 'Netwerkdoelen',
+      description: 'Wat je hoopt te bereiken door te netwerken met andere ondernemers',
+      icon: 'bulb',
+      color: AppColors.primair4Lilac,
+      list: [
+        Tag(id: '1', label: 'Netwerk uitbreiden', emoji: '🌐'),
+        Tag(id: '2', label: 'Bedrijfsgroei', emoji: '📈'),
+      ],
+    ),
+    SimpleOption(
+      id: 'entrepreneur_experience',
+      title: 'Ondernemerservaring',
+      description: 'Hoeveel jaar ervaring je hebt als ondernemer',
+      icon: 'company',
+      color: AppColors.primair4Lilac,
+      list: [
+        Tag(id: '3', label: '11-20 jaar ervaring', emoji: '👨‍💼'),
+      ],
+    ),
+    SimpleOption(
+      id: 'languages',
+      title: 'Talen',
+      description: 'Welke talen je spreekt voor zakelijke communicatie',
+      icon: 'chat',
+      color: AppColors.primair4Lilac,
+      list: [
+        Tag(id: '4', label: 'Engels', emoji: '🇬🇧'),
+        Tag(id: '5', label: 'Nederlands', emoji: '🇳🇱'),
+        Tag(id: '6', label: 'Frans', emoji: '🇫🇷'),
+        Tag(id: '7', label: 'Spaans', emoji: '🇪🇸'),
+      ],
+    ),
+    SimpleOption(
+      id: 'country',
+      title: 'Land',
+      description: 'Het land waar je woont of gevestigd bent',
+      icon: 'location',
+      color: AppColors.primair4Lilac,
+      list: [
+        Tag(id: '8', label: 'België', emoji: '🇧🇪'),
+      ],
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('OptionButton met TagViews', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        ...profileOptions.map((option) => 
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: OptionButton(
+              option: option,
+              isSelected: selectedOption == option.id,
+              isMultiSelect: false,
+              withDescription: true,
+              isChevronVisible: true,
+              isCheckmarkVisible: false,
+              onSelect: () {
+                setState(() {
+                  selectedOption = option.id;
+                });
+                debugPrint('Selected option: ${option.title}');
+              },
+            ),
+          ),
+        ),
       ],
     );
   }

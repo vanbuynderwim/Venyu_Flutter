@@ -48,7 +48,7 @@ class _Icons {
   
   // Label icons (no variants, single image)
   final labelMe = const _SingleIcon('label_me');
-  final labelNeed = const _SingleIcon('label_need');
+  final labelSearch = const _SingleIcon('label_search');
   final labelAt = const _SingleIcon('label_at');
   final labelSkip = const _SingleIcon('label_skip');
 }
