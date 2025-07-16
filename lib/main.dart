@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
-import 'core/themes/app_theme.dart';
-import 'services/supabase_service.dart';
-import 'config/dependencies/injection_container.dart';
-import 'presentation/pages/main/platform_main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   // Initialize Supabase
-  await SupabaseService.initialize(
+  await Supabase.initialize(
     url: SupabaseConstants.supabaseUrl,
     anonKey: SupabaseConstants.supabaseAnonKey,
   );
-  
-  // Initialize dependency injection
-  await InjectionContainer.init();
   
   runApp(const VenyuApp());
 }
@@ -27,9 +21,30 @@ class VenyuApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Venyu',
-      theme: AppTheme.lightTheme,
-      home: const PlatformMainPage(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Venyu'),
+      ),
+      body: const Center(
+        child: Text(
+          'Welkom bij Venyu Flutter!',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
     );
   }
 }
