@@ -45,6 +45,12 @@ class _Icons {
   // Special radiobutton icons (only have 3 variants)
   final radiobuttonOff = const _RadiobuttonVariants('radiobutton_off');
   final radiobuttonOn = const _RadiobuttonVariants('radiobutton_on');
+  
+  // Label icons (no variants, single image)
+  final labelMe = const _SingleIcon('label_me');
+  final labelNeed = const _SingleIcon('label_need');
+  final labelAt = const _SingleIcon('label_at');
+  final labelSkip = const _SingleIcon('label_skip');
 }
 
 class _IconVariants {
@@ -84,4 +90,13 @@ class _RadiobuttonVariants {
   String get white => '$_basePath/${baseName}_white.png';
   String get accent => '$_basePath/${baseName}_accent.png';
   String get selected => '$_basePath/${baseName}_selected.png';
+}
+
+class _SingleIcon {
+  const _SingleIcon(this.baseName);
+  
+  final String baseName;
+  static const String _basePath = 'assets/images/icons';
+  
+  String get path => '$_basePath/$baseName.png';
 }

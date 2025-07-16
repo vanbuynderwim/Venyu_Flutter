@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
 import 'models/test_models.dart';
+import 'models/enums/interaction_type.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
@@ -280,6 +281,51 @@ class HomePage extends StatelessWidget {
               text: 'Text with Icon',
               icon: Icons.star,
               style: AppTextStyles.callout,
+            ),
+            const SizedBox(height: 32),
+            
+            // Interaction buttons demonstration
+            Text('Interaction Buttons:', style: AppTextStyles.headline),
+            const SizedBox(height: 16),
+            
+            // Individual interaction buttons
+            InteractionButton(
+              interactionType: InteractionType.thisIsMe,
+              onPressed: () => debugPrint('This is me pressed'),
+              width: double.infinity,
+            ),
+            const SizedBox(height: 12),
+            
+            InteractionButton(
+              interactionType: InteractionType.lookingForThis,
+              onPressed: () => debugPrint('Looking for this pressed'),
+              width: double.infinity,
+            ),
+            const SizedBox(height: 12),
+            
+            InteractionButton(
+              interactionType: InteractionType.knowSomeone,
+              onPressed: () => debugPrint('Know someone pressed'),
+              width: double.infinity,
+            ),
+            const SizedBox(height: 12),
+            
+            InteractionButton(
+              interactionType: InteractionType.notRelevant,
+              onPressed: () => debugPrint('Not relevant pressed'),
+              width: double.infinity,
+            ),
+            const SizedBox(height: 16),
+            
+            // Interaction button row
+            Text('Interaction Button Row:', style: AppTextStyles.subheadline),
+            const SizedBox(height: 8),
+            
+            InteractionButtonRow(
+              onInteractionPressed: (type) {
+                debugPrint('Interaction button pressed: ${type.value}');
+              },
+              spacing: 12,
             ),
           ],
         ),
