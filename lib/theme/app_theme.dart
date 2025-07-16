@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+import 'theme_data.dart';
+
+// Export all theme components
+export 'app_colors.dart';
+export 'app_fonts.dart';
+export 'app_text_styles.dart';
+export 'theme_data.dart';
+
+/// Main App Theme class - Single entry point for all theming
+class AppTheme {
+  AppTheme._();
+
+  /// Get the main theme data
+  static ThemeData get theme => VenyuThemeData.theme;
+}

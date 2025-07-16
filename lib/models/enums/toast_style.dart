@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_colors.dart';
 
 enum ToastStyle {
   error,
@@ -6,17 +7,17 @@ enum ToastStyle {
   success,
   info;
 
-  // Helper methods
+  // Helper methods - using exact colors from Swift Theme
   Color get themeColor {
     switch (this) {
       case ToastStyle.error:
-        return Colors.red;
+        return AppColors.na; // Red
       case ToastStyle.warning:
-        return Colors.orange;
+        return AppColors.know; // Orange
       case ToastStyle.success:
-        return Colors.green;
+        return AppColors.me; // Green
       case ToastStyle.info:
-        return Colors.blue;
+        return AppColors.need; // Blue-green
     }
   }
 
