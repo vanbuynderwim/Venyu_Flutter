@@ -11,6 +11,17 @@ class VenyuThemeData {
     // Remove Material 3 features for consistent appearance
     useMaterial3: false,
     
+    // Remove splash and ripple effects globally
+    splashFactory: NoSplash.splashFactory,
+    highlightColor: Colors.transparent,
+    splashColor: Colors.transparent,
+    
+    // Custom scroll behavior to remove overscroll effects
+    scrollbarTheme: const ScrollbarThemeData(
+      thumbVisibility: WidgetStatePropertyAll(false),
+      trackVisibility: WidgetStatePropertyAll(false),
+    ),
+    
     // Primary colors
     primaryColor: AppColors.primary,
     primaryColorLight: AppColors.primaryLight,
@@ -70,6 +81,7 @@ class VenyuThemeData {
         foregroundColor: AppColors.textOnPrimary,
         textStyle: AppTextStyles.headline,
         elevation: 0,
+        splashFactory: NoSplash.splashFactory,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -82,6 +94,7 @@ class VenyuThemeData {
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primary,
         textStyle: AppTextStyles.headline,
+        splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     ),
@@ -91,11 +104,19 @@ class VenyuThemeData {
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primary,
         textStyle: AppTextStyles.headline,
+        splashFactory: NoSplash.splashFactory,
         side: BorderSide(color: AppColors.primary),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      ),
+    ),
+    
+    // Icon button theme
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(
+        splashFactory: NoSplash.splashFactory,
       ),
     ),
     
