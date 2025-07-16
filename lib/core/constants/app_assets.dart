@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 class AppAssets {
   static const _images = _Images();
   static const _icons = _Icons();

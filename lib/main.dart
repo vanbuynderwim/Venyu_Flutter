@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
+import 'models/test_models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Test models
+  TestModels.runTests();
   
   // Initialize Supabase
   await Supabase.initialize(
