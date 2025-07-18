@@ -37,6 +37,11 @@ class _Icons {
   final settings = const _IconVariants('settings');
   final venue = const _IconVariants('venue');
   final verified = const _IconVariants('verified');
+  final bio = const _IconVariants('bio');
+  final like = const _IconVariants('like');
+  final dislike = const _IconVariants('dislike');
+  final account = const _IconVariants('account');
+  final linkedin = const _IconVariants('linkedin');
   
   // Special checkbox icons (only have 3 variants)
   final checkboxOff = const _CheckboxVariants('checkbox_off');

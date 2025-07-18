@@ -4,12 +4,6 @@ import '../core/constants/app_assets.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 
-/// Icon position enum
-enum IconPosition {
-  leading,
-  trailing,
-}
-
 /// InteractionButton - Flutter equivalent van Swift InteractionButton
 class InteractionButton extends StatelessWidget {
   final InteractionType interactionType;
@@ -78,36 +72,11 @@ class InteractionButton extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
     
-    // Bepaal iconPosition gebaseerd op interactionType
-    final isIconTrailing = _getIconPosition() == IconPosition.trailing;
-    
-    if (isIconTrailing) {
-      // Text links, icon rechts
-      return [
-        text,
-        const SizedBox(width: 8),
-        icon,
-      ];
-    } else {
-      // Icon links, text rechts
-      return [
+    return [
         icon,
         const SizedBox(width: 8),
         text,
       ];
-    }
-  }
-
-  /// Krijg de icon positie voor het InteractionType
-  IconPosition _getIconPosition() {
-    switch (interactionType) {
-      case InteractionType.thisIsMe:
-      case InteractionType.knowSomeone:
-        return IconPosition.trailing; // Icon rechts
-      case InteractionType.lookingForThis:
-      case InteractionType.notRelevant:
-        return IconPosition.leading; // Icon links
-    }
   }
 
   /// Krijg de achtergrondkleur voor het InteractionType

@@ -79,6 +79,10 @@ class HomePage extends StatelessWidget {
             const _OptionButtonWithTagsDemo(),
             const SizedBox(height: 32),
             
+            // ProgressBar demonstration
+            const _ProgressBarDemo(),
+            const SizedBox(height: 32),
+            
             // Typography demonstration
             Text('Typography Scale:', style: AppTextStyles.headline),
             const SizedBox(height: 16),
@@ -710,6 +714,99 @@ class _OptionButtonWithTagsDemoState extends State<_OptionButtonWithTagsDemo> {
               },
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// ProgressBar demonstration - 2 instanties met 10 stappen
+class _ProgressBarDemo extends StatefulWidget {
+  const _ProgressBarDemo();
+
+  @override
+  State<_ProgressBarDemo> createState() => _ProgressBarDemoState();
+}
+
+class _ProgressBarDemoState extends State<_ProgressBarDemo> {
+  int currentStep1 = 1;
+  int currentStep2 = 6;
+  final int totalSteps = 10;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ProgressBar Demonstratie', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        // Eerste progress bar - stap 1
+        Text('Stap $currentStep1 van $totalSteps', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        ProgressBar(
+          pageNumber: currentStep1,
+          numberOfPages: totalSteps,
+        ),
+        const SizedBox(height: 16),
+        
+        // Controls voor eerste progress bar
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: currentStep1 > 1 ? () {
+                setState(() {
+                  currentStep1--;
+                });
+              } : null,
+              child: const Text('Vorige'),
+            ),
+            const SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: currentStep1 < totalSteps ? () {
+                setState(() {
+                  currentStep1++;
+                });
+              } : null,
+              child: const Text('Volgende'),
+            ),
+          ],
+        ),
+        
+        const SizedBox(height: 32),
+        
+        // Tweede progress bar - stap 6
+        Text('Stap $currentStep2 van $totalSteps', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        ProgressBar(
+          pageNumber: currentStep2,
+          numberOfPages: totalSteps,
+        ),
+        const SizedBox(height: 16),
+        
+        // Controls voor tweede progress bar
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: currentStep2 > 1 ? () {
+                setState(() {
+                  currentStep2--;
+                });
+              } : null,
+              child: const Text('Vorige'),
+            ),
+            const SizedBox(width: 16),
+            ElevatedButton(
+              onPressed: currentStep2 < totalSteps ? () {
+                setState(() {
+                  currentStep2++;
+                });
+              } : null,
+              child: const Text('Volgende'),
+            ),
+          ],
         ),
       ],
     );

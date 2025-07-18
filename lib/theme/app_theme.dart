@@ -14,6 +14,7 @@ export 'no_ripple_theme.dart';
 export 'interaction_button.dart';
 export 'option_button.dart';
 export 'tag_view.dart';
+export 'progress_bar.dart';
 export 'theme_data.dart';
 
 /// Main App Theme class - Single entry point for all theming
