@@ -3,7 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/supabase_constants.dart';
 import 'models/models.dart';
 import 'models/test_models.dart';
-import 'theme/app_theme.dart';
+import 'core/theme/app_theme.dart';
+import 'widgets/cards/card_item.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +90,10 @@ class HomePage extends StatelessWidget {
             
             // SectionButton demonstration
             const _SectionButtonDemo(),
+            const SizedBox(height: 32),
+            
+            // CardItem demonstration
+            const _CardItemDemo(),
             const SizedBox(height: 32),
             
             // Typography demonstration
@@ -666,8 +671,7 @@ class _ProgressBarDemo extends StatefulWidget {
 }
 
 class _ProgressBarDemoState extends State<_ProgressBarDemo> {
-  int currentStep1 = 1;
-  int currentStep2 = 6;
+  int currentStep = 1;
   final int totalSteps = 10;
 
   @override
@@ -678,70 +682,44 @@ class _ProgressBarDemoState extends State<_ProgressBarDemo> {
         Text('ProgressBar Demonstratie', style: AppTextStyles.headline),
         const SizedBox(height: 16),
         
-        // Eerste progress bar - stap 1
-        Text('Stap $currentStep1 van $totalSteps', style: AppTextStyles.subheadline),
+        // Progress bar
+        Text('Stap $currentStep van $totalSteps', style: AppTextStyles.subheadline),
         const SizedBox(height: 8),
         ProgressBar(
-          pageNumber: currentStep1,
+          pageNumber: currentStep,
           numberOfPages: totalSteps,
         ),
         const SizedBox(height: 16),
         
-        // Controls voor eerste progress bar
+        // ActionButton controls
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: currentStep1 > 1 ? () {
-                setState(() {
-                  currentStep1--;
-                });
-              } : null,
-              child: const Text('Vorige'),
+            Expanded(
+              child: ActionButton(
+                label: 'Vorige',
+                style: ActionButtonType.secondary,
+                icon: Icons.arrow_back,
+                isDisabled: currentStep <= 1,
+                onPressed: currentStep > 1 ? () {
+                  setState(() {
+                    currentStep--;
+                  });
+                } : null,
+              ),
             ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: currentStep1 < totalSteps ? () {
-                setState(() {
-                  currentStep1++;
-                });
-              } : null,
-              child: const Text('Volgende'),
-            ),
-          ],
-        ),
-        
-        const SizedBox(height: 32),
-        
-        // Tweede progress bar - stap 6
-        Text('Stap $currentStep2 van $totalSteps', style: AppTextStyles.subheadline),
-        const SizedBox(height: 8),
-        ProgressBar(
-          pageNumber: currentStep2,
-          numberOfPages: totalSteps,
-        ),
-        const SizedBox(height: 16),
-        
-        // Controls voor tweede progress bar
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: currentStep2 > 1 ? () {
-                setState(() {
-                  currentStep2--;
-                });
-              } : null,
-              child: const Text('Vorige'),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton(
-              onPressed: currentStep2 < totalSteps ? () {
-                setState(() {
-                  currentStep2++;
-                });
-              } : null,
-              child: const Text('Volgende'),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ActionButton(
+                label: 'Volgende',
+                style: ActionButtonType.primary,
+                icon: Icons.arrow_forward,
+                isDisabled: currentStep >= totalSteps,
+                onPressed: currentStep < totalSteps ? () {
+                  setState(() {
+                    currentStep++;
+                  });
+                } : null,
+              ),
             ),
           ],
         ),
@@ -789,7 +767,7 @@ class _ActionButtonDemo extends StatelessWidget {
         
         ActionButton(
           label: 'Maybe later',
-          style: ActionButtonStyleType.secondary,
+          style: ActionButtonType.secondary,
           onPressed: () {
             debugPrint('Secondary button pressed');
           },
@@ -798,7 +776,7 @@ class _ActionButtonDemo extends StatelessWidget {
         
         ActionButton(
           label: 'Cancel',
-          style: ActionButtonStyleType.secondary,
+          style: ActionButtonType.secondary,
           icon: Icons.close,
           onPressed: () {
             debugPrint('Secondary button with icon pressed');
@@ -812,7 +790,7 @@ class _ActionButtonDemo extends StatelessWidget {
         
         ActionButton(
           label: 'Delete Account',
-          style: ActionButtonStyleType.destructive,
+          style: ActionButtonType.destructive,
           onPressed: () {
             debugPrint('Destructive button pressed');
           },
@@ -821,7 +799,7 @@ class _ActionButtonDemo extends StatelessWidget {
         
         ActionButton(
           label: 'Remove Photo',
-          style: ActionButtonStyleType.destructive,
+          style: ActionButtonType.destructive,
           icon: Icons.delete,
           onPressed: () {
             debugPrint('Destructive button with icon pressed');
@@ -841,9 +819,24 @@ class _ActionButtonDemo extends StatelessWidget {
         
         const ActionButton(
           label: 'Disabled Secondary',
-          style: ActionButtonStyleType.secondary,
+          style: ActionButtonType.secondary,
           isDisabled: true,
         ),
+        const SizedBox(height: 16),
+        
+        // LinkedIn button
+        Text('LinkedIn Style:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Connect on LinkedIn',
+          style: ActionButtonType.linkedIn,
+          icon: Icons.business,
+          onPressed: () {
+            debugPrint('LinkedIn button pressed');
+          },
+        ),
+        
         const SizedBox(height: 16),
         
         // Two buttons side by side (zoals in screenshot)
@@ -855,7 +848,7 @@ class _ActionButtonDemo extends StatelessWidget {
             Expanded(
               child: ActionButton(
                 label: 'Maybe later',
-                style: ActionButtonStyleType.secondary,
+                style: ActionButtonType.secondary,
                 onPressed: () {
                   debugPrint('Maybe later pressed');
                 },
@@ -865,10 +858,52 @@ class _ActionButtonDemo extends StatelessWidget {
             Expanded(
               child: ActionButton(
                 label: 'Enable',
-                style: ActionButtonStyleType.primary,
+                style: ActionButtonType.primary,
                 icon: Icons.location_on,
                 onPressed: () {
                   debugPrint('Enable pressed');
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        
+        // Icon-only buttons (zoals in nieuwe screenshot)
+        Text('Icon-only Buttons (secondary):', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        Row(
+          children: [
+            Expanded(
+              child: ActionButton(
+                icon: Icons.business, // LinkedIn icon
+                style: ActionButtonType.secondary,
+                isIconOnly: true,
+                onPressed: () {
+                  debugPrint('LinkedIn pressed');
+                },
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ActionButton(
+                icon: Icons.email,
+                style: ActionButtonType.secondary,
+                isIconOnly: true,
+                onPressed: () {
+                  debugPrint('Email pressed');
+                },
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ActionButton(
+                icon: Icons.link,
+                style: ActionButtonType.secondary,
+                isIconOnly: true,
+                onPressed: () {
+                  debugPrint('Link pressed');
                 },
               ),
             ),
@@ -902,6 +937,7 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
         Container(
           decoration: BoxDecoration(
             color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
             boxShadow: [
               BoxShadow(
                 color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
@@ -910,6 +946,7 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
               ),
             ],
           ),
+          clipBehavior: Clip.hardEdge,
           child: SectionButtonBar<ProfileSections>(
             sections: ProfileSections.values,
             selectedSection: selectedSection,
@@ -938,11 +975,12 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
                     color: AppColors.secundair6Rocket,
                     width: 0.5,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 ),
                 child: SectionButton<ProfileSections>(
                   section: section,
                   isSelected: selectedSection == section,
+                  borderRadius: AppModifiers.defaultRadius,
                   onPressed: () {
                     setState(() {
                       selectedSection = section;
@@ -986,6 +1024,131 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// CardItem demonstration - verschillende scenario's
+class _CardItemDemo extends StatelessWidget {
+  const _CardItemDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('CardItem Demonstratie', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        // Standalone card (zoals in BC50F31C screenshot)
+        Text('Standalone Card met Status:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        CardItem(
+          prompt: Prompt(
+            promptID: '1',
+            label: 'Ik zoek een ervaren marketeer die kan helpen met het uitbreiden van ons klantenbestand in de B2B sector.',
+            interactionType: InteractionType.lookingForThis,
+            status: PromptStatus.approved,
+            profile: Profile(
+              id: 'profile1',
+              firstName: 'Sarah',
+              lastName: 'Johnson',
+              companyName: 'TechStart BV',
+              isSuperAdmin: false,
+            ),
+            createdAt: DateTime.now(),
+          ),
+          onCardSelected: (prompt) {
+            debugPrint('Standalone card selected: ${prompt.label}');
+          },
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // Match detail card (zoals in AA297FCA screenshot)
+        Text('Match Detail Card met Gradient:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        CardItem(
+          prompt: Prompt(
+            promptID: '2',
+            label: 'Ik kan helpen met het opzetten van effectieve marketing campagnes voor startups en scale-ups.',
+            interactionType: InteractionType.thisIsMe,
+            matchInteractionType: InteractionType.lookingForThis,
+            profile: Profile(
+              id: 'profile2',
+              firstName: 'Michael',
+              lastName: 'Chen',
+              companyName: 'Digital Growth Agency',
+              isSuperAdmin: false,
+            ),
+            createdAt: DateTime.now(),
+          ),
+          showMatchInteraction: true,
+          onCardSelected: (prompt) {
+            debugPrint('Match card selected: ${prompt.label}');
+          },
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // Reviewing mode cards
+        Text('Reviewing Mode:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        CardItem(
+          prompt: Prompt(
+            promptID: '3',
+            label: 'Zoek iemand die ervaring heeft met internationale expansie van tech bedrijven.',
+            interactionType: InteractionType.knowSomeone,
+            status: PromptStatus.pendingReview,
+            profile: Profile(
+              id: 'profile3',
+              firstName: 'Emma',
+              lastName: 'van der Berg',
+              companyName: 'Global Ventures',
+              isSuperAdmin: false,
+            ),
+            createdAt: DateTime.now(),
+          ),
+          reviewing: true,
+          onCardSelected: (prompt) {
+            debugPrint('Review card selected: ${prompt.label}');
+          },
+        ),
+        
+        const SizedBox(height: 8),
+        
+        // Different status examples
+        Text('Verschillende Status Types:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        ...PromptStatus.values.map((status) => 
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: CardItem(
+              prompt: Prompt(
+                promptID: 'status_${status.value}',
+                label: 'Voorbeeldprompt voor ${status.value} status.',
+                interactionType: InteractionType.values[PromptStatus.values.indexOf(status) % InteractionType.values.length],
+                status: status,
+                profile: Profile(
+                  id: 'profile_${status.value}',
+                  firstName: 'Test',
+                  lastName: 'User',
+                  companyName: 'Example Corp',
+                  isSuperAdmin: false,
+                ),
+                createdAt: DateTime.now(),
+              ),
+              onCardSelected: (prompt) {
+                debugPrint('Status card selected: ${prompt.label}');
+              },
+            ),
           ),
         ),
       ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/constants/app_assets.dart';
-import '../models/models.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
-import 'tag_view.dart';
+import '../../core/constants/app_assets.dart';
+import '../../models/models.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../common/tag_view.dart';
 
 /// OptionType protocol equivalent - interface for option data
 abstract class OptionType {

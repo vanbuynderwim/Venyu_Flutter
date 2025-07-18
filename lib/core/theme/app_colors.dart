@@ -42,7 +42,7 @@ class AppColors {
   static const Color linkedIn = Color(0xFF0A66C2);
 
   // Convenience getters for common usage
-  static Color get primary => primair3Berry;
+  static Color get primary => primair4Lilac;
   static Color get primaryDark => primair1Galaxy;
   static Color get primaryLight => primair6Periwinkel;
   
@@ -53,7 +53,7 @@ class AppColors {
   static Color get accent => accent1Tangerine;
   static Color get accentLight => accent3Peach;
   
-  static Color get background => alabasterWhite;
+  static Color get background => primair7Pearl;
   static Color get surface => softCloudGray;
   static Color get white => Colors.white;
   static Color get black => secundair1Deepblack;

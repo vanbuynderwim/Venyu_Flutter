@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
-import 'section_type.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../common/section_type.dart';
 
 /// SectionButton - Flutter equivalent van Swift SectionButton
 class SectionButton<T extends SectionType> extends StatelessWidget {
   final T section;
   final bool isSelected;
   final VoidCallback? onPressed;
+  final double? borderRadius;
 
   const SectionButton({
     super.key,
     required this.section,
     required this.isSelected,
     this.onPressed,
+    this.borderRadius,
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
+      borderRadius: BorderRadius.circular(borderRadius ?? 0),
       child: InkWell(
         onTap: onPressed,
         splashFactory: NoSplash.splashFactory,
+        borderRadius: BorderRadius.circular(borderRadius ?? 0),
         child: Container(
           padding: const EdgeInsets.all(10),
           constraints: const BoxConstraints(
@@ -30,6 +34,7 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primair6Periwinkel : Colors.transparent,
+            borderRadius: BorderRadius.circular(borderRadius ?? 0),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

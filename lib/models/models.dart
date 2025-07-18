@@ -21,6 +21,7 @@ export 'enums/feedback_type.dart';
 export 'enums/review_type.dart';
 
 // Enums - UI & Navigation
+export 'enums/action_button_type.dart';
 export 'enums/profile_sections.dart';
 export 'enums/toast_style.dart';
 export 'enums/image_source_type.dart';

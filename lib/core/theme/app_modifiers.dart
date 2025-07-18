@@ -6,6 +6,7 @@ class AppModifiers {
   AppModifiers._();
 
   /// Corner radius values
+  static const double defaultRadius = 10.0; // Default voor componenten
   static const double smallRadius = 8.0;
   static const double mediumRadius = 12.0;
   static const double largeRadius = 16.0;

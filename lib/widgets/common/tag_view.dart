@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_text_styles.dart';
 
 /// TagView - Flutter equivalent van Swift TagView
 class TagView extends StatelessWidget {

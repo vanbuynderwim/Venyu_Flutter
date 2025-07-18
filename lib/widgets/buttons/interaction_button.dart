@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/enums/interaction_type.dart';
-import '../core/constants/app_assets.dart';
-import 'app_colors.dart';
-import 'app_text_styles.dart';
+import '../../models/enums/interaction_type.dart';
+import '../../core/theme/app_text_styles.dart';
 
 /// InteractionButton - Flutter equivalent van Swift InteractionButton
 class InteractionButton extends StatelessWidget {
@@ -27,7 +25,7 @@ class InteractionButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: _getBackgroundColor(),
+          backgroundColor: interactionType.color,
           foregroundColor: Colors.white,
           elevation: 0,
           shadowColor: Colors.transparent,
@@ -48,13 +46,13 @@ class InteractionButton extends StatelessWidget {
   /// Bouw de button content gebaseerd op iconPosition
   List<Widget> _buildButtonContent() {
     final icon = Image.asset(
-      _getButtonImagePath(),
+      interactionType.assetPath,
       width: 20,
       height: 20,
       errorBuilder: (context, error, stackTrace) {
         // Fallback naar Material Icons als asset niet gevonden
         return Icon(
-          _getFallbackIcon(),
+          interactionType.fallbackIcon,
           size: 20,
           color: Colors.white,
         );
@@ -62,7 +60,7 @@ class InteractionButton extends StatelessWidget {
     );
     
     final text = Text(
-      _getButtonTitle(),
+      interactionType.buttonTitle,
       style: AppTextStyles.headline.copyWith(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -72,6 +70,7 @@ class InteractionButton extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
     
+    // Icon position bepaalt de volgorde (voor nu altijd icon-first)
     return [
         icon,
         const SizedBox(width: 8),
@@ -79,61 +78,6 @@ class InteractionButton extends StatelessWidget {
       ];
   }
 
-  /// Krijg de achtergrondkleur voor het InteractionType
-  Color _getBackgroundColor() {
-    switch (interactionType) {
-      case InteractionType.thisIsMe:
-        return AppColors.me; // Groen
-      case InteractionType.lookingForThis:
-        return AppColors.need; // Blauw-groen
-      case InteractionType.knowSomeone:
-        return AppColors.know; // Oranje
-      case InteractionType.notRelevant:
-        return AppColors.na; // Rood
-    }
-  }
-
-  /// Krijg het image path voor het InteractionType
-  String _getButtonImagePath() {
-    switch (interactionType) {
-      case InteractionType.thisIsMe:
-        return AppAssets.icons.labelMe.path; // label_me
-      case InteractionType.lookingForThis:
-        return AppAssets.icons.labelSearch.path; // label_search
-      case InteractionType.knowSomeone:
-        return AppAssets.icons.labelAt.path; // label_at
-      case InteractionType.notRelevant:
-        return AppAssets.icons.labelSkip.path; // label_skip
-    }
-  }
-
-  /// Krijg fallback Material icon
-  IconData _getFallbackIcon() {
-    switch (interactionType) {
-      case InteractionType.thisIsMe:
-        return Icons.person;
-      case InteractionType.lookingForThis:
-        return Icons.lightbulb;
-      case InteractionType.knowSomeone:
-        return Icons.handshake;
-      case InteractionType.notRelevant:
-        return Icons.block;
-    }
-  }
-
-  /// Krijg de button title voor het InteractionType
-  String _getButtonTitle() {
-    switch (interactionType) {
-      case InteractionType.thisIsMe:
-        return 'I can help';
-      case InteractionType.lookingForThis:
-        return 'I need this';
-      case InteractionType.knowSomeone:
-        return 'I can refer';
-      case InteractionType.notRelevant:
-        return 'Not relevant';
-    }
-  }
 }
 
 /// InteractionButtonRow - Widget voor het weergeven van alle 4 de interaction buttons

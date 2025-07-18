@@ -1,4 +1,4 @@
-import '../../theme/section_type.dart';
+import '../../widgets/common/section_type.dart';
 
 enum ProfileSections implements SectionType {
   cards,

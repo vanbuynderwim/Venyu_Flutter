@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
-import 'app_modifiers.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// Venyu Layout Styles - Consistent layout components and text layouts
 class AppLayoutStyles {
