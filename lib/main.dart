@@ -29,12 +29,12 @@ class VenyuApp extends StatelessWidget {
     return MaterialApp(
       title: 'Venyu',
       theme: AppTheme.theme,
-      scrollBehavior: VenyuScrollBehavior(),
+      scrollBehavior: AppScrollBehavior(),
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return ScrollConfiguration(
-          behavior: VenyuScrollBehavior(),
+          behavior: AppScrollBehavior(),
           child: NoRippleTheme(
             child: child ?? const SizedBox.shrink(),
           ),

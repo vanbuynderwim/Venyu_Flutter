@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 /// Custom scroll behavior to remove overscroll effects
-class VenyuScrollBehavior extends ScrollBehavior {
+class AppScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(
     BuildContext context,
