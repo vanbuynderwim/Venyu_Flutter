@@ -4,7 +4,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 
 /// ActionButton - Flutter equivalent van Swift ActionButton
-class ActionButton extends StatelessWidget {
+class ActionButton extends StatefulWidget {
   final String? label;
   final VoidCallback? onPressed;
   final ActionButtonType style;
@@ -26,27 +26,37 @@ class ActionButton extends StatelessWidget {
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
   @override
+  State<ActionButton> createState() => _ActionButtonState();
+}
+
+class _ActionButtonState extends State<ActionButton> {
+  bool isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    final isActuallyDisabled = isDisabled || onPressed == null;
-    final isIconOnlyButton = isIconOnly && icon != null;
+    final isActuallyDisabled = widget.isDisabled || widget.onPressed == null;
+    final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
     
     return SizedBox(
-      width: width ?? double.infinity,
+      width: widget.width ?? double.infinity,
       height: 56,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: isActuallyDisabled ? null : onPressed,
+          onTap: isActuallyDisabled ? null : widget.onPressed,
+          onTapDown: isActuallyDisabled ? null : (_) => setState(() => isPressed = true),
+          onTapUp: isActuallyDisabled ? null : (_) => setState(() => isPressed = false),
+          onTapCancel: isActuallyDisabled ? null : () => setState(() => isPressed = false),
           splashFactory: NoSplash.splashFactory,
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: Opacity(
-            opacity: isActuallyDisabled ? 0.7 : 1.0,
+            opacity: isActuallyDisabled ? 0.7 : (isPressed ? 0.8 : 1.0),
             child: Container(
               decoration: BoxDecoration(
-                color: style.backgroundColor,
+                color: widget.style.backgroundColor,
                 borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 border: Border.all(
-                  color: style.borderColor,
+                  color: widget.style.borderColor,
                   width: 0.5,
                 ),
               ),
@@ -58,20 +68,20 @@ class ActionButton extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (icon != null) ...[
+                    if (widget.icon != null) ...[
                       Icon(
-                        icon,
-                        color: style.textColor,
+                        widget.icon,
+                        color: widget.style.textColor,
                         size: 20,
                       ),
-                      if (!isIconOnlyButton && label != null) const SizedBox(width: 8),
+                      if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                     ],
-                    if (label != null && !isIconOnlyButton)
+                    if (widget.label != null && !isIconOnlyButton)
                       Text(
-                        label!,
+                        widget.label!,
                         style: AppTextStyles.body.copyWith(
-                          color: style.textColor,
-                          fontWeight: style.fontWeight,
+                          color: widget.style.textColor,
+                          fontWeight: widget.style.fontWeight,
                         ),
                       ),
                   ],

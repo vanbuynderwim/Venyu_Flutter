@@ -3,7 +3,7 @@ import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_text_styles.dart';
 
 /// InteractionButton - Flutter equivalent van Swift InteractionButton
-class InteractionButton extends StatelessWidget {
+class InteractionButton extends StatefulWidget {
   final InteractionType interactionType;
   final VoidCallback? onPressed;
   final double? width;
@@ -18,26 +18,40 @@ class InteractionButton extends StatelessWidget {
   });
 
   @override
+  State<InteractionButton> createState() => _InteractionButtonState();
+}
+
+class _InteractionButtonState extends State<InteractionButton> {
+  bool isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
-      height: height ?? 56, // Verhoogd naar 56px zoals in Swift app
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: interactionType.color,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shadowColor: Colors.transparent,
+      width: widget.width,
+      height: widget.height ?? 56, // Verhoogd naar 56px zoals in Swift app
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: widget.onPressed,
+          onTapDown: widget.onPressed != null ? (_) => setState(() => isPressed = true) : null,
+          onTapUp: widget.onPressed != null ? (_) => setState(() => isPressed = false) : null,
+          onTapCancel: widget.onPressed != null ? () => setState(() => isPressed = false) : null,
           splashFactory: NoSplash.splashFactory,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Meer verticale padding
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10),
+          child: Opacity(
+            opacity: isPressed ? 0.8 : 1.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.interactionType.color,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _buildButtonContent(),
+              ),
+            ),
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _buildButtonContent(),
         ),
       ),
     );
@@ -46,13 +60,13 @@ class InteractionButton extends StatelessWidget {
   /// Bouw de button content gebaseerd op iconPosition
   List<Widget> _buildButtonContent() {
     final icon = Image.asset(
-      interactionType.assetPath,
+      widget.interactionType.assetPath,
       width: 20,
       height: 20,
       errorBuilder: (context, error, stackTrace) {
         // Fallback naar Material Icons als asset niet gevonden
         return Icon(
-          interactionType.fallbackIcon,
+          widget.interactionType.fallbackIcon,
           size: 20,
           color: Colors.white,
         );
@@ -60,7 +74,7 @@ class InteractionButton extends StatelessWidget {
     );
     
     final text = Text(
-      interactionType.buttonTitle,
+      widget.interactionType.buttonTitle,
       style: AppTextStyles.headline.copyWith(
         color: Colors.white,
         fontWeight: FontWeight.w600,

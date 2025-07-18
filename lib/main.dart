@@ -957,46 +957,11 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
             },
           ),
         ),
-        
-        const SizedBox(height: 24),
-        
-        // Individuele SectionButtons
-        Text('Individuele SectionButtons:', style: AppTextStyles.subheadline),
-        const SizedBox(height: 8),
-        
-        Row(
-          children: ProfileSections.values.map((section) {
-            return Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.secundair6Rocket,
-                    width: 0.5,
-                  ),
-                  borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                ),
-                child: SectionButton<ProfileSections>(
-                  section: section,
-                  isSelected: selectedSection == section,
-                  borderRadius: AppModifiers.defaultRadius,
-                  onPressed: () {
-                    setState(() {
-                      selectedSection = section;
-                    });
-                    debugPrint('Individual button pressed: ${section.title}');
-                  },
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-        
+            
         const SizedBox(height: 24),
         
         // Info over geselecteerde sectie
         Container(
-          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppColors.primair7Pearl,
             borderRadius: BorderRadius.circular(8),
