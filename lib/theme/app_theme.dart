@@ -16,6 +16,8 @@ export 'option_button.dart';
 export 'tag_view.dart';
 export 'progress_bar.dart';
 export 'action_button.dart';
+export 'section_type.dart';
+export 'section_button.dart';
 export 'theme_data.dart';
 
 /// Main App Theme class - Single entry point for all theming

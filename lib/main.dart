@@ -87,6 +87,10 @@ class HomePage extends StatelessWidget {
             const _ActionButtonDemo(),
             const SizedBox(height: 32),
             
+            // SectionButton demonstration
+            const _SectionButtonDemo(),
+            const SizedBox(height: 32),
+            
             // Typography demonstration
             Text('Typography Scale:', style: AppTextStyles.headline),
             const SizedBox(height: 16),
@@ -869,6 +873,120 @@ class _ActionButtonDemo extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+/// SectionButton demonstration
+class _SectionButtonDemo extends StatefulWidget {
+  const _SectionButtonDemo();
+
+  @override
+  State<_SectionButtonDemo> createState() => _SectionButtonDemoState();
+}
+
+class _SectionButtonDemoState extends State<_SectionButtonDemo> {
+  ProfileSections selectedSection = ProfileSections.cards;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('SectionButton Demonstratie', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        // SectionButtonBar zoals in screenshot
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: SectionButtonBar<ProfileSections>(
+            sections: ProfileSections.values,
+            selectedSection: selectedSection,
+            onSectionSelected: (section) {
+              setState(() {
+                selectedSection = section;
+              });
+              debugPrint('Selected section: ${section.title}');
+            },
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Individuele SectionButtons
+        Text('Individuele SectionButtons:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        Row(
+          children: ProfileSections.values.map((section) {
+            return Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: AppColors.secundair6Rocket,
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: SectionButton<ProfileSections>(
+                  section: section,
+                  isSelected: selectedSection == section,
+                  onPressed: () {
+                    setState(() {
+                      selectedSection = section;
+                    });
+                    debugPrint('Individual button pressed: ${section.title}');
+                  },
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Info over geselecteerde sectie
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.primair7Pearl,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Geselecteerde sectie:',
+                style: AppTextStyles.footnote.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                selectedSection.title,
+                style: AppTextStyles.headline,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                selectedSection.description,
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -1,9 +1,15 @@
-enum ProfileSections {
+import '../../theme/section_type.dart';
+
+enum ProfileSections implements SectionType {
   cards,
   reviews,
   venues;
 
+  @override
+  String get id => name;
+
   // Helper methods
+  @override
   String get title {
     switch (this) {
       case ProfileSections.cards:
@@ -15,6 +21,7 @@ enum ProfileSections {
     }
   }
 
+  @override
   String get description {
     switch (this) {
       case ProfileSections.cards:
@@ -26,12 +33,13 @@ enum ProfileSections {
     }
   }
 
+  @override
   String get icon {
     switch (this) {
       case ProfileSections.cards:
         return 'card';
       case ProfileSections.reviews:
-        return 'review';
+        return 'verified';
       case ProfileSections.venues:
         return 'venue';
     }
