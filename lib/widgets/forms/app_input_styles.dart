@@ -10,7 +10,7 @@ class AppInputStyles {
   /// Base input decoration
   static InputDecoration get base => InputDecoration(
     filled: true,
-    fillColor: AppColors.surface,
+    fillColor: AppColors.white,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
       borderSide: BorderSide(
@@ -233,7 +233,7 @@ class AppInputStyles {
   /// Disabled input style
   static InputDecoration get disabled => base.copyWith(
     enabled: false,
-    fillColor: AppColors.secundair7Cascadingwhite,
+    fillColor: AppColors.white,
     labelStyle: AppTextStyles.subheadline.copyWith(
       color: AppColors.textLight,
     ),
