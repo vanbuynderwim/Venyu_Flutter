@@ -15,6 +15,7 @@ export '../../widgets/buttons/interaction_button.dart';
 export '../../widgets/buttons/option_button.dart';
 export '../../widgets/common/tag_view.dart';
 export '../../widgets/common/progress_bar.dart';
+export '../../widgets/common/page_layout.dart';
 export '../../widgets/buttons/action_button.dart';
 export '../../widgets/common/section_type.dart';
 export '../../widgets/buttons/section_button.dart';

@@ -53,8 +53,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Venyu'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      body: StandardPageLayout(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

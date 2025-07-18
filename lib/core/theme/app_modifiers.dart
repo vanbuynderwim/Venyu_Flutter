@@ -178,4 +178,14 @@ class AppModifiers {
     horizontal: extraLargeSpacing,
     vertical: mediumSpacing,
   );
+
+  /// Page layout padding - standard horizontal padding voor alle pagina's
+  static const EdgeInsets pagePadding = EdgeInsets.symmetric(
+    horizontal: mediumSpacing, // 16px links en rechts
+    vertical: largeSpacing,    // 24px boven en onder
+  );
+
+  static const EdgeInsets pagePaddingHorizontal = EdgeInsets.symmetric(
+    horizontal: mediumSpacing, // 16px links en rechts
+  );
 }
