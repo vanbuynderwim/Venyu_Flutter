@@ -937,13 +937,10 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            border: Border.all(
+              color: AppColors.secundair6Rocket,
+              width: 0.5,
+            ),
           ),
           clipBehavior: Clip.hardEdge,
           child: SectionButtonBar<ProfileSections>(
