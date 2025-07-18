@@ -83,6 +83,10 @@ class HomePage extends StatelessWidget {
             const _ProgressBarDemo(),
             const SizedBox(height: 32),
             
+            // ActionButton demonstration
+            const _ActionButtonDemo(),
+            const SizedBox(height: 32),
+            
             // Typography demonstration
             Text('Typography Scale:', style: AppTextStyles.headline),
             const SizedBox(height: 16),
@@ -119,78 +123,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 32),
-            
-            // Button demonstration
-            Text('Buttons:', style: AppTextStyles.headline),
-            const SizedBox(height: 16),
-            
-            // Button styles
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.primary,
-                  child: const Text('Primary'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.secondary,
-                  child: const Text('Secondary'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.destructive,
-                  child: const Text('Destructive'),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.success,
-                  child: const Text('Success'),
-                ),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.outlined,
-                  child: const Text('Outlined'),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.text,
-                  child: const Text('Text'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            
-            // Small buttons
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.primarySmall,
-                  child: const Text('Small'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: AppButtonStyles.primaryLarge,
-                  child: const Text('Large'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            
-            // Gradient button
-            GradientButton(
-              onPressed: () {},
-              decoration: AppButtonStyles.primaryGradientDecoration,
-              child: Text(
-                'Gradient Button',
-                style: AppTextStyles.headline.copyWith(color: AppColors.white),
-              ),
-            ),
-            const SizedBox(height: 32),
+
             
             // Input field demonstration
             Text('Input Fields:', style: AppTextStyles.headline),
@@ -805,6 +738,135 @@ class _ProgressBarDemoState extends State<_ProgressBarDemo> {
                 });
               } : null,
               child: const Text('Volgende'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// ActionButton demonstration - verschillende stijlen en variaties
+class _ActionButtonDemo extends StatelessWidget {
+  const _ActionButtonDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ActionButton Demonstratie', style: AppTextStyles.headline),
+        const SizedBox(height: 16),
+        
+        // Primary buttons
+        Text('Primary Style:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Enable',
+          icon: Icons.location_on,
+          onPressed: () {
+            debugPrint('Primary button with icon pressed');
+          },
+        ),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Continue',
+          onPressed: () {
+            debugPrint('Primary button pressed');
+          },
+        ),
+        const SizedBox(height: 16),
+        
+        // Secondary buttons
+        Text('Secondary Style:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Maybe later',
+          style: ActionButtonStyleType.secondary,
+          onPressed: () {
+            debugPrint('Secondary button pressed');
+          },
+        ),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Cancel',
+          style: ActionButtonStyleType.secondary,
+          icon: Icons.close,
+          onPressed: () {
+            debugPrint('Secondary button with icon pressed');
+          },
+        ),
+        const SizedBox(height: 16),
+        
+        // Destructive buttons
+        Text('Destructive Style:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Delete Account',
+          style: ActionButtonStyleType.destructive,
+          onPressed: () {
+            debugPrint('Destructive button pressed');
+          },
+        ),
+        const SizedBox(height: 8),
+        
+        ActionButton(
+          label: 'Remove Photo',
+          style: ActionButtonStyleType.destructive,
+          icon: Icons.delete,
+          onPressed: () {
+            debugPrint('Destructive button with icon pressed');
+          },
+        ),
+        const SizedBox(height: 16),
+        
+        // Disabled states
+        Text('Disabled States:', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        const ActionButton(
+          label: 'Disabled Primary',
+          isDisabled: true,
+        ),
+        const SizedBox(height: 8),
+        
+        const ActionButton(
+          label: 'Disabled Secondary',
+          style: ActionButtonStyleType.secondary,
+          isDisabled: true,
+        ),
+        const SizedBox(height: 16),
+        
+        // Two buttons side by side (zoals in screenshot)
+        Text('Side by Side (zoals in je screenshot):', style: AppTextStyles.subheadline),
+        const SizedBox(height: 8),
+        
+        Row(
+          children: [
+            Expanded(
+              child: ActionButton(
+                label: 'Maybe later',
+                style: ActionButtonStyleType.secondary,
+                onPressed: () {
+                  debugPrint('Maybe later pressed');
+                },
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: ActionButton(
+                label: 'Enable',
+                style: ActionButtonStyleType.primary,
+                icon: Icons.location_on,
+                onPressed: () {
+                  debugPrint('Enable pressed');
+                },
+              ),
             ),
           ],
         ),
