@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// InteractionButton - Flutter equivalent van Swift InteractionButton
 class InteractionButton extends StatefulWidget {
@@ -37,13 +38,13 @@ class _InteractionButtonState extends State<InteractionButton> {
           onTapUp: widget.onPressed != null ? (_) => setState(() => isPressed = false) : null,
           onTapCancel: widget.onPressed != null ? () => setState(() => isPressed = false) : null,
           splashFactory: NoSplash.splashFactory,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: Opacity(
             opacity: isPressed ? 0.8 : 1.0,
             child: Container(
               decoration: BoxDecoration(
                 color: widget.interactionType.color,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(

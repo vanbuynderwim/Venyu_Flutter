@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// ProgressBar - Flutter equivalent van Swift ProgressBar
 class ProgressBar extends StatelessWidget {
@@ -32,7 +33,7 @@ class ProgressBar extends StatelessWidget {
                 color: isActive 
                     ? AppColors.accent1Tangerine 
                     : AppColors.secundair6Rocket,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(AppModifiers.tinyRadius),
               ),
             ),
           );

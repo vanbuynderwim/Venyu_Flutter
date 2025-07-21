@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/profile.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -95,7 +96,7 @@ class RoleView extends StatelessWidget {
         onTap: onTap,
         splashFactory: NoSplash.splashFactory,
         highlightColor: AppColors.primair6Periwinkel.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
         child: content,
       ),
     );

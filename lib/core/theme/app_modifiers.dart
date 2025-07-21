@@ -6,11 +6,14 @@ class AppModifiers {
   AppModifiers._();
 
   /// Corner radius values
-  static const double defaultRadius = 10.0; // Default voor componenten
-  static const double smallRadius = 8.0;
-  static const double mediumRadius = 12.0;
-  static const double largeRadius = 16.0;
-  static const double extraLargeRadius = 24.0;
+  static const double tinyRadius = 2.0;      // Progress bars, small elements
+  static const double miniRadius = 4.0;      // Checkboxes, small badges
+  static const double smallRadius = 8.0;     // Small containers
+  static const double defaultRadius = 10.0;  // Default for components
+  static const double mediumRadius = 12.0;   // Cards, dialogs
+  static const double largeRadius = 16.0;    // Large containers
+  static const double extraLargeRadius = 24.0; // Very large containers
+  static const double capsuleRadius = 100.0; // Capsule/pill shape
 
   /// Spacing values
   static const double tinySpacing = 4.0;

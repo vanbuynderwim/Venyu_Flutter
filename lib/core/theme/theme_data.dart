@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'app_modifiers.dart';
 import 'app_text_styles.dart';
 
 /// Venyu Custom ThemeData - Cross-platform consistent theme
@@ -83,7 +84,7 @@ class VenyuThemeData {
         elevation: 0,
         splashFactory: NoSplash.splashFactory,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
@@ -107,7 +108,7 @@ class VenyuThemeData {
         splashFactory: NoSplash.splashFactory,
         side: BorderSide(color: AppColors.primary),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
@@ -125,23 +126,23 @@ class VenyuThemeData {
       filled: true,
       fillColor: AppColors.surface,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         borderSide: BorderSide(color: AppColors.secondaryLight),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         borderSide: BorderSide(color: AppColors.secondaryLight),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         borderSide: BorderSide(color: AppColors.primary, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         borderSide: BorderSide(color: AppColors.error),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         borderSide: BorderSide(color: AppColors.error, width: 2),
       ),
       hintStyle: AppTextStyles.body.copyWith(color: AppColors.textLight),
@@ -155,7 +156,7 @@ class VenyuThemeData {
       elevation: 2,
       shadowColor: AppColors.secondaryLight,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
       ),
     ),
     

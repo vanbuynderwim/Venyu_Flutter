@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// TagView - Flutter equivalent van Swift TagView
 class TagView extends StatelessWidget {
@@ -32,7 +33,7 @@ class TagView extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.primair7Pearl,
-        borderRadius: BorderRadius.circular(100), // Capsule shape
+        borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius), // Capsule shape
         border: Border.all(
           color: AppColors.secundair6Rocket,
           width: 0.5,

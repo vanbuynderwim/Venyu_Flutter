@@ -3,6 +3,7 @@ import '../../core/constants/app_assets.dart';
 import '../../models/models.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../common/tag_view.dart';
 
 /// OptionType protocol equivalent - interface for option data
@@ -143,7 +144,7 @@ class _OptionButtonState extends State<OptionButton>
               color: widget.disabled 
                   ? AppColors.secundair7Cascadingwhite
                   : AppColors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
               border: Border.all(
                 color: AppColors.secundair6Rocket,
                 width: 0.5,
@@ -161,7 +162,7 @@ class _OptionButtonState extends State<OptionButton>
               child: InkWell(
                 onTap: widget.disabled ? null : _handleTap,
                 splashFactory: NoSplash.splashFactory,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -231,7 +232,7 @@ class _OptionButtonState extends State<OptionButton>
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
                           ),
                           child: Text(
                             widget.option.badge.toString(),
@@ -333,7 +334,7 @@ class _OptionButtonState extends State<OptionButton>
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(AppModifiers.miniRadius),
                 border: Border.all(
                   color: widget.isSelected ? AppColors.primary : AppColors.secundair6Rocket,
                   width: 2,

@@ -331,7 +331,7 @@ class _ColorBox extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
             border: Border.all(color: AppColors.secondaryLight),
           ),
         ),
@@ -972,7 +972,7 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
         Container(
           decoration: BoxDecoration(
             color: AppColors.primair7Pearl,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

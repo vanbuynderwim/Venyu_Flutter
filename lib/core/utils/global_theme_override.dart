@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_modifiers.dart';
 
 /// Global theme override to ensure no ripple effects anywhere
 class GlobalThemeOverride extends StatelessWidget {
@@ -35,7 +36,7 @@ class GlobalThemeOverride extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
             ),
           ),
         ),
@@ -53,7 +54,7 @@ class GlobalThemeOverride extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.primary,
             side: BorderSide(color: Theme.of(context).colorScheme.primary),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
             ),
           ),
         ),
