@@ -4,7 +4,7 @@ import 'core/config/app_config.dart';
 import 'models/models.dart';
 import 'models/test_models.dart';
 import 'core/theme/app_theme.dart';
-import 'widgets/cards/card_item.dart';
+import 'widgets/index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

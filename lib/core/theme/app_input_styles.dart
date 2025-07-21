@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_modifiers.dart';
+import 'app_colors.dart';
+import 'app_text_styles.dart';
+import 'app_modifiers.dart';
 
 /// Venyu Input Field Styles - Consistent input styling with validation states
 class AppInputStyles {

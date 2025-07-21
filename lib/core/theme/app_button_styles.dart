@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_modifiers.dart';
+import 'app_colors.dart';
+import 'app_text_styles.dart';
+import 'app_modifiers.dart';
 
 /// Venyu Button Styles - Consistent button styling across the app
 class AppButtonStyles {
