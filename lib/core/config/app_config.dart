@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'environment.dart';
+import '../constants/app_urls.dart';
+import '../constants/app_timeouts.dart';
 
 /// Main application configuration
 /// 
@@ -12,23 +14,24 @@ class AppConfig {
   static String get supabaseUrl => EnvironmentConfig.supabaseUrl;
   static String get supabaseAnonKey => EnvironmentConfig.supabaseAnonKey;
   
-  /// External service URLs
-  static const String avatarBucketBase = 'https://venyu-avatars.s3.amazonaws.com';
-  static const String placeholderImageBase = 'https://via.placeholder.com';
-  
-  /// Helper methods for building URLs
-  static String avatarUrl(String avatarId) => '$avatarBucketBase/$avatarId.jpg';
+  /// External service URLs - Delegated to AppUrls
+  static String avatarUrl(String avatarId) => AppUrls.avatarUrl(avatarId);
   
   static String placeholderIconUrl({
     required String text,
     int size = 64,
     String backgroundColor = '007AFF',
     String textColor = 'FFFFFF',
-  }) => '$placeholderImageBase/$size/$backgroundColor/$textColor?text=$text';
+  }) => AppUrls.placeholderIcon(
+    text: text,
+    size: size,
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+  );
   
-  /// Network configuration
-  static const Duration networkTimeout = Duration(seconds: 30);
-  static const Duration imageLoadTimeout = Duration(seconds: 10);
+  /// Network configuration - Delegated to AppTimeouts
+  static Duration get networkTimeout => AppTimeouts.networkRequest;
+  static Duration get imageLoadTimeout => AppTimeouts.imageLoad;
   
   /// App metadata
   static const String appName = 'Venyu';
