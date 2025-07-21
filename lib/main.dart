@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'core/constants/supabase_constants.dart';
+import 'core/config/app_config.dart';
 import 'models/models.dart';
 import 'models/test_models.dart';
 import 'core/theme/app_theme.dart';
@@ -9,13 +9,24 @@ import 'widgets/cards/card_item.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Validate configuration before proceeding
+  try {
+    if (!AppConfig.validateConfiguration()) {
+      throw Exception('Invalid app configuration');
+    }
+  } catch (e) {
+    debugPrint('Configuration error: $e');
+    debugPrint('Please ensure environment variables are properly set');
+    return;
+  }
+  
   // Test models
   TestModels.runTests();
   
-  // Initialize Supabase
+  // Initialize Supabase with secure configuration
   await Supabase.initialize(
-    url: SupabaseConstants.supabaseUrl,
-    anonKey: SupabaseConstants.supabaseAnonKey,
+    url: AppConfig.supabaseUrl,
+    anonKey: AppConfig.supabaseAnonKey,
   );
   
   runApp(const VenyuApp());
