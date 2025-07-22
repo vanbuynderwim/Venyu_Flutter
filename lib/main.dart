@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/config/app_config.dart';
 import 'models/models.dart';
@@ -9,6 +10,14 @@ import 'widgets/index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
+  // Load environment variables
+  try {
+    await dotenv.load(fileName: '.env.local');
+  } catch (e) {
+    debugPrint('Warning: Could not load .env.local file: $e');
+    debugPrint('Using fallback configuration');
+  }
+  
   // Validate configuration before proceeding
   try {
     if (!AppConfig.validateConfiguration()) {
@@ -16,7 +25,7 @@ void main() async {
     }
   } catch (e) {
     debugPrint('Configuration error: $e');
-    debugPrint('Please ensure environment variables are properly set');
+    debugPrint('Please ensure environment variables are properly set in .env.local');
     return;
   }
   

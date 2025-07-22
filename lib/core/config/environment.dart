@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 /// Environment configuration for different build targets
 /// 
 /// This enum defines the available environments for the app.
@@ -11,11 +13,11 @@ enum Environment {
 /// Environment-based configuration management
 /// 
 /// This class provides secure access to environment-specific configuration
-/// values without exposing sensitive data in the source code.
+/// values loaded from .env.local file at runtime.
 class EnvironmentConfig {
-  // Environment is set via build-time flags
+  // Environment is loaded from .env.local file
   static Environment get _environment {
-    const envName = String.fromEnvironment('ENVIRONMENT', defaultValue: 'development');
+    final envName = dotenv.env['ENVIRONMENT'] ?? 'development';
     switch (envName) {
       case 'production':
         return Environment.production;
@@ -34,31 +36,22 @@ class EnvironmentConfig {
   static String get supabaseUrl {
     switch (_environment) {
       case Environment.development:
-        return const String.fromEnvironment(
-          'SUPABASE_URL_DEV',
-          defaultValue: 'https://dev.getvenyu.supabase.co'
-        );
+        return dotenv.env['SUPABASE_URL_DEV'] ?? '';
       case Environment.staging:
-        return const String.fromEnvironment(
-          'SUPABASE_URL_STAGING',
-          defaultValue: 'https://staging.getvenyu.supabase.co'
-        );
+        return dotenv.env['SUPABASE_URL_STAGING'] ?? '';
       case Environment.production:
-        return const String.fromEnvironment(
-          'SUPABASE_URL_PROD',
-          defaultValue: 'https://app.getvenyu.com'
-        );
+        return dotenv.env['SUPABASE_URL_PROD'] ?? '';
     }
   }
   
   static String get supabaseAnonKey {
     switch (_environment) {
       case Environment.development:
-        return const String.fromEnvironment('SUPABASE_KEY_DEV', defaultValue: '');
+        return dotenv.env['SUPABASE_KEY_DEV'] ?? '';
       case Environment.staging:
-        return const String.fromEnvironment('SUPABASE_KEY_STAGING', defaultValue: '');
+        return dotenv.env['SUPABASE_KEY_STAGING'] ?? '';
       case Environment.production:
-        return const String.fromEnvironment('SUPABASE_KEY_PROD', defaultValue: '');
+        return dotenv.env['SUPABASE_KEY_PROD'] ?? '';
     }
   }
   
