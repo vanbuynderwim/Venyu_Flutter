@@ -41,6 +41,12 @@ dependencies:
   # Cached network image voor remote icons
   cached_network_image: ^3.3.1
   flutter_dotenv: ^5.2.1
+  sign_in_with_apple: ^7.0.1
+  crypto: ^3.0.6
+  flutter_secure_storage: ^9.2.4
+  url_launcher: ^6.3.2
+  provider: ^6.1.5
+  package_info_plus: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/icons/
+    - assets/images/visuals/
     - .env.local
 
   # An image asset can refer to one or more resolution-specific "variants", see

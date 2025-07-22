@@ -7,6 +7,7 @@ export 'tag.dart';
 export 'tag_group.dart';
 export 'badge.dart';
 export 'language.dart';
+export 'update_country_language_request.dart';
 
 // Enums - Core functionality
 export 'enums/match_status.dart';
