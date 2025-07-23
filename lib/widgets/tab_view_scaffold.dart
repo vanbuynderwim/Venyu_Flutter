@@ -59,13 +59,19 @@ class TabViewScaffold extends StatelessWidget {
   }
 
   Widget _buildMaterialView() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        centerTitle: false,
-        actions: actions,
-      ),
-      body: body,
+    return Column(
+      children: [
+        // Use real AppBar but as a widget, not in Scaffold
+        AppBar(
+          title: Text(title),
+          centerTitle: false,
+          actions: actions,
+          automaticallyImplyLeading: false, // No back button in tabs
+          elevation: 1,
+        ),
+        // Body takes remaining space
+        Expanded(child: body),
+      ],
     );
   }
 }
