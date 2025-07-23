@@ -16,7 +16,8 @@ class ShowcaseView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Venyu UI Showcase'),
       ),
-      body: StandardPageLayout(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

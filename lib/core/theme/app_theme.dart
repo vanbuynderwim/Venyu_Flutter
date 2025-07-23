@@ -9,8 +9,6 @@ export 'app_modifiers.dart';
 export 'app_button_styles.dart';
 export 'app_input_styles.dart';  
 export 'app_layout_styles.dart';
-export '../utils/app_scroll_behavior.dart';
-export '../utils/no_ripple_theme.dart';
 export 'theme_data.dart';
 
 /// Main App Theme class - Single entry point for all theming

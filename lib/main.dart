@@ -54,17 +54,9 @@ class VenyuApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Venyu',
         theme: AppTheme.theme,
-        scrollBehavior: AppScrollBehavior(),
         home: const AuthFlow(),
         debugShowCheckedModeBanner: false,
-        builder: (context, child) {
-          return ScrollConfiguration(
-            behavior: AppScrollBehavior(),
-            child: NoRippleTheme(
-              child: child ?? const SizedBox.shrink(),
-            ),
-          );
-        },
+        // Let Flutter handle platform-specific behavior
       ),
     );
   }

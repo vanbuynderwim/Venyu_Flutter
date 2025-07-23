@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'app_colors.dart';
 import 'app_modifiers.dart';
 import 'app_text_styles.dart';
@@ -9,19 +10,13 @@ class VenyuThemeData {
 
   /// Main theme data for the app
   static ThemeData get theme => ThemeData(
-    // Remove Material 3 features for consistent appearance
-    useMaterial3: false,
+    // Use Material 3 for modern Android experience
+    useMaterial3: true,
     
-    // Remove splash and ripple effects globally
-    splashFactory: NoSplash.splashFactory,
-    highlightColor: Colors.transparent,
-    splashColor: Colors.transparent,
-    
-    // Custom scroll behavior to remove overscroll effects
-    scrollbarTheme: const ScrollbarThemeData(
-      thumbVisibility: WidgetStatePropertyAll(false),
-      trackVisibility: WidgetStatePropertyAll(false),
-    ),
+    // Platform-specific effects (dit geldt voor ALLE widgets)
+    splashFactory: Platform.isAndroid ? InkRipple.splashFactory : NoSplash.splashFactory,
+    highlightColor: Platform.isAndroid ? null : Colors.transparent,
+    splashColor: Platform.isAndroid ? null : Colors.transparent,
     
     // Primary colors
     primaryColor: AppColors.primary,
@@ -51,7 +46,7 @@ class VenyuThemeData {
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.background,
       elevation: 0,
-      centerTitle: false,
+      centerTitle: Platform.isIOS, // Platform-specifiek
       titleTextStyle: AppTextStyles.headline,
       iconTheme: IconThemeData(color: AppColors.textPrimary),
     ),
@@ -75,14 +70,13 @@ class VenyuThemeData {
       labelSmall: AppTextStyles.caption1,
     ),
     
-    // Button theme
+    // Button theme - GEEN splashFactory nodig, gebruikt automatisch de theme-level instelling
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textOnPrimary,
         textStyle: AppTextStyles.headline,
         elevation: 0,
-        splashFactory: NoSplash.splashFactory,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         ),
@@ -95,7 +89,6 @@ class VenyuThemeData {
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primary,
         textStyle: AppTextStyles.headline,
-        splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     ),
@@ -105,7 +98,6 @@ class VenyuThemeData {
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primary,
         textStyle: AppTextStyles.headline,
-        splashFactory: NoSplash.splashFactory,
         side: BorderSide(color: AppColors.primary),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
@@ -114,12 +106,8 @@ class VenyuThemeData {
       ),
     ),
     
-    // Icon button theme
-    iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(
-        splashFactory: NoSplash.splashFactory,
-      ),
-    ),
+    // Icon button theme - leeg want gebruikt standaard theme waarden
+    // iconButtonTheme kan volledig weg als je geen custom styling nodig hebt
     
     // Input decoration theme
     inputDecorationTheme: InputDecorationTheme(
@@ -184,7 +172,19 @@ class VenyuThemeData {
       elevation: 8,
     ),
     
-    // Disable platform-specific theming
-    platform: TargetPlatform.fuchsia, // Neutral platform for consistent look
+    // Page transitions
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        // iOS/macOS uses Cupertino transitions
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+        // Android uses Material transitions
+        TargetPlatform.android: ZoomPageTransitionsBuilder(),
+        // Others use fade transitions
+        TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+      },
+    ),
   );
 }

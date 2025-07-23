@@ -15,7 +15,6 @@ export 'cards/role_view.dart';
 export 'cards/status_badge_view.dart';
 
 // Common/Shared Components
-export 'common/page_layout.dart';
 export 'common/progress_bar.dart';
 export 'common/section_type.dart';
 export 'common/tag_view.dart';

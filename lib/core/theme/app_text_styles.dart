@@ -29,10 +29,9 @@ class AppTextStyles {
   /// Large Title - 34.0pt Regular
   static TextStyle largeTitle = TextStyle(
     fontSize: 34.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
-    height: 1.2,
+    color: AppColors.textPrimary
   );
 
   /// Title 1 - 28.0pt Regular
