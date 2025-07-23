@@ -288,6 +288,9 @@ class SessionManager extends ChangeNotifier {
       // Update current profile and authentication state - equivalent to iOS MainActor.run
       _currentProfile = fetchedProfile;
       
+      // Update authentication state based on profile completion
+      _updateAuthState(_determineAuthenticationState());
+      
       debugPrint('✅ fetchCurrentProfile successful');
       debugPrint('👤 Profile loaded: ${_currentProfile?.displayName} (${_currentProfile?.contactEmail})');
       
@@ -318,14 +321,22 @@ class SessionManager extends ChangeNotifier {
   
   /// Determine authentication state based on session and profile
   AuthenticationState _determineAuthenticationState() {
+    debugPrint('🔍 Determining auth state:');
+    debugPrint('  - Session: ${_currentSession != null}');
+    debugPrint('  - Profile: ${_currentProfile != null}');
+    debugPrint('  - RegisteredAt: ${_currentProfile?.registeredAt}');
+    
     if (_currentSession == null) {
+      debugPrint('  → Unauthenticated (no session)');
       return AuthenticationState.unauthenticated;
     }
     
     if (_currentProfile == null || _currentProfile!.registeredAt == null) {
+      debugPrint('  → Authenticated (session but no complete profile)');
       return AuthenticationState.authenticated;
     }
     
+    debugPrint('  → Registered (session + complete profile)');
     return AuthenticationState.registered;
   }
   

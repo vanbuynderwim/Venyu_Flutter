@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_strings.dart';
 import '../models/models.dart';
@@ -18,15 +19,20 @@ class OnboardView extends StatefulWidget {
 class _OnboardViewState extends State<OnboardView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PlatformScaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
+      appBar: PlatformAppBar(
         title: Text(
           'Welcome to ${AppStrings.appName}',
           style: AppTextStyles.headline,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        material: (_, __) => MaterialAppBarData(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        cupertino: (_, __) => CupertinoNavigationBarData(
+          backgroundColor: Colors.transparent,
+        ),
       ),
       body: SafeArea(
         child: Padding(

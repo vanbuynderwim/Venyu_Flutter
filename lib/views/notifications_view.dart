@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
+import '../widgets/tab_view_scaffold.dart';
 
-/// NotificationsView - Dedicated view for notifications tab
-/// 
-/// Displays user notifications and notification management.
-/// This replaces the inline _NotificationsView from main_view.dart.
+/// NotificationsView - Clean implementation using TabViewScaffold
 class NotificationsView extends StatelessWidget {
   const NotificationsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.notifications, style: AppTextStyles.headline),
-      ),
+    return TabViewScaffold(
+      title: AppStrings.notifications,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

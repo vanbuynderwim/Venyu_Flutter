@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
+import '../widgets/tab_view_scaffold.dart';
 
-/// MatchesView - Dedicated view for matches tab
-/// 
-/// Displays user matches and match-related functionality.
-/// This replaces the inline _MatchesView from main_view.dart.
+/// MatchesView - Clean implementation using TabViewScaffold
 class MatchesView extends StatelessWidget {
   const MatchesView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.matches, style: AppTextStyles.headline),
-      ),
+    return TabViewScaffold(
+      title: AppStrings.matches,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

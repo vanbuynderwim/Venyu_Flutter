@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/config/app_config.dart';
 import 'models/test_models.dart';
@@ -51,12 +54,36 @@ class VenyuApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SessionManager.shared,
-      child: MaterialApp(
+      child: PlatformApp(
         title: 'Venyu',
-        theme: AppTheme.theme,
+        material: (_, __) => MaterialAppData(
+          theme: AppTheme.theme,
+          // Add localization delegates for MaterialLocalisation
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', 'US'),
+            Locale('nl', 'NL'),
+          ],
+        ),
+        cupertino: (_, __) => CupertinoAppData(
+          theme: AppTheme.cupertinoTheme,
+          // Add localization delegates for Cupertino
+          localizationsDelegates: const [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', 'US'), 
+            Locale('nl', 'NL'),
+          ],
+        ),
         home: const AuthFlow(),
         debugShowCheckedModeBanner: false,
-        // Let Flutter handle platform-specific behavior
       ),
     );
   }
@@ -79,9 +106,9 @@ class _AuthFlowState extends State<AuthFlow> {
         
         switch (sessionManager.authState) {
           case AuthenticationState.loading:
-            return const Scaffold(
+            return PlatformScaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: PlatformCircularProgressIndicator(),
               ),
             );
             
@@ -95,13 +122,13 @@ class _AuthFlowState extends State<AuthFlow> {
             return const MainView();
             
           case AuthenticationState.error:
-            return Scaffold(
+            return PlatformScaffold(
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.error_outline,
+                    Icon(
+                      isCupertino(context) ? CupertinoIcons.exclamationmark_circle : Icons.error_outline,
                       size: 64,
                       color: Colors.red,
                     ),
@@ -116,12 +143,15 @@ class _AuthFlowState extends State<AuthFlow> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-                    ElevatedButton(
+                    PlatformElevatedButton(
                       onPressed: () {
                         // Return to login to retry
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (_) => const LoginView()),
+                          platformPageRoute(
+                            context: context,
+                            builder: (_) => const LoginView(),
+                          ),
                           (route) => false,
                         );
                       },

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import '../core/theme/app_theme.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
 import 'matches_view.dart';
 import 'notifications_view.dart';
 import 'profile_view.dart';
 
-/// MainView - Main application interface with tab navigation
+/// MainView - Platform-aware tab navigation with proper navigation structure
 /// 
-/// Provides the primary navigation structure for registered users
-/// with tabs for Matches, Notifications, and Profile.
-/// Uses custom icons from app_assets and separate view files.
+/// Each tab gets its own navigation stack with PlatformScaffold and proper AppBar
 class MainView extends StatefulWidget {
   const MainView({super.key});
 
@@ -19,8 +18,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  int _selectedIndex = 0;
-
+  late PlatformTabController _tabController;
+  
   final List<_TabItem> _tabs = [
     _TabItem(
       iconPath: AppAssets.icons.match,
@@ -40,55 +39,35 @@ class _MainViewState extends State<MainView> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = PlatformTabController(initialIndex: 0);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _tabs.map((tab) => tab.view).toList(),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.secundair6Rocket,
-              width: 1,
-            ),
-          ),
+    return PlatformTabScaffold(
+      tabController: _tabController,
+      items: _tabs.map((tab) => BottomNavigationBarItem(
+        icon: Image.asset(
+          tab.iconPath.regular,
+          width: 24,
+          height: 24,
         ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: AppColors.background,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.textSecondary,
-          selectedLabelStyle: AppTextStyles.caption1,
-          unselectedLabelStyle: AppTextStyles.caption1,
-          elevation: 0,
-          items: _tabs.asMap().entries.map((entry) {
-            final int index = entry.key;
-            final _TabItem tab = entry.value;
-            final bool isSelected = index == _selectedIndex;
-            
-            return BottomNavigationBarItem(
-              icon: Container(
-                padding: const EdgeInsets.all(4),
-                child: Image.asset(
-                  isSelected ? tab.iconPath.selected : tab.iconPath.regular,
-                  width: 24,
-                  height: 24,
-                  color: isSelected ? AppColors.primary : AppColors.textSecondary,
-                ),
-              ),
-              label: tab.label,
-            );
-          }).toList(),
+        activeIcon: Image.asset(
+          tab.iconPath.selected,
+          width: 24,
+          height: 24,
         ),
-      ),
+        label: tab.label,
+      )).toList(),
+      bodyBuilder: (context, index) => _tabs[index].view,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/constants/app_assets.dart';
 import '../../models/models.dart';
 import '../../core/theme/app_colors.dart';
@@ -244,10 +245,15 @@ class _OptionButtonState extends State<OptionButton>
                       
                       // Toggle switch
                       if (widget.onToggle != null)
-                        Switch(
+                        PlatformSwitch(
                           value: widget.toggleIsOn ?? false,
                           onChanged: widget.disabled ? null : widget.onToggle,
-                          activeColor: AppColors.primary,
+                          material: (_, __) => MaterialSwitchData(
+                            activeColor: AppColors.primary,
+                          ),
+                          cupertino: (_, __) => CupertinoSwitchData(
+                            activeColor: AppColors.primary,
+                          ),
                         ),
                       
                       // Selection indicator

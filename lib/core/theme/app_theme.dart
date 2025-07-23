@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'theme_data.dart';
 
 // Export only theme-related components (no widgets)
@@ -17,4 +18,7 @@ class AppTheme {
 
   /// Get the main theme data
   static ThemeData get theme => VenyuThemeData.theme;
+  
+  /// Get the Cupertino theme data
+  static CupertinoThemeData get cupertinoTheme => VenyuThemeData.cupertinoTheme;
 }

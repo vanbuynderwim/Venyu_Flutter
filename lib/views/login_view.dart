@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../core/theme/app_theme.dart';
@@ -77,7 +78,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PlatformScaffold(
       body: Stack(
         children: [
           // Background radar image
@@ -141,16 +142,24 @@ class _LoginViewState extends State<LoginView> {
                       SizedBox(
                         height: 56,
                         width: double.infinity,
-                        child: ElevatedButton(
+                        child: PlatformElevatedButton(
                           onPressed: _isSigningIn ? null : _signInWithLinkedIn,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0A66C2), // LinkedIn blue
-                            foregroundColor: Colors.white,
-                            disabledBackgroundColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+                          color: const Color(0xFF0A66C2), // LinkedIn blue
+                          material: (_, __) => MaterialElevatedButtonData(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF0A66C2),
+                              foregroundColor: Colors.white,
+                              disabledBackgroundColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+                              ),
+                              elevation: 0,
                             ),
-                            elevation: 0,
+                          ),
+                          cupertino: (_, __) => CupertinoElevatedButtonData(
+                            color: const Color(0xFF0A66C2),
+                            disabledColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -241,9 +250,14 @@ class _LoginViewState extends State<LoginView> {
           if (_isSigningIn)
             Container(
               color: Colors.black.withValues(alpha: 0.5),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              child: Center(
+                child: PlatformCircularProgressIndicator(
+                  material: (_, __) => MaterialProgressIndicatorData(
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
+                  cupertino: (_, __) => CupertinoProgressIndicatorData(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
