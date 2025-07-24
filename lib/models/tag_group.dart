@@ -34,7 +34,7 @@ class TagGroup implements OptionType {
       desc: json['desc'] as String?,
       icon: json['icon'] as String?,
       type: json['type'] != null ? CategoryType.fromJson(json['type']) : null,
-      isMultiSelect: json['is_multi_select'] as bool?,
+      isMultiSelect: json['is_multiselect'] as bool?,
       code: json['code'] as String,
       tags: json['tags'] != null 
           ? (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList()
@@ -49,7 +49,7 @@ class TagGroup implements OptionType {
       'desc': desc,
       'icon': icon,
       'type': type?.toJson(),
-      'is_multi_select': isMultiSelect,
+      'is_multiselect': isMultiSelect,
       'code': code,
       'tags': tags?.map((tag) => tag.toJson()).toList(),
     };

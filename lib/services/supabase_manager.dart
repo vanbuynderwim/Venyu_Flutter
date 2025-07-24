@@ -495,4 +495,74 @@ class SupabaseManager {
       return null;
     }
   }
+  
+  /// Fetch single tag group by code - equivalent to iOS fetchTagGroup(taggroup:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the get_taggroup RPC function with code parameter
+  /// 2. Returns a single TagGroup with updated tags
+  Future<TagGroup> fetchTagGroup(TagGroup tagGroup) async {
+    debugPrint('📥 Fetching tag group: ${tagGroup.code}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_taggroup RPC function with code parameter
+      final result = await _client
+          .rpc('get_taggroup', params: {'p_code': tagGroup.code})
+          .select()
+          .single();
+      
+      debugPrint('✅ TagGroup RPC call successful');
+      debugPrint('📋 TagGroup data received: ${result.toString()}');
+      
+      // Convert response to TagGroup object
+      final updatedTagGroup = TagGroup.fromJson(result);
+      debugPrint('🏷️ TagGroup parsed: ${updatedTagGroup.label} with ${updatedTagGroup.tags?.length ?? 0} tags');
+      
+      return updatedTagGroup;
+    });
+  }
+  
+  /// Upsert multiple profile tags - equivalent to iOS upsertProfileTags(code:tags:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Creates payload with code and array of tag IDs
+  /// 2. Calls the upsert_profile_tags RPC function
+  Future<void> upsertProfileTags(String code, List<Tag> tags) async {
+    debugPrint('📤 Upserting profile tags for code: $code with ${tags.length} tags');
+    
+    final payload = {
+      'code': code,
+      'value_ids': tags.map((tag) => tag.id).toList(),
+    };
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('upsert_profile_tags', params: {'payload': payload});
+      
+      debugPrint('✅ Profile tags upserted successfully');
+      debugPrint('📋 Upserted ${tags.length} tags for code: $code');
+    });
+  }
+  
+  /// Upsert single profile tag - equivalent to iOS upsertProfileTag(code:tag:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Creates payload with code and single tag ID
+  /// 2. Calls the upsert_profile_tag RPC function
+  Future<void> upsertProfileTag(String code, Tag tag) async {
+    debugPrint('📤 Upserting profile tag for code: $code with tag: ${tag.label}');
+    
+    final payload = {
+      'code': code,
+      'valueId': tag.id,
+    };
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('upsert_profile_tag', params: {'payload': payload});
+      
+      debugPrint('✅ Profile tag upserted successfully');
+      debugPrint('📋 Upserted tag: ${tag.label} for code: $code');
+    });
+  }
 }

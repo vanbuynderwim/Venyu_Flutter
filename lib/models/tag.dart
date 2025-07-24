@@ -1,7 +1,14 @@
-class Tag {
+import 'package:flutter/material.dart';
+import '../core/theme/app_colors.dart';
+import '../widgets/buttons/option_button.dart';
+
+class Tag implements OptionType {
+  @override
   final String id;
   final String label;
+  @override
   final String? icon;
+  @override
   final String? emoji;
   final bool? isSelected;
 
@@ -32,6 +39,22 @@ class Tag {
       'is_selected': isSelected,
     };
   }
+
+  // OptionType implementation
+  @override
+  String get title => label;
+
+  @override
+  String get description => '';
+
+  @override
+  Color get color => AppColors.primair4Lilac;
+
+  @override
+  int get badge => 0;
+
+  @override
+  List<Tag>? get list => null;
 
   // Helper methods
   String get displayText {

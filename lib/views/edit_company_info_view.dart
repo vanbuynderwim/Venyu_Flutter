@@ -7,6 +7,7 @@ import '../models/tag_group.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../services/supabase_manager.dart';
+import 'edit_tag_group_view.dart';
 
 /// EditCompanyInfoView - Flutter equivalent of iOS EditCompanyInfoView
 class EditCompanyInfoView extends StatefulWidget {
@@ -188,7 +189,12 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
     debugPrint('Tapped on company tag group: ${tagGroup.title}');
     debugPrint('Tag group has ${tagGroup.tags?.length ?? 0} tags');
     
-    // TODO: Navigate to tag selection page for this group
-    // Navigator.push(context, TagSelectionView(tagGroup: tagGroup));
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => EditTagGroupView(tagGroup: tagGroup),
+      ),
+    );
   }
 }
