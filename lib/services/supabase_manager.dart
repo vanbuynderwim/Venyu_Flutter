@@ -554,7 +554,7 @@ class SupabaseManager {
     
     final payload = {
       'code': code,
-      'valueId': tag.id,
+      'value_id': tag.id,
     };
     
     return await _executeAuthenticatedRequest(() async {

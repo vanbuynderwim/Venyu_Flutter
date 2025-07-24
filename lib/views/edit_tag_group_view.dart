@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/theme/app_theme.dart';
 import '../models/tag_group.dart';
 import '../models/tag.dart';
+import '../models/enums/action_button_type.dart';
 import '../widgets/buttons/option_button.dart';
+import '../widgets/buttons/action_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../services/supabase_manager.dart';
 
@@ -52,6 +55,11 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       // Initialize selected tags based on current state
       final selectedTags = updatedTagGroup.tags?.where((tag) => tag.isSelected == true).toList() ?? [];
       
+      // Ensure at least 1 tag is selected - if none are selected, select the first one
+      if (selectedTags.isEmpty && updatedTagGroup.tags != null && updatedTagGroup.tags!.isNotEmpty) {
+        selectedTags.add(updatedTagGroup.tags!.first);
+      }
+      
       setState(() {
         _currentTagGroup = updatedTagGroup;
         _selectedTags = List.from(selectedTags);
@@ -68,24 +76,30 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
   @override
   Widget build(BuildContext context) {
-    return AppListScaffold(
+    return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(_currentTagGroup?.label ?? widget.tagGroup.label),
-        trailingActions: [
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(bottom: 16),
+              children: _buildContent(),
+            ),
+          ),
           if (!_isLoading && _currentTagGroup != null)
-            PlatformTextButton(
-              onPressed: _isSaving ? null : _saveChanges,
-              child: _isSaving 
-                ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: PlatformCircularProgressIndicator(),
-                  )
-                : const Text('Save'),
+            Container(
+              padding: const EdgeInsets.all(0),
+              child: ActionButton(
+                label: _isSaving ? 'Saving...' : 'Save',
+                onPressed: _isSaving ? null : _saveChanges,
+                style: ActionButtonType.primary,
+                isDisabled: _isSaving,
+              ),
             ),
         ],
       ),
-      children: _buildContent(),
     );
   }
 
@@ -170,12 +184,13 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     // Add tags as OptionButtons
     for (final tag in _currentTagGroup!.tags!) {
       final isSelected = _selectedTags.any((selectedTag) => selectedTag.id == tag.id);
+      final isMultiSelect = _currentTagGroup!.isMultiSelect ?? false;
       
       children.add(
         OptionButton(
           option: tag,
           isSelected: isSelected,
-          isMultiSelect: _currentTagGroup!.isMultiSelect ?? false,
+          isMultiSelect: isMultiSelect,
           isSelectable: true,
           isCheckmarkVisible: true,
           isChevronVisible: false,
@@ -191,30 +206,44 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   }
 
   void _handleTagTap(Tag tag) {
+    final isCurrentlySelected = _selectedTags.any((selectedTag) => selectedTag.id == tag.id);
+    
+    // Provide haptic feedback only when SELECTING (not deselecting)
+    if (!isCurrentlySelected) {
+      HapticFeedback.selectionClick();
+    }
+    
     setState(() {
-      final isCurrentlySelected = _selectedTags.any((selectedTag) => selectedTag.id == tag.id);
-      
       if (_currentTagGroup!.isMultiSelect ?? false) {
-        // Multi-select mode: toggle selection
+        // Multi-select mode: toggle selection, but keep at least 1 selected
         if (isCurrentlySelected) {
-          _selectedTags.removeWhere((selectedTag) => selectedTag.id == tag.id);
+          // Only allow deselection if there are other selected tags
+          if (_selectedTags.length > 1) {
+            _selectedTags.removeWhere((selectedTag) => selectedTag.id == tag.id);
+          }
+          // If only 1 tag selected, ignore tap (can't deselect last tag)
         } else {
           _selectedTags.add(tag);
         }
       } else {
-        // Single-select mode: replace selection
-        if (isCurrentlySelected) {
-          _selectedTags.clear(); // Deselect if already selected
-        } else {
+        // Single-select mode: can only switch to different tag, never deselect
+        if (!isCurrentlySelected) {
           _selectedTags.clear();
           _selectedTags.add(tag);
         }
+        // If already selected, ignore tap (can't deselect in single-select)
       }
     });
   }
 
   Future<void> _saveChanges() async {
     if (_isSaving || _currentTagGroup == null) return;
+
+    // Validation: ensure at least 1 tag is selected
+    if (_selectedTags.isEmpty) {
+      debugPrint('⚠️ Cannot save: no tags selected');
+      return; // Don't save if no tags selected
+    }
 
     setState(() {
       _isSaving = true;
@@ -223,16 +252,11 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     try {
       // Use the appropriate upsert method based on selection type
       if (_currentTagGroup!.isMultiSelect ?? false) {
-        // Multi-select: upsert all selected tags
+        // Multi-select: upsert all selected tags (guaranteed non-empty)
         await _supabaseManager.upsertProfileTags(_currentTagGroup!.code, _selectedTags);
       } else {
-        // Single-select: upsert single tag or clear if none selected
-        if (_selectedTags.isNotEmpty) {
-          await _supabaseManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
-        } else {
-          // Clear selection by upserting empty list
-          await _supabaseManager.upsertProfileTags(_currentTagGroup!.code, []);
-        }
+        // Single-select: upsert single tag (guaranteed non-empty)
+        await _supabaseManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
       }
 
       // Show success feedback and navigate back
