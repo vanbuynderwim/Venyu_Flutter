@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
@@ -7,9 +6,7 @@ import 'matches_view.dart';
 import 'notifications_view.dart';
 import 'profile_view.dart';
 
-/// MainView - Platform-aware tab navigation with proper navigation structure
-/// 
-/// Each tab gets its own navigation stack with PlatformScaffold and proper AppBar
+/// MainView - Tab navigation using flutter_platform_widgets (based on Test project pattern)
 class MainView extends StatefulWidget {
   const MainView({super.key});
 
@@ -18,68 +15,62 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  late PlatformTabController _tabController;
+  int _currentIndex = 0;
   
-  final List<_TabItem> _tabs = [
-    _TabItem(
-      iconPath: AppAssets.icons.match,
-      label: AppStrings.matches,
-      view: const MatchesView(),
-    ),
-    _TabItem(
-      iconPath: AppAssets.icons.notification,
-      label: AppStrings.notifications,
-      view: const NotificationsView(),
-    ),
-    _TabItem(
-      iconPath: AppAssets.icons.profile,
-      label: AppStrings.profile,
-      view: const ProfileView(),
-    ),
+  final List<Widget> _pages = [
+    const MatchesView(),
+    const NotificationsView(),
+    const ProfileView(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = PlatformTabController(initialIndex: 0);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return PlatformTabScaffold(
-      tabController: _tabController,
-      items: _tabs.map((tab) => BottomNavigationBarItem(
-        icon: Image.asset(
-          tab.iconPath.regular,
-          width: 24,
-          height: 24,
+      tabController: PlatformTabController(
+        initialIndex: _currentIndex,
+      ),
+      items: [
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            AppAssets.icons.match.regular,
+            width: 24,
+            height: 24,
+          ),
+          activeIcon: Image.asset(
+            AppAssets.icons.match.selected,
+            width: 24,
+            height: 24,
+          ),
+          label: AppStrings.matches,
         ),
-        activeIcon: Image.asset(
-          tab.iconPath.selected,
-          width: 24,
-          height: 24,
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            AppAssets.icons.notification.regular,
+            width: 24,
+            height: 24,
+          ),
+          activeIcon: Image.asset(
+            AppAssets.icons.notification.selected,
+            width: 24,
+            height: 24,
+          ),
+          label: AppStrings.notifications,
         ),
-        label: tab.label,
-      )).toList(),
-      bodyBuilder: (context, index) => _tabs[index].view,
+        BottomNavigationBarItem(
+          icon: Image.asset(
+            AppAssets.icons.profile.regular,
+            width: 24,
+            height: 24,
+          ),
+          activeIcon: Image.asset(
+            AppAssets.icons.profile.selected,
+            width: 24,
+            height: 24,
+          ),
+          label: AppStrings.profile,
+        ),
+      ],
+      bodyBuilder: (context, index) => _pages[index],
     );
   }
-}
-
-class _TabItem {
-  final dynamic iconPath; // Will be _IconVariants from app_assets
-  final String label;
-  final Widget view;
-
-  _TabItem({
-    required this.iconPath,
-    required this.label,
-    required this.view,
-  });
 }
