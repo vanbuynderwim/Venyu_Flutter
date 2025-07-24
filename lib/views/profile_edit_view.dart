@@ -4,6 +4,7 @@ import '../models/enums/profile_edit_type.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import 'edit_personal_info_view.dart';
+import 'edit_company_info_view.dart';
 
 /// ProfileEditView - Flutter equivalent of iOS ProfileEditView
 class ProfileEditView extends StatelessWidget {
@@ -48,8 +49,13 @@ class ProfileEditView extends StatelessWidget {
         );
         break;
       case ProfileEditType.company:
-        debugPrint('Navigate to Company Info page');
-        // TODO: Navigate to company info edit page
+        Navigator.push(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditCompanyInfoView(),
+          ),
+        );
         break;
       case ProfileEditType.settings:
         debugPrint('Navigate to Settings page');

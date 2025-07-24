@@ -26,6 +26,7 @@ export 'enums/action_button_type.dart';
 export 'enums/profile_sections.dart';
 export 'enums/profile_edit_type.dart';
 export 'enums/edit_personal_info_type.dart';
+export 'enums/edit_company_info_type.dart';
 export 'enums/toast_style.dart';
 export 'enums/image_source_type.dart';
 export 'enums/pages_type.dart';
