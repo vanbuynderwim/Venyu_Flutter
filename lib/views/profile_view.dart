@@ -6,6 +6,7 @@ import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
 import '../services/index.dart';
 import 'showcase_view.dart';
+import 'profile_edit_view.dart';
 
 /// ProfileView - Profile page with platform-aware scaffold
 class ProfileView extends StatelessWidget {
@@ -37,7 +38,12 @@ class ProfileView extends StatelessWidget {
               height: 24,
             ),
             onPressed: () {
-              debugPrint('Navigate to settings');
+              Navigator.of(context).push(
+                platformPageRoute(
+                  context: context,
+                  builder: (context) => const ProfileEditView(),
+                ),
+              );
             },
           ),
         ],

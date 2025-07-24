@@ -431,6 +431,17 @@ class _OptionButtonState extends State<OptionButton>
         return Icons.videocam;
       case 'linkedin':
         return Icons.business;
+      // ProfileEditType icons
+      case 'profile':
+        return Icons.person;
+      case 'company':
+        return Icons.business;
+      case 'settings':
+        return Icons.settings;
+      case 'block_user':
+        return Icons.block;
+      case 'account':
+        return Icons.account_circle;
       default:
         return Icons.circle;
     }
