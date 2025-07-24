@@ -1,10 +1,15 @@
+import 'package:flutter/material.dart';
 import 'tag.dart';
 import 'enums/category_type.dart';
+import '../widgets/buttons/option_button.dart';
+import '../core/theme/app_colors.dart';
 
-class TagGroup {
+class TagGroup implements OptionType {
+  @override
   final String id;
   final String label;
-  final String? description;
+  final String? desc;
+  @override
   final String? icon;
   final CategoryType? type;
   final bool? isMultiSelect;
@@ -14,7 +19,7 @@ class TagGroup {
   const TagGroup({
     required this.id,
     required this.label,
-    this.description,
+    this.desc,
     this.icon,
     this.type,
     this.isMultiSelect,
@@ -26,7 +31,7 @@ class TagGroup {
     return TagGroup(
       id: json['id'] as String,
       label: json['label'] as String,
-      description: json['desc'] as String?,
+      desc: json['desc'] as String?,
       icon: json['icon'] as String?,
       type: json['type'] != null ? CategoryType.fromJson(json['type']) : null,
       isMultiSelect: json['is_multi_select'] as bool?,
@@ -41,7 +46,7 @@ class TagGroup {
     return {
       'id': id,
       'label': label,
-      'desc': description,
+      'desc': desc,
       'icon': icon,
       'type': type?.toJson(),
       'is_multi_select': isMultiSelect,
@@ -59,4 +64,25 @@ class TagGroup {
   int get selectedCount => selectedTags.length;
 
   bool get hasSelectedTags => selectedCount > 0;
+
+  // OptionType implementation
+  @override
+  String get title => label;
+
+  @override
+  String get description => desc ?? '';
+
+  @override
+  Color get color => hasSelectedTags 
+      ? AppColors.primair4Lilac 
+      : AppColors.secundair4Quicksilver;
+
+  @override
+  String? get emoji => null;
+
+  @override
+  int get badge => 0;
+
+  @override
+  List<Tag>? get list => tags;
 }

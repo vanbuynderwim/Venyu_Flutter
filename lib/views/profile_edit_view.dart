@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../core/theme/app_theme.dart';
-import '../core/constants/app_strings.dart';
 import '../models/enums/profile_edit_type.dart';
 import '../widgets/buttons/option_button.dart';
+import '../widgets/scaffolds/app_scaffold.dart';
+import 'edit_personal_info_view.dart';
 
 /// ProfileEditView - Flutter equivalent of iOS ProfileEditView
 class ProfileEditView extends StatelessWidget {
@@ -11,42 +11,25 @@ class ProfileEditView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
+    return AppListScaffold(
       appBar: PlatformAppBar(
         title: const Text('Edit profile'),
       ),
-      backgroundColor: AppColors.primair7Pearl,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // List of profile edit options
-              Column(
-                children: ProfileEditType.values.map((profileEditType) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: OptionButton(
-                      option: profileEditType,
-                      isSelected: false,
-                      isMultiSelect: false,
-                      isSelectable: false,
-                      isCheckmarkVisible: false,
-                      isChevronVisible: true,
-                      isButton: true,
-                      withDescription: true,
-                      onSelect: () {
-                        _handleOptionTap(context, profileEditType);
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        ),
-      ),
+      children: ProfileEditType.values.map((profileEditType) {
+        return OptionButton(
+          option: profileEditType,
+          isSelected: false,
+          isMultiSelect: false,
+          isSelectable: false,
+          isCheckmarkVisible: false,
+          isChevronVisible: true,
+          isButton: true,
+          withDescription: true,
+          onSelect: () {
+            _handleOptionTap(context, profileEditType);
+          },
+        );
+      }).toList(),
     );
   }
 
@@ -57,7 +40,12 @@ class ProfileEditView extends StatelessWidget {
     switch (type) {
       case ProfileEditType.personalinfo:
         debugPrint('Navigate to Personal Info page');
-        // TODO: Navigate to personal info edit page
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditPersonalInfoView(),
+          ),
+        );
         break;
       case ProfileEditType.company:
         debugPrint('Navigate to Company Info page');

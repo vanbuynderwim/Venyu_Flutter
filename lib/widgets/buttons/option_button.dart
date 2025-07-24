@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../common/tag_view.dart';
+import '../common/option_icon_view.dart';
 
 /// OptionType protocol equivalent - interface for option data
 abstract class OptionType {
@@ -170,8 +171,7 @@ class _OptionButtonState extends State<OptionButton>
                     children: [
                       // Icon/Emoji
                       _buildIcon(),
-                      const SizedBox(width: 12),
-                      
+                      const SizedBox(width: 12),                      
                       // Content
                       Expanded(
                         child: Column(
@@ -214,7 +214,6 @@ class _OptionButtonState extends State<OptionButton>
                                       icon: tag.icon,
                                       emoji: tag.emoji,
                                       fontSize: AppTextStyles.caption1,
-                                      iconSize: 12,
                                     ),
                                   ).toList(),
                                 ),
@@ -279,44 +278,21 @@ class _OptionButtonState extends State<OptionButton>
   }
 
   Widget _buildIcon() {
-    final iconColor = widget.iconColor ?? widget.option.color;
+    final iconColor = widget.disabled 
+        ? AppColors.textLight 
+        : (widget.iconColor ?? widget.option.color);
     
-    // Emoji has priority
-    if (widget.option.emoji != null) {
-      return Container(
-        width: 32,
-        height: 32,
-        alignment: Alignment.center,
-        child: Text(
-          widget.option.emoji!,
-          style: const TextStyle(fontSize: 20),
-        ),
-      );
-    }
-    
-    // Icon fallback
-    if (widget.option.icon != null) {
-      return Container(
-        width: 32,
-        height: 32,
-        alignment: Alignment.center,
-        child: Icon(
-          _getIconData(widget.option.icon!),
-          color: widget.disabled ? AppColors.textLight : iconColor,
-          size: 20,
-        ),
-      );
-    }
-    
-    // Empty placeholder
     return Container(
-      width: 32,
-      height: 32,
+      width: 24,
+      height: 24,
       alignment: Alignment.center,
-      child: Icon(
-        Icons.circle,
-        color: widget.disabled ? AppColors.textLight : iconColor,
+      child: OptionIconView(
+        icon: widget.option.icon,
+        emoji: widget.option.emoji,
         size: 20,
+        color: iconColor,
+        placeholder: 'hashtag',
+        opacity: 1.0,
       ),
     );
   }
@@ -401,49 +377,9 @@ class _OptionButtonState extends State<OptionButton>
   }
 
   void _handleTap() {
-    if (widget.isSelectable && widget.onSelect != null) {
+    if ((widget.isSelectable || widget.isButton) && widget.onSelect != null) {
       widget.onSelect!();
     }
   }
 
-  IconData _getIconData(String iconName) {
-    // Simple mapping van string naar IconData
-    switch (iconName) {
-      case 'person':
-        return Icons.person;
-      case 'email':
-        return Icons.email;
-      case 'phone':
-        return Icons.phone;
-      case 'location':
-        return Icons.location_on;
-      case 'work':
-        return Icons.work;
-      case 'coffee':
-        return Icons.coffee;
-      case 'restaurant':
-        return Icons.restaurant;
-      case 'fitness':
-        return Icons.fitness_center;
-      case 'bike':
-        return Icons.directions_bike;
-      case 'video':
-        return Icons.videocam;
-      case 'linkedin':
-        return Icons.business;
-      // ProfileEditType icons
-      case 'profile':
-        return Icons.person;
-      case 'company':
-        return Icons.business;
-      case 'settings':
-        return Icons.settings;
-      case 'block_user':
-        return Icons.block;
-      case 'account':
-        return Icons.account_circle;
-      default:
-        return Icons.circle;
-    }
-  }
 }

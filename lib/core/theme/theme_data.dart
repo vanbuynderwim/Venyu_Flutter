@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'app_colors.dart';
 import 'app_modifiers.dart';
 import 'app_text_styles.dart';
+import 'app_spacing_theme.dart';
 
 /// Venyu ThemeData - Minimal theme with automatic platform adaptations
 class VenyuThemeData {
@@ -38,6 +39,11 @@ class VenyuThemeData {
         ),
       ),
     ),
+    
+    // Custom spacing theme extension
+    extensions: const <ThemeExtension<dynamic>>[
+      AppSpacingTheme.defaultSpacing,
+    ],
     
     // Let Flutter handle everything else automatically based on platform
     // This includes: page transitions, scroll physics, tab bar behavior, etc.

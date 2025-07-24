@@ -136,7 +136,7 @@ class SessionManager extends ChangeNotifier {
             await _handleSignedIn(authState.session);
             break;
           case AuthChangeEvent.userDeleted:
-            // Handle user deletion - treat as sign out
+            // Handle deprecated user deletion event - treat as sign out
             await _handleSignedOut();
             break;
         }

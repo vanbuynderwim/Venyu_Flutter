@@ -440,4 +440,59 @@ class SupabaseManager {
   
   /// Get current session
   Session? get currentSession => _client.auth.currentSession;
+  
+  // MARK: - TagGroup Management Methods
+  
+  /// Fetch tag groups by category type - equivalent to iOS fetchTagGroups(type:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the get_taggroups RPC function with category type parameter
+  /// 2. Returns a list of TagGroup objects from the response
+  Future<List<TagGroup>> fetchTagGroups(CategoryType type) async {
+    debugPrint('📥 Fetching tag groups for category: ${type.name}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_taggroups RPC function - exact equivalent of iOS implementation
+      // The schema is already configured globally in main.dart (venyu_api_v1)
+      final result = await _client
+          .rpc('get_taggroups', params: {'p_category_type': type.name})
+          .select();
+      
+      debugPrint('✅ TagGroups RPC call successful');
+      debugPrint('📋 TagGroups data received: ${result.length} groups');
+      
+      // Convert response to list of TagGroup objects
+      final tagGroups = (result as List)
+          .map((json) => TagGroup.fromJson(json))
+          .toList();
+      
+      debugPrint('🏷️ TagGroups parsed: ${tagGroups.length} groups');
+      
+      return tagGroups;
+    });
+  }
+  
+  /// Get icon URL from Supabase storage - equivalent to iOS getIcon(icon:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Constructs filename with .png extension
+  /// 2. Gets public URL from icons storage bucket
+  /// 3. Returns the URL or null if failed
+  String? getIcon(String icon) {
+    try {
+      final fileName = '$icon.png';
+      
+      final url = _client.storage
+          .from(RemoteImagePath.icons.value)
+          .getPublicUrl(fileName);
+      
+      debugPrint('📷 Generated icon URL for $icon: $url');
+      return url;
+      
+    } catch (error) {
+      debugPrint('❌ Failed to get icon URL for $icon: $error');
+      _trackError('Icon URL Generation Failed', error);
+      return null;
+    }
+  }
 }

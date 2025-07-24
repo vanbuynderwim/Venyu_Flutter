@@ -5,6 +5,7 @@ import '../core/theme/app_theme.dart';
 import '../core/constants/app_strings.dart';
 import '../core/constants/app_assets.dart';
 import '../services/index.dart';
+import '../widgets/scaffolds/app_scaffold.dart';
 import 'showcase_view.dart';
 import 'profile_edit_view.dart';
 
@@ -14,7 +15,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
+    return AppListScaffold(
       appBar: PlatformAppBar(
         title: Text(AppStrings.profile),
         trailingActions: [
@@ -48,19 +49,17 @@ class ProfileView extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Consumer<SessionManager>(
+      children: [
+        Consumer<SessionManager>(
           builder: (context, sessionManager, _) {
             final profile = sessionManager.currentProfile;
             final user = sessionManager.currentUser;
             
-            return ListView(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+            return Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                       // Profile Avatar
                       Container(
                         width: 120,
@@ -113,12 +112,10 @@ class ProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
-            );
+                );
           },
         ),
-      ),
+      ],
     );
   }
 }

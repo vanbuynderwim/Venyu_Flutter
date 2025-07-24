@@ -18,6 +18,9 @@ export 'cards/status_badge_view.dart';
 export 'common/progress_bar.dart';
 export 'common/section_type.dart';
 export 'common/tag_view.dart';
+export 'common/option_icon_view.dart';
+export 'common/remote_icon_image.dart';
 
 // Scaffolds
+export 'scaffolds/app_scaffold.dart';
 export 'tab_view_scaffold.dart';

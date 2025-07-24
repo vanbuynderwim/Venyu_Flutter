@@ -533,7 +533,6 @@ class _TagViewDemo extends StatelessWidget {
               icon: tag.icon,
               emoji: tag.emoji,
               fontSize: AppTextStyles.footnote,
-              iconSize: 14,
             ),
           ).toList(),
         ),
