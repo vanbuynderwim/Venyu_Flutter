@@ -9,8 +9,8 @@ import 'app_spacing_theme.dart';
 class VenyuThemeData {
   VenyuThemeData._();
 
-  /// Main theme data - Let Flutter handle platform differences automatically
-  static ThemeData get theme => ThemeData(
+  /// Light theme data - Let Flutter handle platform differences automatically
+  static ThemeData get lightTheme => ThemeData(
     // Use Material 3 - Flutter automatically adapts behavior per platform
     useMaterial3: true,
     
@@ -49,9 +49,55 @@ class VenyuThemeData {
     // This includes: page transitions, scroll physics, tab bar behavior, etc.
   );
   
-  /// Cupertino theme for iOS - used by flutter_platform_widgets
-  static CupertinoThemeData get cupertinoTheme => CupertinoThemeData(
+  /// Light Cupertino theme for iOS - used by flutter_platform_widgets
+  static CupertinoThemeData get cupertinoLightTheme => CupertinoThemeData(
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.background,
+    brightness: Brightness.light,
+  );
+  
+  /// Dark theme data
+  static ThemeData get darkTheme => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    
+    // Dark color scheme
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      brightness: Brightness.dark,
+      surface: AppColors.surfaceDark,
+      error: AppColors.error,
+    ),
+    
+    // Dark scaffold background
+    scaffoldBackgroundColor: AppColors.backgroundDark,
+    
+    // Dark text theme
+    textTheme: const TextTheme().copyWith(
+      headlineLarge: AppTextStyles.largeTitle.copyWith(color: AppColors.white),
+      titleLarge: AppTextStyles.headline.copyWith(color: AppColors.white),
+      bodyLarge: AppTextStyles.body.copyWith(color: AppColors.white),
+    ),
+    
+    // Dark button theming
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        ),
+      ),
+    ),
+    
+    // Custom spacing theme extension (same for both themes)
+    extensions: const <ThemeExtension<dynamic>>[
+      AppSpacingTheme.defaultSpacing,
+    ],
+  );
+  
+  /// Dark Cupertino theme for iOS
+  static CupertinoThemeData get cupertinoDarkTheme => CupertinoThemeData(
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.backgroundDark,
+    brightness: Brightness.dark,
   );
 }

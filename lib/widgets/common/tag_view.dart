@@ -32,10 +32,14 @@ class TagView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: backgroundColor ?? AppColors.primair7Pearl,
+        color: backgroundColor ?? (Theme.of(context).brightness == Brightness.dark 
+            ? AppColors.secundair3Slategray 
+            : AppColors.primair7Pearl),
         borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius), // Capsule shape
         border: Border.all(
-          color: AppColors.secundair6Rocket,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.secundair5Pinball
+              : AppColors.secundair6Rocket,
           width: 0.5,
         ),
       ),
@@ -50,6 +54,7 @@ class TagView extends StatelessWidget {
               emoji: emoji,
               size: iconSize,
               color: color ?? AppColors.primair4Lilac,
+              isLocal: false, // TagView meestal gebruikt voor remote icons van tags
             ),
             const SizedBox(width: 4),
           ],
@@ -58,7 +63,7 @@ class TagView extends StatelessWidget {
           Text(
             label,
             style: (fontSize ?? AppTextStyles.footnote).copyWith(
-              color: AppColors.secundair2Offblack,
+              color: AppColors.textPrimaryColor(context),
             ),
           ),
         ],

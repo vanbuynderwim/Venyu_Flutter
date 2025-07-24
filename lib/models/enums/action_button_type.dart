@@ -21,20 +21,22 @@ enum ActionButtonType {
   String toJson() => value;
 
   /// Get the background color for this button type
-  Color get backgroundColor {
+  Color backgroundColor(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     switch (this) {
       case ActionButtonType.primary:
         return AppColors.primair4Lilac;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
-        return AppColors.alabasterWhite;
+        return isDark ? AppColors.secundair2Offblack : AppColors.alabasterWhite;
       case ActionButtonType.linkedIn:
         return AppColors.linkedIn;
     }
   }
 
   /// Get the text color for this button type
-  Color get textColor {
+  Color textColor(BuildContext context) {
     switch (this) {
       case ActionButtonType.primary:
       case ActionButtonType.linkedIn:
@@ -47,17 +49,20 @@ enum ActionButtonType {
   }
 
   /// Get the border color for this button type
-  Color get borderColor {
+  Color borderColor(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     switch (this) {
       case ActionButtonType.primary:
         return AppColors.primair4Lilac;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
-        return AppColors.secundair6Rocket;
+        return isDark ? AppColors.secundair3Slategray : AppColors.secundair6Rocket;
       case ActionButtonType.linkedIn:
         return AppColors.linkedIn;
     }
   }
+  
 
 
   /// Get the font weight for this button type

@@ -70,4 +70,25 @@ class AppColors {
   static Color get warning => know;
   static Color get error => na;
   static Color get info => need;
+  
+  // Dark mode specific colors
+  static Color get backgroundDark => secundair1Deepblack;
+  static Color get surfaceDark => secundair2Offblack;
+  
+  // Context-aware color getters
+  static Color backgroundColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark ? backgroundDark : background;
+  }
+  
+  static Color surfaceColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark ? surfaceDark : surface;
+  }
+  
+  static Color textPrimaryColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark ? white : textPrimary;
+  }
+  
+  static Color textSecondaryColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark ? secundair5Pinball : textSecondary;
+  }
 }

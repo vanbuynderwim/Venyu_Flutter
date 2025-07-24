@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/constants/app_assets.dart';
 import '../tag.dart';
 
 /// ProfileEditType enum - equivalent to iOS ProfileEditType
@@ -51,15 +50,15 @@ enum ProfileEditType implements OptionType {
   String? get icon {
     switch (this) {
       case ProfileEditType.personalinfo:
-        return AppAssets.icons.profile.outlined;
+        return 'profile';
       case ProfileEditType.company:
-        return AppAssets.icons.company.outlined;
+        return 'company';
       case ProfileEditType.settings:
-        return AppAssets.icons.settings.outlined;
+        return 'settings';
       case ProfileEditType.blocks:
-        return AppAssets.icons.blocked.outlined;
+        return 'blocked';
       case ProfileEditType.account:
-        return AppAssets.icons.account.outlined;
+        return 'account';
     }
   }
 

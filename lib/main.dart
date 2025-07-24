@@ -56,32 +56,29 @@ class VenyuApp extends StatelessWidget {
       create: (_) => SessionManager.shared,
       child: PlatformApp(
         title: 'Venyu',
+        // Global localization settings
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('nl', 'NL'),
+        ],
         material: (_, __) => MaterialAppData(
-          theme: AppTheme.theme,
-          // Add localization delegates for MaterialLocalisation
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', 'US'),
-            Locale('nl', 'NL'),
-          ],
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.system, // Follow system dark mode setting
         ),
-        cupertino: (_, __) => CupertinoAppData(
-          theme: AppTheme.cupertinoTheme,
-          // Add localization delegates for Cupertino
-          localizationsDelegates: const [
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', 'US'), 
-            Locale('nl', 'NL'),
-          ],
-        ),
+        cupertino: (context, platform) {
+          final brightness = MediaQuery.platformBrightnessOf(context);
+          return CupertinoAppData(
+            theme: brightness == Brightness.dark 
+                ? AppTheme.cupertinoDarkTheme 
+                : AppTheme.cupertinoLightTheme,
+          );
+        },
         home: const AuthFlow(),
         debugShowCheckedModeBanner: false,
       ),

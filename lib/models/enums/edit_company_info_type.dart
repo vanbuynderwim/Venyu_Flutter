@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/constants/app_assets.dart';
 import '../tag.dart';
 
 /// EditCompanyInfoType enum - equivalent to iOS EditCompanyInfoType
 enum EditCompanyInfoType implements OptionType {
-  company,
-  position,
-  location;
+  name;
 
   @override
   String get id => toString();
@@ -16,36 +13,24 @@ enum EditCompanyInfoType implements OptionType {
   @override
   String get title {
     switch (this) {
-      case EditCompanyInfoType.company:
-        return 'Company';
-      case EditCompanyInfoType.position:
-        return 'Position';
-      case EditCompanyInfoType.location:
-        return 'Location';
+      case EditCompanyInfoType.name:
+        return 'Name & website';
     }
   }
 
   @override
   String get description {
     switch (this) {
-      case EditCompanyInfoType.company:
-        return 'Your current company';
-      case EditCompanyInfoType.position:
-        return 'Your job title or role';
-      case EditCompanyInfoType.location:
-        return 'Work location or city';
+      case EditCompanyInfoType.name:
+        return 'The name of your company';
     }
   }
 
   @override
   String? get icon {
     switch (this) {
-      case EditCompanyInfoType.company:
-        return AppAssets.icons.company.outlined;
-      case EditCompanyInfoType.position:
-        return AppAssets.icons.profile.outlined;
-      case EditCompanyInfoType.location:
-        return AppAssets.icons.location.outlined;
+      case EditCompanyInfoType.name:
+        return 'company';
     }
   }
 

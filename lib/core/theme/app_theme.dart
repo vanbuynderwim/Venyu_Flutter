@@ -17,9 +17,19 @@ export 'theme_data.dart';
 class AppTheme {
   AppTheme._();
 
-  /// Get the main theme data
-  static ThemeData get theme => VenyuThemeData.theme;
+  /// Get the light theme data
+  static ThemeData get lightTheme => VenyuThemeData.lightTheme;
   
-  /// Get the Cupertino theme data
-  static CupertinoThemeData get cupertinoTheme => VenyuThemeData.cupertinoTheme;
+  /// Get the dark theme data
+  static ThemeData get darkTheme => VenyuThemeData.darkTheme;
+  
+  /// Get the light Cupertino theme data
+  static CupertinoThemeData get cupertinoLightTheme => VenyuThemeData.cupertinoLightTheme;
+  
+  /// Get the dark Cupertino theme data
+  static CupertinoThemeData get cupertinoDarkTheme => VenyuThemeData.cupertinoDarkTheme;
+  
+  // Legacy getters for backward compatibility
+  static ThemeData get theme => lightTheme;
+  static CupertinoThemeData get cupertinoTheme => cupertinoLightTheme;
 }

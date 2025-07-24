@@ -5,8 +5,8 @@ import 'remote_icon_image.dart';
 /// 
 /// Handles icon loading with the following priority:
 /// 1. Emoji (if provided)
-/// 2. Local assets (if icon path contains 'assets/')
-/// 3. Remote icons via RemoteIconImage
+/// 2. Local assets (if isLocal = true)
+/// 3. Remote icons via RemoteIconImage (if isLocal = false)
 class OptionIconView extends StatelessWidget {
   final String? icon;
   final String? emoji;
@@ -14,6 +14,7 @@ class OptionIconView extends StatelessWidget {
   final Color color;
   final String placeholder;
   final double opacity;
+  final bool isLocal;
 
   const OptionIconView({
     super.key,
@@ -23,6 +24,7 @@ class OptionIconView extends StatelessWidget {
     required this.color,
     this.placeholder = 'hashtag',
     this.opacity = 1.0,
+    this.isLocal = false,
   });
 
   @override
@@ -44,15 +46,13 @@ class OptionIconView extends StatelessWidget {
     
     // Icon fallback
     if (icon != null) {
-      // Check if it's a local asset path (contains 'assets/')
-      if (icon!.contains('assets/')) {
-        return _buildLocalIcon();
+      if (isLocal) {
+        return _buildLocalIcon(context);
       } else {
         // It's a remote icon name - use RemoteIconImage
         return RemoteIconImage(
           iconName: icon!,
           size: size,
-          color: color,
           placeholder: placeholder,
           opacity: opacity,
         );
@@ -63,22 +63,24 @@ class OptionIconView extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
-  Widget _buildLocalIcon() {
+  Widget _buildLocalIcon(BuildContext context) {
+    // Simple theme suffix logic
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final suffix = isDark ? '_white' : '_outlined';
+    final iconPath = 'assets/images/icons/${icon!}$suffix.png';
+    
     return Opacity(
       opacity: opacity,
       child: Image.asset(
-        icon!,
+        iconPath,
         width: size,
         height: size,
-        color: color,
-        colorBlendMode: BlendMode.srcIn,
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
-          // Fallback to remote if local fails
+          // Fallback to remote icon
           return RemoteIconImage(
             iconName: icon!,
             size: size,
-            color: color,
             placeholder: placeholder,
             opacity: opacity,
           );

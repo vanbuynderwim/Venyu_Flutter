@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/constants/app_assets.dart';
 import '../tag.dart';
 
 /// EditPersonalInfoType enum - equivalent to iOS EditPersonalInfoType
@@ -41,11 +40,11 @@ enum EditPersonalInfoType implements OptionType {
   String? get icon {
     switch (this) {
       case EditPersonalInfoType.name:
-        return AppAssets.icons.profile.outlined;
+        return 'profile';
       case EditPersonalInfoType.bio:
-        return AppAssets.icons.edit.outlined;
+        return 'edit';
       case EditPersonalInfoType.email:
-        return AppAssets.icons.email.outlined;
+        return 'email';
     }
   }
 

@@ -88,77 +88,35 @@ class OptionButton extends StatefulWidget {
   State<OptionButton> createState() => _OptionButtonState();
 }
 
-class _OptionButtonState extends State<OptionButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _shadowAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.05,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
-    _shadowAnimation = Tween<double>(
-      begin: 0.0,
-      end: 4.0,
-    ).animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(OptionButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Alleen animeren als er een selectie mogelijk is (checkbox/radiobutton zichtbaar)
-    if (widget.isCheckmarkVisible && widget.isSelected != oldWidget.isSelected) {
-      if (widget.isSelected) {
-        _animationController.forward().then((_) {
-          _animationController.reverse();
-        });
-      }
-    }
-  }
+class _OptionButtonState extends State<OptionButton> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            decoration: BoxDecoration(
-              color: widget.disabled 
-                  ? AppColors.secundair7Cascadingwhite
-                  : AppColors.white,
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              border: Border.all(
-                color: AppColors.secundair6Rocket,
-                width: 0.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
-                  blurRadius: _shadowAnimation.value,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: widget.disabled 
+            ? (isDark 
+                ? AppColors.secundair2Offblack 
+                : AppColors.secundair7Cascadingwhite)
+            : AppColors.surfaceColor(context),
+        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+        border: Border.all(
+          color: isDark
+              ? AppColors.secundair3Slategray
+              : AppColors.secundair6Rocket,
+          width: 0.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
+            blurRadius: 2.0,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -183,7 +141,7 @@ class _OptionButtonState extends State<OptionButton>
                               style: AppTextStyles.body.copyWith(
                                 color: widget.disabled 
                                     ? AppColors.textLight 
-                                    : AppColors.textPrimary,
+                                    : AppColors.textPrimaryColor(context),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -195,7 +153,7 @@ class _OptionButtonState extends State<OptionButton>
                                 child: Text(
                                   widget.option.description,
                                   style: AppTextStyles.footnote.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: AppColors.textSecondaryColor(context),
                                   ),
                                 ),
                               ),
@@ -261,20 +219,19 @@ class _OptionButtonState extends State<OptionButton>
                       
                       // Chevron
                       if (widget.isChevronVisible)
-                        Icon(
-                          Icons.chevron_right,
-                          color: AppColors.textSecondary,
-                          size: 20,
+                        Image.asset(
+                          Theme.of(context).brightness == Brightness.dark 
+                              ? AppAssets.icons.chevron.white 
+                              : AppAssets.icons.chevron.outlined,
+                          width: 20,
+                          height: 20
                         ),
                     ],
                   ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
   }
 
   Widget _buildIcon() {
@@ -289,15 +246,18 @@ class _OptionButtonState extends State<OptionButton>
       child: OptionIconView(
         icon: widget.option.icon,
         emoji: widget.option.emoji,
-        size: 20,
+        size: 24,
         color: iconColor,
         placeholder: 'hashtag',
         opacity: 1.0,
+        isLocal: true, // OptionButton gebruikt altijd local icons
       ),
     );
   }
 
   Widget _buildSelectionIndicator() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     if (widget.isMultiSelect) {
       // Checkbox voor multiselect - gebruik assets
       return SizedBox(
@@ -305,8 +265,8 @@ class _OptionButtonState extends State<OptionButton>
         height: 24,
         child: Image.asset(
           widget.isSelected 
-              ? AppAssets.icons.checkboxOn.selected
-              : AppAssets.icons.checkboxOff.regular,
+              ? (isDark ? AppAssets.icons.checkboxOn.white : AppAssets.icons.checkboxOn.selected)
+              : (isDark ? AppAssets.icons.checkboxOff.white : AppAssets.icons.checkboxOff.regular),
           width: 24,
           height: 24,
           errorBuilder: (context, error, stackTrace) {
@@ -341,8 +301,8 @@ class _OptionButtonState extends State<OptionButton>
         height: 24,
         child: Image.asset(
           widget.isSelected 
-              ? AppAssets.icons.radiobuttonOn.selected
-              : AppAssets.icons.radiobuttonOff.regular,
+              ? (isDark ? AppAssets.icons.radiobuttonOn.white : AppAssets.icons.radiobuttonOn.selected)
+              : (isDark ? AppAssets.icons.radiobuttonOff.white : AppAssets.icons.radiobuttonOff.regular),
           width: 24,
           height: 24,
           errorBuilder: (context, error, stackTrace) {

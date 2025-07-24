@@ -11,7 +11,6 @@ import '../../services/supabase_manager.dart';
 class RemoteIconImage extends StatefulWidget {
   final String iconName;
   final double size;
-  final Color color;
   final String placeholder;
   final double opacity;
 
@@ -19,7 +18,6 @@ class RemoteIconImage extends StatefulWidget {
     super.key,
     required this.iconName,
     required this.size,
-    required this.color,
     this.placeholder = 'hashtag',
     this.opacity = 1.0,
   });
@@ -30,36 +28,28 @@ class RemoteIconImage extends StatefulWidget {
 
 class _RemoteIconImageState extends State<RemoteIconImage> {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
-  String? _iconUrl;
-  bool _isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadIconUrl();
-  }
-
-  void _loadIconUrl() {
+  String _getIconUrl(BuildContext context) {
+    // Check if we need white variant for dark mode
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final iconName = isDark ? '${widget.iconName}_white' : '${widget.iconName}_outlined';
+    
     // Use Supabase storage to get icon URL
-    final url = _supabaseManager.getIcon(widget.iconName);
-    setState(() {
-      _iconUrl = url;
-      _isLoading = false;
-    });
+    return _supabaseManager.getIcon(iconName) ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return _buildPlaceholder();
-    }
-
     // Probeer eerst lokale asset
     return _buildLocalIcon();
   }
 
   Widget _buildLocalIcon() {
-    final localIconPath = 'assets/images/icons/${widget.iconName}_outlined.png';
+    // Determine which local icon to use based on theme
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final localIconPath = isDark 
+        ? 'assets/images/icons/${widget.iconName}_white.png'
+        : 'assets/images/icons/${widget.iconName}_outlined.png';
     
     return Opacity(
       opacity: widget.opacity,
@@ -67,8 +57,6 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
         localIconPath,
         width: widget.size,
         height: widget.size,
-        color: widget.color,
-        colorBlendMode: BlendMode.srcIn,
         errorBuilder: (context, error, stackTrace) {
           // Fallback naar remote image
           return _buildRemoteIcon();
@@ -78,15 +66,14 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   }
 
   Widget _buildRemoteIcon() {
-    if (_iconUrl != null) {
+    final iconUrl = _getIconUrl(context);
+    if (iconUrl.isNotEmpty) {
       return Opacity(
         opacity: widget.opacity,
         child: CachedNetworkImage(
-          imageUrl: _iconUrl!,
+          imageUrl: iconUrl,
           width: widget.size,
           height: widget.size,
-          color: widget.color,
-          colorBlendMode: BlendMode.srcIn,
           placeholder: (context, url) => _buildPlaceholder(),
           errorWidget: (context, url, error) => _buildPlaceholder(),
           fadeInDuration: const Duration(milliseconds: 250),
@@ -107,12 +94,10 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
         height: widget.size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: widget.color.withValues(alpha: 0.2),
         ),
         child: Icon(
           Icons.tag,
           size: widget.size * 0.6,
-          color: widget.color.withValues(alpha: 0.5),
         ),
       ),
     );

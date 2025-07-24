@@ -53,10 +53,10 @@ class _ActionButtonState extends State<ActionButton> {
             opacity: isActuallyDisabled ? 0.7 : (isPressed ? 0.8 : 1.0),
             child: Container(
               decoration: BoxDecoration(
-                color: widget.style.backgroundColor,
+                color: widget.style.backgroundColor(context),
                 borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 border: Border.all(
-                  color: widget.style.borderColor,
+                  color: widget.style.borderColor(context),
                   width: 0.5,
                 ),
               ),
@@ -71,7 +71,7 @@ class _ActionButtonState extends State<ActionButton> {
                     if (widget.icon != null) ...[
                       Icon(
                         widget.icon,
-                        color: widget.style.textColor,
+                        color: widget.style.textColor(context),
                         size: 20,
                       ),
                       if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
@@ -80,7 +80,7 @@ class _ActionButtonState extends State<ActionButton> {
                       Text(
                         widget.label!,
                         style: AppTextStyles.body.copyWith(
-                          color: widget.style.textColor,
+                          color: widget.style.textColor(context),
                           fontWeight: widget.style.fontWeight,
                         ),
                       ),

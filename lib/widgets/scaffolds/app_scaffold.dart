@@ -24,7 +24,7 @@ class AppScaffold extends StatelessWidget {
     
     return PlatformScaffold(
       appBar: appBar,
-      // backgroundColor wordt automatisch ingesteld via theme
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: usePadding
             ? Padding(
@@ -57,7 +57,7 @@ class AppListScaffold extends StatelessWidget {
     
     return PlatformScaffold(
       appBar: appBar,
-      // backgroundColor wordt automatisch ingesteld via theme
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: ListView(
           padding: padding ?? spacing.listViewPadding,

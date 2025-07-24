@@ -170,17 +170,9 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
     
     // TODO: Navigate to specific edit pages based on type
     switch (type) {
-      case EditCompanyInfoType.company:
+      case EditCompanyInfoType.name:
         debugPrint('Navigate to Company edit page');
         // TODO: Navigate to company edit page
-        break;
-      case EditCompanyInfoType.position:
-        debugPrint('Navigate to Position edit page');
-        // TODO: Navigate to position edit page
-        break;
-      case EditCompanyInfoType.location:
-        debugPrint('Navigate to Location edit page');
-        // TODO: Navigate to location edit page
         break;
     }
   }
