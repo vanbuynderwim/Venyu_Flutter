@@ -5,6 +5,7 @@ import '../../models/models.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../common/tag_view.dart';
 import '../common/option_icon_view.dart';
 
@@ -92,26 +93,22 @@ class _OptionButtonState extends State<OptionButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
     
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: widget.disabled 
-            ? (isDark 
-                ? AppColors.secundair2Offblack 
-                : AppColors.secundair7Cascadingwhite)
-            : AppColors.surfaceColor(context),
+            ? venyuTheme.disabledBackground
+            : venyuTheme.cardBackground, // Pure white for cards
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
         border: Border.all(
-          color: isDark
-              ? AppColors.secundair3Slategray
-              : AppColors.secundair6Rocket,
+          color: venyuTheme.borderColor,
           width: 0.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.secundair6Rocket.withValues(alpha: 0.1),
+            color: venyuTheme.borderColor.withValues(alpha: 0.1),
             blurRadius: 2.0,
             offset: const Offset(0, 1),
           ),
@@ -138,10 +135,10 @@ class _OptionButtonState extends State<OptionButton> {
                             // Title
                             Text(
                               widget.option.title,
-                              style: AppTextStyles.body.copyWith(
+                              style: AppTextStyles.headline.copyWith(
                                 color: widget.disabled 
-                                    ? AppColors.textLight 
-                                    : AppColors.textPrimaryColor(context),
+                                    ? venyuTheme.disabledText 
+                                    : venyuTheme.primaryText,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -152,8 +149,8 @@ class _OptionButtonState extends State<OptionButton> {
                                 padding: const EdgeInsets.only(top: 4),
                                 child: Text(
                                   widget.option.description,
-                                  style: AppTextStyles.footnote.copyWith(
-                                    color: AppColors.textSecondaryColor(context),
+                                  style: AppTextStyles.subheadline.copyWith(
+                                    color: venyuTheme.secondaryText,
                                   ),
                                 ),
                               ),
@@ -172,6 +169,7 @@ class _OptionButtonState extends State<OptionButton> {
                                       icon: tag.icon,
                                       emoji: tag.emoji,
                                       fontSize: AppTextStyles.caption1,
+                                      backgroundColor: venyuTheme.tagBackground, // Light gray for tags in buttons
                                     ),
                                   ).toList(),
                                 ),
@@ -235,8 +233,9 @@ class _OptionButtonState extends State<OptionButton> {
   }
 
   Widget _buildIcon() {
+    final venyuTheme = context.venyuTheme;
     final iconColor = widget.disabled 
-        ? AppColors.textLight 
+        ? venyuTheme.disabledText 
         : (widget.iconColor ?? widget.option.color);
     
     return Container(

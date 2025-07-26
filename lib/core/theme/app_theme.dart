@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'theme_data.dart';
+import 'venyu_theme.dart';
 
 // Export only theme-related components (no widgets)
 export 'app_colors.dart';
@@ -11,7 +11,7 @@ export 'app_button_styles.dart';
 export 'app_input_styles.dart';  
 export 'app_layout_styles.dart';
 export 'app_spacing_theme.dart';
-export 'theme_data.dart';
+export 'venyu_theme.dart';
 
 /// Main App Theme class - Single entry point for all theming
 class AppTheme {

@@ -81,7 +81,7 @@ class AppColors {
   }
   
   static Color surfaceColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? surfaceDark : surface;
+    return Theme.of(context).brightness == Brightness.dark ? surfaceDark : white;
   }
   
   static Color textPrimaryColor(BuildContext context) {

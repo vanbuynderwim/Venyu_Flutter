@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/venyu_theme.dart';
 import 'remote_icon_image.dart';
 
 /// OptionIconView - Flutter equivalent van Swift OptionIconView
@@ -64,10 +65,9 @@ class OptionIconView extends StatelessWidget {
   }
 
   Widget _buildLocalIcon(BuildContext context) {
-    // Simple theme suffix logic
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final suffix = isDark ? '_white' : '_outlined';
-    final iconPath = 'assets/images/icons/${icon!}$suffix.png';
+    // Use VenyuTheme for consistent icon theming
+    final venyuTheme = context.venyuTheme;
+    final iconPath = 'assets/images/icons/${icon!}${venyuTheme.iconSuffix}.png';
     
     return Opacity(
       opacity: opacity,

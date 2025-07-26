@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../services/supabase_manager.dart';
 
 /// RemoteIconImage - Laadt remote icons met fallback naar lokale assets
@@ -30,9 +31,9 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
 
   String _getIconUrl(BuildContext context) {
-    // Check if we need white variant for dark mode
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final iconName = isDark ? '${widget.iconName}_white' : '${widget.iconName}_outlined';
+    // Use VenyuTheme for consistent icon suffix
+    final venyuTheme = context.venyuTheme;
+    final iconName = '${widget.iconName}${venyuTheme.iconSuffix}';
     
     // Use Supabase storage to get icon URL
     return _supabaseManager.getIcon(iconName) ?? '';
@@ -45,11 +46,9 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   }
 
   Widget _buildLocalIcon() {
-    // Determine which local icon to use based on theme
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final localIconPath = isDark 
-        ? 'assets/images/icons/${widget.iconName}_white.png'
-        : 'assets/images/icons/${widget.iconName}_outlined.png';
+    // Use VenyuTheme for consistent icon suffix
+    final venyuTheme = context.venyuTheme;
+    final localIconPath = 'assets/images/icons/${widget.iconName}${venyuTheme.iconSuffix}.png';
     
     return Opacity(
       opacity: widget.opacity,

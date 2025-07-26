@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/venyu_theme.dart';
 import 'option_icon_view.dart';
 
 /// TagView - Flutter equivalent van Swift TagView
@@ -29,17 +30,15 @@ class TagView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: backgroundColor ?? (Theme.of(context).brightness == Brightness.dark 
-            ? AppColors.secundair3Slategray 
-            : AppColors.primair7Pearl),
+        color: backgroundColor ?? venyuTheme.tagBackground, // Pearl7 for standalone tags
         borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius), // Capsule shape
         border: Border.all(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppColors.secundair5Pinball
-              : AppColors.secundair6Rocket,
+          color: venyuTheme.borderColor,
           width: 0.5,
         ),
       ),
@@ -63,7 +62,7 @@ class TagView extends StatelessWidget {
           Text(
             label,
             style: (fontSize ?? AppTextStyles.footnote).copyWith(
-              color: AppColors.textPrimaryColor(context),
+              color: venyuTheme.primaryText,
             ),
           ),
         ],
