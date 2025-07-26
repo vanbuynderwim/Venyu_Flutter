@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/venyu_theme.dart';
 
 enum ActionButtonType {
   primary('primary'),
@@ -22,14 +23,15 @@ enum ActionButtonType {
 
   /// Get the background color for this button type
   Color backgroundColor(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
     
     switch (this) {
       case ActionButtonType.primary:
         return AppColors.primair4Lilac;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
-        return isDark ? AppColors.secundair2Offblack : AppColors.alabasterWhite;
+        // Use theme-aware background colors
+        return venyuTheme.secondaryButtonBackground;
       case ActionButtonType.linkedIn:
         return AppColors.linkedIn;
     }
@@ -50,14 +52,14 @@ enum ActionButtonType {
 
   /// Get the border color for this button type
   Color borderColor(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
     
     switch (this) {
       case ActionButtonType.primary:
         return AppColors.primair4Lilac;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
-        return isDark ? AppColors.secundair3Slategray : AppColors.secundair6Rocket;
+        return venyuTheme.borderColor;
       case ActionButtonType.linkedIn:
         return AppColors.linkedIn;
     }

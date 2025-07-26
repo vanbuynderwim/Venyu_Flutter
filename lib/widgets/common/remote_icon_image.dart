@@ -46,9 +46,8 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   }
 
   Widget _buildLocalIcon() {
-    // Use VenyuTheme for consistent icon suffix
-    final venyuTheme = context.venyuTheme;
-    final localIconPath = 'assets/images/icons/${widget.iconName}${venyuTheme.iconSuffix}.png';
+    // Use VenyuTheme helper for consistent icon theming
+    final localIconPath = context.getThemedIconPath(widget.iconName);
     
     return Opacity(
       opacity: widget.opacity,

@@ -21,8 +21,13 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   // Border colors
   final Color borderColor;
   
+  // Button colors
+  final Color secondaryButtonBackground;
+  
   // Icon theming
   final String iconSuffix;
+  final String checkboxOnSuffix;
+  final String checkboxOffSuffix;
   
   const VenyuTheme({
     required this.pageBackground,
@@ -33,7 +38,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.secondaryText,
     required this.disabledText,
     required this.borderColor,
+    required this.secondaryButtonBackground,
     required this.iconSuffix,
+    required this.checkboxOnSuffix,
+    required this.checkboxOffSuffix,
   });
 
   /// Light theme colors
@@ -46,7 +54,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     secondaryText: AppColors.secundair3Slategray, // Gray text
     disabledText: AppColors.secundair4Quicksilver, // Light gray text
     borderColor: AppColors.secundair6Rocket,      // Light border
+    secondaryButtonBackground: AppColors.alabasterWhite, // Secondary button background
     iconSuffix: '_outlined',                      // Light theme uses outlined icons
+    checkboxOnSuffix: '_selected',                // Light theme uses selected for checked
+    checkboxOffSuffix: '_regular',                // Light theme uses regular for unchecked
   );
 
   /// Dark theme colors
@@ -59,7 +70,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     secondaryText: AppColors.secundair5Pinball,      // Light gray text
     disabledText: AppColors.secundair4Quicksilver,   // Gray text
     borderColor: AppColors.secundair3Slategray,      // Gray border
+    secondaryButtonBackground: AppColors.secundair2Offblack, // Secondary button background
     iconSuffix: '_white',                            // Dark theme uses white icons
+    checkboxOnSuffix: '_white',                      // Dark theme uses white for checked
+    checkboxOffSuffix: '_white',                     // Dark theme uses white for unchecked
   );
 
   @override
@@ -72,7 +86,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? secondaryText,
     Color? disabledText,
     Color? borderColor,
+    Color? secondaryButtonBackground,
     String? iconSuffix,
+    String? checkboxOnSuffix,
+    String? checkboxOffSuffix,
   }) {
     return VenyuTheme(
       pageBackground: pageBackground ?? this.pageBackground,
@@ -83,7 +100,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       secondaryText: secondaryText ?? this.secondaryText,
       disabledText: disabledText ?? this.disabledText,
       borderColor: borderColor ?? this.borderColor,
+      secondaryButtonBackground: secondaryButtonBackground ?? this.secondaryButtonBackground,
       iconSuffix: iconSuffix ?? this.iconSuffix,
+      checkboxOnSuffix: checkboxOnSuffix ?? this.checkboxOnSuffix,
+      checkboxOffSuffix: checkboxOffSuffix ?? this.checkboxOffSuffix,
     );
   }
 
@@ -100,7 +120,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       secondaryText: Color.lerp(secondaryText, other.secondaryText, t)!,
       disabledText: Color.lerp(disabledText, other.disabledText, t)!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
+      secondaryButtonBackground: Color.lerp(secondaryButtonBackground, other.secondaryButtonBackground, t)!,
       iconSuffix: t < 0.5 ? iconSuffix : other.iconSuffix, // String lerp: use threshold
+      checkboxOnSuffix: t < 0.5 ? checkboxOnSuffix : other.checkboxOnSuffix,
+      checkboxOffSuffix: t < 0.5 ? checkboxOffSuffix : other.checkboxOffSuffix,
     );
   }
 }
@@ -115,6 +138,11 @@ extension VenyuThemeAccess on BuildContext {
     return Theme.of(this).brightness == Brightness.dark 
         ? VenyuTheme.dark 
         : VenyuTheme.light;
+  }
+  
+  /// Helper to get the correct icon path based on theme
+  String getThemedIconPath(String baseName) {
+    return 'assets/images/icons/$baseName${venyuTheme.iconSuffix}.png';
   }
 }
 

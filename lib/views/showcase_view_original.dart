@@ -166,7 +166,7 @@ class ShowcaseView extends StatelessWidget {
             
             Container(
               padding: AppModifiers.paddingMedium,
-              decoration: AppLayoutStyles.containerWithBorder,
+              decoration: AppLayoutStyles.containerWithBorder(context),
               child: Row(
                 children: [
                   Container(

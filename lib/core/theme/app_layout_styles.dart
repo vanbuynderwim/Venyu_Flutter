@@ -1,25 +1,95 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_modifiers.dart';
+import 'venyu_theme.dart';
 
 /// Venyu Layout Styles - Consistent layout components and text layouts
 class AppLayoutStyles {
   AppLayoutStyles._();
 
-  /// Container styles
-  static BoxDecoration get container => BoxDecoration(
-    color: AppColors.white,
-    borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-  );
+  /// Common border decoration with theme support
+  static BoxDecoration defaultBorder(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+      border: Border.all(
+        color: theme.borderColor,
+        width: 1,
+      ),
+    );
+  }
 
-  static BoxDecoration get containerWithBorder => BoxDecoration(
-    color: AppColors.white,
-    borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-    border: Border.all(
-      color: AppColors.secondaryLight,
-      width: AppModifiers.thinBorder,
-    ),
-  );
+  /// Card decoration with background and border
+  static BoxDecoration cardDecoration(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      color: theme.cardBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+      border: Border.all(
+        color: theme.borderColor,
+        width: 1,
+      ),
+    );
+  }
+
+  /// Tag decoration (capsule shape)
+  static BoxDecoration tagDecoration(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      color: theme.tagBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
+      border: Border.all(
+        color: theme.borderColor,
+        width: AppModifiers.extraThinBorder,
+      ),
+    );
+  }
+
+  /// Disabled decoration
+  static BoxDecoration disabledDecoration(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      color: theme.disabledBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+      border: Border.all(
+        color: theme.borderColor,
+        width: 1,
+      ),
+    );
+  }
+
+  /// Avatar border decoration
+  static BoxDecoration avatarBorder(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: theme.borderColor,
+        width: 1,
+      ),
+    );
+  }
+
+  /// Container styles (context-aware)
+  static BoxDecoration container(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      color: theme.cardBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+    );
+  }
+
+  static BoxDecoration containerWithBorder(BuildContext context) {
+    final theme = context.venyuTheme;
+    return BoxDecoration(
+      color: theme.cardBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+      border: Border.all(
+        color: theme.borderColor,
+        width: AppModifiers.thinBorder,
+      ),
+    );
+  }
 
   static BoxDecoration get containerElevated => AppModifiers.cardMedium;
 

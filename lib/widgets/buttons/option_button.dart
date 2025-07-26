@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../../core/constants/app_assets.dart';
 import '../../models/models.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../common/tag_view.dart';
 import '../common/option_icon_view.dart';
@@ -97,23 +97,9 @@ class _OptionButtonState extends State<OptionButton> {
     
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-        color: widget.disabled 
-            ? venyuTheme.disabledBackground
-            : venyuTheme.cardBackground, // Pure white for cards
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        border: Border.all(
-          color: venyuTheme.borderColor,
-          width: 0.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: venyuTheme.borderColor.withValues(alpha: 0.1),
-            blurRadius: 2.0,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
+      decoration: widget.disabled 
+          ? AppLayoutStyles.disabledDecoration(context)
+          : AppLayoutStyles.cardDecoration(context),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -218,11 +204,9 @@ class _OptionButtonState extends State<OptionButton> {
                       // Chevron
                       if (widget.isChevronVisible)
                         Image.asset(
-                          Theme.of(context).brightness == Brightness.dark 
-                              ? AppAssets.icons.chevron.white 
-                              : AppAssets.icons.chevron.outlined,
-                          width: 20,
-                          height: 20
+                          context.getThemedIconPath('chevron'),
+                          width: 16,
+                          height: 16
                         ),
                     ],
                   ),
@@ -255,7 +239,7 @@ class _OptionButtonState extends State<OptionButton> {
   }
 
   Widget _buildSelectionIndicator() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
     
     if (widget.isMultiSelect) {
       // Checkbox voor multiselect - gebruik assets
@@ -264,8 +248,8 @@ class _OptionButtonState extends State<OptionButton> {
         height: 24,
         child: Image.asset(
           widget.isSelected 
-              ? (isDark ? AppAssets.icons.checkboxOn.white : AppAssets.icons.checkboxOn.selected)
-              : (isDark ? AppAssets.icons.checkboxOff.white : AppAssets.icons.checkboxOff.regular),
+              ? 'assets/images/icons/checkbox_on${venyuTheme.checkboxOnSuffix}.png'
+              : 'assets/images/icons/checkbox_off${venyuTheme.checkboxOffSuffix}.png',
           width: 24,
           height: 24,
           errorBuilder: (context, error, stackTrace) {
@@ -277,7 +261,7 @@ class _OptionButtonState extends State<OptionButton> {
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(AppModifiers.miniRadius),
                 border: Border.all(
-                  color: widget.isSelected ? AppColors.primary : AppColors.secundair6Rocket,
+                  color: widget.isSelected ? AppColors.primary : venyuTheme.borderColor,
                   width: 2,
                 ),
                 color: widget.isSelected ? AppColors.primary : Colors.transparent,
@@ -300,8 +284,8 @@ class _OptionButtonState extends State<OptionButton> {
         height: 24,
         child: Image.asset(
           widget.isSelected 
-              ? (isDark ? AppAssets.icons.radiobuttonOn.white : AppAssets.icons.radiobuttonOn.selected)
-              : (isDark ? AppAssets.icons.radiobuttonOff.white : AppAssets.icons.radiobuttonOff.regular),
+              ? 'assets/images/icons/radiobutton_on${venyuTheme.checkboxOnSuffix}.png'
+              : 'assets/images/icons/radiobutton_off${venyuTheme.checkboxOffSuffix}.png',
           width: 24,
           height: 24,
           errorBuilder: (context, error, stackTrace) {
@@ -312,7 +296,7 @@ class _OptionButtonState extends State<OptionButton> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: widget.isSelected ? AppColors.primary : AppColors.secundair6Rocket,
+                  color: widget.isSelected ? AppColors.primary : venyuTheme.borderColor,
                   width: 2,
                 ),
               ),

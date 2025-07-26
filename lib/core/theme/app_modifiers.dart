@@ -29,6 +29,7 @@ class AppModifiers {
   static const double largeElevation = 8.0;
 
   /// Border widths
+  static const double extraThinBorder = 0.5;
   static const double thinBorder = 1.0;
   static const double mediumBorder = 2.0;
   static const double thickBorder = 3.0;

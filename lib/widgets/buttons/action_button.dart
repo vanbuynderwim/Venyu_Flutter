@@ -57,7 +57,7 @@ class _ActionButtonState extends State<ActionButton> {
                 borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 border: Border.all(
                   color: widget.style.borderColor(context),
-                  width: 0.5,
+                  width: AppModifiers.thinBorder,
                 ),
               ),
               padding: EdgeInsets.symmetric(

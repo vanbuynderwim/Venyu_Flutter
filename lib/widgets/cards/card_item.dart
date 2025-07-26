@@ -4,6 +4,7 @@ import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../core/constants/app_assets.dart';
 import 'role_view.dart';
 import 'status_badge_view.dart';
@@ -52,12 +53,8 @@ class _CardItemState extends State<CardItem> {
             splashFactory: NoSplash.splashFactory,
             borderRadius: _getBorderRadius(),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: AppLayoutStyles.defaultBorder(context).copyWith(
                 borderRadius: _getBorderRadius(),
-                border: Border.all(
-                  color: AppColors.secundair6Rocket,
-                  width: 0.5,
-                ),
               ),
               child: IntrinsicHeight(
                 child: Row(

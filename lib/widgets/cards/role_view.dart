@@ -3,6 +3,7 @@ import '../../models/profile.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_layout_styles.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -30,7 +31,7 @@ class RoleView extends StatelessWidget {
       child: Row(
         children: [
           // Avatar
-          _buildAvatar(),
+          _buildAvatar(context),
           const SizedBox(width: 12),
           
           // Text content
@@ -103,17 +104,12 @@ class RoleView extends StatelessWidget {
   }
 
   /// Bouw de avatar widget
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     return Container(
       width: avatarSize,
       height: avatarSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
+      decoration: AppLayoutStyles.avatarBorder(context).copyWith(
         color: AppColors.primair6Periwinkel,
-        border: Border.all(
-          color: AppColors.secundair6Rocket,
-          width: 1,
-        ),
       ),
       child: profile.avatarID != null && profile.avatarID!.isNotEmpty
           ? ClipOval(
