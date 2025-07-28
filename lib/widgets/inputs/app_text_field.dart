@@ -45,6 +45,7 @@ class AppTextField extends StatelessWidget {
   final String? helperText;
   final bool autofocus;
   final EdgeInsets? contentPadding;
+  final Iterable<String>? autofillHints;
 
   const AppTextField({
     super.key,
@@ -68,6 +69,7 @@ class AppTextField extends StatelessWidget {
     this.helperText,
     this.autofocus = false,
     this.contentPadding,
+    this.autofillHints,
   });
 
   InputDecoration _getInputDecoration(BuildContext context) {
@@ -209,6 +211,7 @@ class AppTextField extends StatelessWidget {
         onChanged: onChanged,
         onTap: onTap,
         autofocus: autofocus,
+        autofillHints: autofillHints,
         padding: padding, // Dit is de interne padding!
         decoration: const BoxDecoration(), // Geen decoratie, want die zit op de Container
         style: AppTextStyles.body.copyWith(
@@ -272,6 +275,7 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       onTap: onTap,
       autofocus: autofocus,
+      autofillHints: autofillHints,
       style: AppTextStyles.body.copyWith(
         color: enabled ? venyuTheme.primaryText : venyuTheme.disabledText,
       ),

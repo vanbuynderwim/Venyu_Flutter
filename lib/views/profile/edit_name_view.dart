@@ -140,6 +140,7 @@ class _EditNameViewState extends State<EditNameView> {
                       textCapitalization: TextCapitalization.words,
                       style: AppTextFieldStyle.large,
                       state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+                      autofillHints: const [AutofillHints.givenName],
                     ),
                   ),
                   
@@ -153,6 +154,7 @@ class _EditNameViewState extends State<EditNameView> {
                       textCapitalization: TextCapitalization.words,
                       style: AppTextFieldStyle.large,
                       state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+                      autofillHints: const [AutofillHints.familyName],
                     ),
                   ),
                   
@@ -167,6 +169,7 @@ class _EditNameViewState extends State<EditNameView> {
                       textCapitalization: TextCapitalization.none,
                       style: AppTextFieldStyle.large,
                       state: !_linkedInFormatIsValid ? AppTextFieldState.error : AppTextFieldState.normal,
+                      autofillHints: const [AutofillHints.url],
                     ),
                   ),
 
