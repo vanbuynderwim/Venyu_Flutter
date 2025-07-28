@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../core/constants/app_assets.dart';
 import 'role_view.dart';
 import 'status_badge_view.dart';
@@ -90,7 +90,7 @@ class _CardItemState extends State<CardItem> {
                             Text(
                               widget.prompt.label,
                               style: AppTextStyles.callout.copyWith(
-                                color: AppColors.secundair1Deepblack,
+                                color: context.venyuTheme.primaryText,
                               ),
                               maxLines: null,
                             ),
@@ -173,7 +173,7 @@ class _CardItemState extends State<CardItem> {
         return Icon(
           isSelected ? Icons.check_box : Icons.check_box_outline_blank,
           size: 24,
-          color: isSelected ? AppColors.primary : AppColors.textLight,
+          color: isSelected ? context.venyuTheme.primary : context.venyuTheme.secondaryText,
         );
       },
     );
@@ -181,10 +181,11 @@ class _CardItemState extends State<CardItem> {
 
   /// Bouw de gradient achtergrond
   LinearGradient _buildGradient() {
-    final leftColor = widget.prompt.interactionType?.color ?? AppColors.white;
+    final venyuTheme = context.venyuTheme;
+    final leftColor = widget.prompt.interactionType?.color ?? venyuTheme.cardBackground;
     final rightColor = widget.showMatchInteraction && widget.prompt.matchInteractionType != null
         ? widget.prompt.matchInteractionType!.color
-        : AppColors.white;
+        : venyuTheme.cardBackground;
     
     return LinearGradient(
       colors: [

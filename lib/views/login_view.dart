@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import '../core/theme/app_theme.dart';
+
 import '../core/constants/app_strings.dart';
+import '../core/theme/app_theme.dart';
 import '../services/index.dart';
+import '../widgets/index.dart';
 
 /// LoginView - Initial authentication screen
 /// 
@@ -78,7 +81,10 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
+    final venyuTheme = context.venyuTheme;
+    
+    return AppScaffold(
+      usePadding: false,
       body: Stack(
         children: [
           // Background radar image
@@ -90,159 +96,157 @@ class _LoginViewState extends State<LoginView> {
           ),
           
           // Content
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  // Spacer to center content
-                  const Spacer(flex: 2),
-                  // Logo and branding
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: Center(
-                          child: Image.asset(
-                            'assets/images/visuals/logo.png',
-                            fit: BoxFit.cover,
-                          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                // Spacer to center content
+                const Spacer(flex: 2),
+                // Logo and branding
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/visuals/logo.png',
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      
-                      // App name
-                      Text(
-                        AppStrings.appName.toLowerCase(),
-                        style: AppTextStyles.appTitle.copyWith(
-                          fontSize: 46,
-                          color: AppColors.primair4Lilac,
-                        ),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // App name
+                    Text(
+                      AppStrings.appName.toLowerCase(),
+                      style: AppTextStyles.appTitle.copyWith(
+                        fontSize: 46,
+                        color: venyuTheme.primary,
                       ),
-                      const SizedBox(height: 8),
-                      
-                      // Tagline
-                      Text(
-                        AppStrings.appTagline,
-                        style: AppTextStyles.appSubtitle.copyWith(
-                          fontSize: 20,
-                          color: AppColors.textSecondary,
-                        ),
+                    ),
+                    const SizedBox(height: 8),
+                    
+                    // Tagline
+                    Text(
+                      AppStrings.appTagline,
+                      style: AppTextStyles.appSubtitle.copyWith(
+                        fontSize: 20,
+                        color: venyuTheme.secondaryText,
                       ),
-                    ],
-                  ),
-                  
-                  const Spacer(flex: 1),
-                  
-                  // Sign-in buttons
-                  Column(
-                    children: [
-                      // LinkedIn sign-in - Custom button with LinkedIn logo
-                      SizedBox(
-                        height: 56,
-                        width: double.infinity,
-                        child: PlatformElevatedButton(
-                          onPressed: _isSigningIn ? null : _signInWithLinkedIn,
-                          color: const Color(0xFF0A66C2), // LinkedIn blue
-                          material: (_, __) => MaterialElevatedButtonData(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF0A66C2),
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                              ),
-                              elevation: 0,
+                    ),
+                  ],
+                ),
+                
+                const Spacer(flex: 1),
+                
+                // Sign-in buttons
+                Column(
+                  children: [
+                    // LinkedIn sign-in - Custom button with LinkedIn logo
+                    SizedBox(
+                      height: 56,
+                      width: double.infinity,
+                      child: PlatformElevatedButton(
+                        onPressed: _isSigningIn ? null : _signInWithLinkedIn,
+                        color: const Color(0xFF0A66C2), // LinkedIn blue
+                        material: (_, __) => MaterialElevatedButtonData(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF0A66C2),
+                            foregroundColor: Colors.white,
+                            disabledBackgroundColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                             ),
-                          ),
-                          cupertino: (_, __) => CupertinoElevatedButtonData(
-                            color: const Color(0xFF0A66C2),
-                            disabledColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // LinkedIn logo
-                              Image.asset(
-                                'assets/images/visuals/linkedInLogo.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Sign in with LinkedIn',
-                                style: AppTextStyles.callout.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                            elevation: 0,
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      
-                      // Apple sign-in - Native button
-                      SizedBox(
-                        height: 56,
-                        width: double.infinity,
-                        child: SignInWithAppleButton(
-                          onPressed: _isSigningIn ? null : _signInWithApple,
-                          text: 'Sign in with Apple',
-                          height: 56,
-                          style: SignInWithAppleButtonStyle.black,
+                        cupertino: (_, __) => CupertinoElevatedButtonData(
+                          color: const Color(0xFF0A66C2),
+                          disabledColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                         ),
-                      ),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: 24),
-                  
-                  // Error message from SessionManager
-                  Consumer<SessionManager>(
-                    builder: (context, sessionManager, _) {
-                      if (sessionManager.authState == AuthenticationState.error && 
-                          sessionManager.lastError != null) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.error.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                          ),
-                          child: Text(
-                            sessionManager.lastError!,
-                            style: AppTextStyles.callout.copyWith(
-                              color: AppColors.error,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // LinkedIn logo
+                            Image.asset(
+                              'assets/images/visuals/linkedInLogo.png',
+                              width: 24,
+                              height: 24,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  
-                  const Spacer(flex: 1),
-                  
-                  // Legal text
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: Text(
-                      'By signing in, you agree to our Terms of Service and Privacy Policy',
-                      style: AppTextStyles.footnote.copyWith(
-                        color: AppColors.textSecondary,
+                            const SizedBox(width: 12),
+                            Text(
+                              'Sign in with LinkedIn',
+                              style: AppTextStyles.callout.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
+                    const SizedBox(height: 16),
+                    
+                    // Apple sign-in - Native button
+                    SizedBox(
+                      height: 56,
+                      width: double.infinity,
+                      child: SignInWithAppleButton(
+                        onPressed: _isSigningIn ? null : _signInWithApple,
+                        text: 'Sign in with Apple',
+                        height: 56,
+                        style: SignInWithAppleButtonStyle.black,
+                        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Error message from SessionManager
+                Consumer<SessionManager>(
+                  builder: (context, sessionManager, _) {
+                    if (sessionManager.authState == AuthenticationState.error && 
+                        sessionManager.lastError != null) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: venyuTheme.error.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+                        ),
+                        child: Text(
+                          sessionManager.lastError!,
+                          style: AppTextStyles.callout.copyWith(
+                            color: venyuTheme.error,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+                
+                const Spacer(flex: 1),
+                
+                // Legal text
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Text(
+                    'By signing in, you agree to our Terms of Service and Privacy Policy',
+                    style: AppTextStyles.footnote.copyWith(
+                      color: venyuTheme.secondaryText,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           

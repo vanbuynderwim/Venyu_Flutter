@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import '../../core/theme/app_spacing_theme.dart';
 
 /// AppScaffold - Standardized scaffold with consistent horizontal padding

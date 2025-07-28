@@ -1,40 +1,83 @@
 import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:crypto/crypto.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../models/models.dart';
-import '../core/utils/device_info.dart';
-import '../core/config/app_config.dart';
 
-/// SupabaseManager - Flutter equivalent van iOS SupabaseManager
-/// 
+import '../core/config/app_config.dart';
+import '../core/utils/device_info.dart';
+import '../models/models.dart';
+import '../models/requests/update_name_request.dart';
+
 /// Centralized manager for all Supabase database operations and authentication.
-/// Uses singleton pattern for global access while supporting dependency injection.
+/// 
+/// This singleton class provides a comprehensive interface to Supabase functionality
+/// including authentication (Apple, LinkedIn), profile management, and database operations.
+/// Designed as a direct equivalent to the iOS SupabaseManager with identical API patterns.
+/// 
+/// Key features:
+/// - OAuth authentication with Apple and LinkedIn
+/// - Secure user data storage and retrieval
+/// - Profile and tag group management
+/// - Error handling and logging
+/// - Singleton pattern with dependency injection support
+/// 
+/// Example usage:
+/// ```dart
+/// // Initialize the manager
+/// await SupabaseManager.shared.initialize();
+/// 
+/// // Authenticate with Apple
+/// final response = await SupabaseManager.shared.signInWithApple();
+/// 
+/// // Fetch user profile
+/// final profile = await SupabaseManager.shared.fetchUserProfile();
+/// 
+/// // Update profile information
+/// await SupabaseManager.shared.updateProfileName(updateRequest);
+/// ```
+/// 
+/// See also:
+/// * [SessionManager] for authentication state management
 class SupabaseManager {
   static SupabaseManager? _instance;
   
-  /// Singleton instance - equivalent to iOS shared property
+  /// The global singleton instance of [SupabaseManager].
+  /// 
+  /// Provides convenient access to Supabase functionality throughout the app.
+  /// Equivalent to the iOS `shared` property pattern.
   static SupabaseManager get shared {
     _instance ??= SupabaseManager._internal();
     return _instance!;
   }
   
-  /// Factory constructor for dependency injection (useful for testing)
+  /// Factory constructor supporting dependency injection.
+  /// 
+  /// Returns the singleton instance by default, but allows for custom
+  /// instances during testing or when specific configurations are needed.
   factory SupabaseManager() => shared;
   
-  /// Private constructor - equivalent to iOS private init()
+  /// Private constructor for singleton pattern.
+  /// 
+  /// Prevents external instantiation and ensures only one instance exists.
   SupabaseManager._internal();
   
   late final SupabaseClient _client;
   static const _storage = FlutterSecureStorage();
   bool _isInitialized = false;
   
-  /// Public access to Supabase client - equivalent to iOS client property
+  /// Direct access to the underlying [SupabaseClient] instance.
+  /// 
+  /// Provides low-level access to Supabase functionality when needed.
+  /// Most operations should use the higher-level methods provided by this class.
   SupabaseClient get client => _client;
   
-  /// Check if SupabaseManager has been initialized
+  /// Whether the SupabaseManager has been properly initialized.
+  /// 
+  /// Returns true if [initialize] has been called successfully.
+  /// All other methods require initialization to be completed first.
   bool get isInitialized => _isInitialized;
   
   /// Initialize Supabase with schema configuration - equivalent to iOS SupabaseClient initialization
@@ -358,7 +401,15 @@ class SupabaseManager {
   
   // MARK: - Utility Methods (to be expanded)
   
-  /// Get stored user information from secure storage
+  /// Retrieves user information stored in secure local storage.
+  /// 
+  /// Returns a map containing:
+  /// - 'firstname': User's first name
+  /// - 'lastname': User's last name  
+  /// - 'email': User's email address
+  /// - 'apple_user_id': Apple user identifier (if signed in with Apple)
+  /// 
+  /// Values will be null if not previously stored or if retrieval fails.
   Future<Map<String, String?>> getStoredUserInfo() async {
     try {
       return {
@@ -412,7 +463,15 @@ class SupabaseManager {
     });
   }
   
-  /// Sign out user - to be implemented
+  /// Signs out the current user and clears all stored data.
+  /// 
+  /// This method:
+  /// 1. Signs out from Supabase authentication
+  /// 2. Clears all secure storage data
+  /// 3. Resets the authentication state
+  /// 
+  /// Should be called when the user explicitly signs out or when
+  /// authentication errors require a fresh start.
   Future<void> signOut() async {
     try {
       debugPrint('👋 Starting sign out process');
@@ -432,13 +491,19 @@ class SupabaseManager {
     }
   }
   
-  /// Check if user is authenticated
+  /// Whether a user is currently authenticated.
+  /// 
+  /// Returns true if there's an active Supabase session with a valid user.
   bool get isAuthenticated => _client.auth.currentUser != null;
   
-  /// Get current user
+  /// The currently authenticated user, if any.
+  /// 
+  /// Returns null if no user is signed in or if the session has expired.
   User? get currentUser => _client.auth.currentUser;
   
-  /// Get current session
+  /// The current authentication session, if any.
+  /// 
+  /// Contains access tokens and session metadata. Returns null if not authenticated.
   Session? get currentSession => _client.auth.currentSession;
   
   // MARK: - TagGroup Management Methods
@@ -563,6 +628,24 @@ class SupabaseManager {
       
       debugPrint('✅ Profile tag upserted successfully');
       debugPrint('📋 Upserted tag: ${tag.label} for code: $code');
+    });
+  }
+
+  /// Update profile name and LinkedIn URL - equivalent to iOS updateProfileName(updateNameRequest:)
+  /// 
+  /// This method updates the user's profile with new name and LinkedIn information:
+  /// 1. Creates payload from UpdateNameRequest
+  /// 2. Calls the update_profile_name RPC function
+  Future<void> updateProfileName(UpdateNameRequest updateNameRequest) async {
+    debugPrint('📤 Updating profile name: ${updateNameRequest.firstName} ${updateNameRequest.lastName}');
+    debugPrint('📤 LinkedIn URL: ${updateNameRequest.linkedInURL}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('update_profile_name', params: {'payload': updateNameRequest.toJson()});
+      
+      debugPrint('✅ Profile name updated successfully');
+      debugPrint('📋 Updated: ${updateNameRequest.firstName} ${updateNameRequest.lastName}');
     });
   }
 }

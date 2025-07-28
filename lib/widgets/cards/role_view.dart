@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../models/profile.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/venyu_theme.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -54,7 +54,7 @@ class RoleView extends StatelessWidget {
                   Text(
                     profile.companyName!,
                     style: AppTextStyles.subheadline.copyWith(
-                      color: AppColors.textSecondary,
+                      color: context.venyuTheme.secondaryText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -65,7 +65,7 @@ class RoleView extends StatelessWidget {
                   Text(
                     profile.bio!,
                     style: AppTextStyles.footnote.copyWith(
-                      color: AppColors.textLight,
+                      color: context.venyuTheme.disabledText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -78,7 +78,7 @@ class RoleView extends StatelessWidget {
           if (showChevron && !buttonDisabled)
             Icon(
               Icons.chevron_right,
-              color: AppColors.textLight,
+              color: context.venyuTheme.disabledText,
               size: 20,
             ),
         ],
@@ -96,7 +96,7 @@ class RoleView extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         splashFactory: NoSplash.splashFactory,
-        highlightColor: AppColors.primair6Periwinkel.withValues(alpha: 0.1),
+        highlightColor: context.venyuTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
         child: content,
       ),
@@ -109,7 +109,7 @@ class RoleView extends StatelessWidget {
       width: avatarSize,
       height: avatarSize,
       decoration: AppLayoutStyles.avatarBorder(context).copyWith(
-        color: AppColors.primair6Periwinkel,
+        color: context.venyuTheme.primary.withValues(alpha: 0.3),
       ),
       child: profile.avatarID != null && profile.avatarID!.isNotEmpty
           ? ClipOval(
@@ -119,33 +119,33 @@ class RoleView extends StatelessWidget {
                 height: avatarSize,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return _buildAvatarFallback();
+                  return _buildAvatarFallback(context);
                 },
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
-                  return _buildAvatarFallback();
+                  return _buildAvatarFallback(context);
                 },
               ),
             )
-          : _buildAvatarFallback(),
+          : _buildAvatarFallback(context),
     );
   }
 
   /// Bouw de avatar fallback met initialen
-  Widget _buildAvatarFallback() {
+  Widget _buildAvatarFallback(BuildContext context) {
     final initials = _getInitials();
     return Container(
       width: avatarSize,
       height: avatarSize,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.primair4Lilac,
+        color: context.venyuTheme.primary,
       ),
       child: Center(
         child: Text(
           initials,
           style: AppTextStyles.headline.copyWith(
-            color: AppColors.white,
+            color: context.venyuTheme.cardBackground,
             fontWeight: FontWeight.w600,
             fontSize: avatarSize * 0.4, // Dynamische font size gebaseerd op avatar size
           ),

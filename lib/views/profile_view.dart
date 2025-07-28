@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
-import '../core/theme/app_theme.dart';
-import '../core/constants/app_strings.dart';
+
 import '../core/constants/app_assets.dart';
+import '../core/constants/app_strings.dart';
+import '../core/theme/app_theme.dart';
 import '../services/index.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
-import 'showcase_view.dart';
 import 'profile_edit_view.dart';
+import 'showcase_view.dart';
 
 /// ProfileView - Profile page with platform-aware scaffold
 class ProfileView extends StatelessWidget {

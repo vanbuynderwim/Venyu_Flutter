@@ -10,7 +10,7 @@ class ShowcaseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
+    return AppScaffold(
       appBar: PlatformAppBar(
         title: const Text('Venyu UI Showcase'),
         material: (_, __) => MaterialAppBarData(
@@ -21,10 +21,8 @@ class ShowcaseView extends StatelessWidget {
           // Back button will automatically show "Profile" as previous page title
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+      body: SingleChildScrollView(
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             // App Title with Graphie font
@@ -107,40 +105,72 @@ class ShowcaseView extends StatelessWidget {
             Text('Input Fields:', style: AppTextStyles.headline),
             const SizedBox(height: 16),
             
-            TextFormField(
-              decoration: AppInputStyles.base.copyWith(
-                labelText: 'Name',
-                hintText: 'Enter your name',
+            PlatformTextFormField(
+              hintText: 'Enter your name',
+              material: (_, __) => MaterialTextFormFieldData(
+                decoration: AppInputStyles.base.copyWith(
+                  labelText: 'Name',
+                  hintText: 'Enter your name',
+                ),
+              ),
+              cupertino: (_, __) => CupertinoTextFormFieldData(
+                placeholder: 'Enter your name',
               ),
             ),
             const SizedBox(height: 16),
             
-            TextFormField(
-              decoration: AppInputStyles.email.copyWith(
-                labelText: 'Email',
-                hintText: 'Enter your email',
+            PlatformTextFormField(
+              hintText: 'Enter your email',
+              keyboardType: TextInputType.emailAddress,
+              material: (_, __) => MaterialTextFormFieldData(
+                decoration: AppInputStyles.email.copyWith(
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                ),
+              ),
+              cupertino: (_, __) => CupertinoTextFormFieldData(
+                placeholder: 'Enter your email',
+                keyboardType: TextInputType.emailAddress,
               ),
             ),
             const SizedBox(height: 16),
             
-            TextFormField(
-              decoration: AppInputStyles.search,
-            ),
-            const SizedBox(height: 16),
-            
-            TextFormField(
-              decoration: AppInputStyles.success.copyWith(
-                labelText: 'Valid Input',
-                hintText: 'This is valid',
+            PlatformTextFormField(
+              hintText: 'Search',
+              material: (_, __) => MaterialTextFormFieldData(
+                decoration: AppInputStyles.search,
+              ),
+              cupertino: (_, __) => CupertinoTextFormFieldData(
+                placeholder: 'Search',
               ),
             ),
             const SizedBox(height: 16),
             
-            TextFormField(
-              decoration: AppInputStyles.base.copyWith(
-                labelText: 'Error Input',
-                hintText: 'This has an error',
-                errorText: 'This field is required',
+            PlatformTextFormField(
+              hintText: 'This is valid',
+              material: (_, __) => MaterialTextFormFieldData(
+                decoration: AppInputStyles.success.copyWith(
+                  labelText: 'Valid Input',
+                  hintText: 'This is valid',
+                ),
+              ),
+              cupertino: (_, __) => CupertinoTextFormFieldData(
+                placeholder: 'This is valid',
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            PlatformTextFormField(
+              hintText: 'This has an error',
+              material: (_, __) => MaterialTextFormFieldData(
+                decoration: AppInputStyles.base.copyWith(
+                  labelText: 'Error Input',
+                  hintText: 'This has an error',
+                  errorText: 'This field is required',
+                ),
+              ),
+              cupertino: (_, __) => CupertinoTextFormFieldData(
+                placeholder: 'This has an error',
               ),
             ),
             const SizedBox(height: 32),
@@ -269,7 +299,6 @@ class ShowcaseView extends StatelessWidget {
             
             _MultiSelectDemo(),
           ],
-        ),
         ),
       ),
     );

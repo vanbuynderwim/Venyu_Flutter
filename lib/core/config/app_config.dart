@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'environment.dart';
-import '../constants/app_urls.dart';
+
 import '../constants/app_timeouts.dart';
+import '../constants/app_urls.dart';
+import 'environment.dart';
 
 /// Main application configuration
 /// 

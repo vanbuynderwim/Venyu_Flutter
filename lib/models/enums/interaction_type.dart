@@ -1,16 +1,44 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
+/// Defines the types of interactions users can have with prompts and content.
+/// 
+/// These interaction types represent different ways users can respond to
+/// prompts, requests, or opportunities within the networking platform.
+/// Each type has associated UI styling, colors, and button representations.
+/// 
+/// Example usage:
+/// ```dart
+/// // Create interaction button
+/// InteractionButton(
+///   type: InteractionType.thisIsMe,
+///   onPressed: () => handleInteraction(),
+/// )
+/// 
+/// // Access interaction properties
+/// final color = InteractionType.lookingForThis.color;
+/// final title = InteractionType.knowSomeone.buttonTitle;
+/// ```
 enum InteractionType {
+  /// User can provide the requested service/help.
   thisIsMe('this_is_me'),
+  
+  /// User is looking for this type of service/help.
   lookingForThis('looking_for_this'),
+  
+  /// User knows someone who can provide this service/help.
   knowSomeone('know_someone'),
+  
+  /// This prompt/request is not relevant to the user.
   notRelevant('not_relevant');
 
   const InteractionType(this.value);
   
   final String value;
 
+  /// Creates an [InteractionType] from a JSON string value.
+  /// 
+  /// Returns [InteractionType.thisIsMe] if the value doesn't match any type.
   static InteractionType fromJson(String value) {
     return InteractionType.values.firstWhere(
       (type) => type.value == value,
@@ -18,9 +46,12 @@ enum InteractionType {
     );
   }
 
+  /// Converts this [InteractionType] to a JSON string value.
   String toJson() => value;
 
-  /// Get the color for this interaction type
+  /// Returns the theme color associated with this interaction type.
+  /// 
+  /// Each interaction type has a distinct color for visual differentiation.
   Color get color {
     switch (this) {
       case InteractionType.thisIsMe:
@@ -34,7 +65,7 @@ enum InteractionType {
     }
   }
 
-  /// Get the button title for this interaction type
+  /// Returns the user-facing button text for this interaction type.
   String get buttonTitle {
     switch (this) {
       case InteractionType.thisIsMe:
@@ -48,7 +79,7 @@ enum InteractionType {
     }
   }
 
-  /// Get the button asset name for this interaction type
+  /// Returns the asset filename for this interaction type's button icon.
   String get buttonName {
     switch (this) {
       case InteractionType.thisIsMe:
@@ -62,7 +93,7 @@ enum InteractionType {
     }
   }
 
-  /// Get the icon position for this interaction type
+  /// Returns the preferred icon alignment for this interaction type's button.
   Alignment get iconPosition {
     switch (this) {
       case InteractionType.thisIsMe:
@@ -74,7 +105,7 @@ enum InteractionType {
     }
   }
 
-  /// Get the fallback Material icon for this interaction type
+  /// Returns a Material Design icon as fallback when assets are unavailable.
   IconData get fallbackIcon {
     switch (this) {
       case InteractionType.thisIsMe:
@@ -88,6 +119,6 @@ enum InteractionType {
     }
   }
 
-  /// Get the full asset path for this interaction type
+  /// Returns the complete asset path for this interaction type's icon.
   String get assetPath => 'assets/images/icons/$buttonName.png';
 }

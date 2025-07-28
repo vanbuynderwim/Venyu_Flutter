@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../core/constants/app_strings.dart';
+
 import '../core/constants/app_assets.dart';
+import '../core/constants/app_strings.dart';
 import 'matches_view.dart';
 import 'notifications_view.dart';
 import 'profile_view.dart';
@@ -17,10 +19,10 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _currentIndex = 0;
   
-  final List<Widget> _pages = [
-    const MatchesView(),
-    const NotificationsView(),
-    const ProfileView(),
+  final List<Widget> _pages = const [
+    MatchesView(),
+    NotificationsView(),
+    ProfileView(),
   ];
 
   @override

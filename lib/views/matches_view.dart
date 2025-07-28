@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../core/theme/app_theme.dart';
-import '../core/constants/app_strings.dart';
+
 import '../core/constants/app_assets.dart';
+import '../core/constants/app_strings.dart';
+import '../core/theme/app_theme.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 
 /// MatchesView - Matches page with ListView for server data

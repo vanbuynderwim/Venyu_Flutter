@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
+
 import 'core/config/app_config.dart';
-import 'models/test_models.dart';
 import 'core/theme/app_theme.dart';
+import 'models/test_models.dart';
 import 'services/index.dart';
 import 'views/index.dart';
 

@@ -1,32 +1,80 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../models/models.dart';
 import 'supabase_manager.dart';
 
-/// Authentication states for the app - equivalent to iOS session states
+/// Represents the current authentication state of the user.
+/// 
+/// These states mirror the iOS app's authentication flow and help
+/// determine which UI screens should be presented to the user.
 enum AuthenticationState {
-  loading,           // Initial state, checking existing session
-  unauthenticated,   // No valid session  
-  authenticated,     // Valid session, but profile not complete
-  registered,        // Authenticated and profile setup complete
-  error             // Authentication error occurred
+  /// Initial state while checking for existing sessions.
+  loading,
+  
+  /// No valid authentication session exists.
+  unauthenticated,
+  
+  /// User is authenticated but profile setup is incomplete.
+  authenticated,
+  
+  /// User is authenticated and has completed profile registration.
+  registered,
+  
+  /// An authentication error has occurred.
+  error
 }
 
-/// SessionManager - Flutter equivalent van iOS SessionManager
+/// Centralized manager for authentication state and user session lifecycle.
 /// 
-/// Centralized manager for authentication state, user sessions, and profile management.
-/// Uses ChangeNotifier for reactive state management equivalent to iOS @Observable.
+/// This class manages the complete authentication flow including sign in/out,
+/// session persistence, profile loading, and state notifications. It serves as
+/// the single source of truth for authentication status throughout the app.
+/// 
+/// The manager automatically:
+/// - Listens to Supabase authentication state changes
+/// - Loads user profiles after successful authentication
+/// - Handles token refresh and session validation
+/// - Provides reactive updates via [ChangeNotifier]
+/// 
+/// Example usage:
+/// ```dart
+/// // Listen to authentication state
+/// SessionManager.shared.addListener(() {
+///   final state = SessionManager.shared.authState;
+///   if (state == AuthenticationState.registered) {
+///     navigateToMainApp();
+///   }
+/// });
+/// 
+/// // Sign in with Apple
+/// await SessionManager.shared.signInWithApple();
+/// 
+/// // Check current state
+/// if (SessionManager.shared.isAuthenticated) {
+///   final profile = SessionManager.shared.currentProfile;
+/// }
+/// ```
+/// 
+/// See also:
+/// * [SupabaseManager] for low-level authentication operations
+/// * [AuthenticationState] for available states
 class SessionManager extends ChangeNotifier {
   static SessionManager? _instance;
   
-  /// Singleton instance - equivalent to iOS shared property
+  /// The global singleton instance of [SessionManager].
+  /// 
+  /// Provides convenient access to session management throughout the app.
   static SessionManager get shared {
     _instance ??= SessionManager._internal();
     return _instance!;
   }
   
-  /// Factory constructor for dependency injection (useful for testing)
+  /// Factory constructor supporting dependency injection.
+  /// 
+  /// Useful for testing or when custom [SupabaseManager] instances are needed.
   factory SessionManager({SupabaseManager? supabaseManager}) {
     if (supabaseManager != null) {
       return SessionManager._internal(supabaseManager: supabaseManager);
@@ -34,7 +82,9 @@ class SessionManager extends ChangeNotifier {
     return shared;
   }
   
-  /// Private constructor - equivalent to iOS private init()
+  /// Private constructor for singleton pattern.
+  /// 
+  /// Initializes the manager and sets up authentication state listening.
   SessionManager._internal({SupabaseManager? supabaseManager}) 
       : _supabaseManager = supabaseManager ?? SupabaseManager.shared {
     // Initialize immediately since SupabaseManager should be ready when SessionManager is created
@@ -55,28 +105,45 @@ class SessionManager extends ChangeNotifier {
   
   // MARK: - Public Getters (equivalent to iOS computed properties)
   
-  /// Current authentication state - equivalent to iOS authState
+  /// The current authentication state.
+  /// 
+  /// Reflects the user's authentication and registration status.
+  /// Listen to this manager for state change notifications.
   AuthenticationState get authState => _authState;
   
-  /// Current user profile - equivalent to iOS currentProfile
+  /// The current user's profile data, if available.
+  /// 
+  /// Returns null if the user is not authenticated or if profile loading failed.
   Profile? get currentProfile => _currentProfile;
   
-  /// Current Supabase session - equivalent to iOS session
+  /// The current Supabase authentication session.
+  /// 
+  /// Contains access tokens and session metadata. Null if not authenticated.
   Session? get currentSession => _currentSession;
   
-  /// Whether user is authenticated - equivalent to iOS isAuthenticated
+  /// Whether the user has a valid authentication session.
+  /// 
+  /// Returns true if [currentSession] is not null.
   bool get isAuthenticated => _currentSession != null;
   
-  /// Whether user has completed registration - equivalent to iOS isRegistered
+  /// Whether the user has completed the registration process.
+  /// 
+  /// Returns true if the user's profile has a [registeredAt] timestamp.
   bool get isRegistered => _currentProfile?.registeredAt != null;
   
-  /// Whether app is currently loading - equivalent to iOS isLoading
+  /// Whether the authentication state is currently being determined.
+  /// 
+  /// Returns true during initial session checks and state transitions.
   bool get isLoading => _authState == AuthenticationState.loading;
   
-  /// Last authentication error message
+  /// The most recent authentication error message, if any.
+  /// 
+  /// Cleared when new authentication attempts are made.
   String? get lastError => _lastError;
   
-  /// Current user - convenience getter
+  /// The current Supabase user object.
+  /// 
+  /// Convenience getter that delegates to [SupabaseManager.currentUser].
   User? get currentUser => _supabaseManager.currentUser;
   
   // MARK: - Initialization Methods
@@ -135,9 +202,9 @@ class SessionManager extends ChangeNotifier {
             // Handle MFA challenge verification - treat as sign in success
             await _handleSignedIn(authState.session);
             break;
-          case AuthChangeEvent.userDeleted:
-            // Handle deprecated user deletion event - treat as sign out
-            await _handleSignedOut();
+          default:
+            // Handle any other auth events (including deprecated ones)
+            debugPrint('🔄 Unhandled auth event: ${authState.event}');
             break;
         }
       },
@@ -342,7 +409,14 @@ class SessionManager extends ChangeNotifier {
   
   // MARK: - Public Authentication Methods
   
-  /// Sign in with Apple - equivalent to iOS signInWithApple
+  /// Initiates Apple Sign In authentication flow.
+  /// 
+  /// This method:
+  /// 1. Clears any previous errors
+  /// 2. Delegates to [SupabaseManager.signInWithApple]
+  /// 3. Updates authentication state via the auth state listener
+  /// 
+  /// Throws authentication exceptions if the sign in process fails.
   Future<void> signInWithApple() async {
     try {
       debugPrint('🍎 SessionManager: Starting Apple sign in');
@@ -360,7 +434,15 @@ class SessionManager extends ChangeNotifier {
     }
   }
   
-  /// Sign in with LinkedIn - equivalent to iOS signInWithLinkedIn
+  /// Initiates LinkedIn OAuth authentication flow.
+  /// 
+  /// This method:
+  /// 1. Clears any previous errors
+  /// 2. Delegates to [SupabaseManager.signInWithLinkedIn]
+  /// 3. Updates authentication state via the auth state listener
+  /// 
+  /// Note: LinkedIn authentication completes via deep link callback.
+  /// Throws authentication exceptions if the sign in process fails.
   Future<void> signInWithLinkedIn() async {
     try {
       debugPrint('💼 SessionManager: Starting LinkedIn sign in');
@@ -378,7 +460,14 @@ class SessionManager extends ChangeNotifier {
     }
   }
   
-  /// Sign out user - equivalent to iOS signOut
+  /// Signs out the current user and clears all session data.
+  /// 
+  /// This method:
+  /// 1. Clears any previous errors
+  /// 2. Delegates to [SupabaseManager.signOut]
+  /// 3. Updates authentication state via the auth state listener
+  /// 
+  /// Throws exceptions if the sign out process fails.
   Future<void> signOut() async {
     try {
       debugPrint('👋 SessionManager: Starting sign out');
@@ -450,7 +539,10 @@ class SessionManager extends ChangeNotifier {
   
   // MARK: - Debug Methods
   
-  /// Get debug information about current state
+  /// Returns comprehensive debug information about the current state.
+  /// 
+  /// Useful for troubleshooting authentication issues and state management.
+  /// Contains authentication state, user information, and error details.
   Map<String, dynamic> get debugInfo => {
     'authState': _authState.toString(),
     'isAuthenticated': isAuthenticated,

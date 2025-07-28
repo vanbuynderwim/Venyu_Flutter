@@ -5,28 +5,80 @@ import 'app_modifiers.dart';
 import 'app_text_styles.dart';
 import 'app_spacing_theme.dart';
 
-/// Venyu Theme Extension - Simple and clear theming
+/// Custom theme extension providing Venyu-specific design tokens.
+/// 
+/// This theme extension defines the complete visual language for the Venyu app,
+/// including colors, backgrounds, text styles, and platform-specific assets.
+/// It supports both light and dark mode with automatic adaptation.
+/// 
+/// The theme is designed to:
+/// - Provide consistent visual identity across the app
+/// - Support accessibility requirements
+/// - Enable easy theming and customization
+/// - Maintain platform-specific design patterns
+/// 
+/// Example usage:
+/// ```dart
+/// // Access theme colors
+/// final theme = context.venyuTheme;
+/// Container(color: theme.cardBackground)
+/// 
+/// // Use in text styling
+/// Text('Hello', style: TextStyle(color: theme.primaryText))
+/// ```
 class VenyuTheme extends ThemeExtension<VenyuTheme> {
-  // Background colors
+  /// Main page/screen background color.
   final Color pageBackground;
+  
+  /// Card and container background color.
   final Color cardBackground;
+  
+  /// Background color for tag components.
   final Color tagBackground;
+  
+  /// Background color for disabled elements.
   final Color disabledBackground;
   
-  // Text colors
+  /// Primary text color for headings and important content.
   final Color primaryText;
+  
+  /// Secondary text color for descriptions and supporting content.
   final Color secondaryText;
+  
+  /// Text color for disabled elements.
   final Color disabledText;
   
-  // Border colors
+  /// Color for borders, dividers, and outline elements.
   final Color borderColor;
   
-  // Button colors
+  /// Background color for secondary buttons.
   final Color secondaryButtonBackground;
   
-  // Icon theming
+  /// Primary brand color for buttons, links, and highlights.
+  final Color primary;
+  
+  /// Error color for warnings and destructive actions.
+  final Color error;
+  
+  /// Success color for confirmations and positive feedback.
+  final Color success;
+  
+  /// Warning color for cautionary messages.
+  final Color warning;
+  
+  /// Information color for neutral notifications.
+  final Color info;
+  
+  /// LinkedIn brand color for social authentication.
+  final Color linkedIn;
+  
+  /// File suffix for theme-appropriate icons (e.g., '_dark').
   final String iconSuffix;
+  
+  /// File suffix for selected checkbox assets.
   final String checkboxOnSuffix;
+  
+  /// File suffix for unselected checkbox assets.
   final String checkboxOffSuffix;
   
   const VenyuTheme({
@@ -39,6 +91,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.disabledText,
     required this.borderColor,
     required this.secondaryButtonBackground,
+    required this.primary,
+    required this.error,
+    required this.success,
+    required this.warning,
+    required this.info,
+    required this.linkedIn,
     required this.iconSuffix,
     required this.checkboxOnSuffix,
     required this.checkboxOffSuffix,
@@ -55,6 +113,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     disabledText: AppColors.secundair4Quicksilver, // Light gray text
     borderColor: AppColors.secundair6Rocket,      // Light border
     secondaryButtonBackground: AppColors.alabasterWhite, // Secondary button background
+    primary: AppColors.primair4Lilac,             // Primary brand color
+    error: AppColors.na,                          // Error/NA color
+    success: AppColors.me,                        // Success/Me color
+    warning: AppColors.know,                      // Warning/Know color
+    info: AppColors.need,                         // Info/Need color
+    linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
     iconSuffix: '_outlined',                      // Light theme uses outlined icons
     checkboxOnSuffix: '_selected',                // Light theme uses selected for checked
     checkboxOffSuffix: '_regular',                // Light theme uses regular for unchecked
@@ -71,6 +135,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     disabledText: AppColors.secundair4Quicksilver,   // Gray text
     borderColor: AppColors.secundair3Slategray,      // Gray border
     secondaryButtonBackground: AppColors.secundair2Offblack, // Secondary button background
+    primary: AppColors.primair4Lilac,                // Primary brand color
+    error: AppColors.na,                             // Error/NA color
+    success: AppColors.me,                           // Success/Me color
+    warning: AppColors.know,                         // Warning/Know color
+    info: AppColors.need,                            // Info/Need color
+    linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
     iconSuffix: '_white',                            // Dark theme uses white icons
     checkboxOnSuffix: '_white',                      // Dark theme uses white for checked
     checkboxOffSuffix: '_white',                     // Dark theme uses white for unchecked
@@ -87,6 +157,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? disabledText,
     Color? borderColor,
     Color? secondaryButtonBackground,
+    Color? primary,
+    Color? error,
+    Color? success,
+    Color? warning,
+    Color? info,
+    Color? linkedIn,
     String? iconSuffix,
     String? checkboxOnSuffix,
     String? checkboxOffSuffix,
@@ -101,6 +177,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       disabledText: disabledText ?? this.disabledText,
       borderColor: borderColor ?? this.borderColor,
       secondaryButtonBackground: secondaryButtonBackground ?? this.secondaryButtonBackground,
+      primary: primary ?? this.primary,
+      error: error ?? this.error,
+      success: success ?? this.success,
+      warning: warning ?? this.warning,
+      info: info ?? this.info,
+      linkedIn: linkedIn ?? this.linkedIn,
       iconSuffix: iconSuffix ?? this.iconSuffix,
       checkboxOnSuffix: checkboxOnSuffix ?? this.checkboxOnSuffix,
       checkboxOffSuffix: checkboxOffSuffix ?? this.checkboxOffSuffix,
@@ -121,6 +203,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       disabledText: Color.lerp(disabledText, other.disabledText, t)!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       secondaryButtonBackground: Color.lerp(secondaryButtonBackground, other.secondaryButtonBackground, t)!,
+      primary: Color.lerp(primary, other.primary, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      info: Color.lerp(info, other.info, t)!,
+      linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
       iconSuffix: t < 0.5 ? iconSuffix : other.iconSuffix, // String lerp: use threshold
       checkboxOnSuffix: t < 0.5 ? checkboxOnSuffix : other.checkboxOnSuffix,
       checkboxOffSuffix: t < 0.5 ? checkboxOffSuffix : other.checkboxOffSuffix,

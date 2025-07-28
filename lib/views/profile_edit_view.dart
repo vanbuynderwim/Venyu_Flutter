@@ -49,8 +49,7 @@ class ProfileEditView extends StatelessWidget {
         );
         break;
       case ProfileEditType.company:
-        Navigator.push(
-          context,
+        Navigator.of(context).push(
           platformPageRoute(
             context: context,
             builder: (context) => const EditCompanyInfoView(),

@@ -10,14 +10,11 @@ class ShowcaseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
+    return AppListScaffold(
       appBar: PlatformAppBar(
         title: const Text('Venyu UI Showcase'),
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
+      children: [
             // App Title
             Text('venyu', style: AppTextStyles.appTitle),
             const SizedBox(height: 8),
@@ -54,6 +51,15 @@ class ShowcaseView extends StatelessWidget {
                 onPressed: () {},
               ),
             ]),
+
+            PlatformTextField(
+              material: (_, __) => MaterialTextFieldData(
+                decoration: const InputDecoration(
+                  hintText: 'Enter text',
+                ),
+              ),
+              onChanged: (value) {},
+            ),
             
             // Tags
             _buildSection('Tags', [
@@ -74,10 +80,8 @@ class ShowcaseView extends StatelessWidget {
                 ],
               ),
             ]),
-          ],
-        ),
-      ),
-    );
+        ],
+      );
   }
   
   Widget _buildSection(String title, List<Widget> children) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'tag.dart';
-import 'enums/category_type.dart';
-import '../widgets/buttons/option_button.dart';
+
 import '../core/theme/app_colors.dart';
+import '../widgets/buttons/option_button.dart';
+import 'enums/category_type.dart';
+import 'tag.dart';
 
 class TagGroup implements OptionType {
   @override

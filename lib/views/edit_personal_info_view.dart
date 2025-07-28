@@ -8,6 +8,7 @@ import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../services/supabase_manager.dart';
 import 'edit_tag_group_view.dart';
+import 'profile/edit_name_view.dart';
 
 /// EditPersonalInfoView - Flutter equivalent of iOS EditPersonalInfoView
 class EditPersonalInfoView extends StatefulWidget {
@@ -168,11 +169,16 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
   void _handlePersonalInfoTap(EditPersonalInfoType type) {
     debugPrint('Tapped on personal info type: ${type.title}');
     
-    // TODO: Navigate to specific edit pages based on type
     switch (type) {
       case EditPersonalInfoType.name:
         debugPrint('Navigate to Name edit page');
-        // TODO: Navigate to name edit page
+        Navigator.push(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditNameView(),
+          ),
+        );
         break;
       case EditPersonalInfoType.bio:
         debugPrint('Navigate to Bio edit page');

@@ -1,21 +1,79 @@
+/// Represents a user profile with personal and professional information.
+/// 
+/// This model contains all user data including basic information, social links,
+/// contact details, and system metadata. It supports both authenticated users
+/// and public profile views with distance calculations for location-based features.
+/// 
+/// The profile data is synchronized with the Supabase database and includes
+/// JSON serialization for API communication.
+/// 
+/// Example usage:
+/// ```dart
+/// // Create from API response
+/// final profile = Profile.fromJson(apiResponse);
+/// 
+/// // Access computed properties
+/// print(profile.displayName); // "John Doe - Acme Corp"
+/// print(profile.fullName);    // "John Doe"
+/// 
+/// // Convert for API request
+/// final json = profile.toJson();
+/// ```
 class Profile {
+  /// Unique identifier for this profile.
   final String id;
+  
+  /// User's first name (required).
   final String firstName;
+  
+  /// User's last name (optional).
   final String? lastName;
+  
+  /// Name of the user's company or organization.
   final String? companyName;
+  
+  /// User's biography or professional description.
   final String? bio;
+  
+  /// LinkedIn profile URL for professional networking.
   final String? linkedInURL;
+  
+  /// Personal or company website URL.
   final String? websiteURL;
+  
+  /// Email address for contact purposes.
   final String? contactEmail;
+  
+  /// Whether the email address should be publicly visible.
   final bool? showEmail;
+  
+  /// Identifier for the user's profile avatar image.
   final String? avatarID;
+  
+  /// When this profile record was last updated.
   final DateTime? timestamp;
+  
+  /// When the user completed the registration process.
+  /// Null indicates an incomplete registration.
   final DateTime? registeredAt;
+  
+  /// Distance to this profile (in location-based queries).
+  /// Used for proximity-based matching and networking.
   final double? distance;
+  
+  /// Whether this user has super admin privileges.
   final bool isSuperAdmin;
+  
+  /// Whether the user has subscribed to newsletters.
   final bool? newsletterSubscribed;
+  
+  /// Public key for secure communications.
   final String? publicKey;
 
+  /// Creates a [Profile] instance.
+  /// 
+  /// [id] and [firstName] are required. [isSuperAdmin] defaults to false
+  /// if not explicitly provided during JSON deserialization.
   const Profile({
     required this.id,
     required this.firstName,
@@ -35,6 +93,10 @@ class Profile {
     this.publicKey,
   });
 
+  /// Creates a [Profile] from a JSON object.
+  /// 
+  /// Handles database field name mapping and type conversions.
+  /// Missing or null values are handled gracefully with appropriate defaults.
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       id: json['id'] as String,
@@ -56,6 +118,10 @@ class Profile {
     );
   }
 
+  /// Converts this [Profile] to a JSON object.
+  /// 
+  /// Maps Dart property names to database field names and handles
+  /// proper serialization of DateTime objects and null values.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -63,7 +129,7 @@ class Profile {
       'last_name': lastName,
       'company_name': companyName,
       'bio': bio,
-      'linked_in_url': linkedInURL,
+      'linkedin_url': linkedInURL,
       'website_url': websiteURL,
       'contact_email': contactEmail,
       'show_email': showEmail,
@@ -77,7 +143,15 @@ class Profile {
     };
   }
 
-  // Helper methods
+  /// Returns the user's full name combining first and last names.
+  /// 
+  /// If [lastName] is null or empty, returns only [firstName].
+  /// 
+  /// Example:
+  /// ```dart
+  /// // With last name: "John Doe"
+  /// // Without last name: "John"
+  /// ```
   String get fullName {
     if (lastName != null && lastName!.isNotEmpty) {
       return '$firstName $lastName';
@@ -85,6 +159,16 @@ class Profile {
     return firstName;
   }
 
+  /// Returns a formatted display name including company information.
+  /// 
+  /// If [companyName] is available, combines it with [fullName].
+  /// Otherwise, returns just [fullName].
+  /// 
+  /// Example:
+  /// ```dart
+  /// // With company: "John Doe - Acme Corp"
+  /// // Without company: "John Doe"
+  /// ```
   String get displayName {
     if (companyName != null && companyName!.isNotEmpty) {
       return '$fullName - $companyName';

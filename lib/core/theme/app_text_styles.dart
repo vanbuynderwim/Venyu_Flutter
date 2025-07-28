@@ -2,7 +2,30 @@ import 'package:flutter/material.dart';
 import 'app_fonts.dart';
 import 'app_colors.dart';
 
-/// Venyu App Text Styles - Based on iOS typography scale
+/// Centralized text styles following iOS typography guidelines.
+/// 
+/// This class provides a comprehensive set of text styles that match
+/// iOS Human Interface Guidelines typography scale. All styles are
+/// designed to work consistently across the app and support accessibility.
+/// 
+/// The typography scale includes:
+/// - Display styles for large headings and titles
+/// - Body styles for content and descriptions
+/// - Caption styles for labels and metadata
+/// 
+/// Example usage:
+/// ```dart
+/// // Use predefined styles
+/// Text('Heading', style: AppTextStyles.title1)
+/// Text('Body text', style: AppTextStyles.body)
+/// Text('Caption', style: AppTextStyles.caption1)
+/// 
+/// // Modify styles for specific use cases
+/// Text('Custom', style: AppTextStyles.headline.copyWith(
+///   color: Colors.blue,
+///   fontWeight: FontWeight.bold,
+/// ))
+/// ```
 class AppTextStyles {
   AppTextStyles._();
 
