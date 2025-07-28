@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/requests/update_name_request.dart';
@@ -10,6 +9,7 @@ import '../../services/supabase_manager.dart';
 import '../../utils/linked_in_validator.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
+import '../../widgets/inputs/app_text_field.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// A form screen for editing user name and LinkedIn profile information.
@@ -124,151 +124,99 @@ class _EditNameViewState extends State<EditNameView> {
           
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const SizedBox(height: 16),
                   
                   // First Name
                   _buildFieldSection(
                     label: 'FIRST NAME',
-                    controller: _firstNameController,
-                    placeholder: 'First name',
-                    textInputAction: TextInputAction.next,
-                    isEmpty: _firstNameIsEmpty,
+                    child: AppTextField(
+                      controller: _firstNameController,
+                      hintText: 'First name',
+                      textInputAction: TextInputAction.next,
+                      textCapitalization: TextCapitalization.words,
+                      style: AppTextFieldStyle.large,
+                      state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+                    ),
                   ),
-                  
-                  const SizedBox(height: 16),
                   
                   // Last Name
                   _buildFieldSection(
                     label: 'LAST NAME',
-                    controller: _lastNameController,
-                    placeholder: 'Last name',
-                    textInputAction: TextInputAction.next,
-                    isEmpty: _lastNameIsEmpty,
+                    child: AppTextField(
+                      controller: _lastNameController,
+                      hintText: 'Last name',
+                      textInputAction: TextInputAction.next,
+                      textCapitalization: TextCapitalization.words,
+                      style: AppTextFieldStyle.large,
+                      state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+                    ),
                   ),
-                  
-                  const SizedBox(height: 16),
                   
                   // LinkedIn URL
                   _buildFieldSection(
                     label: 'LINKEDIN URL',
-                    controller: _linkedInController,
-                    placeholder: 'linkedin.com/in/your-name',
-                    keyboardType: TextInputType.url,
-                    textInputAction: TextInputAction.done,
-                    textCapitalization: TextCapitalization.none,
-                    isValid: _linkedInFormatIsValid,
+                    child: AppTextField(
+                      controller: _linkedInController,
+                      hintText: 'linkedin.com/in/your-name',
+                      keyboardType: TextInputType.url,
+                      textInputAction: TextInputAction.done,
+                      textCapitalization: TextCapitalization.none,
+                      style: AppTextFieldStyle.large,
+                      state: !_linkedInFormatIsValid ? AppTextFieldState.error : AppTextFieldState.normal,
+                    ),
                   ),
+
                   
-                  const SizedBox(height: 100), // Space for save button
                 ],
               ),
             ),
           ),
           // Save button at bottom
-          Container(
-            padding: const EdgeInsets.all(16),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: ActionButton(
-              label: _isUpdating 
-                  ? 'Saving...' 
-                  : (widget.registrationWizard ? 'Next' : 'Save changes'),
-              isDisabled: _formIncomplete || !_linkedInFormatIsValid || _isUpdating,
-              onPressed: _isUpdating ? null : _validateAndMaybeSave,
-            ),
+                label: _isUpdating 
+                    ? 'Saving...' 
+                    : (widget.registrationWizard ? 'Next' : 'Save changes'),
+                isDisabled: _formIncomplete || !_linkedInFormatIsValid || _isUpdating,
+                onPressed: _isUpdating ? null : _validateAndMaybeSave,
+              ),
           ),
         ],
       ),
     );
   }
 
-  /// Builds a labeled text input field with validation styling.
+  /// Builds a labeled field section with consistent styling.
   /// 
   /// Creates a consistent form field layout with:
   /// - Uppercase label text
-  /// - Themed input styling
-  /// - Error state visual feedback
-  /// - Platform-specific input behavior
+  /// - Custom child widget (typically a PlatformTextField)
   Widget _buildFieldSection({
     required String label,
-    required TextEditingController controller,
-    required String placeholder,
-    TextInputType keyboardType = TextInputType.text,
-    TextInputAction textInputAction = TextInputAction.done,
-    TextCapitalization textCapitalization = TextCapitalization.words,
-    bool isEmpty = false,
-    bool isValid = true,
+    required Widget child,
   }) {
     final venyuTheme = context.venyuTheme;
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: AppTextStyles.subheadline.copyWith(
-            color: venyuTheme.secondaryText,
-          ),
-        ),
-        const SizedBox(height: 8),
-        PlatformTextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          textCapitalization: textCapitalization,
-          enabled: !isEmpty,
-          style: AppTextStyles.body.copyWith(
-            color: isEmpty ? venyuTheme.primaryText : venyuTheme.primaryText,
-          ),
-          hintText: placeholder,
-          material: (_, __) => MaterialTextFormFieldData(
-            decoration: InputDecoration(
-              hintText: placeholder,
-              hintStyle: AppTextStyles.body.copyWith(
-                color: venyuTheme.secondaryText,
-              ),
-              filled: true,
-              fillColor: venyuTheme.cardBackground,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                borderSide: BorderSide(
-                  color: controller.text.isEmpty ? venyuTheme.borderColor : venyuTheme.borderColor,
-                  width: controller.text.isEmpty ? 1 : 0.5,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                borderSide: BorderSide(
-                  color: isValid ? venyuTheme.borderColor : Colors.red,
-                  width: isValid ? 0.5 : 1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                borderSide: BorderSide(
-                  color: isValid ? venyuTheme.borderColor : Colors.red,
-                  width: 1,
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(16),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: AppTextStyles.subheadline.copyWith(
+              color: venyuTheme.secondaryText,
             ),
           ),
-          cupertino: (_, __) => CupertinoTextFormFieldData(
-            placeholder: placeholder,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: venyuTheme.cardBackground,
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              border: Border.all(
-                color: isValid ? venyuTheme.borderColor : Colors.red,
-                width: isValid ? 0.5 : 1,
-              ),
-            ),
-          ),
-        ),
-      ],
+          const SizedBox(height: 8),
+          child,
+        ],
+      ),
     );
   }
 

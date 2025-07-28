@@ -1,305 +1,368 @@
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
 import 'app_text_styles.dart';
 import 'app_modifiers.dart';
+import 'venyu_theme.dart';
 
 /// Venyu Input Field Styles - Consistent input styling with validation states
+/// 
+/// Provides standardized input decorations that automatically adapt to the current theme.
+/// All styles support both light and dark modes through VenyuTheme integration.
+/// 
+/// Example usage:
+/// ```dart
+/// PlatformTextFormField(
+///   material: (_, __) => MaterialTextFormFieldData(
+///     decoration: AppInputStyles.base(context),
+///   ),
+/// )
+/// ```
 class AppInputStyles {
   AppInputStyles._();
 
-  /// Base input decoration
-  static InputDecoration get base => InputDecoration(
-    filled: true,
-    fillColor: AppColors.white,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+  /// Base input decoration with theme-aware styling
+  static InputDecoration base(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return InputDecoration(
+      filled: true,
+      fillColor: venyuTheme.cardBackground,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.primary,
-        width: AppModifiers.mediumBorder,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.primary,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.error,
-        width: AppModifiers.thinBorder,
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.error,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedErrorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.error,
-        width: AppModifiers.mediumBorder,
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.error,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    disabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.secundair6Rocket,
-        width: AppModifiers.thinBorder,
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    contentPadding: AppModifiers.inputPadding,
-    hintStyle: AppTextStyles.body.copyWith(
-      color: AppColors.textLight,
-    ),
-    labelStyle: AppTextStyles.subheadline.copyWith(
-      color: AppColors.textSecondary,
-    ),
-    errorStyle: AppTextStyles.footnote.copyWith(
-      color: AppColors.error,
-    ),
-    helperStyle: AppTextStyles.footnote.copyWith(
-      color: AppColors.textLight,
-    ),
-    floatingLabelStyle: AppTextStyles.subheadline.copyWith(
-      color: AppColors.primary,
-    ),
-  );
+      contentPadding: AppModifiers.inputPadding,
+      hintStyle: AppTextStyles.body.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+      labelStyle: AppTextStyles.subheadline.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+      errorStyle: AppTextStyles.footnote.copyWith(
+        color: venyuTheme.error,
+      ),
+      helperStyle: AppTextStyles.footnote.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+      floatingLabelStyle: AppTextStyles.subheadline.copyWith(
+        color: venyuTheme.primary,
+      ),
+    );
+  }
 
   /// Success state input
-  static InputDecoration get success => base.copyWith(
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.success,
-        width: AppModifiers.thinBorder,
+  static InputDecoration success(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.success,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.success,
-        width: AppModifiers.mediumBorder,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.success,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    suffixIcon: Icon(
-      Icons.check_circle_outline,
-      color: AppColors.success,
-      size: 20,
-    ),
-  );
-
-  /// Warning state input
-  static InputDecoration get warning => base.copyWith(
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.warning,
-        width: AppModifiers.thinBorder,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      borderSide: BorderSide(
-        color: AppColors.warning,
-        width: AppModifiers.mediumBorder,
-      ),
-    ),
-    suffixIcon: Icon(
-      Icons.warning_amber_outlined,
-      color: AppColors.warning,
-      size: 20,
-    ),
-  );
-
-  /// Search input style
-  static InputDecoration get search => base.copyWith(
-    hintText: 'Search...',
-    prefixIcon: Icon(
-      Icons.search,
-      color: AppColors.textLight,
-      size: 20,
-    ),
-    suffixIcon: null,
-    contentPadding: const EdgeInsets.symmetric(
-      horizontal: AppModifiers.mediumSpacing,
-      vertical: AppModifiers.mediumSpacing,
-    ),
-  );
-
-  /// Password input style
-  static InputDecoration passwordDecoration({
-    required bool isObscured,
-    required VoidCallback onToggleVisibility,
-  }) => base.copyWith(
-    suffixIcon: IconButton(
-      icon: Icon(
-        isObscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-        color: AppColors.textLight,
+      suffixIcon: Icon(
+        Icons.check_circle_outline,
+        color: venyuTheme.success,
         size: 20,
       ),
-      onPressed: onToggleVisibility,
-    ),
-  );
+    );
+  }
+
+  /// Warning state input
+  static InputDecoration warning(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.warning,
+          width: AppModifiers.thinBorder,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.warning,
+          width: AppModifiers.mediumBorder,
+        ),
+      ),
+      suffixIcon: Icon(
+        Icons.warning_amber_outlined,
+        color: venyuTheme.warning,
+        size: 20,
+      ),
+    );
+  }
+
+  /// Search input style
+  static InputDecoration search(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      hintText: 'Search...',
+      prefixIcon: Icon(
+        Icons.search,
+        color: venyuTheme.secondaryText,
+        size: 20,
+      ),
+      suffixIcon: null,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppModifiers.mediumSpacing,
+        vertical: AppModifiers.mediumSpacing,
+      ),
+    );
+  }
+
+  /// Password input style
+  static InputDecoration passwordDecoration(
+    BuildContext context, {
+    required bool isObscured,
+    required VoidCallback onToggleVisibility,
+  }) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      suffixIcon: IconButton(
+        icon: Icon(
+          isObscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          color: venyuTheme.secondaryText,
+          size: 20,
+        ),
+        onPressed: onToggleVisibility,
+      ),
+    );
+  }
 
   /// Email input style
-  static InputDecoration get email => base.copyWith(
-    prefixIcon: Icon(
-      Icons.email_outlined,
-      color: AppColors.textLight,
-      size: 20,
-    ),
-  );
+  static InputDecoration email(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      prefixIcon: Icon(
+        Icons.email_outlined,
+        color: venyuTheme.secondaryText,
+        size: 20,
+      ),
+    );
+  }
 
   /// Phone input style
-  static InputDecoration get phone => base.copyWith(
-    prefixIcon: Icon(
-      Icons.phone_outlined,
-      color: AppColors.textLight,
-      size: 20,
-    ),
-  );
+  static InputDecoration phone(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      prefixIcon: Icon(
+        Icons.phone_outlined,
+        color: venyuTheme.secondaryText,
+        size: 20,
+      ),
+    );
+  }
 
   /// Small input style
-  static InputDecoration get small => base.copyWith(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+  static InputDecoration small(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-      borderSide: BorderSide(
-        color: AppColors.primary,
-        width: AppModifiers.mediumBorder,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.primary,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    contentPadding: AppModifiers.buttonPaddingSmall,
-    isDense: true,
-  );
+      contentPadding: AppModifiers.buttonPaddingSmall,
+      isDense: true,
+    );
+  }
 
   /// Large input style
-  static InputDecoration get large => base.copyWith(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+  static InputDecoration large(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
-      borderSide: BorderSide(
-        color: AppColors.primary,
-        width: AppModifiers.mediumBorder,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
+        borderSide: BorderSide(
+          color: venyuTheme.primary,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    contentPadding: const EdgeInsets.symmetric(
-      horizontal: AppModifiers.largeSpacing,
-      vertical: AppModifiers.largeSpacing,
-    ),
-  );
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppModifiers.largeSpacing,
+        vertical: AppModifiers.largeSpacing,
+      ),
+    );
+  }
 
   /// Textarea style
-  static InputDecoration get textarea => base.copyWith(
-    alignLabelWithHint: true,
-    contentPadding: const EdgeInsets.symmetric(
-      horizontal: AppModifiers.mediumSpacing,
-      vertical: AppModifiers.mediumSpacing,
-    ),
-  );
+  static InputDecoration textarea(BuildContext context) {
+    return base(context).copyWith(
+      alignLabelWithHint: true,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppModifiers.mediumSpacing,
+        vertical: AppModifiers.mediumSpacing,
+      ),
+    );
+  }
 
   /// Disabled input style
-  static InputDecoration get disabled => base.copyWith(
-    enabled: false,
-    fillColor: AppColors.white,
-    labelStyle: AppTextStyles.subheadline.copyWith(
-      color: AppColors.textLight,
-    ),
-    hintStyle: AppTextStyles.body.copyWith(
-      color: AppColors.textLight,
-    ),
-  );
+  static InputDecoration disabled(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return base(context).copyWith(
+      enabled: false,
+      fillColor: venyuTheme.disabledBackground,
+      labelStyle: AppTextStyles.subheadline.copyWith(
+        color: venyuTheme.disabledText,
+      ),
+      hintStyle: AppTextStyles.body.copyWith(
+        color: venyuTheme.disabledText,
+      ),
+    );
+  }
 
   /// Borderless input style
-  static InputDecoration get borderless => InputDecoration(
-    filled: false,
-    border: InputBorder.none,
-    enabledBorder: InputBorder.none,
-    focusedBorder: InputBorder.none,
-    errorBorder: InputBorder.none,
-    focusedErrorBorder: InputBorder.none,
-    disabledBorder: InputBorder.none,
-    contentPadding: AppModifiers.inputPadding,
-    hintStyle: AppTextStyles.body.copyWith(
-      color: AppColors.textLight,
-    ),
-  );
+  static InputDecoration borderless(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return InputDecoration(
+      filled: false,
+      border: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      errorBorder: InputBorder.none,
+      focusedErrorBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      contentPadding: AppModifiers.inputPadding,
+      hintStyle: AppTextStyles.body.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+    );
+  }
 
   /// Underlined input style
-  static InputDecoration get underlined => InputDecoration(
-    filled: false,
-    border: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+  static InputDecoration underlined(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return InputDecoration(
+      filled: false,
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    enabledBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppColors.secondaryLight,
-        width: AppModifiers.thinBorder,
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppColors.primary,
-        width: AppModifiers.mediumBorder,
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: venyuTheme.primary,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    errorBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppColors.error,
-        width: AppModifiers.thinBorder,
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: venyuTheme.error,
+          width: AppModifiers.thinBorder,
+        ),
       ),
-    ),
-    focusedErrorBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppColors.error,
-        width: AppModifiers.mediumBorder,
+      focusedErrorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: venyuTheme.error,
+          width: AppModifiers.mediumBorder,
+        ),
       ),
-    ),
-    contentPadding: const EdgeInsets.symmetric(
-      vertical: AppModifiers.mediumSpacing,
-    ),
-    hintStyle: AppTextStyles.body.copyWith(
-      color: AppColors.textLight,
-    ),
-    labelStyle: AppTextStyles.subheadline.copyWith(
-      color: AppColors.textSecondary,
-    ),
-  );
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: AppModifiers.mediumSpacing,
+      ),
+      hintStyle: AppTextStyles.body.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+      labelStyle: AppTextStyles.subheadline.copyWith(
+        color: venyuTheme.secondaryText,
+      ),
+    );
+  }
 }
 
 /// Input validation helper
