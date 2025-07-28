@@ -9,6 +9,7 @@ import '../widgets/scaffolds/app_scaffold.dart';
 import '../services/supabase_manager.dart';
 import 'edit_tag_group_view.dart';
 import 'profile/edit_name_view.dart';
+import 'profile/edit_bio_view.dart';
 
 /// EditPersonalInfoView - Flutter equivalent of iOS EditPersonalInfoView
 class EditPersonalInfoView extends StatefulWidget {
@@ -166,23 +167,37 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
     return children;
   }
 
-  void _handlePersonalInfoTap(EditPersonalInfoType type) {
+  void _handlePersonalInfoTap(EditPersonalInfoType type) async {
     debugPrint('Tapped on personal info type: ${type.title}');
     
     switch (type) {
       case EditPersonalInfoType.name:
         debugPrint('Navigate to Name edit page');
-        Navigator.push(
+        final result = await Navigator.push<bool>(
           context,
           platformPageRoute(
             context: context,
             builder: (context) => const EditNameView(),
           ),
         );
+        
+        // Name changes don't affect the tag list display, so no refresh needed
+        // But we could add it for consistency if other profile data is shown
         break;
       case EditPersonalInfoType.bio:
         debugPrint('Navigate to Bio edit page');
-        // TODO: Navigate to bio edit page
+        final bioResult = await Navigator.push<bool>(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditBioView(),
+          ),
+        );
+        
+        // Bio changes don't affect the tag list display, so no refresh needed
+        if (bioResult == true) {
+          debugPrint('Bio updated successfully');
+        }
         break;
       case EditPersonalInfoType.email:
         debugPrint('Navigate to Email edit page');
@@ -191,16 +206,22 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
     }
   }
 
-  void _handleTagGroupTap(TagGroup tagGroup) {
+  void _handleTagGroupTap(TagGroup tagGroup) async {
     debugPrint('Tapped on tag group: ${tagGroup.title}');
     debugPrint('Tag group has ${tagGroup.tags?.length ?? 0} tags');
     
-    Navigator.push(
+    final result = await Navigator.push<bool>(
       context,
       platformPageRoute(
         context: context,
         builder: (context) => EditTagGroupView(tagGroup: tagGroup),
       ),
     );
+    
+    // If changes were saved, refresh the data to show updated tags
+    if (result == true) {
+      debugPrint('Tag changes detected, refreshing data...');
+      _refreshData();
+    }
   }
 }

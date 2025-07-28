@@ -460,6 +460,72 @@ class SessionManager extends ChangeNotifier {
     }
   }
   
+  /// Updates the current profile with new data.
+  /// 
+  /// This method should be called after successfully updating profile data
+  /// to keep the SessionManager in sync with the database.
+  void updateCurrentProfile(Profile updatedProfile) {
+    debugPrint('🔄 SessionManager: Updating current profile');
+    _currentProfile = updatedProfile;
+    
+    // Notify listeners about the profile update
+    notifyListeners();
+    
+    debugPrint('✅ Profile updated: ${_currentProfile?.displayName}');
+  }
+
+  /// Updates specific fields of the current profile without fetching from database.
+  /// 
+  /// This is more efficient than fetching the entire profile when you only
+  /// need to update specific fields after a successful API call.
+  void updateCurrentProfileFields({
+    String? firstName,
+    String? lastName,
+    String? companyName,
+    String? bio,
+    String? linkedInURL,
+    String? websiteURL,
+    String? contactEmail,
+    bool? showEmail,
+    String? avatarID,
+    DateTime? timestamp,
+    DateTime? registeredAt,
+    double? distance,
+    bool? isSuperAdmin,
+    bool? newsletterSubscribed,
+    String? publicKey,
+  }) {
+    if (_currentProfile == null) {
+      debugPrint('⚠️ SessionManager: Cannot update profile fields - no current profile');
+      return;
+    }
+
+    debugPrint('🔄 SessionManager: Updating profile fields');
+    
+    _currentProfile = _currentProfile!.copyWith(
+      firstName: firstName,
+      lastName: lastName,
+      companyName: companyName,
+      bio: bio,
+      linkedInURL: linkedInURL,
+      websiteURL: websiteURL,
+      contactEmail: contactEmail,
+      showEmail: showEmail,
+      avatarID: avatarID,
+      timestamp: timestamp,
+      registeredAt: registeredAt,
+      distance: distance,
+      isSuperAdmin: isSuperAdmin,
+      newsletterSubscribed: newsletterSubscribed,
+      publicKey: publicKey,
+    );
+    
+    // Notify listeners about the profile update
+    notifyListeners();
+    
+    debugPrint('✅ Profile fields updated: ${_currentProfile?.displayName}');
+  }
+
   /// Signs out the current user and clears all session data.
   /// 
   /// This method:

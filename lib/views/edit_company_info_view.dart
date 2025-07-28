@@ -8,6 +8,7 @@ import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../services/supabase_manager.dart';
 import 'edit_tag_group_view.dart';
+import 'company/edit_company_name_view.dart';
 
 /// EditCompanyInfoView - Flutter equivalent of iOS EditCompanyInfoView
 class EditCompanyInfoView extends StatefulWidget {
@@ -165,28 +166,45 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
     return children;
   }
 
-  void _handleCompanyInfoTap(EditCompanyInfoType type) {
+  void _handleCompanyInfoTap(EditCompanyInfoType type) async {
     debugPrint('Tapped on company info type: ${type.title}');
     
-    // TODO: Navigate to specific edit pages based on type
     switch (type) {
       case EditCompanyInfoType.name:
         debugPrint('Navigate to Company edit page');
-        // TODO: Navigate to company edit page
+        final result = await Navigator.push<bool>(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditCompanyNameView(),
+          ),
+        );
+        
+        // Company name changes don't affect the tag list display, so no refresh needed
+        // But we could add it for consistency if other company data is shown
+        if (result == true) {
+          debugPrint('Company info updated successfully');
+        }
         break;
     }
   }
 
-  void _handleTagGroupTap(TagGroup tagGroup) {
+  void _handleTagGroupTap(TagGroup tagGroup) async {
     debugPrint('Tapped on company tag group: ${tagGroup.title}');
     debugPrint('Tag group has ${tagGroup.tags?.length ?? 0} tags');
     
-    Navigator.push(
+    final result = await Navigator.push<bool>(
       context,
       platformPageRoute(
         context: context,
         builder: (context) => EditTagGroupView(tagGroup: tagGroup),
       ),
     );
+    
+    // If changes were saved, refresh the data to show updated tags
+    if (result == true) {
+      debugPrint('Company tag changes detected, refreshing data...');
+      _refreshData();
+    }
   }
 }

@@ -110,26 +110,14 @@ class AppTextField extends StatelessWidget {
         final venyuTheme = context.venyuTheme;
         decoration = decoration.copyWith(
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              style == AppTextFieldStyle.large 
-                ? AppModifiers.largeRadius 
-                : style == AppTextFieldStyle.small
-                  ? AppModifiers.smallRadius
-                  : AppModifiers.mediumRadius
-            ),
+            borderRadius: BorderRadius.circular(_getBorderRadius()),
             borderSide: BorderSide(
               color: venyuTheme.error,
               width: AppModifiers.thinBorder,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              style == AppTextFieldStyle.large 
-                ? AppModifiers.largeRadius 
-                : style == AppTextFieldStyle.small
-                  ? AppModifiers.smallRadius
-                  : AppModifiers.mediumRadius
-            ),
+            borderRadius: BorderRadius.circular(_getBorderRadius()),
             borderSide: BorderSide(
               color: venyuTheme.error,
               width: AppModifiers.mediumBorder,
@@ -173,6 +161,30 @@ class AppTextField extends StatelessWidget {
     }
   }
 
+  double _getBorderRadius() {
+    switch (style) {
+      case AppTextFieldStyle.large:
+      case AppTextFieldStyle.textarea:
+        return AppModifiers.largeRadius;
+      case AppTextFieldStyle.small:
+        return AppModifiers.smallRadius;
+      default:
+        return AppModifiers.mediumRadius;
+    }
+  }
+
+  double _getCupertinoBorderRadius() {
+    switch (style) {
+      case AppTextFieldStyle.large:
+      case AppTextFieldStyle.textarea:
+        return AppModifiers.mediumRadius;
+      case AppTextFieldStyle.small:
+        return AppModifiers.smallRadius;
+      default:
+        return AppModifiers.tinyRadius;
+    }
+  }
+
   Widget _buildCupertinoTextField(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     final padding = _getPadding();
@@ -180,13 +192,7 @@ class AppTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(
-          style == AppTextFieldStyle.large 
-            ? AppModifiers.mediumRadius 
-            : style == AppTextFieldStyle.small
-              ? AppModifiers.smallRadius
-              : AppModifiers.tinyRadius
-        ),
+        borderRadius: BorderRadius.circular(_getCupertinoBorderRadius()),
         border: Border.all(
           color: state == AppTextFieldState.error 
             ? venyuTheme.error 

@@ -104,7 +104,7 @@ class Profile {
       lastName: json['last_name'] as String?,
       companyName: json['company_name'] as String?,
       bio: json['bio'] as String?,
-      linkedInURL: json['linked_in_url'] as String?,
+      linkedInURL: json['linkedin_url'] as String?,
       websiteURL: json['website_url'] as String?,
       contactEmail: json['contact_email'] as String?,
       showEmail: json['show_email'] as bool?,
@@ -174,5 +174,47 @@ class Profile {
       return '$fullName - $companyName';
     }
     return fullName;
+  }
+
+  /// Creates a copy of this profile with the given fields replaced.
+  /// 
+  /// Useful for updating specific profile fields without mutating the original.
+  /// Any null parameter retains the current value.
+  Profile copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? companyName,
+    String? bio,
+    String? linkedInURL,
+    String? websiteURL,
+    String? contactEmail,
+    bool? showEmail,
+    String? avatarID,
+    DateTime? timestamp,
+    DateTime? registeredAt,
+    double? distance,
+    bool? isSuperAdmin,
+    bool? newsletterSubscribed,
+    String? publicKey,
+  }) {
+    return Profile(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      companyName: companyName ?? this.companyName,
+      bio: bio ?? this.bio,
+      linkedInURL: linkedInURL ?? this.linkedInURL,
+      websiteURL: websiteURL ?? this.websiteURL,
+      contactEmail: contactEmail ?? this.contactEmail,
+      showEmail: showEmail ?? this.showEmail,
+      avatarID: avatarID ?? this.avatarID,
+      timestamp: timestamp ?? this.timestamp,
+      registeredAt: registeredAt ?? this.registeredAt,
+      distance: distance ?? this.distance,
+      isSuperAdmin: isSuperAdmin ?? this.isSuperAdmin,
+      newsletterSubscribed: newsletterSubscribed ?? this.newsletterSubscribed,
+      publicKey: publicKey ?? this.publicKey,
+    );
   }
 }

@@ -648,4 +648,37 @@ class SupabaseManager {
       debugPrint('📋 Updated: ${updateNameRequest.firstName} ${updateNameRequest.lastName}');
     });
   }
+
+  /// Update company information - equivalent to iOS updateCompanyInfo(updateCompanyRequest:)
+  /// 
+  /// This method updates the user's company name and website URL:
+  /// 1. Creates payload from UpdateCompanyRequest
+  /// 2. Calls the update_company_info RPC function
+  Future<void> updateCompanyInfo(UpdateCompanyRequest updateCompanyRequest) async {
+    debugPrint('📤 Updating company info: ${updateCompanyRequest.companyName}');
+    debugPrint('📤 Website URL: ${updateCompanyRequest.websiteURL}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('update_company_info', params: {'payload': updateCompanyRequest.toJson()});
+      
+      debugPrint('✅ Company info updated successfully');
+      debugPrint('📋 Updated: ${updateCompanyRequest.companyName} - ${updateCompanyRequest.websiteURL}');
+    });
+  }
+
+  /// Update profile bio - equivalent to iOS updateProfileBio(bio:)
+  /// 
+  /// This method updates the user's profile bio:
+  /// 1. Calls the update_profile_bio RPC function with bio parameter
+  Future<void> updateProfileBio(String bio) async {
+    debugPrint('📤 Updating profile bio (${bio.length} chars)');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('update_profile_bio', params: {'p_bio': bio});
+      
+      debugPrint('✅ Profile bio updated successfully');
+    });
+  }
 }

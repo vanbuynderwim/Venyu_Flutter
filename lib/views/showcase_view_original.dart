@@ -108,7 +108,7 @@ class ShowcaseView extends StatelessWidget {
             PlatformTextFormField(
               hintText: 'Enter your name',
               material: (_, __) => MaterialTextFormFieldData(
-                decoration: AppInputStyles.base.copyWith(
+                decoration: AppInputStyles.base(context).copyWith(
                   labelText: 'Name',
                   hintText: 'Enter your name',
                 ),
@@ -123,7 +123,7 @@ class ShowcaseView extends StatelessWidget {
               hintText: 'Enter your email',
               keyboardType: TextInputType.emailAddress,
               material: (_, __) => MaterialTextFormFieldData(
-                decoration: AppInputStyles.email.copyWith(
+                decoration: AppInputStyles.email(context).copyWith(
                   labelText: 'Email',
                   hintText: 'Enter your email',
                 ),
@@ -138,7 +138,7 @@ class ShowcaseView extends StatelessWidget {
             PlatformTextFormField(
               hintText: 'Search',
               material: (_, __) => MaterialTextFormFieldData(
-                decoration: AppInputStyles.search,
+                decoration: AppInputStyles.search(context),
               ),
               cupertino: (_, __) => CupertinoTextFormFieldData(
                 placeholder: 'Search',
@@ -149,7 +149,7 @@ class ShowcaseView extends StatelessWidget {
             PlatformTextFormField(
               hintText: 'This is valid',
               material: (_, __) => MaterialTextFormFieldData(
-                decoration: AppInputStyles.success.copyWith(
+                decoration: AppInputStyles.success(context).copyWith(
                   labelText: 'Valid Input',
                   hintText: 'This is valid',
                 ),
@@ -163,7 +163,7 @@ class ShowcaseView extends StatelessWidget {
             PlatformTextFormField(
               hintText: 'This has an error',
               material: (_, __) => MaterialTextFormFieldData(
-                decoration: AppInputStyles.base.copyWith(
+                decoration: AppInputStyles.base(context).copyWith(
                   labelText: 'Error Input',
                   hintText: 'This has an error',
                   errorText: 'This field is required',

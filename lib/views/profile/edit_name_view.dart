@@ -82,7 +82,10 @@ class _EditNameViewState extends State<EditNameView> {
   late final SessionManager _sessionManager;
 
   /// Whether the form has all required fields completed.
-  bool get _formIncomplete => _firstNameController.text.isEmpty || _lastNameController.text.isEmpty;
+  /// Only checks enabled fields - disabled fields are considered complete.
+  bool get _formIncomplete => 
+    (_firstNameIsEmpty && _firstNameController.text.isEmpty) || 
+    (_lastNameIsEmpty && _lastNameController.text.isEmpty);
 
   @override
   void initState() {
@@ -141,6 +144,7 @@ class _EditNameViewState extends State<EditNameView> {
                       style: AppTextFieldStyle.large,
                       state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
                       autofillHints: const [AutofillHints.givenName],
+                      enabled: _firstNameIsEmpty, // Disabled als er al een naam is
                     ),
                   ),
                   
@@ -155,6 +159,7 @@ class _EditNameViewState extends State<EditNameView> {
                       style: AppTextFieldStyle.large,
                       state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
                       autofillHints: const [AutofillHints.familyName],
+                      enabled: _lastNameIsEmpty, // Disabled als er al een naam is
                     ),
                   ),
                   
@@ -257,7 +262,7 @@ class _EditNameViewState extends State<EditNameView> {
     final lastName = _lastNameController.text;
     
     setState(() {
-      _linkedInFormatIsValid = linkedInURL.isEmpty || LinkedInValidator.isValidFormat(linkedInURL);
+      _linkedInFormatIsValid = linkedInURL.isNotEmpty && LinkedInValidator.isValidFormat(linkedInURL);
       _linkedInNameMatches = linkedInURL.isEmpty || LinkedInValidator.nameMatches(linkedInURL, firstName, lastName);
     });
   }
@@ -287,29 +292,32 @@ class _EditNameViewState extends State<EditNameView> {
   /// - Review and correct the LinkedIn URL
   /// - Continue with the current URL anyway
   void _showNameMismatchDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("We couldn't find your name in your LinkedIn URL"),
-        content: const Text("Your LinkedIn URL doesn't seem to contain your first and last name. You can continue or double-check your URL."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Check URL'),
+  showDialog(
+    context: context,
+    builder: (context) => PlatformAlertDialog(
+      title: const Text("We couldn't find your name in your LinkedIn URL"),
+      content: const Text("Your LinkedIn URL doesn't seem to contain your first and last name. You can continue or double-check your URL."),
+      actions: [
+        PlatformDialogAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Check URL'),
+          cupertino: (_, __) => CupertinoDialogActionData(
+            isDefaultAction: true, // Dit maakt de button bold, zoals .cancel in SwiftUI
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _saveProfile(withValidLinkedInURL: false);
-            },
-            child: const Text('Continue anyway'),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+        PlatformDialogAction(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _saveProfile(withValidLinkedInURL: false);
+          },
+          child: const Text('Continue anyway'),
+        ),
+      ],
+    ),
+  );
+}
 
   /// Saves the profile data to the backend.
   /// 
@@ -340,36 +348,77 @@ class _EditNameViewState extends State<EditNameView> {
       
       await _supabaseManager.updateProfileName(request);
       
+      // Update only the changed fields in SessionManager (more efficient than fetching entire profile)
+      _sessionManager.updateCurrentProfileFields(
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        linkedInURL: cleanedLinkedInURL,
+      );
+      
       if (widget.registrationWizard) {
         // Navigate to next step in registration wizard
         // TODO: Implement navigation to next registration step
       } else {
+        // Update loading state
+        if (mounted) {
+          setState(() {
+            _isUpdating = false;
+          });
+        }
+        
         // Show success message and go back
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Changes successfully saved'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.of(context).pop();
+          try {
+            // Show the snackbar first
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Changes successfully saved'),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 2),
+              ),
+            );
+            
+            // Then pop after a small delay to ensure snackbar is shown
+            Future.delayed(const Duration(milliseconds: 100), () {
+              if (mounted) {
+                Navigator.of(context).pop(true); // Return true to indicate changes were saved
+              }
+            });
+          } catch (e) {
+            // If showing snackbar fails, still try to pop
+            debugPrint('Failed to show success snackbar: $e');
+            if (mounted) {
+              Navigator.of(context).pop(true); // Return true to indicate changes were saved
+            }
+          }
         }
       }
     } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to update, please try again'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
+      // Always update loading state first
       if (mounted) {
         setState(() {
           _isUpdating = false;
         });
       }
+      
+      // Then show error if still mounted
+      if (mounted) {
+        // Use a post frame callback to ensure context is valid
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to update, please try again'),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 3),
+              ),
+            );
+          }
+        });
+      }
+      
+      // Log error for debugging
+      debugPrint('Error updating profile: $error');
     }
   }
 }
