@@ -16,9 +16,9 @@ class UpdateCountryAndLanguageRequest {
   /// Convert to JSON for RPC call
   Map<String, dynamic> toJson() {
     return {
-      'countryCode': countryCode,
-      'languageCode': languageCode,
-      'appVersion': appVersion,
+      'country_code': countryCode,
+      'language_code': languageCode,
+      'app_version': appVersion,
     };
   }
 

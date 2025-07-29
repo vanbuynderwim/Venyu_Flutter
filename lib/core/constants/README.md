@@ -39,10 +39,6 @@ This directory contains all centralized constants for the Venyu Flutter app, org
 - **Contents**: Network requests, database operations, authentication, caching
 - **Usage**: `AppTimeouts.networkRequest`, `AppTimeouts.imageLoad`
 
-### `app_urls.dart`
-- **Purpose**: External service URLs and URL building helpers
-- **Contents**: S3 buckets, social media URLs, placeholder services, URL builders
-- **Usage**: `AppUrls.avatarUrl(id)`, `AppUrls.placeholderIcon(text: 'AB')`
 
 ## 🎯 Benefits
 

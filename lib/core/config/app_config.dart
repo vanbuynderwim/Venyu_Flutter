@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 import '../constants/app_timeouts.dart';
-import '../constants/app_urls.dart';
 import 'environment.dart';
 
 /// Main application configuration
@@ -15,20 +14,6 @@ class AppConfig {
   static String get supabaseUrl => EnvironmentConfig.supabaseUrl;
   static String get supabaseAnonKey => EnvironmentConfig.supabaseAnonKey;
   
-  /// External service URLs - Delegated to AppUrls
-  static String avatarUrl(String avatarId) => AppUrls.avatarUrl(avatarId);
-  
-  static String placeholderIconUrl({
-    required String text,
-    int size = 64,
-    String backgroundColor = '007AFF',
-    String textColor = 'FFFFFF',
-  }) => AppUrls.placeholderIcon(
-    text: text,
-    size: size,
-    backgroundColor: backgroundColor,
-    textColor: textColor,
-  );
   
   /// Network configuration - Delegated to AppTimeouts
   static Duration get networkTimeout => AppTimeouts.networkRequest;
