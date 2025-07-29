@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../models/profile.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../common/avatar_view.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -105,64 +105,10 @@ class RoleView extends StatelessWidget {
 
   /// Bouw de avatar widget
   Widget _buildAvatar(BuildContext context) {
-    return Container(
-      width: avatarSize,
-      height: avatarSize,
-      decoration: AppLayoutStyles.avatarBorder(context).copyWith(
-        color: context.venyuTheme.primary.withValues(alpha: 0.3),
-      ),
-      child: profile.avatarID != null && profile.avatarID!.isNotEmpty
-          ? ClipOval(
-              child: Image.network(
-                'https://venyu-avatars.s3.amazonaws.com/${profile.avatarID}.jpg',
-                width: avatarSize,
-                height: avatarSize,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return _buildAvatarFallback(context);
-                },
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return _buildAvatarFallback(context);
-                },
-              ),
-            )
-          : _buildAvatarFallback(context),
+    return AvatarView(
+      avatarId: profile.avatarID,
+      size: avatarSize,
     );
   }
 
-  /// Bouw de avatar fallback met initialen
-  Widget _buildAvatarFallback(BuildContext context) {
-    final initials = _getInitials();
-    return Container(
-      width: avatarSize,
-      height: avatarSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: context.venyuTheme.primary,
-      ),
-      child: Center(
-        child: Text(
-          initials,
-          style: AppTextStyles.headline.copyWith(
-            color: context.venyuTheme.cardBackground,
-            fontWeight: FontWeight.w600,
-            fontSize: avatarSize * 0.4, // Dynamische font size gebaseerd op avatar size
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Krijg de initialen van het profiel
-  String _getInitials() {
-    final firstName = profile.firstName.isNotEmpty ? profile.firstName[0] : '';
-    final lastName = profile.lastName != null && profile.lastName!.isNotEmpty ? profile.lastName![0] : '';
-    
-    if (firstName.isEmpty && lastName.isEmpty) {
-      return '?';
-    }
-    
-    return '$firstName$lastName'.toUpperCase();
-  }
 }
