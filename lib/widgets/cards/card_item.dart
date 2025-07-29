@@ -162,7 +162,7 @@ class _CardItemState extends State<CardItem> {
 
   /// Bouw de checkbox voor reviewing mode
   Widget _buildCheckbox() {
-    return context.themedCheckboxIcon('checkbox', selected: isSelected);
+    return context.themedIcon('checkbox', selected: isSelected);
   }
 
   /// Bouw de gradient achtergrond

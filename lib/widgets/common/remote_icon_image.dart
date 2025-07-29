@@ -44,6 +44,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   Widget _buildLocalIcon() {
     // Use VenyuTheme helper for consistent icon theming
     final localIconPath = context.getIconPath(widget.iconName);
+    final venyuTheme = context.venyuTheme;
     
     return Opacity(
       opacity: widget.opacity,
@@ -51,6 +52,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
         localIconPath,
         width: widget.size,
         height: widget.size,
+        color: venyuTheme.primary,
         errorBuilder: (context, error, stackTrace) {
           // Fallback naar remote image
           return _buildRemoteIcon();
@@ -61,6 +63,8 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
 
   Widget _buildRemoteIcon() {
     final iconUrl = _getIconUrl(context);
+    final venyuTheme = context.venyuTheme;
+    
     if (iconUrl.isNotEmpty) {
       return Opacity(
         opacity: widget.opacity,
@@ -68,6 +72,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
           imageUrl: iconUrl,
           width: widget.size,
           height: widget.size,
+          color: venyuTheme.primary,
           placeholder: (context, url) => _buildPlaceholder(),
           errorWidget: (context, url, error) => _buildPlaceholder(),
           fadeInDuration: const Duration(milliseconds: 250),
@@ -81,6 +86,8 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   }
 
   Widget _buildPlaceholder() {
+    final venyuTheme = context.venyuTheme;
+    
     return Opacity(
       opacity: widget.opacity,
       child: Container(
@@ -92,6 +99,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
         child: Icon(
           Icons.tag,
           size: widget.size * 0.6,
+          color: venyuTheme.primary,
         ),
       ),
     );

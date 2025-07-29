@@ -329,7 +329,7 @@ class _OptionButtonState extends State<OptionButton> {
     final venyuTheme = context.venyuTheme;
     final iconColor = widget.disabled 
         ? venyuTheme.disabledText 
-        : (widget.iconColor ?? widget.option.color);
+        : (widget.iconColor ?? venyuTheme.primary);
     
     return Container(
       width: 24,
@@ -357,10 +357,10 @@ class _OptionButtonState extends State<OptionButton> {
   Widget _buildSelectionIndicator() {
     if (widget.isMultiSelect) {
       // Checkbox for multi-select
-      return context.themedCheckboxIcon('checkbox', selected: widget.isSelected);
+      return context.themedIcon('checkbox', selected: widget.isSelected);
     } else {
       // Radio button for single select
-      return context.themedCheckboxIcon('radiobutton', selected: widget.isSelected);
+      return context.themedIcon('radiobutton', selected: widget.isSelected);
     }
   }
 

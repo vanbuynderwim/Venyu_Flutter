@@ -238,46 +238,10 @@ extension VenyuThemeAccess on BuildContext {
       getIconPath(baseName, selected: selected),
       width: width ?? size,
       height: height ?? size,
-      color: getIconColor(selected: selected),
-      errorBuilder: (context, error, stackTrace) {
-        // Fallback to Material icon with proper color
-        return Icon(
-          Icons.help_outline,
-          size: width ?? height ?? size,
-          color: getIconColor(selected: selected),
-        );
-      },
+      color: getIconColor(selected: selected)
     );
   }
-  
-  /// Helper for checkbox/radiobutton icons (simplified)
-  String getCheckboxIconPath(String type, {bool selected = false}) {
-    final suffix = selected ? '_selected' : '_regular';
-    return 'assets/images/icons/$type$suffix.png';
-  }
-  
-  /// Helper widget for checkbox/radiobutton with theming
-  Widget themedCheckboxIcon(String type, {
-    bool selected = false,
-    double size = 24,
-  }) {
-    return Image.asset(
-      getCheckboxIconPath(type, selected: selected),
-      width: size,
-      height: size,
-      color: getIconColor(selected: selected),
-      errorBuilder: (context, error, stackTrace) {
-        final iconData = type == 'checkbox' 
-            ? (selected ? Icons.check_box : Icons.check_box_outline_blank)
-            : (selected ? Icons.radio_button_checked : Icons.radio_button_off);
-        return Icon(
-          iconData,
-          size: size,
-          color: getIconColor(selected: selected),
-        );
-      },
-    );
-  }
+
 }
 
 /// Venyu ThemeData - Complete theming solution
