@@ -1,3 +1,6 @@
+import 'tag_group.dart';
+import 'tag.dart';
+
 /// Represents a user profile with personal and professional information.
 /// 
 /// This model contains all user data including basic information, social links,
@@ -70,6 +73,10 @@ class Profile {
   /// Public key for secure communications.
   final String? publicKey;
 
+  /// List of tag groups associated with this profile.
+  /// Contains categorized tags like roles, sectors, etc.
+  final List<TagGroup>? taggroups;
+
   /// Creates a [Profile] instance.
   /// 
   /// [id] and [firstName] are required. [isSuperAdmin] defaults to false
@@ -91,6 +98,7 @@ class Profile {
     required this.isSuperAdmin,
     this.newsletterSubscribed,
     this.publicKey,
+    this.taggroups,
   });
 
   /// Creates a [Profile] from a JSON object.
@@ -115,6 +123,9 @@ class Profile {
       isSuperAdmin: json['is_super_admin'] as bool? ?? false,
       newsletterSubscribed: json['newsletter_subscribed'] as bool?,
       publicKey: json['public_key'] as String?,
+      taggroups: json['taggroups'] != null 
+          ? (json['taggroups'] as List).map((tagGroup) => TagGroup.fromJson(tagGroup)).toList()
+          : null,
     );
   }
 
@@ -140,6 +151,7 @@ class Profile {
       'is_super_admin': isSuperAdmin,
       'newsletter_subscribed': newsletterSubscribed,
       'public_key': publicKey,
+      'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
     };
   }
 
@@ -176,6 +188,77 @@ class Profile {
     return fullName;
   }
 
+  /// Helper function to get tags for a specific category.
+  /// 
+  /// Searches through [taggroups] to find a group matching the given [categoryCode]
+  /// and returns its associated tags. Returns empty list if no matching group is found.
+  List<Tag> _getTagsForCategory(String categoryCode) {
+    if (taggroups == null) return [];
+    
+    final tagGroup = taggroups!.cast<TagGroup?>().firstWhere(
+      (group) => group?.code == categoryCode,
+      orElse: () => null,
+    );
+    
+    return tagGroup?.tags ?? [];
+  }
+
+  /// Gets all role tags for this profile.
+  /// 
+  /// Roles represent the user's professional positions or job titles.
+  /// Used for profile display and networking matching.
+  List<Tag> get roles => _getTagsForCategory('roles');
+
+  /// Gets all sector tags for this profile.
+  /// 
+  /// Sectors represent the industries or business areas the user is involved in.
+  /// Used for categorization and discovery features.
+  List<Tag> get sectors => _getTagsForCategory('sectors');
+
+  /// Gets all meeting preference tags for this profile.
+  /// 
+  /// Meeting preferences indicate how the user prefers to connect with others.
+  /// Examples: "In-person", "Virtual", "Coffee meetings", etc.
+  List<Tag> get meetingPreferences => _getTagsForCategory('meetingPreferences');
+
+  /// Gets all network goal tags for this profile.
+  /// 
+  /// Network goals represent what the user hopes to achieve through networking.
+  /// Examples: "Find mentors", "Build partnerships", "Career growth", etc.
+  List<Tag> get networkGoals => _getTagsForCategory('networkGoals');
+
+  /// Gets the formatted role string combining roles and company information.
+  /// 
+  /// This computed property matches the iOS implementation and combines:
+  /// - Role titles from the roles tag group
+  /// - Company name if available
+  /// 
+  /// Returns formatted strings like:
+  /// - "Developer, Designer at Acme Corp" (roles + company)
+  /// - "Developer, Designer" (roles only)  
+  /// - "at Acme Corp" (company only)
+  /// - "" (empty if neither)
+  String get role {
+    // Get role titles from roles list
+    final roleLabels = roles.isNotEmpty
+        ? roles.map((role) => role.title).toList()
+        : <String>[];
+    final rolesString = roleLabels.join(', ');
+    
+    final hasRoles = rolesString.isNotEmpty;
+    final hasCompany = companyName?.isNotEmpty == true;
+    
+    if (hasRoles && hasCompany) {
+      return '$rolesString at $companyName';
+    } else if (hasRoles && !hasCompany) {
+      return rolesString;
+    } else if (!hasRoles && hasCompany) {
+      return 'at $companyName';
+    } else {
+      return '';
+    }
+  }
+
   /// Creates a copy of this profile with the given fields replaced.
   /// 
   /// Useful for updating specific profile fields without mutating the original.
@@ -197,6 +280,7 @@ class Profile {
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
     String? publicKey,
+    List<TagGroup>? taggroups,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -215,6 +299,7 @@ class Profile {
       isSuperAdmin: isSuperAdmin ?? this.isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed ?? this.newsletterSubscribed,
       publicKey: publicKey ?? this.publicKey,
+      taggroups: taggroups ?? this.taggroups,
     );
   }
 }

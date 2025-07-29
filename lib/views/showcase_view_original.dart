@@ -932,26 +932,15 @@ class _SectionButtonDemoState extends State<_SectionButtonDemo> {
         const SizedBox(height: 16),
         
         // SectionButtonBar zoals in screenshot
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-            border: Border.all(
-              color: AppColors.secundair6Rocket,
-              width: 0.5,
-            ),
-          ),
-          clipBehavior: Clip.hardEdge,
-          child: SectionButtonBar<ProfileSections>(
-            sections: ProfileSections.values,
-            selectedSection: selectedSection,
-            onSectionSelected: (section) {
-              setState(() {
-                selectedSection = section;
-              });
-              debugPrint('Selected section: ${section.title}');
-            },
-          ),
+        SectionButtonBar<ProfileSections>(
+          sections: ProfileSections.values,
+          selectedSection: selectedSection,
+          onSectionSelected: (section) {
+            setState(() {
+              selectedSection = section;
+            });
+            debugPrint('Selected section: ${section.title}');
+          },
         ),
             
         const SizedBox(height: 24),

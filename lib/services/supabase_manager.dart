@@ -681,4 +681,21 @@ class SupabaseManager {
       debugPrint('✅ Profile bio updated successfully');
     });
   }
+
+  /// Fetch user's profile cards - equivalent to iOS fetchCards()
+  /// 
+  /// This method retrieves the current user's prompt cards:
+  /// 1. Calls the get_profile_cards RPC function
+  /// 2. Returns list of Prompt objects
+  Future<List<Prompt>> fetchCards() async {
+    debugPrint('📥 Fetching user profile cards');
+    
+    return await _executeAuthenticatedRequest(() async {
+      final List<dynamic> data = await _client.rpc('get_profile_cards');
+      final cards = data.map((json) => Prompt.fromJson(json as Map<String, dynamic>)).toList();
+      
+      debugPrint('✅ Fetched ${cards.length} profile cards');
+      return cards;
+    });
+  }
 }

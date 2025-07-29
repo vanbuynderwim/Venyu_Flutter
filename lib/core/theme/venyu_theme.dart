@@ -72,6 +72,10 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// LinkedIn brand color for social authentication.
   final Color linkedIn;
   
+  /// Selection color for highlights and active states.
+  /// Primary color in light mode, white in dark mode.
+  final Color selectionColor;
+  
   /// File suffix for theme-appropriate icons (e.g., '_dark').
   final String iconSuffix;
   
@@ -97,6 +101,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.warning,
     required this.info,
     required this.linkedIn,
+    required this.selectionColor,
     required this.iconSuffix,
     required this.checkboxOnSuffix,
     required this.checkboxOffSuffix,
@@ -119,6 +124,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                      // Warning/Know color
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
+    selectionColor: AppColors.primair4Lilac,      // Primary color for selections
     iconSuffix: '_outlined',                      // Light theme uses outlined icons
     checkboxOnSuffix: '_selected',                // Light theme uses selected for checked
     checkboxOffSuffix: '_regular',                // Light theme uses regular for unchecked
@@ -141,6 +147,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                         // Warning/Know color
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
+    selectionColor: Colors.white,                    // White for selections in dark mode
     iconSuffix: '_white',                            // Dark theme uses white icons
     checkboxOnSuffix: '_white',                      // Dark theme uses white for checked
     checkboxOffSuffix: '_white',                     // Dark theme uses white for unchecked
@@ -163,6 +170,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? warning,
     Color? info,
     Color? linkedIn,
+    Color? selectionColor,
     String? iconSuffix,
     String? checkboxOnSuffix,
     String? checkboxOffSuffix,
@@ -183,6 +191,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: warning ?? this.warning,
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
+      selectionColor: selectionColor ?? this.selectionColor,
       iconSuffix: iconSuffix ?? this.iconSuffix,
       checkboxOnSuffix: checkboxOnSuffix ?? this.checkboxOnSuffix,
       checkboxOffSuffix: checkboxOffSuffix ?? this.checkboxOffSuffix,
@@ -209,6 +218,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
+      selectionColor: Color.lerp(selectionColor, other.selectionColor, t)!,
       iconSuffix: t < 0.5 ? iconSuffix : other.iconSuffix, // String lerp: use threshold
       checkboxOnSuffix: t < 0.5 ? checkboxOnSuffix : other.checkboxOnSuffix,
       checkboxOffSuffix: t < 0.5 ? checkboxOffSuffix : other.checkboxOffSuffix,
