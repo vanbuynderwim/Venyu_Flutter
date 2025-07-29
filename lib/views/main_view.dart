@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_assets.dart';
 import '../core/constants/app_strings.dart';
+import '../core/theme/venyu_theme.dart';
 import 'matches_view.dart';
 import 'notifications_view.dart';
 import 'profile_view.dart';
@@ -17,13 +17,14 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
   
   final List<Widget> _pages = const [
     MatchesView(),
     NotificationsView(),
     ProfileView(),
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,12 @@ class _MainViewState extends State<MainView> {
       items: [
         BottomNavigationBarItem(
           icon: Image.asset(
-            AppAssets.icons.match.regular,
+            context.getThemedTabIconPath('match', false),
             width: 24,
             height: 24,
           ),
           activeIcon: Image.asset(
-            AppAssets.icons.match.selected,
+            context.getThemedTabIconPath('match', true),
             width: 24,
             height: 24,
           ),
@@ -47,12 +48,12 @@ class _MainViewState extends State<MainView> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
-            AppAssets.icons.notification.regular,
+            context.getThemedTabIconPath('notification', false),
             width: 24,
             height: 24,
           ),
           activeIcon: Image.asset(
-            AppAssets.icons.notification.selected,
+            context.getThemedTabIconPath('notification', true),
             width: 24,
             height: 24,
           ),
@@ -60,12 +61,12 @@ class _MainViewState extends State<MainView> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
-            AppAssets.icons.profile.regular,
+            context.getThemedTabIconPath('profile', false),
             width: 24,
             height: 24,
           ),
           activeIcon: Image.asset(
-            AppAssets.icons.profile.selected,
+            context.getThemedTabIconPath('profile', true),
             width: 24,
             height: 24,
           ),

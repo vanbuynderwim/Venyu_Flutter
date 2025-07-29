@@ -141,7 +141,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     disabledText: AppColors.secundair4Quicksilver,   // Gray text
     borderColor: AppColors.secundair3Slategray,      // Gray border
     secondaryButtonBackground: AppColors.secundair2Offblack, // Secondary button background
-    primary: AppColors.primair4Lilac,                // Primary brand color
+    primary: Colors.white,                // Primary brand color
     error: AppColors.na,                             // Error/NA color
     success: AppColors.me,                           // Success/Me color
     warning: AppColors.know,                         // Warning/Know color
@@ -242,6 +242,22 @@ extension VenyuThemeAccess on BuildContext {
   String getThemedIconPath(String baseName) {
     return 'assets/images/icons/$baseName${venyuTheme.iconSuffix}.png';
   }
+  
+  /// Helper to get the correct tab icon path based on theme and active state
+  /// - Light + active: _selected
+  /// - Light + inactive: _regular  
+  /// - Dark + active: _white (using theme's iconSuffix)
+  /// - Dark + inactive: _regular
+  String getThemedTabIconPath(String baseName, bool isActive) {
+    String suffix;
+    if (isActive) {
+      // For active tabs: use '_selected' in light mode, theme's iconSuffix in dark mode
+      suffix = venyuTheme.iconSuffix == '_white' ? '_white_selected' : '_selected';
+    } else {
+      suffix = '_regular';
+    }
+    return 'assets/images/icons/$baseName$suffix.png';
+  }
 }
 
 /// Venyu ThemeData - Complete theming solution
@@ -287,6 +303,13 @@ class VenyuThemeData {
       ),
     ),
     
+    // Bottom navigation bar theming
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: AppColors.primair4Lilac,
+      unselectedItemColor: AppColors.secundair3Slategray,
+      type: BottomNavigationBarType.fixed,
+    ),
+    
     // Extensions - this is where the magic happens
     extensions: const <ThemeExtension<dynamic>>[
       AppSpacingTheme.defaultSpacing,
@@ -328,6 +351,13 @@ class VenyuThemeData {
       ),
     ),
     
+    // Bottom navigation bar theming
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: Colors.white,
+      unselectedItemColor: AppColors.secundair4Quicksilver,
+      type: BottomNavigationBarType.fixed,
+    ),
+    
     // Extensions
     extensions: const <ThemeExtension<dynamic>>[
       AppSpacingTheme.defaultSpacing,
@@ -337,14 +367,14 @@ class VenyuThemeData {
   
   /// Light Cupertino theme for iOS
   static CupertinoThemeData get cupertinoLightTheme => CupertinoThemeData(
-    primaryColor: AppColors.primary,
+    primaryColor: AppColors.primair4Lilac, // Tab bar active color
     scaffoldBackgroundColor: VenyuTheme.light.pageBackground,
     brightness: Brightness.light,
   );
   
   /// Dark Cupertino theme for iOS
   static CupertinoThemeData get cupertinoDarkTheme => CupertinoThemeData(
-    primaryColor: AppColors.primary,
+    primaryColor: Colors.white, // Tab bar active color in dark mode
     scaffoldBackgroundColor: VenyuTheme.dark.pageBackground,
     brightness: Brightness.dark,
   );

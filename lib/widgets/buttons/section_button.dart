@@ -82,7 +82,7 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Icon
-              _buildIcon(context, textColor),
+              _buildIcon(context),
               const SizedBox(height: 4),
               
               // Title
@@ -99,23 +99,9 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon(BuildContext context, Color iconColor) {
-    // Icon suffix logic:
-    // - Light + selected: _selected
-    // - Light + unselected: _regular
-    // - Dark + selected: _white
-    // - Dark + unselected: _regular
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    String iconSuffix;
-    if (isSelected) {
-      iconSuffix = isDarkMode ? '_white' : '_selected';
-    } else {
-      iconSuffix = '_regular';
-    }
-    final iconPath = 'assets/images/icons/${section.icon}$iconSuffix.png';
-    
+  Widget _buildIcon(BuildContext context) {
     return Image.asset(
-      iconPath,
+      context.getThemedTabIconPath(section.icon, isSelected),
       width: 24,
       height: 24,
       errorBuilder: (context, error, stackTrace) {
@@ -123,7 +109,11 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
         return Icon(
           _getDefaultIcon(section.icon),
           size: 24,
-          color: iconColor,
+          color: isSelected 
+              ? (Theme.of(context).brightness == Brightness.dark 
+                  ? Colors.white 
+                  : context.venyuTheme.primary)
+              : context.venyuTheme.secondaryText,
         );
       },
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_assets.dart';
 import '../core/theme/app_text_styles.dart';
 import '../core/theme/venyu_theme.dart';
 import '../models/enums/profile_sections.dart';
@@ -68,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
           PlatformIconButton(
             padding: EdgeInsets.zero,
             icon: Image.asset(
-              AppAssets.icons.settings.outlined,
+              context.getThemedIconPath('settings'),
               width: 24,
               height: 24,
             ),
@@ -90,7 +89,6 @@ class _ProfileViewState extends State<ProfileView> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
-              const SizedBox(height: 16),
               
               // Profile Header
               if (!_isProfileLoading && profile != null)
@@ -143,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: venyuTheme.primary.withValues(alpha: 0.1),
+                      color: venyuTheme.selectionColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: venyuTheme.borderColor,
@@ -177,10 +175,13 @@ class _ProfileViewState extends State<ProfileView> {
                           width: 1,
                         ),
                       ),
-                      child: Icon(
-                        Icons.edit_outlined,
-                        size: 14,
-                        color: venyuTheme.secondaryText,
+                      child: Center(
+                        child: Image.asset(
+                          context.getThemedIconPath('edit'),
+                          width: 14,
+                          height: 14,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -253,10 +254,10 @@ class _ProfileViewState extends State<ProfileView> {
                     });
                   }
                 },
-                child: Icon(
-                  Icons.edit_outlined,
-                  size: 20,
-                  color: venyuTheme.secondaryText,
+                child: Image.asset(
+                  context.getThemedIconPath('edit'),
+                  width: 24,
+                  height: 24,
                 ),
               ),
             ],
