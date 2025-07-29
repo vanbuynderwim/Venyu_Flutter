@@ -34,42 +34,18 @@ class _MainViewState extends State<MainView> {
       ),
       items: [
         BottomNavigationBarItem(
-          icon: Image.asset(
-            context.getThemedTabIconPath('match', false),
-            width: 24,
-            height: 24,
-          ),
-          activeIcon: Image.asset(
-            context.getThemedTabIconPath('match', true),
-            width: 24,
-            height: 24,
-          ),
+          icon: context.themedIcon('match', selected: false),
+          activeIcon: context.themedIcon('match', selected: true),
           label: AppStrings.matches,
         ),
         BottomNavigationBarItem(
-          icon: Image.asset(
-            context.getThemedTabIconPath('notification', false),
-            width: 24,
-            height: 24,
-          ),
-          activeIcon: Image.asset(
-            context.getThemedTabIconPath('notification', true),
-            width: 24,
-            height: 24,
-          ),
+          icon: context.themedIcon('notification', selected: false),
+          activeIcon: context.themedIcon('notification', selected: true),
           label: AppStrings.notifications,
         ),
         BottomNavigationBarItem(
-          icon: Image.asset(
-            context.getThemedTabIconPath('profile', false),
-            width: 24,
-            height: 24,
-          ),
-          activeIcon: Image.asset(
-            context.getThemedTabIconPath('profile', true),
-            width: 24,
-            height: 24,
-          ),
+          icon: context.themedIcon('profile', selected: false),
+          activeIcon: context.themedIcon('profile', selected: true),
           label: AppStrings.profile,
         ),
       ],

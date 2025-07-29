@@ -76,14 +76,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// Primary color in light mode, white in dark mode.
   final Color selectionColor;
   
-  /// File suffix for theme-appropriate icons (e.g., '_dark').
-  final String iconSuffix;
-  
-  /// File suffix for selected checkbox assets.
-  final String checkboxOnSuffix;
-  
-  /// File suffix for unselected checkbox assets.
-  final String checkboxOffSuffix;
   
   const VenyuTheme({
     required this.pageBackground,
@@ -102,9 +94,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.info,
     required this.linkedIn,
     required this.selectionColor,
-    required this.iconSuffix,
-    required this.checkboxOnSuffix,
-    required this.checkboxOffSuffix,
   });
 
   /// Light theme colors
@@ -125,9 +114,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
     selectionColor: AppColors.primair4Lilac,      // Primary color for selections
-    iconSuffix: '_outlined',                      // Light theme uses outlined icons
-    checkboxOnSuffix: '_selected',                // Light theme uses selected for checked
-    checkboxOffSuffix: '_regular',                // Light theme uses regular for unchecked
   );
 
   /// Dark theme colors
@@ -148,9 +134,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
     selectionColor: Colors.white,                    // White for selections in dark mode
-    iconSuffix: '_white',                            // Dark theme uses white icons
-    checkboxOnSuffix: '_white',                      // Dark theme uses white for checked
-    checkboxOffSuffix: '_white',                     // Dark theme uses white for unchecked
   );
 
   @override
@@ -171,9 +154,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? info,
     Color? linkedIn,
     Color? selectionColor,
-    String? iconSuffix,
-    String? checkboxOnSuffix,
-    String? checkboxOffSuffix,
   }) {
     return VenyuTheme(
       pageBackground: pageBackground ?? this.pageBackground,
@@ -192,9 +172,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
       selectionColor: selectionColor ?? this.selectionColor,
-      iconSuffix: iconSuffix ?? this.iconSuffix,
-      checkboxOnSuffix: checkboxOnSuffix ?? this.checkboxOnSuffix,
-      checkboxOffSuffix: checkboxOffSuffix ?? this.checkboxOffSuffix,
     );
   }
 
@@ -219,9 +196,6 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
       selectionColor: Color.lerp(selectionColor, other.selectionColor, t)!,
-      iconSuffix: t < 0.5 ? iconSuffix : other.iconSuffix, // String lerp: use threshold
-      checkboxOnSuffix: t < 0.5 ? checkboxOnSuffix : other.checkboxOnSuffix,
-      checkboxOffSuffix: t < 0.5 ? checkboxOffSuffix : other.checkboxOffSuffix,
     );
   }
 }
@@ -238,25 +212,71 @@ extension VenyuThemeAccess on BuildContext {
         : VenyuTheme.light;
   }
   
-  /// Helper to get the correct icon path based on theme
-  String getThemedIconPath(String baseName) {
-    return 'assets/images/icons/$baseName${venyuTheme.iconSuffix}.png';
+  /// Helper to get the correct icon path (only _regular and _selected variants)
+  String getIconPath(String baseName, {bool selected = false}) {
+    final suffix = selected ? '_selected' : '_regular';
+    return 'assets/images/icons/$baseName$suffix.png';
   }
   
-  /// Helper to get the correct tab icon path based on theme and active state
-  /// - Light + active: _selected
-  /// - Light + inactive: _regular  
-  /// - Dark + active: _white (using theme's iconSuffix)
-  /// - Dark + inactive: _regular
-  String getThemedTabIconPath(String baseName, bool isActive) {
-    String suffix;
-    if (isActive) {
-      // For active tabs: use '_selected' in light mode, theme's iconSuffix in dark mode
-      suffix = venyuTheme.iconSuffix == '_white' ? '_white_selected' : '_selected';
+  /// Helper to get the correct icon color based on theme and state
+  Color getIconColor({bool selected = false}) {
+    if (selected) {
+      return venyuTheme.selectionColor;
     } else {
-      suffix = '_regular';
+      return venyuTheme.secondaryText;
     }
-    return 'assets/images/icons/$baseName$suffix.png';
+  }
+  
+  /// Helper widget to create a themed icon with proper coloring
+  Widget themedIcon(String baseName, {
+    bool selected = false,
+    double? width,
+    double? height,
+    double size = 24,
+  }) {
+    return Image.asset(
+      getIconPath(baseName, selected: selected),
+      width: width ?? size,
+      height: height ?? size,
+      color: getIconColor(selected: selected),
+      errorBuilder: (context, error, stackTrace) {
+        // Fallback to Material icon with proper color
+        return Icon(
+          Icons.help_outline,
+          size: width ?? height ?? size,
+          color: getIconColor(selected: selected),
+        );
+      },
+    );
+  }
+  
+  /// Helper for checkbox/radiobutton icons (simplified)
+  String getCheckboxIconPath(String type, {bool selected = false}) {
+    final suffix = selected ? '_selected' : '_regular';
+    return 'assets/images/icons/$type$suffix.png';
+  }
+  
+  /// Helper widget for checkbox/radiobutton with theming
+  Widget themedCheckboxIcon(String type, {
+    bool selected = false,
+    double size = 24,
+  }) {
+    return Image.asset(
+      getCheckboxIconPath(type, selected: selected),
+      width: size,
+      height: size,
+      color: getIconColor(selected: selected),
+      errorBuilder: (context, error, stackTrace) {
+        final iconData = type == 'checkbox' 
+            ? (selected ? Icons.check_box : Icons.check_box_outline_blank)
+            : (selected ? Icons.radio_button_checked : Icons.radio_button_off);
+        return Icon(
+          iconData,
+          size: size,
+          color: getIconColor(selected: selected),
+        );
+      },
+    );
   }
 }
 

@@ -5,7 +5,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/constants/app_assets.dart';
 import 'role_view.dart';
 import 'status_badge_view.dart';
 
@@ -163,20 +162,7 @@ class _CardItemState extends State<CardItem> {
 
   /// Bouw de checkbox voor reviewing mode
   Widget _buildCheckbox() {
-    return Image.asset(
-      isSelected 
-          ? AppAssets.icons.checkboxOn.selected
-          : AppAssets.icons.checkboxOff.regular,
-      width: 24,
-      height: 24,
-      errorBuilder: (context, error, stackTrace) {
-        return Icon(
-          isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-          size: 24,
-          color: isSelected ? context.venyuTheme.primary : context.venyuTheme.secondaryText,
-        );
-      },
-    );
+    return context.themedCheckboxIcon('checkbox', selected: isSelected);
   }
 
   /// Bouw de gradient achtergrond

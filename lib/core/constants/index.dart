@@ -4,7 +4,6 @@
 // organized by category for better maintainability.
 
 export 'app_animations.dart';
-export 'app_assets.dart';
 export 'app_dimensions.dart';
 export 'app_keys.dart';
 export 'app_opacity.dart';

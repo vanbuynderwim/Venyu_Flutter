@@ -66,12 +66,13 @@ class OptionIconView extends StatelessWidget {
 
   Widget _buildLocalIcon(BuildContext context) {
     // Use VenyuTheme helper for consistent icon theming
-    final iconPath = context.getThemedIconPath(icon!);
+    final iconPath = context.getIconPath(icon!);
     
     return Opacity(
       opacity: opacity,
       child: Image.asset(
         iconPath,
+        color: color,
         width: size,
         height: size,
         fit: BoxFit.contain,

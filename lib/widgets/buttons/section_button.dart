@@ -100,42 +100,7 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
   }
 
   Widget _buildIcon(BuildContext context) {
-    return Image.asset(
-      context.getThemedTabIconPath(section.icon, isSelected),
-      width: 24,
-      height: 24,
-      errorBuilder: (context, error, stackTrace) {
-        // Fallback to Material icon if asset not found
-        return Icon(
-          _getDefaultIcon(section.icon),
-          size: 24,
-          color: isSelected 
-              ? (Theme.of(context).brightness == Brightness.dark 
-                  ? Colors.white 
-                  : context.venyuTheme.primary)
-              : context.venyuTheme.secondaryText,
-        );
-      },
-    );
-  }
-
-  IconData _getDefaultIcon(String iconName) {
-    switch (iconName) {
-      case 'cards':
-      case 'card':
-        return Icons.credit_card_outlined;
-      case 'venues':
-      case 'venue':
-      case 'group':
-        return Icons.group_outlined;
-      case 'reviews':
-      case 'verified':
-        return Icons.verified_outlined;
-      case 'home':
-        return Icons.home_outlined;
-      default:
-        return Icons.folder_outlined;
-    }
+    return context.themedIcon(section.icon, selected: isSelected);
   }
 }
 

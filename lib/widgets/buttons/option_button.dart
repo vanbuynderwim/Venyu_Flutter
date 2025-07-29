@@ -312,11 +312,7 @@ class _OptionButtonState extends State<OptionButton> {
                       
                       // Chevron
                       if (widget.isChevronVisible)
-                        Image.asset(
-                          context.getThemedIconPath('chevron'),
-                          width: 16,
-                          height: 16
-                        ),
+                        context.themedIcon('chevron', size: 16),
                     ],
                   ),
                 ),
@@ -357,85 +353,14 @@ class _OptionButtonState extends State<OptionButton> {
   /// - Checkbox for multi-selection
   /// - Radio button for single selection
   /// 
-  /// Uses themed assets with fallback to custom-drawn indicators.
+  /// Uses simplified themed assets with coloring.
   Widget _buildSelectionIndicator() {
-    final venyuTheme = context.venyuTheme;
-    
     if (widget.isMultiSelect) {
-      // Checkbox voor multiselect - gebruik assets
-      return SizedBox(
-        width: 24,
-        height: 24,
-        child: Image.asset(
-          widget.isSelected 
-              ? 'assets/images/icons/checkbox_on${venyuTheme.checkboxOnSuffix}.png'
-              : 'assets/images/icons/checkbox_off${venyuTheme.checkboxOffSuffix}.png',
-          width: 24,
-          height: 24,
-          errorBuilder: (context, error, stackTrace) {
-            // Fallback naar default checkbox als asset niet gevonden
-            return Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(AppModifiers.miniRadius),
-                border: Border.all(
-                  color: widget.isSelected ? venyuTheme.primary : venyuTheme.borderColor,
-                  width: 2,
-                ),
-                color: widget.isSelected ? venyuTheme.primary : Colors.transparent,
-              ),
-              child: widget.isSelected
-                  ? const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
-                    )
-                  : null,
-            );
-          },
-        ),
-      );
+      // Checkbox for multi-select
+      return context.themedCheckboxIcon('checkbox', selected: widget.isSelected);
     } else {
-      // Radio button voor single select - gebruik assets
-      return SizedBox(
-        width: 24,
-        height: 24,
-        child: Image.asset(
-          widget.isSelected 
-              ? 'assets/images/icons/radiobutton_on${venyuTheme.checkboxOnSuffix}.png'
-              : 'assets/images/icons/radiobutton_off${venyuTheme.checkboxOffSuffix}.png',
-          width: 24,
-          height: 24,
-          errorBuilder: (context, error, stackTrace) {
-            // Fallback naar default radio button als asset niet gevonden
-            return Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: widget.isSelected ? venyuTheme.primary : venyuTheme.borderColor,
-                  width: 2,
-                ),
-              ),
-              child: widget.isSelected
-                  ? Center(
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: venyuTheme.primary,
-                        ),
-                      ),
-                    )
-                  : null,
-            );
-          },
-        ),
-      );
+      // Radio button for single select
+      return context.themedCheckboxIcon('radiobutton', selected: widget.isSelected);
     }
   }
 

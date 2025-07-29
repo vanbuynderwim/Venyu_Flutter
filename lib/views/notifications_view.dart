@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_assets.dart';
 import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
@@ -42,12 +41,8 @@ class NotificationsView extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Use custom notification icon from app_assets
-                      Image.asset(
-                        AppAssets.icons.notification.regular,
-                        width: 80,
-                        height: 80,
-                      ),
+                      // Use custom notification icon
+                      context.themedIcon('notification', size: 80),
                       const SizedBox(height: 16),
                       Text(
                         'No new notifications',
@@ -91,14 +86,14 @@ class NotificationsView extends StatelessWidget {
                               : Colors.green,
                       shape: BoxShape.circle,
                     ),
-                    child: Image.asset(
+                    child: context.themedIcon(
                       type == 'match' 
-                          ? AppAssets.icons.match.white
+                          ? 'match'
                           : type == 'message'
-                              ? AppAssets.icons.notification.white
-                              : AppAssets.icons.handshake.white,
-                      width: 20,
-                      height: 20,
+                              ? 'notification'
+                              : 'handshake',
+                      selected: true, // Use selected version for badge icons
+                      size: 20,
                     ),
                   ),
                   title: Row(

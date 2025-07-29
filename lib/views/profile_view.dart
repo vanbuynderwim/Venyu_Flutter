@@ -66,11 +66,7 @@ class _ProfileViewState extends State<ProfileView> {
         trailingActions: [
           PlatformIconButton(
             padding: EdgeInsets.zero,
-            icon: Image.asset(
-              context.getThemedIconPath('settings'),
-              width: 24,
-              height: 24,
-            ),
+            icon: context.themedIcon('settings'),
             onPressed: () {
               Navigator.push(
                 context,
@@ -176,12 +172,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       child: Center(
-                        child: Image.asset(
-                          context.getThemedIconPath('edit'),
-                          width: 14,
-                          height: 14,
-                          fit: BoxFit.contain,
-                        ),
+                        child: context.themedIcon('edit', size: 14),
                       ),
                     ),
                   ),
@@ -254,11 +245,7 @@ class _ProfileViewState extends State<ProfileView> {
                     });
                   }
                 },
-                child: Image.asset(
-                  context.getThemedIconPath('edit'),
-                  width: 24,
-                  height: 24,
-                ),
+                child: context.themedIcon('edit'),
               ),
             ],
           ),

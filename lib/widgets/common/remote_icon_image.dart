@@ -31,12 +31,8 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
 
   String _getIconUrl(BuildContext context) {
-    // Use VenyuTheme for consistent icon suffix
-    final venyuTheme = context.venyuTheme;
-    final iconName = '${widget.iconName}${venyuTheme.iconSuffix}';
-    
     // Use Supabase storage to get icon URL
-    return _supabaseManager.getIcon(iconName) ?? '';
+    return _supabaseManager.getIcon(widget.iconName) ?? '';
   }
 
   @override
@@ -47,7 +43,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
 
   Widget _buildLocalIcon() {
     // Use VenyuTheme helper for consistent icon theming
-    final localIconPath = context.getThemedIconPath(widget.iconName);
+    final localIconPath = context.getIconPath(widget.iconName);
     
     return Opacity(
       opacity: widget.opacity,
