@@ -698,4 +698,40 @@ class SupabaseManager {
       return cards;
     });
   }
+
+  /// Get remote image URL with transformations - equivalent to iOS getRemoteImage(ID:height:location:)
+  /// 
+  /// This method generates a public URL for an image with transformations:
+  /// 1. Constructs filename from UUID with .jpg extension
+  /// 2. Gets public URL from specified storage bucket with transform options
+  /// 3. Returns the URL or null if failed
+  Future<String?> getRemoteImage({
+    required String id,
+    required int height,
+    RemoteImagePath location = RemoteImagePath.avatars,
+  }) async {
+    try {
+      final fileName = '${id.toUpperCase()}.jpg';
+          
+      final url = _client.storage
+          .from(location.value)
+          .getPublicUrl(
+            fileName,
+            transform: TransformOptions(
+              height: height * 3,
+              width: height * 3,          // expliciet vierkant maken
+              resize: ResizeMode.cover, 
+              quality: 100,
+            ),
+          );
+
+      debugPrint('📷 Generated remote image URL: $url');
+      
+      return url;
+      
+    } catch (error) {
+      _trackError('Remote Image URL Generation Failed', error);
+      return null;
+    }
+  }
 }

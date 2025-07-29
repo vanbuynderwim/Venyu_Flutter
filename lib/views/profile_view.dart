@@ -10,6 +10,7 @@ import '../services/supabase_manager.dart';
 import '../widgets/buttons/section_button.dart';
 import '../widgets/cards/card_item.dart';
 import '../widgets/common/tag_view.dart';
+import '../widgets/common/avatar_view.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import 'profile_edit_view.dart';
 import 'profile/edit_bio_view.dart';
@@ -114,17 +115,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget _buildProfileHeader(profile) {
     final venyuTheme = context.venyuTheme;
     
-    return Container(      
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: venyuTheme.borderColor,
-          width: 0.5,
-        ),
-      ),
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Avatar and Role row
@@ -133,28 +124,9 @@ class _ProfileViewState extends State<ProfileView> {
               // Avatar with edit button overlay
               Stack(
                 children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: venyuTheme.selectionColor.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: venyuTheme.borderColor,
-                        width: 1,
-                      ),
-                    ),
-                    child: profile.avatarID != null 
-                        ? ClipOval(
-                            child: Image.network(
-                              'https://example.com/avatar/${profile.avatarID}', // TODO: Implement actual avatar URL
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => _buildDefaultAvatar(),
-                            ),
-                          )
-                        : _buildDefaultAvatar(),
+                  AvatarView(
+                    avatarId: profile.avatarID,
+                    size: 100,
                   ),
                   // Edit icon overlay
                   Positioned(
@@ -250,8 +222,7 @@ class _ProfileViewState extends State<ProfileView> {
             ],
           ),
         ],
-      ),
-    );
+      );
   }
 
   /// Builds a loading placeholder for the profile header
@@ -302,17 +273,6 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
-
-  /// Builds default avatar icon
-  Widget _buildDefaultAvatar() {
-    final venyuTheme = context.venyuTheme;
-    return Icon(
-      Icons.person_outline,
-      size: 40,
-      color: venyuTheme.secondaryText,
-    );
-  }
-
 
   /// Builds the sectors view with tag layout (Swift equivalent)
   Widget _buildSectorsView(profile) {
