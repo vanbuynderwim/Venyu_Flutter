@@ -696,7 +696,7 @@ class _ProgressBarDemoState extends State<_ProgressBarDemo> {
               child: ActionButton(
                 label: 'Vorige',
                 style: ActionButtonType.secondary,
-                icon: Icons.arrow_back,
+                icon: Icon(Icons.arrow_back, size: 20),
                 isDisabled: currentStep <= 1,
                 onPressed: currentStep > 1 ? () {
                   setState(() {
@@ -710,7 +710,7 @@ class _ProgressBarDemoState extends State<_ProgressBarDemo> {
               child: ActionButton(
                 label: 'Volgende',
                 style: ActionButtonType.primary,
-                icon: Icons.arrow_forward,
+                icon: Icon(Icons.arrow_forward, size: 20),
                 isDisabled: currentStep >= totalSteps,
                 onPressed: currentStep < totalSteps ? () {
                   setState(() {
@@ -744,7 +744,7 @@ class _ActionButtonDemo extends StatelessWidget {
         
         ActionButton(
           label: 'Enable',
-          icon: Icons.location_on,
+          icon: Icon(Icons.location_on, size: 20),
           onPressed: () {
             debugPrint('Primary button with icon pressed');
           },
@@ -775,7 +775,7 @@ class _ActionButtonDemo extends StatelessWidget {
         ActionButton(
           label: 'Cancel',
           style: ActionButtonType.secondary,
-          icon: Icons.close,
+          icon: Icon(Icons.close, size: 20),
           onPressed: () {
             debugPrint('Secondary button with icon pressed');
           },
@@ -798,7 +798,7 @@ class _ActionButtonDemo extends StatelessWidget {
         ActionButton(
           label: 'Remove Photo',
           style: ActionButtonType.destructive,
-          icon: Icons.delete,
+          icon: Icon(Icons.delete, size: 20),
           onPressed: () {
             debugPrint('Destructive button with icon pressed');
           },
@@ -829,7 +829,7 @@ class _ActionButtonDemo extends StatelessWidget {
         ActionButton(
           label: 'Connect on LinkedIn',
           style: ActionButtonType.linkedIn,
-          icon: Icons.business,
+          icon: Icon(Icons.business, size: 20),
           onPressed: () {
             debugPrint('LinkedIn button pressed');
           },
@@ -857,7 +857,7 @@ class _ActionButtonDemo extends StatelessWidget {
               child: ActionButton(
                 label: 'Enable',
                 style: ActionButtonType.primary,
-                icon: Icons.location_on,
+                icon: Icon(Icons.location_on, size: 20),
                 onPressed: () {
                   debugPrint('Enable pressed');
                 },
@@ -875,7 +875,7 @@ class _ActionButtonDemo extends StatelessWidget {
           children: [
             Expanded(
               child: ActionButton(
-                icon: Icons.business, // LinkedIn icon
+                icon: Icon(Icons.business, size: 20), // LinkedIn icon
                 style: ActionButtonType.secondary,
                 isIconOnly: true,
                 onPressed: () {
@@ -886,7 +886,7 @@ class _ActionButtonDemo extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: ActionButton(
-                icon: Icons.email,
+                icon: Icon(Icons.email, size: 20),
                 style: ActionButtonType.secondary,
                 isIconOnly: true,
                 onPressed: () {
@@ -897,7 +897,7 @@ class _ActionButtonDemo extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: ActionButton(
-                icon: Icons.link,
+                icon: Icon(Icons.link, size: 20),
                 style: ActionButtonType.secondary,
                 isIconOnly: true,
                 onPressed: () {

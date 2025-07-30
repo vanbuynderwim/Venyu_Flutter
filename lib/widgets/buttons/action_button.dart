@@ -23,7 +23,7 @@ import '../../models/enums/action_button_type.dart';
 /// 
 /// // Icon button with custom style
 /// ActionButton(
-///   icon: Icons.add,
+///   icon: context.themedIcon('add'),
 ///   isIconOnly: true,
 ///   style: ActionButtonType.secondary,
 ///   onPressed: () => addItem(),
@@ -50,8 +50,9 @@ class ActionButton extends StatefulWidget {
   /// The visual style variant for this button. Defaults to [ActionButtonType.primary].
   final ActionButtonType style;
   
-  /// Optional icon to display alongside or instead of the label.
-  final IconData? icon;
+  /// Optional icon widget to display alongside or instead of the label.
+  /// This can be any widget, typically a themed icon from context.themedIcon()
+  final Widget? icon;
   
   /// Whether the button should appear disabled. Defaults to false.
   /// 
@@ -126,11 +127,7 @@ class _ActionButtonState extends State<ActionButton> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (widget.icon != null) ...[
-                      Icon(
-                        widget.icon,
-                        color: widget.style.textColor(context),
-                        size: 20,
-                      ),
+                      widget.icon!,
                       if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                     ],
                     if (widget.label != null && !isIconOnlyButton)
