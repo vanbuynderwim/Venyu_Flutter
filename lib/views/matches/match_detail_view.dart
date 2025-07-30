@@ -87,12 +87,16 @@ class _MatchDetailViewState extends State<MatchDetailView> {
         ],
       ),
       usePadding: false,
-      useSafeArea: false,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: _loadMatchDetail,
-          child: _buildContent(),
-        ),
+      useSafeArea: true,
+      body: Column(
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadMatchDetail,
+              child: _buildContent(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -129,13 +133,10 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       );
     }
 
-    return SingleChildScrollView(
+    return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
+      children: [
             // Profile Header
             ProfileHeader(
               profile: _match!.profile,
@@ -200,9 +201,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               _buildActionButtons(),
               const SizedBox(height: 32),
             ],
-          ],
-        ),
-      ),
+      ],
     );
   }
 

@@ -31,7 +31,7 @@ import '../common/section_type.dart';
 ///   onPressed: () => print('Cards selected'),
 /// )
 /// ```
-class SectionButton<T extends SectionType> extends StatelessWidget {
+class SectionButton<T extends SectionType> extends StatefulWidget {
   /// The section data to display.
   final T section;
   
@@ -49,11 +49,20 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
   });
 
   @override
+  State<SectionButton<T>> createState() => _SectionButtonState<T>();
+}
+
+class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>> {
+  /// Tracks whether the button is currently being pressed for visual feedback
+  bool isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final isDisabled = widget.onPressed == null;
     
     // Use proper background and icon colors based on theme and state
-    final backgroundColor = isSelected 
+    final backgroundColor = widget.isSelected 
         ? venyuTheme.selectionColor.withValues(alpha: 0.15)
         : Colors.transparent;
 
@@ -61,7 +70,7 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
     // - Selected in light mode: primary color (lilac)
     // - Selected in dark mode: white
     // - Not selected: secondary text color in both modes
-    final textColor = isSelected 
+    final textColor = widget.isSelected 
         ? (Theme.of(context).brightness == Brightness.dark 
             ? Colors.white 
             : venyuTheme.primary)
@@ -70,29 +79,38 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onPressed,
+        onTap: isDisabled ? null : widget.onPressed,
+        onTapDown: isDisabled ? null : (_) => setState(() => isPressed = true),
+        onTapUp: isDisabled ? null : (_) => setState(() => isPressed = false),
+        onTapCancel: isDisabled ? null : () => setState(() => isPressed = false),
         splashFactory: NoSplash.splashFactory,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          constraints: const BoxConstraints(
-            minHeight: 60,
+        child: Opacity(
+          opacity: context.getInteractiveOpacity(
+            isDisabled: isDisabled, 
+            isPressed: isPressed,
           ),
-          color: backgroundColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Icon
-              _buildIcon(context),
-              const SizedBox(height: 4),
-              
-              // Title
-              Text(
-                section.title,
-                style: AppTextStyles.caption1.copyWith(
-                  color: textColor,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            constraints: const BoxConstraints(
+              minHeight: 60,
+            ),
+            color: backgroundColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Icon
+                _buildIcon(context),
+                const SizedBox(height: 4),
+                
+                // Title
+                Text(
+                  widget.section.title,
+                  style: AppTextStyles.caption1.copyWith(
+                    color: textColor,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -100,7 +118,7 @@ class SectionButton<T extends SectionType> extends StatelessWidget {
   }
 
   Widget _buildIcon(BuildContext context) {
-    return context.themedIcon(section.icon, selected: isSelected);
+    return context.themedIcon(widget.section.icon, selected: widget.isSelected);
   }
 }
 

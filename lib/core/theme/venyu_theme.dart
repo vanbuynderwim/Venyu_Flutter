@@ -259,6 +259,24 @@ extension VenyuThemeAccess on BuildContext {
       color: getIconColor(selected: selected)
     );
   }
+  
+  /// Helper to get the correct opacity for interactive elements based on state
+  /// 
+  /// This centralizes the opacity values for all interactive widgets in the app.
+  /// Change these values here to affect all buttons, cards, and interactive elements.
+  /// 
+  /// Returns:
+  /// - 0.7 for disabled state
+  /// - 0.8 for pressed state  
+  /// - 1.0 for normal state
+  double getInteractiveOpacity({
+    bool isDisabled = false,
+    bool isPressed = false,
+  }) {
+    if (isDisabled) return 0.7;
+    if (isPressed) return 0.8;
+    return 1.0;
+  }
 
 }
 

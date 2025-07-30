@@ -199,6 +199,8 @@ class OptionButton extends StatefulWidget {
 }
 
 class _OptionButtonState extends State<OptionButton> {
+  /// Tracks whether the button is currently being pressed for visual feedback
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -213,11 +215,19 @@ class _OptionButtonState extends State<OptionButton> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: widget.disabled ? null : _handleTap,
+                onTapDown: widget.disabled ? null : (_) => setState(() => isPressed = true),
+                onTapUp: widget.disabled ? null : (_) => setState(() => isPressed = false),
+                onTapCancel: widget.disabled ? null : () => setState(() => isPressed = false),
                 splashFactory: NoSplash.splashFactory,
                 borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
+                child: Opacity(
+                  opacity: context.getInteractiveOpacity(
+                    isDisabled: widget.disabled, 
+                    isPressed: isPressed,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
                     children: [
                       // Icon/Emoji
                       _buildIcon(),
@@ -314,6 +324,7 @@ class _OptionButtonState extends State<OptionButton> {
                       if (widget.isChevronVisible)
                         context.themedIcon('chevron', size: 16),
                     ],
+                  ),
                   ),
                 ),
               ),

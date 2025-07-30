@@ -78,36 +78,37 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ],
       ),
-      useSafeArea: false,
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () => _refreshData(forceRefresh: true),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-              
-              // Profile Header
-              if (!_isProfileLoading && profile != null)
-                _buildProfileHeader(profile)
-              else
-                _buildLoadingProfileHeader(),
-              
-              const SizedBox(height: 16),
-              
-              // Section Buttons
-              _buildSectionButtons(),
-              
-              const SizedBox(height: 16),
-              
-              // Section Content
-              _buildSectionContent(),
-              
-              const SizedBox(height: 100), // Extra space for content
-              ],
+      useSafeArea: true,
+      body: Column(
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () => _refreshData(forceRefresh: true),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 32.0),
+                children: [
+                
+                // Profile Header
+                if (!_isProfileLoading && profile != null)
+                  _buildProfileHeader(profile)
+                else
+                  _buildLoadingProfileHeader(),
+                
+                const SizedBox(height: 16),
+                
+                // Section Buttons
+                _buildSectionButtons(),
+                
+                const SizedBox(height: 16),
+                
+                // Section Content
+                _buildSectionContent(),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

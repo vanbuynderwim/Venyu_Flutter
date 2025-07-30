@@ -83,7 +83,6 @@ class AppTextStyles {
     fontSize: 20.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.3,
   );
 
   /// Headline - 17.0pt Semibold
@@ -91,7 +90,6 @@ class AppTextStyles {
     fontSize: 17.0,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.35,
   );
 
   /// Subheadline - 15.0pt Regular
@@ -99,7 +97,6 @@ class AppTextStyles {
     fontSize: 15.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   /// Body - 17.0pt Regular
@@ -107,7 +104,6 @@ class AppTextStyles {
     fontSize: 17.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   /// Callout - 16.0pt Regular
@@ -115,7 +111,6 @@ class AppTextStyles {
     fontSize: 16.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   /// Footnote - 13.0pt Regular
@@ -123,7 +118,6 @@ class AppTextStyles {
     fontSize: 13.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   /// Caption 1 - 12.0pt Regular
@@ -131,7 +125,6 @@ class AppTextStyles {
     fontSize: 12.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   /// Caption 2 - 11.0pt Regular
@@ -139,7 +132,6 @@ class AppTextStyles {
     fontSize: 11.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.4,
   );
 
   // Special Graphie styles for branding
@@ -148,7 +140,6 @@ class AppTextStyles {
     fontSize: 46.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.graphie,
-    height: 1.1,
   );
 
   /// App Subtitle - Medium Graphie style
@@ -156,7 +147,6 @@ class AppTextStyles {
     fontSize: 20.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.graphie,
-    height: 1.3,
   );
 
   /// Prompt Label - Large Graphie style
@@ -164,7 +154,6 @@ class AppTextStyles {
     fontSize: 40.0,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.graphie,
-    height: 1.2,
   );
 }
 

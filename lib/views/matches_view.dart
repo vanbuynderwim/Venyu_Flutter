@@ -9,6 +9,7 @@ import '../models/requests/paginated_request.dart';
 import '../widgets/common/match_item_view.dart';
 import '../services/supabase_manager.dart';
 import '../services/session_manager.dart';
+import 'matches/match_detail_view.dart';
 
 /// MatchesView - Matches page with ListView for server data
 class MatchesView extends StatefulWidget {
@@ -170,9 +171,15 @@ class _MatchesViewState extends State<MatchesView> {
                             child: MatchItemView(
                               match: match,
                               onMatchSelected: (selectedMatch) {
-                                debugPrint(
-                                    'Tapped on match: ${selectedMatch.profile.fullName}');
-                                // TODO: Navigate to match detail page
+                                Navigator.push(
+                                  context,
+                                  platformPageRoute(
+                                    context: context,
+                                    builder: (context) => MatchDetailView(
+                                      matchId: selectedMatch.id,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),

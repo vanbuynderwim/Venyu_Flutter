@@ -764,4 +764,30 @@ class SupabaseManager {
       return matches;
     });
   }
+
+  /// Fetch match detail - equivalent to iOS fetchMatchDetail(matchId:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the get_match RPC function with match ID
+  /// 2. Returns a single Match object with full details
+  Future<Match> fetchMatchDetail(String matchId) async {
+    debugPrint('📥 Fetching match detail for ID: $matchId');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_match RPC function - exact equivalent of iOS implementation
+      final result = await _client
+          .rpc('get_match', params: {'p_match_id': matchId})
+          .select()
+          .single();
+      
+      debugPrint('✅ Match detail RPC call successful');
+      debugPrint('📋 Match detail data received');
+      
+      // Convert response to Match object
+      final match = Match.fromJson(result);
+      debugPrint('🤝 Match detail parsed: ${match.profile.fullName}');
+      
+      return match;
+    });
+  }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/venyu_theme.dart';
 import 'role_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
@@ -10,6 +11,11 @@ import 'role_view.dart';
 /// Based on the Swift implementation that shows a RoleView with avatar,
 /// name, and company information in a tappable card format.
 /// 
+/// Features:
+/// - Tactile feedback with pressed state highlighting
+/// - Same interaction feel as SectionButton and OptionButton
+/// - Visual opacity changes during press
+/// 
 /// Example usage:
 /// ```dart
 /// MatchItemView(
@@ -17,7 +23,7 @@ import 'role_view.dart';
 ///   onMatchSelected: (match) => handleMatchSelection(match),
 /// )
 /// ```
-class MatchItemView extends StatelessWidget {
+class MatchItemView extends StatefulWidget {
   /// The match data to display
   final Match match;
   
@@ -31,26 +37,42 @@ class MatchItemView extends StatelessWidget {
   });
 
   @override
+  State<MatchItemView> createState() => _MatchItemViewState();
+}
+
+class _MatchItemViewState extends State<MatchItemView> {
+  /// Tracks whether the item is currently being pressed for visual feedback
+  bool isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final isDisabled = widget.onMatchSelected == null;
+    
+    return Container(
       width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: AppLayoutStyles.cardDecoration(context),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: onMatchSelected != null
-              ? () => onMatchSelected!(match)
-              : null,
+          onTap: isDisabled ? null : () => widget.onMatchSelected!(widget.match),
+          onTapDown: isDisabled ? null : (_) => setState(() => isPressed = true),
+          onTapUp: isDisabled ? null : (_) => setState(() => isPressed = false),
+          onTapCancel: isDisabled ? null : () => setState(() => isPressed = false),
           splashFactory: NoSplash.splashFactory,
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Container(
-            decoration: AppLayoutStyles.cardDecoration(context),
+          child: Opacity(
+            opacity: context.getInteractiveOpacity(
+              isDisabled: isDisabled, 
+              isPressed: isPressed,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RoleView(
-                    profile: match.profile,
+                    profile: widget.match.profile,
                     avatarSize: 60,
                     showChevron: true,
                     buttonDisabled: true,
