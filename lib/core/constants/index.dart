@@ -9,6 +9,3 @@ export 'app_keys.dart';
 export 'app_opacity.dart';
 export 'app_strings.dart';
 export 'app_timeouts.dart';
-
-// Legacy/deprecated - use AppConfig instead
-export 'supabase_constants.dart';

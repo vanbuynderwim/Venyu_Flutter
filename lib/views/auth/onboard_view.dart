@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_strings.dart';
-import '../core/theme/app_theme.dart';
-import '../models/models.dart';
-import '../widgets/index.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/theme/app_theme.dart';
+import '../../models/models.dart';
+import '../../widgets/index.dart';
 
 /// OnboardView - First-time user onboarding screen
 /// 

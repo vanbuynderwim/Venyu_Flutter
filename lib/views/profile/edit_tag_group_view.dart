@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/theme/app_theme.dart';
-import '../models/enums/action_button_type.dart';
-import '../models/tag.dart';
-import '../models/tag_group.dart';
-import '../services/supabase_manager.dart';
-import '../widgets/buttons/action_button.dart';
-import '../widgets/buttons/option_button.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
+import '../../core/theme/app_theme.dart';
+import '../../models/enums/action_button_type.dart';
+import '../../models/tag.dart';
+import '../../models/tag_group.dart';
+import '../../services/supabase_manager.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
 /// 

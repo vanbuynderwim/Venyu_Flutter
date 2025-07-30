@@ -9,7 +9,9 @@
       "Bash(ls:*)",
       "Bash(git push:*)",
       "Bash(flutter:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../core/theme/app_theme.dart';
-import '../models/enums/edit_company_info_type.dart';
-import '../models/enums/category_type.dart';
-import '../models/tag_group.dart';
-import '../widgets/buttons/option_button.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
-import '../widgets/common/loading_state_widget.dart';
-import '../widgets/common/error_state_widget.dart';
-import '../services/supabase_manager.dart';
-import '../mixins/data_refresh_mixin.dart';
-import 'edit_tag_group_view.dart';
-import 'company/edit_company_name_view.dart';
+import '../../models/enums/edit_personal_info_type.dart';
+import '../../models/enums/category_type.dart';
+import '../../models/tag_group.dart';
+import '../../widgets/buttons/option_button.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/error_state_widget.dart';
+import '../../services/supabase_manager.dart';
+import '../../mixins/data_refresh_mixin.dart';
+import '../profile/edit_tag_group_view.dart';
+import '../profile/edit_name_view.dart';
+import '../profile/edit_bio_view.dart';
 
-/// EditCompanyInfoView - Flutter equivalent of iOS EditCompanyInfoView
-class EditCompanyInfoView extends StatefulWidget {
-  const EditCompanyInfoView({super.key});
+/// EditPersonalInfoView - Flutter equivalent of iOS EditPersonalInfoView
+class EditPersonalInfoView extends StatefulWidget {
+  const EditPersonalInfoView({super.key});
 
   @override
-  State<EditCompanyInfoView> createState() => _EditCompanyInfoViewState();
+  State<EditPersonalInfoView> createState() => _EditPersonalInfoViewState();
 }
 
-class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefreshMixin {
+class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
 
@@ -33,9 +33,9 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
 
   void _loadData() {
     refreshData(
-      () => _supabaseManager.fetchTagGroups(CategoryType.company),
+      () => _supabaseManager.fetchTagGroups(CategoryType.personal),
       (tagGroups) => setState(() => _tagGroups = tagGroups),
-      context: 'loading company info tag groups',
+      context: 'loading personal info tag groups',
     );
   }
 
@@ -43,7 +43,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
   Widget build(BuildContext context) {
     return AppListScaffold(
       appBar: PlatformAppBar(
-        title: const Text('Company info'),
+        title: const Text('Personal info'),
       ),
       children: _buildContent(),
     );
@@ -54,7 +54,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
       return [
         const LoadingStateWidget(
           height: 200,
-          message: 'Loading company info...',
+          message: 'Loading personal info...',
         ),
       ];
     }
@@ -63,7 +63,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
       return [
         ErrorStateWidget(
           error: error!,
-          title: 'Failed to load company info',
+          title: 'Failed to load personal info',
           height: 200,
           onRetry: _loadData,
         ),
@@ -83,11 +83,11 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
 
     final List<Widget> children = [];
 
-    // Fixed section - EditCompanyInfoType options
-    for (final editCompanyInfoType in EditCompanyInfoType.values) {
+    // Fixed section - EditPersonalInfoType options
+    for (final editPersonalInfoType in EditPersonalInfoType.values) {
       children.add(
         OptionButton(
-          option: editCompanyInfoType,
+          option: editPersonalInfoType,
           isSelected: false,
           isMultiSelect: false,
           isSelectable: false,
@@ -96,7 +96,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
           isButton: true,
           withDescription: true,
           onSelect: () {
-            _handleCompanyInfoTap(editCompanyInfoType);
+            _handlePersonalInfoTap(editPersonalInfoType);
           },
         ),
       );
@@ -125,31 +125,47 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
     return children;
   }
 
-  void _handleCompanyInfoTap(EditCompanyInfoType type) async {
-    debugPrint('Tapped on company info type: ${type.title}');
+  void _handlePersonalInfoTap(EditPersonalInfoType type) async {
+    debugPrint('Tapped on personal info type: ${type.title}');
     
     switch (type) {
-      case EditCompanyInfoType.name:
-        debugPrint('Navigate to Company edit page');
+      case EditPersonalInfoType.name:
+        debugPrint('Navigate to Name edit page');
         final result = await Navigator.push<bool>(
           context,
           platformPageRoute(
             context: context,
-            builder: (context) => const EditCompanyNameView(),
+            builder: (context) => const EditNameView(),
           ),
         );
         
-        // Company name changes don't affect the tag list display, so no refresh needed
-        // But we could add it for consistency if other company data is shown
-        if (result == true) {
-          debugPrint('Company info updated successfully');
+        // Name changes don't affect the tag list display, so no refresh needed
+        // But we could add it for consistency if other profile data is shown
+        break;
+      case EditPersonalInfoType.bio:
+        debugPrint('Navigate to Bio edit page');
+        final bioResult = await Navigator.push<bool>(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditBioView(),
+          ),
+        );
+        
+        // Bio changes don't affect the tag list display, so no refresh needed
+        if (bioResult == true) {
+          debugPrint('Bio updated successfully');
         }
+        break;
+      case EditPersonalInfoType.email:
+        debugPrint('Navigate to Email edit page');
+        // TODO: Navigate to email edit page
         break;
     }
   }
 
   void _handleTagGroupTap(TagGroup tagGroup) async {
-    debugPrint('Tapped on company tag group: ${tagGroup.title}');
+    debugPrint('Tapped on tag group: ${tagGroup.title}');
     debugPrint('Tag group has ${tagGroup.tags?.length ?? 0} tags');
     
     final result = await Navigator.push<bool>(
@@ -162,7 +178,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
     
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
-      debugPrint('Company tag changes detected, refreshing data...');
+      debugPrint('Tag changes detected, refreshing data...');
       _loadData();
     }
   }

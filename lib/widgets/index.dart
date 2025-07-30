@@ -24,6 +24,9 @@ export 'common/loading_state_widget.dart';
 export 'common/error_state_widget.dart';
 export 'common/empty_state_widget.dart';
 
+// Navigation
+export 'navigation/standard_app_bar.dart';
+
 // Scaffolds
 export 'scaffolds/app_scaffold.dart';
 export 'tab_view_scaffold.dart';

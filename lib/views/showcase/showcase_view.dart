@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../core/theme/app_theme.dart';
-import '../models/models.dart';
-import '../widgets/index.dart';
+import '../../core/theme/app_theme.dart';
+import '../../models/models.dart';
+import '../../widgets/index.dart';
 
 /// Simplified ShowcaseView that works
 class ShowcaseView extends StatelessWidget {

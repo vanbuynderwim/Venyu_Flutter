@@ -4,10 +4,10 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../core/constants/app_strings.dart';
-import '../core/theme/app_theme.dart';
-import '../services/index.dart';
-import '../widgets/index.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/theme/app_theme.dart';
+import '../../services/index.dart';
+import '../../widgets/index.dart';
 
 /// LoginView - Initial authentication screen
 /// 

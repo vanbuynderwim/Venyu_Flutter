@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
-import '../core/theme/app_theme.dart';
 import '../widgets/common/empty_state_widget.dart';
 import '../models/match.dart';
 import '../models/profile.dart';
