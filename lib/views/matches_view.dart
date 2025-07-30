@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
+import '../widgets/scaffolds/app_scaffold.dart';
 import '../widgets/common/empty_state_widget.dart';
 import '../models/match.dart';
 import '../models/requests/paginated_request.dart';
@@ -117,10 +119,11 @@ class _MatchesViewState extends State<MatchesView> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
+    return AppScaffold(
+      appBar: PlatformAppBar(
         title: Text(AppStrings.matches),
       ),
+      usePadding: false, // We handle padding manually for the ListView
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: _isLoading
