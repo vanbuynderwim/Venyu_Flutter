@@ -790,4 +790,22 @@ class SupabaseManager {
       return match;
     });
   }
+
+  /// Insert match response - equivalent to iOS insertMatchResponse(request:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the insert_match_response RPC function with match response payload
+  /// 2. Records the user's response (interested/not_interested) to a match
+  Future<void> insertMatchResponse(MatchResponseRequest request) async {
+    debugPrint('📤 Inserting match response: ${request.matchId} -> ${request.response}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the insert_match_response RPC function - exact equivalent of iOS implementation
+      await _client
+          .rpc('insert_match_response', params: {'payload': request.toJson()});
+      
+      debugPrint('✅ Match response inserted successfully');
+      debugPrint('📋 Response: ${request.response.value} for match: ${request.matchId}');
+    });
+  }
 }

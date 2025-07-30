@@ -13,7 +13,11 @@ import '../../widgets/common/card_item.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/matches/match_overview_header.dart';
+import '../../widgets/buttons/action_button.dart';
 import '../../services/session_manager.dart';
+import '../../models/enums/action_button_type.dart';
+import '../../models/enums/match_response.dart';
+import '../../models/requests/match_response_request.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
@@ -44,6 +48,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   // State
   Match? _match;
   bool _isLoading = true;
+  bool _isProcessingResponse = false;
   String? _error;
 
   @override
@@ -104,6 +109,9 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               child: _buildContent(),
             ),
           ),
+          // Fixed bottom action buttons for non-connected matches
+          if (_match != null && !_match!.isConnected && _match!.response == null)
+            _buildMatchInterestView(),
         ],
       ),
     );
@@ -214,11 +222,6 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               const SizedBox(height: 24),
             ],
             
-            // Action Buttons (if not connected)
-            if (!_match!.isConnected && _match!.response == null) ...[
-              _buildActionButtons(),
-              const SizedBox(height: 32),
-            ],
       ],
     );
   }
@@ -410,60 +413,177 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     );
   }
 
-  Widget _buildActionButtons() {
-    final venyuTheme = context.venyuTheme;
-    
-    return Row(
-      children: [
-        // Skip/Pass button
-        Expanded(
-          child: OutlinedButton(
-            onPressed: () {
-              // TODO: Handle skip action
-              debugPrint('Skip match');
-            },
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              side: BorderSide(color: venyuTheme.borderColor),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              ),
-            ),
-            child: Text(
-              'Skip',
-              style: AppTextStyles.body.copyWith(
-                color: venyuTheme.primaryText,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+  /// Build the match interest view with action buttons (MatchInterestView equivalent)
+  Widget _buildMatchInterestView() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.venyuTheme.cardBackground,
+        border: Border(
+          top: BorderSide(
+            color: context.venyuTheme.borderColor,
+            width: 0.5,
           ),
         ),
-        const SizedBox(width: 16),
-        // Connect button
-        Expanded(
-          child: ElevatedButton(
-            onPressed: () {
-              // TODO: Handle connect action
-              debugPrint('Connect with match');
-            },
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: venyuTheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            // Skip button
+            Expanded(
+              child: ActionButton(
+                label: _isProcessingResponse ? 'Processing...' : 'Skip',
+                onPressed: _isProcessingResponse ? null : _showSkipAlert,
+                style: ActionButtonType.secondary,
+                isDisabled: _isProcessingResponse,
               ),
             ),
-            child: Text(
-              'Connect',
-              style: AppTextStyles.body.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
+            const SizedBox(width: 16),
+            // Connect button  
+            Expanded(
+              child: ActionButton(
+                label: _isProcessingResponse ? 'Processing...' : 'Connect',
+                onPressed: _isProcessingResponse ? null : _handleConnectMatch,
+                style: ActionButtonType.primary,
+                isDisabled: _isProcessingResponse,
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  /// Show skip match confirmation alert
+  void _showSkipAlert() {
+    if (_match == null) return;
+    
+    showDialog(
+      context: context,
+      builder: (context) => PlatformAlertDialog(
+        title: const Text('Skip this match?'),
+        content: Text(
+          'This match will be removed permanently and you won\'t see it again. ${_match!.profile.firstName} won\'t get notified.',
+        ),
+        actions: [
+          PlatformDialogAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+            cupertino: (_, __) => CupertinoDialogActionData(
+              isDefaultAction: true,
+            ),
+          ),
+          PlatformDialogAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _handleSkipMatch();
+            },
+            child: const Text('Skip'),
+            cupertino: (_, __) => CupertinoDialogActionData(
+              isDestructiveAction: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Handle skip match action
+  Future<void> _handleSkipMatch() async {
+    if (_match == null) return;
+    
+    setState(() {
+      _isProcessingResponse = true;
+    });
+
+    try {
+      final request = MatchResponseRequest(
+        matchId: _match!.id,
+        response: MatchResponse.notInterested,
+      );
+      
+      await _supabaseManager.insertMatchResponse(request);
+      
+      if (mounted) {
+        // Navigate back to matches list
+        Navigator.of(context).pop();
+        
+        // Show success feedback
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Match skipped'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      debugPrint('Error skipping match: $error');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to skip match: $error'),
+            backgroundColor: context.venyuTheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessingResponse = false;
+        });
+      }
+    }
+  }
+
+  /// Handle connect match action
+  Future<void> _handleConnectMatch() async {
+    if (_match == null) return;
+    
+    setState(() {
+      _isProcessingResponse = true;
+    });
+
+    try {
+      final request = MatchResponseRequest(
+        matchId: _match!.id,
+        response: MatchResponse.interested,
+      );
+      
+      await _supabaseManager.insertMatchResponse(request);
+      
+      if (mounted) {
+        // Navigate back to matches list
+        Navigator.of(context).pop();
+        
+        // Show success feedback
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Connection request sent!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      debugPrint('Error connecting with match: $error');
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to connect: $error'),
+            backgroundColor: context.venyuTheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isProcessingResponse = false;
+        });
+      }
+    }
   }
 
   Future<void> _openLinkedIn() async {

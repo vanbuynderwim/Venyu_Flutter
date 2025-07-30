@@ -178,33 +178,26 @@ class _CardItemState extends State<CardItem> {
 
   /// Krijg de border radius voor de container
   BorderRadius _getBorderRadius() {
-    debugPrint('🔍 CardItem _getBorderRadius: isSharedPromptView=${widget.isSharedPromptView}, isFirst=${widget.isFirst}, isLast=${widget.isLast}');
-    
     if (!widget.isSharedPromptView) {
       // Individual card - fully rounded
-      debugPrint('  → Individual card: fully rounded');
       return BorderRadius.circular(AppModifiers.defaultRadius);
     } else if (widget.isFirst && widget.isLast) {
       // Single card in shared view - no top radius (connects to header), rounded bottom
-      debugPrint('  → Single card in shared view: rounded bottom only');
       return const BorderRadius.only(
         bottomLeft: Radius.circular(AppModifiers.defaultRadius),
         bottomRight: Radius.circular(AppModifiers.defaultRadius),
       );
     } else if (widget.isFirst) {
       // First card in shared view - no rounded corners (connects to header)
-      debugPrint('  → First card in shared view: no rounded corners');
       return BorderRadius.zero;
     } else if (widget.isLast) {
       // Last card in shared view - only rounded bottom
-      debugPrint('  → Last card in shared view: rounded bottom only');
       return const BorderRadius.only(
         bottomLeft: Radius.circular(AppModifiers.defaultRadius),
         bottomRight: Radius.circular(AppModifiers.defaultRadius),
       );
     } else {
       // Middle cards in shared view - no rounded corners
-      debugPrint('  → Middle card in shared view: no rounded corners');
       return BorderRadius.zero;
     }
   }
@@ -246,8 +239,6 @@ class _CardItemState extends State<CardItem> {
 
   /// Krijg de border radius voor interaction bars
   BorderRadius _getInteractionBarBorderRadius({required bool isLeading}) {
-    debugPrint('🎨 InteractionBar borderRadius: isLeading=$isLeading, isSharedPromptView=${widget.isSharedPromptView}, isFirst=${widget.isFirst}, isLast=${widget.isLast}');
-    
     if (!widget.isSharedPromptView) {
       // Individual card - standard rounded corners on appropriate sides
       return isLeading 
