@@ -63,13 +63,33 @@ class _AvatarViewState extends State<AvatarView> {
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     
-    // If no avatar ID, show placeholder
-    if (widget.avatarId == null || widget.avatarId!.isEmpty) {
-      return _buildPlaceholder(context, venyuTheme);
-    }
-    
-    // Otherwise, load remote avatar
-    return _buildRemoteAvatar(context);
+    // Always use consistent sizing with internal border
+    return SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: Stack(
+        children: [
+          // Main content (slightly smaller to account for border)
+          Positioned.fill(
+            child: widget.avatarId == null || widget.avatarId!.isEmpty
+                ? _buildPlaceholder(context, venyuTheme)
+                : _buildRemoteAvatar(context),
+          ),
+          // Border overlay
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: venyuTheme.secondaryText.withValues(alpha: 0.2),
+                  width: 1,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
   
   Widget _buildPlaceholder(BuildContext context, VenyuTheme venyuTheme) {
@@ -79,11 +99,9 @@ class _AvatarViewState extends State<AvatarView> {
         : Colors.white;
     
     return Container(
-      width: widget.size,
-      height: widget.size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: venyuTheme.cardBackground,
+        color: venyuTheme.secondaryButtonBackground,
       ),
       child: ClipOval(
         child: Image.asset(
@@ -105,11 +123,9 @@ class _AvatarViewState extends State<AvatarView> {
       
       if (snapshot.connectionState == ConnectionState.waiting) {
         return Container(            
-          width: widget.size,
-          height: widget.size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: venyuTheme.cardBackground,
+            color: venyuTheme.secondaryButtonBackground,
           ),
           child: const Center(
             child: CircularProgressIndicator.adaptive(),
@@ -124,11 +140,9 @@ class _AvatarViewState extends State<AvatarView> {
       }
       
       return Container(
-        width: widget.size,
-        height: widget.size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: venyuTheme.cardBackground,
+          color: venyuTheme.secondaryButtonBackground,
         ),
         child: ClipOval(
           child: CachedNetworkImage(
@@ -136,7 +150,7 @@ class _AvatarViewState extends State<AvatarView> {
             fit: BoxFit.cover, // Gebruik BoxFit.cover
             alignment: Alignment.center,
             placeholder: (context, url) => Container(
-              color: venyuTheme.cardBackground,
+              color: venyuTheme.secondaryButtonBackground,
               child: const Center(
                 child: CircularProgressIndicator.adaptive(),
               ),
