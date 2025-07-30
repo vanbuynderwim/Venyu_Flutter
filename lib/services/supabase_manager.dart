@@ -734,4 +734,34 @@ class SupabaseManager {
       return null;
     }
   }
+
+  // MARK: - Match Management Methods
+
+  /// Fetch matches with pagination - equivalent to iOS fetchMatches(paginatedRequest:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the get_matches RPC function with paginated request payload
+  /// 2. Returns a list of Match objects from the response
+  Future<List<Match>> fetchMatches(PaginatedRequest paginatedRequest) async {
+    debugPrint('📥 Fetching matches with pagination: $paginatedRequest');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_matches RPC function - exact equivalent of iOS implementation
+      final result = await _client
+          .rpc('get_matches', params: {'payload': paginatedRequest.toJson()})
+          .select();
+      
+      debugPrint('✅ Matches RPC call successful');
+      debugPrint('📋 Matches data received: ${result.length} matches');
+      
+      // Convert response to list of Match objects
+      final matches = (result as List)
+          .map((json) => Match.fromJson(json))
+          .toList();
+      
+      debugPrint('🤝 Matches parsed: ${matches.length} matches');
+      
+      return matches;
+    });
+  }
 }

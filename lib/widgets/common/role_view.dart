@@ -49,15 +49,34 @@ class RoleView extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 
-                // Company name
-                if (profile.companyName != null && profile.companyName!.isNotEmpty)
+                // Role (company name)
+                if (profile.role.isNotEmpty)
                   Text(
-                    profile.companyName!,
+                    profile.role,
                     style: AppTextStyles.subheadline.copyWith(
                       color: context.venyuTheme.secondaryText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                
+                // Distance if available
+                if (profile.formattedDistance != null)
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 16,
+                        color: context.venyuTheme.secondaryText,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        profile.formattedDistance!,
+                        style: AppTextStyles.footnote.copyWith(
+                          color: context.venyuTheme.secondaryText,
+                        ),
+                      ),
+                    ],
                   ),
                 
                 // Bio if available

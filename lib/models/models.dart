@@ -9,6 +9,7 @@ export 'badge.dart';
 export 'language.dart';
 export 'requests/update_country_language_request.dart';
 export 'requests/update_company_request.dart';
+export 'requests/paginated_request.dart';
 
 // Enums - Core functionality
 export 'enums/match_status.dart';

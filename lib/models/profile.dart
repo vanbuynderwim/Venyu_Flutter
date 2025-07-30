@@ -259,6 +259,25 @@ class Profile {
     }
   }
 
+  /// Gets the formatted distance string.
+  /// 
+  /// Returns a formatted distance string like:
+  /// - "1.2 km" for distances >= 1 km
+  /// - "500 m" for distances < 1 km
+  /// - null if distance is not available
+  String? get formattedDistance {
+    if (distance == null) return null;
+    
+    final distanceInKm = distance!;
+    
+    if (distanceInKm >= 1) {
+      return '${distanceInKm.toStringAsFixed(1)} km';
+    } else {
+      final distanceInM = (distanceInKm * 1000).round();
+      return '$distanceInM m';
+    }
+  }
+
   /// Creates a copy of this profile with the given fields replaced.
   /// 
   /// Useful for updating specific profile fields without mutating the original.
