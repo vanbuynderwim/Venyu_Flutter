@@ -416,16 +416,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   /// Build the match interest view with action buttons (MatchInterestView equivalent)
   Widget _buildMatchInterestView() {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.venyuTheme.cardBackground,
-        border: Border(
-          top: BorderSide(
-            color: context.venyuTheme.borderColor,
-            width: 0.5,
-          ),
-        ),
-      ),
+      padding: const EdgeInsets.only(top: 8),
       child: SafeArea(
         child: Row(
           children: [
@@ -442,7 +433,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             // Connect button  
             Expanded(
               child: ActionButton(
-                label: _isProcessingResponse ? 'Processing...' : 'Connect',
+                label: _isProcessingResponse ? 'Processing...' : 'Interested',
                 onPressed: _isProcessingResponse ? null : _handleConnectMatch,
                 style: ActionButtonType.primary,
                 isDisabled: _isProcessingResponse,
@@ -507,16 +498,16 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await _supabaseManager.insertMatchResponse(request);
       
       if (mounted) {
-        // Navigate back to matches list
-        Navigator.of(context).pop();
-        
-        // Show success feedback
+        // Show success feedback first
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Match skipped'),
             duration: Duration(seconds: 2),
           ),
         );
+        
+        // Then navigate back to matches list
+        Navigator.of(context).pop();
       }
     } catch (error) {
       debugPrint('Error skipping match: $error');
@@ -555,16 +546,16 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await _supabaseManager.insertMatchResponse(request);
       
       if (mounted) {
-        // Navigate back to matches list
-        Navigator.of(context).pop();
-        
-        // Show success feedback
+        // Show success feedback first
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Connection request sent!'),
             duration: Duration(seconds: 2),
           ),
         );
+        
+        // Then navigate back to matches list
+        Navigator.of(context).pop();
       }
     } catch (error) {
       debugPrint('Error connecting with match: $error');
