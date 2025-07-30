@@ -7,7 +7,7 @@ import '../core/theme/app_theme.dart';
 import '../models/match.dart';
 import '../models/profile.dart';
 import '../models/enums/match_status.dart';
-import '../widgets/cards/match_item_view.dart';
+import '../widgets/common/match_item_view.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 
 /// MatchesView - Matches page with ListView for server data
@@ -67,9 +67,7 @@ class MatchesView extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         'Start connecting with people to see matches',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
+                        style: AppTextStyles.body.secondary(context),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -79,7 +77,7 @@ class MatchesView extends StatelessWidget {
             ]
           : dummyMatches.map((match) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
                 child: MatchItemView(
                   match: match,
                   onMatchSelected: (selectedMatch) {

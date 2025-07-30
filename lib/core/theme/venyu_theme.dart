@@ -76,6 +76,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// Primary color in light mode, white in dark mode.
   final Color selectionColor;
   
+  /// Success color for snackbars and positive feedback messages.
+  final Color snackbarSuccess;
+  
+  /// Error color for snackbars and error feedback messages.
+  final Color snackbarError;
+  
   
   const VenyuTheme({
     required this.pageBackground,
@@ -94,6 +100,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.info,
     required this.linkedIn,
     required this.selectionColor,
+    required this.snackbarSuccess,
+    required this.snackbarError,
   });
 
   /// Light theme colors
@@ -114,6 +122,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
     selectionColor: AppColors.primair4Lilac,      // Primary color for selections
+    snackbarSuccess: AppColors.me,                // Success color for snackbars
+    snackbarError: AppColors.na,                  // Error color for snackbars
   );
 
   /// Dark theme colors
@@ -134,6 +144,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
     selectionColor: Colors.white,                    // White for selections in dark mode
+    snackbarSuccess: AppColors.me,                   // Success color for snackbars
+    snackbarError: AppColors.na,                     // Error color for snackbars
   );
 
   @override
@@ -154,6 +166,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? info,
     Color? linkedIn,
     Color? selectionColor,
+    Color? snackbarSuccess,
+    Color? snackbarError,
   }) {
     return VenyuTheme(
       pageBackground: pageBackground ?? this.pageBackground,
@@ -172,6 +186,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
       selectionColor: selectionColor ?? this.selectionColor,
+      snackbarSuccess: snackbarSuccess ?? this.snackbarSuccess,
+      snackbarError: snackbarError ?? this.snackbarError,
     );
   }
 
@@ -196,6 +212,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
       selectionColor: Color.lerp(selectionColor, other.selectionColor, t)!,
+      snackbarSuccess: Color.lerp(snackbarSuccess, other.snackbarSuccess, t)!,
+      snackbarError: Color.lerp(snackbarError, other.snackbarError, t)!,
     );
   }
 }

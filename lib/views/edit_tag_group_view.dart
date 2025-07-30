@@ -128,7 +128,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                 Icon(
                   Icons.error_outline,
                   size: 48,
-                  color: AppColors.error,
+                  color: context.venyuTheme.error,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -138,9 +138,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                 const SizedBox(height: 8),
                 Text(
                   _error!,
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: AppTextStyles.body.secondary(context),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -175,9 +173,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           padding: const EdgeInsets.only(bottom: 16),
           child: Text(
             _currentTagGroup!.description,
-            style: AppTextStyles.body.copyWith(
-              color: AppColors.textSecondary,
-            ),
+            style: AppTextStyles.body.secondary(context),
           ),
         ),
       );

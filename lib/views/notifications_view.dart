@@ -51,9 +51,7 @@ class NotificationsView extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         'We\'ll notify you when there\'s something new',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.textSecondary,
-                        ),
+                        style: AppTextStyles.body.secondary(context),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -67,10 +65,10 @@ class NotificationsView extends StatelessWidget {
               
               return Container(
                 decoration: BoxDecoration(
-                  color: isUnread ? AppColors.primaryLight.withValues(alpha: 0.1) : null,
+                  color: isUnread ? context.venyuTheme.primary.withValues(alpha: 0.1) : null,
                   border: Border(
                     bottom: BorderSide(
-                      color: AppColors.textSecondary.withValues(alpha: 0.2),
+                      color: context.venyuTheme.secondaryText.withValues(alpha: 0.2),
                       width: 0.5,
                     ),
                   ),
@@ -80,10 +78,10 @@ class NotificationsView extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: type == 'match' 
-                          ? AppColors.primary
+                          ? context.venyuTheme.primary
                           : type == 'message'
-                              ? Colors.blue
-                              : Colors.green,
+                              ? context.venyuTheme.info
+                              : context.venyuTheme.success,
                       shape: BoxShape.circle,
                     ),
                     child: context.themedIcon(
@@ -111,7 +109,7 @@ class NotificationsView extends StatelessWidget {
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: context.venyuTheme.primary,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -119,15 +117,11 @@ class NotificationsView extends StatelessWidget {
                   ),
                   subtitle: Text(
                     notification['subtitle']!,
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
+                    style: AppTextStyles.body.secondary(context),
                   ),
                   trailing: Text(
                     notification['time']!,
-                    style: AppTextStyles.caption1.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
+                    style: AppTextStyles.caption1.secondary(context),
                   ),
                   onTap: () {
                     debugPrint('Tapped on notification: ${notification['title']}');

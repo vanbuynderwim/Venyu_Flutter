@@ -313,10 +313,10 @@ class _EditCompanyNameViewState extends State<EditCompanyNameView> {
           try {
             // Show the snackbar first
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Company info changes saved'),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 2),
+              SnackBar(
+                content: const Text('Company info changes saved'),
+                backgroundColor: context.venyuTheme.snackbarSuccess,
+                duration: const Duration(seconds: 2),
               ),
             );
             
@@ -349,10 +349,10 @@ class _EditCompanyNameViewState extends State<EditCompanyNameView> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Failed to update company info, please try again'),
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 3),
+              SnackBar(
+                content: const Text('Failed to update company info, please try again'),
+                backgroundColor: context.venyuTheme.snackbarError,
+                duration: const Duration(seconds: 3),
               ),
             );
           }

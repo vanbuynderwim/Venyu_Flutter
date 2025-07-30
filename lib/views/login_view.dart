@@ -149,12 +149,12 @@ class _LoginViewState extends State<LoginView> {
                       width: double.infinity,
                       child: PlatformElevatedButton(
                         onPressed: _isSigningIn ? null : _signInWithLinkedIn,
-                        color: const Color(0xFF0A66C2), // LinkedIn blue
+                        color: context.venyuTheme.linkedIn, // LinkedIn blue
                         material: (_, __) => MaterialElevatedButtonData(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF0A66C2),
+                            backgroundColor: context.venyuTheme.linkedIn,
                             foregroundColor: Colors.white,
-                            disabledBackgroundColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
+                            disabledBackgroundColor: context.venyuTheme.linkedIn.withValues(alpha: 0.5),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                             ),
@@ -162,8 +162,8 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         cupertino: (_, __) => CupertinoElevatedButtonData(
-                          color: const Color(0xFF0A66C2),
-                          disabledColor: const Color(0xFF0A66C2).withValues(alpha: 0.5),
+                          color: context.venyuTheme.linkedIn,
+                          disabledColor: context.venyuTheme.linkedIn.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                         ),
                         child: Row(

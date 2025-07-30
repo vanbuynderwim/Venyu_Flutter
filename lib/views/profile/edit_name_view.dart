@@ -371,10 +371,10 @@ class _EditNameViewState extends State<EditNameView> {
           try {
             // Show the snackbar first
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Changes successfully saved'),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 2),
+              SnackBar(
+                content: const Text('Changes successfully saved'),
+                backgroundColor: context.venyuTheme.snackbarSuccess,
+                duration: const Duration(seconds: 2),
               ),
             );
             
@@ -407,10 +407,10 @@ class _EditNameViewState extends State<EditNameView> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Failed to update, please try again'),
-                backgroundColor: Colors.red,
-                duration: Duration(seconds: 3),
+              SnackBar(
+                content: const Text('Failed to update, please try again'),
+                backgroundColor: context.venyuTheme.snackbarError,
+                duration: const Duration(seconds: 3),
               ),
             );
           }

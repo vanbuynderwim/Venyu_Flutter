@@ -84,7 +84,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
                 Icon(
                   Icons.error_outline,
                   size: 48,
-                  color: AppColors.error,
+                  color: context.venyuTheme.error,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -94,9 +94,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
                 const SizedBox(height: 8),
                 Text(
                   _error!,
-                  style: AppTextStyles.body.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
+                  style: AppTextStyles.body.secondary(context),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),

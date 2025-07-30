@@ -178,4 +178,6 @@ extension ThemeAwareTextStyle on TextStyle {
   TextStyle error(BuildContext context) => copyWith(color: context.venyuTheme.error);
   TextStyle success(BuildContext context) => copyWith(color: context.venyuTheme.success);
   TextStyle onCard(BuildContext context) => copyWith(color: context.venyuTheme.cardBackground);
+  TextStyle snackbarSuccess(BuildContext context) => copyWith(color: context.venyuTheme.snackbarSuccess);
+  TextStyle snackbarError(BuildContext context) => copyWith(color: context.venyuTheme.snackbarError);
 }
