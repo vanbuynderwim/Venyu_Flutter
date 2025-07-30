@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
+import '../widgets/common/empty_state_widget.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 
 /// NotificationsView - Notifications page with ListView for server data
@@ -34,29 +35,11 @@ class NotificationsView extends StatelessWidget {
       ),
       children: dummyNotifications.isEmpty
           ? [
-              // Empty state als single child in ListView
-              SizedBox(
+              EmptyStateWidget(
+                message: 'No new notifications',
+                description: 'We\'ll notify you when there\'s something new',
+                iconName: 'notification',
                 height: MediaQuery.of(context).size.height * 0.6,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Use custom notification icon
-                      context.themedIcon('notification', size: 80),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No new notifications',
-                        style: AppTextStyles.subheadline,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'We\'ll notify you when there\'s something new',
-                        style: AppTextStyles.body.secondary(context),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ]
           : dummyNotifications.map((notification) {

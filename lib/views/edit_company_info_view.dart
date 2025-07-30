@@ -6,7 +6,10 @@ import '../models/enums/category_type.dart';
 import '../models/tag_group.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
+import '../widgets/common/loading_state_widget.dart';
+import '../widgets/common/error_state_widget.dart';
 import '../services/supabase_manager.dart';
+import '../mixins/data_refresh_mixin.dart';
 import 'edit_tag_group_view.dart';
 import 'company/edit_company_name_view.dart';
 
@@ -18,37 +21,22 @@ class EditCompanyInfoView extends StatefulWidget {
   State<EditCompanyInfoView> createState() => _EditCompanyInfoViewState();
 }
 
-class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
+class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
-  bool _isLoading = true;
-  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _refreshData();
+    _loadData();
   }
 
-  Future<void> _refreshData() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    try {
-      final tagGroups = await _supabaseManager.fetchTagGroups(CategoryType.company);
-      setState(() {
-        _tagGroups = tagGroups;
-        _isLoading = false;
-      });
-    } catch (error) {
-      debugPrint('Error fetching company tag groups: $error');
-      setState(() {
-        _error = error.toString();
-        _isLoading = false;
-      });
-    }
+  void _loadData() {
+    refreshData(
+      () => _supabaseManager.fetchTagGroups(CategoryType.company),
+      (tagGroups) => setState(() => _tagGroups = tagGroups),
+      context: 'loading company info tag groups',
+    );
   }
 
   @override
@@ -62,49 +50,22 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
   }
 
   List<Widget> _buildContent() {
-    if (_isLoading) {
+    if (isLoading) {
       return [
-        SizedBox(
+        const LoadingStateWidget(
           height: 200,
-          child: Center(
-            child: PlatformCircularProgressIndicator(),
-          ),
+          message: 'Loading company info...',
         ),
       ];
     }
 
-    if (_error != null) {
+    if (error != null) {
       return [
-        SizedBox(
+        ErrorStateWidget(
+          error: error!,
+          title: 'Failed to load company info',
           height: 200,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: context.venyuTheme.error,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Failed to load data',
-                  style: AppTextStyles.headline,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  _error!,
-                  style: AppTextStyles.body.secondary(context),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                PlatformElevatedButton(
-                  onPressed: _refreshData,
-                  child: const Text('Retry'),
-                ),
-              ],
-            ),
-          ),
+          onRetry: _loadData,
         ),
       ];
     }
@@ -202,7 +163,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> {
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
       debugPrint('Company tag changes detected, refreshing data...');
-      _refreshData();
+      _loadData();
     }
   }
 }

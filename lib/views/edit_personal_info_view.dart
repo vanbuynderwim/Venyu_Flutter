@@ -6,7 +6,10 @@ import '../models/enums/category_type.dart';
 import '../models/tag_group.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
+import '../widgets/common/loading_state_widget.dart';
+import '../widgets/common/error_state_widget.dart';
 import '../services/supabase_manager.dart';
+import '../mixins/data_refresh_mixin.dart';
 import 'edit_tag_group_view.dart';
 import 'profile/edit_name_view.dart';
 import 'profile/edit_bio_view.dart';
@@ -19,37 +22,22 @@ class EditPersonalInfoView extends StatefulWidget {
   State<EditPersonalInfoView> createState() => _EditPersonalInfoViewState();
 }
 
-class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
+class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
-  bool _isLoading = true;
-  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _refreshData();
+    _loadData();
   }
 
-  Future<void> _refreshData() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    try {
-      final tagGroups = await _supabaseManager.fetchTagGroups(CategoryType.personal);
-      setState(() {
-        _tagGroups = tagGroups;
-        _isLoading = false;
-      });
-    } catch (error) {
-      debugPrint('Error fetching tag groups: $error');
-      setState(() {
-        _error = error.toString();
-        _isLoading = false;
-      });
-    }
+  void _loadData() {
+    refreshData(
+      () => _supabaseManager.fetchTagGroups(CategoryType.personal),
+      (tagGroups) => setState(() => _tagGroups = tagGroups),
+      context: 'loading personal info tag groups',
+    );
   }
 
   @override
@@ -63,49 +51,22 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
   }
 
   List<Widget> _buildContent() {
-    if (_isLoading) {
+    if (isLoading) {
       return [
-        SizedBox(
+        const LoadingStateWidget(
           height: 200,
-          child: Center(
-            child: PlatformCircularProgressIndicator(),
-          ),
+          message: 'Loading personal info...',
         ),
       ];
     }
 
-    if (_error != null) {
+    if (error != null) {
       return [
-        SizedBox(
+        ErrorStateWidget(
+          error: error!,
+          title: 'Failed to load personal info',
           height: 200,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: context.venyuTheme.error,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Failed to load data',
-                  style: AppTextStyles.headline,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  _error!,
-                  style: AppTextStyles.body.secondary(context),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                PlatformElevatedButton(
-                  onPressed: _refreshData,
-                  child: const Text('Retry'),
-                ),
-              ],
-            ),
-          ),
+          onRetry: _loadData,
         ),
       ];
     }
@@ -219,7 +180,7 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> {
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
       debugPrint('Tag changes detected, refreshing data...');
-      _refreshData();
+      _loadData();
     }
   }
 }

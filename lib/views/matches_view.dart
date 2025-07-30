@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
+import '../widgets/common/empty_state_widget.dart';
 import '../models/match.dart';
 import '../models/profile.dart';
 import '../models/enums/match_status.dart';
@@ -50,29 +51,11 @@ class MatchesView extends StatelessWidget {
       ),
       children: dummyMatches.isEmpty
           ? [
-              // Empty state als single child in ListView
-              SizedBox(
+              EmptyStateWidget(
+                message: 'Your matches will appear here',
+                description: 'Start connecting with people to see matches',
+                iconName: 'match',
                 height: MediaQuery.of(context).size.height * 0.6,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Use custom match icon
-                      context.themedIcon('match', size: 80),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Your matches will appear here',
-                        style: AppTextStyles.subheadline,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Start connecting with people to see matches',
-                        style: AppTextStyles.body.secondary(context),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ]
           : dummyMatches.map((match) {
