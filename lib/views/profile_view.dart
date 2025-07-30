@@ -9,11 +9,9 @@ import '../services/session_manager.dart';
 import '../services/supabase_manager.dart';
 import '../widgets/buttons/section_button.dart';
 import '../widgets/common/card_item.dart';
-import '../widgets/common/tag_view.dart';
-import '../widgets/common/avatar_view.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
+import '../widgets/profile/profile_header.dart';
 import 'profile_edit_view.dart';
-import 'profile/edit_bio_view.dart';
 
 /// ProfileView - Current user's profile page with sections and content
 /// 
@@ -80,12 +78,14 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshData(forceRefresh: true),
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            children: [
+      useSafeArea: false,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () => _refreshData(forceRefresh: true),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
               
               // Profile Header
               if (!_isProfileLoading && profile != null)
@@ -104,7 +104,8 @@ class _ProfileViewState extends State<ProfileView> {
               _buildSectionContent(),
               
               const SizedBox(height: 100), // Extra space for content
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -113,116 +114,15 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the profile header with avatar, role, sectors, and bio
   Widget _buildProfileHeader(profile) {
-    final venyuTheme = context.venyuTheme;
-    
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Avatar and Role row
-          Row(
-            children: [
-              // Avatar with edit button overlay
-              Stack(
-                children: [
-                  AvatarView(
-                    avatarId: profile.avatarID,
-                    size: 100,
-                  ),
-                  // Edit icon overlay
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: venyuTheme.cardBackground,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: venyuTheme.borderColor,
-                          width: 1,
-                        ),
-                      ),
-                      child: Center(
-                        child: context.themedIcon('edit', size: 14),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(width: 16),
-              
-              // Role and sectors
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Role (computed property from profile)
-                    Text(
-                      profile.role.isNotEmpty 
-                          ? profile.role
-                          : 'Add company info',
-                      style: AppTextStyles.subheadline.copyWith(
-                        color: venyuTheme.primaryText,
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 6),
-                    
-                    // Sectors/Tags
-                    _buildSectorsView(profile),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Bio section
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  profile.bio?.isNotEmpty == true 
-                      ? profile.bio! 
-                      : 'Write something about yourself...',
-                  style: AppTextStyles.subheadline.copyWith(
-                    color: profile.bio?.isNotEmpty == true 
-                        ? venyuTheme.primaryText 
-                        : venyuTheme.secondaryText,
-                    fontStyle: profile.bio?.isNotEmpty == true 
-                        ? FontStyle.normal 
-                        : FontStyle.italic,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () async {
-                  final result = await Navigator.push<bool>(
-                    context,
-                    platformPageRoute(
-                      context: context,
-                      builder: (context) => const EditBioView(),
-                    ),
-                  );
-                  
-                  // Refresh profile if bio was updated
-                  if (result == true) {
-                    setState(() {
-                      // Trigger rebuild to show updated bio
-                    });
-                  }
-                },
-                child: context.themedIcon('edit'),
-              ),
-            ],
-          ),
-        ],
-      );
+    return ProfileHeader(
+      profile: profile,
+      isEditable: true,
+      onBioEdited: () {
+        setState(() {
+          // Trigger rebuild to show updated bio
+        });
+      },
+    );
   }
 
   /// Builds a loading placeholder for the profile header
@@ -274,50 +174,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  /// Builds the sectors view with tag layout (Swift equivalent)
-  Widget _buildSectorsView(profile) {
-    final venyuTheme = context.venyuTheme;
-    
-    // Check if profile has sectors
-    if (profile.sectors != null && profile.sectors.length > 0) {
-      // Sort sectors by title like in Swift
-      final sortedSectors = List.from(profile.sectors);
-      sortedSectors.sort((a, b) => a.title.compareTo(b.title));
-      
-      return Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: sortedSectors.map<Widget>((sector) {
-          return TagView(
-            id: sector.id,
-            label: sector.title,
-            icon: sector.icon,
-          );
-        }).toList(),
-      );
-    } else {
-      // No sectors - show placeholder like iOS
-      return GestureDetector(
-        onTap: () {
-          // TODO: Navigate to sectors edit
-          debugPrint('Navigate to sectors edit');
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: venyuTheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            'Add sectors',
-            style: AppTextStyles.caption1.copyWith(
-              color: venyuTheme.primary,
-            ),
-          ),
-        ),
-      );
-    }
-  }
 
   /// Builds the section buttons (Cards, Venues, Reviews)
   Widget _buildSectionButtons() {

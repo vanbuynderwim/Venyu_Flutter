@@ -11,6 +11,7 @@ class AppScaffold extends StatelessWidget {
   final Widget body;
   final bool usePadding;
   final EdgeInsets? customPadding;
+  final bool useSafeArea;
 
   const AppScaffold({
     super.key,
@@ -18,23 +19,26 @@ class AppScaffold extends StatelessWidget {
     required this.body,
     this.usePadding = true,
     this.customPadding,
+    this.useSafeArea = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final spacing = Theme.of(context).appSpacing;
     
+    final content = usePadding
+        ? Padding(
+            padding: customPadding ?? spacing.pageHorizontalPadding,
+            child: body,
+          )
+        : body;
+
     return PlatformScaffold(
       appBar: appBar,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: usePadding
-            ? Padding(
-                padding: customPadding ?? spacing.pageHorizontalPadding,
-                child: body,
-              )
-            : body,
-      ),
+      body: useSafeArea
+          ? SafeArea(child: content)
+          : content,
     );
   }
 }
