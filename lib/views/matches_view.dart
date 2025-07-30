@@ -124,7 +124,6 @@ class _MatchesViewState extends State<MatchesView> {
       appBar: PlatformAppBar(
         title: Text(AppStrings.matches),
       ),
-      usePadding: false, // We handle padding manually for the ListView
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: _isLoading
@@ -163,12 +162,7 @@ class _MatchesViewState extends State<MatchesView> {
                           // if (_shouldShowHeader(match, index))
                           //   _buildHeader(match.status, index == 0),
                           
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 4,
-                            ),
-                            child: MatchItemView(
+                          MatchItemView(
                               match: match,
                               onMatchSelected: (selectedMatch) {
                                 Navigator.push(
@@ -182,7 +176,6 @@ class _MatchesViewState extends State<MatchesView> {
                                 );
                               },
                             ),
-                          ),
                         ],
                       );
                     },

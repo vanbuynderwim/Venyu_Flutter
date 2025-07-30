@@ -78,4 +78,38 @@ class Match {
     if (tagGroups == null) return 0;
     return tagGroups!.fold(0, (sum, group) => sum + group.selectedCount);
   }
+  
+  // Computed properties matching iOS implementation
+  int get nrOfPrompts => prompts?.length ?? 0;
+  int get nrOfConnections => connections?.length ?? 0;
+  int get nrOfTagGroups => tagGroups?.length ?? 0;
+  
+  int get nrOfTags {
+    if (tagGroups == null) return 0;
+    return tagGroups!.fold(0, (total, tagGroup) {
+      return total + (tagGroup.tags?.length ?? 0);
+    });
+  }
+  
+  List<TagGroup> get companyTagGroups {
+    if (tagGroups == null) return [];
+    return tagGroups!.where((group) => group.type?.value == 'company').toList();
+  }
+  
+  List<TagGroup> get personalTagGroups {
+    if (tagGroups == null) return [];
+    return tagGroups!.where((group) => group.type?.value == 'personal').toList();
+  }
+  
+  int get nrOfCompanyTags {
+    return companyTagGroups.fold(0, (total, tagGroup) {
+      return total + (tagGroup.tags?.length ?? 0);
+    });
+  }
+  
+  int get nrOfPersonalTags {
+    return personalTagGroups.fold(0, (total, tagGroup) {
+      return total + (tagGroup.tags?.length ?? 0);
+    });
+  }
 }

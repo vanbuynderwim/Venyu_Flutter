@@ -18,6 +18,7 @@ class ProfileHeader extends StatelessWidget {
   final Profile profile;
   final bool isEditable;
   final bool isConnection;
+  final double avatarSize;
   final VoidCallback? onAvatarTap;
   final VoidCallback? onLinkedInTap;
   final VoidCallback? onEmailTap;
@@ -29,6 +30,7 @@ class ProfileHeader extends StatelessWidget {
     required this.profile,
     this.isEditable = false,
     this.isConnection = false,
+    this.avatarSize = 100.0,
     this.onAvatarTap,
     this.onLinkedInTap,
     this.onEmailTap,
@@ -114,7 +116,7 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildAvatar(BuildContext context, VenyuTheme venyuTheme) {
     final avatar = AvatarView(
       avatarId: profile.avatarID,
-      size: 100,
+      size: avatarSize,
     );
 
     final avatarWidget = isEditable
