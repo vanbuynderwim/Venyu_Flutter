@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_fonts.dart';
-import 'app_colors.dart';
+import 'venyu_theme.dart';
 
 /// Centralized text styles following iOS typography guidelines.
 /// 
@@ -13,6 +13,9 @@ import 'app_colors.dart';
 /// - Body styles for content and descriptions
 /// - Caption styles for labels and metadata
 /// 
+/// Colors are applied separately using extension methods, giving views
+/// full control over text appearance based on context.
+/// 
 /// Example usage:
 /// ```dart
 /// // Use predefined styles
@@ -20,9 +23,13 @@ import 'app_colors.dart';
 /// Text('Body text', style: AppTextStyles.body)
 /// Text('Caption', style: AppTextStyles.caption1)
 /// 
+/// // Apply theme colors using extension methods
+/// Text('Primary text', style: AppTextStyles.headline.primaryText(context))
+/// Text('Secondary text', style: AppTextStyles.body.secondary(context))
+/// Text('Brand text', style: AppTextStyles.title1.primary(context))
+/// 
 /// // Modify styles for specific use cases
 /// Text('Custom', style: AppTextStyles.headline.copyWith(
-///   color: Colors.blue,
 ///   fontWeight: FontWeight.bold,
 /// ))
 /// ```
@@ -30,155 +37,145 @@ class AppTextStyles {
   AppTextStyles._();
 
   // iOS Typography Scale - using both system and Graphie fonts
+  // Note: Colors are applied separately using extension methods
   
   /// Extra Large Title - 36.0pt Bold (iOS 17+)
-  static TextStyle extraLargeTitle = TextStyle(
+  static const TextStyle extraLargeTitle = TextStyle(
     fontSize: 36.0,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.2,
   );
 
   /// Extra Large Title 2 - 28.0pt Bold (iOS 17+)
-  static TextStyle extraLargeTitle2 = TextStyle(
+  static const TextStyle extraLargeTitle2 = TextStyle(
     fontSize: 28.0,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.25,
   );
 
   /// Large Title - 34.0pt Regular
-  static TextStyle largeTitle = TextStyle(
+  static const TextStyle largeTitle = TextStyle(
     fontSize: 34.0,
     fontWeight: FontWeight.w700,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary
   );
 
   /// Title 1 - 28.0pt Regular
-  static TextStyle title1 = TextStyle(
+  static const TextStyle title1 = TextStyle(
     fontSize: 28.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.25,
   );
 
   /// Title 2 - 22.0pt Regular
-  static TextStyle title2 = TextStyle(
+  static const TextStyle title2 = TextStyle(
     fontSize: 22.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.3,
   );
 
   /// Title 3 - 20.0pt Regular
-  static TextStyle title3 = TextStyle(
+  static const TextStyle title3 = TextStyle(
     fontSize: 20.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.3,
   );
 
   /// Headline - 17.0pt Semibold
-  static TextStyle headline = TextStyle(
+  static const TextStyle headline = TextStyle(
     fontSize: 17.0,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.35,
   );
 
   /// Subheadline - 15.0pt Regular
-  static TextStyle subheadline = TextStyle(
+  static const TextStyle subheadline = TextStyle(
     fontSize: 15.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textSecondary,
     height: 1.4,
   );
 
   /// Body - 17.0pt Regular
-  static TextStyle body = TextStyle(
+  static const TextStyle body = TextStyle(
     fontSize: 17.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.4,
   );
 
   /// Callout - 16.0pt Regular
-  static TextStyle callout = TextStyle(
+  static const TextStyle callout = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textPrimary,
     height: 1.4,
   );
 
   /// Footnote - 13.0pt Regular
-  static TextStyle footnote = TextStyle(
+  static const TextStyle footnote = TextStyle(
     fontSize: 13.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textSecondary,
     height: 1.4,
   );
 
   /// Caption 1 - 12.0pt Regular
-  static TextStyle caption1 = TextStyle(
+  static const TextStyle caption1 = TextStyle(
     fontSize: 12.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textSecondary,
     height: 1.4,
   );
 
   /// Caption 2 - 11.0pt Regular
-  static TextStyle caption2 = TextStyle(
+  static const TextStyle caption2 = TextStyle(
     fontSize: 11.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.defaultFontFamily,
-    color: AppColors.textLight,
     height: 1.4,
   );
 
   // Special Graphie styles for branding
   /// App Title - Large Graphie style
-  static TextStyle appTitle = TextStyle(
+  static const TextStyle appTitle = TextStyle(
     fontSize: 46.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.graphie,
-    color: AppColors.primair4Lilac,
     height: 1.1,
   );
 
   /// App Subtitle - Medium Graphie style
-  static TextStyle appSubtitle = TextStyle(
+  static const TextStyle appSubtitle = TextStyle(
     fontSize: 20.0,
     fontWeight: FontWeight.w400,
     fontFamily: AppFonts.graphie,
-    color: AppColors.secundair3Slategray,
     height: 1.3,
   );
 
   /// Prompt Label - Large Graphie style
-  static TextStyle promptLabel = TextStyle(
+  static const TextStyle promptLabel = TextStyle(
     fontSize: 40.0,
     fontWeight: FontWeight.w600,
     fontFamily: AppFonts.graphie,
-    color: AppColors.secundair2Offblack,
     height: 1.2,
   );
+}
 
-  // Extension methods for easy color variations
-  static TextStyle onPrimary(TextStyle base) => base.copyWith(color: AppColors.textOnPrimary);
-  static TextStyle onAccent(TextStyle base) => base.copyWith(color: AppColors.textOnAccent);
-  static TextStyle primary(TextStyle base) => base.copyWith(color: AppColors.primary);
-  static TextStyle accent(TextStyle base) => base.copyWith(color: AppColors.accent);
-  static TextStyle secondary(TextStyle base) => base.copyWith(color: AppColors.secondary);
+/// Extension to add theme colors to TextStyle
+extension ThemeAwareTextStyle on TextStyle {
+  /// Helper methods for applying theme colors to text styles
+  TextStyle primary(BuildContext context) => copyWith(color: context.venyuTheme.primary);
+  TextStyle primaryText(BuildContext context) => copyWith(color: context.venyuTheme.primaryText);
+  TextStyle secondary(BuildContext context) => copyWith(color: context.venyuTheme.secondaryText);
+  TextStyle disabled(BuildContext context) => copyWith(color: context.venyuTheme.disabledText);
+  TextStyle error(BuildContext context) => copyWith(color: context.venyuTheme.error);
+  TextStyle success(BuildContext context) => copyWith(color: context.venyuTheme.success);
+  TextStyle onCard(BuildContext context) => copyWith(color: context.venyuTheme.cardBackground);
 }
