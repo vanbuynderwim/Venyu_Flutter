@@ -43,6 +43,7 @@ class RoleView extends StatelessWidget {
                 Text(
                   profile.fullName,
                   style: AppTextStyles.headline.copyWith(
+                    color: context.venyuTheme.primaryText,
                     fontWeight: FontWeight.w600,
                   ),
                   maxLines: 1,
