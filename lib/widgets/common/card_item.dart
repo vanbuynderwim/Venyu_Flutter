@@ -3,7 +3,6 @@ import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import 'role_view.dart';
 import 'status_badge_view.dart';
@@ -13,6 +12,7 @@ class CardItem extends StatefulWidget {
   final Prompt prompt;
   final bool reviewing;
   final bool isLast;
+  final bool isFirst;
   final bool isSharedPromptView;
   final bool showMatchInteraction;
   final Function(Prompt)? onCardSelected;
@@ -22,6 +22,7 @@ class CardItem extends StatefulWidget {
     required this.prompt,
     this.reviewing = false,
     this.isLast = false,
+    this.isFirst = false,
     this.isSharedPromptView = false,
     this.showMatchInteraction = false,
     this.onCardSelected,
@@ -36,11 +37,9 @@ class _CardItemState extends State<CardItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
             onTap: widget.showMatchInteraction 
                 ? null 
                 : () {
@@ -52,8 +51,12 @@ class _CardItemState extends State<CardItem> {
             splashFactory: NoSplash.splashFactory,
             borderRadius: _getBorderRadius(),
             child: Container(
-              decoration: AppLayoutStyles.defaultBorder(context).copyWith(
+              decoration: BoxDecoration(
                 borderRadius: _getBorderRadius(),
+                border: Border.all(
+                  color: context.venyuTheme.borderColor,
+                  width: 0.5,
+                ),
               ),
               child: IntrinsicHeight(
                 child: Row(
@@ -122,9 +125,7 @@ class _CardItemState extends State<CardItem> {
               ),
             ),
           ),
-        ),
-      ],
-    );
+        );
   }
 
   /// Bouw de interaction type bar (verticale balk met icoon)
@@ -133,15 +134,7 @@ class _CardItemState extends State<CardItem> {
       width: 40,
       decoration: BoxDecoration(
         color: interactionType.color,
-        borderRadius: isLeading 
-            ? const BorderRadius.only(
-                topLeft: Radius.circular(AppModifiers.defaultRadius),
-                bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-              )
-            : const BorderRadius.only(
-                topRight: Radius.circular(AppModifiers.defaultRadius),
-                bottomRight: Radius.circular(AppModifiers.defaultRadius),
-              ),
+        borderRadius: _getInteractionBarBorderRadius(isLeading: isLeading),
       ),
       child: Center(
         child: Image.asset(
@@ -185,14 +178,33 @@ class _CardItemState extends State<CardItem> {
 
   /// Krijg de border radius voor de container
   BorderRadius _getBorderRadius() {
-    if (widget.isLast && widget.isSharedPromptView) {
+    debugPrint('🔍 CardItem _getBorderRadius: isSharedPromptView=${widget.isSharedPromptView}, isFirst=${widget.isFirst}, isLast=${widget.isLast}');
+    
+    if (!widget.isSharedPromptView) {
+      // Individual card - fully rounded
+      debugPrint('  → Individual card: fully rounded');
+      return BorderRadius.circular(AppModifiers.defaultRadius);
+    } else if (widget.isFirst && widget.isLast) {
+      // Single card in shared view - no top radius (connects to header), rounded bottom
+      debugPrint('  → Single card in shared view: rounded bottom only');
       return const BorderRadius.only(
         bottomLeft: Radius.circular(AppModifiers.defaultRadius),
         bottomRight: Radius.circular(AppModifiers.defaultRadius),
       );
-    } else if (!widget.isSharedPromptView) {
-      return BorderRadius.circular(AppModifiers.defaultRadius);
+    } else if (widget.isFirst) {
+      // First card in shared view - no rounded corners (connects to header)
+      debugPrint('  → First card in shared view: no rounded corners');
+      return BorderRadius.zero;
+    } else if (widget.isLast) {
+      // Last card in shared view - only rounded bottom
+      debugPrint('  → Last card in shared view: rounded bottom only');
+      return const BorderRadius.only(
+        bottomLeft: Radius.circular(AppModifiers.defaultRadius),
+        bottomRight: Radius.circular(AppModifiers.defaultRadius),
+      );
     } else {
+      // Middle cards in shared view - no rounded corners
+      debugPrint('  → Middle card in shared view: no rounded corners');
       return BorderRadius.zero;
     }
   }
@@ -205,12 +217,8 @@ class _CardItemState extends State<CardItem> {
     double bottomLeft = 0;
     double bottomRight = 0;
     
-    if (widget.isLast && widget.isSharedPromptView) {
-      bottomLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
-      bottomRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
-          ? 0 
-          : AppModifiers.defaultRadius;
-    } else if (!widget.isSharedPromptView) {
+    if (!widget.isSharedPromptView) {
+      // Individual card - rounded corners where no interaction bars exist
       topLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
       topRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
           ? 0 
@@ -219,7 +227,14 @@ class _CardItemState extends State<CardItem> {
       bottomRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
           ? 0 
           : AppModifiers.defaultRadius;
+    } else if (widget.isLast) {
+      // Last card in shared view - only bottom radius where no interaction bars exist
+      bottomLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
+      bottomRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
+          ? 0 
+          : AppModifiers.defaultRadius;
     }
+    // First and middle cards in shared view have no rounded corners for content
     
     return BorderRadius.only(
       topLeft: Radius.circular(topLeft),
@@ -227,6 +242,48 @@ class _CardItemState extends State<CardItem> {
       bottomLeft: Radius.circular(bottomLeft),
       bottomRight: Radius.circular(bottomRight),
     );
+  }
+
+  /// Krijg de border radius voor interaction bars
+  BorderRadius _getInteractionBarBorderRadius({required bool isLeading}) {
+    debugPrint('🎨 InteractionBar borderRadius: isLeading=$isLeading, isSharedPromptView=${widget.isSharedPromptView}, isFirst=${widget.isFirst}, isLast=${widget.isLast}');
+    
+    if (!widget.isSharedPromptView) {
+      // Individual card - standard rounded corners on appropriate sides
+      return isLeading 
+          ? const BorderRadius.only(
+              topLeft: Radius.circular(AppModifiers.defaultRadius),
+              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
+            )
+          : const BorderRadius.only(
+              topRight: Radius.circular(AppModifiers.defaultRadius),
+              bottomRight: Radius.circular(AppModifiers.defaultRadius),
+            );
+    } else if (widget.isFirst && widget.isLast) {
+      // Single card in shared view - no top radius, rounded bottom
+      return isLeading 
+          ? const BorderRadius.only(
+              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
+            )
+          : const BorderRadius.only(
+              bottomRight: Radius.circular(AppModifiers.defaultRadius),
+            );
+    } else if (widget.isFirst) {
+      // First card in shared view - no rounded corners
+      return BorderRadius.zero;
+    } else if (widget.isLast) {
+      // Last card in shared view - only rounded bottom
+      return isLeading 
+          ? const BorderRadius.only(
+              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
+            )
+          : const BorderRadius.only(
+              bottomRight: Radius.circular(AppModifiers.defaultRadius),
+            );
+    } else {
+      // Middle cards in shared view - no rounded corners
+      return BorderRadius.zero;
+    }
   }
 
 }

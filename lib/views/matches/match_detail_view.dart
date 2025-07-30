@@ -12,6 +12,8 @@ import '../../widgets/profile/profile_header.dart';
 import '../../widgets/common/card_item.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/tag_view.dart';
+import '../../widgets/matches/match_overview_header.dart';
+import '../../services/session_manager.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
@@ -37,6 +39,7 @@ class MatchDetailView extends StatefulWidget {
 class _MatchDetailViewState extends State<MatchDetailView> {
   // Services
   late final SupabaseManager _supabaseManager;
+  late final SessionManager _sessionManager;
   
   // State
   Match? _match;
@@ -47,6 +50,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   void initState() {
     super.initState();
     _supabaseManager = SupabaseManager.shared;
+    _sessionManager = SessionManager.shared;
     _loadMatchDetail();
   }
 
@@ -255,19 +259,41 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       );
     }
 
+    final currentProfile = _sessionManager.currentProfile;
+    if (currentProfile == null) {
+      return const Center(
+        child: Text('Profile not available'),
+      );
+    }
+
     return Column(
-      children: _match!.prompts!.map((prompt) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: CardItem(
+      children: [
+        // Match Overview Header
+        MatchOverviewHeader(
+          match: _match!,
+          currentProfile: currentProfile,
+        ),
+        
+        // Prompt Cards - no spacing between cards in shared view
+        ..._match!.prompts!.asMap().entries.map((entry) {
+          final index = entry.key;
+          final prompt = entry.value;
+          final isFirst = index == 0;
+          final isLast = index == _match!.prompts!.length - 1;
+          
+          return CardItem(
             prompt: prompt,
+            isSharedPromptView: true,
+            showMatchInteraction: true,
+            isFirst: isFirst,
+            isLast: isLast,
             onCardSelected: (selectedPrompt) {
               // TODO: Handle card detail view
               debugPrint('Card selected: ${selectedPrompt.label}');
             },
-          ),
-        );
-      }).toList(),
+          );
+        }),
+      ],
     );
   }
 
