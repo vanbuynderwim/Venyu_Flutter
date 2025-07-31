@@ -79,10 +79,10 @@ class ProfileHeader extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(
-                          Icons.location_on_outlined,
+                        context.themedIcon(
+                          'location',
+                          selected: false,
                           size: 16,
-                          color: venyuTheme.secondaryText,
                         ),
                         const SizedBox(width: 4),
                         Text(

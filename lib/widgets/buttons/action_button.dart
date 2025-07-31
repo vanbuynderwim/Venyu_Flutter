@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/action_button_type.dart';
 
 /// A customizable action button widget with multiple visual styles.
@@ -127,7 +128,15 @@ class _ActionButtonState extends State<ActionButton> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (widget.icon != null) ...[
-                      widget.icon!,
+                      isIconOnlyButton
+                        ? ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              context.venyuTheme.primary,
+                              BlendMode.srcIn,
+                            ),
+                            child: widget.icon!,
+                          )
+                        : widget.icon!,
                       if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                     ],
                     if (widget.label != null && !isIconOnlyButton)

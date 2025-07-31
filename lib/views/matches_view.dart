@@ -183,6 +183,11 @@ class _MatchesViewState extends State<MatchesView> {
                                   context: context,
                                   builder: (context) => MatchDetailView(
                                     matchId: selectedMatch.id,
+                                    onMatchRemoved: () {
+                                      setState(() {
+                                        _matches.removeWhere((m) => m.id == selectedMatch.id);
+                                      });
+                                    },
                                   ),
                                 ),
                               );

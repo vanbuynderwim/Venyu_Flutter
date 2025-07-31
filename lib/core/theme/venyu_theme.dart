@@ -251,12 +251,13 @@ extension VenyuThemeAccess on BuildContext {
     double? width,
     double? height,
     double size = 24,
+    Color? overrideColor,
   }) {
     return Image.asset(
       getIconPath(baseName, selected: selected),
       width: width ?? size,
       height: height ?? size,
-      color: getIconColor(selected: selected)
+      color: overrideColor ?? getIconColor(selected: selected)
     );
   }
   

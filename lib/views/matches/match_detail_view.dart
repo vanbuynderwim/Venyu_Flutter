@@ -32,10 +32,12 @@ import '../../models/requests/match_response_request.dart';
 /// Based on iOS MatchDetailView structure with theme-aware styling.
 class MatchDetailView extends StatefulWidget {
   final String matchId;
+  final VoidCallback? onMatchRemoved;
 
   const MatchDetailView({
     super.key,
     required this.matchId,
+    this.onMatchRemoved,
   });
 
   @override
@@ -50,7 +52,8 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   // State
   Match? _match;
   bool _isLoading = true;
-  bool _isProcessingResponse = false;
+  bool _isProcessingSkip = false;
+  bool _isProcessingInterested = false;
   String? _error;
 
   @override
@@ -427,22 +430,62 @@ class _MatchDetailViewState extends State<MatchDetailView> {
           children: [
             // Skip button
             Expanded(
-              child: ActionButton(
-                label: _isProcessingResponse ? 'Processing...' : 'Skip',
-                onPressed: _isProcessingResponse ? null : _showSkipAlert,
-                style: ActionButtonType.secondary,
-                isDisabled: _isProcessingResponse,
-              ),
+              child: _isProcessingSkip 
+                ? ActionButton(
+                    label: '',
+                    onPressed: null,
+                    style: ActionButtonType.secondary,
+                    isDisabled: true,
+                    icon: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: PlatformCircularProgressIndicator(
+                        cupertino: (_, __) => CupertinoProgressIndicatorData(
+                          color: ActionButtonType.secondary.textColor(context),
+                        ),
+                        material: (_, __) => MaterialProgressIndicatorData(
+                          color: ActionButtonType.secondary.textColor(context),
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ),
+                  )
+                : ActionButton(
+                    label: 'Skip',
+                    onPressed: _isProcessingInterested ? null : _showSkipAlert,
+                    style: ActionButtonType.secondary,
+                    isDisabled: _isProcessingInterested,
+                  ),
             ),
             const SizedBox(width: 16),
             // Connect button  
             Expanded(
-              child: ActionButton(
-                label: _isProcessingResponse ? 'Processing...' : 'Interested',
-                onPressed: _isProcessingResponse ? null : _handleConnectMatch,
-                style: ActionButtonType.primary,
-                isDisabled: _isProcessingResponse,
-              ),
+              child: _isProcessingInterested
+                ? ActionButton(
+                    label: '',
+                    onPressed: null,
+                    style: ActionButtonType.primary,
+                    isDisabled: true,
+                    icon: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: PlatformCircularProgressIndicator(
+                        cupertino: (_, __) => CupertinoProgressIndicatorData(
+                          color: ActionButtonType.primary.textColor(context),
+                        ),
+                        material: (_, __) => MaterialProgressIndicatorData(
+                          color: ActionButtonType.primary.textColor(context),
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ),
+                  )
+                : ActionButton(
+                    label: 'Interested',
+                    onPressed: _isProcessingSkip ? null : _handleConnectMatch,
+                    style: ActionButtonType.primary,
+                    isDisabled: _isProcessingSkip,
+                  ),
             ),
           ],
         ),
@@ -492,7 +535,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     if (_match == null) return;
     
     setState(() {
-      _isProcessingResponse = true;
+      _isProcessingSkip = true;
     });
 
     try {
@@ -505,21 +548,27 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       
       if (mounted) {
         // Show success feedback first
-        ScaffoldMessenger.of(context).showSnackBar(
+        final messenger = ScaffoldMessenger.maybeOf(context);
+        
+        // Notify parent that match was removed
+        widget.onMatchRemoved?.call();
+        
+        // Then navigate back to matches list
+        Navigator.of(context).pop();
+        
+        // Show snackbar after navigation if possible
+        messenger?.showSnackBar(
           const SnackBar(
             content: Text('Match skipped'),
             duration: Duration(seconds: 2),
           ),
         );
-        
-        // Then navigate back to matches list
-        Navigator.of(context).pop();
       }
     } catch (error) {
       debugPrint('Error skipping match: $error');
       
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
           SnackBar(
             content: Text('Failed to skip match: $error'),
             backgroundColor: context.venyuTheme.error,
@@ -529,7 +578,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     } finally {
       if (mounted) {
         setState(() {
-          _isProcessingResponse = false;
+          _isProcessingSkip = false;
         });
       }
     }
@@ -540,7 +589,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     if (_match == null) return;
     
     setState(() {
-      _isProcessingResponse = true;
+      _isProcessingInterested = true;
     });
 
     try {
@@ -553,21 +602,27 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       
       if (mounted) {
         // Show success feedback first
-        ScaffoldMessenger.of(context).showSnackBar(
+        final messenger = ScaffoldMessenger.maybeOf(context);
+        
+        // Notify parent that match was removed
+        widget.onMatchRemoved?.call();
+        
+        // Then navigate back to matches list
+        Navigator.of(context).pop();
+        
+        // Show snackbar after navigation if possible
+        messenger?.showSnackBar(
           const SnackBar(
             content: Text('Connection request sent!'),
             duration: Duration(seconds: 2),
           ),
         );
-        
-        // Then navigate back to matches list
-        Navigator.of(context).pop();
       }
     } catch (error) {
       debugPrint('Error connecting with match: $error');
       
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
           SnackBar(
             content: Text('Failed to connect: $error'),
             backgroundColor: context.venyuTheme.error,
@@ -577,7 +632,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     } finally {
       if (mounted) {
         setState(() {
-          _isProcessingResponse = false;
+          _isProcessingInterested = false;
         });
       }
     }

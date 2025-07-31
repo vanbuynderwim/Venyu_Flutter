@@ -46,17 +46,35 @@ class AvatarView extends StatefulWidget {
 }
 
 class _AvatarViewState extends State<AvatarView> {
-  late final Future<String?> _imageFuture;
+  Future<String?>? _imageFuture;
+  String? _currentAvatarId;
 
   @override
   void initState() {
     super.initState();
+    _initializeImageFuture();
+  }
+
+  @override
+  void didUpdateWidget(AvatarView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Only reinitialize if the avatarId actually changed
+    if (oldWidget.avatarId != widget.avatarId) {
+      _initializeImageFuture();
+    }
+  }
+
+  void _initializeImageFuture() {
+    _currentAvatarId = widget.avatarId;
     // Cache the future to prevent rebuilds from triggering new network calls
     if (widget.avatarId != null && widget.avatarId!.isNotEmpty) {
       _imageFuture = SupabaseManager.shared.getRemoteImage(
         id: widget.avatarId!,
         height: widget.size.toInt(),
       );
+    } else {
+      // Initialize with a completed future when no avatar ID
+      _imageFuture = Future.value(null);
     }
   }
 
@@ -118,7 +136,7 @@ class _AvatarViewState extends State<AvatarView> {
   
   Widget _buildRemoteAvatar(BuildContext context) {
     return FutureBuilder<String?>(
-      future: _imageFuture,
+      future: _imageFuture!,
     builder: (context, snapshot) {
       final venyuTheme = context.venyuTheme;
       
