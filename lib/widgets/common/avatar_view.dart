@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../services/supabase_manager.dart';
 
@@ -82,7 +83,7 @@ class _AvatarViewState extends State<AvatarView> {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: venyuTheme.secondaryText.withValues(alpha: 0.2),
-                  width: 1,
+                  width: AppModifiers.thinBorder,
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/profile.dart';
 import '../../models/enums/action_button_type.dart';
@@ -135,7 +136,7 @@ class ProfileHeader extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: venyuTheme.borderColor,
-                      width: 1,
+                      width: AppModifiers.extraThinBorder,
                     ),
                   ),
                   child: Center(

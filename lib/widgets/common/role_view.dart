@@ -96,9 +96,9 @@ class RoleView extends StatelessWidget {
           
           // Chevron
           if (showChevron && !buttonDisabled)
-            Icon(
-              Icons.chevron_right,
-              color: context.venyuTheme.disabledText,
+            context.themedIcon(
+              'chevron',
+              selected: false,
               size: 20,
             ),
         ],

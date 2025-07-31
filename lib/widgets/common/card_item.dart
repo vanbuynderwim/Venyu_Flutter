@@ -55,7 +55,7 @@ class _CardItemState extends State<CardItem> {
                 borderRadius: _getBorderRadius(),
                 border: Border.all(
                   color: context.venyuTheme.borderColor,
-                  width: 0.5,
+                  width: AppModifiers.extraThinBorder,
                 ),
               ),
               child: IntrinsicHeight(

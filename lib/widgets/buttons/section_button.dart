@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../common/section_type.dart';
 
@@ -173,7 +174,7 @@ class SectionButtonBar<T extends SectionType> extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: venyuTheme.borderColor,
-          width: 0.5,
+          width: AppModifiers.extraThinBorder,
         ),
       ),
       // Clip the content to match the border radius

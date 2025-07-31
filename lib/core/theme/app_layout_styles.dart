@@ -14,7 +14,7 @@ class AppLayoutStyles {
       borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       border: Border.all(
         color: theme.borderColor,
-        width: 1,
+        width: AppModifiers.extraThinBorder,
       ),
     );
   }
@@ -27,7 +27,7 @@ class AppLayoutStyles {
       borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       border: Border.all(
         color: theme.borderColor,
-        width: 1,
+        width: AppModifiers.extraThinBorder,
       ),
     );
   }
@@ -53,7 +53,7 @@ class AppLayoutStyles {
       borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       border: Border.all(
         color: theme.borderColor,
-        width: 1,
+        width: AppModifiers.extraThinBorder,
       ),
     );
   }
@@ -65,7 +65,7 @@ class AppLayoutStyles {
       shape: BoxShape.circle,
       border: Border.all(
         color: theme.borderColor,
-        width: 1,
+        width: AppModifiers.extraThinBorder,
       ),
     );
   }
@@ -86,7 +86,7 @@ class AppLayoutStyles {
       borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
       border: Border.all(
         color: theme.borderColor,
-        width: AppModifiers.thinBorder,
+        width: AppModifiers.extraThinBorder,
       ),
     );
   }
@@ -139,7 +139,7 @@ class AppLayoutStyles {
     border: Border(
       bottom: BorderSide(
         color: AppColors.secundair7Cascadingwhite,
-        width: AppModifiers.thinBorder,
+        width: AppModifiers.extraThinBorder,
       ),
     ),
   );

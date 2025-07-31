@@ -13,10 +13,12 @@ import '../../widgets/common/card_item.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/matches/match_overview_header.dart';
+import '../../widgets/matches/match_reasons_view.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../services/session_manager.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/match_response.dart';
+import '../../models/enums/match_status.dart';
 import '../../models/requests/match_response_request.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
@@ -222,6 +224,14 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               const SizedBox(height: 24),
             ],
             
+            // Match reasons section (only for matched status)
+            if (_match!.status == MatchStatus.matched && 
+                _match!.reason != null && 
+                _match!.reason!.isNotEmpty) ...[
+              MatchReasonsView(match: _match!)
+
+            ],
+            
       ],
     );
   }
@@ -231,7 +241,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     
     return Row(
       children: [
-        context.themedIcon(iconName, size: 20, selected: true),
+        context.themedIcon(iconName, selected: true),
         const SizedBox(width: 8),
         Text(
           title,
@@ -251,7 +261,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
         decoration: BoxDecoration(
           color: context.venyuTheme.cardBackground,
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: 0.5),
+          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
         ),
         child: Text(
           'No matching cards',
@@ -307,7 +317,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
         decoration: BoxDecoration(
           color: context.venyuTheme.cardBackground,
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: 0.5),
+          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
         ),
         child: Text(
           'No shared connections',
@@ -323,7 +333,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       decoration: BoxDecoration(
         color: context.venyuTheme.cardBackground,
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        border: Border.all(color: context.venyuTheme.borderColor, width: 0.5),
+        border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
       ),
       child: Column(
         children: _match!.connections!.map((connection) {
@@ -356,7 +366,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
         decoration: BoxDecoration(
           color: context.venyuTheme.cardBackground,
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: 0.5),
+          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
         ),
         child: Text(
           'No shared tags',
@@ -372,7 +382,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       decoration: BoxDecoration(
         color: context.venyuTheme.cardBackground,
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        border: Border.all(color: context.venyuTheme.borderColor, width: 0.5),
+        border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,15 +467,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
           'This match will be removed permanently and you won\'t see it again. ${_match!.profile.firstName} won\'t get notified.',
         ),
         actions: [
-          PlatformDialogAction(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-            cupertino: (_, __) => CupertinoDialogActionData(
-              isDefaultAction: true,
-            ),
-          ),
+          
           PlatformDialogAction(
             onPressed: () {
               Navigator.of(context).pop();
@@ -474,6 +476,15 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             child: const Text('Skip'),
             cupertino: (_, __) => CupertinoDialogActionData(
               isDestructiveAction: true,
+            ),
+          ),
+          PlatformDialogAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+            cupertino: (_, __) => CupertinoDialogActionData(
+              isDefaultAction: true,
             ),
           ),
         ],

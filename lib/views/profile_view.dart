@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/theme/app_text_styles.dart';
+import '../core/theme/app_modifiers.dart';
 import '../core/theme/venyu_theme.dart';
 import '../models/enums/profile_sections.dart';
 import '../models/prompt.dart';
@@ -138,7 +139,7 @@ class _ProfileViewState extends State<ProfileView> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: venyuTheme.borderColor,
-          width: 0.5,
+          width: AppModifiers.extraThinBorder,
         ),
       ),
       child: Row(

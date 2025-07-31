@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
+import '../core/theme/app_text_styles.dart';
+import '../core/theme/venyu_theme.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../widgets/common/empty_state_widget.dart';
 import '../models/match.dart';
+import '../models/enums/match_status.dart';
 import '../models/requests/paginated_request.dart';
 import '../widgets/common/match_item_view.dart';
 import '../services/supabase_manager.dart';
@@ -116,6 +119,19 @@ class _MatchesViewState extends State<MatchesView> {
     await _loadMatches(forceRefresh: true);
   }
 
+  bool _shouldShowDivider(int index) {
+    // Check if we have at least 2 items and we're not at the last item
+    if (_matches.length < 2 || index >= _matches.length - 1) return false;
+    
+    final currentMatch = _matches[index];
+    final nextMatch = _matches[index + 1];
+    
+    // Debug logging
+    debugPrint('Checking divider at index $index: current=${currentMatch.status.value}, next=${nextMatch.status.value}');
+    
+    return currentMatch.status == MatchStatus.matched && 
+           nextMatch.status == MatchStatus.connected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,23 +174,51 @@ class _MatchesViewState extends State<MatchesView> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Header logic - no headers unlike iOS
-                          // if (_shouldShowHeader(match, index))
-                          //   _buildHeader(match.status, index == 0),
-                          
                           MatchItemView(
-                              match: match,
-                              onMatchSelected: (selectedMatch) {
-                                Navigator.push(
-                                  context,
-                                  platformPageRoute(
-                                    context: context,
-                                    builder: (context) => MatchDetailView(
-                                      matchId: selectedMatch.id,
+                            match: match,
+                            onMatchSelected: (selectedMatch) {
+                              Navigator.push(
+                                context,
+                                platformPageRoute(
+                                  context: context,
+                                  builder: (context) => MatchDetailView(
+                                    matchId: selectedMatch.id,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          if (_shouldShowDivider(index))
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Divider(
+                                      height: 1,
+                                      thickness: 0.5,
+                                      color: context.venyuTheme.borderColor,
                                     ),
                                   ),
-                                );
-                              },
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: Text(
+                                      'Connections',
+                                      style: AppTextStyles.subheadline.copyWith(
+                                        color: context.venyuTheme.primaryText,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      height: 1,
+                                      thickness: 0.5,
+                                      color: context.venyuTheme.borderColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                         ],
                       );

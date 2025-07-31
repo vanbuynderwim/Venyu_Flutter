@@ -52,7 +52,7 @@ class NotificationsView extends StatelessWidget {
                   border: Border(
                     bottom: BorderSide(
                       color: context.venyuTheme.secondaryText.withValues(alpha: 0.2),
-                      width: 0.5,
+                      width: AppModifiers.extraThinBorder,
                     ),
                   ),
                 ),

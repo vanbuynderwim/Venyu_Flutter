@@ -75,7 +75,7 @@ class _MatchItemViewState extends State<MatchItemView> {
                     profile: widget.match.profile,
                     avatarSize: 60,
                     showChevron: true,
-                    buttonDisabled: true,
+                    buttonDisabled: false,
                   ),
                 ],
               ),
