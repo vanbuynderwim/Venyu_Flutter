@@ -3,14 +3,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../models/match.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/profile/profile_header.dart';
 import '../../widgets/common/card_item.dart';
-import '../../widgets/common/role_view.dart';
+import '../../widgets/common/match_item_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/matches/match_overview_header.dart';
 import '../../widgets/matches/match_reasons_view.dart';
@@ -153,7 +153,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 32.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       children: [
             // Profile Header
             ProfileHeader(
@@ -191,8 +191,8 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               const SizedBox(height: 24),
             ],
             
-            // Shared Connections Section (only for connected matches)
-            if (_match!.isConnected && _match!.nrOfConnections > 0) ...[
+            // Shared Connections Section 
+            if (_match!.nrOfConnections > 0) ...[
               _buildSectionHeader(
                 iconName: 'handshake',
                 title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "connection" : "connections"}',
@@ -258,11 +258,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     if (_match!.prompts == null || _match!.prompts!.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.venyuTheme.cardBackground,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
-        ),
+        decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No matching cards',
           style: AppTextStyles.body.copyWith(
@@ -311,14 +307,13 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   }
 
   Widget _buildConnectionsSection() {
+    debugPrint('DEBUG: connections = ${_match!.connections}');
+    debugPrint('DEBUG: nrOfConnections = ${_match!.nrOfConnections}');
+    
     if (_match!.connections == null || _match!.connections!.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.venyuTheme.cardBackground,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
-        ),
+        decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No shared connections',
           style: AppTextStyles.body.copyWith(
@@ -328,26 +323,30 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       );
     }
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
-      ),
-      child: Column(
-        children: _match!.connections!.map((connection) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: RoleView(
-              profile: connection.profile,
-              avatarSize: 50,
-              showChevron: false,
-              buttonDisabled: true,
-            ),
-          );
-        }).toList(),
-      ),
+    return Column(
+      children: _match!.connections!.asMap().entries.map((entry) {
+        final index = entry.key;
+        final connection = entry.value;
+        final isLast = index == _match!.connections!.length - 1;
+        
+        return Padding(
+          padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
+          child: MatchItemView(
+            match: connection,
+            onMatchSelected: (selectedMatch) {
+              Navigator.push(
+                context,
+                platformPageRoute(
+                  context: context,
+                  builder: (context) => MatchDetailView(
+                    matchId: selectedMatch.id,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -363,11 +362,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     if (tagGroups.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.venyuTheme.cardBackground,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
-        ),
+        decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No shared tags',
           style: AppTextStyles.body.copyWith(
@@ -379,16 +374,16 @@ class _MatchDetailViewState extends State<MatchDetailView> {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        border: Border.all(color: context.venyuTheme.borderColor, width: AppModifiers.extraThinBorder),
-      ),
+      decoration: AppLayoutStyles.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: tagGroups.map((tagGroup) {
+        children: tagGroups.asMap().entries.map((entry) {
+          final index = entry.key;
+          final tagGroup = entry.value;
+          final isLast = index == tagGroups.length - 1;
+          
           return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

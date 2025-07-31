@@ -25,7 +25,7 @@ class StatusBadgeView extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
         border: Border.all(
           color: status.borderColor,
-          width: AppModifiers.thinBorder,
+          width: AppModifiers.extraThinBorder,
         ),
       ),
       child: Text(
