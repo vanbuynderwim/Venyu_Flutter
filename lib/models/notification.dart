@@ -2,6 +2,7 @@ import 'profile.dart';
 import 'prompt.dart';
 import 'match.dart';
 import 'enums/notification_type.dart';
+import '../core/utils/date_extensions.dart';
 
 class Notification {
   final String id;
@@ -58,18 +59,5 @@ class Notification {
   bool get isRead => openedAt != null;
   bool get isUnread => !isRead;
   
-  String get timeAgo {
-    final now = DateTime.now();
-    final difference = now.difference(createdAt);
-    
-    if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
-    } else {
-      return 'just now';
-    }
-  }
+  String get timeAgo => createdAt.timeAgo();
 }

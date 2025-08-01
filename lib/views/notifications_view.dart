@@ -1,118 +1,180 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
-import '../core/theme/app_theme.dart';
 import '../widgets/common/empty_state_widget.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
+import '../widgets/notifications/notification_item_view.dart';
+import '../models/notification.dart' as venyu;
+import '../models/requests/paginated_request.dart';
+import '../services/supabase_manager.dart';
+import '../services/session_manager.dart';
+import 'matches/match_detail_view.dart';
 
 /// NotificationsView - Notifications page with ListView for server data
-class NotificationsView extends StatelessWidget {
+class NotificationsView extends StatefulWidget {
   const NotificationsView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: Replace with actual notifications data from server
-    final List<Map<String, dynamic>> dummyNotifications = List.generate(
-      15,
-      (index) => {
-        'title': 'New ${index % 3 == 0 ? 'Match' : index % 3 == 1 ? 'Message' : 'Connection'}',
-        'subtitle': index % 3 == 0 
-            ? 'You have a new match with someone!'
-            : index % 3 == 1 
-                ? 'New message from your connection'
-                : 'Someone wants to connect with you',
-        'time': '${index + 1}h ago',
-        'isUnread': index < 5,
-        'type': index % 3 == 0 ? 'match' : index % 3 == 1 ? 'message' : 'connection',
-      },
-    );
+  State<NotificationsView> createState() => _NotificationsViewState();
+}
 
-    return AppListScaffold(
+class _NotificationsViewState extends State<NotificationsView> {
+  final List<venyu.Notification> _notifications = [];
+  final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
+  bool _isLoadingMore = false;
+  bool _hasMorePages = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    _loadNotifications();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - 200 &&
+        !_isLoadingMore &&
+        _hasMorePages) {
+      _loadMoreNotifications();
+    }
+  }
+
+  Future<void> _loadNotifications({bool forceRefresh = false}) async {
+    if (!SessionManager.shared.isAuthenticated) return;
+
+    if (forceRefresh || _notifications.isEmpty) {
+      setState(() {
+        _isLoading = true;
+        if (forceRefresh) {
+          _notifications.clear();
+          _hasMorePages = true;
+        }
+      });
+
+      try {
+        final request = PaginatedRequest(
+          limit: PaginatedRequest.numberOfNotifications,
+          list: ServerListType.notifications,
+        );
+
+        final notifications = await SupabaseManager.shared.fetchNotifications(request);
+        setState(() {
+          _notifications.addAll(notifications);
+          _hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+          _isLoading = false;
+        });
+      } catch (error) {
+        debugPrint('Error fetching notifications: $error');
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _loadMoreNotifications() async {
+    if (_notifications.isEmpty || !_hasMorePages) return;
+
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    try {
+      final lastNotification = _notifications.last;
+      final request = PaginatedRequest(
+        limit: PaginatedRequest.numberOfNotifications,
+        cursorId: lastNotification.id,
+        cursorTime: lastNotification.createdAt,
+        list: ServerListType.notifications,
+      );
+
+      final notifications = await SupabaseManager.shared.fetchNotifications(request);
+      setState(() {
+        _notifications.addAll(notifications);
+        _hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+        _isLoadingMore = false;
+      });
+    } catch (error) {
+      debugPrint('Error loading more notifications: $error');
+      setState(() {
+        _isLoadingMore = false;
+      });
+    }
+  }
+
+  Future<void> _handleRefresh() async {
+    await _loadNotifications(forceRefresh: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(AppStrings.notifications),
       ),
-      children: dummyNotifications.isEmpty
-          ? [
-              EmptyStateWidget(
-                message: 'No new notifications',
-                description: 'We\'ll notify you when there\'s something new',
-                iconName: 'notification',
-                height: MediaQuery.of(context).size.height * 0.6,
-              ),
-            ]
-          : dummyNotifications.map((notification) {
-              final isUnread = notification['isUnread'] as bool;
-              final type = notification['type'] as String;
-              
-              return Container(
-                decoration: BoxDecoration(
-                  color: isUnread ? context.venyuTheme.primary.withValues(alpha: 0.1) : null,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: context.venyuTheme.secondaryText.withValues(alpha: 0.2),
-                      width: AppModifiers.extraThinBorder,
-                    ),
-                  ),
-                ),
-                child: PlatformListTile(
-                  leading: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: type == 'match' 
-                          ? context.venyuTheme.primary
-                          : type == 'message'
-                              ? context.venyuTheme.info
-                              : context.venyuTheme.success,
-                      shape: BoxShape.circle,
-                    ),
-                    child: context.themedIcon(
-                      type == 'match' 
-                          ? 'match'
-                          : type == 'message'
-                              ? 'notification'
-                              : 'handshake',
-                      selected: true, // Use selected version for badge icons
-                      size: 20,
-                    ),
-                  ),
-                  title: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          notification['title']!,
-                          style: AppTextStyles.callout.copyWith(
-                            fontWeight: isUnread ? FontWeight.bold : FontWeight.normal,
-                          ),
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _notifications.isEmpty
+                ? CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverFillRemaining(
+                        child: EmptyStateWidget(
+                          message: ServerListType.notifications.emptyStateTitle,
+                          description: ServerListType.notifications.emptyStateDescription,
+                          iconName: ServerListType.notifications.emptyStateIcon,
+                          height: MediaQuery.of(context).size.height * 0.6,
                         ),
                       ),
-                      if (isUnread)
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: context.venyuTheme.primary,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
                     ],
+                  )
+                : ListView.builder(
+                    controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: _notifications.length + (_isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _notifications.length) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      final notification = _notifications[index];
+                      return NotificationItemView(
+                        notification: notification,
+                        onNotificationSelected: (selectedNotification) {
+                          debugPrint('Tapped on notification: ${selectedNotification.title}');
+                          
+                          // If notification has a match, navigate to match detail view
+                          if (selectedNotification.match != null) {
+                            Navigator.push(
+                              context,
+                              platformPageRoute(
+                                context: context,
+                                builder: (context) => MatchDetailView(
+                                  matchId: selectedNotification.match!.id,
+                                ),
+                              ),
+                            );
+                          }
+                          // TODO: Handle other notification types (prompt, etc.)
+                        },
+                      );
+                    },
                   ),
-                  subtitle: Text(
-                    notification['subtitle']!,
-                    style: AppTextStyles.body.secondary(context),
-                  ),
-                  trailing: Text(
-                    notification['time']!,
-                    style: AppTextStyles.caption1.secondary(context),
-                  ),
-                  onTap: () {
-                    debugPrint('Tapped on notification: ${notification['title']}');
-                    // TODO: Navigate to notification detail or mark as read
-                  },
-                ),
-              );
-            }).toList(),
+      ),
     );
   }
 }

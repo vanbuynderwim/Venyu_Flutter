@@ -765,6 +765,34 @@ class SupabaseManager {
     });
   }
 
+  /// Fetch notifications with pagination - equivalent to iOS fetchNotifications(paginatedRequest:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the get_notifications RPC function with paginated request payload
+  /// 2. Returns a list of Notification objects from the response
+  Future<List<Notification>> fetchNotifications(PaginatedRequest paginatedRequest) async {
+    debugPrint('📥 Fetching notifications with pagination: $paginatedRequest');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_notifications RPC function - exact equivalent of iOS implementation
+      final result = await _client
+          .rpc('get_notifications', params: {'payload': paginatedRequest.toJson()})
+          .select();
+      
+      debugPrint('✅ Notifications RPC call successful');
+      debugPrint('📋 Notifications data received: ${result.length} notifications');
+      
+      // Convert response to list of Notification objects
+      final notifications = (result as List)
+          .map((json) => Notification.fromJson(json))
+          .toList();
+      
+      debugPrint('🔔 Notifications parsed: ${notifications.length} notifications');
+      
+      return notifications;
+    });
+  }
+
   /// Fetch match detail - equivalent to iOS fetchMatchDetail(matchId:)
   /// 
   /// This method exactly matches the iOS implementation:

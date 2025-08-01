@@ -3,3 +3,4 @@
 // This file provides a single import point for all utilities in the app.
 
 export 'device_info.dart';
+export 'date_extensions.dart';
