@@ -13,6 +13,7 @@ import '../widgets/buttons/section_button.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/common/card_item.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
+import 'profile/review_pending_cards_view.dart';
 import '../widgets/profile/profile_header.dart';
 import 'profile_edit_view.dart';
 
@@ -296,9 +297,18 @@ class _ProfileViewState extends State<ProfileView> {
             isSelectable: false,
             isCheckmarkVisible: false,
             isChevronVisible: true,
+            isButton: true,
+            withDescription: true,
             onSelect: () {
-              // TODO: Navigate to user reviews
-              debugPrint('Navigate to user reviews');
+              Navigator.push(
+                context,
+                platformPageRoute(
+                  context: context,
+                  builder: (context) => ReviewPendingCardsView(
+                    reviewType: ReviewType.user,
+                  ),
+                ),
+              );
             },
           ),
           
@@ -312,9 +322,18 @@ class _ProfileViewState extends State<ProfileView> {
             isSelectable: false,
             isCheckmarkVisible: false,
             isChevronVisible: true,
+            isButton: true,
+            withDescription: true,
             onSelect: () {
-              // TODO: Navigate to AI reviews
-              debugPrint('Navigate to AI reviews');
+              Navigator.push(
+                context,
+                platformPageRoute(
+                  context: context,
+                  builder: (context) => ReviewPendingCardsView(
+                    reviewType: ReviewType.system,
+                  ),
+                ),
+              );
             },
           ),
         ],

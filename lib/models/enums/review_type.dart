@@ -22,7 +22,14 @@ enum ReviewType implements OptionType {
   }
 
   @override
-  String get description => '';
+  String get description {
+    switch (this) {
+      case ReviewType.user:
+        return 'Cards submitted by users';
+      case ReviewType.system:
+        return 'Daily generated cards by AI';
+    }
+  }
 
   @override
   String? get icon {

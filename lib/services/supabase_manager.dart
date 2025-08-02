@@ -10,6 +10,7 @@ import '../core/config/app_config.dart';
 import '../core/utils/device_info.dart';
 import '../models/models.dart';
 import '../models/requests/update_name_request.dart';
+import '../models/requests/update_prompt_status_requests.dart';
 
 /// Centralized manager for all Supabase database operations and authentication.
 /// 
@@ -790,6 +791,85 @@ class SupabaseManager {
       debugPrint('🔔 Notifications parsed: ${notifications.length} notifications');
       
       return notifications;
+    });
+  }
+
+  /// Fetch pending reviews with pagination - equivalent to iOS fetchPendingReviews(paginatedRequest:)
+  /// 
+  /// This method exactly matches the iOS implementation:
+  /// 1. Calls the appropriate RPC function (get_pending_user_reviews or get_pending_system_reviews)
+  /// 2. Returns a list of Prompt objects from the response
+  Future<List<Prompt>> fetchPendingReviews(PaginatedRequest paginatedRequest) async {
+    debugPrint('📥 Fetching pending reviews with pagination: $paginatedRequest');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the appropriate RPC function based on the list type
+      final result = await _client
+          .rpc(paginatedRequest.list.value, params: {'payload': paginatedRequest.toJson()})
+          .select();
+      
+      debugPrint('✅ Pending reviews RPC call successful');
+      debugPrint('📋 Pending reviews raw result: $result');
+      
+      // Handle null or empty result
+      if (result == null) {
+        debugPrint('⚠️ RPC returned null, treating as empty list');
+        return <Prompt>[];
+      }
+      
+      final resultList = result as List<dynamic>;
+      debugPrint('📋 Pending reviews data received: ${resultList.length} prompts');
+      
+      // Parse the data as List<Prompt>
+      final prompts = resultList
+          .map((promptData) => Prompt.fromJson(promptData as Map<String, dynamic>))
+          .toList();
+      
+      debugPrint('🃏 Prompts parsed: ${prompts.length} prompts');
+      
+      return prompts;
+    });
+  }
+
+  /// Update prompt status for multiple prompts - batch operation
+  /// 
+  /// This method matches the iOS updatePromptStatusBatch implementation
+  Future<void> updatePromptStatusBatch(List<String> promptIds, PromptStatus status) async {
+    debugPrint('📝 Updating prompt status batch: ${promptIds.length} prompts to ${status.value}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the update_prompt_statuses_batch RPC function with payload wrapper
+      final request = UpdatePromptStatusBatch(
+        promptIds: promptIds,
+        status: status,
+      );
+      
+      await _client.rpc('update_prompt_statuses_batch', params: {
+        'payload': request.toJson(),
+      });
+      
+      debugPrint('✅ Prompt status batch update successful');
+    });
+  }
+
+  /// Update prompt status by review type - update all prompts of a review type
+  /// 
+  /// This method matches the iOS updatePromptStatusByReviewType implementation
+  Future<void> updatePromptStatusByReviewType(ReviewType reviewType, PromptStatus status) async {
+    debugPrint('📝 Updating all prompts of review type ${reviewType.value} to ${status.value}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the update_all_prompts_by_review_type RPC function with payload wrapper
+      final request = UpdatePromptStatusByReviewType(
+        reviewType: reviewType,
+        status: status,
+      );
+      
+      await _client.rpc('update_all_prompts_by_review_type', params: {
+        'payload': request.toJson(),
+      });
+      
+      debugPrint('✅ Prompt status by review type update successful');
     });
   }
 

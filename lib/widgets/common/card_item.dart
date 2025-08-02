@@ -50,10 +50,12 @@ class _CardItemState extends State<CardItem> {
                     widget.onCardSelected?.call(widget.prompt);
                   },
             splashFactory: NoSplash.splashFactory,
-            borderRadius: _getBorderRadius(),
+            borderRadius: _getCardBorderRadius(),
             child: Container(
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                borderRadius: _getBorderRadius(),
+                color: context.venyuTheme.cardBackground,
+                borderRadius: _getCardBorderRadius(),
                 border: Border.all(
                   color: context.venyuTheme.borderColor,
                   width: AppModifiers.extraThinBorder,
@@ -70,10 +72,7 @@ class _CardItemState extends State<CardItem> {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          gradient: _buildGradient(),
-                          borderRadius: _getContentBorderRadius(),
-                        ),
+                        decoration: _buildGradientOverlay(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -135,7 +134,6 @@ class _CardItemState extends State<CardItem> {
       width: 40,
       decoration: BoxDecoration(
         color: interactionType.color,
-        borderRadius: _getInteractionBarBorderRadius(isLeading: isLeading),
       ),
       child: Center(
         child: Image.asset(
@@ -160,123 +158,52 @@ class _CardItemState extends State<CardItem> {
     return context.themedIcon('checkbox', selected: isSelected);
   }
 
-  /// Bouw de gradient achtergrond
-  LinearGradient _buildGradient() {
-    final venyuTheme = context.venyuTheme;
-    final leftColor = widget.prompt.interactionType?.color ?? venyuTheme.cardBackground;
+  /// Build gradient overlay - only show gradient if interaction colors exist
+  BoxDecoration? _buildGradientOverlay() {
+    final leftColor = widget.prompt.interactionType?.color;
     final rightColor = widget.showMatchInteraction && widget.prompt.matchInteractionType != null
         ? widget.prompt.matchInteractionType!.color
-        : venyuTheme.cardBackground;
+        : null;
     
-    return LinearGradient(
-      colors: [
-        leftColor.withValues(alpha: 0.15),
-        rightColor.withValues(alpha: 0.15),
-      ],
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
+    // If no interaction colors, no overlay needed (cardBackground is on main container)
+    if (leftColor == null && rightColor == null) {
+      return null;
+    }
+    
+    // If interaction colors exist, show gradient overlay
+    final venyuTheme = context.venyuTheme;
+    return BoxDecoration(
+      gradient: LinearGradient(
+        colors: [
+          (leftColor ?? venyuTheme.cardBackground).withValues(alpha: 0.15),
+          (rightColor ?? venyuTheme.cardBackground).withValues(alpha: 0.15),
+        ],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ),
     );
   }
 
-  /// Krijg de border radius voor de container
-  BorderRadius _getBorderRadius() {
-    if (!widget.isSharedPromptView) {
-      // Individual card - fully rounded
+  /// Simple card border radius - equivalent to Swift applyCardShape
+  BorderRadius _getCardBorderRadius() {
+    final roundedBottom = widget.isLast && widget.isSharedPromptView;
+    final roundedCard = !widget.isSharedPromptView;
+    
+    if (roundedBottom) {
+      // Only bottom corners rounded
+      return const BorderRadius.only(
+        bottomLeft: Radius.circular(AppModifiers.defaultRadius),
+        bottomRight: Radius.circular(AppModifiers.defaultRadius),
+      );
+    } else if (roundedCard) {
+      // All corners rounded
       return BorderRadius.circular(AppModifiers.defaultRadius);
-    } else if (widget.isFirst && widget.isLast) {
-      // Single card in shared view - no top radius (connects to header), rounded bottom
-      return const BorderRadius.only(
-        bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-        bottomRight: Radius.circular(AppModifiers.defaultRadius),
-      );
-    } else if (widget.isFirst) {
-      // First card in shared view - no rounded corners (connects to header)
-      return BorderRadius.zero;
-    } else if (widget.isLast) {
-      // Last card in shared view - only rounded bottom
-      return const BorderRadius.only(
-        bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-        bottomRight: Radius.circular(AppModifiers.defaultRadius),
-      );
     } else {
-      // Middle cards in shared view - no rounded corners
+      // No corners rounded
       return BorderRadius.zero;
     }
   }
 
-  /// Krijg de border radius voor de content container
-  BorderRadius _getContentBorderRadius() {
-    // Content heeft geen border radius aan de zijkanten waar interaction bars zitten
-    double topLeft = 0;
-    double topRight = 0;
-    double bottomLeft = 0;
-    double bottomRight = 0;
-    
-    if (!widget.isSharedPromptView) {
-      // Individual card - rounded corners where no interaction bars exist
-      topLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
-      topRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
-          ? 0 
-          : AppModifiers.defaultRadius;
-      bottomLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
-      bottomRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
-          ? 0 
-          : AppModifiers.defaultRadius;
-    } else if (widget.isLast) {
-      // Last card in shared view - only bottom radius where no interaction bars exist
-      bottomLeft = widget.prompt.interactionType != null ? 0 : AppModifiers.defaultRadius;
-      bottomRight = (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) 
-          ? 0 
-          : AppModifiers.defaultRadius;
-    }
-    // First and middle cards in shared view have no rounded corners for content
-    
-    return BorderRadius.only(
-      topLeft: Radius.circular(topLeft),
-      topRight: Radius.circular(topRight),
-      bottomLeft: Radius.circular(bottomLeft),
-      bottomRight: Radius.circular(bottomRight),
-    );
-  }
 
-  /// Krijg de border radius voor interaction bars
-  BorderRadius _getInteractionBarBorderRadius({required bool isLeading}) {
-    if (!widget.isSharedPromptView) {
-      // Individual card - standard rounded corners on appropriate sides
-      return isLeading 
-          ? const BorderRadius.only(
-              topLeft: Radius.circular(AppModifiers.defaultRadius),
-              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-            )
-          : const BorderRadius.only(
-              topRight: Radius.circular(AppModifiers.defaultRadius),
-              bottomRight: Radius.circular(AppModifiers.defaultRadius),
-            );
-    } else if (widget.isFirst && widget.isLast) {
-      // Single card in shared view - no top radius, rounded bottom
-      return isLeading 
-          ? const BorderRadius.only(
-              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-            )
-          : const BorderRadius.only(
-              bottomRight: Radius.circular(AppModifiers.defaultRadius),
-            );
-    } else if (widget.isFirst) {
-      // First card in shared view - no rounded corners
-      return BorderRadius.zero;
-    } else if (widget.isLast) {
-      // Last card in shared view - only rounded bottom
-      return isLeading 
-          ? const BorderRadius.only(
-              bottomLeft: Radius.circular(AppModifiers.defaultRadius),
-            )
-          : const BorderRadius.only(
-              bottomRight: Radius.circular(AppModifiers.defaultRadius),
-            );
-    } else {
-      // Middle cards in shared view - no rounded corners
-      return BorderRadius.zero;
-    }
-  }
 
 }

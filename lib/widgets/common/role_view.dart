@@ -96,11 +96,7 @@ class RoleView extends StatelessWidget {
           
           // Chevron
           if (showChevron && !buttonDisabled)
-            context.themedIcon(
-              'chevron',
-              selected: false,
-              size: 20,
-            ),
+            _buildChevronIcon(context),
         ],
       ),
     );
@@ -131,4 +127,12 @@ class RoleView extends StatelessWidget {
     );
   }
 
+  /// Build chevron icon with safe fallback
+  Widget _buildChevronIcon(BuildContext context) {
+    return context.themedIcon(
+      'chevron',
+      selected: false,
+      size: 20,
+    );
+  }
 }

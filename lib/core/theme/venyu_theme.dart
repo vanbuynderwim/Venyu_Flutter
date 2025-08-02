@@ -262,11 +262,29 @@ extension VenyuThemeAccess on BuildContext {
     double size = 24,
     Color? overrideColor,
   }) {
-    return Image.asset(
-      getIconPath(baseName, selected: selected),
-      width: width ?? size,
-      height: height ?? size,
-      color: overrideColor ?? getIconColor(selected: selected)
+    try {
+      return Image.asset(
+        getIconPath(baseName, selected: selected),
+        width: width ?? size,
+        height: height ?? size,
+        color: overrideColor ?? getIconColor(selected: selected),
+        errorBuilder: (context, error, stackTrace) {
+          debugPrint('⚠️ themedIcon error for "$baseName": $error');
+          return _getFallbackIcon(baseName, size, overrideColor ?? getIconColor(selected: selected));
+        },
+      );
+    } catch (error) {
+      debugPrint('⚠️ themedIcon exception for "$baseName": $error');
+      return _getFallbackIcon(baseName, size, overrideColor ?? getIconColor(selected: selected));
+    }
+  }
+  
+  /// Get fallback icon when themedIcon fails
+  Widget _getFallbackIcon(String baseName, double size, Color color) {
+    return Icon(
+      Icons.help_outline,
+      size: size,
+      color: color,
     );
   }
   

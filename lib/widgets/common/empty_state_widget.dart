@@ -66,22 +66,28 @@ class EmptyStateWidget extends StatelessWidget {
     this.iconSize = 80,
   });
 
+  /// Builds the icon with safe fallback for themedIcon errors
+  Widget _buildIcon(BuildContext context) {
+    if (customIcon != null) {
+      return customIcon!;
+    } else if (iconName != null) {
+      return context.themedIcon(iconName!, size: iconSize);
+    } else {
+      return Icon(
+        Icons.inbox_outlined,
+        size: iconSize,
+        color: context.venyuTheme.disabledText,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Icon
-        if (customIcon != null)
-          customIcon!
-        else if (iconName != null)
-          context.themedIcon(iconName!, size: iconSize)
-        else
-          Icon(
-            Icons.inbox_outlined,
-            size: iconSize,
-            color: context.venyuTheme.disabledText,
-          ),
+        // Icon with safe fallback
+        _buildIcon(context),
         
         const SizedBox(height: 16),
         
