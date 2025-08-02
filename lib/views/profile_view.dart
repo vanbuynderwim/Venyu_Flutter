@@ -5,10 +5,12 @@ import '../core/theme/app_text_styles.dart';
 import '../core/theme/app_modifiers.dart';
 import '../core/theme/venyu_theme.dart';
 import '../models/enums/profile_sections.dart';
+import '../models/enums/review_type.dart';
 import '../models/prompt.dart';
 import '../services/session_manager.dart';
 import '../services/supabase_manager.dart';
 import '../widgets/buttons/section_button.dart';
+import '../widgets/buttons/option_button.dart';
 import '../widgets/common/card_item.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import '../widgets/profile/profile_header.dart';
@@ -282,10 +284,40 @@ class _ProfileViewState extends State<ProfileView> {
 
   /// Builds the reviews section content
   Widget _buildReviewsContent() {
-    return const Padding(
-      padding: EdgeInsets.all(32.0),
-      child: Center(
-        child: Text('Reviews - Coming soon'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+      child: Column(
+        children: [
+          // User generated reviews
+          OptionButton(
+            option: ReviewType.user,
+            isSelected: false,
+            isMultiSelect: false,
+            isSelectable: false,
+            isCheckmarkVisible: false,
+            isChevronVisible: true,
+            onSelect: () {
+              // TODO: Navigate to user reviews
+              debugPrint('Navigate to user reviews');
+            },
+          ),
+          
+          const SizedBox(height: 4),
+          
+          // AI generated reviews
+          OptionButton(
+            option: ReviewType.system,
+            isSelected: false,
+            isMultiSelect: false,
+            isSelectable: false,
+            isCheckmarkVisible: false,
+            isChevronVisible: true,
+            onSelect: () {
+              // TODO: Navigate to AI reviews
+              debugPrint('Navigate to AI reviews');
+            },
+          ),
+        ],
       ),
     );
   }

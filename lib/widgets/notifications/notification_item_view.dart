@@ -45,72 +45,51 @@ class NotificationItemView extends StatefulWidget {
 }
 
 class _NotificationItemViewState extends State<NotificationItemView> {
-  /// Tracks whether the item is currently being pressed for visual feedback
-  bool isPressed = false;
-
   @override
   Widget build(BuildContext context) {
-    final isDisabled = widget.onNotificationSelected == null;
-    
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: AppLayoutStyles.cardDecoration(context),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isDisabled ? null : () => widget.onNotificationSelected!(widget.notification),
-          onTapDown: isDisabled ? null : (_) => setState(() => isPressed = true),
-          onTapUp: isDisabled ? null : (_) => setState(() => isPressed = false),
-          onTapCancel: isDisabled ? null : () => setState(() => isPressed = false),
-          splashFactory: NoSplash.splashFactory,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Opacity(
-            opacity: context.getInteractiveOpacity(
-              isDisabled: isDisabled, 
-              isPressed: isPressed,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return AppLayoutStyles.interactiveCard(
+      context: context,
+      onTap: widget.onNotificationSelected != null 
+          ? () => widget.onNotificationSelected!(widget.notification)
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Notification icon
+            _buildIcon(context),
+            
+            const SizedBox(width: 16),
+            
+            // Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Notification icon
-                  _buildIcon(context),
+                  // Title row with timestamp
+                  _buildTitleRow(context),
                   
-                  const SizedBox(width: 16),
+                  const SizedBox(height: 8),
                   
-                  // Content
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title row with timestamp
-                        _buildTitleRow(context),
-                        
-                        const SizedBox(height: 8),
-                        
-                        // Body text
-                        _buildBody(context),
-                        
-                        // Optional prompt section
-                        if (widget.notification.prompt != null) ...[
-                          const SizedBox(height: 8),
-                          _buildPromptSection(context),
-                        ],
-                        
-                        // Optional match section
-                        if (widget.notification.match != null) ...[
-                          const SizedBox(height: 8),
-                          _buildMatchSection(context),
-                        ],
-                      ],
-                    ),
-                  ),
+                  // Body text
+                  _buildBody(context),
+                  
+                  // Optional prompt section
+                  if (widget.notification.prompt != null) ...[
+                    const SizedBox(height: 8),
+                    _buildPromptSection(context),
+                  ],
+                  
+                  // Optional match section
+                  if (widget.notification.match != null) ...[
+                    const SizedBox(height: 8),
+                    _buildMatchSection(context),
+                  ],
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -177,7 +156,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
         gradient: LinearGradient(
           colors: [
             interactionColor.withValues(alpha: 0.2),
-            Colors.white.withValues(alpha: 0.2),
+            venyuTheme.cardBackground.withValues(alpha: 0.2),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,

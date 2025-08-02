@@ -32,6 +32,31 @@ class AppLayoutStyles {
     );
   }
 
+  /// Interactive card wrapper with iOS-style highlight (no ripple/splash)
+  static Widget interactiveCard({
+    required BuildContext context,
+    required Widget child,
+    VoidCallback? onTap,
+    EdgeInsets? margin,
+  }) {
+    final theme = context.venyuTheme;
+    
+    return Container(
+      margin: margin ?? const EdgeInsets.symmetric(vertical: 4),
+      decoration: cardDecoration(context),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          splashFactory: NoSplash.splashFactory, // No splash/ripple
+          highlightColor: theme.highlightColor.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+          child: child,
+        ),
+      ),
+    );
+  }
+
   /// Tag decoration (capsule shape)
   static BoxDecoration tagDecoration(BuildContext context) {
     final theme = context.venyuTheme;

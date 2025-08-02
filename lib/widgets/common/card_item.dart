@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -141,11 +142,12 @@ class _CardItemState extends State<CardItem> {
           interactionType.assetPath,
           width: 24,
           height: 24,
+          color: AppColors.white,
           errorBuilder: (context, error, stackTrace) {
             return Icon(
               interactionType.fallbackIcon,
               size: 24,
-              color: Colors.white,
+              color: AppColors.white,
             );
           },
         ),

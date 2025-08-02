@@ -116,7 +116,7 @@ class RoleView extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         splashFactory: NoSplash.splashFactory,
-        highlightColor: context.venyuTheme.primary.withValues(alpha: 0.1),
+        highlightColor: context.venyuTheme.highlightColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
         child: content,
       ),

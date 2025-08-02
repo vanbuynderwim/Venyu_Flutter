@@ -120,5 +120,5 @@ enum InteractionType {
   }
 
   /// Returns the complete asset path for this interaction type's icon.
-  String get assetPath => 'assets/images/icons/$buttonName.png';
+  String get assetPath => 'assets/images/buttons/$buttonName.png';
 }

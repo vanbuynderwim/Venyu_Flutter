@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_layout_styles.dart';
-import '../../core/theme/app_modifiers.dart';
-import '../../core/theme/venyu_theme.dart';
 import 'role_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
@@ -41,46 +39,25 @@ class MatchItemView extends StatefulWidget {
 }
 
 class _MatchItemViewState extends State<MatchItemView> {
-  /// Tracks whether the item is currently being pressed for visual feedback
-  bool isPressed = false;
-
   @override
   Widget build(BuildContext context) {
-    final isDisabled = widget.onMatchSelected == null;
-    
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: AppLayoutStyles.cardDecoration(context),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isDisabled ? null : () => widget.onMatchSelected!(widget.match),
-          onTapDown: isDisabled ? null : (_) => setState(() => isPressed = true),
-          onTapUp: isDisabled ? null : (_) => setState(() => isPressed = false),
-          onTapCancel: isDisabled ? null : () => setState(() => isPressed = false),
-          splashFactory: NoSplash.splashFactory,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Opacity(
-            opacity: context.getInteractiveOpacity(
-              isDisabled: isDisabled, 
-              isPressed: isPressed,
+    return AppLayoutStyles.interactiveCard(
+      context: context,
+      onTap: widget.onMatchSelected != null 
+          ? () => widget.onMatchSelected!(widget.match)
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RoleView(
+              profile: widget.match.profile,
+              avatarSize: 60,
+              showChevron: true,
+              buttonDisabled: false,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RoleView(
-                    profile: widget.match.profile,
-                    avatarSize: 60,
-                    showChevron: true,
-                    buttonDisabled: false,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          ],
         ),
       ),
     );

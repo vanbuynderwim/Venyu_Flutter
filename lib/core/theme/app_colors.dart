@@ -33,10 +33,16 @@ class AppColors {
   static const Color accent4Bluch = Color(0xFFFFF0F0);
 
   // Action colors (special colors for interactions)
-  static const Color me = Color(0xFF14AE5C);
-  static const Color need = Color(0xFF30B0C7);
-  static const Color know = Color(0xFFFF9500);
-  static const Color na = Color(0xFFFF6955);
+  //static const Color me = Color(0xFF14AE5C);
+  //static const Color need = Color(0xFF30B0C7);
+  //static const Color know = Color(0xFFFF9500);
+  //static const Color na = Color(0xFFFF6955);
+
+  static const Color me = Color(0xFFb1cd5d);
+  static const Color need = Color(0xFF6bb4db);
+  static const Color know = Color(0xFFe8ab6d);
+  static const Color na = Color(0xFFea867e);
+
 
   // Brand colors
   static const Color linkedIn = Color(0xFF0A66C2);

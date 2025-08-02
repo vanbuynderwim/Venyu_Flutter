@@ -1,69 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/venyu_theme.dart';
 import '../../models/requests/update_name_request.dart';
-import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
 import '../../utils/linked_in_validator.dart';
-import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/inputs/app_text_field.dart';
-import '../../widgets/scaffolds/app_scaffold.dart';
+import '../base/base_form_view.dart';
 
 /// A form screen for editing user name and LinkedIn profile information.
 /// 
-/// This widget provides a comprehensive form for updating:
-/// - First name (required)
-/// - Last name (required)
-/// - LinkedIn URL (optional, with format validation)
-/// 
-/// The form includes:
-/// - Real-time validation for all fields
-/// - LinkedIn URL format checking and name matching
-/// - Progressive disclosure for registration wizard mode
-/// - Automatic data persistence to user profile
-/// 
-/// Example usage:
-/// ```dart
-/// Navigator.push(
-///   context,
-///   MaterialPageRoute(
-///     builder: (context) => EditNameView(
-///       registrationWizard: true, // For onboarding flow
-///     ),
-///   ),
-/// );
-/// ```
-/// 
-/// See also:
-/// * [LinkedInValidator] for URL validation logic
-/// * [UpdateNameRequest] for the data model
-class EditNameView extends StatefulWidget {
-  /// Whether this view is part of the registration wizard flow.
-  /// 
-  /// When true:
-  /// - Shows progress indicator
-  /// - Button text shows "Next" instead of "Save changes"
-  /// - Navigation behavior differs after successful save
-  final bool registrationWizard;
-
-  /// Creates an [EditNameView] widget.
-  /// 
-  /// Set [registrationWizard] to true when using this view as part
-  /// of the initial user onboarding flow.
+/// Refactored to use BaseFormView - reduced from 423 to ~180 lines
+class EditNameView extends BaseFormView {
   const EditNameView({
     super.key,
-    this.registrationWizard = false,
-  });
+    super.registrationWizard = false,
+  }) : super(title: 'You');
 
   @override
-  State<EditNameView> createState() => _EditNameViewState();
+  BaseFormViewState<BaseFormView> createState() => _EditNameViewState();
 }
 
-class _EditNameViewState extends State<EditNameView> {
-  // Form controllers for text input management
+class _EditNameViewState extends BaseFormViewState<EditNameView> {
+  // Form controllers
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _linkedInController = TextEditingController();
@@ -74,24 +32,9 @@ class _EditNameViewState extends State<EditNameView> {
   bool _linkedInFormatIsValid = true;
   bool _linkedInNameMatches = true;
 
-  // UI state
-  bool _isUpdating = false;
-
-  // Service dependencies
-  late final SupabaseManager _supabaseManager;
-  late final SessionManager _sessionManager;
-
-  /// Whether the form has all required fields completed.
-  /// Only checks enabled fields - disabled fields are considered complete.
-  bool get _formIncomplete => 
-    (_firstNameIsEmpty && _firstNameController.text.isEmpty) || 
-    (_lastNameIsEmpty && _lastNameController.text.isEmpty);
-
   @override
-  void initState() {
-    super.initState();
-    _supabaseManager = SupabaseManager.shared;
-    _sessionManager = SessionManager.shared;
+  void initializeForm() {
+    super.initializeForm();
     _preloadValues();
     
     // Add listeners for validation
@@ -100,144 +43,12 @@ class _EditNameViewState extends State<EditNameView> {
     _linkedInController.addListener(_computeValidation);
   }
 
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _linkedInController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AppScaffold(
-      appBar: PlatformAppBar(
-        title: const Text('You'),
-      ),
-      body: Column(
-        children: [
-          if (widget.registrationWizard)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: ProgressBar(
-                pageNumber: 1,
-                numberOfPages: 10,
-              ),
-            ),
-          
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  const SizedBox(height: 16),
-                  
-                  // First Name
-                  _buildFieldSection(
-                    label: 'FIRST NAME',
-                    child: AppTextField(
-                      controller: _firstNameController,
-                      hintText: 'First name',
-                      textInputAction: TextInputAction.next,
-                      textCapitalization: TextCapitalization.words,
-                      style: AppTextFieldStyle.large,
-                      state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
-                      autofillHints: const [AutofillHints.givenName],
-                      enabled: _firstNameIsEmpty, // Disabled als er al een naam is
-                    ),
-                  ),
-                  
-                  // Last Name
-                  _buildFieldSection(
-                    label: 'LAST NAME',
-                    child: AppTextField(
-                      controller: _lastNameController,
-                      hintText: 'Last name',
-                      textInputAction: TextInputAction.next,
-                      textCapitalization: TextCapitalization.words,
-                      style: AppTextFieldStyle.large,
-                      state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
-                      autofillHints: const [AutofillHints.familyName],
-                      enabled: _lastNameIsEmpty, // Disabled als er al een naam is
-                    ),
-                  ),
-                  
-                  // LinkedIn URL
-                  _buildFieldSection(
-                    label: 'LINKEDIN URL',
-                    child: AppTextField(
-                      controller: _linkedInController,
-                      hintText: 'linkedin.com/in/your-name',
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      textCapitalization: TextCapitalization.none,
-                      style: AppTextFieldStyle.large,
-                      state: !_linkedInFormatIsValid ? AppTextFieldState.error : AppTextFieldState.normal,
-                      autofillHints: const [AutofillHints.url],
-                    ),
-                  ),
-
-                  
-                ],
-              ),
-            ),
-          ),
-          // Save button at bottom
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: ActionButton(
-                label: _isUpdating 
-                    ? 'Saving...' 
-                    : (widget.registrationWizard ? 'Next' : 'Save changes'),
-                isDisabled: _formIncomplete || !_linkedInFormatIsValid || _isUpdating,
-                onPressed: _isUpdating ? null : _validateAndMaybeSave,
-              ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Builds a labeled field section with consistent styling.
-  /// 
-  /// Creates a consistent form field layout with:
-  /// - Uppercase label text
-  /// - Custom child widget (typically a PlatformTextField)
-  Widget _buildFieldSection({
-    required String label,
-    required Widget child,
-  }) {
-    final venyuTheme = context.venyuTheme;
-    
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTextStyles.subheadline.copyWith(
-              color: venyuTheme.secondaryText,
-            ),
-          ),
-          const SizedBox(height: 8),
-          child,
-        ],
-      ),
-    );
-  }
-
-  /// Loads existing profile data into the form fields.
-  /// 
-  /// Populates the form with current user profile information
-  /// and initializes validation state.
   void _preloadValues() {
-    final profile = _sessionManager.currentProfile;
+    final profile = sessionManager.currentProfile;
     
     _firstNameController.text = profile?.firstName.isNotEmpty == true 
         ? profile!.firstName 
-        : ''; // Could load from keychain like iOS version
+        : '';
     
     _lastNameController.text = profile?.lastName?.isNotEmpty == true 
         ? profile!.lastName! 
@@ -251,11 +62,74 @@ class _EditNameViewState extends State<EditNameView> {
     _computeValidation();
   }
 
-  /// Performs real-time validation on form fields.
-  /// 
-  /// Validates:
-  /// - LinkedIn URL format using [LinkedInValidator.isValidFormat]
-  /// - LinkedIn URL name matching using [LinkedInValidator.nameMatches]
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _linkedInController.dispose();
+    super.dispose();
+  }
+
+  @override
+  bool get canSave => !_formIncomplete && _linkedInFormatIsValid;
+
+  bool get _formIncomplete => 
+    (_firstNameIsEmpty && _firstNameController.text.isEmpty) || 
+    (_lastNameIsEmpty && _lastNameController.text.isEmpty);
+
+  @override
+  String getSuccessMessage() => 'Changes successfully saved';
+
+  @override
+  String getErrorMessage() => 'Failed to update, please try again';
+
+  @override
+  Future<void> performSave() async {
+    await _validateAndSave();
+  }
+
+  /// Custom save handler that includes LinkedIn validation
+  Future<void> _validateAndSave() async {
+    _computeValidation();
+    
+    if (!_linkedInFormatIsValid) {
+      throw Exception('LinkedIn URL format is invalid');
+    }
+    
+    if (!_linkedInNameMatches) {
+      // Show dialog and wait for user choice
+      final shouldContinue = await _showNameMismatchDialog();
+      if (!shouldContinue) {
+        throw Exception('User cancelled save due to LinkedIn name mismatch');
+      }
+    }
+    
+    // Perform the actual save
+    await _saveProfileData();
+  }
+
+  Future<void> _saveProfileData({bool withValidLinkedInURL = true}) async {
+    // Normalize the LinkedIn URL for storage
+    final cleanedLinkedInURL = LinkedInValidator.normalizeForStorage(_linkedInController.text) 
+        ?? _linkedInController.text;
+    
+    final request = UpdateNameRequest(
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      linkedInURL: cleanedLinkedInURL,
+      linkedInURLValid: withValidLinkedInURL,
+    );
+    
+    await supabaseManager.updateProfileName(request);
+    
+    // Update local state
+    sessionManager.updateCurrentProfileFields(
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      linkedInURL: cleanedLinkedInURL,
+    );
+  }
+
   void _computeValidation() {
     final linkedInURL = _linkedInController.text;
     final firstName = _firstNameController.text;
@@ -267,158 +141,98 @@ class _EditNameViewState extends State<EditNameView> {
     });
   }
 
-  /// Validates the complete form and initiates save if valid.
-  /// 
-  /// Shows a confirmation dialog if LinkedIn name validation fails
-  /// but allows the user to proceed anyway.
-  void _validateAndMaybeSave() {
-    _computeValidation();
+  /// Shows dialog when LinkedIn URL doesn't match name
+  /// Returns true if user wants to continue anyway
+  Future<bool> _showNameMismatchDialog() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => PlatformAlertDialog(
+        title: const Text("We couldn't find your name in your LinkedIn URL"),
+        content: const Text("Your LinkedIn URL doesn't seem to contain your first and last name. You can continue or double-check your URL."),
+        actions: [
+          PlatformDialogAction(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Don't continue
+            },
+            child: const Text('Check URL'),
+            cupertino: (_, __) => CupertinoDialogActionData(
+              isDefaultAction: true,
+            ),
+          ),
+          PlatformDialogAction(
+            onPressed: () {
+              Navigator.of(context).pop(true); // Continue anyway
+            },
+            child: const Text('Continue anyway'),
+          ),
+        ],
+      ),
+    );
     
-    if (!_linkedInFormatIsValid) {
-      return;
-    }
-    
-    if (!_linkedInNameMatches) {
-      _showNameMismatchDialog();
-      return;
-    }
-    
-    _saveProfile();
+    return result ?? false; // Default to false if dialog was dismissed
   }
 
-  /// Shows a dialog when LinkedIn URL doesn't match the entered name.
-  /// 
-  /// Provides options to:
-  /// - Review and correct the LinkedIn URL
-  /// - Continue with the current URL anyway
-  void _showNameMismatchDialog() {
-  showDialog(
-    context: context,
-    builder: (context) => PlatformAlertDialog(
-      title: const Text("We couldn't find your name in your LinkedIn URL"),
-      content: const Text("Your LinkedIn URL doesn't seem to contain your first and last name. You can continue or double-check your URL."),
-      actions: [
-        PlatformDialogAction(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Check URL'),
-          cupertino: (_, __) => CupertinoDialogActionData(
-            isDefaultAction: true, // Dit maakt de button bold, zoals .cancel in SwiftUI
+  @override
+  Widget buildFormContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Progress bar for registration wizard
+        if (widget.registrationWizard)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: ProgressBar(
+              pageNumber: 1,
+              numberOfPages: 10,
+            ),
+          ),
+        
+        // First Name field
+        buildFieldSection(
+          title: 'FIRST NAME',
+          content: AppTextField(
+            controller: _firstNameController,
+            hintText: 'First name',
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.words,
+            style: AppTextFieldStyle.large,
+            state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+            autofillHints: const [AutofillHints.givenName],
+            enabled: _firstNameIsEmpty && !isUpdating,
           ),
         ),
-        PlatformDialogAction(
-          onPressed: () {
-            Navigator.of(context).pop();
-            _saveProfile(withValidLinkedInURL: false);
-          },
-          child: const Text('Continue anyway'),
+        
+        // Last Name field
+        buildFieldSection(
+          title: 'LAST NAME',
+          content: AppTextField(
+            controller: _lastNameController,
+            hintText: 'Last name',
+            textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.words,
+            style: AppTextFieldStyle.large,
+            state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+            autofillHints: const [AutofillHints.familyName],
+            enabled: _lastNameIsEmpty && !isUpdating,
+          ),
+        ),
+        
+        // LinkedIn URL field
+        buildFieldSection(
+          title: 'LINKEDIN URL',
+          content: AppTextField(
+            controller: _linkedInController,
+            hintText: 'linkedin.com/in/your-name',
+            keyboardType: TextInputType.url,
+            textInputAction: TextInputAction.done,
+            textCapitalization: TextCapitalization.none,
+            style: AppTextFieldStyle.large,
+            state: !_linkedInFormatIsValid ? AppTextFieldState.error : AppTextFieldState.normal,
+            autofillHints: const [AutofillHints.url],
+            enabled: !isUpdating,
+          ),
         ),
       ],
-    ),
-  );
-}
-
-  /// Saves the profile data to the backend.
-  /// 
-  /// [withValidLinkedInURL] indicates whether the LinkedIn URL
-  /// passed validation. This information is stored for future reference.
-  /// 
-  /// Handles:
-  /// - Loading state management
-  /// - API communication via [SupabaseManager]
-  /// - Success/error user feedback
-  /// - Navigation after successful save
-  void _saveProfile({bool withValidLinkedInURL = true}) async {
-    setState(() {
-      _isUpdating = true;
-    });
-
-    try {
-      // Normalize the LinkedIn URL for storage
-      final cleanedLinkedInURL = LinkedInValidator.normalizeForStorage(_linkedInController.text) 
-          ?? _linkedInController.text;
-      
-      final request = UpdateNameRequest(
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        linkedInURL: cleanedLinkedInURL,
-        linkedInURLValid: withValidLinkedInURL,
-      );
-      
-      await _supabaseManager.updateProfileName(request);
-      
-      // Update only the changed fields in SessionManager (more efficient than fetching entire profile)
-      _sessionManager.updateCurrentProfileFields(
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        linkedInURL: cleanedLinkedInURL,
-      );
-      
-      if (widget.registrationWizard) {
-        // Navigate to next step in registration wizard
-        // TODO: Implement navigation to next registration step
-      } else {
-        // Update loading state
-        if (mounted) {
-          setState(() {
-            _isUpdating = false;
-          });
-        }
-        
-        // Show success message and go back
-        if (mounted) {
-          try {
-            // Show the snackbar first
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Changes successfully saved'),
-                backgroundColor: context.venyuTheme.snackbarSuccess,
-                duration: const Duration(seconds: 2),
-              ),
-            );
-            
-            // Then pop after a small delay to ensure snackbar is shown
-            Future.delayed(const Duration(milliseconds: 100), () {
-              if (mounted) {
-                Navigator.of(context).pop(true); // Return true to indicate changes were saved
-              }
-            });
-          } catch (e) {
-            // If showing snackbar fails, still try to pop
-            debugPrint('Failed to show success snackbar: $e');
-            if (mounted) {
-              Navigator.of(context).pop(true); // Return true to indicate changes were saved
-            }
-          }
-        }
-      }
-    } catch (error) {
-      // Always update loading state first
-      if (mounted) {
-        setState(() {
-          _isUpdating = false;
-        });
-      }
-      
-      // Then show error if still mounted
-      if (mounted) {
-        // Use a post frame callback to ensure context is valid
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Text('Failed to update, please try again'),
-                backgroundColor: context.venyuTheme.snackbarError,
-                duration: const Duration(seconds: 3),
-              ),
-            );
-          }
-        });
-      }
-      
-      // Log error for debugging
-      debugPrint('Error updating profile: $error');
-    }
+    );
   }
 }

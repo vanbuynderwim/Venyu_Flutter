@@ -153,7 +153,7 @@ class _LoginViewState extends State<LoginView> {
                         material: (_, __) => MaterialElevatedButtonData(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: context.venyuTheme.linkedIn,
-                            foregroundColor: Colors.white,
+                            foregroundColor: context.venyuTheme.primaryText,
                             disabledBackgroundColor: context.venyuTheme.linkedIn.withValues(alpha: 0.5),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
@@ -179,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
                             Text(
                               'Sign in with LinkedIn',
                               style: AppTextStyles.callout.copyWith(
-                                color: Colors.white,
+                                color: context.venyuTheme.primaryText,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -253,14 +253,14 @@ class _LoginViewState extends State<LoginView> {
           // Loading overlay
           if (_isSigningIn)
             Container(
-              color: Colors.black.withValues(alpha: 0.5),
+              color: context.venyuTheme.pageBackground.withValues(alpha: 0.5),
               child: Center(
                 child: PlatformCircularProgressIndicator(
                   material: (_, __) => MaterialProgressIndicatorData(
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                    valueColor: AlwaysStoppedAnimation<Color>(context.venyuTheme.primaryText),
                   ),
                   cupertino: (_, __) => CupertinoProgressIndicatorData(
-                    color: Colors.white,
+                    color: context.venyuTheme.primaryText,
                   ),
                 ),
               ),

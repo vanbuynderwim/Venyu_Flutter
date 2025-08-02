@@ -112,10 +112,10 @@ class _AvatarViewState extends State<AvatarView> {
   }
   
   Widget _buildPlaceholder(BuildContext context, VenyuTheme venyuTheme) {
-    // Use secondary color in light mode, white in dark mode
+    // Use secondary color in light mode, primary text color (white) in dark mode
     final placeholderColor = Theme.of(context).brightness == Brightness.light
         ? venyuTheme.secondaryText
-        : Colors.white;
+        : venyuTheme.primaryText;
     
     return Container(
       decoration: BoxDecoration(

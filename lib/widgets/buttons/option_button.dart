@@ -199,137 +199,126 @@ class OptionButton extends StatefulWidget {
 }
 
 class _OptionButtonState extends State<OptionButton> {
-  /// Tracks whether the button is currently being pressed for visual feedback
-  bool isPressed = false;
-
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: widget.disabled 
-          ? AppLayoutStyles.disabledDecoration(context)
-          : AppLayoutStyles.cardDecoration(context),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: widget.disabled ? null : _handleTap,
-                onTapDown: widget.disabled ? null : (_) => setState(() => isPressed = true),
-                onTapUp: widget.disabled ? null : (_) => setState(() => isPressed = false),
-                onTapCancel: widget.disabled ? null : () => setState(() => isPressed = false),
-                splashFactory: NoSplash.splashFactory,
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                child: Opacity(
-                  opacity: context.getInteractiveOpacity(
-                    isDisabled: widget.disabled, 
-                    isPressed: isPressed,
+    final content = Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          // Icon/Emoji
+          _buildIcon(),
+          const SizedBox(width: 12),
+          
+          // Content
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  widget.option.title,
+                  style: AppTextStyles.headline.copyWith(
+                    color: widget.disabled 
+                        ? venyuTheme.disabledText 
+                        : venyuTheme.primaryText,
+                    fontWeight: FontWeight.w500,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                    children: [
-                      // Icon/Emoji
-                      _buildIcon(),
-                      const SizedBox(width: 12),                      
-                      // Content
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Title
-                            Text(
-                              widget.option.title,
-                              style: AppTextStyles.headline.copyWith(
-                                color: widget.disabled 
-                                    ? venyuTheme.disabledText 
-                                    : venyuTheme.primaryText,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            
-                            // Description
-                            if (widget.withDescription && widget.option.description.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  widget.option.description,
-                                  style: AppTextStyles.subheadline.copyWith(
-                                    color: venyuTheme.secondaryText,
-                                  ),
-                                ),
-                              ),
-                            
-                            // Tag list
-                            if (widget.option.list != null && widget.option.list!.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Wrap(
-                                  spacing: 4,
-                                  runSpacing: 4,
-                                  children: widget.option.list!.map((tag) => 
-                                    TagView(
-                                      id: tag.id,
-                                      label: tag.label,
-                                      icon: tag.icon,
-                                      emoji: tag.emoji,
-                                      fontSize: AppTextStyles.caption1,
-                                      backgroundColor: venyuTheme.tagBackground, // Light gray for tags in buttons
-                                    ),
-                                  ).toList(),
-                                ),
-                              ),
-                          ],
-                        ),
+                ),
+                
+                // Description
+                if (widget.withDescription && widget.option.description.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      widget.option.description,
+                      style: AppTextStyles.subheadline.copyWith(
+                        color: venyuTheme.secondaryText,
                       ),
-                      
-                      // Badge
-                      if (widget.option.badge > 0)
-                        Container(
-                          margin: const EdgeInsets.only(right: 8),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: venyuTheme.primary,
-                            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-                          ),
-                          child: Text(
-                            widget.option.badge.toString(),
-                            style: AppTextStyles.caption1.copyWith(
-                              color: venyuTheme.cardBackground, // White in light mode
-                            ),
-                          ),
-                        ),
-                      
-                      // Toggle switch
-                      if (widget.onToggle != null)
-                        PlatformSwitch(
-                          value: widget.toggleIsOn ?? false,
-                          onChanged: widget.disabled ? null : widget.onToggle,
-                          material: (_, __) => MaterialSwitchData(
-                            activeColor: venyuTheme.primary,
-                          ),
-                          cupertino: (_, __) => CupertinoSwitchData(
-                            activeColor: venyuTheme.primary,
-                          ),
-                        ),
-                      
-                      // Selection indicator
-                      if (widget.isCheckmarkVisible && widget.isSelectable)
-                        _buildSelectionIndicator(),
-                      
-                      // Chevron
-                      if (widget.isChevronVisible)
-                        context.themedIcon('chevron', size: 16),
-                    ],
+                    ),
                   ),
+                
+                // Tag list
+                if (widget.option.list != null && widget.option.list!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: widget.option.list!.map((tag) => 
+                        TagView(
+                          id: tag.id,
+                          label: tag.label,
+                          icon: tag.icon,
+                          emoji: tag.emoji,
+                          fontSize: AppTextStyles.caption1,
+                          backgroundColor: venyuTheme.tagBackground,
+                        ),
+                      ).toList(),
+                    ),
                   ),
+              ],
+            ),
+          ),
+          
+          // Badge
+          if (widget.option.badge > 0)
+            Container(
+              margin: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 4,
+              ),
+              decoration: BoxDecoration(
+                color: venyuTheme.primary,
+                borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+              ),
+              child: Text(
+                widget.option.badge.toString(),
+                style: AppTextStyles.caption1.copyWith(
+                  color: venyuTheme.cardBackground,
                 ),
               ),
             ),
-          );
+          
+          // Toggle switch
+          if (widget.onToggle != null)
+            PlatformSwitch(
+              value: widget.toggleIsOn ?? false,
+              onChanged: widget.disabled ? null : widget.onToggle,
+              material: (_, __) => MaterialSwitchData(
+                activeColor: venyuTheme.primary,
+              ),
+              cupertino: (_, __) => CupertinoSwitchData(
+                activeColor: venyuTheme.primary,
+              ),
+            ),
+          
+          // Selection indicator
+          if (widget.isCheckmarkVisible && widget.isSelectable)
+            _buildSelectionIndicator(),
+          
+          // Chevron
+          if (widget.isChevronVisible)
+            context.themedIcon('chevron', size: 16),
+        ],
+      ),
+    );
+    
+    if (widget.disabled) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        decoration: AppLayoutStyles.disabledDecoration(context),
+        child: content,
+      );
+    }
+    
+    return AppLayoutStyles.interactiveCard(
+      context: context,
+      onTap: _handleTap,
+      child: content,
+    );
   }
 
   /// Builds the icon or emoji display for the option.

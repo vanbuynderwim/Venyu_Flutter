@@ -76,6 +76,9 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// Primary color in light mode, white in dark mode.
   final Color selectionColor;
   
+  /// Highlight color for interactive elements (press feedback).
+  final Color highlightColor;
+  
   /// Success color for snackbars and positive feedback messages.
   final Color snackbarSuccess;
   
@@ -100,6 +103,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.info,
     required this.linkedIn,
     required this.selectionColor,
+    required this.highlightColor,
     required this.snackbarSuccess,
     required this.snackbarError,
   });
@@ -122,6 +126,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
     selectionColor: AppColors.primair4Lilac,      // Primary color for selections
+    highlightColor: AppColors.primair4Lilac,      // Highlight color for interactive feedback
     snackbarSuccess: AppColors.me,                // Success color for snackbars
     snackbarError: AppColors.na,                  // Error color for snackbars
   );
@@ -144,6 +149,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
     selectionColor: Colors.white,                    // White for selections in dark mode
+    highlightColor: Colors.white,                    // White highlight for interactive feedback in dark mode
     snackbarSuccess: AppColors.me,                   // Success color for snackbars
     snackbarError: AppColors.na,                     // Error color for snackbars
   );
@@ -166,6 +172,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? info,
     Color? linkedIn,
     Color? selectionColor,
+    Color? highlightColor,
     Color? snackbarSuccess,
     Color? snackbarError,
   }) {
@@ -186,6 +193,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
       selectionColor: selectionColor ?? this.selectionColor,
+      highlightColor: highlightColor ?? this.highlightColor,
       snackbarSuccess: snackbarSuccess ?? this.snackbarSuccess,
       snackbarError: snackbarError ?? this.snackbarError,
     );
@@ -212,6 +220,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
       selectionColor: Color.lerp(selectionColor, other.selectionColor, t)!,
+      highlightColor: Color.lerp(highlightColor, other.highlightColor, t)!,
       snackbarSuccess: Color.lerp(snackbarSuccess, other.snackbarSuccess, t)!,
       snackbarError: Color.lerp(snackbarError, other.snackbarError, t)!,
     );

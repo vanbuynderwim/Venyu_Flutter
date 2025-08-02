@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../common/section_type.dart';
+import '../../core/theme/app_layout_styles.dart';
+
 
 /// A button widget representing a section with icon and label.
 /// 
@@ -54,9 +55,6 @@ class SectionButton<T extends SectionType> extends StatefulWidget {
 }
 
 class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>> {
-  /// Tracks whether the button is currently being pressed for visual feedback
-  bool isPressed = false;
-
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
@@ -73,7 +71,7 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
     // - Not selected: secondary text color in both modes
     final textColor = widget.isSelected 
         ? (Theme.of(context).brightness == Brightness.dark 
-            ? Colors.white 
+            ? venyuTheme.primaryText 
             : venyuTheme.primary)
         : venyuTheme.secondaryText;
     
@@ -81,37 +79,30 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
       color: Colors.transparent,
       child: InkWell(
         onTap: isDisabled ? null : widget.onPressed,
-        onTapDown: isDisabled ? null : (_) => setState(() => isPressed = true),
-        onTapUp: isDisabled ? null : (_) => setState(() => isPressed = false),
-        onTapCancel: isDisabled ? null : () => setState(() => isPressed = false),
         splashFactory: NoSplash.splashFactory,
-        child: Opacity(
-          opacity: context.getInteractiveOpacity(
-            isDisabled: isDisabled, 
-            isPressed: isPressed,
+        highlightColor: venyuTheme.highlightColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.zero, // No border radius for section buttons
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          constraints: const BoxConstraints(
+            minHeight: 60,
           ),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            constraints: const BoxConstraints(
-              minHeight: 60,
-            ),
-            color: backgroundColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Icon
-                _buildIcon(context),
-                const SizedBox(height: 4),
-                
-                // Title
-                Text(
-                  widget.section.title,
-                  style: AppTextStyles.caption1.copyWith(
-                    color: textColor,
-                  ),
+          color: backgroundColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Icon
+              _buildIcon(context),
+              const SizedBox(height: 4),
+              
+              // Title
+              Text(
+                widget.section.title,
+                style: AppTextStyles.caption1.copyWith(
+                  color: textColor,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -169,14 +160,7 @@ class SectionButtonBar<T extends SectionType> extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
     
     return Container(
-      decoration: BoxDecoration(
-        color: venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: venyuTheme.borderColor,
-          width: AppModifiers.extraThinBorder,
-        ),
-      ),
+      decoration: AppLayoutStyles.cardDecoration(context),
       // Clip the content to match the border radius
       clipBehavior: Clip.hardEdge,
       child: Stack(

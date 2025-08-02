@@ -88,13 +88,11 @@ class ActionButton extends StatefulWidget {
 }
 
 class _ActionButtonState extends State<ActionButton> {
-  /// Tracks whether the button is currently being pressed for visual feedback.
-  bool isPressed = false;
-
   @override
   Widget build(BuildContext context) {
     final isActuallyDisabled = widget.isDisabled || widget.onPressed == null;
     final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
+    final theme = context.venyuTheme;
     
     return SizedBox(
       width: widget.width ?? double.infinity,
@@ -103,13 +101,11 @@ class _ActionButtonState extends State<ActionButton> {
         color: Colors.transparent,
         child: InkWell(
           onTap: isActuallyDisabled ? null : widget.onPressed,
-          onTapDown: isActuallyDisabled ? null : (_) => setState(() => isPressed = true),
-          onTapUp: isActuallyDisabled ? null : (_) => setState(() => isPressed = false),
-          onTapCancel: isActuallyDisabled ? null : () => setState(() => isPressed = false),
           splashFactory: NoSplash.splashFactory,
+          highlightColor: theme.highlightColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: Opacity(
-            opacity: isActuallyDisabled ? 0.7 : (isPressed ? 0.8 : 1.0),
+            opacity: isActuallyDisabled ? 0.7 : 1.0,
             child: Container(
               decoration: BoxDecoration(
                 color: widget.style.backgroundColor(context),
