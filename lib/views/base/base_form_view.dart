@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
+import '../../widgets/buttons/action_button.dart';
 
 /// Base class for all form-based views in the application.
 /// 
@@ -234,21 +235,11 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     VoidCallback? onPressed,
   }) {
     return Container(
-      width: double.infinity,
-      height: 56,
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: PlatformElevatedButton(
-        onPressed: _isUpdating || !canSave ? null : (onPressed ?? handleSave),
-        child: _isUpdating
-            ? SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: context.venyuTheme.primaryText,
-                ),
-              )
-            : Text(label ?? 'Save'),
+      child: ActionButton(
+        label: label ?? 'Save',
+        onPressed: !canSave ? null : (onPressed ?? handleSave),
+        isLoading: _isUpdating,
       ),
     );
   }

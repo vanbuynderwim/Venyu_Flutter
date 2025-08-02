@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -67,6 +68,12 @@ class ActionButton extends StatefulWidget {
   /// 
   /// When true, [icon] must be provided and [label] is ignored.
   final bool isIconOnly;
+  
+  /// Whether the button is in a loading state.
+  /// 
+  /// When true, shows a progress indicator and disables the button.
+  /// The label is hidden and replaced with a spinner.
+  final bool isLoading;
 
   /// Creates an [ActionButton] widget.
   /// 
@@ -80,6 +87,7 @@ class ActionButton extends StatefulWidget {
     this.isDisabled = false,
     this.width,
     this.isIconOnly = false,
+    this.isLoading = false,
   }) : assert(label != null || (icon != null && isIconOnly), 
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
@@ -90,7 +98,7 @@ class ActionButton extends StatefulWidget {
 class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
-    final isActuallyDisabled = widget.isDisabled || widget.onPressed == null;
+    final isActuallyDisabled = widget.isDisabled || widget.onPressed == null || widget.isLoading;
     final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
     final theme = context.venyuTheme;
     
@@ -119,32 +127,46 @@ class _ActionButtonState extends State<ActionButton> {
                 horizontal: isIconOnlyButton ? 0 : 16,
               ),
               child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (widget.icon != null) ...[
-                      isIconOnlyButton
-                        ? ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              context.venyuTheme.primary,
-                              BlendMode.srcIn,
-                            ),
-                            child: widget.icon!,
-                          )
-                        : widget.icon!,
-                      if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
-                    ],
-                    if (widget.label != null && !isIconOnlyButton)
-                      Text(
-                        widget.label!,
-                        style: AppTextStyles.body.copyWith(
-                          color: widget.style.textColor(context),
-                          fontWeight: widget.style.fontWeight,
+                child: widget.isLoading
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: PlatformCircularProgressIndicator(
+                          cupertino: (_, __) => CupertinoProgressIndicatorData(
+                            color: widget.style.textColor(context),
+                          ),
+                          material: (_, __) => MaterialProgressIndicatorData(
+                            color: widget.style.textColor(context),
+                            strokeWidth: 2,
+                          ),
                         ),
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (widget.icon != null) ...[
+                            isIconOnlyButton
+                              ? ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    context.venyuTheme.primary,
+                                    BlendMode.srcIn,
+                                  ),
+                                  child: widget.icon!,
+                                )
+                              : widget.icon!,
+                            if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
+                          ],
+                          if (widget.label != null && !isIconOnlyButton)
+                            Text(
+                              widget.label!,
+                              style: AppTextStyles.body.copyWith(
+                                color: widget.style.textColor(context),
+                                fontWeight: widget.style.fontWeight,
+                              ),
+                            ),
+                        ],
                       ),
-                  ],
-                ),
               ),
             ),
           ),

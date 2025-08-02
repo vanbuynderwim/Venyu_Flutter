@@ -373,62 +373,24 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
             children: [
               // Reject button
               Expanded(
-                child: _isProcessingReject
-                  ? ActionButton(
-                      label: '',
-                      onPressed: null,
-                      style: ActionButtonType.destructive,
-                      isDisabled: true,
-                      icon: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: ActionButtonType.destructive.textColor(context),
-                          ),
-                          material: (_, __) => MaterialProgressIndicatorData(
-                            color: ActionButtonType.destructive.textColor(context),
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      ),
-                    )
-                  : ActionButton(
-                      label: 'Reject ${_selectedPromptIds.length}',
-                      onPressed: _isProcessingApprove ? null : _rejectSelection,
-                      style: ActionButtonType.destructive,
-                      isDisabled: _isProcessingApprove,
-                    ),
+                child: ActionButton(
+                  label: 'Reject ${_selectedPromptIds.length}',
+                  onPressed: _isProcessingApprove ? null : _rejectSelection,
+                  style: ActionButtonType.destructive,
+                  isLoading: _isProcessingReject,
+                  isDisabled: _isProcessingApprove,
+                ),
               ),
               const SizedBox(width: 8),
               // Approve button
               Expanded(
-                child: _isProcessingApprove
-                  ? ActionButton(
-                      label: '',
-                      onPressed: null,
-                      style: ActionButtonType.primary,
-                      isDisabled: true,
-                      icon: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: ActionButtonType.primary.textColor(context),
-                          ),
-                          material: (_, __) => MaterialProgressIndicatorData(
-                            color: ActionButtonType.primary.textColor(context),
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      ),
-                    )
-                  : ActionButton(
-                      label: 'Approve ${_selectedPromptIds.length}',
-                      onPressed: _isProcessingReject ? null : _approveSelection,
-                      style: ActionButtonType.primary,
-                      isDisabled: _isProcessingReject,
-                    ),
+                child: ActionButton(
+                  label: 'Approve ${_selectedPromptIds.length}',
+                  onPressed: _isProcessingReject ? null : _approveSelection,
+                  style: ActionButtonType.primary,
+                  isLoading: _isProcessingApprove,
+                  isDisabled: _isProcessingReject,
+                ),
               ),
             ],
           ),
@@ -443,62 +405,24 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
             children: [
               // Reject all button
               Expanded(
-                child: _isProcessingReject
-                  ? ActionButton(
-                      label: '',
-                      onPressed: null,
-                      style: ActionButtonType.destructive,
-                      isDisabled: true,
-                      icon: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: ActionButtonType.destructive.textColor(context),
-                          ),
-                          material: (_, __) => MaterialProgressIndicatorData(
-                            color: ActionButtonType.destructive.textColor(context),
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      ),
-                    )
-                  : ActionButton(
-                      label: 'Reject all',
-                      onPressed: _isProcessingApprove ? null : _rejectAll,
-                      style: ActionButtonType.destructive,
-                      isDisabled: _isProcessingApprove,
-                    ),
+                child: ActionButton(
+                  label: 'Reject all',
+                  onPressed: _isProcessingApprove ? null : _rejectAll,
+                  style: ActionButtonType.destructive,
+                  isLoading: _isProcessingReject,
+                  isDisabled: _isProcessingApprove,
+                ),
               ),
               const SizedBox(width: 8),
               // Approve all button
               Expanded(
-                child: _isProcessingApprove
-                  ? ActionButton(
-                      label: '',
-                      onPressed: null,
-                      style: ActionButtonType.primary,
-                      isDisabled: true,
-                      icon: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: ActionButtonType.primary.textColor(context),
-                          ),
-                          material: (_, __) => MaterialProgressIndicatorData(
-                            color: ActionButtonType.primary.textColor(context),
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      ),
-                    )
-                  : ActionButton(
-                      label: 'Approve all',
-                      onPressed: _isProcessingReject ? null : _approveAll,
-                      style: ActionButtonType.primary,
-                      isDisabled: _isProcessingReject,
-                    ),
+                child: ActionButton(
+                  label: 'Approve all',
+                  onPressed: _isProcessingReject ? null : _approveAll,
+                  style: ActionButtonType.primary,
+                  isLoading: _isProcessingApprove,
+                  isDisabled: _isProcessingReject,
+                ),
               ),
             ],
           ),
