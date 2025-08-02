@@ -23,6 +23,7 @@ class EditCompanyInfoView extends StatefulWidget {
 class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
+  bool _hasChanges = false;
 
   @override
   void initState() {
@@ -40,11 +41,20 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
 
   @override
   Widget build(BuildContext context) {
-    return AppListScaffold(
-      appBar: PlatformAppBar(
-        title: const Text('Company info'),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          // Pop with the appropriate result
+          Navigator.of(context).pop(_hasChanges);
+        }
+      },
+      child: AppListScaffold(
+        appBar: PlatformAppBar(
+          title: const Text('Company info'),
+        ),
+        children: _buildContent(),
       ),
-      children: _buildContent(),
     );
   }
 
@@ -142,6 +152,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
         // But we could add it for consistency if other company data is shown
         if (result == true) {
           debugPrint('Company info updated successfully');
+          _hasChanges = true;
         }
         break;
     }
@@ -162,6 +173,7 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
       debugPrint('Company tag changes detected, refreshing data...');
+      _hasChanges = true;
       _loadData();
     }
   }

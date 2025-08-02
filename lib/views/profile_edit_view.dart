@@ -34,14 +34,15 @@ class ProfileEditView extends StatelessWidget {
     );
   }
 
-  void _handleOptionTap(BuildContext context, ProfileEditType type) {
+  void _handleOptionTap(BuildContext context, ProfileEditType type) async {
     debugPrint('Tapped on profile edit option: ${type.title}');
     
-    // TODO: Navigate to specific pages based on type
+    bool? hasChanges = false;
+    
     switch (type) {
       case ProfileEditType.personalinfo:
         debugPrint('Navigate to Personal Info page');
-        Navigator.of(context).push(
+        hasChanges = await Navigator.of(context).push(
           platformPageRoute(
             context: context,
             builder: (context) => const EditPersonalInfoView(),
@@ -49,7 +50,7 @@ class ProfileEditView extends StatelessWidget {
         );
         break;
       case ProfileEditType.company:
-        Navigator.of(context).push(
+        hasChanges = await Navigator.of(context).push(
           platformPageRoute(
             context: context,
             builder: (context) => const EditCompanyInfoView(),
@@ -68,6 +69,11 @@ class ProfileEditView extends StatelessWidget {
         debugPrint('Navigate to Account page');
         // TODO: Navigate to account management page
         break;
+    }
+    
+    // If any changes were made, pop with true to notify parent
+    if (hasChanges == true && context.mounted) {
+      Navigator.of(context).pop(true);
     }
   }
 }

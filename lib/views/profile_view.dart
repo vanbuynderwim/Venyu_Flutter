@@ -70,14 +70,19 @@ class _ProfileViewState extends State<ProfileView> {
           PlatformIconButton(
             padding: EdgeInsets.zero,
             icon: context.themedIcon('settings'),
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              final result = await Navigator.push(
                 context,
                 platformPageRoute(
                   context: context,
                   builder: (context) => const ProfileEditView(),
                 ),
               );
+              
+              // If any changes were made, refresh the profile data
+              if (result == true && mounted) {
+                await _refreshData(forceRefresh: true);
+              }
             },
           ),
         ],
@@ -352,8 +357,11 @@ class _ProfileViewState extends State<ProfileView> {
     });
     
     try {
-      // Refresh profile if needed - SessionManager handles this internally
-      // Profile is automatically updated when _sessionManager.currentProfile is accessed
+      // Refresh profile data from server when forced or when needed
+      if (forceRefresh) {
+        final refreshedProfile = await _supabaseManager.fetchUserProfile();
+        _sessionManager.updateCurrentProfile(refreshedProfile);
+      }
       
       // Refresh section-specific data
       if (_selectedSection == ProfileSections.cards) {

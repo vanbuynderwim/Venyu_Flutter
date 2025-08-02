@@ -24,6 +24,7 @@ class EditPersonalInfoView extends StatefulWidget {
 class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
+  bool _hasChanges = false;
 
   @override
   void initState() {
@@ -41,11 +42,20 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
 
   @override
   Widget build(BuildContext context) {
-    return AppListScaffold(
-      appBar: PlatformAppBar(
-        title: const Text('Personal info'),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          // Pop with the appropriate result
+          Navigator.of(context).pop(_hasChanges);
+        }
+      },
+      child: AppListScaffold(
+        appBar: PlatformAppBar(
+          title: const Text('Personal info'),
+        ),
+        children: _buildContent(),
       ),
-      children: _buildContent(),
     );
   }
 
@@ -140,7 +150,11 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
         );
         
         // Name changes don't affect the tag list display, so no refresh needed
-        // But we could add it for consistency if other profile data is shown
+        // But we track it to notify parent about profile changes
+        if (result == true) {
+          debugPrint('Name updated successfully');
+          _hasChanges = true;
+        }
         break;
       case EditPersonalInfoType.bio:
         debugPrint('Navigate to Bio edit page');
@@ -155,6 +169,7 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
         // Bio changes don't affect the tag list display, so no refresh needed
         if (bioResult == true) {
           debugPrint('Bio updated successfully');
+          _hasChanges = true;
         }
         break;
       case EditPersonalInfoType.email:
@@ -179,6 +194,7 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
       debugPrint('Tag changes detected, refreshing data...');
+      _hasChanges = true;
       _loadData();
     }
   }
