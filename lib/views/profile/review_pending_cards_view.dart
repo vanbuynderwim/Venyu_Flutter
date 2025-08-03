@@ -12,6 +12,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/card_item.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../mixins/paginated_list_view_mixin.dart';
 
 /// ReviewPendingCardsView - Flutter equivalent of iOS PendingReviewsView
 /// 
@@ -29,16 +30,13 @@ class ReviewPendingCardsView extends StatefulWidget {
   State<ReviewPendingCardsView> createState() => _ReviewPendingCardsViewState();
 }
 
-class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
+class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> 
+    with PaginatedListViewMixin<ReviewPendingCardsView> {
   final List<Prompt> _cards = [];
   final Set<String> _selectedPromptIds = <String>{};
-  final ScrollController _scrollController = ScrollController();
   
-  bool _isLoading = false;
-  bool _isLoadingMore = false;
   bool _isProcessingApprove = false;
   bool _isProcessingReject = false;
-  bool _hasMorePages = true;
   String? _cursorId;
   DateTime? _cursorTime;
 
@@ -48,30 +46,21 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
   void initState() {
     super.initState();
     _supabaseManager = SupabaseManager.shared;
-    _scrollController.addListener(_onScroll);
+    initializePagination();
     _loadPendingReviews();
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  Future<void> loadMoreItems() async {
+    await _loadMorePendingReviews();
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 200 &&
-        !_isLoadingMore &&
-        _hasMorePages) {
-      _loadMorePendingReviews();
-    }
-  }
 
   Future<void> _loadPendingReviews() async {
-    if (_isLoading) return;
+    if (isLoading) return;
 
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
 
     try {
@@ -90,7 +79,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
         _cards.clear();
         _cards.addAll(prompts);
         _selectedPromptIds.clear();
-        _hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
+        hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
         
         if (prompts.isNotEmpty) {
           final lastPrompt = prompts.last;
@@ -100,21 +89,21 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
           _cursorId = null;
           _cursorTime = null;
         }
-        _isLoading = false;
+        isLoading = false;
       });
     } catch (error) {
       debugPrint('Error loading pending reviews: $error');
       setState(() {
-        _isLoading = false;
+        isLoading = false;
       });
     }
   }
 
   Future<void> _loadMorePendingReviews() async {
-    if (_isLoadingMore || !_hasMorePages) return;
+    if (isLoadingMore || !hasMorePages) return;
 
     setState(() {
-      _isLoadingMore = true;
+      isLoadingMore = true;
     });
 
     try {
@@ -133,19 +122,19 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
 
       setState(() {
         _cards.addAll(prompts);
-        _hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
+        hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
         
         if (prompts.isNotEmpty) {
           final lastPrompt = prompts.last;
           _cursorId = lastPrompt.promptID;
           _cursorTime = lastPrompt.createdAt;
         }
-        _isLoadingMore = false;
+        isLoadingMore = false;
       });
     } catch (error) {
       debugPrint('Error loading more pending reviews: $error');
       setState(() {
-        _isLoadingMore = false;
+        isLoadingMore = false;
       });
     }
   }
@@ -199,7 +188,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
       // Reset pagination and refresh the list
       _cursorId = null;
       _cursorTime = null;
-      _hasMorePages = true;
+      resetPagination();
       await _loadPendingReviews();
 
       if (mounted) {
@@ -252,7 +241,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
       // Reset pagination and refresh the list
       _cursorId = null;
       _cursorTime = null;
-      _hasMorePages = true;
+      resetPagination();
       await _loadPendingReviews();
 
       if (mounted) {
@@ -303,7 +292,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
   }
 
   Widget _buildContent(VenyuTheme venyuTheme) {
-    if (_isLoading) {
+    if (isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -332,17 +321,12 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> {
     return RefreshIndicator(
       onRefresh: _loadPendingReviews,
       child: ListView.builder(
-        controller: _scrollController,
-        itemCount: _cards.length + (_isLoadingMore ? 1 : 0),
+        controller: scrollController,
+        itemCount: _cards.length + (isLoadingMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == _cards.length) {
             // Loading more indicator
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return buildLoadingIndicator();
           }
 
           final prompt = _cards[index];

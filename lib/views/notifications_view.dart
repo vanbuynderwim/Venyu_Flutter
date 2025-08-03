@@ -9,6 +9,7 @@ import '../models/notification.dart' as venyu;
 import '../models/requests/paginated_request.dart';
 import '../services/supabase_manager.dart';
 import '../services/session_manager.dart';
+import '../mixins/paginated_list_view_mixin.dart';
 import 'matches/match_detail_view.dart';
 
 /// NotificationsView - Notifications page with ListView for server data
@@ -19,33 +20,20 @@ class NotificationsView extends StatefulWidget {
   State<NotificationsView> createState() => _NotificationsViewState();
 }
 
-class _NotificationsViewState extends State<NotificationsView> {
+class _NotificationsViewState extends State<NotificationsView> 
+    with PaginatedListViewMixin<NotificationsView> {
   final List<venyu.Notification> _notifications = [];
-  final ScrollController _scrollController = ScrollController();
-  bool _isLoading = false;
-  bool _isLoadingMore = false;
-  bool _hasMorePages = true;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    initializePagination();
     _loadNotifications();
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 200 &&
-        !_isLoadingMore &&
-        _hasMorePages) {
-      _loadMoreNotifications();
-    }
+  Future<void> loadMoreItems() async {
+    await _loadMoreNotifications();
   }
 
   Future<void> _loadNotifications({bool forceRefresh = false}) async {
@@ -53,10 +41,10 @@ class _NotificationsViewState extends State<NotificationsView> {
 
     if (forceRefresh || _notifications.isEmpty) {
       setState(() {
-        _isLoading = true;
+        isLoading = true;
         if (forceRefresh) {
           _notifications.clear();
-          _hasMorePages = true;
+          hasMorePages = true;
         }
       });
 
@@ -69,13 +57,13 @@ class _NotificationsViewState extends State<NotificationsView> {
         final notifications = await SupabaseManager.shared.fetchNotifications(request);
         setState(() {
           _notifications.addAll(notifications);
-          _hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
-          _isLoading = false;
+          hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+          isLoading = false;
         });
       } catch (error) {
         debugPrint('Error fetching notifications: $error');
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     }
@@ -85,7 +73,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     if (_notifications.isEmpty || !_hasMorePages) return;
 
     setState(() {
-      _isLoadingMore = true;
+      isLoadingMore = true;
     });
 
     try {
@@ -100,13 +88,13 @@ class _NotificationsViewState extends State<NotificationsView> {
       final notifications = await SupabaseManager.shared.fetchNotifications(request);
       setState(() {
         _notifications.addAll(notifications);
-        _hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
-        _isLoadingMore = false;
+        hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+        isLoadingMore = false;
       });
     } catch (error) {
       debugPrint('Error loading more notifications: $error');
       setState(() {
-        _isLoadingMore = false;
+        isLoadingMore = false;
       });
     }
   }
@@ -123,7 +111,7 @@ class _NotificationsViewState extends State<NotificationsView> {
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
-        child: _isLoading
+        child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : _notifications.isEmpty
                 ? CustomScrollView(
@@ -140,15 +128,12 @@ class _NotificationsViewState extends State<NotificationsView> {
                     ],
                   )
                 : ListView.builder(
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: _notifications.length + (_isLoadingMore ? 1 : 0),
+                    itemCount: _notifications.length + (isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == _notifications.length) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
+                        return buildLoadingIndicator();
                       }
 
                       final notification = _notifications[index];
