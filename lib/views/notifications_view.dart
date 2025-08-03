@@ -70,7 +70,7 @@ class _NotificationsViewState extends State<NotificationsView>
   }
 
   Future<void> _loadMoreNotifications() async {
-    if (_notifications.isEmpty || !_hasMorePages) return;
+    if (_notifications.isEmpty || !hasMorePages) return;
 
     setState(() {
       isLoadingMore = true;
