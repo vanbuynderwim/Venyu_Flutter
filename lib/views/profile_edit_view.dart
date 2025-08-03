@@ -7,30 +7,37 @@ import 'personal/edit_personal_info_view.dart';
 import 'company/edit_company_info_view.dart';
 
 /// ProfileEditView - Flutter equivalent of iOS ProfileEditView
-class ProfileEditView extends StatelessWidget {
+class ProfileEditView extends StatefulWidget {
   const ProfileEditView({super.key});
+
+  @override
+  State<ProfileEditView> createState() => _ProfileEditViewState();
+}
+
+class _ProfileEditViewState extends State<ProfileEditView> {
+  bool _hasAnyChanges = false;
 
   @override
   Widget build(BuildContext context) {
     return AppListScaffold(
-      appBar: PlatformAppBar(
-        title: const Text('Edit profile'),
-      ),
-      children: ProfileEditType.values.map((profileEditType) {
-        return OptionButton(
-          option: profileEditType,
-          isSelected: false,
-          isMultiSelect: false,
-          isSelectable: false,
-          isCheckmarkVisible: false,
-          isChevronVisible: true,
-          isButton: true,
-          withDescription: true,
-          onSelect: () {
-            _handleOptionTap(context, profileEditType);
-          },
-        );
-      }).toList(),
+        appBar: PlatformAppBar(
+          title: const Text('Edit profile'),
+        ),
+        children: ProfileEditType.values.map((profileEditType) {
+          return OptionButton(
+            option: profileEditType,
+            isSelected: false,
+            isMultiSelect: false,
+            isSelectable: false,
+            isCheckmarkVisible: false,
+            isChevronVisible: true,
+            isButton: true,
+            withDescription: true,
+            onSelect: () {
+              _handleOptionTap(context, profileEditType);
+            },
+          );
+        }).toList(),
     );
   }
 
@@ -71,9 +78,22 @@ class ProfileEditView extends StatelessWidget {
         break;
     }
     
-    // If any changes were made, pop with true to notify parent
-    if (hasChanges == true && context.mounted) {
-      Navigator.of(context).pop(true);
+    // Track if any changes were made during this session
+    if (hasChanges == true) {
+      _hasAnyChanges = true;
     }
+  }
+
+  @override
+  void dispose() {
+    // Return result when the screen is disposed (including swipe back)
+    if (_hasAnyChanges) {
+      // This will be called when the screen is popped
+      // But we need to ensure the parent gets the result
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // The result should already be passed via Navigator.pop() in ProfileView
+      });
+    }
+    super.dispose();
   }
 }

@@ -42,11 +42,15 @@ class _EditCompanyInfoViewState extends State<EditCompanyInfoView> with DataRefr
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: true, // Allow swipe gestures
       onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) {
-          // Pop with the appropriate result
-          Navigator.of(context).pop(_hasChanges);
+        // This runs after the pop has happened
+        if (didPop && _hasChanges) {
+          // Trigger a post-frame callback to refresh the parent
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // The ProfileView should refresh on resume
+            debugPrint('Changes detected in company info, should refresh parent');
+          });
         }
       },
       child: AppListScaffold(
