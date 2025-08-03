@@ -71,7 +71,7 @@ class _CardItemState extends State<CardItem> {
                     // Main content
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: AppModifiers.cardContentPadding,
                         decoration: _buildGradientOverlay(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class _CardItemState extends State<CardItem> {
                               ),
                             
                             if (widget.prompt.profile != null)
-                              const SizedBox(height: 16),
+                              AppModifiers.verticalSpaceMedium,
                             
                             // Prompt label
                             Text(
@@ -100,7 +100,7 @@ class _CardItemState extends State<CardItem> {
                             // Status badge
                             if (widget.prompt.status != null)
                               Padding(
-                                padding: const EdgeInsets.only(top: 16),
+                                padding: EdgeInsets.only(top: AppModifiers.mediumSpacing),
                                 child: StatusBadgeView(
                                   status: widget.prompt.status!,
                                 ),

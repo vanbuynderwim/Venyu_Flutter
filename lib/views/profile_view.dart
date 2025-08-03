@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
     
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: AppModifiers.cardContentPadding,
       decoration: BoxDecoration(
         color: venyuTheme.cardBackground,
         borderRadius: BorderRadius.circular(12),

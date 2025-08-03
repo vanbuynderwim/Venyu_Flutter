@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import 'role_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
@@ -47,7 +48,7 @@ class _MatchItemViewState extends State<MatchItemView> {
           ? () => widget.onMatchSelected!(widget.match)
           : null,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppModifiers.cardContentPadding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

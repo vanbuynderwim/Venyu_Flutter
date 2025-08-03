@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../models/match.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -260,7 +261,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   Widget _buildPromptsSection() {
     if (_match!.prompts == null || _match!.prompts!.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: AppModifiers.cardContentPadding,
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No matching cards',
@@ -315,7 +316,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     
     if (_match!.connections == null || _match!.connections!.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: AppModifiers.cardContentPadding,
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No shared connections',
@@ -364,7 +365,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   Widget _buildTagsSection(List<dynamic> tagGroups) {
     if (tagGroups.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: AppModifiers.cardContentPadding,
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
           'No shared tags',
@@ -376,7 +377,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppModifiers.cardContentPadding,
       decoration: AppLayoutStyles.cardDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

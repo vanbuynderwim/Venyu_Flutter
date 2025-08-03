@@ -204,7 +204,7 @@ class _OptionButtonState extends State<OptionButton> {
     final venyuTheme = context.venyuTheme;
     
     final content = Padding(
-      padding: const EdgeInsets.all(16),
+      padding: AppModifiers.cardContentPadding,
       child: Row(
         children: [
           // Icon/Emoji

@@ -192,4 +192,24 @@ class AppModifiers {
   static const EdgeInsets pagePaddingHorizontal = EdgeInsets.symmetric(
     horizontal: mediumSpacing, // 16px links en rechts
   );
+
+  /// Card content padding - most common pattern for card/container content
+  static const EdgeInsets cardContentPadding = EdgeInsets.all(mediumSpacing); // 16px
+  
+  /// Common vertical spacing widgets
+  static const SizedBox verticalSpaceTiny = SizedBox(height: tinySpacing);     // 4px
+  static const SizedBox verticalSpaceSmall = SizedBox(height: smallSpacing);   // 8px
+  static const SizedBox verticalSpaceMedium = SizedBox(height: mediumSpacing); // 16px
+  static const SizedBox verticalSpaceLarge = SizedBox(height: largeSpacing);   // 24px
+  static const SizedBox verticalSpaceExtraLarge = SizedBox(height: extraLargeSpacing); // 32px
+  
+  /// Common horizontal spacing widgets
+  static const SizedBox horizontalSpaceTiny = SizedBox(width: tinySpacing);     // 4px
+  static const SizedBox horizontalSpaceSmall = SizedBox(width: smallSpacing);   // 8px
+  static const SizedBox horizontalSpaceMedium = SizedBox(width: mediumSpacing); // 16px
+  static const SizedBox horizontalSpaceLarge = SizedBox(width: largeSpacing);   // 24px
+  
+  /// Special case spacing
+  static const SizedBox verticalSpace6 = SizedBox(height: 6);  // Voor de vaak gebruikte 6px spacing
+  static const SizedBox verticalSpace12 = SizedBox(height: 12); // Voor de vaak gebruikte 12px spacing
 }

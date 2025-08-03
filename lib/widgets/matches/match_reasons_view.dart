@@ -20,7 +20,7 @@ class MatchReasonsView extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
     
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: AppModifiers.cardContentPadding,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [

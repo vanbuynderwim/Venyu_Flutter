@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 
 /// EmptyStateWidget - Reusable empty state component
@@ -89,7 +90,7 @@ class EmptyStateWidget extends StatelessWidget {
         // Icon with safe fallback
         _buildIcon(context),
         
-        const SizedBox(height: 16),
+        AppModifiers.verticalSpaceMedium,
         
         // Primary message
         Text(
@@ -100,7 +101,7 @@ class EmptyStateWidget extends StatelessWidget {
         
         // Description
         if (description != null) ...[
-          const SizedBox(height: 8),
+          AppModifiers.verticalSpaceSmall,
           Text(
             description!,
             style: AppTextStyles.body.secondary(context),

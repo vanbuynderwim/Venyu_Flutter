@@ -53,7 +53,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
           ? () => widget.onNotificationSelected!(widget.notification)
           : null,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: AppModifiers.cardContentPadding,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -70,20 +70,20 @@ class _NotificationItemViewState extends State<NotificationItemView> {
                   // Title row with timestamp
                   _buildTitleRow(context),
                   
-                  const SizedBox(height: 8),
+                  AppModifiers.verticalSpaceSmall,
                   
                   // Body text
                   _buildBody(context),
                   
                   // Optional prompt section
                   if (widget.notification.prompt != null) ...[
-                    const SizedBox(height: 8),
+                    AppModifiers.verticalSpaceSmall,
                     _buildPromptSection(context),
                   ],
                   
                   // Optional match section
                   if (widget.notification.match != null) ...[
-                    const SizedBox(height: 8),
+                    AppModifiers.verticalSpaceSmall,
                     _buildMatchSection(context),
                   ],
                 ],

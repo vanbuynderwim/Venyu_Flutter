@@ -68,7 +68,7 @@ class MatchOverviewHeader extends StatelessWidget {
             // Center content
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: AppModifiers.cardContentPadding,
                 decoration: BoxDecoration(
                   color: venyuTheme.cardBackground,
                 ),

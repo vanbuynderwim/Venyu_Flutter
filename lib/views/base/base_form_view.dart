@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -263,11 +264,11 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
             Expanded(
               child: useScrollView
                   ? SingleChildScrollView(
-                      padding: const EdgeInsets.all(16),
+                      padding: AppModifiers.cardContentPadding,
                       child: buildFormContent(context),
                     )
                   : Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: AppModifiers.cardContentPadding,
                       child: buildFormContent(context),
                     ),
             ),

@@ -12,6 +12,7 @@ import '../models/requests/paginated_request.dart';
 import '../widgets/common/match_item_view.dart';
 import '../services/supabase_manager.dart';
 import '../services/session_manager.dart';
+import '../mixins/paginated_list_view_mixin.dart';
 import 'matches/match_detail_view.dart';
 
 /// MatchesView - Matches page with ListView for server data
@@ -22,33 +23,20 @@ class MatchesView extends StatefulWidget {
   State<MatchesView> createState() => _MatchesViewState();
 }
 
-class _MatchesViewState extends State<MatchesView> {
+class _MatchesViewState extends State<MatchesView> 
+    with PaginatedListViewMixin<MatchesView> {
   final List<Match> _matches = [];
-  final ScrollController _scrollController = ScrollController();
-  bool _isLoading = false;
-  bool _isLoadingMore = false;
-  bool _hasMorePages = true;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    initializePagination();
     _loadMatches();
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 200 &&
-        !_isLoadingMore &&
-        _hasMorePages) {
-      _loadMoreMatches();
-    }
+  Future<void> loadMoreItems() async {
+    await _loadMoreMatches();
   }
 
   Future<void> _loadMatches({bool forceRefresh = false}) async {
@@ -56,10 +44,10 @@ class _MatchesViewState extends State<MatchesView> {
 
     if (forceRefresh || _matches.isEmpty) {
       setState(() {
-        _isLoading = true;
+        isLoading = true;
         if (forceRefresh) {
           _matches.clear();
-          _hasMorePages = true;
+          hasMorePages = true;
         }
       });
 
@@ -72,23 +60,23 @@ class _MatchesViewState extends State<MatchesView> {
         final matches = await SupabaseManager.shared.fetchMatches(request);
         setState(() {
           _matches.addAll(matches);
-          _hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
-          _isLoading = false;
+          hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
+          isLoading = false;
         });
       } catch (error) {
         debugPrint('Error fetching matches: $error');
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
     }
   }
 
   Future<void> _loadMoreMatches() async {
-    if (_matches.isEmpty || !_hasMorePages) return;
+    if (_matches.isEmpty || !hasMorePages) return;
 
     setState(() {
-      _isLoadingMore = true;
+      isLoadingMore = true;
     });
 
     try {
@@ -104,13 +92,13 @@ class _MatchesViewState extends State<MatchesView> {
       final matches = await SupabaseManager.shared.fetchMatches(request);
       setState(() {
         _matches.addAll(matches);
-        _hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
-        _isLoadingMore = false;
+        hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
+        isLoadingMore = false;
       });
     } catch (error) {
       debugPrint('Error loading more matches: $error');
       setState(() {
-        _isLoadingMore = false;
+        isLoadingMore = false;
       });
     }
   }
@@ -142,7 +130,7 @@ class _MatchesViewState extends State<MatchesView> {
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
-        child: _isLoading
+        child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : _matches.isEmpty
                 ? CustomScrollView(
@@ -159,15 +147,12 @@ class _MatchesViewState extends State<MatchesView> {
                     ],
                   )
                 : ListView.builder(
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: _matches.length + (_isLoadingMore ? 1 : 0),
+                    itemCount: _matches.length + (isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == _matches.length) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
+                        return buildLoadingIndicator();
                       }
 
                       final match = _matches[index];
