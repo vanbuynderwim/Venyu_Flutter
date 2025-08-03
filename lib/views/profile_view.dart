@@ -54,9 +54,28 @@ class _ProfileViewState extends State<ProfileView> {
     _supabaseManager = SupabaseManager.shared;
     _sessionManager = SessionManager.shared;
     
+    // Listen to SessionManager updates for automatic profile refresh
+    _sessionManager.addListener(_onSessionManagerUpdated);
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshData();
     });
+  }
+
+  @override
+  void dispose() {
+    _sessionManager.removeListener(_onSessionManagerUpdated);
+    super.dispose();
+  }
+  
+  /// Called when SessionManager notifies about profile updates
+  void _onSessionManagerUpdated() {
+    if (mounted) {
+      setState(() {
+        // Profile header and other UI will automatically rebuild
+        // when SessionManager.currentProfile is updated
+      });
+    }
   }
 
   @override
@@ -71,7 +90,7 @@ class _ProfileViewState extends State<ProfileView> {
             padding: EdgeInsets.zero,
             icon: context.themedIcon('settings'),
             onPressed: () async {
-              final result = await Navigator.push(
+              await Navigator.push(
                 context,
                 platformPageRoute(
                   context: context,
@@ -79,10 +98,8 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               );
               
-              // If any changes were made, refresh the profile data
-              if (result == true && mounted) {
-                await _refreshData(forceRefresh: true);
-              }
+              // No need to manually refresh - ProfileView automatically updates
+              // when SessionManager.currentProfile changes via listener
             },
           ),
         ],
@@ -127,11 +144,8 @@ class _ProfileViewState extends State<ProfileView> {
     return ProfileHeader(
       profile: profile,
       isEditable: true,
-      onBioEdited: () {
-        setState(() {
-          // Trigger rebuild to show updated bio
-        });
-      },
+      // No need for onBioEdited callback - ProfileView automatically updates
+      // when SessionManager.currentProfile changes via listener
     );
   }
 

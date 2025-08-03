@@ -494,6 +494,7 @@ class SessionManager extends ChangeNotifier {
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
     String? publicKey,
+    List<TagGroup>? taggroups,
   }) {
     if (_currentProfile == null) {
       debugPrint('⚠️ SessionManager: Cannot update profile fields - no current profile');
@@ -518,6 +519,7 @@ class SessionManager extends ChangeNotifier {
       isSuperAdmin: isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed,
       publicKey: publicKey,
+      taggroups: taggroups,
     );
     
     // Notify listeners about the profile update

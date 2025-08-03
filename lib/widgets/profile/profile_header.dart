@@ -24,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
   final VoidCallback? onLinkedInTap;
   final VoidCallback? onEmailTap;
   final VoidCallback? onWebsiteTap;
-  final VoidCallback? onBioEdited;
+  final VoidCallback? onSectorsEditTap;
 
   const ProfileHeader({
     super.key,
@@ -36,7 +36,7 @@ class ProfileHeader extends StatelessWidget {
     this.onLinkedInTap,
     this.onEmailTap,
     this.onWebsiteTap,
-    this.onBioEdited,
+    this.onSectorsEditTap,
   });
 
   @override
@@ -180,8 +180,7 @@ class ProfileHeader extends StatelessWidget {
     } else if (isEditable) {
       // No sectors - show placeholder only if editable
       return GestureDetector(
-        onTap: () {
-          // TODO: Navigate to sectors edit
+        onTap: onSectorsEditTap ?? () {
           debugPrint('Navigate to sectors edit');
         },
         child: Container(
@@ -234,7 +233,7 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(width: 8),
           GestureDetector(
             onTap: () async {
-              final result = await Navigator.push<bool>(
+              await Navigator.push<bool>(
                 context,
                 platformPageRoute(
                   context: context,
@@ -242,10 +241,8 @@ class ProfileHeader extends StatelessWidget {
                 ),
               );
               
-              // Notify parent if bio was updated
-              if (result == true && onBioEdited != null) {
-                onBioEdited!();
-              }
+              // No need to manually notify parent - ProfileView automatically updates
+              // when SessionManager.currentProfile changes via listener
             },
             child: context.themedIcon('edit'),
           ),

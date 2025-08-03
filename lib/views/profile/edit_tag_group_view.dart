@@ -8,6 +8,7 @@ import '../../models/enums/action_button_type.dart';
 import '../../models/tag.dart';
 import '../../models/tag_group.dart';
 import '../../services/supabase_manager.dart';
+import '../../services/session_manager.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -30,6 +31,7 @@ class EditTagGroupView extends StatefulWidget {
 
 class _EditTagGroupViewState extends State<EditTagGroupView> {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
+  final SessionManager _sessionManager = SessionManager.shared;
   TagGroup? _currentTagGroup;
   bool _isLoading = true;
   bool _isSaving = false;
@@ -257,6 +259,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
         await _supabaseManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
       }
 
+      // Update local SessionManager profile to reflect the changes
+      _updateLocalProfile();
+
       // Show success feedback and navigate back
       if (mounted) {
         // You could show a success snackbar here if needed
@@ -287,6 +292,51 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           _isSaving = false;
         });
       }
+    }
+  }
+
+  /// Updates the local SessionManager profile with the new tag selections
+  /// This ensures that ProfileView updates immediately without requiring a refresh
+  void _updateLocalProfile() {
+    final currentProfile = _sessionManager.currentProfile;
+    if (currentProfile?.taggroups == null || _currentTagGroup == null) {
+      debugPrint('⚠️ Cannot update local profile - missing data');
+      return;
+    }
+
+    debugPrint('🔄 Updating local profile taggroups for category: ${_currentTagGroup!.code}');
+
+    // Create a copy of the current taggroups
+    List<TagGroup> updatedTagGroups = List.from(currentProfile!.taggroups!);
+    
+    // Find the index of the taggroup we're updating
+    final groupIndex = updatedTagGroups.indexWhere(
+      (group) => group.code == _currentTagGroup!.code,
+    );
+
+    if (groupIndex != -1) {
+      // Update the existing taggroup with the new selected tags
+      final updatedTagGroup = TagGroup(
+        id: _currentTagGroup!.id,
+        label: _currentTagGroup!.label,
+        desc: _currentTagGroup!.desc,
+        icon: _currentTagGroup!.icon,
+        type: _currentTagGroup!.type,
+        isMultiSelect: _currentTagGroup!.isMultiSelect,
+        code: _currentTagGroup!.code,
+        tags: _selectedTags.map((tag) => tag.copyWith(isSelected: true)).toList(),
+      );
+
+      updatedTagGroups[groupIndex] = updatedTagGroup;
+
+      // Update the SessionManager with the new taggroups
+      _sessionManager.updateCurrentProfileFields(
+        taggroups: updatedTagGroups,
+      );
+
+      debugPrint('✅ Local profile updated for ${_currentTagGroup!.code}');
+    } else {
+      debugPrint('⚠️ Could not find taggroup ${_currentTagGroup!.code} in profile');
     }
   }
 }

@@ -24,7 +24,6 @@ class EditPersonalInfoView extends StatefulWidget {
 class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRefreshMixin {
   final SupabaseManager _supabaseManager = SupabaseManager.shared;
   List<TagGroup>? _tagGroups;
-  bool _hasChanges = false;
 
   @override
   void initState() {
@@ -42,25 +41,11 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: true, // Allow swipe gestures
-      onPopInvokedWithResult: (didPop, result) {
-        // This runs after the pop has happened
-        // We can't change the result anymore, but we can use other mechanisms
-        if (didPop && _hasChanges) {
-          // Trigger a post-frame callback to refresh the parent
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            // The ProfileView should refresh on resume
-            debugPrint('Changes detected in personal info, should refresh parent');
-          });
-        }
-      },
-      child: AppListScaffold(
-        appBar: PlatformAppBar(
-          title: const Text('Personal info'),
-        ),
-        children: _buildContent(),
+    return AppListScaffold(
+      appBar: PlatformAppBar(
+        title: const Text('Personal info'),
       ),
+      children: _buildContent(),
     );
   }
 
@@ -154,11 +139,10 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
           ),
         );
         
-        // Name changes don't affect the tag list display, so no refresh needed
-        // But we track it to notify parent about profile changes
+        // Name changes are handled locally via SessionManager.updateCurrentProfileFields
+        // No need to refresh parent - ProfileView will automatically update
         if (result == true) {
           debugPrint('Name updated successfully');
-          _hasChanges = true;
         }
         break;
       case EditPersonalInfoType.bio:
@@ -171,10 +155,10 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
           ),
         );
         
-        // Bio changes don't affect the tag list display, so no refresh needed
+        // Bio changes are handled locally via SessionManager.updateCurrentProfileFields
+        // No need to refresh parent - ProfileView will automatically update
         if (bioResult == true) {
           debugPrint('Bio updated successfully');
-          _hasChanges = true;
         }
         break;
       case EditPersonalInfoType.email:
@@ -199,7 +183,6 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
     // If changes were saved, refresh the data to show updated tags
     if (result == true) {
       debugPrint('Tag changes detected, refreshing data...');
-      _hasChanges = true;
       _loadData();
     }
   }
