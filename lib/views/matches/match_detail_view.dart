@@ -10,6 +10,7 @@ import '../../models/match.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/profile/profile_header.dart';
+import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/card_item.dart';
 import '../../widgets/common/match_item_view.dart';
 import '../../widgets/common/tag_view.dart';
@@ -165,11 +166,8 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               avatarSize: 80.0,
               isEditable: false,
               isConnection: _match!.isConnected,
-              onAvatarTap: _match!.isConnected && _match!.profile.avatarID != null
-                  ? () {
-                      // TODO: Show full screen avatar
-                      debugPrint('Show full screen avatar');
-                    }
+              onAvatarTap: _match!.profile.avatarID != null
+                  ? () => _viewMatchAvatar(context)
                   : null,
               onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
                   ? () => _openLinkedIn()
@@ -689,5 +687,70 @@ class _MatchDetailViewState extends State<MatchDetailView> {
         );
       }
     }
+  }
+
+  /// Shows the match avatar in fullscreen view
+  Future<void> _viewMatchAvatar(BuildContext context) async {
+    if (_match?.profile.avatarID == null) return;
+    
+    await Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false, // Allow transparent background
+        barrierDismissible: true,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return Scaffold(
+            backgroundColor: Colors.black, // Fully black background
+            body: SafeArea(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Avatar size = screen width minus 16pt on each side (32pt total)
+                  final availableWidth = constraints.maxWidth - 32.0;
+                  final availableHeight = constraints.maxHeight - 80.0; // Space for close button
+                  
+                  // Use the smaller dimension to ensure perfect circle
+                  final avatarSize = availableWidth < availableHeight ? availableWidth : availableHeight;
+                  
+                  return Stack(
+                    children: [
+                      // Tap to dismiss
+                      Positioned.fill(
+                        child: GestureDetector(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Container(color: Colors.transparent),
+                        ),
+                      ),
+                      // Centered avatar
+                      Center(
+                        child: AvatarView(
+                          avatarId: _match!.profile.avatarID,
+                          size: avatarSize,
+                          showBorder: false, // No border for full-screen view
+                          preserveAspectRatio: true, // Preserve original image quality and ratio
+                        ),
+                      ),
+                      // Close button
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: PlatformIconButton(
+                          icon: const Icon(Icons.close, color: Colors.white, size: 30),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 }
