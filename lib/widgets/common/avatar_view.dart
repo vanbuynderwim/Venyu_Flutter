@@ -35,10 +35,21 @@ class AvatarView extends StatefulWidget {
   /// Defaults to 80.
   final double size;
   
+  /// Whether to show a border around the avatar.
+  /// Defaults to true.
+  final bool showBorder;
+  
+  /// Whether to preserve the original aspect ratio of the image.
+  /// When true, doesn't resize the cached image, preserving quality and ratio.
+  /// Defaults to false for backward compatibility.
+  final bool preserveAspectRatio;
+  
   const AvatarView({
     super.key,
     this.avatarId,
     this.size = 80,
+    this.showBorder = true,
+    this.preserveAspectRatio = false,
   });
 
   @override
@@ -94,18 +105,19 @@ class _AvatarViewState extends State<AvatarView> {
                 ? _buildPlaceholder(context, venyuTheme)
                 : _buildRemoteAvatar(context),
           ),
-          // Border overlay
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: venyuTheme.secondaryText.withValues(alpha: 0.2),
-                  width: AppModifiers.thinBorder,
+          // Border overlay (only if showBorder is true)
+          if (widget.showBorder)
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: venyuTheme.secondaryText.withValues(alpha: 0.2),
+                    width: AppModifiers.thinBorder,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -176,8 +188,9 @@ class _AvatarViewState extends State<AvatarView> {
             ),
             errorWidget: (context, url, error) => _buildPlaceholder(context, venyuTheme),
             fadeInDuration: const Duration(milliseconds: 250),
-            memCacheWidth: (widget.size * 2).toInt(),
-            memCacheHeight: (widget.size * 2).toInt(),
+            // Only set cache dimensions if not preserving aspect ratio
+            memCacheWidth: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
+            memCacheHeight: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
           ),
         ),
       );

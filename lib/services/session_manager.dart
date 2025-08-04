@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/models.dart';
 import 'supabase_manager.dart';
@@ -623,4 +624,77 @@ class SessionManager extends ChangeNotifier {
     'profileName': _currentProfile?.displayName,
     'lastError': _lastError,
   };
+
+  // MARK: - Avatar Management Methods
+
+  /// Uploads and sets a new user profile avatar.
+  /// 
+  /// This method coordinates between SupabaseManager and local profile updates.
+  /// SessionManager handles the orchestration while SupabaseManager does the heavy lifting.
+  Future<void> uploadUserProfileAvatar(Uint8List imageData) async {
+    try {
+      debugPrint('📤 SessionManager: Starting avatar upload');
+      
+      // Delete old avatar if exists
+      if (_currentProfile?.avatarID != null) {
+        await _supabaseManager.deleteUserProfileAvatar(
+          avatarID: _currentProfile!.avatarID!,
+          isFullDelete: false,
+        );
+      }
+      
+      // Upload new avatar and get the new avatar ID
+      final newAvatarID = await _supabaseManager.uploadUserProfileAvatar(imageData);
+      
+      // Update local profile
+      updateCurrentProfileFields(avatarID: newAvatarID);
+      
+      debugPrint('✅ SessionManager: Avatar upload completed successfully');
+      
+    } catch (error) {
+      debugPrint('❌ SessionManager: Failed to upload avatar: $error');
+      
+      // TODO: Add Bugsnag error tracking when implemented
+      // Bugsnag.notifyError(error);
+      rethrow;
+    }
+  }
+
+  /// Deletes the user's current profile avatar.
+  /// 
+  /// This method coordinates between SupabaseManager and local profile updates.
+  Future<void> deleteProfileAvatar({bool isFullDelete = true}) async {
+    final avatarID = _currentProfile?.avatarID;
+    if (avatarID == null) {
+      debugPrint('⚠️ No avatar to delete');
+      return;
+    }
+    
+    try {
+      debugPrint('🗑️ SessionManager: Deleting avatar: $avatarID');
+      
+      // Delete avatar via SupabaseManager
+      await _supabaseManager.deleteUserProfileAvatar(
+        avatarID: avatarID,
+        isFullDelete: isFullDelete,
+      );
+      
+      if (isFullDelete) {
+        // Update local profile
+        updateCurrentProfileFields(avatarID: null);
+        debugPrint('✅ SessionManager: Avatar deleted completely');
+      }
+      
+    } catch (error) {
+      debugPrint('❌ SessionManager: Failed to delete avatar: $error');
+      
+      // TODO: Add Bugsnag error tracking when implemented
+      // Bugsnag.notifyError(error);
+      
+      if (isFullDelete) {
+        rethrow;
+      }
+      // For non-full deletes, we continue with the upload process
+    }
+  }
 }

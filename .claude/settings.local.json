@@ -12,7 +12,10 @@
       "Bash(find:*)",
       "Bash(mkdir:*)",
       "Bash(mv:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "mcp__ide__getDiagnostics",
+      "WebFetch(domain:github.com)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }

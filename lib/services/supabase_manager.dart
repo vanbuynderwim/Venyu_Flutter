@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../core/config/app_config.dart';
 import '../core/utils/device_info.dart';
@@ -915,5 +916,164 @@ class SupabaseManager {
       debugPrint('✅ Match response inserted successfully');
       debugPrint('📋 Response: ${request.response.value} for match: ${request.matchId}');
     });
+  }
+
+  // MARK: - Avatar Management Methods
+
+  /// Uploads an image to the specified storage bucket.
+  /// 
+  /// This method exactly matches the iOS uploadImage implementation:
+  /// 1. Generates filename using imageID + .jpg extension
+  /// 2. Uploads image data to the specified bucket
+  /// 3. Sets content type to image/jpeg
+  Future<void> uploadImage({
+    required Uint8List imageData,
+    required String imageID,
+    required RemoteImagePath bucket,
+  }) async {
+    final fileName = '$imageID.jpg';
+    
+    debugPrint('📤 Uploading image: $fileName to bucket: ${bucket.value}');
+    
+    try {
+      await _client.storage
+          .from(bucket.value)
+          .uploadBinary(
+            fileName,
+            imageData,
+            fileOptions: const FileOptions(contentType: 'image/jpeg'),
+          );
+      
+      debugPrint('✅ Image uploaded successfully: $fileName');
+      
+    } catch (error) {
+      debugPrint('❌ Failed to upload image: $error');
+      rethrow;
+    }
+  }
+
+  /// Updates the user's profile avatar ID in the database.
+  /// 
+  /// This method exactly matches the iOS updateProfileAvatar implementation:
+  /// 1. Calls the update_profile_avatar RPC function
+  /// 2. Updates the avatar_id field for the current user
+  Future<void> updateProfileAvatar({required String? avatarID}) async {
+    debugPrint('📤 Updating profile avatar: $avatarID');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('update_profile_avatar', params: {'p_avatar_id': avatarID});
+      
+      debugPrint('✅ Profile avatar updated successfully');
+    });
+  }
+
+  /// Deletes a file from the storage bucket.
+  /// 
+  /// This method exactly matches the iOS deleteFileFromStorage implementation:
+  /// 1. Generates filename using fileID + .jpg extension (uppercase)
+  /// 2. Deletes the file from the specified bucket
+  Future<void> deleteFileFromStorage({
+    required String fileID,
+    required RemoteImagePath bucket,
+  }) async {
+    final fileName = '${fileID.toUpperCase()}.jpg';
+    
+    debugPrint('🗑️ Deleting file: $fileName from bucket: ${bucket.value}');
+    
+    try {
+      await _client.storage
+          .from(bucket.value)
+          .remove([fileName]);
+      
+      debugPrint('✅ File deleted successfully: $fileName');
+      
+    } catch (error) {
+      debugPrint('❌ Failed to delete file: $error');
+      rethrow;
+    }
+  }
+
+  /// Uploads and updates user profile avatar (high-level method).
+  /// 
+  /// This method exactly matches the iOS uploadUserProfileAvatar implementation:
+  /// 1. Deletes old avatar if exists (without full delete)
+  /// 2. Generates new UUID for avatar
+  /// 3. Uploads image data to avatars bucket
+  /// 4. Updates profile avatar ID in database
+  /// 5. Returns the new avatar ID for local profile update
+  Future<String> uploadUserProfileAvatar(Uint8List imageData) async {
+    try {
+      debugPrint('📤 SupabaseManager: Starting avatar upload');
+      
+      // Delete old avatar if exists (get current profile first)
+      // Note: We don't have direct access to SessionManager here,
+      // so this will be handled by the calling code
+      
+      // Generate new avatar ID
+      final avatarID = _generateUUID();
+      
+      // Upload image to storage
+      await uploadImage(
+        imageData: imageData,
+        imageID: avatarID,
+        bucket: RemoteImagePath.avatars,
+      );
+      
+      // Update profile avatar ID in database
+      await updateProfileAvatar(avatarID: avatarID);
+      
+      debugPrint('✅ Avatar upload completed successfully: $avatarID');
+      return avatarID;
+      
+    } catch (error) {
+      debugPrint('❌ SupabaseManager: Failed to upload avatar: $error');
+      rethrow;
+    }
+  }
+
+  /// Deletes user profile avatar (high-level method).
+  /// 
+  /// This method exactly matches the iOS deleteProfileAvatar implementation:
+  /// 1. Deletes avatar file from storage
+  /// 2. If full delete, updates profile avatar ID to null in database
+  Future<void> deleteUserProfileAvatar({
+    required String avatarID,
+    bool isFullDelete = true,
+  }) async {
+    try {
+      debugPrint('🗑️ SupabaseManager: Deleting avatar: $avatarID');
+      
+      // Delete file from storage
+      await deleteFileFromStorage(
+        fileID: avatarID,
+        bucket: RemoteImagePath.avatars,
+      );
+      
+      if (isFullDelete) {
+        // Update profile avatar ID to null in database
+        await updateProfileAvatar(avatarID: null);
+        debugPrint('✅ Avatar deleted completely');
+      } else {
+        debugPrint('✅ Avatar file deleted (keeping reference for replacement)');
+      }
+      
+    } catch (error) {
+      debugPrint('❌ SupabaseManager: Failed to delete avatar: $error');
+      
+      if (isFullDelete) {
+        rethrow;
+      }
+      // For non-full deletes, we continue with the upload process
+    }
+  }
+
+  /// Generates a UUID string for avatar IDs.
+  /// 
+  /// Helper method to generate unique identifiers for avatars.
+  /// Equivalent to Swift's UUID().
+  String _generateUUID() {
+    const uuid = Uuid();
+    return uuid.v4().toUpperCase();
   }
 }
