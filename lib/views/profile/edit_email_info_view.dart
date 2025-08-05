@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/requests/verify_otp_request.dart';
+import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/inputs/app_text_field.dart';
@@ -170,8 +171,11 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           _isVerifyingOTP = false;
         });
         
-        // Just log success and navigate
-        debugPrint('✅ ${getSuccessMessage()}');
+        // Show success toast and navigate
+        ToastService.success(
+          context: context,
+          message: getSuccessMessage(),
+        );
         navigateAfterSave();
       }
     } catch (error) {
@@ -180,8 +184,11 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           _isVerifyingOTP = false;
         });
         
-        // Just log error
-        debugPrint('❌ ${getErrorMessage()}');
+        // Show error toast
+        ToastService.error(
+          context: context,
+          message: getErrorMessage(),
+        );
         debugPrint('Error verifying OTP: $error');
       }
     }
@@ -204,6 +211,13 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
       
       if (mounted) {
         debugPrint('🔄 Updating UI state after successful OTP send...');
+        
+        // Show success toast BEFORE updating state
+        ToastService.success(
+          context: context,
+          message: 'A verification code has been sent to ${_emailController.text.trim()}',
+        );
+        
         setState(() {
           _isSendingOTP = false;
           _emailFieldDisabled = true;
@@ -212,7 +226,6 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         });
         
         debugPrint('✅ UI state updated - OTP field should now be visible');
-        debugPrint('✅ ${getSuccessMessage()}');
       } else {
         debugPrint('⚠️ Widget not mounted after OTP send');
       }
@@ -225,7 +238,11 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           _isSendingOTP = false;
         });
         
-        debugPrint('❌ ${getErrorMessage()}');
+        // Show error toast
+        ToastService.error(
+          context: context,
+          message: getErrorMessage(),
+        );
       } else {
         debugPrint('⚠️ Widget not mounted during error handling');
       }

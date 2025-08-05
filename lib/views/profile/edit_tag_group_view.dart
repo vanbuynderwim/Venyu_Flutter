@@ -9,8 +9,10 @@ import '../../models/tag.dart';
 import '../../models/tag_group.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/session_manager.dart';
+import '../../models/enums/registration_step.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
+import '../../widgets/common/progress_bar.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
@@ -19,10 +21,14 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 /// It supports both single-select and multi-select modes based on the TagGroup configuration.
 class EditTagGroupView extends StatefulWidget {
   final TagGroup tagGroup;
+  final bool registrationWizard;
+  final RegistrationStep? currentStep;
 
   const EditTagGroupView({
     super.key,
     required this.tagGroup,
+    this.registrationWizard = false,
+    this.currentStep,
   });
 
   @override
@@ -78,6 +84,12 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     }
   }
 
+  /// Get the progress bar page number based on current step
+  int get _progressPageNumber {
+    if (widget.currentStep == null) return 1;
+    return widget.currentStep!.stepNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -86,9 +98,18 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       ),
       body: Column(
         children: [
+          // Progress bar outside of scrollable content for consistent positioning
+          if (widget.registrationWizard && widget.currentStep != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+              child: ProgressBar(
+                pageNumber: _progressPageNumber,
+                numberOfPages: 10, // 10 steps with progress bar (complete step has no progress bar)
+              ),
+            ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
               children: _buildContent(),
             ),
           ),
@@ -108,19 +129,22 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   }
 
   List<Widget> _buildContent() {
+    final List<Widget> content = [];
+    
     if (_isLoading) {
-      return [
+      content.add(
         SizedBox(
           height: 200,
           child: Center(
             child: PlatformCircularProgressIndicator(),
           ),
         ),
-      ];
+      );
+      return content;
     }
 
     if (_error != null) {
-      return [
+      content.add(
         SizedBox(
           height: 200,
           child: Center(
@@ -152,29 +176,29 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
             ),
           ),
         ),
-      ];
+      );
+      return content;
     }
 
     if (_currentTagGroup?.tags == null || _currentTagGroup!.tags!.isEmpty) {
-      return [
+      content.add(
         const SizedBox(
           height: 200,
           child: Center(
             child: Text('No tags available'),
           ),
         ),
-      ];
+      );
+      return content;
     }
 
-    final List<Widget> children = [];
-
     // Add description if available
-    if (_currentTagGroup!.description.isNotEmpty) {
-      children.add(
+    if (_currentTagGroup!.desc != null && _currentTagGroup!.desc!.isNotEmpty) {
+      content.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: Text(
-            _currentTagGroup!.description,
+            _currentTagGroup!.desc!,
             style: AppTextStyles.body.secondary(context),
           ),
         ),
@@ -186,7 +210,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       final isSelected = _selectedTags.any((selectedTag) => selectedTag.id == tag.id);
       final isMultiSelect = _currentTagGroup!.isMultiSelect ?? false;
       
-      children.add(
+      content.add(
         OptionButton(
           option: tag,
           isSelected: isSelected,
@@ -202,7 +226,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       );
     }
 
-    return children;
+    return content;
   }
 
   void _handleTagTap(Tag tag) {
@@ -262,10 +286,15 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       // Update local SessionManager profile to reflect the changes
       _updateLocalProfile();
 
-      // Show success feedback and navigate back
+      // Show success feedback and navigate
       if (mounted) {
-        // You could show a success snackbar here if needed
-        Navigator.of(context).pop(true); // Return true to indicate changes were saved
+        if (widget.registrationWizard && widget.currentStep != null) {
+          // Navigate to next step in wizard
+          _navigateToNextStep();
+        } else {
+          // Normal mode: navigate back
+          Navigator.of(context).pop(true); // Return true to indicate changes were saved
+        }
       }
     } catch (error) {
       debugPrint('Error saving tag changes: $error');
@@ -338,5 +367,56 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     } else {
       debugPrint('⚠️ Could not find taggroup ${_currentTagGroup!.code} in profile');
     }
+  }
+
+  void _navigateToNextStep() {
+    debugPrint('🔄 EditTagGroupView: Navigating from ${widget.currentStep} to next step');
+    
+    // Get the correct tag group data for the next step
+    Map<RegistrationStep, Map<String, String>> tagGroupData = {
+      RegistrationStep.sectors: {
+        'code': 'sectors',
+        'label': 'Sectors',
+        'desc': 'Select your sectors',
+      },
+      RegistrationStep.meetingPreferences: {
+        'code': 'meeting_preferences',
+        'label': 'Meeting Preferences',
+        'desc': 'Select your meeting preferences',
+      },
+      RegistrationStep.networkingGoals: {
+        'code': 'network_goals',
+        'label': 'Networking Goals',
+        'desc': 'Select your networking goals',
+      },
+    };
+
+    final nextStep = widget.currentStep!.nextStep;
+    debugPrint('🎯 Next step: $nextStep');
+    
+    if (nextStep == null || !tagGroupData.containsKey(nextStep)) {
+      // No more tag group steps, just pop
+      debugPrint('✅ No more tag group steps, popping back');
+      Navigator.of(context).pop(true);
+      return;
+    }
+
+    // Navigate to next tag group step
+    final data = tagGroupData[nextStep]!;
+    debugPrint('➡️ Navigating to ${data['label']} with code ${data['code']}');
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => EditTagGroupView(
+          tagGroup: TagGroup(
+            id: '',
+            code: data['code']!,
+            label: data['label']!,
+            desc: data['desc'],
+          ),
+          registrationWizard: true,
+          currentStep: nextStep,
+        ),
+      ),
+    );
   }
 }

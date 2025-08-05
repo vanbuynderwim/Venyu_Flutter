@@ -13,6 +13,7 @@ class EditCompanyNameView extends BaseFormView {
   const EditCompanyNameView({
     super.key,
     super.registrationWizard = false,
+    super.currentStep,
   }) : super(title: 'Company name');
 
   @override
@@ -121,7 +122,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
-              pageNumber: 6,
+              pageNumber: 4,
               numberOfPages: 10,
             ),
           ),

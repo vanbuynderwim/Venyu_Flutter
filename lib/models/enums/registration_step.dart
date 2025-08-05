@@ -17,10 +17,22 @@ enum RegistrationStep {
   /// Step 4: Collect user's company name and website
   company,
   
-  /// Step 5: Upload user's profile avatar
+  /// Step 5: Select user roles (using EditTagGroupView)
+  roles,
+  
+  /// Step 6: Select sectors (using EditTagGroupView)
+  sectors,
+  
+  /// Step 7: Set meeting preferences (using EditTagGroupView)
+  meetingPreferences,
+  
+  /// Step 8: Set networking goals (using EditTagGroupView)
+  networkingGoals,
+  
+  /// Step 9: Upload user's profile avatar
   avatar,
   
-  /// Step 6: Configure notification preferences  
+  /// Step 10: Configure notification preferences  
   notifications,
   
   /// Final step: Show completion screen
@@ -65,6 +77,14 @@ enum RegistrationStep {
         return 'Location';
       case RegistrationStep.company:
         return 'Company Information';
+      case RegistrationStep.roles:
+        return 'Your Roles';
+      case RegistrationStep.sectors:
+        return 'Your Sectors';
+      case RegistrationStep.meetingPreferences:
+        return 'Meeting Preferences';
+      case RegistrationStep.networkingGoals:
+        return 'Networking Goals';
       case RegistrationStep.avatar:
         return 'Profile Picture';
       case RegistrationStep.notifications:

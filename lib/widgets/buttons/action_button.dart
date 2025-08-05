@@ -100,33 +100,33 @@ class _ActionButtonState extends State<ActionButton> {
   Widget build(BuildContext context) {
     final isActuallyDisabled = widget.isDisabled || widget.onPressed == null || widget.isLoading;
     final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
-    final theme = context.venyuTheme;
     
     return SizedBox(
       width: widget.width ?? double.infinity,
       height: 56,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isActuallyDisabled ? null : widget.onPressed,
-          splashFactory: NoSplash.splashFactory,
-          highlightColor: theme.highlightColor.withValues(alpha: 0.1),
+      child: Opacity(
+        opacity: isActuallyDisabled ? 0.7 : 1.0,
+        child: Material(
+          color: widget.style.backgroundColor(context),
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Opacity(
-            opacity: isActuallyDisabled ? 0.7 : 1.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: widget.style.backgroundColor(context),
-                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                border: Border.all(
-                  color: widget.style.borderColor(context),
-                  width: AppModifiers.extraThinBorder,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+              border: Border.all(
+                color: widget.style.borderColor(context),
+                width: AppModifiers.extraThinBorder,
+              ),
+            ),
+            child: InkWell(
+              onTap: isActuallyDisabled ? null : widget.onPressed,
+              splashFactory: NoSplash.splashFactory, // No ripple, only highlight
+              highlightColor: widget.style.highlightColor(context).withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isIconOnlyButton ? 0 : 16,
                 ),
-              ),
-              padding: EdgeInsets.symmetric(
-                horizontal: isIconOnlyButton ? 0 : 16,
-              ),
-              child: Center(
+                child: Center(
                 child: widget.isLoading
                     ? SizedBox(
                         width: 20,
@@ -167,6 +167,7 @@ class _ActionButtonState extends State<ActionButton> {
                             ),
                         ],
                       ),
+                ),
               ),
             ),
           ),

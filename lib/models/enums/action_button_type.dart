@@ -105,4 +105,29 @@ enum ActionButtonType {
         return FontWeight.w400; // regular
     }
   }
+
+  /// Returns the appropriate highlight color for this button type.
+  /// 
+  /// Uses contrasting colors to ensure the highlight effect is visible
+  /// against different button background colors in both light and dark themes.
+  Color highlightColor(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    
+    switch (this) {
+      case ActionButtonType.primary:
+      case ActionButtonType.linkedIn:
+        // In dark theme, primary buttons have white background, so use dark highlight
+        // In light theme, primary buttons have dark background, so use light highlight
+        return isDarkTheme 
+            ? Colors.black.withValues(alpha: 0.1) // Dark highlight on white button
+            : Colors.white.withValues(alpha: 0.3); // Light highlight on dark button
+      case ActionButtonType.secondary:
+        // For light background with primary text, use primary color highlight
+        return venyuTheme.primary.withValues(alpha: 0.2);
+      case ActionButtonType.destructive:
+        // For light background with error text, use error color highlight
+        return venyuTheme.error.withValues(alpha: 0.2);
+    }
+  }
 }

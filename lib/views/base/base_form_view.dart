@@ -4,10 +4,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../models/enums/registration_step.dart';
+import '../../models/tag_group.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../company/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
+import '../profile/edit_location_view.dart';
+import '../profile/edit_tag_group_view.dart';
 
 /// Base class for all form-based views in the application.
 /// 
@@ -161,16 +165,65 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         );
         
       case RegistrationStep.location:
-        // TODO: Create EditLocationView
-        debugPrint('Location step not yet implemented');
-        Navigator.of(context).pop(true);
-        return;
+        nextView = const EditLocationView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.location,
+        );
         
       case RegistrationStep.company:
-        // TODO: Create EditCompanyView  
-        debugPrint('Company step not yet implemented');
-        Navigator.of(context).pop(true);
-        return;
+        nextView = EditCompanyNameView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.company,
+        );
+        
+      case RegistrationStep.roles:
+        // TODO: Get roles TagGroup from somewhere (e.g., SessionManager)
+        nextView = EditTagGroupView(
+          tagGroup: const TagGroup(
+            id: '', // Will be loaded dynamically
+            code: 'roles',
+            label: 'Roles',
+            desc: 'Select your professional roles',
+          ),
+          registrationWizard: true,
+          currentStep: RegistrationStep.roles,
+        );
+        
+      case RegistrationStep.sectors:
+        nextView = EditTagGroupView(
+          tagGroup: const TagGroup(
+            id: '',
+            code: 'sectors', 
+            label: 'Sectors',
+            desc: 'Select your sectors',
+          ),
+          registrationWizard: true,
+          currentStep: RegistrationStep.sectors,
+        );
+        
+      case RegistrationStep.meetingPreferences:
+        nextView = EditTagGroupView(
+          tagGroup: const TagGroup(
+            id: '',
+            code: 'meeting_preferences',
+            label: 'Meeting Preferences', 
+            desc: 'Select your meeting preferences',
+          ),
+          registrationWizard: true,
+          currentStep: RegistrationStep.meetingPreferences,
+        );
+        
+      case RegistrationStep.networkingGoals:
+        nextView = EditTagGroupView(
+          tagGroup: const TagGroup(
+            id: '',
+            code: 'network_goals',
+            label: 'Networking Goals',
+            desc: 'Select your networking goals',
+          ),
+          registrationWizard: true,
+          currentStep: RegistrationStep.networkingGoals,
+        );
         
       case RegistrationStep.avatar:
         // TODO: Create EditAvatarView
