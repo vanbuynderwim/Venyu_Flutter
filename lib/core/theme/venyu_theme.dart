@@ -351,11 +351,45 @@ class VenyuThemeData {
       ),
     ),
     
-    // Bottom navigation bar theming
+    // AppBar theming for Android - match iOS style
+    appBarTheme: AppBarTheme(
+      backgroundColor: VenyuTheme.light.pageBackground, // Pearl background
+      foregroundColor: VenyuTheme.light.primaryText, // Text color
+      elevation: 0, // No shadow, like iOS
+      scrolledUnderElevation: 0, // No elevation when scrolled
+      centerTitle: true, // Center title like iOS
+    ),
+    
+    // Bottom navigation bar theming (older Material 2)
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: AppColors.primair4Lilac,
       unselectedItemColor: AppColors.secundair3Slategray,
       type: BottomNavigationBarType.fixed,
+    ),
+    
+    // Navigation bar theming (Material 3 for Android)
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: Colors.white,
+      indicatorColor: Colors.transparent, // No capsule background, just like iOS
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return const IconThemeData(color: AppColors.primair4Lilac); // Same as iOS
+        }
+        return const IconThemeData(color: AppColors.secundair3Slategray);
+      }),
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return const TextStyle(
+            color: AppColors.primair4Lilac,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          );
+        }
+        return const TextStyle(
+          color: AppColors.secundair3Slategray,
+          fontSize: 12,
+        );
+      }),
     ),
     
     // Extensions - this is where the magic happens
@@ -399,11 +433,45 @@ class VenyuThemeData {
       ),
     ),
     
-    // Bottom navigation bar theming
+    // AppBar theming for Android - match iOS style
+    appBarTheme: AppBarTheme(
+      backgroundColor: VenyuTheme.dark.pageBackground, // Dark background
+      foregroundColor: VenyuTheme.dark.primaryText, // White text
+      elevation: 0, // No shadow, like iOS
+      scrolledUnderElevation: 0, // No elevation when scrolled
+      centerTitle: true, // Center title like iOS
+    ),
+    
+    // Bottom navigation bar theming (older Material 2)
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Colors.white,
       unselectedItemColor: AppColors.secundair4Quicksilver,
       type: BottomNavigationBarType.fixed,
+    ),
+    
+    // Navigation bar theming (Material 3 for Android)
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.secundair2Offblack,
+      indicatorColor: Colors.transparent, // No capsule background, just like iOS
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return const IconThemeData(color: Colors.white); // Same as iOS
+        }
+        return const IconThemeData(color: AppColors.secundair4Quicksilver);
+      }),
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) {
+          return const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          );
+        }
+        return const TextStyle(
+          color: AppColors.secundair4Quicksilver,
+          fontSize: 12,
+        );
+      }),
     ),
     
     // Extensions

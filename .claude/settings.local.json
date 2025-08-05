@@ -15,7 +15,8 @@
       "Bash(grep:*)",
       "mcp__ide__getDiagnostics",
       "WebFetch(domain:github.com)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(adb:*)"
     ],
     "deny": []
   }
