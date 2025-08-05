@@ -3,9 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../models/enums/registration_step.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../profile/edit_email_info_view.dart';
 
 /// Base class for all form-based views in the application.
 /// 
@@ -39,11 +41,15 @@ abstract class BaseFormView extends StatefulWidget {
   
   /// Optional custom title for the form
   final String? title;
+  
+  /// Current step in the registration wizard (required if registrationWizard is true)
+  final RegistrationStep? currentStep;
 
   const BaseFormView({
     super.key,
     this.registrationWizard = false,
     this.title,
+    this.currentStep,
   });
 
   @override
@@ -119,13 +125,79 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   /// Override to customize navigation behavior
   @protected
   void navigateAfterSave() {
-    if (widget.registrationWizard) {
-      // TODO: Implement navigation to next registration step
-      debugPrint('Navigate to next registration step');
+    if (widget.registrationWizard && widget.currentStep != null) {
+      _navigateToNextRegistrationStep();
     } else {
       // Return true to indicate changes were saved
       Navigator.of(context).pop(true);
     }
+  }
+
+  /// Navigate to the next step in the registration wizard
+  void _navigateToNextRegistrationStep() {
+    final nextStep = widget.currentStep!.nextStep;
+    
+    if (nextStep == null) {
+      // Registration complete, navigate to main app
+      debugPrint('Registration wizard complete!');
+      // TODO: Navigate to main app or completion screen
+      Navigator.of(context).pop(true);
+      return;
+    }
+
+    debugPrint('Navigating from ${widget.currentStep} to $nextStep');
+
+    // Navigate to the appropriate view based on the next step
+    Widget nextView;
+    switch (nextStep) {
+      case RegistrationStep.name:
+        // This shouldn't happen as name is the first step
+        throw Exception('Cannot navigate to name step from another step');
+      
+      case RegistrationStep.email:
+        nextView = const EditEmailInfoView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.email,
+        );
+        
+      case RegistrationStep.location:
+        // TODO: Create EditLocationView
+        debugPrint('Location step not yet implemented');
+        Navigator.of(context).pop(true);
+        return;
+        
+      case RegistrationStep.company:
+        // TODO: Create EditCompanyView  
+        debugPrint('Company step not yet implemented');
+        Navigator.of(context).pop(true);
+        return;
+        
+      case RegistrationStep.avatar:
+        // TODO: Create EditAvatarView
+        debugPrint('Avatar step not yet implemented');
+        Navigator.of(context).pop(true);
+        return;
+        
+      case RegistrationStep.notifications:
+        // TODO: Create EditNotificationsView
+        debugPrint('Notifications step not yet implemented');
+        Navigator.of(context).pop(true);
+        return;
+        
+      case RegistrationStep.complete:
+        // TODO: Create RegistrationCompleteView
+        debugPrint('Registration complete screen not yet implemented');
+        Navigator.of(context).pop(true);
+        return;
+    }
+
+    // Navigate to next step (keeping current view in stack for back navigation)
+    Navigator.of(context).push(
+      platformPageRoute(
+        context: context,
+        builder: (context) => nextView,
+      ),
+    );
   }
 
   /// Common save handler with error handling and feedback

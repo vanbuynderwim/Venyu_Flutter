@@ -21,6 +21,7 @@ class EditEmailInfoView extends BaseFormView {
   const EditEmailInfoView({
     super.key,
     super.registrationWizard = false,
+    super.currentStep,
   }) : super(title: 'Email address');
 
   @override

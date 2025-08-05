@@ -14,6 +14,7 @@ class EditNameView extends BaseFormView {
   const EditNameView({
     super.key,
     super.registrationWizard = false,
+    super.currentStep,
   }) : super(title: 'You');
 
   @override

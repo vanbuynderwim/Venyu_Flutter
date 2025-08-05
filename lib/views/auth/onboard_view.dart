@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/constants/app_strings.dart';
-import '../../core/theme/app_theme.dart';
-import '../../models/models.dart';
-import '../../widgets/index.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../models/enums/registration_step.dart';
+import '../../services/session_manager.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../profile/edit_name_view.dart';
 
-/// OnboardView - First-time user onboarding screen
+/// OnboardView - Registration start screen matching iOS RegisterStartView
 /// 
-/// Guides new users through the initial setup process
-/// after successful authentication.
+/// Welcome screen for new users after authentication, before profile setup.
+/// Features full-screen radar background and welcome message with user's name.
 class OnboardView extends StatefulWidget {
   const OnboardView({super.key});
 
@@ -21,85 +21,76 @@ class OnboardView extends StatefulWidget {
 class _OnboardViewState extends State<OnboardView> {
   @override
   Widget build(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-    
-    return AppScaffold(
-      appBar: PlatformAppBar(
-        title: Text(
-          'Welcome to ${AppStrings.appName}',
-          style: AppTextStyles.headline,
-        ),
-        material: (_, __) => MaterialAppBarData(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        cupertino: (_, __) => CupertinoNavigationBarData(
-          backgroundColor: Colors.transparent,
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+    final theme = context.venyuTheme;
+    final sessionManager = SessionManager.shared;
+    final currentProfile = sessionManager.currentProfile;
+    final firstName = currentProfile?.firstName ?? 'there';
+
+    return Scaffold(
+      body: Stack(
         children: [
-          const Spacer(),
-          
-          // Welcome message
-          Text(
-            'Let\'s get you started',
-            style: AppTextStyles.largeTitle,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          
-          Text(
-            'We\'ll help you set up your profile and preferences to make the most of your networking experience.',
-            style: AppTextStyles.body.copyWith(
-              color: venyuTheme.secondaryText,
+          // Full-screen radar background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/visuals/radar.png',
+              fit: BoxFit.cover,
             ),
-            textAlign: TextAlign.center,
           ),
           
-          const Spacer(),
-          
-          // Onboarding illustration placeholder
-          Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              color: venyuTheme.cardBackground,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Icon(
-                Icons.rocket_launch,
-                size: 80,
-                color: venyuTheme.primary,
+          // Content overlay
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const Spacer(),
+                  
+                  // Welcome text section
+                  Column(
+                    children: [
+                      Text(
+                        'Welcome $firstName 👋',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.primaryText,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      
+                      Text(
+                        "Let's set up your professional profile.\nThis will only take a few minutes.",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: theme.secondaryText,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  
+                  const SizedBox(height: 24),
+                  
+                  // Get Started button
+                  ActionButton(
+                    label: 'Get Started',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        platformPageRoute(
+                          context: context,
+                          builder: (context) => const EditNameView(
+                            registrationWizard: true,
+                            currentStep: RegistrationStep.name,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  
+                  const Spacer(),
+                ],
               ),
             ),
           ),
-          
-          const Spacer(),
-          
-          // Action buttons
-          ActionButton(
-            label: 'Set up profile',
-            style: ActionButtonType.primary,
-            onPressed: () {
-              // TODO: Navigate to profile setup
-              debugPrint('Navigate to profile setup');
-            },
-          ),
-          const SizedBox(height: 12),
-          
-          ActionButton(
-            label: 'Skip for now',
-            style: ActionButtonType.secondary,
-            onPressed: () {
-              // TODO: Skip to main view
-              debugPrint('Skip onboarding');
-            },
-          ),
-          
-          const SizedBox(height: 24),
         ],
       ),
     );
