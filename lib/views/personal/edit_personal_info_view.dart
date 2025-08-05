@@ -12,6 +12,7 @@ import '../../mixins/data_refresh_mixin.dart';
 import '../profile/edit_tag_group_view.dart';
 import '../profile/edit_name_view.dart';
 import '../profile/edit_bio_view.dart';
+import '../profile/edit_email_info_view.dart';
 
 /// EditPersonalInfoView - Flutter equivalent of iOS EditPersonalInfoView
 class EditPersonalInfoView extends StatefulWidget {
@@ -163,7 +164,16 @@ class _EditPersonalInfoViewState extends State<EditPersonalInfoView> with DataRe
         break;
       case EditPersonalInfoType.email:
         debugPrint('Navigate to Email edit page');
-        // TODO: Navigate to email edit page
+        final emailResult = await Navigator.push<bool>(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditEmailInfoView(),
+          ),
+        );
+        if (emailResult == true) {
+          debugPrint('Email updated successfully');
+        }
         break;
     }
   }

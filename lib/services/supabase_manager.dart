@@ -12,6 +12,7 @@ import '../core/utils/device_info.dart';
 import '../models/models.dart';
 import '../models/requests/update_name_request.dart';
 import '../models/requests/update_prompt_status_requests.dart';
+import '../models/requests/verify_otp_request.dart';
 
 /// Centralized manager for all Supabase database operations and authentication.
 /// 
@@ -681,6 +682,39 @@ class SupabaseManager {
           .rpc('update_profile_bio', params: {'p_bio': bio});
       
       debugPrint('✅ Profile bio updated successfully');
+    });
+  }
+
+  /// Send OTP verification code to email address - equivalent to iOS sendContactEmailOTP(email:)
+  /// 
+  /// This method sends a 6-digit OTP code to the specified email address:
+  /// 1. Calls the send_mail_otp RPC function with email parameter
+  Future<void> sendContactEmailOTP(String email) async {
+    debugPrint('📤 Sending email OTP to: $email');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('send_mail_otp', params: {'p_email': email});
+      
+      debugPrint('✅ Email OTP sent successfully to: $email');
+    });
+  }
+
+  /// Verify email OTP code and update contact email - equivalent to iOS verifyEmailOTP(request:)
+  /// 
+  /// This method verifies the OTP code and updates the user's contact email:
+  /// 1. Creates payload from VerifyOTPRequest
+  /// 2. Calls the verify_mail_otp RPC function
+  Future<void> verifyEmailOTP(VerifyOTPRequest request) async {
+    debugPrint('📤 Verifying email OTP for: ${request.email}');
+    debugPrint('📤 Newsletter subscription: ${request.subscribed}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('verify_mail_otp', params: {'payload': request.toJson()});
+      
+      debugPrint('✅ Email OTP verified and contact email updated successfully');
+      debugPrint('📋 Email: ${request.email}, Subscribed: ${request.subscribed}');
     });
   }
 

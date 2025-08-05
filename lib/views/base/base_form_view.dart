@@ -210,7 +210,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     EdgeInsets? padding,
   }) {
     return Padding(
-      padding: padding ?? const EdgeInsets.only(bottom: 32),
+      padding: padding ?? const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
