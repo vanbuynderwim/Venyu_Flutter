@@ -126,15 +126,15 @@ TextFormField(
 ### Layout Containers
 
 ```dart
-// Basis container
+// Basis container (zonder border)
 Container(
-  decoration: AppLayoutStyles.container,
+  decoration: AppLayoutStyles.container(context),
   child: child,
 )
 
 // Container met border
 Container(
-  decoration: AppLayoutStyles.containerWithBorder,
+  decoration: AppLayoutStyles.cardDecoration(context),
   child: child,
 )
 

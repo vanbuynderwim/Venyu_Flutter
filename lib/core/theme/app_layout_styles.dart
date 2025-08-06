@@ -7,30 +7,47 @@ import 'venyu_theme.dart';
 class AppLayoutStyles {
   AppLayoutStyles._();
 
-  /// Common border decoration with theme support
-  static BoxDecoration defaultBorder(BuildContext context) {
+  /// Base decoration with theme support and customizable shape
+  static BoxDecoration baseDecoration(
+    BuildContext context, {
+    bool withBackground = true,
+    bool withBorder = true,
+    BoxShape shape = BoxShape.rectangle,
+    BorderRadius? borderRadius,
+  }) {
     final theme = context.venyuTheme;
     return BoxDecoration(
-      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-      border: Border.all(
+      color: withBackground ? theme.cardBackground : null,
+      shape: shape,
+      borderRadius: shape == BoxShape.rectangle 
+          ? (borderRadius ?? BorderRadius.circular(AppModifiers.defaultRadius))
+          : null,
+      border: withBorder ? Border.all(
         color: theme.borderColor,
         width: AppModifiers.extraThinBorder,
-      ),
+      ) : null,
     );
   }
 
-  /// Card decoration with background and border
-  static BoxDecoration cardDecoration(BuildContext context) {
+  /// Card decoration with background and border (rectangular)
+  static BoxDecoration cardDecoration(BuildContext context, {bool withBackground = true}) =>
+      baseDecoration(context, withBackground: withBackground);
+
+  /// Circle decoration with optional background
+  static BoxDecoration circleDecoration(BuildContext context, {bool withBackground = true}) =>
+      baseDecoration(context, withBackground: withBackground, shape: BoxShape.circle);
+
+  /// Disabled decoration - uses disabled background color
+  static BoxDecoration disabledDecoration(BuildContext context) {
     final theme = context.venyuTheme;
-    return BoxDecoration(
-      color: theme.cardBackground,
-      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-      border: Border.all(
-        color: theme.borderColor,
-        width: AppModifiers.extraThinBorder,
-      ),
+    return baseDecoration(context, withBackground: false).copyWith(
+      color: theme.disabledBackground,
     );
   }
+
+  /// Common border decoration with theme support (for backwards compatibility)
+  static BoxDecoration defaultBorder(BuildContext context) =>
+      baseDecoration(context, withBackground: false);
 
   /// Interactive card wrapper with iOS-style highlight (no ripple/splash)
   static Widget interactiveCard({
@@ -70,51 +87,15 @@ class AppLayoutStyles {
     );
   }
 
-  /// Disabled decoration
-  static BoxDecoration disabledDecoration(BuildContext context) {
-    final theme = context.venyuTheme;
-    return BoxDecoration(
-      color: theme.disabledBackground,
-      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-      border: Border.all(
-        color: theme.borderColor,
-        width: AppModifiers.extraThinBorder,
-      ),
-    );
-  }
 
-  /// Avatar border decoration
-  static BoxDecoration avatarBorder(BuildContext context) {
-    final theme = context.venyuTheme;
-    return BoxDecoration(
-      shape: BoxShape.circle,
-      border: Border.all(
-        color: theme.borderColor,
-        width: AppModifiers.extraThinBorder,
-      ),
-    );
-  }
 
-  /// Container styles (context-aware)
-  static BoxDecoration container(BuildContext context) {
-    final theme = context.venyuTheme;
-    return BoxDecoration(
-      color: theme.cardBackground,
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-    );
-  }
-
-  static BoxDecoration containerWithBorder(BuildContext context) {
-    final theme = context.venyuTheme;
-    return BoxDecoration(
-      color: theme.cardBackground,
-      borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-      border: Border.all(
-        color: theme.borderColor,
-        width: AppModifiers.extraThinBorder,
-      ),
-    );
-  }
+  /// Container decoration without border
+  static BoxDecoration container(BuildContext context) => 
+      baseDecoration(
+        context, 
+        withBorder: false, 
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius)
+      );
 
   static BoxDecoration get containerElevated => AppModifiers.cardMedium;
 

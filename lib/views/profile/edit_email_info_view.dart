@@ -282,18 +282,6 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           const SizedBox(height: 16),
         ],
 
-        // Registration wizard title
-        if (widget.registrationWizard) ...[
-          Text(
-            'How can we contact you?',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: context.venyuTheme.primaryText,
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-
         // Email input section
         buildFieldSection(
           title: _formTitle,

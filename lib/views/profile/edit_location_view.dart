@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_layout_styles.dart';
+import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -39,6 +42,8 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,42 +56,57 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           const SizedBox(height: 16),
         ],
 
-        // Registration wizard title
-        if (widget.registrationWizard) ...[
-          Text(
-            'Where are you located?',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+        const SizedBox(height: 16),
+
+        // Location image in circle
+        Center(
+          child: Container(
+            width: 120,
+            height: 120,
+            decoration: AppLayoutStyles.circleDecoration(context),
+            child: Center(
+              child: Image.asset(
+                'assets/images/visuals/location.png',
+                width: 100,
+                height: 100,
+                color: venyuTheme.primary,
+                errorBuilder: (context, error, stackTrace) {
+                  // Fallback to icon if image not found
+                  return Icon(
+                    Icons.location_on_outlined,
+                    size: 60,
+                    color: venyuTheme.secondaryText,
+                  );
+                },
+              ),
             ),
           ),
-          const SizedBox(height: 24),
-        ],
-
-        // Placeholder content
-        Card(
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Title
+        Center(
+          child: Text(
+            'Enable Location',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 12),
+        
+        // Subtitle with explanation
+        Center(
           child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Location selection',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'This feature will be implemented soon.\nFor now, click Next to continue.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              'Enable location services to discover and match with entrepreneurs in your area. Build meaningful connections with professionals nearby.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ),
@@ -98,20 +118,51 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: ActionButton(
-        label: 'Next',
-        onPressed: () {
-          // Navigate directly to company name view for now
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const EditCompanyNameView(
-                registrationWizard: true,
-                currentStep: RegistrationStep.company,
-              ),
+      child: Row(
+        children: [
+          // Not now button (secondary)
+          Expanded(
+            child: ActionButton(
+              label: 'Not now',
+              style: ActionButtonType.secondary,
+              onPressed: _navigateToNext,
             ),
-          );
-        },
+          ),
+          
+          const SizedBox(width: 12),
+          
+          // Enable button (primary)
+          Expanded(
+            child: ActionButton(
+              label: 'Enable',
+              style: ActionButtonType.primary,
+              onPressed: _enableLocationService,
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  /// Navigate to the next step without enabling location
+  void _navigateToNext() {
+    // Navigate directly to company name view
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditCompanyNameView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.company,
+        ),
+      ),
+    );
+  }
+
+  /// Enable location service (to be implemented)
+  void _enableLocationService() {
+    // TODO: Implement location service enabling
+    debugPrint('Enable location service - to be implemented');
+    
+    // For now, just navigate to next step after enabling
+    _navigateToNext();
   }
 }

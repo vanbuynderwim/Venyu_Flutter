@@ -15,6 +15,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import 'edit_avatar_view.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
 /// 
@@ -386,9 +387,23 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     ];
     
     if (nextStep == null || !tagGroupSteps.contains(nextStep)) {
-      // No more tag group steps, pop back to BaseFormView to handle navigation
-      debugPrint('✅ No more tag group steps, popping back to BaseFormView');
-      Navigator.of(context).pop(true);
+      // No more tag group steps, navigate to next registration step
+      debugPrint('✅ No more tag group steps, navigating to next registration step: $nextStep');
+      
+      if (nextStep == RegistrationStep.avatar) {
+        // Navigate to avatar step
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const EditAvatarView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.avatar,
+            ),
+          ),
+        );
+      } else {
+        // For any other case, pop back
+        Navigator.of(context).pop(true);
+      }
       return;
     }
 
@@ -413,7 +428,8 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
     debugPrint('➡️ Navigating to ${nextTagGroup.label} with code ${nextTagGroup.code}');
     
-    Navigator.of(context).pushReplacement(
+    // Use push instead of pushReplacement to keep navigation stack intact
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditTagGroupView(
           tagGroup: nextTagGroup,

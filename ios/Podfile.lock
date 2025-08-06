@@ -1,6 +1,10 @@
 PODS:
   - app_links (0.0.2):
     - Flutter
+  - Bugsnag (6.32.2)
+  - bugsnag_flutter (0.0.1):
+    - Bugsnag (= 6.32.2)
+    - Flutter
   - Flutter (1.0.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
@@ -24,6 +28,7 @@ PODS:
 
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
+  - bugsnag_flutter (from `.symlinks/plugins/bugsnag_flutter/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -34,9 +39,15 @@ DEPENDENCIES:
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
+SPEC REPOS:
+  trunk:
+    - Bugsnag
+
 EXTERNAL SOURCES:
   app_links:
     :path: ".symlinks/plugins/app_links/ios"
+  bugsnag_flutter:
+    :path: ".symlinks/plugins/bugsnag_flutter/ios"
   Flutter:
     :path: Flutter
   flutter_secure_storage:
@@ -58,6 +69,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   app_links: f3e17e4ee5e357b39d8b95290a9b2c299fca71c6
+  Bugsnag: 4f9b8e6beab17d7903b67959915d707ad9d96911
+  bugsnag_flutter: 76cece0aa346fac201b9ac857bc3f70001efaa66
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1

@@ -14,6 +14,9 @@ import '../company/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
 import '../profile/edit_location_view.dart';
 import '../profile/edit_tag_group_view.dart';
+import '../profile/edit_avatar_view.dart';
+import '../profile/edit_notifications_view.dart';
+import '../profile/registration_complete_view.dart';
 
 /// Base class for all form-based views in the application.
 /// 
@@ -227,21 +230,33 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         );
         
       case RegistrationStep.avatar:
-        // Avatar step - skip for now, complete registration
-        debugPrint('Avatar step skipped - completing registration');
-        Navigator.of(context).pop(true);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const EditAvatarView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.avatar,
+            ),
+          ),
+        );
         return;
         
       case RegistrationStep.notifications:
-        // Notifications step - skip for now, complete registration
-        debugPrint('Notifications step skipped - completing registration');
-        Navigator.of(context).pop(true);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const EditNotificationsView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.notifications,
+            ),
+          ),
+        );
         return;
         
       case RegistrationStep.complete:
-        // Registration complete
-        debugPrint('Registration completed successfully');
-        Navigator.of(context).pop(true);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const RegistrationCompleteView(),
+          ),
+        );
         return;
     }
 

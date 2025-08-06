@@ -725,6 +725,21 @@ class SupabaseManager {
     });
   }
 
+  /// Complete user registration - equivalent to iOS completeRegistration()
+  /// 
+  /// This method marks the user's registration as complete:
+  /// 1. Calls the complete_registration RPC function
+  /// 2. Updates the user's registered_at timestamp
+  Future<void> completeRegistration() async {
+    debugPrint('📤 Completing user registration');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client.rpc('complete_registration');
+      
+      debugPrint('✅ Registration completed successfully');
+    });
+  }
+
   /// Send OTP verification code to email address - equivalent to iOS sendContactEmailOTP(email:)
   /// 
   /// This method sends a 6-digit OTP code to the specified email address:

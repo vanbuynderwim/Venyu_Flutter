@@ -16,7 +16,8 @@
       "mcp__ide__getDiagnostics",
       "WebFetch(domain:github.com)",
       "Bash(sed:*)",
-      "Bash(adb:*)"
+      "Bash(adb:*)",
+      "WebFetch(domain:docs.bugsnag.com)"
     ],
     "deny": []
   }
