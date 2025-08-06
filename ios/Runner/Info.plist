@@ -58,5 +58,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Venyu uses your location to find professionals nearby and improve match results.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Venyu uses your location to find professionals nearby and improve match results.</string>
 </dict>
 </plist>

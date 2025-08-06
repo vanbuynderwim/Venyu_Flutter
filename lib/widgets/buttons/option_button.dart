@@ -220,9 +220,7 @@ class _OptionButtonState extends State<OptionButton> {
                 Text(
                   widget.option.title,
                   style: AppTextStyles.headline.copyWith(
-                    color: widget.disabled 
-                        ? venyuTheme.disabledText 
-                        : venyuTheme.primaryText,
+                    color: venyuTheme.primaryText,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -309,7 +307,7 @@ class _OptionButtonState extends State<OptionButton> {
     if (widget.disabled) {
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        decoration: AppLayoutStyles.disabledDecoration(context),
+        decoration: AppLayoutStyles.cardDecoration(context),
         child: content,
       );
     }
@@ -327,9 +325,7 @@ class _OptionButtonState extends State<OptionButton> {
   /// with appropriate sizing and color theming.
   Widget _buildIcon() {
     final venyuTheme = context.venyuTheme;
-    final iconColor = widget.disabled 
-        ? venyuTheme.disabledText 
-        : (widget.iconColor ?? venyuTheme.primary);
+    final iconColor = (widget.iconColor ?? venyuTheme.primary);
     
     return Container(
       width: 24,

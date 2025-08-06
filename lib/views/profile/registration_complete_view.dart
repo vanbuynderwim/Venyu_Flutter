@@ -4,6 +4,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/toast_service.dart';
+import '../../widgets/common/radar_background.dart';
 
 /// Final view in the registration wizard that completes the user's profile
 /// 
@@ -59,28 +60,14 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
     final venyuTheme = context.venyuTheme;
     
     return Scaffold(
-      backgroundColor: venyuTheme.pageBackground,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Background image - radar pattern like Swift version
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      venyuTheme.pageBackground,
-                      venyuTheme.pageBackground.withValues(alpha: 0.8),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            
-            // Content
-            Padding(
+      body: Stack(
+        children: [
+          // Full-screen radar background image
+          const RadarBackground(),
+          
+          // Content overlay
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
@@ -158,8 +145,8 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

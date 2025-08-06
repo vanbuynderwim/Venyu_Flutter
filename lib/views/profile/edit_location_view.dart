@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
+import '../../models/enums/onboarding_benefit.dart';
+import '../../core/utils/dialog_utils.dart';
+import '../../services/supabase_manager.dart';
+import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../base/base_form_view.dart';
 import '../company/edit_company_name_view.dart';
@@ -25,6 +32,9 @@ class EditLocationView extends BaseFormView {
 }
 
 class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
+  final Location _location = Location();
+  bool _isEnablingLocation = false;
+  
   @override
   bool get canSave => true;
 
@@ -95,19 +105,31 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           ),
         ),
         
-        const SizedBox(height: 12),
+        const SizedBox(height: 24),
         
-        // Subtitle with explanation
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'Enable location services to discover and match with entrepreneurs in your area. Build meaningful connections with professionals nearby.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+        // Location benefits
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              OptionButton(
+                option: OnboardingBenefit.nearbyMatches,
+                isSelectable: false,
+                disabled: true,
               ),
-            ),
+              const SizedBox(height: 8),
+              OptionButton(
+                option: OnboardingBenefit.distanceAwareness,
+                isSelectable: false,
+                disabled: true,
+              ),
+              const SizedBox(height: 8),
+              OptionButton(
+                option: OnboardingBenefit.betterMatching,
+                isSelectable: false,
+                disabled: true,
+              ),
+            ],
           ),
         ),
       ],
@@ -137,6 +159,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
               label: 'Enable',
               style: ActionButtonType.primary,
               onPressed: _enableLocationService,
+              isLoading: _isEnablingLocation,
             ),
           ),
         ],
@@ -157,12 +180,142 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
     );
   }
 
-  /// Enable location service (to be implemented)
-  void _enableLocationService() {
-    // TODO: Implement location service enabling
-    debugPrint('Enable location service - to be implemented');
+  /// Enable location service and save coordinates
+  Future<void> _enableLocationService() async {
+    if (_isEnablingLocation) return;
     
-    // For now, just navigate to next step after enabling
-    _navigateToNext();
+    setState(() {
+      _isEnablingLocation = true;
+    });
+    
+    try {
+      // Check if location service is enabled
+      bool serviceEnabled = await _location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await _location.requestService();
+        if (!serviceEnabled) {
+          // Service not enabled, show error
+          if (mounted) {
+            ToastService.error(
+              context: context,
+              message: 'Location services are disabled. Please enable them in settings.',
+            );
+            setState(() {
+              _isEnablingLocation = false;
+            });
+          }
+          return;
+        }
+      }
+      
+      // Check permission status
+      PermissionStatus permissionGranted = await _location.hasPermission();
+      
+      if (permissionGranted == PermissionStatus.denied) {
+        // Request permission
+        permissionGranted = await _location.requestPermission();
+        
+        if (permissionGranted == PermissionStatus.denied) {
+          // Permission denied, navigate without location
+          if (mounted) {
+            ToastService.info(
+              context: context,
+              message: 'Location permission denied. You can enable it later in settings.',
+            );
+            _navigateToNext();
+          }
+          return;
+        }
+      }
+      
+      if (permissionGranted == PermissionStatus.deniedForever) {
+        // Permission permanently denied, open settings
+        if (!mounted) return;
+        
+        final bool? shouldOpenSettings = await DialogUtils.showChoiceDialog<bool>(
+          context: context,
+          title: 'Location Permission Required',
+          message: 'Location permission has been permanently denied. '
+              'Please enable it in your device settings to use this feature.',
+          choices: [
+            const DialogChoice<bool>(
+              label: 'Not now',
+              value: false,
+              isDefault: true,
+            ),
+            const DialogChoice<bool>(
+              label: 'Open Settings',
+              value: true,
+            ),
+          ],
+        );
+        
+        if (shouldOpenSettings == true) {
+          // Open app settings
+          await _openAppSettings();
+        }
+        
+        if (mounted) {
+          setState(() {
+            _isEnablingLocation = false;
+          });
+        }
+        return;
+      }
+      
+      // Permission granted, get location
+      final LocationData locationData = await _location.getLocation();
+      
+      if (locationData.latitude != null && locationData.longitude != null) {
+        debugPrint('📍 Got location: ${locationData.latitude}, ${locationData.longitude}');
+        
+        // Save location to database
+        await SupabaseManager.shared.updateProfileLocation(
+          latitude: locationData.latitude,
+          longitude: locationData.longitude,
+        );
+        
+        if (mounted) {
+          ToastService.success(
+            context: context,
+            message: 'Location enabled successfully',
+          );
+          
+          // Navigate to next step
+          _navigateToNext();
+        }
+      } else {
+        throw Exception('Could not get location coordinates');
+      }
+    } catch (error) {
+      debugPrint('❌ Error enabling location: $error');
+      
+      if (mounted) {
+        ToastService.error(
+          context: context,
+          message: 'Failed to enable location. Please try again.',
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isEnablingLocation = false;
+        });
+      }
+    }
+  }
+  
+  /// Open app settings for location permissions
+  Future<void> _openAppSettings() async {
+    // For iOS
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      final url = Uri.parse('app-settings:');
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      }
+    } else {
+      // For Android, use location package's built-in method
+      await _location.requestService();
+    }
   }
 }

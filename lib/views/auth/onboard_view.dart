@@ -5,6 +5,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/session_manager.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/radar_background.dart';
 import '../profile/edit_name_view.dart';
 
 /// OnboardView - Registration start screen matching iOS RegisterStartView
@@ -30,12 +31,7 @@ class _OnboardViewState extends State<OnboardView> {
       body: Stack(
         children: [
           // Full-screen radar background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/visuals/radar.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          const RadarBackground(),
           
           // Content overlay
           SafeArea(

@@ -725,6 +725,29 @@ class SupabaseManager {
     });
   }
 
+  /// Update profile location - equivalent to iOS updateProfileLocation(latitude:longitude:)
+  /// 
+  /// This method updates the user's location coordinates:
+  /// 1. Only proceeds if both latitude and longitude are provided
+  /// 2. Calls the update_profile_location RPC function with coordinates
+  Future<void> updateProfileLocation({double? latitude, double? longitude}) async {
+    if (latitude != null && longitude != null) {
+      debugPrint('📤 Updating profile location: lat=$latitude, lon=$longitude');
+      
+      return await _executeAuthenticatedRequest(() async {
+        await _client
+            .rpc('update_profile_location', params: {
+              'latitude': latitude,
+              'longitude': longitude,
+            });
+        
+        debugPrint('✅ Profile location updated successfully');
+      });
+    } else {
+      debugPrint('⚠️ Profile location not updated - missing coordinates');
+    }
+  }
+
   /// Complete user registration - equivalent to iOS completeRegistration()
   /// 
   /// This method marks the user's registration as complete:

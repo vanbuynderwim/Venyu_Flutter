@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/requests/verify_otp_request.dart';
@@ -75,11 +74,8 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
 
   /// Get appropriate form title based on current state
   String get _formTitle {
-    final currentEmail = sessionManager.currentProfile?.contactEmail;
-    if (currentEmail != null && currentEmail.isNotEmpty) {
-      return 'CHANGE EMAIL ADDRESS';
-    }
-    return 'YOUR EMAIL ADDRESS';
+    return 'EMAIL ADDRESS';
+    
   }
 
   /// Get helper text for email field
@@ -87,7 +83,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     if (_showOTPField) {
       return '';
     }
-    return "We'll use this email address to notify you about new matches and connections";
+    return "We'll use this email address to notify you about new matches and introduce you to your connections";
   }
 
   /// Check if form can be saved
@@ -225,7 +221,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           _showOTPField = true;
         });
         
-        debugPrint('✅ UI state updated - OTP field should now be visible');
+        debugPrint('✅ UI state updated - OTP field should now be visible and focused');
       } else {
         debugPrint('⚠️ Widget not mounted after OTP send');
       }
@@ -337,7 +333,17 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                       _isSubscribedToNewsletter = value;
                     });
                   },
-                  activeColor: AppColors.primair4Lilac,
+                  material: (_, __) => MaterialSwitchData(
+                    activeColor: context.venyuTheme.primary,
+                    // For Material Design, the thumb color is automatically handled
+                  ),
+                  cupertino: (_, __) => CupertinoSwitchData(
+                    activeColor: context.venyuTheme.primary,
+                    // For iOS, we can set thumbColor for better contrast in dark mode
+                    thumbColor: Theme.of(context).brightness == Brightness.dark 
+                        ? context.venyuTheme.cardBackground  // Dark thumb on light track
+                        : null,  // Default white thumb
+                  ),
                 ),
               ],
             ),
@@ -354,6 +360,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
               style: AppTextFieldStyle.large,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
+              autofocus: true,
               onChanged: (value) {
                 // Only allow numeric values and max 6 characters
                 final numericValue = value.replaceAll(RegExp(r'[^0-9]'), '');
