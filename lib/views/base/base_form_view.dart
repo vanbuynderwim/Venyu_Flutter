@@ -7,6 +7,8 @@ import '../../models/enums/registration_step.dart';
 import '../../models/tag_group.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
+import '../../services/tag_group_service.dart';
+import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../company/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
@@ -138,8 +140,9 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   }
 
   /// Navigate to the next step in the registration wizard
-  void _navigateToNextRegistrationStep() {
-    final nextStep = widget.currentStep!.nextStep;
+  void _navigateToNextRegistrationStep({RegistrationStep? fromStep}) {
+    final currentStep = fromStep ?? widget.currentStep!;
+    final nextStep = currentStep.nextStep;
     
     if (nextStep == null) {
       // Registration complete, navigate to main app
@@ -149,7 +152,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       return;
     }
 
-    debugPrint('Navigating from ${widget.currentStep} to $nextStep');
+    debugPrint('Navigating from $currentStep to $nextStep');
 
     // Navigate to the appropriate view based on the next step
     Widget nextView;
@@ -177,50 +180,49 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         );
         
       case RegistrationStep.roles:
-        // TODO: Get roles TagGroup from somewhere (e.g., SessionManager)
+        final tagGroup = TagGroupService.shared.getTagGroupByCode('roles');
+        if (tagGroup == null) {
+          debugPrint('⚠️ TagGroup "roles" not found in cache, skipping step');
+          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.roles);
+        }
         nextView = EditTagGroupView(
-          tagGroup: const TagGroup(
-            id: '', // Will be loaded dynamically
-            code: 'roles',
-            label: 'Roles',
-            desc: 'Select your professional roles',
-          ),
+          tagGroup: tagGroup,
           registrationWizard: true,
           currentStep: RegistrationStep.roles,
         );
         
       case RegistrationStep.sectors:
+        final tagGroup = TagGroupService.shared.getTagGroupByCode('sectors');
+        if (tagGroup == null) {
+          debugPrint('⚠️ TagGroup "sectors" not found in cache, skipping step');
+          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.sectors);
+        }
         nextView = EditTagGroupView(
-          tagGroup: const TagGroup(
-            id: '',
-            code: 'sectors', 
-            label: 'Sectors',
-            desc: 'Select your sectors',
-          ),
+          tagGroup: tagGroup,
           registrationWizard: true,
           currentStep: RegistrationStep.sectors,
         );
         
       case RegistrationStep.meetingPreferences:
+        final tagGroup = TagGroupService.shared.getTagGroupByCode('meeting_preferences');
+        if (tagGroup == null) {
+          debugPrint('⚠️ TagGroup "meeting_preferences" not found in cache, skipping step');
+          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.meetingPreferences);
+        }
         nextView = EditTagGroupView(
-          tagGroup: const TagGroup(
-            id: '',
-            code: 'meeting_preferences',
-            label: 'Meeting Preferences', 
-            desc: 'Select your meeting preferences',
-          ),
+          tagGroup: tagGroup,
           registrationWizard: true,
           currentStep: RegistrationStep.meetingPreferences,
         );
         
       case RegistrationStep.networkingGoals:
+        final tagGroup = TagGroupService.shared.getTagGroupByCode('network_goals');
+        if (tagGroup == null) {
+          debugPrint('⚠️ TagGroup "network_goals" not found in cache, skipping step');
+          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.networkingGoals);
+        }
         nextView = EditTagGroupView(
-          tagGroup: const TagGroup(
-            id: '',
-            code: 'network_goals',
-            label: 'Networking Goals',
-            desc: 'Select your networking goals',
-          ),
+          tagGroup: tagGroup,
           registrationWizard: true,
           currentStep: RegistrationStep.networkingGoals,
         );
@@ -273,30 +275,9 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         });
       }
       
-      // Show success message
+      // Navigate immediately after successful save
       if (mounted) {
-        try {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(getSuccessMessage()),
-              backgroundColor: context.venyuTheme.snackbarSuccess,
-              duration: const Duration(seconds: 2),
-            ),
-          );
-          
-          // Navigate after a small delay to ensure snackbar is shown
-          Future.delayed(const Duration(milliseconds: 100), () {
-            if (mounted) {
-              navigateAfterSave();
-            }
-          });
-        } catch (e) {
-          // If showing snackbar fails, still try to navigate
-          debugPrint('Failed to show success snackbar: $e');
-          if (mounted) {
-            navigateAfterSave();
-          }
-        }
+        navigateAfterSave();
       }
     } catch (error) {
       // Always update loading state first
@@ -306,20 +287,12 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         });
       }
       
-      // Then show error if still mounted
+      // Show error toast
       if (mounted) {
-        // Use a post frame callback to ensure context is valid
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(getErrorMessage()),
-                backgroundColor: context.venyuTheme.snackbarError,
-                duration: const Duration(seconds: 3),
-              ),
-            );
-          }
-        });
+        ToastService.error(
+          context: context,
+          message: getErrorMessage(),
+        );
       }
       
       // Log error for debugging
@@ -360,10 +333,13 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     String? label,
     VoidCallback? onPressed,
   }) {
+    // Use "Next" for registration wizard, "Save" for regular forms
+    final defaultLabel = widget.registrationWizard ? 'Next' : 'Save';
+    
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ActionButton(
-        label: label ?? 'Save',
+        label: label ?? defaultLabel,
         onPressed: !canSave ? null : (onPressed ?? handleSave),
         isLoading: _isUpdating,
       ),

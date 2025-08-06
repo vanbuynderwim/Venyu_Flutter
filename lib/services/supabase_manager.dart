@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -112,8 +113,9 @@ class SupabaseManager {
       debugPrint('✅ SupabaseManager initialized with schema: venyu_api_v1');
       debugPrint('🔗 URL: ${AppConfig.supabaseUrl}');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Failed to initialize Supabase: $error');
+      _trackError('Supabase Initialization Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -151,9 +153,9 @@ class SupabaseManager {
         session: null,
       );
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ LinkedIn sign-in error: $error');
-      _trackError('LinkedIn Sign-In Failed', error);
+      _trackError('LinkedIn Sign-In Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -184,9 +186,9 @@ class SupabaseManager {
       
       debugPrint('✅ LinkedIn authentication and data storage completed');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ LinkedIn callback processing error: $error');
-      _trackError('LinkedIn Callback Processing Failed', error);
+      _trackError('LinkedIn Callback Processing Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -246,8 +248,9 @@ class SupabaseManager {
       await _storage.write(key: 'auth_provider', value: 'linkedin');
       debugPrint('💾 Stored authentication provider securely');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('⚠️ Failed to store LinkedIn user data: $error');
+      _trackError('LinkedIn Data Storage Failed', error, stackTrace);
       // Continue with authentication even if storage fails
     }
   }
@@ -310,11 +313,11 @@ class SupabaseManager {
       
       return response;
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Apple sign-in error: $error');
       
       // Error tracking equivalent to iOS Bugsnag integration
-      _trackError('Apple Sign-In Failed', error);
+      _trackError('Apple Sign-In Failed', error, stackTrace);
       
       rethrow;
     }
@@ -359,8 +362,9 @@ class SupabaseManager {
       );
       debugPrint('💾 Stored Apple user ID securely');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('⚠️ Failed to store Apple user info: $error');
+      _trackError('Apple Data Storage Failed', error, stackTrace);
       // Continue with authentication even if storage fails
     }
   }
@@ -372,34 +376,37 @@ class SupabaseManager {
   Future<T> _executeAuthenticatedRequest<T>(Future<T> Function() request) async {
     try {
       return await request();
-    } on AuthException catch (error) {
+    } on AuthException catch (error, stackTrace) {
       debugPrint('🔐 Authentication error: ${error.message}');
-      _trackError('Authentication Error', error);
+      _trackError('Authentication Error', error, stackTrace);
       rethrow;
-    } on PostgrestException catch (error) {
+    } on PostgrestException catch (error, stackTrace) {
       debugPrint('🗄️ Database error: ${error.message}');
-      _trackError('Database Error', error);
+      _trackError('Database Error', error, stackTrace);
       rethrow;
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('💥 Unexpected error: $error');
-      _trackError('Unexpected Error', error);
+      _trackError('Unexpected Error', error, stackTrace);
       rethrow;
     }
   }
   
-  /// Error tracking method - equivalent to iOS Bugsnag integration
+  /// Error tracking method with Bugsnag integration
   /// 
-  /// In production, this should integrate with crash reporting services
-  /// like Firebase Crashlytics, Sentry, or Bugsnag.
-  void _trackError(String context, dynamic error) {
+  /// This method tracks all server-side errors to Bugsnag for monitoring
+  /// and debugging purposes, matching the iOS implementation.
+  void _trackError(String context, dynamic error, [StackTrace? stackTrace]) async {
     if (kDebugMode) {
       debugPrint('🐛 Error tracked: $context - $error');
     }
     
-    // TODO: Integrate with crash reporting service
-    // Examples:
-    // FirebaseCrashlytics.instance.recordError(error, stack, fatal: false);
-    // Sentry.captureException(error, stackTrace: stack);
+    // Track error with Bugsnag
+    try {
+      await bugsnag.notify(error, stackTrace);
+      debugPrint('✅ Error sent to Bugsnag: $context');
+    } catch (bugsnagError) {
+      debugPrint('⚠️ Failed to send error to Bugsnag: $bugsnagError');
+    }
   }
   
   // MARK: - Utility Methods (to be expanded)
@@ -421,8 +428,9 @@ class SupabaseManager {
         'email': await _storage.read(key: 'email'),
         'apple_user_id': await _storage.read(key: 'apple_user_id'),
       };
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('⚠️ Failed to read stored user info: $error');
+      _trackError('Read User Info Failed', error, stackTrace);
       return {};
     }
   }
@@ -487,9 +495,9 @@ class SupabaseManager {
       await _storage.deleteAll();
       
       debugPrint('✅ Sign out successful');
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Sign out error: $error');
-      _trackError('Sign Out Failed', error);
+      _trackError('Sign Out Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -539,6 +547,38 @@ class SupabaseManager {
       return tagGroups;
     });
   }
+
+  /// Fetch all available tag groups from the database.
+  /// 
+  /// This method retrieves all tag groups regardless of category type.
+  /// Equivalent to iOS fetchAllTagGroups() method.
+  /// Should be called once at app startup to cache all available tag groups.
+  /// 
+  /// Returns a list of all [TagGroup] objects available in the system.
+  /// 
+  /// Throws [Exception] if the request fails or user is not authenticated.
+  Future<List<TagGroup>> fetchAllTagGroups() async {
+    debugPrint('📥 Fetching all tag groups from database');
+    
+    return await _executeAuthenticatedRequest(() async {
+      // Call the get_all_taggroups RPC function
+      final result = await _client
+          .rpc('get_all_taggroups')
+          .select();
+      
+      debugPrint('✅ All TagGroups RPC call successful');
+      debugPrint('📋 All TagGroups data received: ${result.length} groups');
+      
+      // Convert response to list of TagGroup objects
+      final tagGroups = (result as List)
+          .map((json) => TagGroup.fromJson(json))
+          .toList();
+      
+      debugPrint('🏷️ All TagGroups parsed: ${tagGroups.length} groups');
+      
+      return tagGroups;
+    });
+  }
   
   /// Get icon URL from Supabase storage - equivalent to iOS getIcon(icon:)
   /// 
@@ -557,9 +597,9 @@ class SupabaseManager {
       debugPrint('📷 Generated icon URL for $icon: $url');
       return url;
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Failed to get icon URL for $icon: $error');
-      _trackError('Icon URL Generation Failed', error);
+      _trackError('Icon URL Generation Failed', error, stackTrace);
       return null;
     }
   }
@@ -765,8 +805,8 @@ class SupabaseManager {
       
       return url;
       
-    } catch (error) {
-      _trackError('Remote Image URL Generation Failed', error);
+    } catch (error, stackTrace) {
+      _trackError('Remote Image URL Generation Failed', error, stackTrace);
       return null;
     }
   }
@@ -980,8 +1020,9 @@ class SupabaseManager {
       
       debugPrint('✅ Image uploaded successfully: $fileName');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Failed to upload image: $error');
+      _trackError('Image Upload Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -1022,8 +1063,9 @@ class SupabaseManager {
       
       debugPrint('✅ File deleted successfully: $fileName');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Failed to delete file: $error');
+      _trackError('File Delete Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -1060,8 +1102,9 @@ class SupabaseManager {
       debugPrint('✅ Avatar upload completed successfully: $avatarID');
       return avatarID;
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ SupabaseManager: Failed to upload avatar: $error');
+      _trackError('Avatar Upload Failed', error, stackTrace);
       rethrow;
     }
   }
@@ -1092,8 +1135,9 @@ class SupabaseManager {
         debugPrint('✅ Avatar file deleted (keeping reference for replacement)');
       }
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ SupabaseManager: Failed to delete avatar: $error');
+      _trackError('Avatar Delete Failed', error, stackTrace);
       
       if (isFullDelete) {
         rethrow;

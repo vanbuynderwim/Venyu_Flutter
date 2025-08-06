@@ -7,6 +7,7 @@ import '../../models/enums/review_type.dart';
 import '../../models/prompt.dart';
 import '../../models/requests/paginated_request.dart';
 import '../../services/supabase_manager.dart';
+import '../../services/toast_service.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/card_item.dart';
@@ -191,22 +192,13 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
       resetPagination();
       await _loadPendingReviews();
 
-      if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text(isApproved ? 'Prompts approved' : 'Prompts rejected'),
-            backgroundColor: context.venyuTheme.snackbarSuccess,
-          ),
-        );
-      }
+      debugPrint(isApproved ? 'Prompts approved' : 'Prompts rejected');
     } catch (error) {
       debugPrint('Error updating prompt statuses: $error');
       if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text('Failed to update prompts: $error'),
-            backgroundColor: context.venyuTheme.snackbarError,
-          ),
+        ToastService.error(
+          context: context,
+          message: 'Failed to update prompts',
         );
       }
     } finally {
@@ -244,22 +236,13 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
       resetPagination();
       await _loadPendingReviews();
 
-      if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text(isApproved ? 'All prompts approved' : 'All prompts rejected'),
-            backgroundColor: context.venyuTheme.snackbarSuccess,
-          ),
-        );
-      }
+      debugPrint(isApproved ? 'All prompts approved' : 'All prompts rejected');
     } catch (error) {
       debugPrint('Error updating all prompt statuses: $error');
       if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text('Failed to update all prompts: $error'),
-            backgroundColor: context.venyuTheme.snackbarError,
-          ),
+        ToastService.error(
+          context: context,
+          message: 'Failed to update all prompts',
         );
       }
     } finally {

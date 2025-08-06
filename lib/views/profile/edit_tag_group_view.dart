@@ -10,6 +10,7 @@ import '../../models/tag_group.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/session_manager.dart';
 import '../../models/enums/registration_step.dart';
+import '../../services/tag_group_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -117,7 +118,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
             Container(
               padding: const EdgeInsets.all(0),
               child: ActionButton(
-                label: _isSaving ? 'Saving...' : 'Save',
+                label: _isSaving 
+                    ? 'Saving...' 
+                    : (widget.registrationWizard ? 'Next' : 'Save'),
                 onPressed: _isSaving ? null : _saveChanges,
                 style: ActionButtonType.primary,
                 isDisabled: _isSaving,
@@ -372,47 +375,48 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   void _navigateToNextStep() {
     debugPrint('🔄 EditTagGroupView: Navigating from ${widget.currentStep} to next step');
     
-    // Get the correct tag group data for the next step
-    Map<RegistrationStep, Map<String, String>> tagGroupData = {
-      RegistrationStep.sectors: {
-        'code': 'sectors',
-        'label': 'Sectors',
-        'desc': 'Select your sectors',
-      },
-      RegistrationStep.meetingPreferences: {
-        'code': 'meeting_preferences',
-        'label': 'Meeting Preferences',
-        'desc': 'Select your meeting preferences',
-      },
-      RegistrationStep.networkingGoals: {
-        'code': 'network_goals',
-        'label': 'Networking Goals',
-        'desc': 'Select your networking goals',
-      },
-    };
-
     final nextStep = widget.currentStep!.nextStep;
     debugPrint('🎯 Next step: $nextStep');
     
-    if (nextStep == null || !tagGroupData.containsKey(nextStep)) {
-      // No more tag group steps, just pop
-      debugPrint('✅ No more tag group steps, popping back');
+    // Check if next step is still a tag group step
+    final tagGroupSteps = [
+      RegistrationStep.sectors,
+      RegistrationStep.meetingPreferences,
+      RegistrationStep.networkingGoals,
+    ];
+    
+    if (nextStep == null || !tagGroupSteps.contains(nextStep)) {
+      // No more tag group steps, pop back to BaseFormView to handle navigation
+      debugPrint('✅ No more tag group steps, popping back to BaseFormView');
       Navigator.of(context).pop(true);
       return;
     }
 
-    // Navigate to next tag group step
-    final data = tagGroupData[nextStep]!;
-    debugPrint('➡️ Navigating to ${data['label']} with code ${data['code']}');
+    // Get dynamic tag group data for next step
+    final tagGroupCodes = {
+      RegistrationStep.sectors: 'sectors',
+      RegistrationStep.meetingPreferences: 'meeting_preferences',
+      RegistrationStep.networkingGoals: 'network_goals',
+    };
+    
+    final code = tagGroupCodes[nextStep]!;
+    final tagGroup = TagGroupService.shared.getTagGroupByCode(code);
+    
+    // Use cached data or fallback to hardcoded
+    final nextTagGroup = tagGroup ?? TagGroup(
+      id: '',
+      code: code,
+      label: code.replaceAll('_', ' ').split(' ').map((word) => 
+          word[0].toUpperCase() + word.substring(1)).join(' '),
+      desc: 'Select your ${code.replaceAll('_', ' ')}',
+    );
+
+    debugPrint('➡️ Navigating to ${nextTagGroup.label} with code ${nextTagGroup.code}');
+    
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => EditTagGroupView(
-          tagGroup: TagGroup(
-            id: '',
-            code: data['code']!,
-            label: data['label']!,
-            desc: data['desc'],
-          ),
+          tagGroup: nextTagGroup,
           registrationWizard: true,
           currentStep: nextStep,
         ),

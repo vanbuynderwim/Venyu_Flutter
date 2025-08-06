@@ -18,6 +18,7 @@ import '../../widgets/matches/match_overview_header.dart';
 import '../../widgets/matches/match_reasons_view.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../services/session_manager.dart';
+import '../../services/toast_service.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/match_response.dart';
 import '../../models/enums/match_status.dart';
@@ -546,32 +547,21 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await _supabaseManager.insertMatchResponse(request);
       
       if (mounted) {
-        // Show success feedback first
-        final messenger = ScaffoldMessenger.maybeOf(context);
-        
         // Notify parent that match was removed
         widget.onMatchRemoved?.call();
         
         // Then navigate back to matches list
         Navigator.of(context).pop();
         
-        // Show snackbar after navigation if possible
-        messenger?.showSnackBar(
-          const SnackBar(
-            content: Text('Match skipped'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        debugPrint('Match skipped');
       }
     } catch (error) {
       debugPrint('Error skipping match: $error');
       
       if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text('Failed to skip match: $error'),
-            backgroundColor: context.venyuTheme.error,
-          ),
+        ToastService.error(
+          context: context,
+          message: 'Failed to skip match',
         );
       }
     } finally {
@@ -600,32 +590,21 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await _supabaseManager.insertMatchResponse(request);
       
       if (mounted) {
-        // Show success feedback first
-        final messenger = ScaffoldMessenger.maybeOf(context);
-        
         // Notify parent that match was removed
         widget.onMatchRemoved?.call();
         
         // Then navigate back to matches list
         Navigator.of(context).pop();
         
-        // Show snackbar after navigation if possible
-        messenger?.showSnackBar(
-          const SnackBar(
-            content: Text('Connection request sent!'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        debugPrint('Connection request sent!');
       }
     } catch (error) {
       debugPrint('Error connecting with match: $error');
       
       if (mounted) {
-        ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-          SnackBar(
-            content: Text('Failed to connect: $error'),
-            backgroundColor: context.venyuTheme.error,
-          ),
+        ToastService.error(
+          context: context,
+          message: 'Failed to connect',
         );
       }
     } finally {
@@ -645,8 +624,9 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open LinkedIn profile')),
+        ToastService.error(
+          context: context,
+          message: 'Could not open LinkedIn profile',
         );
       }
     }
@@ -667,8 +647,9 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await launchUrl(emailUri);
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open email app')),
+        ToastService.error(
+          context: context,
+          message: 'Could not open email app',
         );
       }
     }
@@ -682,8 +663,9 @@ class _MatchDetailViewState extends State<MatchDetailView> {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Could not open website')),
+        ToastService.error(
+          context: context,
+          message: 'Could not open website',
         );
       }
     }

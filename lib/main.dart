@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -13,6 +14,7 @@ import 'services/index.dart';
 import 'views/index.dart';
 
 void main() async {
+  await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
   WidgetsFlutterBinding.ensureInitialized();
   
   // Load environment variables

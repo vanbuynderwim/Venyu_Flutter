@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/models.dart';
 import 'supabase_manager.dart';
+import 'tag_group_service.dart';
 
 /// Represents the current authentication state of the user.
 /// 
@@ -257,6 +259,9 @@ class SessionManager extends ChangeNotifier {
       debugPrint('👤 Fetching user profile for session');
       await _fetchUserProfile();
       
+      // Initialize TagGroup cache for registration wizard
+      _initializeTagGroups();
+      
       // Determine authentication state based on profile
       _updateAuthState(_determineAuthenticationState());
       
@@ -281,6 +286,9 @@ class SessionManager extends ChangeNotifier {
     try {
       // Fetch user profile after successful sign in
       await _fetchUserProfile();
+      
+      // Initialize TagGroup cache for registration wizard
+      _initializeTagGroups();
       
       // Determine state based on profile completion
       _updateAuthState(_determineAuthenticationState());
@@ -308,6 +316,19 @@ class SessionManager extends ChangeNotifier {
     _updateAuthState(AuthenticationState.unauthenticated);
     
     debugPrint('✅ Sign out cleanup completed');
+  }
+  
+  /// Initialize TagGroup cache for registration wizard.
+  /// 
+  /// This method loads all tag groups in the background after successful authentication.
+  /// It does not block the authentication flow if it fails.
+  void _initializeTagGroups() {
+    TagGroupService.shared.loadTagGroups().then((tagGroups) {
+      debugPrint('✅ TagGroups cache initialized with ${tagGroups.length} groups');
+    }).catchError((error) {
+      debugPrint('⚠️ Failed to initialize TagGroups cache: $error');
+      // Don't throw - this is a background optimization
+    });
   }
   
   /// Handle token refresh - equivalent to iOS token refresh handling
@@ -362,14 +383,21 @@ class SessionManager extends ChangeNotifier {
       debugPrint('✅ fetchCurrentProfile successful');
       debugPrint('👤 Profile loaded: ${_currentProfile?.displayName} (${_currentProfile?.contactEmail})');
       
-      // TODO: Add Bugsnag user identification when error tracking is implemented
-      // Bugsnag.setUser(_currentUser.id.uuidString, withEmail: _currentProfile.email, andName: _currentProfile.fullName)
+      // Set user context in Bugsnag for error tracking
+      if (_currentProfile != null && currentUser != null) {
+        await bugsnag.setUser(
+          id: currentUser!.id,
+          email: _currentProfile!.contactEmail,
+          name: _currentProfile!.displayName,
+        );
+        debugPrint('✅ Bugsnag user context set');
+      }
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Failed to fetch profile: $error');
       
-      // TODO: Add Bugsnag error tracking when implemented
-      // Bugsnag.notifyError(error);
+      // Track error with Bugsnag
+      await bugsnag.notify(error, stackTrace);
       
       try {
         debugPrint('🚪 Signing out due to profile fetch failure');
@@ -651,11 +679,11 @@ class SessionManager extends ChangeNotifier {
       
       debugPrint('✅ SessionManager: Avatar upload completed successfully');
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ SessionManager: Failed to upload avatar: $error');
       
-      // TODO: Add Bugsnag error tracking when implemented
-      // Bugsnag.notifyError(error);
+      // Track error with Bugsnag
+      await bugsnag.notify(error, stackTrace);
       rethrow;
     }
   }
@@ -685,11 +713,11 @@ class SessionManager extends ChangeNotifier {
         debugPrint('✅ SessionManager: Avatar deleted completely');
       }
       
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ SessionManager: Failed to delete avatar: $error');
       
-      // TODO: Add Bugsnag error tracking when implemented
-      // Bugsnag.notifyError(error);
+      // Track error with Bugsnag
+      await bugsnag.notify(error, stackTrace);
       
       if (isFullDelete) {
         rethrow;
