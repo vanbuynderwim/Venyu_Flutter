@@ -9,6 +9,7 @@ import '../../models/profile.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../services/session_manager.dart';
 import '../common/avatar_view.dart';
+import '../common/avatar_fullscreen_viewer.dart';
 import '../common/tag_view.dart';
 import '../buttons/action_button.dart';
 import '../../views/profile/edit_bio_view.dart';
@@ -565,64 +566,11 @@ class _ProfileHeaderState extends State<ProfileHeader> {
 
   /// Shows the current avatar in full screen
   Future<void> _viewAvatar(BuildContext context) async {
-    await Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false, // Allow transparent background
-        barrierDismissible: true,
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return Scaffold(
-            backgroundColor: Colors.black, // Fully black background
-            body: SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  // Avatar size = screen width minus 16pt on each side (32pt total)
-                  final availableWidth = constraints.maxWidth - 32.0;
-                  final availableHeight = constraints.maxHeight - 80.0; // Space for close button
-                  
-                  // Use the smaller dimension to ensure perfect circle
-                  final avatarSize = availableWidth < availableHeight ? availableWidth : availableHeight;
-                  
-                  return Stack(
-                    children: [
-                      // Tap to dismiss
-                      Positioned.fill(
-                        child: GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Container(color: Colors.transparent),
-                        ),
-                      ),
-                      // Centered avatar
-                      Center(
-                        child: AvatarView(
-                          avatarId: widget.profile.avatarID,
-                          size: avatarSize,
-                          showBorder: false, // No border for full-screen view
-                          preserveAspectRatio: true, // Preserve original image quality and ratio
-                        ),
-                      ),
-                      // Close button
-                      Positioned(
-                        top: 20,
-                        right: 20,
-                        child: PlatformIconButton(
-                          icon: const Icon(Icons.close, color: Colors.white, size: 30),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          );
-        },
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
-      ),
+    await AvatarFullscreenViewer.show(
+      context: context,
+      avatarId: widget.profile.avatarID,
+      showBorder: false,
+      preserveAspectRatio: true,
     );
   }
 
