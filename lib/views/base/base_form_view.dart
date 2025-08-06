@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../core/constants/app_strings.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../models/enums/registration_step.dart';
-import '../../models/tag_group.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/tag_group_service.dart';
@@ -110,7 +110,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
 
   /// Get the success message to display after successful save
   @protected
-  String getSuccessMessage() => 'Changes successfully saved';
+  String getSuccessMessage() => AppStrings.saved;
 
   /// Get the error message to display after failed save
   @protected
@@ -118,7 +118,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
 
   /// Get the form title
   @protected
-  String getFormTitle() => widget.title ?? 'Edit';
+  String getFormTitle() => widget.title ?? AppStrings.edit;
 
   /// Whether the save button should be enabled
   /// 
@@ -147,7 +147,6 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     if (nextStep == null) {
       // Registration complete, navigate to main app
       debugPrint('Registration wizard complete!');
-      // TODO: Navigate to main app or completion screen
       Navigator.of(context).pop(true);
       return;
     }
@@ -228,20 +227,20 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         );
         
       case RegistrationStep.avatar:
-        // TODO: Create EditAvatarView
-        debugPrint('Avatar step not yet implemented');
+        // Avatar step - skip for now, complete registration
+        debugPrint('Avatar step skipped - completing registration');
         Navigator.of(context).pop(true);
         return;
         
       case RegistrationStep.notifications:
-        // TODO: Create EditNotificationsView
-        debugPrint('Notifications step not yet implemented');
+        // Notifications step - skip for now, complete registration
+        debugPrint('Notifications step skipped - completing registration');
         Navigator.of(context).pop(true);
         return;
         
       case RegistrationStep.complete:
-        // TODO: Create RegistrationCompleteView
-        debugPrint('Registration complete screen not yet implemented');
+        // Registration complete
+        debugPrint('Registration completed successfully');
         Navigator.of(context).pop(true);
         return;
     }
@@ -334,7 +333,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     VoidCallback? onPressed,
   }) {
     // Use "Next" for registration wizard, "Save" for regular forms
-    final defaultLabel = widget.registrationWizard ? 'Next' : 'Save';
+    final defaultLabel = widget.registrationWizard ? AppStrings.next : AppStrings.save;
     
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),

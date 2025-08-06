@@ -19,7 +19,7 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   final int _currentIndex = 0;
   
-  final List<Widget> _pages = const [
+  static const List<Widget> _pages = [
     MatchesView(),
     NotificationsView(),
     ProfileView(),

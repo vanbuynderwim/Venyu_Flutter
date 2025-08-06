@@ -58,7 +58,6 @@ class AvatarView extends StatefulWidget {
 
 class _AvatarViewState extends State<AvatarView> {
   Future<String?>? _imageFuture;
-  String? _currentAvatarId;
 
   @override
   void initState() {
@@ -76,7 +75,6 @@ class _AvatarViewState extends State<AvatarView> {
   }
 
   void _initializeImageFuture() {
-    _currentAvatarId = widget.avatarId;
     // Cache the future to prevent rebuilds from triggering new network calls
     if (widget.avatarId != null && widget.avatarId!.isNotEmpty) {
       _imageFuture = SupabaseManager.shared.getRemoteImage(

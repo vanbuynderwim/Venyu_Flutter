@@ -31,6 +31,11 @@ class AppStrings {
   static const String skip = 'Skip';
   static const String retry = 'Retry';
   static const String refresh = 'Refresh';
+  static const String continue_ = 'Continue';
+  static const String interested = 'Interested';
+  static const String approve = 'Approve';
+  static const String reject = 'Reject';
+  static const String connect = 'Connect';
 
   /// Authentication
   static const String signIn = 'Sign In';
@@ -48,9 +53,14 @@ class AppStrings {
   static const String email = 'Email';
   static const String phone = 'Phone';
   static const String company = 'Company';
+  static const String companyName = 'Company Name';
   static const String jobTitle = 'Job Title';
   static const String bio = 'Bio';
   static const String location = 'Location';
+  static const String editProfile = 'Edit Profile';
+  static const String profileName = 'Profile Name';
+  static const String linkedInUrl = 'LinkedIn URL';
+  static const String websiteUrl = 'Website URL';
 
   /// Interaction types
   static const String thisIsMe = 'This is me';

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 import '../models/models.dart';
 import 'supabase_manager.dart';

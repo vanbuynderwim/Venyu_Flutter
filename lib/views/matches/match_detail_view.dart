@@ -16,6 +16,8 @@ import '../../widgets/common/match_item_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/matches/match_overview_header.dart';
 import '../../widgets/matches/match_reasons_view.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/utils/dialog_utils.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../services/session_manager.dart';
 import '../../services/toast_service.dart';
@@ -101,7 +103,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
               padding: EdgeInsets.zero,
               icon: Icon(Icons.more_horiz, color: venyuTheme.primaryText),
               onPressed: () {
-                // TODO: Show action sheet with options
+                // Show match options - placeholder for future functionality
                 debugPrint('Show match options');
               },
             ),
@@ -300,7 +302,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             isFirst: isFirst,
             isLast: isLast,
             onCardSelected: (selectedPrompt) {
-              // TODO: Handle card detail view
+              // Card detail view - placeholder for future functionality
               debugPrint('Card selected: ${selectedPrompt.label}');
             },
           );
@@ -451,7 +453,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                     ),
                   )
                 : ActionButton(
-                    label: 'Skip',
+                    label: AppStrings.skip,
                     onPressed: _isProcessingInterested ? null : _showSkipAlert,
                     style: ActionButtonType.secondary,
                     isDisabled: _isProcessingInterested,
@@ -481,7 +483,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                     ),
                   )
                 : ActionButton(
-                    label: 'Interested',
+                    label: AppStrings.interested,
                     onPressed: _isProcessingSkip ? null : _handleConnectMatch,
                     style: ActionButtonType.primary,
                     isDisabled: _isProcessingSkip,
@@ -494,40 +496,21 @@ class _MatchDetailViewState extends State<MatchDetailView> {
   }
 
   /// Show skip match confirmation alert
-  void _showSkipAlert() {
+  void _showSkipAlert() async {
     if (_match == null) return;
     
-    showDialog(
+    final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      builder: (context) => PlatformAlertDialog(
-        title: const Text('Skip this match?'),
-        content: Text(
-          'This match will be removed permanently and you won\'t see it again. ${_match!.profile.firstName} won\'t get notified.',
-        ),
-        actions: [
-          
-          PlatformDialogAction(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _handleSkipMatch();
-            },
-            child: const Text('Skip'),
-            cupertino: (_, __) => CupertinoDialogActionData(
-              isDestructiveAction: true,
-            ),
-          ),
-          PlatformDialogAction(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-            cupertino: (_, __) => CupertinoDialogActionData(
-              isDefaultAction: true,
-            ),
-          ),
-        ],
-      ),
+      title: 'Skip this match?',
+      message: 'This match will be removed permanently and you won\'t see it again. ${_match!.profile.firstName} won\'t get notified.',
+      confirmText: AppStrings.skip,
+      cancelText: AppStrings.cancel,
+      isDestructive: true,
     );
+    
+    if (confirmed) {
+      _handleSkipMatch();
+    }
   }
 
   /// Handle skip match action

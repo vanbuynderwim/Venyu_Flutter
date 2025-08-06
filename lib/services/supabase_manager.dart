@@ -886,9 +886,9 @@ class SupabaseManager {
       debugPrint('✅ Pending reviews RPC call successful');
       debugPrint('📋 Pending reviews raw result: $result');
       
-      // Handle null or empty result
-      if (result == null) {
-        debugPrint('⚠️ RPC returned null, treating as empty list');
+      // Handle empty result
+      if (result.isEmpty) {
+        debugPrint('⚠️ RPC returned empty list');
         return <Prompt>[];
       }
       

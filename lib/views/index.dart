@@ -8,4 +8,3 @@ export 'main_view.dart';
 export 'matches_view.dart';
 export 'notifications_view.dart';
 export 'profile_view.dart';
-export 'showcase/showcase_view.dart';
