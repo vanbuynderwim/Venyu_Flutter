@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/profile.dart';
 import '../../models/enums/action_button_type.dart';
+import '../../services/avatar_upload_service.dart';
 import '../../services/session_manager.dart';
 import '../common/avatar_view.dart';
 import '../common/avatar_fullscreen_viewer.dart';
@@ -483,7 +483,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         material: (_, __) => MaterialPopupMenuOptionData(
           child: Row(
             children: [
-              context.themedIcon('close'),
+              const Icon(Icons.close, size: 24),
               const SizedBox(width: 12),
               Text(
                 'Cancel',
@@ -503,10 +503,38 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     try {
       switch (action) {
         case AvatarAction.camera:
-          await _pickImage(context, ImageSource.camera);
+          await AvatarUploadService.pickFromCameraAndUpload(
+            context: context,
+            onUploadStart: () {
+              setState(() {
+                _isUploading = true;
+              });
+            },
+            onUploadComplete: () {
+              if (mounted) {
+                setState(() {
+                  _isUploading = false;
+                });
+              }
+            },
+          );
           break;
         case AvatarAction.gallery:
-          await _pickImage(context, ImageSource.gallery);
+          await AvatarUploadService.pickFromGalleryAndUpload(
+            context: context,
+            onUploadStart: () {
+              setState(() {
+                _isUploading = true;
+              });
+            },
+            onUploadComplete: () {
+              if (mounted) {
+                setState(() {
+                  _isUploading = false;
+                });
+              }
+            },
+          );
           break;
         case AvatarAction.view:
           await _viewAvatar(context);
@@ -525,45 +553,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     }
   }
 
-  /// Picks an image from camera or gallery and uploads it
-  Future<void> _pickImage(BuildContext context, ImageSource source) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-      source: source,
-      maxWidth: 1024,
-      maxHeight: 1024,
-      imageQuality: 100,
-    );
-    
-    if (pickedFile != null) {
-      final imageBytes = await pickedFile.readAsBytes();
-      
-      // Show upload state immediately after photo selection
-      setState(() {
-        _isUploading = true;
-      });
-      
-      try {
-        await SessionManager.shared.uploadUserProfileAvatar(imageBytes);
-        
-        // Upload successful - clear upload state
-        if (mounted) {
-          setState(() {
-            _isUploading = false;
-          });
-        }
-      } catch (error) {
-        // Upload failed - clear upload state
-        if (mounted) {
-          setState(() {
-            _isUploading = false;
-          });
-        }
-        rethrow; // Let error handling in _handleAvatarAction catch this
-      }
-    }
-  }
-
   /// Shows the current avatar in full screen
   Future<void> _viewAvatar(BuildContext context) async {
     await AvatarFullscreenViewer.show(
@@ -576,62 +565,32 @@ class _ProfileHeaderState extends State<ProfileHeader> {
 
   /// Removes the current avatar after confirmation
   Future<void> _removeAvatar(BuildContext context) async {
-    final confirmed = await showPlatformDialog<bool>(
-      context: context,
-      builder: (context) => PlatformAlertDialog(
-        title: const Text('Remove Avatar'),
-        content: const Text('Are you sure you want to remove your avatar?'),
-        actions: [
-          PlatformDialogAction(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Remove'),
-            cupertino: (_, __) => CupertinoDialogActionData(
-              isDestructiveAction: true,
-            ),
-            material: (_, __) => MaterialDialogActionData(
-              style: TextButton.styleFrom(
-                foregroundColor: Theme.of(context).colorScheme.error,
-              ),
-            ),
-          ),
-          PlatformDialogAction(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-        ],
-      ),
-    );
+    // Remember the current avatar ID before deletion
+    final currentAvatarID = widget.profile.avatarID;
     
-    if (confirmed == true) {
-      // Remember the current avatar ID before deletion
-      final currentAvatarID = widget.profile.avatarID;
-      
-      // Show removing state and mark this avatar as removed
-      setState(() {
-        _isRemoving = true;
-        _forceNoAvatar = currentAvatarID; // Never show this avatar ID again
-      });
-      
-      try {
-        await SessionManager.shared.deleteProfileAvatar();
-        
-        // Clear removing state - keep _forceNoAvatar to prevent showing cached image
+    final success = await AvatarUploadService.removeAvatar(
+      context: context,
+      onRemoveStart: () {
+        setState(() {
+          _isRemoving = true;
+          _forceNoAvatar = currentAvatarID; // Never show this avatar ID again
+        });
+      },
+      onRemoveComplete: () {
         if (mounted) {
           setState(() {
             _isRemoving = false;
           });
           debugPrint('🗑️ Avatar removed, new avatarID: ${widget.profile.avatarID}');
         }
-      } catch (error) {
-        // Clear removing state on error and reset force no avatar
-        if (mounted) {
-          setState(() {
-            _isRemoving = false;
-            _forceNoAvatar = null; // Reset on error so avatar can show again
-          });
-        }
-        rethrow;
-      }
+      },
+    );
+    
+    // If removal failed, reset the force no avatar state
+    if (!success && mounted) {
+      setState(() {
+        _forceNoAvatar = null; // Reset on failure so avatar can show again
+      });
     }
   }
 

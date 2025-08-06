@@ -29,6 +29,11 @@ class DialogUtils {
             cupertino: (_, __) => CupertinoDialogActionData(
               isDestructiveAction: isDestructive,
             ),
+            material: (_, __) => MaterialDialogActionData(
+              style: TextButton.styleFrom(
+                foregroundColor: isDestructive ? Theme.of(context).colorScheme.error : null,
+              ),
+            ),
           ),
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(false),
@@ -42,6 +47,19 @@ class DialogUtils {
     );
     
     return result ?? false;
+  }
+
+  /// Shows a confirmation dialog specifically for removing avatar
+  /// Returns true if confirmed, false if cancelled or dismissed
+  static Future<bool> showRemoveAvatarDialog(BuildContext context) async {
+    return showConfirmationDialog(
+      context: context,
+      title: 'Remove Avatar',
+      message: 'Are you sure you want to remove your avatar?',
+      confirmText: 'Remove',
+      cancelText: 'Cancel',
+      isDestructive: true,
+    );
   }
 
   /// Shows a platform-aware information dialog

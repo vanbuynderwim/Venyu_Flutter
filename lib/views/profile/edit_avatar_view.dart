@@ -1,40 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../models/enums/action_button_type.dart';
+import '../../models/enums/registration_step.dart';
+import '../../services/avatar_upload_service.dart';
+import '../../services/session_manager.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/progress_bar.dart';
+import '../../widgets/common/avatar_view.dart';
 import '../base/base_form_view.dart';
+import '../profile/edit_notifications_view.dart';
 
-/// Placeholder view for avatar upload during registration
+/// A form screen for adding/updating user avatar during registration.
 /// 
-/// This view serves as a placeholder for the avatar upload step in the 
-/// registration wizard. Currently skips to next step as avatar upload
-/// functionality will be implemented later.
+/// This view allows users to upload a profile photo via camera or gallery
+/// during the registration wizard or when editing their profile later.
+/// Uses AvatarUploadService for consistent avatar handling across the app.
 class EditAvatarView extends BaseFormView {
   const EditAvatarView({
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-    super.title = 'Profile Photo',
-  });
+  }) : super(title: 'Profile Photo');
 
   @override
-  BaseFormViewState<EditAvatarView> createState() => _EditAvatarViewState();
+  BaseFormViewState<BaseFormView> createState() => _EditAvatarViewState();
 }
 
 class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
+  bool _isUploading = false;
+  String? _forceNoAvatar; // Force showing no avatar for specific ID
+  
   @override
-  String getSuccessMessage() => 'Profile updated successfully';
+  bool get canSave => !_isUploading;
 
   @override
-  String getErrorMessage() => 'Failed to update profile photo';
+  String getSuccessMessage() => 'Profile photo saved';
+
+  @override
+  String getErrorMessage() => 'Failed to save profile photo';
 
   @override
   Future<void> performSave() async {
-    // Placeholder implementation - skip avatar for now
-    debugPrint('Avatar step - skipping for now');
-    
-    // Small delay to simulate processing
+    // Skip to next step - avatar upload handled by buttons
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
@@ -43,78 +53,243 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
     final venyuTheme = context.venyuTheme;
     
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 40),
+        // Registration wizard progress bar
+        if (widget.registrationWizard) ...[
+          ProgressBar(
+            pageNumber: 9,
+            numberOfPages: 10,
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        const SizedBox(height: 16),
+
+        // Avatar image in circle
+        Center(
+          child: SizedBox(
+            width: 120,
+            height: 120,
+            child: _isUploading
+                ? Container(
+                    width: 120,
+                    height: 120,
+                    decoration: AppLayoutStyles.circleDecoration(context),
+                    child: Center(
+                      child: PlatformCircularProgressIndicator(),
+                    ),
+                  )
+                : AvatarView(
+                    avatarId: _forceNoAvatar == SessionManager.shared.currentProfile?.avatarID 
+                        ? null 
+                        : SessionManager.shared.currentProfile?.avatarID,
+                    size: 120,
+                    showBorder: true,
+                  ),
+          ),
+        ),
         
-        // Avatar placeholder
-        Container(
-          width: 120,
-          height: 120,
-          decoration: AppLayoutStyles.circleDecoration(context),
-          child: Icon(
-            Icons.person,
-            size: 60,
-            color: venyuTheme.secondaryText,
+        const SizedBox(height: 12),
+        
+        // Delete button (only show if avatar exists and not forced to hide)
+        if (SessionManager.shared.currentProfile?.avatarID != null && 
+            SessionManager.shared.currentProfile!.avatarID!.isNotEmpty &&
+            !_isUploading &&
+            _forceNoAvatar != SessionManager.shared.currentProfile?.avatarID)
+          Center(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _handleAvatarRemoval,
+                splashFactory: NoSplash.splashFactory, // No ripple, only highlight
+                highlightColor: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: Text(
+                    'Remove',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        
+        const SizedBox(height: 12),
+        
+        // Title
+        Center(
+          child: Text(
+            'Add a profile picture',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 12),
+        
+        // Subtitle with explanation
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              'Your avatar is often the first impression. Make it count by using a clear, welcoming headshot.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
           ),
         ),
         
         const SizedBox(height: 24),
         
-        Text(
-          'Add a Profile Photo',
-          style: AppTextStyles.headline.copyWith(
-            color: venyuTheme.primaryText,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        
-        const SizedBox(height: 12),
-        
-        Text(
-          'Help others recognize you by adding a profile photo. You can always add or change it later.',
-          style: AppTextStyles.body.copyWith(
-            color: venyuTheme.secondaryText,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        
-        const SizedBox(height: 40),
-        
-        // Upload button placeholder
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: AppLayoutStyles.cardDecoration(context),
-          child: Column(
+        // Camera and Gallery buttons
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Icon(
-                Icons.camera_alt_outlined,
-                size: 32,
-                color: venyuTheme.secondaryText,
+              // Camera button
+              Expanded(
+                child: ActionButton(
+                  icon: Image.asset(
+                    'assets/images/icons/camera_selected.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                  label: 'Camera',
+                  style: ActionButtonType.secondary,
+                  onPressed: _isUploading ? null : _handleCameraUpload,
+                  isLoading: false,
+                ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Photo upload coming soon',
-                style: AppTextStyles.body.copyWith(
-                  color: venyuTheme.secondaryText,
+              
+              const SizedBox(width: 16),
+              
+              // Gallery button
+              Expanded(
+                child: ActionButton(
+                  icon: Image.asset(
+                    'assets/images/icons/image_selected.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                  label: 'Gallery',
+                  style: ActionButtonType.secondary,
+                  onPressed: _isUploading ? null : _handleGalleryUpload,
+                  isLoading: false,
                 ),
               ),
             ],
           ),
         ),
-        
-        const SizedBox(height: 24),
-        
-        if (widget.registrationWizard)
-          Text(
-            'For now, you can continue without adding a photo',
-            style: AppTextStyles.caption1.copyWith(
-              color: venyuTheme.secondaryText,
-            ),
-            textAlign: TextAlign.center,
-          ),
       ],
+    );
+  }
+
+  /// Navigate to the next step
+  void _navigateToNext() {
+    // Navigate to notifications view
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditNotificationsView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.notifications,
+        ),
+      ),
+    );
+  }
+
+  /// Handle camera upload
+  Future<void> _handleCameraUpload() async {
+    final success = await AvatarUploadService.pickFromCameraAndUpload(
+      context: context,
+      onUploadStart: () {
+        setState(() {
+          _isUploading = true;
+        });
+      },
+      onUploadComplete: () {
+        if (mounted) {
+          setState(() {
+            _isUploading = false;
+          });
+          // Refresh the UI to show the new avatar
+          setState(() {});
+        }
+      },
+    );
+  }
+
+  /// Handle gallery upload
+  Future<void> _handleGalleryUpload() async {
+    final success = await AvatarUploadService.pickFromGalleryAndUpload(
+      context: context,
+      onUploadStart: () {
+        setState(() {
+          _isUploading = true;
+        });
+      },
+      onUploadComplete: () {
+        if (mounted) {
+          setState(() {
+            _isUploading = false;
+          });
+          // Refresh the UI to show the new avatar
+          setState(() {});
+        }
+      },
+    );
+  }
+  
+  /// Handle avatar removal
+  Future<void> _handleAvatarRemoval() async {
+    // Remember the current avatar ID before deletion
+    final currentAvatarID = SessionManager.shared.currentProfile?.avatarID;
+    
+    final success = await AvatarUploadService.removeAvatar(
+      context: context,
+      onRemoveStart: () {
+        setState(() {
+          _isUploading = true;
+          _forceNoAvatar = currentAvatarID; // Never show this avatar ID again
+        });
+      },
+      onRemoveComplete: () {
+        if (mounted) {
+          setState(() {
+            _isUploading = false;
+          });
+          // UI will automatically update due to _forceNoAvatar logic
+        }
+      },
+    );
+    
+    // If removal failed, reset the force no avatar state
+    if (!success && mounted) {
+      setState(() {
+        _forceNoAvatar = null; // Reset on failure so avatar can show again
+      });
+    }
+  }
+
+  @override
+  Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: ActionButton(
+        label: 'Next',
+        style: ActionButtonType.primary,
+        onPressed: _isUploading ? null : _navigateToNext,
+        isLoading: false,
+      ),
     );
   }
 }

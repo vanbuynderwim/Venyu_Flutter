@@ -102,7 +102,7 @@ class _ActionButtonState extends State<ActionButton> {
     final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
     
     return SizedBox(
-      width: widget.width ?? double.infinity,
+      width: widget.width ?? (isIconOnlyButton ? 56 : double.infinity),
       height: 56,
       child: Opacity(
         opacity: isActuallyDisabled ? 0.7 : 1.0,
@@ -146,15 +146,13 @@ class _ActionButtonState extends State<ActionButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.icon != null) ...[
-                            isIconOnlyButton
-                              ? ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                    context.venyuTheme.primary,
-                                    BlendMode.srcIn,
-                                  ),
-                                  child: widget.icon!,
-                                )
-                              : widget.icon!,
+                            ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                widget.style.textColor(context),
+                                BlendMode.srcIn,
+                              ),
+                              child: widget.icon!,
+                            ),
                             if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                           ],
                           if (widget.label != null && !isIconOnlyButton)
