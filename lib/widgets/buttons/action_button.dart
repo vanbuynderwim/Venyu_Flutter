@@ -146,13 +146,16 @@ class _ActionButtonState extends State<ActionButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.icon != null) ...[
-                            ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                widget.style.textColor(context),
-                                BlendMode.srcIn,
-                              ),
-                              child: widget.icon!,
-                            ),
+                            // Don't apply color filter for LinkedIn buttons - keep original logo colors
+                            widget.style == ActionButtonType.linkedIn
+                                ? widget.icon!
+                                : ColorFiltered(
+                                    colorFilter: ColorFilter.mode(
+                                      widget.style.textColor(context),
+                                      BlendMode.srcIn,
+                                    ),
+                                    child: widget.icon!,
+                                  ),
                             if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                           ],
                           if (widget.label != null && !isIconOnlyButton)

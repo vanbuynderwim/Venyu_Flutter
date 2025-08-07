@@ -6,8 +6,12 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_theme.dart';
+import '../../models/enums/action_button_type.dart';
 import '../../services/index.dart';
 import '../../widgets/index.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/radar_background.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// LoginView - Initial authentication screen
 /// 
@@ -85,15 +89,11 @@ class _LoginViewState extends State<LoginView> {
     
     return AppScaffold(
       usePadding: false,
+      useSafeArea: false,
       body: Stack(
         children: [
-          // Background radar image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/visuals/radar.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          // Full-screen radar background image
+          const RadarBackground(),
           
           // Content
           Padding(
@@ -143,49 +143,17 @@ class _LoginViewState extends State<LoginView> {
                 // Sign-in buttons
                 Column(
                   children: [
-                    // LinkedIn sign-in - Custom button with LinkedIn logo
-                    SizedBox(
-                      height: 56,
-                      width: double.infinity,
-                      child: PlatformElevatedButton(
-                        onPressed: _isSigningIn ? null : _signInWithLinkedIn,
-                        color: context.venyuTheme.linkedIn, // LinkedIn blue
-                        material: (_, __) => MaterialElevatedButtonData(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.venyuTheme.linkedIn,
-                            foregroundColor: context.venyuTheme.primaryText,
-                            disabledBackgroundColor: context.venyuTheme.linkedIn.withValues(alpha: 0.5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                            ),
-                            elevation: 0,
-                          ),
-                        ),
-                        cupertino: (_, __) => CupertinoElevatedButtonData(
-                          color: context.venyuTheme.linkedIn,
-                          disabledColor: context.venyuTheme.linkedIn.withValues(alpha: 0.5),
-                          borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // LinkedIn logo
-                            Image.asset(
-                              'assets/images/visuals/linkedInLogo.png',
-                              width: 24,
-                              height: 24,
-                            ),
-                            const SizedBox(width: 12),
-                            Text(
-                              'Sign in with LinkedIn',
-                              style: AppTextStyles.callout.copyWith(
-                                color: context.venyuTheme.primaryText,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
+                    // LinkedIn sign-in - ActionButton
+                    ActionButton(
+                      label: 'Sign in with LinkedIn',
+                      style: ActionButtonType.linkedIn,
+                      icon: Image.asset(
+                        'assets/images/visuals/linkedInLogo.png',
+                        width: 24,
+                        height: 24,
                       ),
+                      onPressed: _isSigningIn ? null : _signInWithLinkedIn,
+                      isLoading: false,
                     ),
                     const SizedBox(height: 16),
                     
