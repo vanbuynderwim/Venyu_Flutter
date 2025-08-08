@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -71,6 +70,7 @@ class SessionManager extends ChangeNotifier {
   /// Provides convenient access to session management throughout the app.
   static SessionManager get shared {
     _instance ??= SessionManager._internal();
+    debugPrint('🔗 SessionManager.shared accessed - instance ${_instance.hashCode}');
     return _instance!;
   }
   
@@ -148,6 +148,7 @@ class SessionManager extends ChangeNotifier {
   /// Convenience getter that delegates to [SupabaseManager.currentUser].
   User? get currentUser => _supabaseManager.currentUser;
   
+  
   // MARK: - Initialization Methods
   
   /// Initialize SessionManager - equivalent to iOS init and setup
@@ -188,14 +189,14 @@ class SessionManager extends ChangeNotifier {
           case AuthChangeEvent.signedIn:
             await _handleSignedIn(authState.session);
             break;
-          case AuthChangeEvent.signedOut:
-            await _handleSignedOut();
+          case AuthChangeEvent.userUpdated:
+            await _handleUserUpdated(authState.session);
             break;
           case AuthChangeEvent.tokenRefreshed:
             await _handleTokenRefreshed(authState.session);
             break;
-          case AuthChangeEvent.userUpdated:
-            await _handleUserUpdated(authState.session);
+          case AuthChangeEvent.signedOut:
+            await _handleSignedOut();
             break;
           case AuthChangeEvent.passwordRecovery:
             // Handle password recovery if needed
@@ -205,8 +206,6 @@ class SessionManager extends ChangeNotifier {
             await _handleSignedIn(authState.session);
             break;
           default:
-            // Handle any other auth events (including deprecated ones)
-            debugPrint('🔄 Unhandled auth event: ${authState.event}');
             break;
         }
       },
@@ -272,49 +271,86 @@ class SessionManager extends ChangeNotifier {
   
   /// Handle successful sign in - equivalent to iOS sign in handling
   Future<void> _handleSignedIn(Session? session) async {
-    debugPrint('✅ User signed in successfully');
+    debugPrint('✅ User signed in (event)');
     
     if (session == null) {
-      debugPrint('⚠️ Sign in successful but no session provided');
-      _handleAuthError('No session provided after sign in');
-      return;
+      debugPrint('⚠️ Signed in event but no session - using current session');
+      session = _supabaseManager.currentSession;
     }
     
+    if (session == null) {
+      debugPrint('❌ No session available after sign in');
+      _handleAuthError('No session available after sign in');
+      return;
+    }
+
     _currentSession = session;
-    
+
     try {
       // Fetch user profile after successful sign in
+      debugPrint('🔍 Fetching profile after sign in...');
       await _fetchUserProfile();
       
       // Initialize TagGroup cache for registration wizard
       _initializeTagGroups();
       
       // Determine state based on profile completion
-      _updateAuthState(_determineAuthenticationState());
+      final newState = _determineAuthenticationState();
+      debugPrint('🎯 After sign in, determined state: $newState');
+      _updateAuthState(newState);
       
       debugPrint('🎉 Sign in process completed successfully');
       
     } catch (error) {
       debugPrint('❌ Error after sign in: $error');
-      
-      // Even if profile fetch fails, user is still authenticated
+      // Don't sign out - let user at least get to onboarding
       _updateAuthState(AuthenticationState.authenticated);
     }
   }
   
   /// Handle sign out - equivalent to iOS sign out handling
   Future<void> _handleSignedOut() async {
-    debugPrint('👋 User signed out');
+    debugPrint('👋 User signed out - performing complete reset');
     
-    // Clear session and profile data
+    // Perform complete reset to initial state
+    await _performCompleteReset();
+    
+    debugPrint('✅ Sign out cleanup completed - back to initial state');
+  }
+  
+  /// Perform complete reset of SessionManager to initial state
+  /// 
+  /// This method resets all internal properties to their initial values,
+  /// exactly as they would be when SessionManager is first created.
+  Future<void> _performCompleteReset() async {
+    debugPrint('🔄 Performing complete SessionManager reset');
+    
+    // Clear all authentication-related data
     _currentSession = null;
     _currentProfile = null;
     _lastError = null;
     
-    // Update state
+    // Reset authentication state to initial loading state briefly, then unauthenticated
+    _authState = AuthenticationState.loading;
+    
+    // Clear Bugsnag user context
+    // Temporarily disabled for debugging
+    // try {
+    //   await bugsnag.setUser(id: null, email: null, name: null);
+    //   debugPrint('✅ Bugsnag user context cleared');
+    // } catch (error) {
+    //   debugPrint('⚠️ Failed to clear Bugsnag user context: $error');
+    // }
+    
+    // Set to unauthenticated state and notify listeners
     _updateAuthState(AuthenticationState.unauthenticated);
     
-    debugPrint('✅ Sign out cleanup completed');
+    debugPrint('✅ Complete reset finished');
+    debugPrint('📊 Post-reset state:');
+    debugPrint('  - authState: $_authState');
+    debugPrint('  - currentSession: $_currentSession');
+    debugPrint('  - currentProfile: $_currentProfile');
+    debugPrint('  - lastError: $_lastError');
   }
   
   /// Initialize TagGroup cache for registration wizard.
@@ -358,7 +394,35 @@ class SessionManager extends ChangeNotifier {
     }
   }
   
+  
   // MARK: - Profile Management Methods
+
+  /// Refresh the current user profile from the database
+  /// 
+  /// This method refetches the profile and updates the authentication state.
+  /// Useful when profile data has been updated externally (like after registration completion).
+  Future<void> refreshProfile() async {
+    try {
+      debugPrint('🔄 Refreshing profile...');
+      
+      if (_currentSession == null) {
+        debugPrint('⚠️ No session available for profile refresh');
+        return;
+      }
+      
+      await _fetchUserProfile();
+      
+      // Update auth state after profile refresh
+      final newState = _determineAuthenticationState();
+      debugPrint('🎯 After profile refresh, determined state: $newState');
+      _updateAuthState(newState);
+      
+      debugPrint('✅ Profile refreshed successfully');
+    } catch (error) {
+      debugPrint('❌ Error refreshing profile: $error');
+      rethrow;
+    }
+  }
   
   /// Fetch user profile from database - equivalent to iOS fetchCurrentProfile
   /// 
@@ -377,38 +441,29 @@ class SessionManager extends ChangeNotifier {
       _currentProfile = fetchedProfile;
       
       // Update authentication state based on profile completion
-      _updateAuthState(_determineAuthenticationState());
+      final newAuthState = _determineAuthenticationState();
+      debugPrint('🔄 About to update auth state to: $newAuthState');
+      _updateAuthState(newAuthState);
       
       debugPrint('✅ fetchCurrentProfile successful');
       debugPrint('👤 Profile loaded: ${_currentProfile?.displayName} (${_currentProfile?.contactEmail})');
       
       // Set user context in Bugsnag for error tracking
-      if (_currentProfile != null && currentUser != null) {
-        await bugsnag.setUser(
-          id: currentUser!.id,
-          email: _currentProfile!.contactEmail,
-          name: _currentProfile!.displayName,
-        );
-        debugPrint('✅ Bugsnag user context set');
-      }
+      // Temporarily disabled for debugging
+      // if (_currentProfile != null && currentUser != null) {
+      //   await bugsnag.setUser(
+      //     id: currentUser!.id,
+      //     email: _currentProfile!.contactEmail,
+      //     name: _currentProfile!.displayName,
+      //   );
+      //   debugPrint('✅ Bugsnag user context set');
+      // }
       
-    } catch (error, stackTrace) {
+    } catch (error) {
       debugPrint('❌ Failed to fetch profile: $error');
       
-      // Track error with Bugsnag
-      await bugsnag.notify(error, stackTrace);
-      
-      try {
-        debugPrint('🚪 Signing out due to profile fetch failure');
-        await _supabaseManager.signOut();
-        debugPrint('✅ Sign out completed after profile fetch failure');
-      } catch (signOutError) {
-        debugPrint('❌ Failed to logout profile: $signOutError');
-      }
-      
-      // Clear authentication state - equivalent to iOS behavior
-      _currentProfile = null;
-      _currentSession = null;
+      // Don't sign out automatically - laat de user minstens naar onboarding gaan
+      debugPrint('⚠️ Profile fetch failed, but keeping session active for recovery');
       
       rethrow;
     }
@@ -426,13 +481,40 @@ class SessionManager extends ChangeNotifier {
       return AuthenticationState.unauthenticated;
     }
     
-    if (_currentProfile == null || _currentProfile!.registeredAt == null) {
-      debugPrint('  → Authenticated (session but no complete profile)');
+    if (_currentProfile == null) {
+      debugPrint('  → Authenticated (session but no profile)');
+      return AuthenticationState.authenticated;
+    }
+    
+    // Check if profile is actually complete (has essential registration data)
+    if (!_isProfileComplete(_currentProfile!)) {
+      debugPrint('  → Authenticated (session but incomplete profile)');
       return AuthenticationState.authenticated;
     }
     
     debugPrint('  → Registered (session + complete profile)');
     return AuthenticationState.registered;
+  }
+  
+  /// Check if a profile is complete enough to be considered "registered"
+  /// 
+  /// A complete profile should have:
+  /// - Basic info (firstName, contactEmail) 
+  /// - registeredAt timestamp (indicates completed onboarding)
+  bool _isProfileComplete(Profile profile) {
+    final hasBasicInfo = profile.firstName != null && profile.firstName!.isNotEmpty && 
+                        profile.contactEmail != null && profile.contactEmail!.isNotEmpty;
+    final hasCompletedOnboarding = profile.registeredAt != null;
+    
+    debugPrint('  🔍 Profile completeness check:');
+    debugPrint('    - firstName: "${profile.firstName}" (${profile.firstName != null && profile.firstName!.isNotEmpty ? "✓" : "✗"})');
+    debugPrint('    - contactEmail: "${profile.contactEmail}" (${profile.contactEmail != null && profile.contactEmail!.isNotEmpty ? "✓" : "✗"})');
+    debugPrint('    - registeredAt: ${profile.registeredAt} (${hasCompletedOnboarding ? "✓" : "✗"})');
+    debugPrint('    - Has basic info: $hasBasicInfo');
+    debugPrint('    - Has completed onboarding: $hasCompletedOnboarding');
+    debugPrint('    - Overall complete: ${hasBasicInfo && hasCompletedOnboarding}');
+    
+    return hasBasicInfo && hasCompletedOnboarding;
   }
   
   // MARK: - Public Authentication Methods
@@ -620,6 +702,10 @@ class SessionManager extends ChangeNotifier {
       
       // Notify all listeners (equivalent to iOS @Observable updates)
       notifyListeners();
+      
+      debugPrint('🔔 notifyListeners() called - UI should update now');
+    } else {
+      debugPrint('⚠️ Auth state update ignored - already in state: $newState');
     }
   }
   
@@ -678,11 +764,8 @@ class SessionManager extends ChangeNotifier {
       
       debugPrint('✅ SessionManager: Avatar upload completed successfully');
       
-    } catch (error, stackTrace) {
+    } catch (error) {
       debugPrint('❌ SessionManager: Failed to upload avatar: $error');
-      
-      // Track error with Bugsnag
-      await bugsnag.notify(error, stackTrace);
       rethrow;
     }
   }
@@ -712,11 +795,8 @@ class SessionManager extends ChangeNotifier {
         debugPrint('✅ SessionManager: Avatar deleted completely');
       }
       
-    } catch (error, stackTrace) {
+    } catch (error) {
       debugPrint('❌ SessionManager: Failed to delete avatar: $error');
-      
-      // Track error with Bugsnag
-      await bugsnag.notify(error, stackTrace);
       
       if (isFullDelete) {
         rethrow;

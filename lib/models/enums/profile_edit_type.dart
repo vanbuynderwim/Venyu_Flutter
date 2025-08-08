@@ -7,8 +7,8 @@ import '../tag.dart';
 enum ProfileEditType implements OptionType {
   personalinfo,
   company,
-  settings,
-  blocks,
+  //settings,
+  //blocks,
   account;
 
   @override
@@ -21,10 +21,10 @@ enum ProfileEditType implements OptionType {
         return 'Personal info';
       case ProfileEditType.company:
         return 'Company info';
-      case ProfileEditType.settings:
-        return 'Settings';
-      case ProfileEditType.blocks:
-        return 'Blocked users';
+      //case ProfileEditType.settings:
+      //  return 'Settings';
+      //case ProfileEditType.blocks:
+      //  return 'Blocked users';
       case ProfileEditType.account:
         return 'Account';
     }
@@ -37,10 +37,10 @@ enum ProfileEditType implements OptionType {
         return 'Name, about you, email...';
       case ProfileEditType.company:
         return 'Name, role(s), sector(s), ...';
-      case ProfileEditType.settings:
-        return 'Preferences';
-      case ProfileEditType.blocks:
-        return 'Blocked users';
+      //case ProfileEditType.settings:
+      //  return 'Preferences';
+      //case ProfileEditType.blocks:
+      //  return 'Blocked users';
       case ProfileEditType.account:
         return 'Manage your account';
     }
@@ -53,10 +53,10 @@ enum ProfileEditType implements OptionType {
         return 'profile';
       case ProfileEditType.company:
         return 'company';
-      case ProfileEditType.settings:
-        return 'settings';
-      case ProfileEditType.blocks:
-        return 'blocked';
+      //case ProfileEditType.settings:
+      //  return 'settings';
+      //case ProfileEditType.blocks:
+      //  return 'blocked';
       case ProfileEditType.account:
         return 'account';
     }

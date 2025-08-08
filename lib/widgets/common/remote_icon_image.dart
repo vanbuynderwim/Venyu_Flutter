@@ -98,7 +98,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
         ),
         child: Icon(
           Icons.tag,
-          size: widget.size * 0.6,
+          size: widget.size,
           color: venyuTheme.primary,
         ),
       ),

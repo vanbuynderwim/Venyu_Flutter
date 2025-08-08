@@ -10,19 +10,36 @@ import '../models.dart';
 enum OnboardingBenefit implements OptionType {
   // Location benefits
   nearbyMatches(
-    title: 'Discover nearby professionals',
+    title: '... meet entrepreneurs nearby',
     description: '',
-    icon: 'check',
+    icon: 'coffee',
   ),
   distanceAwareness(
-    title: 'See distance to connections',
+    title: '... see who is within reach',
     description: '',
-    icon: 'check',
+    icon: 'map',
   ),
   betterMatching(
-    title: 'Get better match results',
+    title: '... grow your network locally',
     description: '',
-    icon: 'check',
+    icon: 'network',
+  ),
+  
+  // Notification benefits
+  matchNotifications(
+    title: '... get match alerts',
+    description: '',
+    icon: 'couple',
+  ),
+  connectionNotifications(
+    title: '... see new connections',
+    description: '',
+    icon: 'handshake',
+  ),
+  dailyReminders(
+    title: '... make the net work',
+    description: '',
+    icon: 'card',
   );
 
   @override

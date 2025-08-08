@@ -168,10 +168,10 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         });
         
         // Show success toast and navigate
-        ToastService.success(
-          context: context,
-          message: getSuccessMessage(),
-        );
+        //ToastService.success(
+        //  context: context,
+        //  message: getSuccessMessage(),
+        //);
         navigateAfterSave();
       }
     } catch (error) {
@@ -291,6 +291,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                 state: _isEmailValid ? AppTextFieldState.normal : AppTextFieldState.normal,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
+                autofocus: true,
                 textCapitalization: TextCapitalization.none,
                 enabled: !_emailFieldDisabled,
               ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../models/enums/action_button_type.dart';
 
 /// A customizable action button widget with multiple visual styles.
@@ -105,70 +104,56 @@ class _ActionButtonState extends State<ActionButton> {
     return SizedBox(
       width: widget.width ?? (isIconOnlyButton ? 56 : double.infinity),
       height: 56,
-      child: Opacity(
+      child: AppLayoutStyles.interactiveButton(
+        context: context,
+        onTap: isActuallyDisabled ? null : widget.onPressed,
+        backgroundColor: widget.type.backgroundColor(context),
+        borderColor: widget.type.borderColor(context),
+        highlightColor: widget.type.highlightColor(context),
         opacity: isActuallyDisabled ? 0.7 : 1.0,
-        child: Material(
-          color: widget.type.backgroundColor(context),
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              border: Border.all(
-                color: widget.type.borderColor(context),
-                width: AppModifiers.extraThinBorder,
-              ),
-            ),
-            child: InkWell(
-              onTap: isActuallyDisabled ? null : widget.onPressed,
-              splashFactory: NoSplash.splashFactory, // No ripple, only highlight
-              highlightColor: widget.type.highlightColor(context).withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isIconOnlyButton ? 0 : 16,
-                ),
-                child: Center(
-                child: widget.isLoading
-                    ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: widget.type.textColor(context),
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: isIconOnlyButton ? 0 : 16,
+          ),
+          child: Center(
+            child: widget.isLoading
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: PlatformCircularProgressIndicator(
+                      cupertino: (_, __) => CupertinoProgressIndicatorData(
+                        color: widget.type.textColor(context),
+                      ),
+                      material: (_, __) => MaterialProgressIndicatorData(
+                        color: widget.type.textColor(context),
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (widget.icon != null) ...[
+                        ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            widget.type.textColor(context),
+                            BlendMode.srcIn,
                           ),
-                          material: (_, __) => MaterialProgressIndicatorData(
+                          child: widget.icon!,
+                        ),
+                        if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
+                      ],
+                      if (widget.label != null && !isIconOnlyButton)
+                        Text(
+                          widget.label!,
+                          style: AppTextStyles.body.copyWith(
                             color: widget.type.textColor(context),
-                            strokeWidth: 2,
+                            fontWeight: widget.type.fontWeight,
                           ),
                         ),
-                      )
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.icon != null) ...[
-                            ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                widget.type.textColor(context),
-                                BlendMode.srcIn,
-                              ),
-                              child: widget.icon!,
-                            ),
-                            if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
-                          ],
-                          if (widget.label != null && !isIconOnlyButton)
-                            Text(
-                              widget.label!,
-                              style: AppTextStyles.body.copyWith(
-                                color: widget.type.textColor(context),
-                                fontWeight: widget.type.fontWeight,
-                              ),
-                            ),
-                        ],
-                      ),
-                ),
-              ),
-            ),
+                    ],
+                  ),
           ),
         ),
       ),

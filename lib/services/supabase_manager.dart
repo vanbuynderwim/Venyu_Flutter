@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import '../core/config/app_config.dart';
 import '../core/utils/device_info.dart';
+import '../models/device.dart';
 import '../models/models.dart';
 import '../models/requests/update_name_request.dart';
 import '../models/requests/update_prompt_status_requests.dart';
@@ -588,7 +589,7 @@ class SupabaseManager {
   /// 3. Returns the URL or null if failed
   String? getIcon(String icon) {
     try {
-      final fileName = '$icon.png';
+      final fileName = '${icon}_regular.png';
       
       final url = _client.storage
           .from(RemoteImagePath.icons.value)
@@ -810,6 +811,23 @@ class SupabaseManager {
       
       debugPrint('✅ Fetched ${cards.length} profile cards');
       return cards;
+    });
+  }
+  
+  /// Insert device token for push notifications - equivalent to iOS insertDeviceToken(device:)
+  /// 
+  /// This method registers a device token with the backend:
+  /// 1. Calls the handle_device_token RPC function with device data
+  /// 2. Stores FCM token for push notification delivery
+  Future<void> insertDeviceToken(Device device) async {
+    debugPrint('📱 Registering device token');
+    
+    await _executeAuthenticatedRequest(() async {
+      await _client
+          .rpc('handle_device_token', params: {'payload': device.toJson()});
+      
+      debugPrint('✅ Device token registered successfully');
+      debugPrint('📋 Device: ${device.deviceType} - ${device.deviceOS} ${device.systemVersion}');
     });
   }
 
@@ -1182,6 +1200,34 @@ class SupabaseManager {
       }
       // For non-full deletes, we continue with the upload process
     }
+  }
+
+  /// Export user data - equivalent to iOS exportData()
+  /// 
+  /// This method triggers a data export for the current user.
+  /// The export will be sent to the user's registered email address.
+  Future<void> exportData() async {
+    debugPrint('📤 Exporting user data');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client.rpc('export_data');
+      
+      debugPrint('✅ Data export requested successfully');
+    });
+  }
+
+  /// Delete user account - equivalent to iOS deleteAccount()
+  /// 
+  /// This method permanently deletes the user's account and all associated data.
+  /// This action cannot be undone.
+  Future<void> deleteAccount() async {
+    debugPrint('🗑️ Deleting user account');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client.rpc('delete_profile');
+      
+      debugPrint('✅ Account deleted successfully');
+    });
   }
 
   /// Generates a UUID string for avatar IDs.

@@ -231,7 +231,8 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         
       case RegistrationStep.avatar:
         Navigator.of(context).push(
-          MaterialPageRoute(
+          platformPageRoute(
+            context: context,
             builder: (context) => const EditAvatarView(
               registrationWizard: true,
               currentStep: RegistrationStep.avatar,
@@ -242,7 +243,8 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         
       case RegistrationStep.notifications:
         Navigator.of(context).push(
-          MaterialPageRoute(
+          platformPageRoute(
+            context: context,
             builder: (context) => const EditNotificationsView(
               registrationWizard: true,
               currentStep: RegistrationStep.notifications,
@@ -253,7 +255,8 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         
       case RegistrationStep.complete:
         Navigator.of(context).push(
-          MaterialPageRoute(
+          platformPageRoute(
+            context: context,
             builder: (context) => const RegistrationCompleteView(),
           ),
         );

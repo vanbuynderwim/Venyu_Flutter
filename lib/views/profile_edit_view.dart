@@ -5,6 +5,7 @@ import '../widgets/buttons/option_button.dart';
 import '../widgets/scaffolds/app_scaffold.dart';
 import 'personal/edit_personal_info_view.dart';
 import 'company/edit_company_info_view.dart';
+import 'profile/edit_account_view.dart';
 
 /// ProfileEditView - Flutter equivalent of iOS ProfileEditView
 class ProfileEditView extends StatefulWidget {
@@ -64,17 +65,22 @@ class _ProfileEditViewState extends State<ProfileEditView> {
           ),
         );
         break;
-      case ProfileEditType.settings:
-        debugPrint('Navigate to Settings page');
+      //case ProfileEditType.settings:
+      //  debugPrint('Navigate to Settings page');
         // TODO: Navigate to settings page
-        break;
-      case ProfileEditType.blocks:
-        debugPrint('Navigate to Blocked Users page');
+        //break;
+      //case ProfileEditType.blocks:
+      //  debugPrint('Navigate to Blocked Users page');
         // TODO: Navigate to blocked users page
-        break;
+      //  break;
       case ProfileEditType.account:
         debugPrint('Navigate to Account page');
-        // TODO: Navigate to account management page
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditAccountView(),
+          ),
+        );
         break;
     }
     

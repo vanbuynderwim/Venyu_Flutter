@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_strings.dart';
 
@@ -163,6 +164,28 @@ class DialogUtils {
   /// Dismisses any currently shown dialog
   static void dismissDialog(BuildContext context) {
     Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  /// Opens device settings for app permissions
+  /// This method handles both iOS and Android platforms
+  static Future<void> openAppSettings(BuildContext context) async {
+    try {
+      // For iOS
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        final url = Uri.parse('app-settings:');
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        }
+      } else {
+        // For Android, use package-specific settings
+        final url = Uri.parse('package:com.getvenyu.app');
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url, mode: LaunchMode.externalApplication);
+        }
+      }
+    } catch (error) {
+      debugPrint('❌ Error opening app settings: $error');
+    }
   }
 }
 

@@ -165,7 +165,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                     height: 24,
                   ),
                   label: 'Camera',
-                  style: ActionButtonType.secondary,
+                  type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleCameraUpload,
                   isLoading: false,
                 ),
@@ -182,7 +182,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                     height: 24,
                   ),
                   label: 'Gallery',
-                  style: ActionButtonType.secondary,
+                  type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleGalleryUpload,
                   isLoading: false,
                 ),
@@ -198,7 +198,8 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
   void _navigateToNext() {
     // Navigate to notifications view
     Navigator.of(context).push(
-      MaterialPageRoute(
+      platformPageRoute(
+        context: context,
         builder: (context) => const EditNotificationsView(
           registrationWizard: true,
           currentStep: RegistrationStep.notifications,
@@ -286,7 +287,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ActionButton(
         label: 'Next',
-        style: ActionButtonType.primary,
+        type: ActionButtonType.primary,
         onPressed: _isUploading ? null : _navigateToNext,
         isLoading: false,
       ),

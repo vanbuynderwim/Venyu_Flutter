@@ -12,9 +12,9 @@ import '../../services/session_manager.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/tag_group_service.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
-import '../../widgets/scaffolds/app_scaffold.dart';
 import 'edit_avatar_view.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
@@ -123,7 +123,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                     ? 'Saving...' 
                     : (widget.registrationWizard ? 'Next' : 'Save'),
                 onPressed: _isSaving ? null : _saveChanges,
-                style: ActionButtonType.primary,
+                type: ActionButtonType.primary,
                 isDisabled: _isSaving,
               ),
             ),
@@ -393,7 +393,8 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       if (nextStep == RegistrationStep.avatar) {
         // Navigate to avatar step
         Navigator.of(context).push(
-          MaterialPageRoute(
+          platformPageRoute(
+            context: context,
             builder: (context) => const EditAvatarView(
               registrationWizard: true,
               currentStep: RegistrationStep.avatar,
@@ -430,7 +431,8 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     
     // Use push instead of pushReplacement to keep navigation stack intact
     Navigator.of(context).push(
-      MaterialPageRoute(
+      platformPageRoute(
+        context: context,
         builder: (context) => EditTagGroupView(
           tagGroup: nextTagGroup,
           registrationWizard: true,

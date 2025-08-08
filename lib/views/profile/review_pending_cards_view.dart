@@ -343,7 +343,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
                 child: ActionButton(
                   label: 'Reject ${_selectedPromptIds.length}',
                   onPressed: _isProcessingApprove ? null : _rejectSelection,
-                  style: ActionButtonType.destructive,
+                  type: ActionButtonType.destructive,
                   isLoading: _isProcessingReject,
                   isDisabled: _isProcessingApprove,
                 ),
@@ -354,7 +354,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
                 child: ActionButton(
                   label: 'Approve ${_selectedPromptIds.length}',
                   onPressed: _isProcessingReject ? null : _approveSelection,
-                  style: ActionButtonType.primary,
+                  type: ActionButtonType.primary,
                   isLoading: _isProcessingApprove,
                   isDisabled: _isProcessingReject,
                 ),
@@ -375,7 +375,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
                 child: ActionButton(
                   label: 'Reject all',
                   onPressed: _isProcessingApprove ? null : _rejectAll,
-                  style: ActionButtonType.destructive,
+                  type: ActionButtonType.destructive,
                   isLoading: _isProcessingReject,
                   isDisabled: _isProcessingApprove,
                 ),
@@ -386,7 +386,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
                 child: ActionButton(
                   label: 'Approve all',
                   onPressed: _isProcessingReject ? null : _approveAll,
-                  style: ActionButtonType.primary,
+                  type: ActionButtonType.primary,
                   isLoading: _isProcessingApprove,
                   isDisabled: _isProcessingReject,
                 ),

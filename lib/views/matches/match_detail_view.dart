@@ -109,7 +109,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             ),
         ],
       ),
-      usePadding: true,
+      usePadding: false,
       useSafeArea: true,
       body: Column(
         children: [
@@ -436,7 +436,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                 ? ActionButton(
                     label: '',
                     onPressed: null,
-                    style: ActionButtonType.secondary,
+                    type: ActionButtonType.secondary,
                     isDisabled: true,
                     icon: SizedBox(
                       width: 20,
@@ -455,7 +455,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                 : ActionButton(
                     label: AppStrings.skip,
                     onPressed: _isProcessingInterested ? null : _showSkipAlert,
-                    style: ActionButtonType.secondary,
+                    type: ActionButtonType.secondary,
                     isDisabled: _isProcessingInterested,
                   ),
             ),
@@ -466,7 +466,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                 ? ActionButton(
                     label: '',
                     onPressed: null,
-                    style: ActionButtonType.primary,
+                    type: ActionButtonType.primary,
                     isDisabled: true,
                     icon: SizedBox(
                       width: 20,
@@ -485,7 +485,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
                 : ActionButton(
                     label: AppStrings.interested,
                     onPressed: _isProcessingSkip ? null : _handleConnectMatch,
-                    style: ActionButtonType.primary,
+                    type: ActionButtonType.primary,
                     isDisabled: _isProcessingSkip,
                   ),
             ),

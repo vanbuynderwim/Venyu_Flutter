@@ -46,12 +46,12 @@ class AvatarUploadService {
       await SessionManager.shared.uploadUserProfileAvatar(imageBytes);
       
       // Show success message
-      if (context.mounted) {
+      /*if (context.mounted) {
         ToastService.success(
           context: context,
           message: 'Profile photo updated successfully',
         );
-      }
+      }*/
       
       // Notify upload complete
       onUploadComplete?.call();
@@ -126,12 +126,12 @@ class AvatarUploadService {
       await SessionManager.shared.deleteProfileAvatar();
       
       // Show success message
-      if (context.mounted) {
+      /*if (context.mounted) {
         ToastService.success(
           context: context,
           message: 'Profile photo removed successfully',
         );
-      }
+      }*/
       
       // Notify removal complete
       onRemoveComplete?.call();

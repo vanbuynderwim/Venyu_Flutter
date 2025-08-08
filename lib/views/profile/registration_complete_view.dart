@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/toast_service.dart';
+import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
+import '../main_view.dart';
 
 /// Final view in the registration wizard that completes the user's profile
 /// 
@@ -32,9 +36,25 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
       final supabaseManager = SupabaseManager.shared;
       await supabaseManager.completeRegistration();
       
-      // Registration completed successfully
-      // The SessionManager will handle navigation to main app via auth state changes
+      // Refresh the user profile so SessionManager knows registration is complete
+      final sessionManager = SessionManager.shared;
+      await sessionManager.refreshProfile();
+      
       debugPrint('✅ Registration completed successfully');
+      debugPrint('🔍 Current auth state: ${sessionManager.authState}');
+      debugPrint('🔍 Profile registered at: ${sessionManager.currentProfile?.registeredAt}');
+      
+      // Navigate to main app - registration is complete
+      if (mounted) {
+        // Use pushAndRemoveUntil to clear the entire navigation stack
+        Navigator.of(context).pushAndRemoveUntil(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const MainView(),
+          ),
+          (route) => false, // Remove all previous routes
+        );
+      }
     } catch (error) {
       debugPrint('❌ Failed to complete registration: $error');
       
@@ -77,24 +97,14 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                   Column(
                     children: [
                       Text(
-                        'Congratulations! 🎉',
+                        'Your profile is complete! 🎉',
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       
-                      const SizedBox(height: 30),
-                      
-                      Text(
-                        'Your profile is complete!',
-                        style: AppTextStyles.headline.copyWith(
-                          color: venyuTheme.primaryText,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 24),
                       
                       Text(
                         'Thank you for taking the time to create your professional profile. You\'re all set to connect with like-minded professionals and unlock new opportunities.',
@@ -106,39 +116,13 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                     ],
                   ),
                   
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 24),
                   
                   // Enter Venyu button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _isCompleting ? null : _completeRegistration,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: venyuTheme.primary,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: _isCompleting
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                              ),
-                            )
-                          : Text(
-                              'Enter Venyu',
-                              style: AppTextStyles.headline.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                    ),
+                  ActionButton(
+                    label: 'Enter Venyu',
+                    onPressed: _completeRegistration,
+                    isLoading: _isCompleting,
                   ),
                   
                   const Spacer(),

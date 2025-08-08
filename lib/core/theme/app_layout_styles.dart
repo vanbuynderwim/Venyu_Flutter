@@ -74,6 +74,50 @@ class AppLayoutStyles {
     );
   }
 
+  /// Interactive button wrapper with custom colors and styling
+  /// 
+  /// More flexible version of interactiveCard specifically for buttons.
+  /// Allows custom background colors, border colors, and highlight colors.
+  static Widget interactiveButton({
+    required BuildContext context,
+    required Widget child,
+    VoidCallback? onTap,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? highlightColor,
+    EdgeInsets? margin,
+    double opacity = 1.0,
+  }) {
+    final theme = context.venyuTheme;
+    
+    return Container(
+      margin: margin,
+      child: Opacity(
+        opacity: opacity,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+          child: Material(
+            color: backgroundColor ?? theme.cardBackground,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: borderColor ?? theme.borderColor,
+                  width: AppModifiers.extraThinBorder,
+                ),
+              ),
+              child: InkWell(
+                onTap: onTap,
+                splashFactory: NoSplash.splashFactory, // No splash/ripple
+                highlightColor: (highlightColor ?? theme.highlightColor).withValues(alpha: 0.2),
+                child: child,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   /// Tag decoration (capsule shape)
   static BoxDecoration tagDecoration(BuildContext context) {
     final theme = context.venyuTheme;

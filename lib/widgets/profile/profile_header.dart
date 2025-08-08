@@ -305,7 +305,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             child: ActionButton(
               icon: context.themedIcon('linkedin'),
               isIconOnly: true,
-              style: ActionButtonType.secondary,
+              type: ActionButtonType.secondary,
               onPressed: widget.onLinkedInTap ?? () {
                 debugPrint('LinkedIn tap - ${widget.profile.linkedInURL}');
               },
@@ -321,7 +321,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               child: ActionButton(
                 icon: context.themedIcon('email'),
                 isIconOnly: true,
-                style: ActionButtonType.secondary,
+                type: ActionButtonType.secondary,
                 onPressed: widget.onEmailTap ?? () {
                   debugPrint('Email tap - ${widget.profile.contactEmail}');
                 },
@@ -337,7 +337,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               child: ActionButton(
                 icon: context.themedIcon('link'),
                 isIconOnly: true,
-                style: ActionButtonType.secondary,
+                type: ActionButtonType.secondary,
                 onPressed: widget.onWebsiteTap ?? () {
                   debugPrint('Website tap - ${widget.profile.websiteURL}');
                 },

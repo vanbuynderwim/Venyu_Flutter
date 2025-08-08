@@ -12,8 +12,8 @@ import '../services/supabase_manager.dart';
 import '../widgets/buttons/section_button.dart';
 import '../widgets/buttons/option_button.dart';
 import '../widgets/common/card_item.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
 import 'profile/review_pending_cards_view.dart';
+import '../widgets/scaffolds/app_scaffold.dart';
 import '../widgets/profile/profile_header.dart';
 import 'profile_edit_view.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../models/enums/login_button_type.dart';
 import '../../core/theme/venyu_theme.dart';
 
@@ -58,73 +58,51 @@ class _LoginButtonState extends State<LoginButton> {
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     final isActuallyDisabled = widget.isDisabled || widget.onPressed == null || widget.isLoading;
-    
-    // Login buttons always have white background in both light and dark themes
-    final backgroundColor = Colors.white;
-    // Text color based on provider type
     final textColor = widget.type.textColor(context);
-    // Subtle gray border that matches ActionButton
-    final borderColor = venyuTheme.borderColor;
-    // Light gray highlight color
-    final highlightColor = Colors.grey.withValues(alpha: 0.2);
     
     return SizedBox(
       width: double.infinity,
       height: 56,
-      child: Opacity(
+      child: AppLayoutStyles.interactiveButton(
+        context: context,
+        onTap: isActuallyDisabled ? null : widget.onPressed,
+        backgroundColor: Colors.white, // Always white for login buttons
+        borderColor: venyuTheme.borderColor,
+        highlightColor: Colors.grey,
         opacity: isActuallyDisabled ? 0.7 : 1.0,
-        child: Material(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              border: Border.all(
-                color: borderColor,
-                width: AppModifiers.extraThinBorder,
-              ),
-            ),
-            child: InkWell(
-              onTap: isActuallyDisabled ? null : widget.onPressed,
-              splashFactory: NoSplash.splashFactory, // No ripple, only highlight
-              highlightColor: highlightColor,
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Center(
-                  child: widget.isLoading
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: PlatformCircularProgressIndicator(
-                            cupertino: (_, __) => CupertinoProgressIndicatorData(
-                              color: textColor,
-                            ),
-                            material: (_, __) => MaterialProgressIndicatorData(
-                              color: textColor,
-                              strokeWidth: 2,
-                            ),
-                          ),
-                        )
-                      : Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Login buttons always preserve original logo colors
-                            widget.type.icon,
-                            const SizedBox(width: 8),
-                            Text(
-                              widget.type.label,
-                              style: AppTextStyles.body.copyWith(
-                                color: textColor,
-                                fontWeight: widget.type.fontWeight,
-                              ),
-                            ),
-                          ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Center(
+            child: widget.isLoading
+                ? SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: PlatformCircularProgressIndicator(
+                      cupertino: (_, __) => CupertinoProgressIndicatorData(
+                        color: textColor,
+                      ),
+                      material: (_, __) => MaterialProgressIndicatorData(
+                        color: textColor,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Login buttons always preserve original logo colors
+                      widget.type.icon,
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.type.label,
+                        style: AppTextStyles.body.copyWith(
+                          color: textColor,
+                          fontWeight: widget.type.fontWeight,
                         ),
-                ),
-              ),
-            ),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),

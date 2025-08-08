@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -98,7 +99,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         // Title
         Center(
           child: Text(
-            'Enable Location',
+            'Enable location to ...',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -117,13 +118,11 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
                 isSelectable: false,
                 disabled: true,
               ),
-              const SizedBox(height: 8),
               OptionButton(
                 option: OnboardingBenefit.distanceAwareness,
                 isSelectable: false,
                 disabled: true,
               ),
-              const SizedBox(height: 8),
               OptionButton(
                 option: OnboardingBenefit.betterMatching,
                 isSelectable: false,
@@ -146,7 +145,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           Expanded(
             child: ActionButton(
               label: 'Not now',
-              style: ActionButtonType.secondary,
+              type: ActionButtonType.secondary,
               onPressed: _navigateToNext,
             ),
           ),
@@ -157,7 +156,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           Expanded(
             child: ActionButton(
               label: 'Enable',
-              style: ActionButtonType.primary,
+              type: ActionButtonType.primary,
               onPressed: _enableLocationService,
               isLoading: _isEnablingLocation,
             ),
@@ -171,7 +170,8 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
   void _navigateToNext() {
     // Navigate directly to company name view
     Navigator.of(context).push(
-      MaterialPageRoute(
+      platformPageRoute(
+        context: context,
         builder: (context) => const EditCompanyNameView(
           registrationWizard: true,
           currentStep: RegistrationStep.company,
@@ -252,7 +252,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         
         if (shouldOpenSettings == true) {
           // Open app settings
-          await _openAppSettings();
+          await DialogUtils.openAppSettings(context);
         }
         
         if (mounted) {
@@ -276,10 +276,10 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         );
         
         if (mounted) {
-          ToastService.success(
-            context: context,
-            message: 'Location enabled successfully',
-          );
+          //ToastService.success(
+          //  context: context,
+          //  message: 'Location enabled successfully',
+          //);
           
           // Navigate to next step
           _navigateToNext();
@@ -302,20 +302,6 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           _isEnablingLocation = false;
         });
       }
-    }
-  }
-  
-  /// Open app settings for location permissions
-  Future<void> _openAppSettings() async {
-    // For iOS
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      final url = Uri.parse('app-settings:');
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url);
-      }
-    } else {
-      // For Android, use location package's built-in method
-      await _location.requestService();
     }
   }
 }

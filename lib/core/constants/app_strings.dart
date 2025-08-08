@@ -7,7 +7,7 @@ class AppStrings {
 
   /// App metadata
   static const String appName = 'Venyu';
-  static const String appTagline = 'Make the net work';
+  static const String appTagline = 'make the net work';
 
   /// Navigation
   static const String home = 'Home';

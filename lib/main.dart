@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -11,10 +10,12 @@ import 'core/config/app_config.dart';
 import 'core/theme/app_theme.dart';
 import 'models/test_models.dart';
 import 'services/index.dart';
+import 'services/notification_service.dart';
 import 'views/index.dart';
 
 void main() async {
-  await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
+  // Temporarily disable Bugsnag for debugging
+  // await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
   WidgetsFlutterBinding.ensureInitialized();
   
   // Load environment variables
@@ -48,6 +49,12 @@ void main() async {
     return;
   }
   
+  // Initialize Firebase and NotificationService (non-blocking)
+  NotificationService.shared.initialize().catchError((error) {
+    debugPrint('⚠️ NotificationService initialization failed: $error');
+    debugPrint('App will continue without push notifications');
+  });
+  
   runApp(const VenyuApp());
 }
 
@@ -56,8 +63,14 @@ class VenyuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('🏗️ VenyuApp.build() - Creating ChangeNotifierProvider with SessionManager.shared');
+    
     return ChangeNotifierProvider(
-      create: (_) => SessionManager.shared,
+      create: (_) {
+        final sessionManager = SessionManager.shared;
+        debugPrint('🔗 ChangeNotifierProvider: Created with SessionManager instance ${sessionManager.hashCode}');
+        return sessionManager;
+      },
       child: PlatformApp(
         title: 'Venyu',
         // Global localization settings
@@ -99,14 +112,24 @@ class AuthFlow extends StatefulWidget {
 }
 
 class _AuthFlowState extends State<AuthFlow> {
+  
+
+
   @override
   Widget build(BuildContext context) {
+    debugPrint('🏗️ AuthFlow.build() called');
+    
     return Consumer<SessionManager>(
       builder: (context, sessionManager, child) {
-        debugPrint('🔄 AuthFlow: Current state = ${sessionManager.authState}');
+        debugPrint('🔄 AuthFlow Consumer: Current state = ${sessionManager.authState}');
+        debugPrint('🔄 AuthFlow Consumer: isAuthenticated = ${sessionManager.isAuthenticated}');
+        debugPrint('🔄 AuthFlow Consumer: isRegistered = ${sessionManager.isRegistered}');
+        debugPrint('🔄 AuthFlow Consumer: hasProfile = ${sessionManager.currentProfile != null}');
+        debugPrint('🔄 AuthFlow Consumer: SessionManager instance = ${sessionManager.hashCode}');
         
         switch (sessionManager.authState) {
           case AuthenticationState.loading:
+            debugPrint('📱 Showing loading screen');
             return PlatformScaffold(
               body: Center(
                 child: PlatformCircularProgressIndicator(),
@@ -114,15 +137,19 @@ class _AuthFlowState extends State<AuthFlow> {
             );
             
           case AuthenticationState.unauthenticated:
+            debugPrint('📱 Showing login view');
             return const LoginView();
             
           case AuthenticationState.authenticated:
+            debugPrint('📱 Showing onboard view');
             return const OnboardView();
             
           case AuthenticationState.registered:
+            debugPrint('📱 Showing main view');
             return const MainView();
             
           case AuthenticationState.error:
+            debugPrint('📱 Showing error screen');
             return PlatformScaffold(
               body: Center(
                 child: Column(
