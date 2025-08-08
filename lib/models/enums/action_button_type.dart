@@ -10,15 +10,14 @@ import '../../core/theme/venyu_theme.dart';
 /// ```dart
 /// ActionButton(
 ///   label: 'Save',
-///   style: ActionButtonType.primary,
+///   type: ActionButtonType.primary,
 ///   onPressed: () => save(),
 /// )
 /// ```
 enum ActionButtonType {
   primary('primary'),
   secondary('secondary'),
-  destructive('destructive'),
-  linkedIn('linkedIn');
+  destructive('destructive');
 
   const ActionButtonType(this.value);
   
@@ -50,8 +49,6 @@ enum ActionButtonType {
       case ActionButtonType.destructive:
         // Use theme-aware background colors
         return venyuTheme.secondaryButtonBackground;
-      case ActionButtonType.linkedIn:
-        return venyuTheme.linkedIn;
     }
   }
 
@@ -63,7 +60,6 @@ enum ActionButtonType {
     
     switch (this) {
       case ActionButtonType.primary:
-      case ActionButtonType.linkedIn:
         return venyuTheme.cardBackground; // White in light mode, dark in dark mode
       case ActionButtonType.secondary:
         return venyuTheme.primary;
@@ -84,8 +80,6 @@ enum ActionButtonType {
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
         return venyuTheme.borderColor;
-      case ActionButtonType.linkedIn:
-        return venyuTheme.linkedIn;
     }
   }
   
@@ -93,12 +87,11 @@ enum ActionButtonType {
 
   /// Returns the appropriate font weight for this button type.
   /// 
-  /// Primary and LinkedIn buttons use semibold weight for emphasis,
+  /// Primary buttons use semibold weight for emphasis,
   /// while secondary and destructive buttons use regular weight.
   FontWeight get fontWeight {
     switch (this) {
       case ActionButtonType.primary:
-      case ActionButtonType.linkedIn:
         return FontWeight.w600; // semibold
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
@@ -116,7 +109,6 @@ enum ActionButtonType {
     
     switch (this) {
       case ActionButtonType.primary:
-      case ActionButtonType.linkedIn:
         // In dark theme, primary buttons have white background, so use dark highlight
         // In light theme, primary buttons have dark background, so use light highlight
         return isDarkTheme 

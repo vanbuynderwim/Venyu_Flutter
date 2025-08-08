@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_theme.dart';
-import '../../models/enums/action_button_type.dart';
+import '../../models/enums/login_button_type.dart';
+import '../../widgets/buttons/login_button.dart';
 import '../../services/index.dart';
 import '../../widgets/index.dart';
-import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 
@@ -48,6 +47,31 @@ class _LoginViewState extends State<LoginView> {
       debugPrint('❌ Apple sign-in error: $error');
       // Error handling is now managed by SessionManager
       // UI will react to SessionManager.authState changes
+    } finally {
+      setState(() {
+        _isSigningIn = false;
+      });
+    }
+  }
+  
+  Future<void> _signInWithGoogle() async {
+    final sessionManager = context.read<SessionManager>();
+    
+    setState(() {
+      _isSigningIn = true;
+    });
+
+    try {
+      debugPrint('🌐 Starting Google sign-in (dummy implementation)');
+      
+      // TODO: Implement actual Google sign-in in SessionManager
+      // await sessionManager.signInWithGoogle();
+      
+      // For now, just show a debug message
+      debugPrint('⚠️ Google sign-in not yet implemented');
+      
+    } catch (error) {
+      debugPrint('❌ Google sign-in error: $error');
     } finally {
       setState(() {
         _isSigningIn = false;
@@ -101,27 +125,28 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               children: [
                 // Spacer to center content
-                const Spacer(flex: 2),
+                const Spacer(flex: 3),
                 // Logo and branding
                 Column(
                   children: [
                     SizedBox(
-                      width: 120,
-                      height: 120,
+                      width: 160,
+                      height: 160,
                       child: Center(
                         child: Image.asset(
                           'assets/images/visuals/logo.png',
+                          color: venyuTheme.primary,
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
                     
                     // App name
                     Text(
                       AppStrings.appName.toLowerCase(),
                       style: AppTextStyles.appTitle.copyWith(
-                        fontSize: 46,
+                        fontSize: 60,
                         color: venyuTheme.primary,
                       ),
                     ),
@@ -143,31 +168,24 @@ class _LoginViewState extends State<LoginView> {
                 // Sign-in buttons
                 Column(
                   children: [
-                    // LinkedIn sign-in - ActionButton
-                    ActionButton(
-                      label: 'Sign in with LinkedIn',
-                      style: ActionButtonType.linkedIn,
-                      icon: Image.asset(
-                        'assets/images/visuals/linkedInLogo.png',
-                        width: 24,
-                        height: 24,
-                      ),
+                    // LinkedIn sign-in
+                    LoginButton(
+                      type: LoginButtonType.linkedIn,
                       onPressed: _isSigningIn ? null : _signInWithLinkedIn,
-                      isLoading: false,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                     
-                    // Apple sign-in - Native button
-                    SizedBox(
-                      height: 56,
-                      width: double.infinity,
-                      child: SignInWithAppleButton(
-                        onPressed: _isSigningIn ? null : _signInWithApple,
-                        text: 'Sign in with Apple',
-                        height: 56,
-                        style: SignInWithAppleButtonStyle.black,
-                        borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                      ),
+                    // Google sign-in
+                    LoginButton(
+                      type: LoginButtonType.google,
+                      onPressed: _isSigningIn ? null : _signInWithGoogle,
+                    ),
+                    const SizedBox(height: 8),
+                    
+                    // Apple sign-in
+                    LoginButton(
+                      type: LoginButtonType.apple,
+                      onPressed: _isSigningIn ? null : _signInWithApple,
                     ),
                   ],
                 ),

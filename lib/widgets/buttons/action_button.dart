@@ -9,7 +9,7 @@ import '../../models/enums/action_button_type.dart';
 /// A customizable action button widget with multiple visual styles.
 /// 
 /// This widget provides a consistent button interface across the app with support
-/// for different button types (primary, secondary, destructive, LinkedIn), icons,
+/// for different button types (primary, secondary, destructive), icons,
 /// loading states, and accessibility features.
 /// 
 /// The button automatically handles press states with visual feedback and supports
@@ -23,11 +23,11 @@ import '../../models/enums/action_button_type.dart';
 ///   onPressed: () => saveData(),
 /// )
 /// 
-/// // Icon button with custom style
+/// // Icon button with custom type
 /// ActionButton(
 ///   icon: context.themedIcon('add'),
 ///   isIconOnly: true,
-///   style: ActionButtonType.secondary,
+///   type: ActionButtonType.secondary,
 ///   onPressed: () => addItem(),
 /// )
 /// 
@@ -40,7 +40,8 @@ import '../../models/enums/action_button_type.dart';
 /// ```
 /// 
 /// See also:
-/// * [ActionButtonType] for available button styles
+/// * [ActionButtonType] for available button types
+/// * [LoginButton] for authentication buttons
 /// * [OptionButton] for selection-based buttons
 class ActionButton extends StatefulWidget {
   /// The text label displayed on the button. Required unless [isIconOnly] is true.
@@ -49,8 +50,8 @@ class ActionButton extends StatefulWidget {
   /// Called when the button is pressed. If null, the button is disabled.
   final VoidCallback? onPressed;
   
-  /// The visual style variant for this button. Defaults to [ActionButtonType.primary].
-  final ActionButtonType style;
+  /// The button type variant for this button. Defaults to [ActionButtonType.primary].
+  final ActionButtonType type;
   
   /// Optional icon widget to display alongside or instead of the label.
   /// This can be any widget, typically a themed icon from context.themedIcon()
@@ -82,7 +83,7 @@ class ActionButton extends StatefulWidget {
     super.key,
     this.label,
     this.onPressed,
-    this.style = ActionButtonType.primary,
+    this.type = ActionButtonType.primary,
     this.icon,
     this.isDisabled = false,
     this.width,
@@ -107,20 +108,20 @@ class _ActionButtonState extends State<ActionButton> {
       child: Opacity(
         opacity: isActuallyDisabled ? 0.7 : 1.0,
         child: Material(
-          color: widget.style.backgroundColor(context),
+          color: widget.type.backgroundColor(context),
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
               border: Border.all(
-                color: widget.style.borderColor(context),
+                color: widget.type.borderColor(context),
                 width: AppModifiers.extraThinBorder,
               ),
             ),
             child: InkWell(
               onTap: isActuallyDisabled ? null : widget.onPressed,
               splashFactory: NoSplash.splashFactory, // No ripple, only highlight
-              highlightColor: widget.style.highlightColor(context).withValues(alpha: 0.2),
+              highlightColor: widget.type.highlightColor(context).withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
               child: Container(
                 padding: EdgeInsets.symmetric(
@@ -133,10 +134,10 @@ class _ActionButtonState extends State<ActionButton> {
                         height: 20,
                         child: PlatformCircularProgressIndicator(
                           cupertino: (_, __) => CupertinoProgressIndicatorData(
-                            color: widget.style.textColor(context),
+                            color: widget.type.textColor(context),
                           ),
                           material: (_, __) => MaterialProgressIndicatorData(
-                            color: widget.style.textColor(context),
+                            color: widget.type.textColor(context),
                             strokeWidth: 2,
                           ),
                         ),
@@ -146,24 +147,21 @@ class _ActionButtonState extends State<ActionButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.icon != null) ...[
-                            // Don't apply color filter for LinkedIn buttons - keep original logo colors
-                            widget.style == ActionButtonType.linkedIn
-                                ? widget.icon!
-                                : ColorFiltered(
-                                    colorFilter: ColorFilter.mode(
-                                      widget.style.textColor(context),
-                                      BlendMode.srcIn,
-                                    ),
-                                    child: widget.icon!,
-                                  ),
+                            ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                widget.type.textColor(context),
+                                BlendMode.srcIn,
+                              ),
+                              child: widget.icon!,
+                            ),
                             if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                           ],
                           if (widget.label != null && !isIconOnlyButton)
                             Text(
                               widget.label!,
                               style: AppTextStyles.body.copyWith(
-                                color: widget.style.textColor(context),
-                                fontWeight: widget.style.fontWeight,
+                                color: widget.type.textColor(context),
+                                fontWeight: widget.type.fontWeight,
                               ),
                             ),
                         ],
