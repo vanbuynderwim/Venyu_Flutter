@@ -189,18 +189,24 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
   Future<void> _enableNotifications() async {
     if (_isEnablingNotifications) return;
     
+    debugPrint('🔔 _enableNotifications called');
+    
     setState(() {
       _isEnablingNotifications = true;
     });
     
     try {
+      debugPrint('🔔 Initializing notification service...');
       // Initialize notification service if needed
       await NotificationService.shared.initialize();
       
+      debugPrint('🔔 Checking current permission status...');
       // Check current permission status first
       final currentStatus = await NotificationService.shared.getPermissionStatus();
+      debugPrint('🔔 Current permission status: $currentStatus');
       
       if (currentStatus == AuthorizationStatus.denied) {
+        debugPrint('🔔 Permission denied, showing settings dialog...');
         // Permission was previously denied, show dialog to go to settings
         if (!mounted) return;
         
@@ -235,11 +241,17 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         return;
       }
       
+      debugPrint('🔔 Requesting notification permission...');
       // Request notification permission
       final granted = await NotificationService.shared.requestPermission();
+      debugPrint('🔔 Permission granted: $granted');
       
       if (granted) {
         debugPrint('✅ Notification permission granted');
+        
+        // Check if device token was registered
+        final fcmToken = NotificationService.shared.fcmToken;
+        debugPrint('🔔 FCM Token: $fcmToken');
         
         if (mounted) {
           // Navigate to next step

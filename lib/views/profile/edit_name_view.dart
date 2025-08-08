@@ -272,7 +272,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             style: AppTextFieldStyle.large,
             state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.givenName],
-            enabled: !_isOAuthUser && _firstNameIsEmpty && !isUpdating,
+            enabled: _firstNameIsEmpty && !isUpdating,
           ),
         ),
         
@@ -287,7 +287,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             style: AppTextFieldStyle.large,
             state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.familyName],
-            enabled: !_isOAuthUser && _lastNameIsEmpty && !isUpdating,
+            enabled: _lastNameIsEmpty && !isUpdating,
           ),
         ),
         

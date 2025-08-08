@@ -69,11 +69,15 @@ class NotificationService {
   /// Request notification permissions from the user
   /// Returns true if permission granted, false otherwise
   Future<bool> requestPermission() async {
+    debugPrint('🔔 NotificationService.requestPermission() called');
+    
     if (_messaging == null) {
+      debugPrint('🔔 Messaging is null, initializing...');
       await initialize();
     }
     
     try {
+      debugPrint('🔔 Calling _messaging.requestPermission()...');
       // Request permission
       final NotificationSettings settings = await _messaging!.requestPermission(
         alert: true,
@@ -85,9 +89,11 @@ class NotificationService {
         criticalAlert: false,
       );
       
+      debugPrint('🔔 Permission settings received: ${settings.authorizationStatus}');
+      
       // Check if permission was granted
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        debugPrint('✅ Notification permission granted');
+        debugPrint('✅ Notification permission granted (authorized)');
         
         // Get and register FCM token
         await _refreshToken();
@@ -101,11 +107,12 @@ class NotificationService {
         
         return true;
       } else {
-        debugPrint('❌ Notification permission denied');
+        debugPrint('❌ Notification permission denied: ${settings.authorizationStatus}');
         return false;
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Error requesting notification permission: $error');
+      debugPrint('❌ Stack trace: $stackTrace');
       return false;
     }
   }
@@ -122,14 +129,22 @@ class NotificationService {
   
   /// Refresh FCM token and register with backend
   Future<void> _refreshToken() async {
-    if (_messaging == null) return;
+    debugPrint('🔔 _refreshToken called');
+    
+    if (_messaging == null) {
+      debugPrint('🔔 _messaging is null, returning');
+      return;
+    }
     
     try {
+      debugPrint('🔔 Getting FCM token...');
       // Get FCM token
       final token = await _messaging!.getToken();
+      debugPrint('🔔 Current token: $token');
+      debugPrint('🔔 Stored token: $_fcmToken');
       
       if (token != null && token != _fcmToken) {
-        debugPrint('🔔 New FCM token: $token');
+        debugPrint('🔔 New FCM token detected: $token');
         
         // Store token locally
         _fcmToken = token;
@@ -137,9 +152,16 @@ class NotificationService {
         
         // Register with backend
         await _registerDevice(token);
+      } else if (token != null && token == _fcmToken) {
+        debugPrint('🔔 Token unchanged, but registering anyway to ensure backend sync');
+        // Register with backend even if token is the same (in case previous registration failed)
+        await _registerDevice(token);
+      } else {
+        debugPrint('🔔 No token available');
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Error refreshing FCM token: $error');
+      debugPrint('❌ Stack trace: $stackTrace');
     }
   }
   
@@ -157,12 +179,16 @@ class NotificationService {
   
   /// Register device token with backend
   Future<void> _registerDevice(String token) async {
+    debugPrint('🔔 _registerDevice called with token: $token');
+    
     try {
       // Get device info
       final String deviceOS = Platform.isIOS ? 'ios' : 'android';
       final String deviceInterface = _getDeviceInterface();
       final String deviceType = await _getDeviceType();
       final String systemVersion = await _getSystemVersion();
+      
+      debugPrint('🔔 Device info: OS=$deviceOS, Interface=$deviceInterface, Type=$deviceType, Version=$systemVersion');
       
       // Create device object
       final device = Device(
@@ -173,12 +199,14 @@ class NotificationService {
         systemVersion: systemVersion,
       );
       
+      debugPrint('🔔 Calling SupabaseManager.insertDeviceToken...');
       // Send to backend
       await SupabaseManager.shared.insertDeviceToken(device);
       
       debugPrint('✅ Device registered with backend');
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint('❌ Error registering device: $error');
+      debugPrint('❌ Stack trace: $stackTrace');
     }
   }
   
