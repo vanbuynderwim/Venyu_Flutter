@@ -67,8 +67,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       // Initialize selected tags based on current state
       final selectedTags = updatedTagGroup.tags?.where((tag) => tag.isSelected == true).toList() ?? [];
       
-      // Ensure at least 1 tag is selected - if none are selected, select the first one
-      if (selectedTags.isEmpty && updatedTagGroup.tags != null && updatedTagGroup.tags!.isNotEmpty) {
+      // During onboarding, start with no tags selected
+      // For existing profile editing, ensure at least 1 tag is selected
+      if (!widget.registrationWizard && selectedTags.isEmpty && updatedTagGroup.tags != null && updatedTagGroup.tags!.isNotEmpty) {
         selectedTags.add(updatedTagGroup.tags!.first);
       }
       
@@ -122,9 +123,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                 label: _isSaving 
                     ? 'Saving...' 
                     : (widget.registrationWizard ? 'Next' : 'Save'),
-                onPressed: _isSaving ? null : _saveChanges,
+                onPressed: _isSaving || _selectedTags.isEmpty ? null : _saveChanges,
                 type: ActionButtonType.primary,
-                isDisabled: _isSaving,
+                isDisabled: _isSaving || _selectedTags.isEmpty,
               ),
             ),
         ],
@@ -243,23 +244,26 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     
     setState(() {
       if (_currentTagGroup!.isMultiSelect ?? false) {
-        // Multi-select mode: toggle selection, but keep at least 1 selected
+        // Multi-select mode
         if (isCurrentlySelected) {
-          // Only allow deselection if there are other selected tags
-          if (_selectedTags.length > 1) {
+          // Allow deselecting if there are other selected tags, or during onboarding
+          if (_selectedTags.length > 1 || widget.registrationWizard) {
             _selectedTags.removeWhere((selectedTag) => selectedTag.id == tag.id);
           }
-          // If only 1 tag selected, ignore tap (can't deselect last tag)
+          // If editing existing profile and only 1 tag selected, ignore tap
         } else {
           _selectedTags.add(tag);
         }
       } else {
-        // Single-select mode: can only switch to different tag, never deselect
+        // Single-select mode
         if (!isCurrentlySelected) {
           _selectedTags.clear();
           _selectedTags.add(tag);
+        } else if (widget.registrationWizard) {
+          // During onboarding, allow deselecting in single-select mode
+          _selectedTags.clear();
         }
-        // If already selected, ignore tap (can't deselect in single-select)
+        // If editing existing profile and already selected, ignore tap
       }
     });
   }
@@ -267,7 +271,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   Future<void> _saveChanges() async {
     if (_isSaving || _currentTagGroup == null) return;
 
-    // Validation: ensure at least 1 tag is selected
+    // Validation: always require at least 1 tag selected
     if (_selectedTags.isEmpty) {
       debugPrint('⚠️ Cannot save: no tags selected');
       return; // Don't save if no tags selected
@@ -280,10 +284,10 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     try {
       // Use the appropriate upsert method based on selection type
       if (_currentTagGroup!.isMultiSelect ?? false) {
-        // Multi-select: upsert all selected tags (guaranteed non-empty)
+        // Multi-select: upsert all selected tags
         await _supabaseManager.upsertProfileTags(_currentTagGroup!.code, _selectedTags);
       } else {
-        // Single-select: upsert single tag (guaranteed non-empty)
+        // Single-select: upsert single tag
         await _supabaseManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
       }
 

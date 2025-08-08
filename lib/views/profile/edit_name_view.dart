@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../models/requests/update_name_request.dart';
+import '../../services/toast_service.dart';
 import '../../utils/linked_in_validator.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/inputs/app_text_field.dart';
 import '../base/base_form_view.dart';
+
+/// Special exception for when user chooses to check LinkedIn URL
+/// This should not trigger an error toast
+class _UserCancelledForUrlCheckException implements Exception {
+  const _UserCancelledForUrlCheckException();
+}
 
 /// A form screen for editing user name and LinkedIn profile information.
 /// 
@@ -32,6 +39,12 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   bool _lastNameIsEmpty = false;
   bool _linkedInFormatIsValid = true;
   bool _linkedInNameMatches = true;
+  
+  // OAuth provider state
+  bool _isOAuthUser = false;
+  
+  // Custom loading state since we override handleSave
+  bool _isCustomUpdating = false;
 
   @override
   void initializeForm() {
@@ -44,7 +57,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     _linkedInController.addListener(_computeValidation);
   }
 
-  void _preloadValues() {
+  void _preloadValues() async {
     final profile = sessionManager.currentProfile;
     
     _firstNameController.text = profile?.firstName.isNotEmpty == true 
@@ -59,6 +72,20 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
     _firstNameIsEmpty = _firstNameController.text.isEmpty;
     _lastNameIsEmpty = _lastNameController.text.isEmpty;
+    
+    // Check if user signed in with OAuth provider
+    try {
+      final storedInfo = await supabaseManager.getStoredUserInfo();
+      final authProvider = storedInfo['auth_provider'];
+      _isOAuthUser = authProvider != null && authProvider.isNotEmpty;
+    } catch (e) {
+      debugPrint('Failed to get stored user info: $e');
+      _isOAuthUser = false;
+    }
+    
+    if (mounted) {
+      setState(() {}); // Trigger rebuild with OAuth state
+    }
     
     _computeValidation();
   }
@@ -75,8 +102,10 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   bool get canSave => !_formIncomplete && _linkedInFormatIsValid;
 
   bool get _formIncomplete => 
-    (_firstNameIsEmpty && _firstNameController.text.isEmpty) || 
-    (_lastNameIsEmpty && _lastNameController.text.isEmpty);
+    !_isOAuthUser && (
+      (_firstNameIsEmpty && _firstNameController.text.isEmpty) || 
+      (_lastNameIsEmpty && _lastNameController.text.isEmpty)
+    );
 
   @override
   String getSuccessMessage() => 'Changes successfully saved';
@@ -87,6 +116,49 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   @override
   Future<void> performSave() async {
     await _validateAndSave();
+  }
+
+  @override
+  bool get isUpdating => _isCustomUpdating || super.isUpdating;
+
+  @override
+  Future<void> handleSave() async {
+    if (!canSave || _isCustomUpdating) return;
+
+    setState(() {
+      _isCustomUpdating = true;
+    });
+
+    try {
+      await performSave();
+      
+      // Success - reset loading and navigate
+      if (mounted) {
+        setState(() {
+          _isCustomUpdating = false;
+        });
+        navigateAfterSave();
+      }
+    } on _UserCancelledForUrlCheckException {
+      // User chose to check URL - reset loading but DON'T navigate or show error
+      if (mounted) {
+        setState(() {
+          _isCustomUpdating = false;
+        });
+      }
+    } catch (error) {
+      // Other errors - show toast and reset loading
+      if (mounted) {
+        setState(() {
+          _isCustomUpdating = false;
+        });
+        ToastService.error(
+          context: context,
+          message: getErrorMessage(),
+        );
+      }
+      debugPrint('Error in ${widget.runtimeType}: $error');
+    }
   }
 
   /// Custom save handler that includes LinkedIn validation
@@ -101,7 +173,8 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
       // Show dialog and wait for user choice
       final shouldContinue = await _showNameMismatchDialog();
       if (!shouldContinue) {
-        throw Exception('User cancelled save due to LinkedIn name mismatch');
+        // User chose to check URL - throw a special exception that won't show error toast
+        throw _UserCancelledForUrlCheckException();
       }
     }
     
@@ -199,7 +272,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             style: AppTextFieldStyle.large,
             state: _firstNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.givenName],
-            enabled: _firstNameIsEmpty && !isUpdating,
+            enabled: !_isOAuthUser && _firstNameIsEmpty && !isUpdating,
           ),
         ),
         
@@ -214,7 +287,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             style: AppTextFieldStyle.large,
             state: _lastNameIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.familyName],
-            enabled: _lastNameIsEmpty && !isUpdating,
+            enabled: !_isOAuthUser && _lastNameIsEmpty && !isUpdating,
           ),
         ),
         
