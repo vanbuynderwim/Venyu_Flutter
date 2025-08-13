@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_strings.dart';
-import '../widgets/common/empty_state_widget.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
-import '../widgets/notifications/notification_item_view.dart';
-import '../models/notification.dart' as venyu;
-import '../models/requests/paginated_request.dart';
-import '../services/supabase_manager.dart';
-import '../services/session_manager.dart';
-import '../mixins/paginated_list_view_mixin.dart';
-import 'matches/match_detail_view.dart';
+import '../../core/constants/app_strings.dart';
+import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import 'notification_item_view.dart';
+import '../../models/notification.dart' as venyu;
+import '../../models/requests/paginated_request.dart';
+import '../../services/supabase_manager.dart';
+import '../../services/session_manager.dart';
+import '../../mixins/paginated_list_view_mixin.dart';
+import '../matches/match_detail_view.dart';
 
 /// NotificationsView - Notifications page with ListView for server data
 class NotificationsView extends StatefulWidget {

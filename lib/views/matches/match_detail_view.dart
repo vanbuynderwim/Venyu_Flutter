@@ -9,13 +9,13 @@ import '../../core/theme/app_modifiers.dart';
 import '../../models/match.dart';
 import '../../services/supabase_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
-import '../../widgets/profile/profile_header.dart';
+import '../profile/profile_header.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
-import '../../widgets/common/card_item.dart';
-import '../../widgets/common/match_item_view.dart';
+import '../cards/card_item.dart';
+import 'match_item_view.dart';
 import '../../widgets/common/tag_view.dart';
-import '../../widgets/matches/match_overview_header.dart';
-import '../../widgets/matches/match_reasons_view.dart';
+import 'match_overview_header.dart';
+import 'match_reasons_view.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -109,7 +109,7 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             ),
         ],
       ),
-      usePadding: false,
+      usePadding: true,
       useSafeArea: true,
       body: Column(
         children: [

@@ -15,7 +15,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../base/base_form_view.dart';
-import '../company/edit_company_name_view.dart';
+import 'edit_company_name_view.dart';
 
 /// A placeholder form screen for editing user location information.
 /// 

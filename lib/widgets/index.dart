@@ -10,8 +10,8 @@ export 'buttons/option_button.dart';
 export 'buttons/section_button.dart';
 
 // Cards
-export 'common/card_item.dart';
-export 'common/role_view.dart';
+// Moved to views/cards/card_item.dart
+// Moved to views/profile/role_view.dart
 export 'common/status_badge_view.dart';
 
 // Common/Shared Components

@@ -5,8 +5,8 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import 'role_view.dart';
-import 'status_badge_view.dart';
+import '../profile/role_view.dart';
+import '../../widgets/common/status_badge_view.dart';
 
 /// CardItem - Flutter equivalent van Swift CardItemView
 class CardItem extends StatefulWidget {

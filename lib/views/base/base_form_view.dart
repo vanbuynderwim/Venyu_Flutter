@@ -10,7 +10,7 @@ import '../../services/supabase_manager.dart';
 import '../../services/tag_group_service.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../company/edit_company_name_view.dart';
+import '../profile/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
 import '../profile/edit_location_view.dart';
 import '../profile/edit_tag_group_view.dart';

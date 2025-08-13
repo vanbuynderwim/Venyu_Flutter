@@ -3,7 +3,7 @@ import '../../models/profile.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import 'avatar_view.dart';
+import '../../widgets/common/avatar_view.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {

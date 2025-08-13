@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_strings.dart';
-import '../core/theme/app_text_styles.dart';
-import '../core/theme/venyu_theme.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// VenuesView - Dedicated view for venues
 /// 

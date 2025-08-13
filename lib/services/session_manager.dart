@@ -502,12 +502,12 @@ class SessionManager extends ChangeNotifier {
   /// - Basic info (firstName, contactEmail) 
   /// - registeredAt timestamp (indicates completed onboarding)
   bool _isProfileComplete(Profile profile) {
-    final hasBasicInfo = profile.firstName != null && profile.firstName!.isNotEmpty && 
+    final hasBasicInfo = profile.firstName.isNotEmpty && 
                         profile.contactEmail != null && profile.contactEmail!.isNotEmpty;
     final hasCompletedOnboarding = profile.registeredAt != null;
     
     debugPrint('  🔍 Profile completeness check:');
-    debugPrint('    - firstName: "${profile.firstName}" (${profile.firstName != null && profile.firstName!.isNotEmpty ? "✓" : "✗"})');
+    debugPrint('    - firstName: "${profile.firstName}" (${profile.firstName.isNotEmpty ? "✓" : "✗"})');
     debugPrint('    - contactEmail: "${profile.contactEmail}" (${profile.contactEmail != null && profile.contactEmail!.isNotEmpty ? "✓" : "✗"})');
     debugPrint('    - registeredAt: ${profile.registeredAt} (${hasCompletedOnboarding ? "✓" : "✗"})');
     debugPrint('    - Has basic info: $hasBasicInfo');

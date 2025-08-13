@@ -4,11 +4,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
 import '../core/theme/venyu_theme.dart';
-import 'matches_view.dart';
-import 'cards_view.dart';
-import 'venues_view.dart';
-import 'notifications_view.dart';
-import 'profile_view.dart';
+import 'matches/matches_view.dart';
+import 'cards/cards_view.dart';
+import 'venues/venues_view.dart';
+import 'notifications/notifications_view.dart';
+import 'profile/profile_view.dart';
 
 /// MainView - Tab navigation using flutter_platform_widgets (based on Test project pattern)
 class MainView extends StatefulWidget {

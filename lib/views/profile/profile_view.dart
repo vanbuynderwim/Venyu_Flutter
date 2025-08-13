@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/theme/app_modifiers.dart';
-import '../core/theme/venyu_theme.dart';
-import '../models/enums/profile_sections.dart';
-import '../models/enums/edit_personal_info_type.dart';
-import '../models/enums/edit_company_info_type.dart';
-import '../models/enums/review_type.dart';
-import '../models/enums/category_type.dart';
-import '../models/tag_group.dart';
-import '../services/session_manager.dart';
-import '../services/supabase_manager.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
-import '../widgets/profile/profile_header.dart';
-import '../widgets/buttons/section_button.dart';
-import '../widgets/buttons/option_button.dart';
-import '../widgets/common/loading_state_widget.dart';
-import '../mixins/data_refresh_mixin.dart';
-import 'profile_edit_view.dart';
-import 'profile/edit_tag_group_view.dart';
-import 'profile/edit_name_view.dart';
-import 'profile/edit_bio_view.dart';
-import 'profile/edit_account_view.dart';
-import 'profile/edit_email_info_view.dart';
-import 'company/edit_company_name_view.dart';
-import 'profile/review_pending_cards_view.dart';
+import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../models/enums/profile_sections.dart';
+import '../../models/enums/edit_personal_info_type.dart';
+import '../../models/enums/edit_company_info_type.dart';
+import '../../models/enums/review_type.dart';
+import '../../models/enums/category_type.dart';
+import '../../models/tag_group.dart';
+import '../../services/session_manager.dart';
+import '../../services/supabase_manager.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import 'profile_header.dart';
+import '../../widgets/buttons/section_button.dart';
+import '../../widgets/buttons/option_button.dart';
+import '../../widgets/common/loading_state_widget.dart';
+import '../../mixins/data_refresh_mixin.dart';
+import 'edit_tag_group_view.dart';
+import 'edit_name_view.dart';
+import 'edit_bio_view.dart';
+import 'edit_account_view.dart';
+import 'edit_email_info_view.dart';
+import 'edit_company_name_view.dart';
+import 'review_pending_cards_view.dart';
 
 /// ProfileView - Current user's profile page
 /// 

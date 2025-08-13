@@ -654,7 +654,7 @@ class SupabaseManager {
       final storedInfo = await getStoredUserInfo();
       
       // Use stored data as fallback for missing profile fields
-      final firstName = profile.firstName?.isNotEmpty == true 
+      final firstName = profile.firstName.isNotEmpty 
           ? profile.firstName 
           : storedInfo['firstname'];
       
@@ -671,9 +671,9 @@ class SupabaseManager {
           : storedInfo['avatar_url'];
       
       debugPrint('📊 Profile enhancement:');
-      debugPrint('  - FirstName: DB="${profile.firstName}" -> Enhanced="${firstName}"');
-      debugPrint('  - LastName: DB="${profile.lastName}" -> Enhanced="${lastName}"');
-      debugPrint('  - Email: DB="${profile.contactEmail}" -> Enhanced="${contactEmail}"');
+      debugPrint('  - FirstName: DB="${profile.firstName}" -> Enhanced="$firstName"');
+      debugPrint('  - LastName: DB="${profile.lastName}" -> Enhanced="$lastName"');
+      debugPrint('  - Email: DB="${profile.contactEmail}" -> Enhanced="$contactEmail"');
       debugPrint('  - Avatar: DB="${profile.avatarID}" -> Enhanced="${avatarID?.isNotEmpty == true ? "Set" : "None"}"');
       
       // Return enhanced profile with OAuth data filled in

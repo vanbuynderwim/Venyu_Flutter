@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../models/enums/profile_edit_type.dart';
-import '../widgets/buttons/option_button.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
-import 'profile/edit_account_view.dart';
+import '../../models/enums/profile_edit_type.dart';
+import '../../widgets/buttons/option_button.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import 'edit_account_view.dart';
 
 /// ProfileEditView - Flutter equivalent of iOS ProfileEditView
 class ProfileEditView extends StatefulWidget {

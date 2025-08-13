@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_strings.dart';
-import '../core/theme/app_text_styles.dart';
-import '../core/theme/venyu_theme.dart';
-import '../widgets/scaffolds/app_scaffold.dart';
-import '../widgets/common/empty_state_widget.dart';
-import '../models/match.dart';
-import '../models/enums/match_status.dart';
-import '../models/requests/paginated_request.dart';
-import '../widgets/common/match_item_view.dart';
-import '../services/supabase_manager.dart';
-import '../services/session_manager.dart';
-import '../mixins/paginated_list_view_mixin.dart';
-import 'matches/match_detail_view.dart';
+import '../../core/constants/app_strings.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/empty_state_widget.dart';
+import '../../models/match.dart';
+import '../../models/enums/match_status.dart';
+import '../../models/requests/paginated_request.dart';
+import 'match_item_view.dart';
+import '../../services/supabase_manager.dart';
+import '../../services/session_manager.dart';
+import '../../mixins/paginated_list_view_mixin.dart';
+import 'match_detail_view.dart';
 
 /// MatchesView - Matches page with ListView for server data
 class MatchesView extends StatefulWidget {

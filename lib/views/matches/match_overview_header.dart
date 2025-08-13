@@ -5,7 +5,7 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/match.dart';
 import '../../models/profile.dart';
-import '../common/avatar_view.dart';
+import '../../widgets/common/avatar_view.dart';
 
 /// MatchOverviewHeader - Shows "You" vs match profile comparison header
 /// 

@@ -8,11 +8,11 @@ import '../../models/profile.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../services/avatar_upload_service.dart';
 import '../../services/session_manager.dart';
-import '../common/avatar_view.dart';
-import '../common/avatar_fullscreen_viewer.dart';
-import '../common/tag_view.dart';
-import '../buttons/action_button.dart';
-import '../../views/profile/edit_bio_view.dart';
+import '../../widgets/common/avatar_view.dart';
+import '../../widgets/common/avatar_fullscreen_viewer.dart';
+import '../../widgets/common/tag_view.dart';
+import '../../widgets/buttons/action_button.dart';
+import 'edit_bio_view.dart';
 
 /// Reusable profile header widget used in both ProfileView and MatchDetailView
 /// 

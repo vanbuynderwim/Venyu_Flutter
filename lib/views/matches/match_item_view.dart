@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
-import 'role_view.dart';
+import '../profile/role_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
 /// 

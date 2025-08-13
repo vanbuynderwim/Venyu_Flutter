@@ -10,7 +10,7 @@ import '../../services/supabase_manager.dart';
 import '../../services/toast_service.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../../widgets/common/card_item.dart';
+import '../cards/card_item.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
