@@ -23,7 +23,11 @@
       "Bash(dart pub:*)",
       "Bash(export PATH=\"$PATH\":\"$HOME/.pub-cache/bin\")",
       "Bash(dart format:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(brew:*)",
+      "Bash(export:*)",
+      "Bash(keytool:*)",
+      "Bash(java:*)"
     ],
     "deny": []
   }

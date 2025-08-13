@@ -289,6 +289,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                 hintText: 'A valid email address',
                 style: AppTextFieldStyle.large,
                 state: _isEmailValid ? AppTextFieldState.normal : AppTextFieldState.normal,
+                autofillHints: const [AutofillHints.email],
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
                 autofocus: true,

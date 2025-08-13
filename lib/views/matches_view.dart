@@ -43,13 +43,15 @@ class _MatchesViewState extends State<MatchesView>
     if (!SessionManager.shared.isAuthenticated) return;
 
     if (forceRefresh || _matches.isEmpty) {
-      setState(() {
-        isLoading = true;
-        if (forceRefresh) {
-          _matches.clear();
-          hasMorePages = true;
-        }
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+          if (forceRefresh) {
+            _matches.clear();
+            hasMorePages = true;
+          }
+        });
+      }
 
       try {
         final request = PaginatedRequest(
@@ -58,16 +60,20 @@ class _MatchesViewState extends State<MatchesView>
         );
 
         final matches = await SupabaseManager.shared.fetchMatches(request);
-        setState(() {
-          _matches.addAll(matches);
-          hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
-          isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _matches.addAll(matches);
+            hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
+            isLoading = false;
+          });
+        }
       } catch (error) {
         debugPrint('Error fetching matches: $error');
-        setState(() {
-          isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
@@ -75,9 +81,11 @@ class _MatchesViewState extends State<MatchesView>
   Future<void> _loadMoreMatches() async {
     if (_matches.isEmpty || !hasMorePages) return;
 
-    setState(() {
-      isLoadingMore = true;
-    });
+    if (mounted) {
+      setState(() {
+        isLoadingMore = true;
+      });
+    }
 
     try {
       final lastMatch = _matches.last;
@@ -90,16 +98,20 @@ class _MatchesViewState extends State<MatchesView>
       );
 
       final matches = await SupabaseManager.shared.fetchMatches(request);
-      setState(() {
-        _matches.addAll(matches);
-        hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          _matches.addAll(matches);
+          hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
+          isLoadingMore = false;
+        });
+      }
     } catch (error) {
       debugPrint('Error loading more matches: $error');
-      setState(() {
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingMore = false;
+        });
+      }
     }
   }
 
@@ -169,9 +181,11 @@ class _MatchesViewState extends State<MatchesView>
                                   builder: (context) => MatchDetailView(
                                     matchId: selectedMatch.id,
                                     onMatchRemoved: () {
-                                      setState(() {
-                                        _matches.removeWhere((m) => m.id == selectedMatch.id);
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          _matches.removeWhere((m) => m.id == selectedMatch.id);
+                                        });
+                                      }
                                     },
                                   ),
                                 ),

@@ -5,8 +5,6 @@ import '../tag.dart';
 
 /// ProfileEditType enum - equivalent to iOS ProfileEditType
 enum ProfileEditType implements OptionType {
-  personalinfo,
-  company,
   //settings,
   //blocks,
   account;
@@ -17,10 +15,6 @@ enum ProfileEditType implements OptionType {
   @override
   String get title {
     switch (this) {
-      case ProfileEditType.personalinfo:
-        return 'Personal info';
-      case ProfileEditType.company:
-        return 'Company info';
       //case ProfileEditType.settings:
       //  return 'Settings';
       //case ProfileEditType.blocks:
@@ -33,10 +27,6 @@ enum ProfileEditType implements OptionType {
   @override
   String get description {
     switch (this) {
-      case ProfileEditType.personalinfo:
-        return 'Name, about you, email...';
-      case ProfileEditType.company:
-        return 'Name, role(s), sector(s), ...';
       //case ProfileEditType.settings:
       //  return 'Preferences';
       //case ProfileEditType.blocks:
@@ -49,10 +39,6 @@ enum ProfileEditType implements OptionType {
   @override
   String? get icon {
     switch (this) {
-      case ProfileEditType.personalinfo:
-        return 'profile';
-      case ProfileEditType.company:
-        return 'company';
       //case ProfileEditType.settings:
       //  return 'settings';
       //case ProfileEditType.blocks:

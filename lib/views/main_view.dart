@@ -5,6 +5,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/constants/app_strings.dart';
 import '../core/theme/venyu_theme.dart';
 import 'matches_view.dart';
+import 'cards_view.dart';
+import 'venues_view.dart';
 import 'notifications_view.dart';
 import 'profile_view.dart';
 
@@ -21,6 +23,8 @@ class _MainViewState extends State<MainView> {
   
   static const List<Widget> _pages = [
     MatchesView(),
+    CardsView(),
+    VenuesView(),
     NotificationsView(),
     ProfileView(),
   ];
@@ -37,6 +41,16 @@ class _MainViewState extends State<MainView> {
           icon: context.themedIcon('match', selected: false),
           activeIcon: context.themedIcon('match', selected: true),
           label: AppStrings.matches,
+        ),
+        BottomNavigationBarItem(
+          icon: context.themedIcon('card', selected: false),
+          activeIcon: context.themedIcon('card', selected: true),
+          label: AppStrings.cards,
+        ),
+        BottomNavigationBarItem(
+          icon: context.themedIcon('venue', selected: false),
+          activeIcon: context.themedIcon('venue', selected: true),
+          label: AppStrings.venues,
         ),
         BottomNavigationBarItem(
           icon: context.themedIcon('notification', selected: false),

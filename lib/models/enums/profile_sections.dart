@@ -9,23 +9,23 @@ import '../../widgets/common/section_type.dart';
 /// Example usage:
 /// ```dart
 /// // Display section title
-/// Text(ProfileSections.cards.title); // "Cards"
+/// Text(ProfileSections.personal.title); // "Personal"
 /// 
 /// // Access section description
 /// final description = ProfileSections.reviews.description;
 /// 
 /// // Get section icon
-/// Icon(ProfileSections.venues.icon);
+/// Icon(ProfileSections.company.icon);
 /// ```
 enum ProfileSections implements SectionType {
-  /// User's cards and prompt responses.
-  cards,
+  /// User's personal information.
+  personal,
   
-  /// User's reviews and feedback from others.
-  reviews,
+  /// User's company information.
+  company,
   
-  /// Venues the user has visited or interacted with.
-  venues;
+  /// User's reviews and feedback from others (admin only).
+  reviews;
 
   @override
   String get id => name;
@@ -34,12 +34,12 @@ enum ProfileSections implements SectionType {
   @override
   String get title {
     switch (this) {
-      case ProfileSections.cards:
-        return 'Cards';
+      case ProfileSections.personal:
+        return 'Personal';
+      case ProfileSections.company:
+        return 'Company';
       case ProfileSections.reviews:
         return 'Reviews';
-      case ProfileSections.venues:
-        return 'Venues';
     }
   }
 
@@ -47,12 +47,12 @@ enum ProfileSections implements SectionType {
   @override
   String get description {
     switch (this) {
-      case ProfileSections.cards:
-        return 'User cards and prompts';
+      case ProfileSections.personal:
+        return 'Personal information';
+      case ProfileSections.company:
+        return 'Company information';
       case ProfileSections.reviews:
         return 'User reviews and feedback';
-      case ProfileSections.venues:
-        return 'Visited venues';
     }
   }
 
@@ -60,12 +60,12 @@ enum ProfileSections implements SectionType {
   @override
   String get icon {
     switch (this) {
-      case ProfileSections.cards:
-        return 'card';
+      case ProfileSections.personal:
+        return 'profile';
+      case ProfileSections.company:
+        return 'company';
       case ProfileSections.reviews:
         return 'verified';
-      case ProfileSections.venues:
-        return 'venue';
     }
   }
 }

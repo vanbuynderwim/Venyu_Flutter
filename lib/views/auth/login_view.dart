@@ -62,13 +62,11 @@ class _LoginViewState extends State<LoginView> {
     });
 
     try {
-      debugPrint('🌐 Starting Google sign-in (dummy implementation)');
+      debugPrint('📱 Starting Google sign-in');
       
-      // TODO: Implement actual Google sign-in in SessionManager
-      // await sessionManager.signInWithGoogle();
+      await sessionManager.signInWithGoogle();
       
-      // For now, just show a debug message
-      debugPrint('⚠️ Google sign-in not yet implemented');
+      debugPrint('✅ Google sign-in initiated successfully');
       
     } catch (error) {
       debugPrint('❌ Google sign-in error: $error');

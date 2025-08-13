@@ -6,5 +6,7 @@ export 'auth/login_view.dart';
 export 'auth/onboard_view.dart';
 export 'main_view.dart';
 export 'matches_view.dart';
+export 'cards_view.dart';
+export 'venues_view.dart';
 export 'notifications_view.dart';
 export 'profile_view.dart';

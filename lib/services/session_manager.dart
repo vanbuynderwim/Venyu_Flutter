@@ -570,6 +570,32 @@ class SessionManager extends ChangeNotifier {
     }
   }
   
+  /// Initiates Google OAuth authentication flow.
+  /// 
+  /// This method:
+  /// 1. Clears any previous errors
+  /// 2. Delegates to [SupabaseManager.signInWithGoogle]
+  /// 3. Updates authentication state via the auth state listener
+  /// 
+  /// Note: Google authentication uses native sign-in flow.
+  /// Throws authentication exceptions if the sign in process fails.
+  Future<void> signInWithGoogle() async {
+    try {
+      debugPrint('📱 SessionManager: Starting Google sign in');
+      _clearError();
+      
+      await _supabaseManager.signInWithGoogle();
+      
+      // Auth state will be updated via the auth state listener
+      debugPrint('✅ SessionManager: Google sign in completed');
+      
+    } catch (error) {
+      debugPrint('❌ SessionManager: Google sign in error: $error');
+      _handleAuthError(error);
+      rethrow;
+    }
+  }
+  
   /// Updates the current profile with new data.
   /// 
   /// This method should be called after successfully updating profile data

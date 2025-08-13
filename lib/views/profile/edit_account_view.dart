@@ -30,8 +30,6 @@ class _EditAccountViewState extends State<EditAccountView> {
 
   @override
   Widget build(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-    
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: const Text('Account settings'),

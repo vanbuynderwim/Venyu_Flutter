@@ -87,15 +87,13 @@ enum ActionButtonType {
 
   /// Returns the appropriate font weight for this button type.
   /// 
-  /// Primary buttons use semibold weight for emphasis,
-  /// while secondary and destructive buttons use regular weight.
+  /// All button types use semibold weight for consistency and emphasis.
   FontWeight get fontWeight {
     switch (this) {
       case ActionButtonType.primary:
-        return FontWeight.w600; // semibold
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
-        return FontWeight.w400; // regular
+        return FontWeight.w600; // semibold
     }
   }
 

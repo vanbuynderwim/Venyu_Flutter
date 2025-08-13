@@ -13,6 +13,8 @@ class AppStrings {
   static const String home = 'Home';
   static const String profile = 'Profile';
   static const String matches = 'Matches';
+  static const String cards = 'Cards';
+  static const String venues = 'Venues';
   static const String settings = 'Settings';
   static const String search = 'Search';
   static const String notifications = 'Notifications';

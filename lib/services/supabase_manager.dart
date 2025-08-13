@@ -4,11 +4,13 @@ import 'package:bugsnag_flutter/bugsnag_flutter.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/config/app_config.dart';
+import '../core/config/environment.dart';
 import '../core/utils/device_info.dart';
 import '../models/device.dart';
 import '../models/models.dart';
@@ -370,6 +372,161 @@ class SupabaseManager {
     }
   }
   
+  /// Performs Google sign in - equivalent to iOS Google OAuth implementation
+  /// 
+  /// This method follows the native Google Sign-In flow:
+  /// 1. Initialize GoogleSignIn with client IDs
+  /// 2. Get Google user credentials and tokens
+  /// 3. Sign in with Supabase using ID token and access token
+  /// 4. Store user information securely
+  /// 5. Return session for further processing
+  Future<AuthResponse> signInWithGoogle() async {
+    try {
+      debugPrint('📱 Starting Google sign-in process');
+      
+      // Step 1: Initialize GoogleSignIn 
+      // Now that GoogleService-Info.plist has CLIENT_ID, we can use it directly
+      final webClientId = EnvironmentConfig.googleWebClientId;
+      
+      debugPrint('🔧 GoogleSignIn configuration:');
+      debugPrint('  - Using GoogleService-Info.plist for iOS configuration (CLIENT_ID now present)');
+      debugPrint('  - Web Client ID: ${webClientId.isNotEmpty ? "Set from environment" : "Will use CLIENT_ID from plist"}');
+      
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        // Let Google Sign In automatically use CLIENT_ID from GoogleService-Info.plist
+        scopes: ['email', 'profile'],
+        // Only set serverClientId if we have it from environment, otherwise use the same as clientId
+        serverClientId: webClientId.isNotEmpty ? webClientId : null,
+      );
+      
+      debugPrint('🔧 GoogleSignIn initialized');
+      
+      // Step 2: Perform Google sign-in to get user and authentication tokens
+      debugPrint('🔄 Calling googleSignIn.signIn()...');
+      
+      // First try to sign out silently in case there's a stuck session
+      try {
+        await googleSignIn.signOut();
+        debugPrint('🔄 Cleared any existing Google session');
+      } catch (e) {
+        debugPrint('⚠️ Could not clear existing session: $e');
+      }
+      
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      debugPrint('✅ googleSignIn.signIn() returned: ${googleUser != null ? "User" : "null"}');
+      
+      if (googleUser == null) {
+        debugPrint('⚠️ User cancelled Google sign-in');
+        throw const AuthException('Google sign-in was cancelled by user');
+      }
+      
+      debugPrint('👤 Google user obtained: ${googleUser.email}');
+      
+      // Step 3: Get authentication tokens from Google
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      
+      final String? accessToken = googleAuth.accessToken;
+      final String? idToken = googleAuth.idToken;
+      
+      if (accessToken == null || idToken == null) {
+        throw const AuthException('Failed to obtain Google authentication tokens');
+      }
+      
+      debugPrint('🔐 Google authentication tokens obtained');
+      
+      // Step 4: Sign in with Supabase using Google tokens
+      final AuthResponse response = await _executeAuthenticatedRequest(() async {
+        return await _client.auth.signInWithIdToken(
+          provider: OAuthProvider.google,
+          idToken: idToken,
+          accessToken: accessToken,
+        );
+      });
+      
+      debugPrint('✅ Supabase authentication successful');
+      
+      // Step 5: Store Google user information securely
+      await _storeGoogleUserInfo(googleUser);
+      
+      debugPrint('🎉 Google sign-in completed successfully');
+      return response;
+      
+    } catch (error, stackTrace) {
+      debugPrint('❌ Google sign-in error: $error');
+      debugPrint('Stack trace: $stackTrace');
+      _trackError('Google Sign-In Failed', error, stackTrace);
+      rethrow;
+    }
+  }
+  
+  /// Store Google user information securely - equivalent to iOS Keychain storage
+  Future<void> _storeGoogleUserInfo(GoogleSignInAccount googleUser) async {
+    try {
+      debugPrint('🔍 Extracting Google user data');
+      
+      // Extract name information (Google provides displayName, not separate first/last names)
+      final displayName = googleUser.displayName;
+      String? firstName;
+      String? lastName;
+      
+      if (displayName != null && displayName.isNotEmpty) {
+        final nameParts = displayName.trim().split(' ');
+        if (nameParts.isNotEmpty) {
+          firstName = nameParts.first;
+          // If there are multiple parts, take the last as lastName
+          // If there are middle names, they get included in lastName (similar to LinkedIn behavior)
+          if (nameParts.length > 1) {
+            lastName = nameParts.skip(1).join(' ');
+          }
+        }
+      }
+      
+      debugPrint('📊 Google data extracted:');
+      debugPrint('  - Display Name: "${displayName ?? 'Not provided'}"');
+      debugPrint('  - First Name: "${firstName ?? 'Not provided'}"');
+      debugPrint('  - Last Name: "${lastName ?? 'Not provided'}"');
+      debugPrint('  - Email: "${googleUser.email}"');
+      debugPrint('  - Photo URL: "${googleUser.photoUrl ?? 'Not provided'}"');
+      
+      // Store first name if available
+      if (firstName != null && firstName.isNotEmpty) {
+        await _storage.write(key: 'firstname', value: firstName);
+        debugPrint('💾 Stored first name securely');
+      }
+      
+      // Store last name if available  
+      if (lastName != null && lastName.isNotEmpty) {
+        await _storage.write(key: 'lastname', value: lastName);
+        debugPrint('💾 Stored last name securely');
+      }
+      
+      // Store email
+      if (googleUser.email.isNotEmpty) {
+        await _storage.write(key: 'email', value: googleUser.email);
+        debugPrint('💾 Stored email securely');
+      }
+      
+      // Store photo URL if available
+      if (googleUser.photoUrl != null && googleUser.photoUrl!.isNotEmpty) {
+        await _storage.write(key: 'avatar_url', value: googleUser.photoUrl!);
+        debugPrint('💾 Stored Google photo URL securely');
+      }
+      
+      // Store user ID
+      await _storage.write(key: 'google_user_id', value: googleUser.id);
+      debugPrint('💾 Stored Google user ID securely');
+      
+      // Store provider information
+      await _storage.write(key: 'auth_provider', value: 'google');
+      debugPrint('💾 Stored authentication provider securely');
+      
+    } catch (error, stackTrace) {
+      debugPrint('⚠️ Failed to store Google user info: $error');
+      _trackError('Google Data Storage Failed', error, stackTrace);
+      // Continue with authentication even if storage fails
+    }
+  }
+  
   /// Centralized error handling wrapper - equivalent to iOS executeAuthenticatedRequest
   /// 
   /// This method wraps all authenticated requests with consistent error handling,
@@ -414,11 +571,14 @@ class SupabaseManager {
   
   /// Retrieves user information stored in secure local storage.
   /// 
-  /// Returns a map containing:
+  /// Returns a map containing OAuth provider data:
   /// - 'firstname': User's first name
   /// - 'lastname': User's last name  
   /// - 'email': User's email address
+  /// - 'avatar_url': User's profile picture URL
   /// - 'apple_user_id': Apple user identifier (if signed in with Apple)
+  /// - 'google_user_id': Google user identifier (if signed in with Google)
+  /// - 'auth_provider': OAuth provider used (apple, google, linkedin)
   /// 
   /// Values will be null if not previously stored or if retrieval fails.
   Future<Map<String, String?>> getStoredUserInfo() async {
@@ -427,7 +587,10 @@ class SupabaseManager {
         'firstname': await _storage.read(key: 'firstname'),
         'lastname': await _storage.read(key: 'lastname'),
         'email': await _storage.read(key: 'email'),
+        'avatar_url': await _storage.read(key: 'avatar_url'),
         'apple_user_id': await _storage.read(key: 'apple_user_id'),
+        'google_user_id': await _storage.read(key: 'google_user_id'),
+        'auth_provider': await _storage.read(key: 'auth_provider'),
       };
     } catch (error, stackTrace) {
       debugPrint('⚠️ Failed to read stored user info: $error');
@@ -471,8 +634,64 @@ class SupabaseManager {
       final profile = Profile.fromJson(result);
       debugPrint('👤 Profile parsed: ${profile.displayName} (${profile.contactEmail})');
       
-      return profile;
+      // For new users or incomplete profiles, merge with stored OAuth data
+      final enhancedProfile = await _enhanceProfileWithStoredData(profile);
+      
+      return enhancedProfile;
     });
+  }
+  
+  /// Enhance profile with stored OAuth data for new/incomplete profiles
+  /// 
+  /// This method fills in missing profile fields (firstName, lastName, contactEmail)
+  /// with data stored from OAuth providers (Apple, Google, LinkedIn).
+  /// Essential for new users who haven't completed profile setup yet.
+  Future<Profile> _enhanceProfileWithStoredData(Profile profile) async {
+    try {
+      debugPrint('🔍 Enhancing profile with stored OAuth data');
+      
+      // Get stored user information from OAuth sign-in
+      final storedInfo = await getStoredUserInfo();
+      
+      // Use stored data as fallback for missing profile fields
+      final firstName = profile.firstName?.isNotEmpty == true 
+          ? profile.firstName 
+          : storedInfo['firstname'];
+      
+      final lastName = profile.lastName?.isNotEmpty == true 
+          ? profile.lastName 
+          : storedInfo['lastname'];
+      
+      final contactEmail = profile.contactEmail?.isNotEmpty == true 
+          ? profile.contactEmail 
+          : storedInfo['email'];
+      
+      final avatarID = profile.avatarID?.isNotEmpty == true 
+          ? profile.avatarID 
+          : storedInfo['avatar_url'];
+      
+      debugPrint('📊 Profile enhancement:');
+      debugPrint('  - FirstName: DB="${profile.firstName}" -> Enhanced="${firstName}"');
+      debugPrint('  - LastName: DB="${profile.lastName}" -> Enhanced="${lastName}"');
+      debugPrint('  - Email: DB="${profile.contactEmail}" -> Enhanced="${contactEmail}"');
+      debugPrint('  - Avatar: DB="${profile.avatarID}" -> Enhanced="${avatarID?.isNotEmpty == true ? "Set" : "None"}"');
+      
+      // Return enhanced profile with OAuth data filled in
+      final enhancedProfile = profile.copyWith(
+        firstName: firstName,
+        lastName: lastName,
+        contactEmail: contactEmail,
+        avatarID: avatarID,
+      );
+      
+      debugPrint('✅ Profile enhanced with stored OAuth data');
+      return enhancedProfile;
+      
+    } catch (error) {
+      debugPrint('⚠️ Failed to enhance profile with stored data: $error');
+      // Return original profile if enhancement fails
+      return profile;
+    }
   }
   
   /// Signs out the current user and clears all stored data.

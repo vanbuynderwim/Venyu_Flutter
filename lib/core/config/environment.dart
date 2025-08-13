@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Environment configuration for different build targets
@@ -55,6 +56,29 @@ class EnvironmentConfig {
     }
   }
   
+  /// Google OAuth configuration
+  static String get googleWebClientId {
+    switch (_environment) {
+      case Environment.development:
+        return dotenv.env['GOOGLE_WEB_CLIENT_ID_DEV'] ?? '';
+      case Environment.staging:
+        return dotenv.env['GOOGLE_WEB_CLIENT_ID_STAGING'] ?? '';
+      case Environment.production:
+        return dotenv.env['GOOGLE_WEB_CLIENT_ID_PROD'] ?? '';
+    }
+  }
+  
+  static String get googleIosClientId {
+    switch (_environment) {
+      case Environment.development:
+        return dotenv.env['GOOGLE_IOS_CLIENT_ID_DEV'] ?? '';
+      case Environment.staging:
+        return dotenv.env['GOOGLE_IOS_CLIENT_ID_STAGING'] ?? '';
+      case Environment.production:
+        return dotenv.env['GOOGLE_IOS_CLIENT_ID_PROD'] ?? '';
+    }
+  }
+  
   /// Debug and environment helpers
   static bool get isDebug => _environment == Environment.development;
   static bool get isProduction => _environment == Environment.production;
@@ -64,6 +88,8 @@ class EnvironmentConfig {
   static bool validateConfig() {
     final url = supabaseUrl;
     final key = supabaseAnonKey;
+    final googleWebId = googleWebClientId;
+    final googleIosId = googleIosClientId;
     
     if (url.isEmpty) {
       throw Exception('Supabase URL is not configured for environment: $_environment');
@@ -71,6 +97,15 @@ class EnvironmentConfig {
     
     if (key.isEmpty) {
       throw Exception('Supabase anonymous key is not configured for environment: $_environment');
+    }
+    
+    // Google OAuth configuration is optional for now
+    if (googleWebId.isEmpty) {
+      debugPrint('⚠️ Google Web Client ID is not configured for environment: $_environment');
+    }
+    
+    if (googleIosId.isEmpty) {
+      debugPrint('⚠️ Google iOS Client ID is not configured for environment: $_environment');
     }
     
     return true;

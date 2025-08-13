@@ -100,6 +100,7 @@ class AppLayoutStyles {
             color: backgroundColor ?? theme.cardBackground,
             child: Container(
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 border: Border.all(
                   color: borderColor ?? theme.borderColor,
                   width: AppModifiers.extraThinBorder,

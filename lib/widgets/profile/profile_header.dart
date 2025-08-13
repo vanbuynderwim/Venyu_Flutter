@@ -71,6 +71,16 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  Text(
+                    widget.profile.fullName,
+                    style: AppTextStyles.headline.copyWith(
+                      color: venyuTheme.primaryText,
+                    ),
+                  ),
+
+                  const SizedBox(height: 6),
+
                   // Role (computed property from profile)
                   Text(
                     widget.profile.role.isNotEmpty 
