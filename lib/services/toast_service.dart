@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/enums/toast_type.dart';
-import '../widgets/feedback/toast.dart';
+import '../widgets/common/toast.dart';
 
 /// Service for displaying toast notifications throughout the app.
 /// 

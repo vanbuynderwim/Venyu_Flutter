@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/edit_personal_info_type.dart';
-import '../../widgets/inputs/app_text_field.dart';
+import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user biography.

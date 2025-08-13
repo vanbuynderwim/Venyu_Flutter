@@ -12,6 +12,7 @@ class AppScaffold extends StatelessWidget {
   final bool usePadding;
   final EdgeInsets? customPadding;
   final bool useSafeArea;
+  final Widget? floatingActionButton;
 
   const AppScaffold({
     super.key,
@@ -20,6 +21,7 @@ class AppScaffold extends StatelessWidget {
     this.usePadding = true,
     this.customPadding,
     this.useSafeArea = true,
+    this.floatingActionButton,
   });
 
   @override
@@ -32,6 +34,38 @@ class AppScaffold extends StatelessWidget {
             child: body,
           )
         : body;
+
+    // PlatformScaffold doesn't support FAB, so use Material Scaffold when FAB is present
+    // But we need to make it look exactly like PlatformScaffold
+    if (floatingActionButton != null) {
+      return PlatformScaffold(
+        appBar: appBar,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: useSafeArea
+            ? SafeArea(
+                child: Stack(
+                  children: [
+                    content,
+                    Positioned(
+                      right: 32,
+                      bottom: 32, // Above the tab bar
+                      child: floatingActionButton!,
+                    ),
+                  ],
+                ),
+              )
+            : Stack(
+                children: [
+                  content,
+                  Positioned(
+                    right: 16,
+                    bottom: 80, // Above the tab bar
+                    child: floatingActionButton!,
+                  ),
+                ],
+              ),
+      );
+    }
 
     return PlatformScaffold(
       appBar: appBar,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/requests/update_company_request.dart';
 import '../../utils/website_validator.dart';
 import '../../widgets/common/progress_bar.dart';
-import '../../widgets/inputs/app_text_field.dart';
+import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing company name and website information.

@@ -7,7 +7,7 @@ import '../../models/requests/verify_otp_request.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
-import '../../widgets/inputs/app_text_field.dart';
+import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user email address with OTP verification.

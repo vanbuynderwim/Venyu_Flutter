@@ -5,7 +5,7 @@ import '../../models/requests/update_name_request.dart';
 import '../../services/toast_service.dart';
 import '../../utils/linked_in_validator.dart';
 import '../../widgets/common/progress_bar.dart';
-import '../../widgets/inputs/app_text_field.dart';
+import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
 
 /// Special exception for when user chooses to check LinkedIn URL

@@ -132,6 +132,7 @@ class _CardItemState extends State<CardItem> {
   Widget _buildInteractionBar(InteractionType interactionType, {required bool isLeading}) {
     return Container(
       width: 40,
+      constraints: const BoxConstraints.expand(width: 40), // Full height, fixed width
       decoration: BoxDecoration(
         color: interactionType.color,
       ),

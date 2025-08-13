@@ -29,7 +29,6 @@ class _MainViewState extends State<MainView> {
     ProfileView(),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return PlatformTabScaffold(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/constants/app_strings.dart';
@@ -7,8 +8,10 @@ import '../../core/theme/venyu_theme.dart';
 import '../../models/prompt.dart';
 import '../../services/session_manager.dart';
 import '../../services/supabase_manager.dart';
-import 'card_item.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/buttons/fab_button.dart';
+import 'card_item.dart';
+import 'add_card_modal.dart';
 
 /// CardsView - Dedicated view for user's cards and prompts
 /// 
@@ -39,20 +42,29 @@ class _CardsViewState extends State<CardsView> {
   @override
   void initState() {
     super.initState();
+    debugPrint('CardsView: initState');
     _supabaseManager = SupabaseManager.shared;
     _sessionManager = SessionManager.shared;
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint('CardsView: Loading cards...');
       _loadCards();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Back to original AppScaffold approach but with FAB support
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(AppStrings.cards),
       ),
+      floatingActionButton: FABButton(
+        icon: context.themedIcon('edit'),
+        label: 'New',
+        onPressed: _openAddCardModal,
+      ),
+      usePadding: true,
       useSafeArea: true,
       body: RefreshIndicator(
         onRefresh: () => _loadCards(forceRefresh: true),
@@ -69,9 +81,11 @@ class _CardsViewState extends State<CardsView> {
       return _buildEmptyState();
     }
     
-    return ListView(
+    return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(),
-      children: _cards!.map((prompt) {
+      itemCount: _cards!.length,
+      itemBuilder: (context, index) {
+        final prompt = _cards![index];
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: CardItem(
@@ -82,7 +96,7 @@ class _CardsViewState extends State<CardsView> {
             },
           ),
         );
-      }).toList(),
+      },
     );
   }
 
@@ -127,26 +141,79 @@ class _CardsViewState extends State<CardsView> {
     );
   }
 
+  /// Opens the add card modal
+  Future<void> _openAddCardModal() async {
+    HapticFeedback.selectionClick();
+    debugPrint('CardsView: Opening add card modal...');
+    try {
+      final result = await Navigator.of(context).push(
+        MaterialPageRoute<bool>(
+          builder: (context) {
+            debugPrint('CardsView: Building AddCardModal...');
+            return const AddCardModal();
+          },
+          fullscreenDialog: true,
+        ),
+      );
+      
+      debugPrint('CardsView: Modal closed with result: $result');
+      
+      // If card was successfully added, refresh the list
+      if (result == true) {
+        await _loadCards(forceRefresh: true);
+      }
+    } catch (error) {
+      debugPrint('CardsView: Error opening modal: $error');
+    }
+  }
+
   /// Loads cards from the server
   Future<void> _loadCards({bool forceRefresh = false}) async {
-    if (!_sessionManager.isAuthenticated) return;
+    debugPrint('CardsView: _loadCards called, authenticated: ${_sessionManager.isAuthenticated}');
+    if (!_sessionManager.isAuthenticated) {
+      debugPrint('CardsView: Not authenticated, skipping load');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _cards = [];
+        });
+      }
+      return;
+    }
+    
+    if (!mounted) return;
     
     setState(() {
       _isLoading = true;
     });
     
     try {
-      _cards = await _supabaseManager.fetchCards();
+      debugPrint('CardsView: Fetching cards from Supabase...');
+      // Add timeout to prevent hanging
+      final fetchedCards = await _supabaseManager.fetchCards().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          debugPrint('CardsView: Fetch cards timeout!');
+          return <Prompt>[]; // Return empty list on timeout
+        },
+      );
+      debugPrint('CardsView: Loaded ${fetchedCards.length} cards');
       
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _cards = fetchedCards;
+          _isLoading = false;
+        });
+      }
       
     } catch (error) {
-      debugPrint('Error loading cards: $error');
-      setState(() {
-        _isLoading = false;
-      });
+      debugPrint('CardsView: Error loading cards: $error');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _cards = [];
+        });
+      }
     }
   }
 }
