@@ -4,6 +4,7 @@ import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/buttons/interaction_button.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../base/base_form_view.dart';
 
 /// Card detail view for creating or editing cards/prompts.
@@ -97,6 +98,9 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
   }
 
   @override
+  bool get useScrollView => false; // We manage our own layout
+
+  @override
   Widget buildFormContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,21 +119,39 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
           ),
         ),
         
-        // Content field
-        buildFieldSection(
-          title: 'CONTENT',
-          content: AppTextField(
-            controller: _contentController,
-            hintText: 'What would you like to share?',
-            textInputAction: TextInputAction.done,
-            textCapitalization: TextCapitalization.sentences,
-            style: AppTextFieldStyle.textarea,
-            maxLines: 6,
-            minLines: 3,
-            state: _contentIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
-            enabled: !isUpdating,
+        // Content field - expands to fill remaining space
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'CONTENT',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                  color: context.venyuTheme.secondaryText,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: AppTextField(
+                  controller: _contentController,
+                  hintText: 'What would you like to share?',
+                  textInputAction: TextInputAction.done,
+                  textCapitalization: TextCapitalization.sentences,
+                  style: AppTextFieldStyle.textarea,
+                  maxLines: null, // Allow unlimited lines
+                  minLines: null, // Let it expand naturally
+                  state: _contentIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
+                  enabled: !isUpdating,
+                ),
+              ),
+            ],
           ),
         ),
+        
+        // Add 16pt spacing before save button
+        const SizedBox(height: 16),
       ],
     );
   }
