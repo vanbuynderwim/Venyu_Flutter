@@ -274,9 +274,11 @@ class AppInputStyles {
   static InputDecoration textarea(BuildContext context) {
     return base(context).copyWith(
       alignLabelWithHint: false, // Keep hint text at top, not centered
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppModifiers.mediumSpacing,
-        vertical: AppModifiers.mediumSpacing,
+      contentPadding: const EdgeInsets.only(
+        left: AppModifiers.mediumSpacing,
+        right: AppModifiers.mediumSpacing,
+        top: AppModifiers.mediumSpacing, // Top padding to keep hint at top
+        bottom: AppModifiers.mediumSpacing,
       ),
     );
   }

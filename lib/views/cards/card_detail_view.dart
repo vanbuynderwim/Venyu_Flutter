@@ -137,11 +137,12 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
                 child: AppTextField(
                   controller: _contentController,
                   hintText: 'What would you like to share?',
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.newline,
                   textCapitalization: TextCapitalization.sentences,
                   style: AppTextFieldStyle.textarea,
-                  maxLines: null, // Allow unlimited lines
-                  minLines: null, // Let it expand naturally
+                  expands: true, // Expand to fill the available height
+                  maxLines: null, // Required when expands is true
+                  minLines: null, // Required when expands is true
                   state: _contentIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
                   enabled: !isUpdating,
                 ),
