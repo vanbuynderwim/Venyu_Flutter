@@ -145,14 +145,12 @@ class _CardsViewState extends State<CardsView> {
     HapticFeedback.selectionClick();
     debugPrint('CardsView: Opening card detail view for new card...');
     try {
-      final result = await Navigator.of(context).push(
-        MaterialPageRoute<bool>(
-          builder: (context) {
-            debugPrint('CardsView: Building CardDetailView...');
-            return const CardDetailView(); // No existing prompt = new card
-          },
-          fullscreenDialog: true,
-        ),
+      final result = await showPlatformModalSheet<bool>(
+        context: context,
+        builder: (context) {
+          debugPrint('CardsView: Building CardDetailView...');
+          return const CardDetailView(); // No existing prompt = new card
+        },
       );
       
       debugPrint('CardsView: Card detail view closed with result: $result');
@@ -170,11 +168,9 @@ class _CardsViewState extends State<CardsView> {
   Future<void> _navigateToCardDetail(Prompt prompt) async {
     debugPrint('CardsView: Opening card detail view for editing card: ${prompt.label}');
     try {
-      final result = await Navigator.of(context).push(
-        MaterialPageRoute<bool>(
-          builder: (context) => CardDetailView(existingPrompt: prompt),
-          fullscreenDialog: true,
-        ),
+      final result = await showPlatformModalSheet<bool>(
+        context: context,
+        builder: (context) => CardDetailView(existingPrompt: prompt),
       );
       
       debugPrint('CardsView: Card detail view closed with result: $result');
