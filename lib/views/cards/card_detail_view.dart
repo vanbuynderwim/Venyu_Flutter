@@ -100,8 +100,8 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
 
   @override
   EdgeInsets get formContentPadding => const EdgeInsets.symmetric(
-    horizontal: 12, // Reduced horizontal padding for textarea
-    vertical: 16,
+    horizontal: 8, // Minimal horizontal padding
+    vertical: 8,
   );
 
   @override

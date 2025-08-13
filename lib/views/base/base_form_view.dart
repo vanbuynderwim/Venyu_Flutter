@@ -363,7 +363,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     );
   }
 
-  /// Build a textarea that expands to fill available space
+  /// Build a textarea that expands to fill available space - SIMPLIFIED VERSION
   @protected
   Widget buildTextarea({
     required TextEditingController controller,
@@ -374,91 +374,33 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   }) {
     final theme = context.venyuTheme;
     
-    return PlatformTextFormField(
-      controller: controller,
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.newline,
-      textCapitalization: TextCapitalization.sentences,
-      minLines: minLines,
-      maxLines: null, // Allows unlimited expansion
-      enabled: enabled,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-        color: enabled ? theme.primaryText : theme.disabledText,
+    // Simple TextField implementation as requested
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: hasError ? theme.error : theme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
+        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+        color: theme.cardBackground,
       ),
-      material: (context, platform) => MaterialTextFormFieldData(
+      child: TextField(
+        controller: controller,
+        maxLines: null,
+        minLines: minLines,
+        keyboardType: TextInputType.multiline,
+        textCapitalization: TextCapitalization.sentences,
+        enabled: enabled,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          color: enabled ? theme.primaryText : theme.disabledText,
+        ),
         decoration: InputDecoration(
           hintText: hintText,
-          alignLabelWithHint: false, // Keep hint at top
-          filled: true,
-          fillColor: theme.cardBackground,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: theme.borderColor,
-              width: AppModifiers.thinBorder,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: hasError ? theme.error : theme.borderColor,
-              width: AppModifiers.thinBorder,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: hasError ? theme.error : theme.primary,
-              width: AppModifiers.mediumBorder,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: theme.error,
-              width: AppModifiers.thinBorder,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: theme.error,
-              width: AppModifiers.mediumBorder,
-            ),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-            borderSide: BorderSide(
-              color: theme.borderColor,
-              width: AppModifiers.thinBorder,
-            ),
-          ),
-          contentPadding: const EdgeInsets.only(
-            left: AppModifiers.mediumSpacing,
-            right: AppModifiers.mediumSpacing,
-            top: AppModifiers.mediumSpacing,
-            bottom: AppModifiers.mediumSpacing,
-          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(12), // Simple padding
           hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: theme.secondaryText,
           ),
-        ),
-      ),
-      cupertino: (context, platform) => CupertinoTextFormFieldData(
-        placeholder: hintText,
-        decoration: BoxDecoration(
-          color: theme.cardBackground,
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          border: Border.all(
-            color: hasError ? theme.error : theme.borderColor,
-            width: AppModifiers.thinBorder,
-          ),
-        ),
-        padding: const EdgeInsets.only(
-          left: AppModifiers.mediumSpacing,
-          right: AppModifiers.mediumSpacing,
-          top: AppModifiers.mediumSpacing,
-          bottom: AppModifiers.mediumSpacing,
         ),
       ),
     );
@@ -482,6 +424,9 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: Text(getFormTitle()),
+      ),
+      material: (_, __) => MaterialScaffoldData(
+        resizeToAvoidBottomInset: true, // Ensure scaffold resizes for keyboard
       ),
       body: SafeArea(
         bottom: false, // Allow keyboard to overlay the bottom safe area
