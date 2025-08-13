@@ -213,19 +213,24 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
     final unselectedColor = theme.unselectedText; // Gray in light mode, white in dark mode
     //final unselectedBorderColor = theme.borderColor;
     
-    return GestureDetector(
-      onTap: isUpdating ? null : onTap,
-      child: Container(
-        height: 56,
-        decoration: BoxDecoration(
-          color: isSelected ? interactionType.color : theme.unselectedBackground,
-          border: Border.all(
-            color: isSelected ? interactionType.color : unselectedColor,
-            width: AppModifiers.thinBorder,
+    return Material(
+      color: isSelected ? interactionType.color : theme.unselectedBackground,
+      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+      child: InkWell(
+        onTap: isUpdating ? null : onTap,
+        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+        highlightColor: interactionType.color.withValues(alpha: 0.2),
+        splashColor: interactionType.color.withValues(alpha: 0.3),
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: interactionType.color,
+              width: AppModifiers.thinBorder,
+            ),
+            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           ),
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        ),
-        child: Row(
+          child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Icon
@@ -233,7 +238,7 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
               interactionType.assetPath,
               width: 24,
               height: 24,
-              color: isSelected ? Colors.white : unselectedColor,
+              color: isSelected ? Colors.white : interactionType.color,
               errorBuilder: (context, error, stackTrace) {
                 return Icon(
                   interactionType.fallbackIcon,
@@ -250,7 +255,7 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
               child: Text(
                 interactionType.buttonTitle,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isSelected ? Colors.white : unselectedColor,
+                  color: isSelected ? Colors.white : interactionType.color,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 ),
                 textAlign: TextAlign.center,
@@ -258,6 +263,7 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
               ),
             ),
           ],
+          ),
         ),
       ),
     );
