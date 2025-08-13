@@ -1,150 +1,190 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../models/enums/interaction_type.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 
-/// InteractionButton - Flutter equivalent van Swift InteractionButton
-class InteractionButton extends StatefulWidget {
+/// InteractionButton - New toggle button implementation with Material Design interactions
+class InteractionButton extends StatelessWidget {
   final InteractionType interactionType;
+  final bool isSelected;
   final VoidCallback? onPressed;
   final double? width;
   final double? height;
+  final bool isUpdating;
 
   const InteractionButton({
     super.key,
     required this.interactionType,
+    required this.isSelected,
     this.onPressed,
     this.width,
     this.height,
+    this.isUpdating = false,
   });
 
-  @override
-  State<InteractionButton> createState() => _InteractionButtonState();
-}
-
-class _InteractionButtonState extends State<InteractionButton> {
   @override
   Widget build(BuildContext context) {
     final theme = context.venyuTheme;
     
     return SizedBox(
-      width: widget.width,
-      height: widget.height ?? 56, // Verhoogd naar 56px zoals in Swift app
+      width: width,
+      height: height ?? 56,
       child: Material(
-        color: Colors.transparent,
+        color: isSelected ? interactionType.color : theme.unselectedBackground,
+        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
         child: InkWell(
-          onTap: widget.onPressed,
-          splashFactory: NoSplash.splashFactory,
-          highlightColor: theme.primary.withValues(alpha: 0.1),
+          onTap: isUpdating ? null : () {
+            HapticFeedback.mediumImpact();
+            onPressed?.call();
+          },
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+          highlightColor: interactionType.color.withValues(alpha: 0.2),
+          splashColor: interactionType.color.withValues(alpha: 0.3),
           child: Container(
+            height: height ?? 56,
             decoration: BoxDecoration(
-              color: widget.interactionType.color,
+              border: Border.all(
+                color: interactionType.color,
+                width: AppModifiers.thinBorder,
+              ),
               borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildButtonContent(),
+              children: [
+                // Icon
+                Image.asset(
+                  interactionType.assetPath,
+                  width: 24,
+                  height: 24,
+                  color: isSelected ? Colors.white : interactionType.color,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      interactionType.fallbackIcon,
+                      size: 24,
+                      color: isSelected ? Colors.white : theme.unselectedText,
+                    );
+                  },
+                ),
+                
+                const SizedBox(width: 8),
+                
+                // Title
+                Flexible(
+                  child: Text(
+                    interactionType.buttonTitle,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isSelected ? Colors.white : interactionType.color,
+                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
-
-  /// Bouw de button content gebaseerd op iconPosition
-  List<Widget> _buildButtonContent() {
-    final icon = Image.asset(
-      widget.interactionType.assetPath,
-      width: 20,
-      height: 20,
-      errorBuilder: (context, error, stackTrace) {
-        // Fallback naar Material Icons als asset niet gevonden
-        return Icon(
-          widget.interactionType.fallbackIcon,
-          size: 20,
-          color: context.venyuTheme.primaryText,
-        );
-      },
-    );
-    
-    final text = Text(
-      widget.interactionType.buttonTitle,
-      style: AppTextStyles.headline.copyWith(
-        color: context.venyuTheme.primaryText,
-        fontWeight: FontWeight.w600,
-        fontSize: 16,
-      ),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
-    
-    // Icon position bepaalt de volgorde (voor nu altijd icon-first)
-    return [
-        icon,
-        const SizedBox(width: 8),
-        text,
-      ];
-  }
-
 }
 
-/// InteractionButtonRow - Widget voor het weergeven van alle 4 de interaction buttons
-class InteractionButtonRow extends StatelessWidget {
+/// InteractionButtonRow - Widget for displaying all 4 interaction buttons with selection state
+class InteractionButtonRow extends StatefulWidget {
   final Function(InteractionType)? onInteractionPressed;
+  final InteractionType? selectedInteractionType;
   final double spacing;
   final double? buttonHeight;
+  final bool isUpdating;
 
   const InteractionButtonRow({
     super.key,
     this.onInteractionPressed,
+    this.selectedInteractionType,
     this.spacing = 8.0,
     this.buttonHeight,
+    this.isUpdating = false,
   });
+
+  @override
+  State<InteractionButtonRow> createState() => _InteractionButtonRowState();
+}
+
+class _InteractionButtonRowState extends State<InteractionButtonRow> {
+  InteractionType? _selectedType;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedType = widget.selectedInteractionType;
+  }
+
+  @override
+  void didUpdateWidget(InteractionButtonRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedInteractionType != oldWidget.selectedInteractionType) {
+      _selectedType = widget.selectedInteractionType;
+    }
+  }
+
+  void _handleSelection(InteractionType type) {
+    setState(() {
+      _selectedType = type;
+    });
+    widget.onInteractionPressed?.call(type);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Eerste rij - "I can help" en "I need this"
+        // First row - "I can help" and "I need this"
         Row(
           children: [
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.thisIsMe,
-                onPressed: () => onInteractionPressed?.call(InteractionType.thisIsMe),
-                height: buttonHeight ?? 56,
+                isSelected: _selectedType == InteractionType.thisIsMe,
+                onPressed: () => _handleSelection(InteractionType.thisIsMe),
+                height: widget.buttonHeight ?? 56,
+                isUpdating: widget.isUpdating,
               ),
             ),
-            SizedBox(width: spacing),
+            SizedBox(width: widget.spacing),
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.lookingForThis,
-                onPressed: () => onInteractionPressed?.call(InteractionType.lookingForThis),
-                height: buttonHeight ?? 56,
+                isSelected: _selectedType == InteractionType.lookingForThis,
+                onPressed: () => _handleSelection(InteractionType.lookingForThis),
+                height: widget.buttonHeight ?? 56,
+                isUpdating: widget.isUpdating,
               ),
             ),
           ],
         ),
-        SizedBox(height: spacing),
-        // Tweede rij - "I can refer" en "Not relevant"
+        SizedBox(height: widget.spacing),
+        // Second row - "I can refer" and "Not relevant"
         Row(
           children: [
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.knowSomeone,
-                onPressed: () => onInteractionPressed?.call(InteractionType.knowSomeone),
-                height: buttonHeight ?? 56,
+                isSelected: _selectedType == InteractionType.knowSomeone,
+                onPressed: () => _handleSelection(InteractionType.knowSomeone),
+                height: widget.buttonHeight ?? 56,
+                isUpdating: widget.isUpdating,
               ),
             ),
-            SizedBox(width: spacing),
+            SizedBox(width: widget.spacing),
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.notRelevant,
-                onPressed: () => onInteractionPressed?.call(InteractionType.notRelevant),
-                height: buttonHeight ?? 56,
+                isSelected: _selectedType == InteractionType.notRelevant,
+                onPressed: () => _handleSelection(InteractionType.notRelevant),
+                height: widget.buttonHeight ?? 56,
+                isUpdating: widget.isUpdating,
               ),
             ),
           ],
@@ -154,49 +194,77 @@ class InteractionButtonRow extends StatelessWidget {
   }
 }
 
-/// InteractionButtonColumn - Widget voor het weergeven van alle 4 de interaction buttons in een kolom
-class InteractionButtonColumn extends StatelessWidget {
-  final Function(InteractionType)? onInteractionPressed;
+/// CardDetailToggleButtons - Component with 2 buttons specifically for card detail view
+class CardDetailToggleButtons extends StatefulWidget {
+  final Function(InteractionType)? onInteractionChanged;
+  final InteractionType selectedInteractionType;
   final double spacing;
   final double? buttonHeight;
+  final bool isUpdating;
 
-  const InteractionButtonColumn({
+  const CardDetailToggleButtons({
     super.key,
-    this.onInteractionPressed,
-    this.spacing = 8.0,
+    this.onInteractionChanged,
+    this.selectedInteractionType = InteractionType.lookingForThis, // Default to "Searching for"
+    this.spacing = 12.0,
     this.buttonHeight,
+    this.isUpdating = false,
   });
 
   @override
+  State<CardDetailToggleButtons> createState() => _CardDetailToggleButtonsState();
+}
+
+class _CardDetailToggleButtonsState extends State<CardDetailToggleButtons> {
+  late InteractionType _selectedType;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedType = widget.selectedInteractionType;
+  }
+
+  @override
+  void didUpdateWidget(CardDetailToggleButtons oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedInteractionType != oldWidget.selectedInteractionType) {
+      _selectedType = widget.selectedInteractionType;
+    }
+  }
+
+  void _handleSelection(InteractionType type) {
+    setState(() {
+      _selectedType = type;
+    });
+    widget.onInteractionChanged?.call(type);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        InteractionButton(
-          interactionType: InteractionType.thisIsMe,
-          onPressed: () => onInteractionPressed?.call(InteractionType.thisIsMe),
-          height: buttonHeight,
-          width: double.infinity,
+        // "Searching for" button (shown first as requested)
+        Expanded(
+          child: InteractionButton(
+            interactionType: InteractionType.lookingForThis,
+            isSelected: _selectedType == InteractionType.lookingForThis,
+            onPressed: () => _handleSelection(InteractionType.lookingForThis),
+            height: widget.buttonHeight ?? 56,
+            isUpdating: widget.isUpdating,
+          ),
         ),
-        SizedBox(height: spacing),
-        InteractionButton(
-          interactionType: InteractionType.lookingForThis,
-          onPressed: () => onInteractionPressed?.call(InteractionType.lookingForThis),
-          height: buttonHeight,
-          width: double.infinity,
-        ),
-        SizedBox(height: spacing),
-        InteractionButton(
-          interactionType: InteractionType.knowSomeone,
-          onPressed: () => onInteractionPressed?.call(InteractionType.knowSomeone),
-          height: buttonHeight,
-          width: double.infinity,
-        ),
-        SizedBox(height: spacing),
-        InteractionButton(
-          interactionType: InteractionType.notRelevant,
-          onPressed: () => onInteractionPressed?.call(InteractionType.notRelevant),
-          height: buttonHeight,
-          width: double.infinity,
+        
+        SizedBox(width: widget.spacing),
+        
+        // "I can help with" button
+        Expanded(
+          child: InteractionButton(
+            interactionType: InteractionType.thisIsMe,
+            isSelected: _selectedType == InteractionType.thisIsMe,
+            onPressed: () => _handleSelection(InteractionType.thisIsMe),
+            height: widget.buttonHeight ?? 56,
+            isUpdating: widget.isUpdating,
+          ),
         ),
       ],
     );

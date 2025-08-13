@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/buttons/interaction_button.dart';
-import '../../core/theme/venyu_theme.dart';
 import '../base/base_form_view.dart';
-import '../../core/theme/app_modifiers.dart';
 
 /// Card detail view for creating or editing cards/prompts.
 /// 
@@ -106,14 +103,16 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
       children: [
         // Interaction type toggle buttons
         buildFieldSection(
-          title: 'TYPE (TOGGLE BUTTONS)',
-          content: _buildInteractionTypeToggle(),
-        ),
-        
-        // InteractionButtons for comparison
-        buildFieldSection(
-          title: 'COMPARISON (INTERACTION BUTTONS)',
-          content: _buildInteractionButtonsComparison(),
+          title: 'TYPE',
+          content: CardDetailToggleButtons(
+            selectedInteractionType: _selectedInteractionType,
+            onInteractionChanged: (type) {
+              setState(() {
+                _selectedInteractionType = type;
+              });
+            },
+            isUpdating: isUpdating,
+          ),
         ),
         
         // Content field
@@ -135,137 +134,4 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
     );
   }
 
-  /// Builds the interaction type toggle buttons
-  Widget _buildInteractionTypeToggle() {
-    return Row(
-      children: [
-        // "Searching for" button
-        Expanded(
-          child: _buildToggleButton(
-            interactionType: InteractionType.lookingForThis,
-            isSelected: _selectedInteractionType == InteractionType.lookingForThis,
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              setState(() {
-                _selectedInteractionType = InteractionType.lookingForThis;
-              });
-            },
-          ),
-        ),
-        
-        const SizedBox(width: 12),
-        
-        // "I can help with" button  
-        Expanded(
-          child: _buildToggleButton(
-            interactionType: InteractionType.thisIsMe,
-            isSelected: _selectedInteractionType == InteractionType.thisIsMe,
-            onTap: () {
-              HapticFeedback.mediumImpact();
-              setState(() {
-                _selectedInteractionType = InteractionType.thisIsMe;
-              });
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Builds InteractionButtons for comparison
-  Widget _buildInteractionButtonsComparison() {
-    return Row(
-      children: [
-        // "Searching for" InteractionButton
-        Expanded(
-          child: InteractionButton(
-            interactionType: InteractionType.lookingForThis,
-            onPressed: () {
-              // Just for demo - doesn't change selection
-              debugPrint('InteractionButton tapped: ${InteractionType.lookingForThis.buttonTitle}');
-            },
-          ),
-        ),
-        
-        const SizedBox(width: 12),
-        
-        // "I can help with" InteractionButton  
-        Expanded(
-          child: InteractionButton(
-            interactionType: InteractionType.thisIsMe,
-            onPressed: () {
-              // Just for demo - doesn't change selection
-              debugPrint('InteractionButton tapped: ${InteractionType.thisIsMe.buttonTitle}');
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Builds a single toggle button
-  Widget _buildToggleButton({
-    required InteractionType interactionType,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    final theme = context.venyuTheme;
-    final unselectedColor = theme.unselectedText; // Gray in light mode, white in dark mode
-    //final unselectedBorderColor = theme.borderColor;
-    
-    return Material(
-      color: isSelected ? interactionType.color : theme.unselectedBackground,
-      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-      child: InkWell(
-        onTap: isUpdating ? null : onTap,
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-        highlightColor: interactionType.color.withValues(alpha: 0.2),
-        splashColor: interactionType.color.withValues(alpha: 0.3),
-        child: Container(
-          height: 56,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: interactionType.color,
-              width: AppModifiers.thinBorder,
-            ),
-            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-          ),
-          child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Icon
-            Image.asset(
-              interactionType.assetPath,
-              width: 24,
-              height: 24,
-              color: isSelected ? Colors.white : interactionType.color,
-              errorBuilder: (context, error, stackTrace) {
-                return Icon(
-                  interactionType.fallbackIcon,
-                  size: 24,
-                  color: isSelected ? Colors.white : unselectedColor,
-                );
-              },
-            ),
-            
-            const SizedBox(width: 8),
-            
-            // Title
-            Flexible(
-              child: Text(
-                interactionType.buttonTitle,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isSelected ? Colors.white : interactionType.color,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-          ),
-        ),
-      ),
-    );
-  }
 }
