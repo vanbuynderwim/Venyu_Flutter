@@ -66,7 +66,7 @@ class AppLayoutStyles {
         child: InkWell(
           onTap: onTap,
           splashFactory: NoSplash.splashFactory, // No splash/ripple
-          highlightColor: theme.highlightColor.withValues(alpha: 0.1),
+          highlightColor: theme.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: child,
         ),
@@ -109,7 +109,7 @@ class AppLayoutStyles {
               child: InkWell(
                 onTap: onTap,
                 splashFactory: NoSplash.splashFactory, // No splash/ripple
-                highlightColor: (highlightColor ?? theme.highlightColor).withValues(alpha: 0.2),
+                highlightColor: (highlightColor ?? theme.primary).withValues(alpha: 0.2),
                 child: child,
               ),
             ),

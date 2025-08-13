@@ -11,7 +11,7 @@ import '../../services/supabase_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
-import 'add_card_modal.dart';
+import 'card_detail_view.dart';
 
 /// CardsView - Dedicated view for user's cards and prompts
 /// 
@@ -91,8 +91,7 @@ class _CardsViewState extends State<CardsView> {
           child: CardItem(
             prompt: prompt,
             onCardSelected: (selectedPrompt) {
-              // TODO: Handle card selection (navigate to detail view)
-              debugPrint('Card selected: ${selectedPrompt.label}');
+              _navigateToCardDetail(selectedPrompt);
             },
           ),
         );
@@ -141,29 +140,51 @@ class _CardsViewState extends State<CardsView> {
     );
   }
 
-  /// Opens the add card modal
+  /// Opens the card detail view for creating a new card
   Future<void> _openAddCardModal() async {
     HapticFeedback.selectionClick();
-    debugPrint('CardsView: Opening add card modal...');
+    debugPrint('CardsView: Opening card detail view for new card...');
     try {
       final result = await Navigator.of(context).push(
         MaterialPageRoute<bool>(
           builder: (context) {
-            debugPrint('CardsView: Building AddCardModal...');
-            return const AddCardModal();
+            debugPrint('CardsView: Building CardDetailView...');
+            return const CardDetailView(); // No existing prompt = new card
           },
           fullscreenDialog: true,
         ),
       );
       
-      debugPrint('CardsView: Modal closed with result: $result');
+      debugPrint('CardsView: Card detail view closed with result: $result');
       
       // If card was successfully added, refresh the list
       if (result == true) {
         await _loadCards(forceRefresh: true);
       }
     } catch (error) {
-      debugPrint('CardsView: Error opening modal: $error');
+      debugPrint('CardsView: Error opening card detail view: $error');
+    }
+  }
+
+  /// Navigates to the card detail view for editing an existing card
+  Future<void> _navigateToCardDetail(Prompt prompt) async {
+    debugPrint('CardsView: Opening card detail view for editing card: ${prompt.label}');
+    try {
+      final result = await Navigator.of(context).push(
+        MaterialPageRoute<bool>(
+          builder: (context) => CardDetailView(existingPrompt: prompt),
+          fullscreenDialog: true,
+        ),
+      );
+      
+      debugPrint('CardsView: Card detail view closed with result: $result');
+      
+      // If card was successfully updated, refresh the list
+      if (result == true) {
+        await _loadCards(forceRefresh: true);
+      }
+    } catch (error) {
+      debugPrint('CardsView: Error opening card detail view: $error');
     }
   }
 

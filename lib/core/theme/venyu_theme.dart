@@ -72,12 +72,13 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// LinkedIn brand color for social authentication.
   final Color linkedIn;
   
-  /// Selection color for highlights and active states.
-  /// Primary color in light mode, white in dark mode.
-  final Color selectionColor;
+  /// Color for unselected/inactive UI elements.
+  /// Secondary text color in light mode, white in dark mode.
+  final Color unselectedText;
   
-  /// Highlight color for interactive elements (press feedback).
-  final Color highlightColor;
+  /// Background color for unselected/inactive UI elements.
+  /// White in light mode, Pinball gray in dark mode.
+  final Color unselectedBackground;
   
   /// Success color for snackbars and positive feedback messages.
   final Color snackbarSuccess;
@@ -102,8 +103,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.warning,
     required this.info,
     required this.linkedIn,
-    required this.selectionColor,
-    required this.highlightColor,
+    required this.unselectedText,
+    required this.unselectedBackground,
     required this.snackbarSuccess,
     required this.snackbarError,
   });
@@ -125,8 +126,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                      // Warning/Know color
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
-    selectionColor: AppColors.primair4Lilac,      // Primary color for selections
-    highlightColor: AppColors.primair4Lilac,      // Highlight color for interactive feedback
+    unselectedText: AppColors.secundair3Slategray,                // Gray color for unselected elements
+    unselectedBackground: Colors.white,           // White background for unselected elements
     snackbarSuccess: AppColors.me,                // Success color for snackbars
     snackbarError: AppColors.na,                  // Error color for snackbars
   );
@@ -148,8 +149,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                         // Warning/Know color
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
-    selectionColor: Colors.white,                    // White for selections in dark mode
-    highlightColor: Colors.white,                    // White highlight for interactive feedback in dark mode
+    unselectedText: Colors.white,                    // White for unselected elements in dark mode
+    unselectedBackground: AppColors.secundair3Slategray, // Pinball gray background for unselected elements
     snackbarSuccess: AppColors.me,                   // Success color for snackbars
     snackbarError: AppColors.na,                     // Error color for snackbars
   );
@@ -171,8 +172,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? warning,
     Color? info,
     Color? linkedIn,
-    Color? selectionColor,
-    Color? highlightColor,
+    Color? unselectedText,
+    Color? unselectedBackground,
     Color? snackbarSuccess,
     Color? snackbarError,
   }) {
@@ -192,8 +193,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: warning ?? this.warning,
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
-      selectionColor: selectionColor ?? this.selectionColor,
-      highlightColor: highlightColor ?? this.highlightColor,
+      unselectedText: unselectedText ?? this.unselectedText,
+      unselectedBackground: unselectedBackground ?? this.unselectedBackground,
       snackbarSuccess: snackbarSuccess ?? this.snackbarSuccess,
       snackbarError: snackbarError ?? this.snackbarError,
     );
@@ -219,8 +220,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
-      selectionColor: Color.lerp(selectionColor, other.selectionColor, t)!,
-      highlightColor: Color.lerp(highlightColor, other.highlightColor, t)!,
+      unselectedText: Color.lerp(unselectedText, other.unselectedText, t)!,
+      unselectedBackground: Color.lerp(unselectedBackground, other.unselectedBackground, t)!,
       snackbarSuccess: Color.lerp(snackbarSuccess, other.snackbarSuccess, t)!,
       snackbarError: Color.lerp(snackbarError, other.snackbarError, t)!,
     );
@@ -248,7 +249,7 @@ extension VenyuThemeAccess on BuildContext {
   /// Helper to get the correct icon color based on theme and state
   Color getIconColor({bool selected = false}) {
     if (selected) {
-      return venyuTheme.selectionColor;
+      return venyuTheme.primary;
     } else {
       return venyuTheme.secondaryText;
     }

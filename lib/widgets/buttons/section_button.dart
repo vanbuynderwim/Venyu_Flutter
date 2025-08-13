@@ -62,7 +62,7 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
     
     // Use proper background and icon colors based on theme and state
     final backgroundColor = widget.isSelected 
-        ? venyuTheme.selectionColor.withValues(alpha: 0.15)
+        ? venyuTheme.primary.withValues(alpha: 0.15)
         : Colors.transparent;
 
     // Text color logic:
@@ -80,7 +80,7 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
       child: InkWell(
         onTap: isDisabled ? null : widget.onPressed,
         splashFactory: NoSplash.splashFactory,
-        highlightColor: venyuTheme.highlightColor.withValues(alpha: 0.1),
+        highlightColor: venyuTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.zero, // No border radius for section buttons
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -209,7 +209,7 @@ class SectionButtonBar<T extends SectionType> extends StatelessWidget {
                         height: 3,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: venyuTheme.selectionColor,
+                            color: venyuTheme.primary,
                             borderRadius: BorderRadius.circular(1.5),
                           ),
                         ),

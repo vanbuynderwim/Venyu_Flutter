@@ -36,7 +36,7 @@ class _InteractionButtonState extends State<InteractionButton> {
         child: InkWell(
           onTap: widget.onPressed,
           splashFactory: NoSplash.splashFactory,
-          highlightColor: theme.highlightColor.withValues(alpha: 0.1),
+          highlightColor: theme.primary.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
           child: Container(
             decoration: BoxDecoration(
