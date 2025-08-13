@@ -374,7 +374,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   }) {
     final theme = context.venyuTheme;
     
-    return TextFormField(
+    return PlatformTextFormField(
       controller: controller,
       keyboardType: TextInputType.multiline,
       textInputAction: TextInputAction.newline,
@@ -385,60 +385,79 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
         color: enabled ? theme.primaryText : theme.disabledText,
       ),
-      decoration: InputDecoration(
-        hintText: hintText,
-        filled: true,
-        fillColor: theme.cardBackground,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
-            color: theme.borderColor,
-            width: AppModifiers.thinBorder,
+      material: (context, platform) => MaterialTextFormFieldData(
+        decoration: InputDecoration(
+          hintText: hintText,
+          filled: true,
+          fillColor: theme.cardBackground,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: theme.borderColor,
+              width: AppModifiers.thinBorder,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: hasError ? theme.error : theme.borderColor,
+              width: AppModifiers.thinBorder,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: hasError ? theme.error : theme.primary,
+              width: AppModifiers.mediumBorder,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: theme.error,
+              width: AppModifiers.thinBorder,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: theme.error,
+              width: AppModifiers.mediumBorder,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+            borderSide: BorderSide(
+              color: theme.borderColor,
+              width: AppModifiers.thinBorder,
+            ),
+          ),
+          contentPadding: const EdgeInsets.only(
+            left: AppModifiers.mediumSpacing,
+            right: AppModifiers.mediumSpacing,
+            top: AppModifiers.mediumSpacing,
+            bottom: AppModifiers.mediumSpacing,
+          ),
+          hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: theme.secondaryText,
           ),
         ),
-        enabledBorder: OutlineInputBorder(
+      ),
+      cupertino: (context, platform) => CupertinoTextFormFieldData(
+        placeholder: hintText,
+        decoration: BoxDecoration(
+          color: theme.cardBackground,
           borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
+          border: Border.all(
             color: hasError ? theme.error : theme.borderColor,
             width: AppModifiers.thinBorder,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
-            color: hasError ? theme.error : theme.primary,
-            width: AppModifiers.mediumBorder,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
-            color: theme.error,
-            width: AppModifiers.thinBorder,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
-            color: theme.error,
-            width: AppModifiers.mediumBorder,
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-          borderSide: BorderSide(
-            color: theme.borderColor,
-            width: AppModifiers.thinBorder,
-          ),
-        ),
-        contentPadding: const EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: AppModifiers.mediumSpacing,
           right: AppModifiers.mediumSpacing,
           top: AppModifiers.mediumSpacing,
           bottom: AppModifiers.mediumSpacing,
-        ),
-        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: theme.secondaryText,
         ),
       ),
     );
