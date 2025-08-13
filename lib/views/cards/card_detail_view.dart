@@ -99,6 +99,12 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
   bool get useScrollView => false; // We manage our own layout
 
   @override
+  EdgeInsets get formContentPadding => const EdgeInsets.symmetric(
+    horizontal: 12, // Reduced horizontal padding for textarea
+    vertical: 16,
+  );
+
+  @override
   Widget buildFormContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +138,7 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
         ),
         
         // Add 16pt spacing before save button
-        const SizedBox(height: 16),
+        //const SizedBox(height: 16),
       ],
     );
   }

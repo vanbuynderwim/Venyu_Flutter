@@ -388,6 +388,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       material: (context, platform) => MaterialTextFormFieldData(
         decoration: InputDecoration(
           hintText: hintText,
+          alignLabelWithHint: false, // Keep hint at top
           filled: true,
           fillColor: theme.cardBackground,
           border: OutlineInputBorder(
@@ -470,6 +471,12 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   @protected
   bool get useScrollView => true;
 
+  /// Custom padding for the form content
+  /// 
+  /// Override to provide custom padding instead of default cardContentPadding
+  @protected
+  EdgeInsets get formContentPadding => AppModifiers.cardContentPadding;
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -477,16 +484,17 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         title: Text(getFormTitle()),
       ),
       body: SafeArea(
+        bottom: false, // Allow keyboard to overlay the bottom safe area
         child: Column(
           children: [
             Expanded(
               child: useScrollView
                   ? SingleChildScrollView(
-                      padding: AppModifiers.cardContentPadding,
+                      padding: formContentPadding,
                       child: buildFormContent(context),
                     )
                   : Padding(
-                      padding: AppModifiers.cardContentPadding,
+                      padding: formContentPadding,
                       child: buildFormContent(context),
                     ),
             ),
