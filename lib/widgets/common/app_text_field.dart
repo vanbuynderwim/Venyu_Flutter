@@ -46,7 +46,6 @@ class AppTextField extends StatelessWidget {
   final bool autofocus;
   final EdgeInsets? contentPadding;
   final Iterable<String>? autofillHints;
-  final bool expands;
 
   const AppTextField({
     super.key,
@@ -71,7 +70,6 @@ class AppTextField extends StatelessWidget {
     this.autofocus = false,
     this.contentPadding,
     this.autofillHints,
-    this.expands = false,
   });
 
   InputDecoration _getInputDecoration(BuildContext context) {
@@ -214,9 +212,8 @@ class AppTextField extends StatelessWidget {
         textCapitalization: textCapitalization,
         enabled: enabled,
         obscureText: obscureText,
-        maxLines: obscureText ? 1 : (expands ? null : maxLines),
-        minLines: expands ? null : minLines,
-        expands: expands,
+        maxLines: obscureText ? 1 : maxLines,
+        minLines: minLines,
         onChanged: onChanged,
         onTap: onTap,
         autofocus: autofocus,
@@ -279,9 +276,8 @@ class AppTextField extends StatelessWidget {
       textCapitalization: textCapitalization,
       enabled: enabled,
       obscureText: obscureText,
-      maxLines: obscureText ? 1 : (expands ? null : maxLines),
-      minLines: expands ? null : minLines,
-      expands: expands,
+      maxLines: obscureText ? 1 : maxLines,
+      minLines: minLines,
       onChanged: onChanged,
       onTap: onTap,
       autofocus: autofocus,

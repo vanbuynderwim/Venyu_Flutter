@@ -363,6 +363,87 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     );
   }
 
+  /// Build a textarea that expands to fill available space
+  @protected
+  Widget buildTextarea({
+    required TextEditingController controller,
+    required String hintText,
+    bool enabled = true,
+    bool hasError = false,
+    int minLines = 6,
+  }) {
+    final theme = context.venyuTheme;
+    
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.newline,
+      textCapitalization: TextCapitalization.sentences,
+      minLines: minLines,
+      maxLines: null, // Allows unlimited expansion
+      enabled: enabled,
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        color: enabled ? theme.primaryText : theme.disabledText,
+      ),
+      decoration: InputDecoration(
+        hintText: hintText,
+        filled: true,
+        fillColor: theme.cardBackground,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: theme.borderColor,
+            width: AppModifiers.thinBorder,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: hasError ? theme.error : theme.borderColor,
+            width: AppModifiers.thinBorder,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: hasError ? theme.error : theme.primary,
+            width: AppModifiers.mediumBorder,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: theme.error,
+            width: AppModifiers.thinBorder,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: theme.error,
+            width: AppModifiers.mediumBorder,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
+          borderSide: BorderSide(
+            color: theme.borderColor,
+            width: AppModifiers.thinBorder,
+          ),
+        ),
+        contentPadding: const EdgeInsets.only(
+          left: AppModifiers.mediumSpacing,
+          right: AppModifiers.mediumSpacing,
+          top: AppModifiers.mediumSpacing,
+          bottom: AppModifiers.mediumSpacing,
+        ),
+        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          color: theme.secondaryText,
+        ),
+      ),
+    );
+  }
+
   /// Whether to use scroll view for the form content
   /// 
   /// Override to false if your form needs to manage its own scrolling

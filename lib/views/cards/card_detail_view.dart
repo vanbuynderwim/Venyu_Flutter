@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
-import '../../widgets/common/app_text_field.dart';
 import '../../widgets/buttons/interaction_button.dart';
-import '../../core/theme/venyu_theme.dart';
 import '../base/base_form_view.dart';
 
 /// Card detail view for creating or editing cards/prompts.
@@ -121,34 +119,15 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
         
         // Content field - expands to fill remaining space
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'CONTENT',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                  color: context.venyuTheme.secondaryText,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Expanded(
-                child: AppTextField(
-                  controller: _contentController,
-                  hintText: 'What would you like to share?',
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  textCapitalization: TextCapitalization.sentences,
-                  style: AppTextFieldStyle.textarea,
-                  expands: true, // Expand to fill the available height
-                  maxLines: null, // Required when expands is true
-                  minLines: null, // Required when expands is true
-                  state: _contentIsEmpty ? AppTextFieldState.error : AppTextFieldState.normal,
-                  enabled: !isUpdating,
-                ),
-              ),
-            ],
+          child: buildFieldSection(
+            title: 'CONTENT',
+            content: buildTextarea(
+              controller: _contentController,
+              hintText: 'What would you like to share?',
+              enabled: !isUpdating,
+              hasError: _contentIsEmpty,
+              minLines: 8, // Start with 8 lines to fill more space
+            ),
           ),
         ),
         
