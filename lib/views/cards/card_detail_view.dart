@@ -137,6 +137,7 @@ class _CardDetailViewState extends BaseFormViewState<CardDetailView> {
                 child: AppTextField(
                   controller: _contentController,
                   hintText: 'What would you like to share?',
+                  keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
                   textCapitalization: TextCapitalization.sentences,
                   style: AppTextFieldStyle.textarea,
