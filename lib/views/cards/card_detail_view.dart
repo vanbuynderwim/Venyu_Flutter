@@ -11,6 +11,7 @@ import '../../services/supabase_manager.dart';
 import '../../services/session_manager.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
+import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../models/requests/upsert_prompt_request.dart';
@@ -26,10 +27,14 @@ import '../../services/toast_service.dart';
 /// - Scrollable content area
 class CardDetailView extends StatefulWidget {
   final Prompt? existingPrompt; // null for new card, non-null for editing
+  final InteractionType? initialInteractionType; // Pre-selected type for new cards
+  final bool isNewCard; // Whether this is a new card (hides toggle buttons)
 
   const CardDetailView({
     super.key,
     this.existingPrompt,
+    this.initialInteractionType,
+    this.isNewCard = false,
   });
 
   @override
@@ -68,6 +73,10 @@ class _CardDetailViewState extends State<CardDetailView> {
       _contentController.text = _originalContent;
       _selectedInteractionType = _originalInteractionType;
       _contentIsEmpty = false;
+    } else if (widget.initialInteractionType != null) {
+      // Use pre-selected interaction type for new cards
+      _selectedInteractionType = widget.initialInteractionType!;
+      _originalInteractionType = widget.initialInteractionType!;
     }
     
     // Add listener for validation and character limiting
@@ -199,21 +208,13 @@ class _CardDetailViewState extends State<CardDetailView> {
         backgroundColor: Colors.transparent,
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
-          leading: PlatformIconButton(
-            icon: Icon(
-              context.platformIcons.clear,
-              color: isDark ? Colors.white : Colors.black,
-            ),
-            onPressed: _handleClose,
-            padding: EdgeInsets.zero,
-          ),
           trailingActions: [
             Opacity(
               opacity: _contentIsEmpty ? 0.5 : 1.0, // Lower opacity when disabled
               child: Container(
                 decoration: BoxDecoration(
                   color: venyuTheme.primary, // Always use primary color
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                 ),
                 child: PlatformTextButton(
                   onPressed: _contentIsEmpty || _isUpdating ? null : _handleSave,
@@ -227,7 +228,7 @@ class _CardDetailViewState extends State<CardDetailView> {
                           ),
                           material: (_, __) => MaterialProgressIndicatorData(
                             color: venyuTheme.cardBackground, // ActionButton text color
-                            strokeWidth: 2,
+                            strokeWidth: AppModifiers.extraThinBorder * 4,
                           ),
                         ),
                       )
@@ -240,16 +241,16 @@ class _CardDetailViewState extends State<CardDetailView> {
                         ),
                       ),
                   cupertino: (_, __) => CupertinoTextButtonData(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: AppModifiers.buttonPaddingSmall,
                   ),
                   material: (_, __) => MaterialTextButtonData(
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent, // Container handles background
                       foregroundColor: venyuTheme.cardBackground, // ActionButton text color
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: AppModifiers.buttonPaddingSmall,
                       minimumSize: const Size(60, 32),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
                       ),
                     ),
                   ),
@@ -326,19 +327,23 @@ class _CardDetailViewState extends State<CardDetailView> {
               ),
             ),
             
-            // Interaction toggle buttons at bottom
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: CardDetailToggleButtons(
-                selectedInteractionType: _selectedInteractionType,
-                onInteractionChanged: (type) {
-                  setState(() {
-                    _selectedInteractionType = type;
-                  });
-                },
-                isUpdating: _isUpdating,
+            // Interaction toggle buttons at bottom (only for editing)
+            if (!widget.isNewCard)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: CardDetailToggleButtons(
+                  selectedInteractionType: _selectedInteractionType,
+                  onInteractionChanged: (type) {
+                    setState(() {
+                      _selectedInteractionType = type;
+                    });
+                  },
+                  isUpdating: _isUpdating,
+                ),
               ),
-            ),
+            // Add bottom padding when toggle buttons are hidden
+            if (widget.isNewCard)
+              const SizedBox(height: 16),
             ],
           ),
         ),

@@ -1,0 +1,241 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import '../../models/enums/interaction_type.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_fonts.dart';
+import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/action_button_type.dart';
+import 'card_detail_view.dart';
+
+/// Initial selection view for choosing interaction type when creating a new card.
+/// 
+/// This view presents two large, prominent buttons for the user to select
+/// whether they need help or can offer help. After selection, it navigates
+/// to the CardDetailView with the chosen interaction type.
+class InteractionTypeSelectionView extends StatelessWidget {
+  const InteractionTypeSelectionView({super.key});
+
+  void _handleSelection(BuildContext context, InteractionType type) {
+    // Provide medium haptic feedback
+    HapticFeedback.mediumImpact();
+    
+    // Navigate to CardDetailView with the selected interaction type
+    Navigator.of(context).push(
+      platformPageRoute(
+        context: context,
+        builder: (context) => CardDetailView(
+          initialInteractionType: type,
+          isNewCard: true,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
+    
+    return PlatformScaffold(
+        backgroundColor: venyuTheme.pageBackground,
+        appBar: PlatformAppBar(
+          backgroundColor: Colors.white,
+          leading: PlatformIconButton(
+            icon: Icon(
+              context.platformIcons.clear,
+              color: isDark ? Colors.white : Colors.black,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+            padding: EdgeInsets.zero,
+          ),
+          cupertino: (_, __) => CupertinoNavigationBarData(
+            backgroundColor: Colors.transparent,
+            border: null,
+          ),
+          material: (_, __) => MaterialAppBarData(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            centerTitle: true,
+          ),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                const Spacer(flex: 1),
+                
+                // Title text
+                Text(
+                  'Make the net work',
+                  style: TextStyle(
+                    color: venyuTheme.primaryText,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: AppFonts.graphie,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                
+                const SizedBox(height: 8),
+                
+                // Subtitle text
+                Text(
+                  'Choose how you want to connect',
+                  style: TextStyle(
+                    color: venyuTheme.primaryText,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
+                const Spacer(flex: 1),
+                
+                // "I need this" button
+                _InteractionTypeButton(
+                  interactionType: InteractionType.lookingForThis,
+                  onTap: () => _handleSelection(context, InteractionType.lookingForThis),
+                ),
+                
+                const SizedBox(height: AppModifiers.mediumSpacing),
+                
+                // "I can help" button
+                _InteractionTypeButton(
+                  interactionType: InteractionType.thisIsMe,
+                  onTap: () => _handleSelection(context, InteractionType.thisIsMe),
+                ),
+                
+                const Spacer(flex: 2),
+                
+                // "Not now" button
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 48),
+                  child: ActionButton(
+                    label: 'Not now',
+                    type: ActionButtonType.secondary,
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ),
+      );
+  }
+}
+
+/// Individual button widget for interaction type selection.
+class _InteractionTypeButton extends StatelessWidget {
+  final InteractionType interactionType;
+  final VoidCallback onTap;
+
+  const _InteractionTypeButton({
+    required this.interactionType,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: interactionType.color,
+        borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
+        border: Border.all(
+          color: venyuTheme.borderColor,
+          width: AppModifiers.thinBorder,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 10,
+            offset: const Offset(4, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
+          highlightColor: Colors.white.withValues(alpha: 0.3),
+          splashFactory: NoSplash.splashFactory,
+          child: Padding(
+            padding: const EdgeInsets.all(AppModifiers.largeSpacing),
+            child: Row(
+            children: [
+              // Icon asset image
+              Image.asset(
+                interactionType.assetPath,
+                width: 38,
+                height: 38,
+                color: Colors.white,
+                errorBuilder: (context, error, stackTrace) {
+                  // Fallback to icon if asset fails
+                  return Icon(
+                    interactionType.fallbackIcon,
+                    color: Colors.white,
+                    size: 28,
+                  );
+                },
+              ),
+              
+              const SizedBox(width: AppModifiers.mediumSpacing),
+              
+              // Text content from InteractionType
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      interactionType.selectionTitle,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      interactionType.selectionSubtitle,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Chevron icon asset
+              Image.asset(
+                'assets/images/icons/chevron_regular.png',
+                width: 24,
+                height: 24,
+                color: Colors.white,
+                errorBuilder: (context, error, stackTrace) {
+                  // Fallback to icon if asset fails
+                  return Icon(
+                    Icons.chevron_right,
+                    color: Colors.white,
+                    size: 24,
+                  );
+                },
+              ),
+            ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -12,6 +12,7 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
 import 'card_detail_view.dart';
+import 'interaction_type_selection_view.dart';
 
 /// CardsView - Dedicated view for user's cards and prompts
 /// 
@@ -140,10 +141,10 @@ class _CardsViewState extends State<CardsView> {
     );
   }
 
-  /// Opens the card detail view for creating a new card
+  /// Opens the interaction type selection view for creating a new card
   Future<void> _openAddCardModal() async {
     HapticFeedback.selectionClick();
-    debugPrint('CardsView: Opening card detail view for new card...');
+    debugPrint('CardsView: Opening interaction type selection for new card...');
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -152,8 +153,8 @@ class _CardsViewState extends State<CardsView> {
           useSafeArea: true,
         ),
         builder: (context) {
-          debugPrint('CardsView: Building CardDetailView...');
-          return const CardDetailView(); // No existing prompt = new card
+          debugPrint('CardsView: Building InteractionTypeSelectionView...');
+          return const InteractionTypeSelectionView();
         },
       );
       

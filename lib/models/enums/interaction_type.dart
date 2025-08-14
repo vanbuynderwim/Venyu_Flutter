@@ -138,4 +138,36 @@ enum InteractionType {
         return 'What would you like to share?';
     }
   }
+  
+  /// Returns the selection title for the interaction type selection screen.
+  /// 
+  /// This is the main title displayed on the selection button.
+  String get selectionTitle {
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return 'I can help';
+      case InteractionType.lookingForThis:
+        return 'I need help';
+      case InteractionType.knowSomeone:
+        return 'I can refer';
+      case InteractionType.notRelevant:
+        return 'Not relevant';
+    }
+  }
+  
+  /// Returns the selection subtitle for the interaction type selection screen.
+  /// 
+  /// This provides additional context about what the interaction type means.
+  String get selectionSubtitle {
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return 'Offer your expertise';
+      case InteractionType.lookingForThis:
+        return 'Find someone who can help';
+      case InteractionType.knowSomeone:
+        return 'Connect people you know';
+      case InteractionType.notRelevant:
+        return 'Skip this opportunity';
+    }
+  }
 }
