@@ -121,4 +121,21 @@ enum InteractionType {
 
   /// Returns the complete asset path for this interaction type's icon.
   String get assetPath => 'assets/images/buttons/$buttonName.png';
+  
+  /// Returns the hint text to display in the content field based on interaction type.
+  /// 
+  /// Provides contextually appropriate prompts to guide users in creating
+  /// their cards based on whether they're offering help or seeking help.
+  String get hintText {
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return 'What skill or expertise can you offer?';
+      case InteractionType.lookingForThis:
+        return 'What specific help do you need?';
+      case InteractionType.knowSomeone:
+        return 'Who can you connect for this need?';
+      case InteractionType.notRelevant:
+        return 'What would you like to share?';
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -8,6 +9,13 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/character_counter_overlay.dart';
 import '../../services/supabase_manager.dart';
 import '../../services/session_manager.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_fonts.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/dialog_utils.dart';
+import '../../models/requests/upsert_prompt_request.dart';
+import '../../models/enums/toast_type.dart';
+import '../../services/toast_service.dart';
 
 /// Card detail view for creating or editing cards/prompts.
 /// 
@@ -31,6 +39,7 @@ class CardDetailView extends StatefulWidget {
 class _CardDetailViewState extends State<CardDetailView> {
   // Controllers
   final TextEditingController _contentController = TextEditingController();
+  final FocusNode _contentFocusNode = FocusNode();
   
   // Services
   late final SupabaseManager _supabaseManager;
@@ -40,6 +49,8 @@ class _CardDetailViewState extends State<CardDetailView> {
   InteractionType _selectedInteractionType = InteractionType.lookingForThis;
   bool _contentIsEmpty = true;
   bool _isUpdating = false;
+  String _originalContent = '';
+  InteractionType _originalInteractionType = InteractionType.lookingForThis;
   
   // Constants
   static const int _maxLength = 200;
@@ -52,8 +63,10 @@ class _CardDetailViewState extends State<CardDetailView> {
     
     // Load existing data if editing
     if (widget.existingPrompt != null) {
-      _contentController.text = widget.existingPrompt!.label;
-      _selectedInteractionType = widget.existingPrompt!.interactionType ?? InteractionType.lookingForThis;
+      _originalContent = widget.existingPrompt!.label;
+      _originalInteractionType = widget.existingPrompt!.interactionType ?? InteractionType.lookingForThis;
+      _contentController.text = _originalContent;
+      _selectedInteractionType = _originalInteractionType;
       _contentIsEmpty = false;
     }
     
@@ -64,11 +77,17 @@ class _CardDetailViewState extends State<CardDetailView> {
         _contentIsEmpty = _contentController.text.trim().isEmpty;
       });
     });
+    
+    // Auto-focus the content field to open keyboard
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _contentFocusNode.requestFocus();
+    });
   }
 
   @override
   void dispose() {
     _contentController.dispose();
+    _contentFocusNode.dispose();
     super.dispose();
   }
   
@@ -84,6 +103,31 @@ class _CardDetailViewState extends State<CardDetailView> {
     }
   }
 
+  /// Checks if there are unsaved changes
+  bool get _hasUnsavedChanges {
+    final currentContent = _contentController.text.trim();
+    return currentContent != _originalContent || _selectedInteractionType != _originalInteractionType;
+  }
+
+  Future<void> _handleClose() async {
+    if (_hasUnsavedChanges) {
+      final shouldDiscard = await DialogUtils.showConfirmationDialog(
+        context: context,
+        title: 'Discard Changes',
+        message: 'You have unsaved changes. Are you sure you want to discard them?',
+        confirmText: 'Discard',
+        cancelText: 'Cancel',
+        isDestructive: true,
+      );
+      
+      if (!shouldDiscard) return;
+    }
+    
+    if (mounted) {
+      Navigator.of(context).pop(false);
+    }
+  }
+
   Future<void> _handleSave() async {
     if (_contentIsEmpty || _isUpdating) return;
     
@@ -92,15 +136,37 @@ class _CardDetailViewState extends State<CardDetailView> {
     });
     
     try {
-      // TODO: Implement actual save logic
-      await Future.delayed(const Duration(seconds: 1));
+      // Create the upsert request
+      final request = UpsertPromptRequest(
+        promptID: widget.existingPrompt?.promptID,
+        interactionType: _selectedInteractionType,
+        label: _contentController.text.trim(),
+      );
+      
+      // Call the Supabase upsert function
+      await _supabaseManager.upsertPrompt(request);
       
       if (mounted) {
+        // Show success toast
+        ToastService.show(
+          context: context,
+          message: "Thank you for your submission! Your card is under review and you'll receive a notification once it's approved.",
+          type: ToastType.success,
+          duration: const Duration(seconds: 4),
+        );
+        
+        // Close the dialog
         Navigator.of(context).pop(true);
       }
     } catch (error) {
       debugPrint('Error saving card: $error');
-      // TODO: Show error message
+      if (mounted) {
+        ToastService.show(
+          context: context,
+          message: 'Failed to save card. Please try again.',
+          type: ToastType.error,
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -110,35 +176,101 @@ class _CardDetailViewState extends State<CardDetailView> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final venyuTheme = context.venyuTheme;
     
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: Text(widget.existingPrompt != null ? 'Edit Card' : 'New Card'),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            _selectedInteractionType.color,
+            isDark ? AppColors.secundair3Slategray : AppColors.primair7Pearl,
+            isDark ? AppColors.secundair3Slategray : AppColors.primair7Pearl,
+          ],
+        ),
       ),
-      body: SafeArea(
-        bottom: false, // Allow keyboard to overlay the bottom safe area
-        child: Column(
-          children: [
-            // Fixed toggle buttons at top
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: CardDetailToggleButtons(
-                selectedInteractionType: _selectedInteractionType,
-                onInteractionChanged: (type) {
-                  setState(() {
-                    _selectedInteractionType = type;
-                  });
-                },
-                isUpdating: _isUpdating,
+      child: PlatformScaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PlatformAppBar(
+          backgroundColor: Colors.transparent,
+          leading: PlatformIconButton(
+            icon: Icon(
+              context.platformIcons.clear,
+              color: isDark ? Colors.white : Colors.black,
+            ),
+            onPressed: _handleClose,
+            padding: EdgeInsets.zero,
+          ),
+          trailingActions: [
+            Opacity(
+              opacity: _contentIsEmpty ? 0.5 : 1.0, // Lower opacity when disabled
+              child: Container(
+                decoration: BoxDecoration(
+                  color: venyuTheme.primary, // Always use primary color
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PlatformTextButton(
+                  onPressed: _contentIsEmpty || _isUpdating ? null : _handleSave,
+                  child: _isUpdating 
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: PlatformCircularProgressIndicator(
+                          cupertino: (_, __) => CupertinoProgressIndicatorData(
+                            color: venyuTheme.cardBackground, // ActionButton text color
+                          ),
+                          material: (_, __) => MaterialProgressIndicatorData(
+                            color: venyuTheme.cardBackground, // ActionButton text color
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: venyuTheme.cardBackground, // ActionButton text color
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                  cupertino: (_, __) => CupertinoTextButtonData(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  ),
+                  material: (_, __) => MaterialTextButtonData(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent, // Container handles background
+                      foregroundColor: venyuTheme.cardBackground, // ActionButton text color
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      minimumSize: const Size(60, 32),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-            
-            const SizedBox(height: 16),
-            
+          ],
+          cupertino: (_, __) => CupertinoNavigationBarData(
+            backgroundColor: Colors.transparent,
+            border: null, // Remove border
+          ),
+          material: (_, __) => MaterialAppBarData(
+            backgroundColor: Colors.transparent,
+            elevation: 0, // Remove shadow
+            surfaceTintColor: Colors.transparent,
+          ),
+        ),
+        body: SafeArea(
+          bottom: false, // Allow keyboard to overlay the bottom safe area
+          child: Column(
+            children: [
             // Scrollable text field with character counter
             Expanded(
               child: Padding(
@@ -148,31 +280,35 @@ class _CardDetailViewState extends State<CardDetailView> {
                   children: [
                     PlatformTextField(
                       controller: _contentController,
+                      focusNode: _contentFocusNode,
                       maxLines: null,
                       minLines: 1,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(
-                        color: isDark ? Colors.white : Colors.black,
-                        fontSize: 24,
+                        color: venyuTheme.primaryText,
+                        fontSize: 36,
+                        fontFamily: AppFonts.graphie,
                       ),
                       textAlign: TextAlign.center,
                       textCapitalization: TextCapitalization.sentences,
                       enabled: !_isUpdating,
                       cupertino: (_, __) => CupertinoTextFieldData(
-                        placeholder: 'What would you like to share?',
+                        placeholder: _selectedInteractionType.hintText,
                         placeholderStyle: TextStyle(
-                          color: isDark ? Colors.grey[500] : Colors.grey[400],
-                          fontSize: 24,
+                          color: venyuTheme.secondaryText,
+                          fontSize: 36,
+                          fontFamily: AppFonts.graphie,
                         ),
                         decoration: const BoxDecoration(), // No borders
                         padding: EdgeInsets.zero, // No internal padding
                       ),
                       material: (_, __) => MaterialTextFieldData(
                         decoration: InputDecoration(
-                          hintText: 'What would you like to share?',
+                          hintText: _selectedInteractionType.hintText,
                           hintStyle: TextStyle(
-                            color: isDark ? Colors.grey[500] : Colors.grey[400],
-                            fontSize: 24,
+                            color: venyuTheme.secondaryText,
+                            fontSize: 36,
+                            fontFamily: AppFonts.graphie,
                           ),
                           border: InputBorder.none, // No borders
                           contentPadding: EdgeInsets.zero, // No internal padding
@@ -189,17 +325,22 @@ class _CardDetailViewState extends State<CardDetailView> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: ActionButton(
-                label: 'Save',
-                onPressed: _contentIsEmpty ? null : _handleSave,
-                isLoading: _isUpdating,
+            
+            // Interaction toggle buttons at bottom
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: CardDetailToggleButtons(
+                selectedInteractionType: _selectedInteractionType,
+                onInteractionChanged: (type) {
+                  setState(() {
+                    _selectedInteractionType = type;
+                  });
+                },
+                isUpdating: _isUpdating,
               ),
             ),
-            const SizedBox(height: 16),
-          ],
+            ],
+          ),
         ),
       ),
     );

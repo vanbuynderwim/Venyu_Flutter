@@ -16,6 +16,7 @@ import '../models/device.dart';
 import '../models/models.dart';
 import '../models/requests/update_name_request.dart';
 import '../models/requests/update_prompt_status_requests.dart';
+import '../models/requests/upsert_prompt_request.dart';
 import '../models/requests/verify_otp_request.dart';
 
 /// Centralized manager for all Supabase database operations and authentication.
@@ -1446,6 +1447,28 @@ class SupabaseManager {
       await _client.rpc('delete_profile');
       
       debugPrint('✅ Account deleted successfully');
+    });
+  }
+  
+  /// Upserts (inserts or updates) a prompt.
+  /// 
+  /// Creates a new prompt or updates an existing one based on the provided request.
+  /// The prompt is submitted for review and requires approval before becoming active.
+  /// 
+  /// Parameters:
+  /// - [request]: The upsert prompt request containing the prompt details
+  /// 
+  /// Throws:
+  /// - [Exception] if the operation fails
+  Future<void> upsertPrompt(UpsertPromptRequest request) async {
+    debugPrint('📝 Upserting prompt: ${request.label}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client.rpc('upsert_prompt', params: {
+        'payload': request.toJson(),
+      });
+      
+      debugPrint('✅ Prompt upserted successfully');
     });
   }
 

@@ -147,6 +147,10 @@ class _CardsViewState extends State<CardsView> {
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
         builder: (context) {
           debugPrint('CardsView: Building CardDetailView...');
           return const CardDetailView(); // No existing prompt = new card
@@ -170,6 +174,10 @@ class _CardsViewState extends State<CardsView> {
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
         builder: (context) => CardDetailView(existingPrompt: prompt),
       );
       

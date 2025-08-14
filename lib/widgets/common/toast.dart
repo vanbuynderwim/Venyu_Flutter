@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_modifiers.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../models/enums/toast_type.dart';
 
 /// A toast notification widget that displays temporary messages.
@@ -90,7 +89,9 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
           onTap: _dismiss,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
-            height: 56, // Same height as ActionButton
+            constraints: const BoxConstraints(
+              minHeight: 56, // Minimum height same as ActionButton
+            ),
             decoration: BoxDecoration(
               color: widget.type.backgroundColor(context),
               borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
@@ -103,8 +104,9 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(
                     widget.type.icon,
@@ -115,12 +117,14 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
                   Expanded(
                     child: Text(
                       widget.message,
-                      style: AppTextStyles.body.copyWith(
+                      style: TextStyle(
                         color: widget.type.textColor(context),
+                        fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        // Use system font by not specifying fontFamily
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      maxLines: null, // Allow unlimited lines
+                      softWrap: true, // Enable text wrapping
                     ),
                   ),
                 ],

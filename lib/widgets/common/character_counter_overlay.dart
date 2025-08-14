@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 
@@ -77,7 +76,7 @@ class CharacterCounterOverlay extends StatelessWidget {
     final isNearLimit = currentLength > (maxLength * 0.9);
     final isOverLimit = currentLength > maxLength;
     
-    Color textColor = venyuTheme.secondaryText;
+    Color textColor = venyuTheme.primaryText;
     if (isOverLimit) {
       textColor = venyuTheme.error;
     } else if (isNearLimit) {
@@ -95,7 +94,7 @@ class CharacterCounterOverlay extends StatelessWidget {
           vertical: verticalPadding,
         ),
         decoration: BoxDecoration(
-          color: venyuTheme.cardBackground.withValues(alpha: backgroundOpacity),
+          color: venyuTheme.cardBackground,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Text(

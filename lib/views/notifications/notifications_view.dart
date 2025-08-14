@@ -40,13 +40,15 @@ class _NotificationsViewState extends State<NotificationsView>
     if (!SessionManager.shared.isAuthenticated) return;
 
     if (forceRefresh || _notifications.isEmpty) {
-      setState(() {
-        isLoading = true;
-        if (forceRefresh) {
-          _notifications.clear();
-          hasMorePages = true;
-        }
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+          if (forceRefresh) {
+            _notifications.clear();
+            hasMorePages = true;
+          }
+        });
+      }
 
       try {
         final request = PaginatedRequest(
@@ -55,16 +57,20 @@ class _NotificationsViewState extends State<NotificationsView>
         );
 
         final notifications = await SupabaseManager.shared.fetchNotifications(request);
-        setState(() {
-          _notifications.addAll(notifications);
-          hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
-          isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _notifications.addAll(notifications);
+            hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+            isLoading = false;
+          });
+        }
       } catch (error) {
         debugPrint('Error fetching notifications: $error');
-        setState(() {
-          isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
@@ -72,9 +78,11 @@ class _NotificationsViewState extends State<NotificationsView>
   Future<void> _loadMoreNotifications() async {
     if (_notifications.isEmpty || !hasMorePages) return;
 
-    setState(() {
-      isLoadingMore = true;
-    });
+    if (mounted) {
+      setState(() {
+        isLoadingMore = true;
+      });
+    }
 
     try {
       final lastNotification = _notifications.last;
@@ -86,16 +94,20 @@ class _NotificationsViewState extends State<NotificationsView>
       );
 
       final notifications = await SupabaseManager.shared.fetchNotifications(request);
-      setState(() {
-        _notifications.addAll(notifications);
-        hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          _notifications.addAll(notifications);
+          hasMorePages = notifications.length == PaginatedRequest.numberOfNotifications;
+          isLoadingMore = false;
+        });
+      }
     } catch (error) {
       debugPrint('Error loading more notifications: $error');
-      setState(() {
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingMore = false;
+        });
+      }
     }
   }
 

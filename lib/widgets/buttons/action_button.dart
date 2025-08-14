@@ -64,6 +64,9 @@ class ActionButton extends StatefulWidget {
   /// Optional custom width for the button. Defaults to full width.
   final double? width;
   
+  /// Optional custom height for the button. Defaults to 56.
+  final double? height;
+  
   /// Whether this button should only show an icon without a label.
   /// 
   /// When true, [icon] must be provided and [label] is ignored.
@@ -86,6 +89,7 @@ class ActionButton extends StatefulWidget {
     this.icon,
     this.isDisabled = false,
     this.width,
+    this.height,
     this.isIconOnly = false,
     this.isLoading = false,
   }) : assert(label != null || (icon != null && isIconOnly), 
@@ -103,7 +107,7 @@ class _ActionButtonState extends State<ActionButton> {
     
     return SizedBox(
       width: widget.width ?? (isIconOnlyButton ? 56 : double.infinity),
-      height: 56,
+      height: widget.height ?? 56,
       child: AppLayoutStyles.interactiveButton(
         context: context,
         onTap: isActuallyDisabled ? null : widget.onPressed,

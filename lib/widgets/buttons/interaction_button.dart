@@ -31,7 +31,7 @@ class InteractionButton extends StatelessWidget {
       width: width,
       height: height ?? 56,
       child: Material(
-        color: isSelected ? interactionType.color : theme.unselectedBackground.withValues(alpha: 0.8),
+        color: isSelected ? interactionType.color : theme.unselectedBackground,
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
         child: InkWell(
           onTap: isUpdating ? null : () {

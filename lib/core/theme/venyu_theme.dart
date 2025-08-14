@@ -127,7 +127,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
     unselectedText: AppColors.secundair3Slategray,                // Gray color for unselected elements
-    unselectedBackground: Colors.white,           // White background for unselected elements
+    unselectedBackground: AppColors.primair7Pearl,           // White background for unselected elements
     snackbarSuccess: AppColors.me,                // Success color for snackbars
     snackbarError: AppColors.na,                  // Error color for snackbars
   );
