@@ -363,48 +363,6 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     );
   }
 
-  /// Build a textarea that expands to fill available space - SIMPLIFIED VERSION
-  @protected
-  Widget buildTextarea({
-    required TextEditingController controller,
-    required String hintText,
-    bool enabled = true,
-    bool hasError = false,
-    int minLines = 6,
-  }) {
-    final theme = context.venyuTheme;
-    
-    // Simple TextField implementation as requested
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: hasError ? theme.error : theme.borderColor,
-          width: AppModifiers.thinBorder,
-        ),
-        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-        color: theme.cardBackground,
-      ),
-      child: TextField(
-        controller: controller,
-        maxLines: null,
-        minLines: minLines,
-        keyboardType: TextInputType.multiline,
-        textCapitalization: TextCapitalization.sentences,
-        enabled: enabled,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: enabled ? theme.primaryText : theme.disabledText,
-        ),
-        decoration: InputDecoration(
-          hintText: hintText,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.all(12), // Simple padding
-          hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: theme.secondaryText,
-          ),
-        ),
-      ),
-    );
-  }
 
   /// Whether to use scroll view for the form content
   /// 
@@ -424,9 +382,6 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: Text(getFormTitle()),
-      ),
-      material: (_, __) => MaterialScaffoldData(
-        resizeToAvoidBottomInset: true, // Ensure scaffold resizes for keyboard
       ),
       body: SafeArea(
         bottom: false, // Allow keyboard to overlay the bottom safe area

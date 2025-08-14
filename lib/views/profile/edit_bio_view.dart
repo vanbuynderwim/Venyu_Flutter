@@ -4,6 +4,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/edit_personal_info_type.dart';
 import '../../widgets/common/app_text_field.dart';
+import '../../widgets/common/character_counter_overlay.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user biography.
@@ -116,25 +117,9 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
               ),
               
               // Character counter overlay
-              Positioned(
-                bottom: 8,
-                right: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: venyuTheme.cardBackground.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '${_bioController.text.length}/$_textLimit',
-                    style: AppTextStyles.caption1.copyWith(
-                      color: venyuTheme.secondaryText,
-                    ),
-                  ),
-                ),
+              CharacterCounterOverlay(
+                currentLength: _bioController.text.length,
+                maxLength: _textLimit,
               ),
             ],
           ),

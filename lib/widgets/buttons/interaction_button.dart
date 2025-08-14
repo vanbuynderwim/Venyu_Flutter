@@ -31,11 +31,13 @@ class InteractionButton extends StatelessWidget {
       width: width,
       height: height ?? 56,
       child: Material(
-        color: isSelected ? interactionType.color : theme.unselectedBackground,
+        color: isSelected ? interactionType.color : theme.unselectedBackground.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
         child: InkWell(
           onTap: isUpdating ? null : () {
-            HapticFeedback.mediumImpact();
+            if (!isSelected) {
+              HapticFeedback.mediumImpact();
+            }
             onPressed?.call();
           },
           borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
@@ -46,7 +48,7 @@ class InteractionButton extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 color: interactionType.color,
-                width: AppModifiers.thinBorder,
+                width: AppModifiers.mediumBorder,
               ),
               borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
             ),
@@ -76,7 +78,7 @@ class InteractionButton extends StatelessWidget {
                     interactionType.buttonTitle,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: isSelected ? Colors.white : interactionType.color,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
@@ -206,7 +208,7 @@ class CardDetailToggleButtons extends StatefulWidget {
     super.key,
     this.onInteractionChanged,
     this.selectedInteractionType = InteractionType.lookingForThis, // Default to "Searching for"
-    this.spacing = 12.0,
+    this.spacing = 8.0,
     this.buttonHeight,
     this.isUpdating = false,
   });
