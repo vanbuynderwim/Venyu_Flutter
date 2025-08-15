@@ -17,6 +17,7 @@ import '../models/models.dart';
 import '../models/requests/update_name_request.dart';
 import '../models/requests/update_prompt_status_requests.dart';
 import '../models/requests/upsert_prompt_request.dart';
+import '../models/requests/update_prompt_interaction_request.dart';
 import '../models/requests/verify_otp_request.dart';
 
 /// Centralized manager for all Supabase database operations and authentication.
@@ -1034,6 +1035,23 @@ class SupabaseManager {
     });
   }
   
+  /// Fetch prompts for user interaction - equivalent to iOS fetchPrompts()
+  /// 
+  /// This method retrieves prompts that are available for user interaction:
+  /// 1. Calls the get_prompts RPC function
+  /// 2. Returns list of Prompt objects that user can interact with
+  Future<List<Prompt>> fetchPrompts() async {
+    debugPrint('📥 Fetching prompts for user interaction');
+    
+    return await _executeAuthenticatedRequest(() async {
+      final List<dynamic> data = await _client.rpc('get_prompts');
+      final prompts = data.map((json) => Prompt.fromJson(json as Map<String, dynamic>)).toList();
+      
+      debugPrint('✅ Fetched ${prompts.length} prompts');
+      return prompts;
+    });
+  }
+  
   /// Insert device token for push notifications - equivalent to iOS insertDeviceToken(device:)
   /// 
   /// This method registers a device token with the backend:
@@ -1469,6 +1487,23 @@ class SupabaseManager {
       });
       
       debugPrint('✅ Prompt upserted successfully');
+    });
+  }
+
+  /// Insert prompt interaction - equivalent to iOS insertPromptInteraction(request:)
+  /// 
+  /// This method records a user's interaction with a prompt:
+  /// 1. Calls the insert_prompt_interaction RPC function with interaction data
+  /// 2. Tracks user responses (I can help, I need this, etc.)
+  Future<void> insertPromptInteraction(UpdatePromptInteractionRequest request) async {
+    debugPrint('🔄 Inserting prompt interaction: ${request.interactionType.value} for prompt ${request.promptID}');
+    
+    return await _executeAuthenticatedRequest(() async {
+      await _client.rpc('insert_prompt_interaction', params: {
+        'payload': request.toJson(),
+      });
+      
+      debugPrint('✅ Prompt interaction inserted successfully');
     });
   }
 
