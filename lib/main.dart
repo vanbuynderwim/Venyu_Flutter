@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'core/config/app_config.dart';
 import 'core/providers/app_providers.dart';
@@ -16,9 +18,13 @@ import 'services/notification_service.dart';
 import 'views/index.dart';
 
 void main() async {
+  // Critical: Preserve splash screen immediately to prevent white screen
+  // This must be the FIRST thing after ensureInitialized()
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  
   // Temporarily disable Bugsnag for debugging
   // await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
-  WidgetsFlutterBinding.ensureInitialized();
   
   // Load environment variables
   try {
@@ -47,6 +53,7 @@ void main() async {
     AppLogger.error('Cannot continue without Supabase connection', context: 'main');
     return;
   }
+  
   
   // Initialize Firebase and NotificationService (non-blocking)
   NotificationService.shared.initialize().catchError((error) {
@@ -106,6 +113,8 @@ class AuthFlow extends StatefulWidget {
 }
 
 class _AuthFlowState extends State<AuthFlow> {
+  bool _splashRemoved = false;
+
   /// Determines the overall app state by combining auth and profile services.
   AuthenticationState _determineAppState(AuthService authService, ProfileService profileService) {
     // Start with auth state
@@ -118,14 +127,24 @@ class _AuthFlowState extends State<AuthFlow> {
       return authState;
     }
     
-    // If authenticated, check profile registration
+    // If authenticated, check profile registration status
     if (authState == AuthenticationState.authenticated) {
+      // If we don't have a profile yet, stay in loading to prevent flash
+      if (profileService.currentProfile == null) {
+        return AuthenticationState.loading;
+      }
+      
       // Check if profile is registered
       if (profileService.isRegistered) {
         return AuthenticationState.registered;
       } else {
         return AuthenticationState.authenticated;
       }
+    }
+    
+    // If already registered, return that state
+    if (authState == AuthenticationState.registered) {
+      return AuthenticationState.registered;
     }
     
     // Default case
@@ -147,6 +166,23 @@ class _AuthFlowState extends State<AuthFlow> {
         // Determine the overall app state by combining auth and profile services
         final appState = _determineAppState(authService, profileService);
         
+        // Remove splash screen once we have a definitive state AND UI is ready
+        // Following flutter_native_splash best practices
+        if (!_splashRemoved && appState != AuthenticationState.loading) {
+          // Schedule removal after current frame is complete
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // Small delay to ensure UI is stable before transition
+            Future.delayed(const Duration(milliseconds: 150), () {
+              if (!_splashRemoved && mounted) {
+                // Use recommended removal method
+                FlutterNativeSplash.remove();
+                _splashRemoved = true;
+                AppLogger.info('Splash screen removed - app fully initialized', context: 'AuthFlow');
+              }
+            });
+          });
+        }
+        
         switch (appState) {
           case AuthenticationState.loading:
             AppLogger.ui('Showing loading screen', context: 'AuthFlow');
@@ -160,13 +196,13 @@ class _AuthFlowState extends State<AuthFlow> {
             AppLogger.ui('Showing login view', context: 'AuthFlow');
             return const LoginView();
             
-          case AuthenticationState.authenticated:
-            AppLogger.ui('Showing onboard view', context: 'AuthFlow');
-            return const OnboardView();
-            
           case AuthenticationState.registered:
             AppLogger.ui('Showing main view', context: 'AuthFlow');
             return const MainView();
+
+          case AuthenticationState.authenticated:
+            AppLogger.ui('Showing onboard view', context: 'AuthFlow');
+            return const OnboardView();
             
           case AuthenticationState.error:
             AppLogger.ui('Showing error screen', context: 'AuthFlow');

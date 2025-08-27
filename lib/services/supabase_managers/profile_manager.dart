@@ -198,12 +198,13 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// Update profile avatar ID
   Future<void> updateProfileAvatar({required String? avatarID}) async {
     return executeAuthenticatedRequest(() async {
-      AppLogger.info('Updating profile avatar', context: 'ProfileManager');
+      AppLogger.info('Updating profile avatar to: $avatarID', context: 'ProfileManager');
       
-      await client.rpc('update_profile_avatar', params: {
-        'avatar_id': avatarID,
+      final result = await client.rpc('update_profile_avatar', params: {
+        'p_avatar_id': avatarID,
       });
       
+      AppLogger.debug('Database update result: $result', context: 'ProfileManager');
       AppLogger.success('Profile avatar updated successfully', context: 'ProfileManager');
     });
   }

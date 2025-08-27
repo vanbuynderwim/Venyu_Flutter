@@ -9,7 +9,7 @@ import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/login_button_type.dart';
 import '../../widgets/buttons/login_button.dart';
-import '../../services/index.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/index.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -28,29 +28,29 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   // _isSigningIn removed - using mixin's isProcessing
 
-  /// Performs Apple sign in using SessionManager - mirrors iOS implementation
+  /// Performs Apple sign in using AuthService
   Future<void> _signInWithApple() async {
-    final sessionManager = context.read<SessionManager>();
+    final authService = context.read<AuthService>();
     
     await executeWithLoading(
       operation: () async {
-        AppLogger.auth('Starting Apple sign-in via SessionManager', context: 'LoginView');
-        await sessionManager.signInWithApple();
-        AppLogger.auth('Apple sign-in initiated via SessionManager', context: 'LoginView');
+        AppLogger.auth('Starting Apple sign-in via AuthService', context: 'LoginView');
+        await authService.signInWithApple();
+        AppLogger.auth('Apple sign-in initiated via AuthService', context: 'LoginView');
       },
       showSuccessToast: false, // Navigation handled by AuthFlow
-      showErrorToast: false,   // Error handled by SessionManager
+      showErrorToast: false,   // Error handled by AuthService
       useProcessingState: true,
     );
   }
   
   Future<void> _signInWithGoogle() async {
-    final sessionManager = context.read<SessionManager>();
+    final authService = context.read<AuthService>();
     
     await executeWithLoading(
       operation: () async {
         AppLogger.auth('Starting Google sign-in', context: 'LoginView');
-        await sessionManager.signInWithGoogle();
+        await authService.signInWithGoogle();
         AppLogger.auth('Google sign-in initiated successfully', context: 'LoginView');
       },
       showSuccessToast: false,
@@ -60,13 +60,13 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   }
   
   Future<void> _signInWithLinkedIn() async {
-    final sessionManager = context.read<SessionManager>();
+    final authService = context.read<AuthService>();
     
     await executeWithLoading(
       operation: () async {
-        AppLogger.auth('Starting LinkedIn sign-in via SessionManager', context: 'LoginView');
-        await sessionManager.signInWithLinkedIn();
-        AppLogger.auth('LinkedIn sign-in initiated via SessionManager', context: 'LoginView');
+        AppLogger.auth('Starting LinkedIn sign-in via AuthService', context: 'LoginView');
+        await authService.signInWithLinkedIn();
+        AppLogger.auth('LinkedIn sign-in initiated via AuthService', context: 'LoginView');
       },
       showSuccessToast: false,
       showErrorToast: false, 
@@ -160,11 +160,11 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                 
                 const SizedBox(height: 24),
                 
-                // Error message from SessionManager
-                Consumer<SessionManager>(
-                  builder: (context, sessionManager, _) {
-                    if (sessionManager.authState == AuthenticationState.error && 
-                        sessionManager.lastError != null) {
+                // Error message from AuthService
+                Consumer<AuthService>(
+                  builder: (context, authService, _) {
+                    if (authService.authState == AuthenticationState.error && 
+                        authService.lastError != null) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -175,7 +175,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                           borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
                         ),
                         child: Text(
-                          sessionManager.lastError!,
+                          authService.lastError!,
                           style: AppTextStyles.callout.copyWith(
                             color: venyuTheme.error,
                           ),

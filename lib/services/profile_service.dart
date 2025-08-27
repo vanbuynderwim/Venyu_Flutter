@@ -258,6 +258,34 @@ class ProfileService extends ChangeNotifier {
     AppLogger.success('Profile fields updated: ${_currentProfile?.displayName}', context: 'ProfileService');
   }
   
+  /// Check if a profile is complete enough to be considered "registered"
+  /// 
+  /// A complete profile should have:
+  /// - Basic info (firstName, contactEmail) 
+  /// - registeredAt timestamp (indicates completed onboarding)
+  bool isProfileComplete(Profile? profile) {
+    if (profile == null) return false;
+    
+    final hasBasicInfo = profile.firstName.isNotEmpty && 
+                        profile.contactEmail != null && profile.contactEmail!.isNotEmpty;
+    final hasCompletedOnboarding = profile.registeredAt != null;
+    
+    AppLogger.debug('Profile completeness check:', context: 'ProfileService');
+    AppLogger.debug('    - firstName: "${profile.firstName}" (${profile.firstName.isNotEmpty ? "✓" : "✗"})', context: 'ProfileService');
+    AppLogger.debug('    - contactEmail: "${profile.contactEmail}" (${profile.contactEmail != null && profile.contactEmail!.isNotEmpty ? "✓" : "✗"})', context: 'ProfileService');
+    AppLogger.debug('    - registeredAt: ${profile.registeredAt} (${hasCompletedOnboarding ? "✓" : "✗"})', context: 'ProfileService');
+    AppLogger.debug('    - Has basic info: $hasBasicInfo', context: 'ProfileService');
+    AppLogger.debug('    - Has completed onboarding: $hasCompletedOnboarding', context: 'ProfileService');
+    AppLogger.debug('    - Overall complete: ${hasBasicInfo && hasCompletedOnboarding}', context: 'ProfileService');
+    
+    return hasBasicInfo && hasCompletedOnboarding;
+  }
+  
+  /// Clear the current profile data (public method for SessionManager)
+  void clearProfile() {
+    _clearProfile();
+  }
+  
   void _clearProfile() {
     if (_disposed) return;
     
@@ -286,6 +314,9 @@ class ProfileService extends ChangeNotifier {
       
       // Upload new avatar and get the new avatar ID
       final newAvatarID = await _mediaManager.uploadUserProfileAvatar(imageData);
+      
+      // Update database profile record
+      await _profileManager.updateProfileAvatar(avatarID: newAvatarID);
       
       // Update local profile
       updateCurrentProfileFields(avatarID: newAvatarID);
@@ -317,6 +348,9 @@ class ProfileService extends ChangeNotifier {
       );
       
       if (isFullDelete) {
+        // Update database profile record
+        await _profileManager.updateProfileAvatar(avatarID: null);
+        
         // Update local profile
         updateCurrentProfileFields(avatarID: null);
         AppLogger.success('Avatar deleted completely', context: 'ProfileService');

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/edit_personal_info_type.dart';
+import '../../services/profile_service.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/common/character_counter_overlay.dart';
 import '../base/base_form_view.dart';
@@ -35,7 +36,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
   void initializeForm() {
     super.initializeForm();
     // Load current bio
-    final profile = sessionManager.currentProfile;
+    final profile = ProfileService.shared.currentProfile;
     _bioController.text = profile?.bio ?? '';
     
     // Add listener for character limit enforcement
@@ -62,7 +63,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
     await profileManager.updateProfileBio(bio);
     
     // Update local state
-    sessionManager.updateCurrentProfileFields(bio: bio);
+    ProfileService.shared.updateCurrentProfileFields(bio: bio);
   }
 
   @override

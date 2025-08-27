@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/website_validator.dart';
+import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
@@ -40,7 +41,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
   }
 
   void _preloadValues() {
-    final profile = sessionManager.currentProfile;
+    final profile = ProfileService.shared.currentProfile;
     if (profile != null) {
       _companyNameController.text = profile.companyName ?? '';
       _websiteController.text = profile.websiteURL ?? '';
@@ -74,8 +75,8 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     
     await profileManager.updateCompanyInfo(_companyNameController.text, cleanedWebsiteURL);
     
-    // Update only the changed fields in SessionManager
-    sessionManager.updateCurrentProfileFields(
+    // Update only the changed fields in ProfileService
+    ProfileService.shared.updateCurrentProfileFields(
       companyName: _companyNameController.text,
       websiteURL: cleanedWebsiteURL,
     );

@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
-import '../../services/session_manager.dart';
+import '../../services/profile_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -37,13 +37,13 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
       final profileManager = ProfileManager.shared;
       await profileManager.completeRegistration();
       
-      // Refresh the user profile so SessionManager knows registration is complete
-      final sessionManager = SessionManager.shared;
-      await sessionManager.refreshProfile();
+      // Refresh the user profile so ProfileService knows registration is complete
+      final profileService = ProfileService.shared;
+      await profileService.refreshProfile();
       
       AppLogger.success('Registration completed successfully', context: 'RegistrationCompleteView');
-      AppLogger.info('Current auth state: ${sessionManager.authState}', context: 'RegistrationCompleteView');
-      AppLogger.info('Profile registered at: ${sessionManager.currentProfile?.registeredAt}', context: 'RegistrationCompleteView');
+      AppLogger.info('Profile registered: ${profileService.isRegistered}', context: 'RegistrationCompleteView');
+      AppLogger.info('Profile registered at: ${profileService.currentProfile?.registeredAt}', context: 'RegistrationCompleteView');
       
       // Navigate to main app - registration is complete
       if (mounted) {

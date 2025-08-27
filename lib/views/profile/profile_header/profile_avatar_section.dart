@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../mixins/error_handling_mixin.dart';
 import '../../../models/profile.dart';
 import '../../../services/avatar_upload_service.dart';
+import '../../../services/profile_service.dart';
 import '../../../widgets/common/avatar_view.dart';
 import '../../../widgets/common/avatar_fullscreen_viewer.dart';
 
@@ -58,23 +60,37 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   bool _isUploading = false;
   bool _isRemoving = false;
   String? _forceNoAvatar; // Force showing no avatar for specific ID
+  Profile? _currentProfile; // Cache current profile for event handlers
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     
-    // Always use regular avatar - no local preview
-    // Use key to force rebuild when avatar changes
-    // During removal or if we've marked this avatar ID as removed, show null
-    final shouldShowAvatar = !_isRemoving && 
-                            widget.profile.avatarID != null && 
-                            widget.profile.avatarID != _forceNoAvatar;
-    
-    final avatarContent = AvatarView(
-      key: ValueKey(shouldShowAvatar ? widget.profile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
-      avatarId: shouldShowAvatar ? widget.profile.avatarID : null,
-      size: widget.avatarSize,
+    return Consumer<ProfileService>(
+      builder: (context, profileService, child) {
+        // Use live profile data from ProfileService instead of widget parameter
+        final currentProfile = profileService.currentProfile ?? widget.profile;
+        _currentProfile = currentProfile; // Cache for event handlers
+        
+        // Always use regular avatar - no local preview
+        // Use key to force rebuild when avatar changes
+        // During removal or if we've marked this avatar ID as removed, show null
+        final shouldShowAvatar = !_isRemoving && 
+                                currentProfile.avatarID != null && 
+                                currentProfile.avatarID != _forceNoAvatar;
+        
+        final avatarContent = AvatarView(
+          key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
+          avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
+          size: widget.avatarSize,
+        );
+        
+        return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
+      },
     );
+  }
+  
+  Widget _buildAvatarWidget(BuildContext context, VenyuTheme venyuTheme, Widget avatarContent, Profile currentProfile) {
 
     final avatarWidget = widget.isEditable
         ? Stack(
@@ -124,7 +140,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
     if (widget.isEditable) {
       return _AvatarMenuWrapper(
         avatar: avatarWidget,
-        options: _buildAvatarMenuOptions(context),
+        options: _buildAvatarMenuOptions(context, currentProfile),
       );
     }
 
@@ -140,8 +156,8 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   }
 
   /// Builds the avatar menu options for PlatformPopupMenu
-  List<PopupMenuOption> _buildAvatarMenuOptions(BuildContext context) {
-    final hasAvatar = widget.profile.avatarID != null && widget.profile.avatarID != _forceNoAvatar;
+  List<PopupMenuOption> _buildAvatarMenuOptions(BuildContext context, Profile currentProfile) {
+    final hasAvatar = currentProfile.avatarID != null && currentProfile.avatarID != _forceNoAvatar;
     final venyuTheme = context.venyuTheme;
     
     final options = <PopupMenuOption>[
@@ -368,7 +384,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   Future<void> _viewAvatar(BuildContext context) async {
     await AvatarFullscreenViewer.show(
       context: context,
-      avatarId: widget.profile.avatarID,
+      avatarId: _currentProfile?.avatarID ?? widget.profile.avatarID,
       showBorder: false,
       preserveAspectRatio: true,
     );
@@ -377,7 +393,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   /// Remove avatar with confirmation
   Future<void> _removeAvatar(BuildContext context) async {
     // Remember the current avatar ID before deletion
-    final currentAvatarID = widget.profile.avatarID;
+    final currentAvatarID = _currentProfile?.avatarID ?? widget.profile.avatarID;
     
     final success = await AvatarUploadService.removeAvatar(
       context: context,

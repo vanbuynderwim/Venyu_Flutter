@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../core/utils/app_logger.dart';
 import '../core/utils/dialog_utils.dart';
-import 'session_manager.dart';
+import 'profile_service.dart';
 import 'toast_service.dart';
 
 /// Service for handling avatar upload operations
@@ -44,7 +44,7 @@ class AvatarUploadService {
       final imageBytes = await pickedFile.readAsBytes();
       
       // Upload to server
-      await SessionManager.shared.uploadUserProfileAvatar(imageBytes);
+      await ProfileService.shared.uploadUserProfileAvatar(imageBytes);
       
       // Show success message
       /*if (context.mounted) {
@@ -123,8 +123,8 @@ class AvatarUploadService {
       // Notify removal start
       onRemoveStart?.call();
       
-      // Remove avatar via SessionManager
-      await SessionManager.shared.deleteProfileAvatar();
+      // Remove avatar via ProfileService
+      await ProfileService.shared.deleteProfileAvatar();
       
       // Show success message
       /*if (context.mounted) {

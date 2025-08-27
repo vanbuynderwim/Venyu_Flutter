@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../utils/linked_in_validator.dart';
 import '../../services/supabase_managers/base_supabase_manager.dart';
+import '../../services/profile_service.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
@@ -55,7 +56,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   }
 
   void _preloadValues() async {
-    final profile = sessionManager.currentProfile;
+    final profile = ProfileService.shared.currentProfile;
     
     _firstNameController.text = profile?.firstName.isNotEmpty == true 
         ? profile!.firstName 
@@ -160,7 +161,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     );
     
     // Update local state
-    sessionManager.updateCurrentProfileFields(
+    ProfileService.shared.updateCurrentProfileFields(
       firstName: _firstNameController.text,
       lastName: _lastNameController.text,
       linkedInURL: cleanedLinkedInURL,

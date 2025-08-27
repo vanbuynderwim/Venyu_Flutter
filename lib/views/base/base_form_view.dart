@@ -8,7 +8,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/registration_step.dart';
-import '../../services/session_manager.dart';
+import '../../services/profile_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/tag_group_service.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -42,7 +42,7 @@ import '../profile/registration_complete_view.dart';
 ///   @override
 ///   Future<void> performSave() async {
 ///     await supabaseManager.updateProfileName(...);
-///     sessionManager.updateCurrentProfileFields(...);
+///     ProfileService.shared.updateCurrentProfileFields(...);
 ///   }
 /// }
 /// ```
@@ -70,11 +70,12 @@ abstract class BaseFormView extends StatefulWidget {
 abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with ErrorHandlingMixin<T> {
   /// Service instances
   late final ProfileManager _profileManager;
-  late final SessionManager _sessionManager;
+  late final ProfileService _profileService;
   
   /// Getters for services (available to subclasses)
   ProfileManager get profileManager => _profileManager;
-  SessionManager get sessionManager => _sessionManager;
+  ProfileService get sessionManager => _profileService;
+  ProfileService get profileService => _profileService;
   
   /// Whether the form is currently saving (uses mixin's isProcessing state)
   bool get isUpdating => isProcessing;
@@ -83,7 +84,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
   void initState() {
     super.initState();
     _profileManager = ProfileManager.shared;
-    _sessionManager = SessionManager.shared;
+    _profileService = ProfileService.shared;
     initializeForm();
   }
 

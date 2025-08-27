@@ -9,7 +9,7 @@ import '../../models/enums/action_button_type.dart';
 import '../../models/tag.dart';
 import '../../models/tag_group.dart';
 import '../../services/supabase_managers/content_manager.dart';
-import '../../services/session_manager.dart';
+import '../../services/profile_service.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/tag_group_service.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -40,7 +40,7 @@ class EditTagGroupView extends StatefulWidget {
 
 class _EditTagGroupViewState extends State<EditTagGroupView> {
   final ContentManager _contentManager = ContentManager.shared;
-  final SessionManager _sessionManager = SessionManager.shared;
+  final ProfileService _profileService = ProfileService.shared;
   TagGroup? _currentTagGroup;
   bool _isLoading = true;
   bool _isSaving = false;
@@ -333,10 +333,10 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     }
   }
 
-  /// Updates the local SessionManager profile with the new tag selections
+  /// Updates the local ProfileService profile with the new tag selections
   /// This ensures that ProfileView updates immediately without requiring a refresh
   void _updateLocalProfile() {
-    final currentProfile = _sessionManager.currentProfile;
+    final currentProfile = _profileService.currentProfile;
     if (currentProfile?.taggroups == null || _currentTagGroup == null) {
       AppLogger.warning('Cannot update local profile - missing data', context: 'EditTagGroupView');
       return;
@@ -367,8 +367,8 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
       updatedTagGroups[groupIndex] = updatedTagGroup;
 
-      // Update the SessionManager with the new taggroups
-      _sessionManager.updateCurrentProfileFields(
+      // Update the ProfileService with the new taggroups
+      _profileService.updateCurrentProfileFields(
         taggroups: updatedTagGroups,
       );
 

@@ -94,6 +94,21 @@ class TagGroupService {
         .toList();
   }
 
+  /// Initialize TagGroup cache after authentication.
+  /// 
+  /// This method loads all tag groups in the background after successful authentication.
+  /// It does not block if it fails and is safe to call multiple times.
+  Future<void> initializeAfterAuth() async {
+    try {
+      AppLogger.info('Initializing TagGroups cache after authentication', context: 'TagGroupService');
+      final tagGroups = await loadTagGroups();
+      AppLogger.success('TagGroups cache initialized with ${tagGroups.length} groups', context: 'TagGroupService');
+    } catch (error) {
+      AppLogger.warning('Failed to initialize TagGroups cache: $error', context: 'TagGroupService');
+      // Don't throw - this is a background optimization
+    }
+  }
+
   /// Clear the cached tag groups.
   /// 
   /// Useful for testing or when you want to force a fresh load.

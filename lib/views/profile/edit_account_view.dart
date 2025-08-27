@@ -7,7 +7,7 @@ import '../../core/utils/dialog_utils.dart';
 import '../../core/utils/app_logger.dart';
 import '../../main.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../services/session_manager.dart';
+import '../../services/auth_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -210,7 +210,7 @@ class _EditAccountViewState extends State<EditAccountView> {
       await ProfileManager.shared.deleteAccount();
       
       // Sign out after deletion
-      await SessionManager.shared.signOut();
+      await AuthService.shared.signOut();
       
       // Navigate back to AuthFlow which will show LoginView based on auth state
       if (mounted) {
@@ -268,7 +268,7 @@ class _EditAccountViewState extends State<EditAccountView> {
     });
 
     try {
-      await SessionManager.shared.signOut();
+      await AuthService.shared.signOut();
       
       // Navigate back to AuthFlow which will show LoginView based on auth state
       if (mounted) {

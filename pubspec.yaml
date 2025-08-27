@@ -70,6 +70,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  
+  # Native splash screen generator
+  flutter_native_splash: ^2.4.1
+  
+  # App icon generator
+  flutter_launcher_icons: ^0.14.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -139,3 +145,144 @@ flutter:
         - asset: assets/fonts/Graphie_ExtraBold_Italic.otf
           weight: 800
           style: italic
+
+# Flutter Native Splash configuration
+flutter_native_splash:
+  # This package generates native code to customize Flutter's default white native splash screen
+  # with background color and splash image.
+  # Customize the parameters below, and run the following command in the terminal:
+  # flutter pub get
+  # flutter pub run flutter_native_splash:create
+  
+  # background_image: "assets/background.png"
+  
+  # The image parameter allows you to specify an image used in the splash screen.  It must be a
+  # png file and should be sized for 4x pixel density.
+  image: assets/images/visuals/splash_logo.png
+  
+  # The branding property allows you to specify an image used as branding in the splash screen.
+  # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
+  # see the Android 12 section below.
+  #branding: assets/dart.png
+
+  # To position the branding image at the bottom of the screen you can use bottom, bottomRight,
+  # and bottomLeft. The default values is bottom if not specified or specified something else.
+  #branding_mode: bottom
+
+  # The color property allows you to specify a color for the background of your splash screen.
+  # The value provided must be a valid RGB hex color.
+  color: "#7171FF"  # primair4Lilac - primary color
+  
+  # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
+  # the leading # character.
+
+  # The color_dark property allows you to specify a different color for the background of your
+  # splash screen when device is in dark mode. The value provided must be a valid RGB hex color.
+  color_dark: "#121212"  # secundair1Deepblack - deep black background
+
+  # The image_dark property allows you to specify a different image for the splash screen when
+  # device is in dark mode. Using same white transparent logo for both modes.
+  image_dark: assets/images/visuals/splash_logo.png
+
+  # The android, ios and web parameters can be used to disable the splash screen on a per
+  # platform basis.  If a parameter is not specified, the platform will be enabled.
+  android: true
+  ios: true
+  web: false
+
+  # Platform specific images can be specified with the following parameters, which will override
+  # the respective parameter. You may specify all, selected, or none of these parameters:
+  #color_android: "#42a5f5"
+  #color_dark_android: "#042a49"
+  #color_ios: "#42a5f5"
+  #color_dark_ios: "#042a49"
+  #image_android: assets/splash-android.png
+  #image_dark_android: assets/splash-android-dark.png
+  #image_ios: assets/splash-ios.png
+  #image_dark_ios: assets/splash-ios-dark.png
+  #color_web: "#42a5f5"
+  #color_dark_web: "#042a49"
+  #image_web: assets/splash-web.png
+  #image_dark_web: assets/splash-web-dark.png
+
+  # The position of the splash image can be set with android_gravity, ios_content_mode, and
+  # web_image_mode parameters.  All default to center.
+  #
+  # android_gravity can be one of the following Android Gravity (see
+  # https://developer.android.com/reference/android/view/Gravity): bottom, center, 
+  # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
+  # fill_vertical, left, right, start, or top.
+  #android_gravity: center
+  #
+  # ios_content_mode can be one of the following iOS UIView.ContentMode (see 
+  # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill, 
+  # scaleAspectFit, scaleAspectFill, center, top, bottom, left, right, topLeft, topRight, 
+  # bottomLeft, or bottomRight.
+  #ios_content_mode: center
+  #
+  # web_image_mode can be one of the following modes: center, contain, stretch, and cover.
+  #web_image_mode: center
+
+  # To hide the notification bar, use the fullscreen parameter.  Has no effect in web since web 
+  # has no notification bar.  Defaults to false.
+  # NOTE: Unlike Android, iOS will not automatically show the notification bar when the app loads.
+  #       To show the notification bar, add the following code to your Flutter app:
+  #       WidgetsFlutterBinding.ensureInitialized();
+  #       SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  fullscreen: true
+  
+  # Additional settings to prevent white screen flashing
+  # These help ensure immediate splash screen display
+  android_gravity: center
+  ios_content_mode: center
+  
+  # Android 12 splash screen support
+  android_12:
+    # The image parameter sets the splash screen icon image.  If this parameter is not specified,
+    # the app's launcher icon will be used instead.
+    # Please note that the splash screen will be clipped to a circle on the center of the screen.
+    # App icon with an icon background: This should be 240×240dp with a maximum radius of 108dp.
+    # App icon without an icon background: This should be 288×288dp, or 144dp radius.
+    image: assets/images/visuals/splash_logo.png
+    
+    # The image_dark parameter sets the splash screen icon image for dark mode.
+    # Using same white transparent logo for both modes.
+    image_dark: assets/images/visuals/splash_logo.png
+    
+    # Splash screen background color.
+    color: "#7171FF"  # primair4Lilac - primary color
+    
+    # Splash screen background color in dark mode.
+    color_dark: "#121212"  # secundair1Deepblack - deep black background
+
+  # If you have changed the name(s) of your info.plist file(s), you can specify the filename(s) 
+  # with the info_plist_files parameter.  Remove only the # characters in the three lines below,
+  # do not remove any spaces:
+  #info_plist_files:
+  #  - 'ios/Runner/Info-Debug.plist'
+  #  - 'ios/Runner/Info-Release.plist'
+
+# Flutter Launcher Icons configuration
+flutter_launcher_icons:
+  # This package generates app icons for both Android and iOS platforms.
+  # Run the following command in the terminal:
+  # flutter pub get
+  # flutter pub run flutter_launcher_icons:main
+  
+  android: true
+  ios: true
+  
+  # The main image path for both platforms
+  image_path: "assets/images/visuals/app_icon.png"
+  
+  # Platform-specific configuration
+  android_config:
+    generate: true
+    image_path: "assets/images/visuals/app_icon.png"
+  
+  ios_config:
+    generate: true
+    image_path: "assets/images/visuals/app_icon.png"
+    
+  # Remove the old Flutter logo
+  remove_alpha_ios: true

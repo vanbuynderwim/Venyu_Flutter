@@ -122,7 +122,7 @@ class MediaManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Generate unique avatar ID
       final avatarId = _generateUUID();
-      final fileName = '$avatarId.jpg';
+      final fileName = '${avatarId.toUpperCase()}.jpg';
       final bucket = RemoteImagePath.avatars.value;
       
       await client.storage.from(bucket).uploadBinary(
@@ -147,11 +147,45 @@ class MediaManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       AppLogger.storage('Deleting user profile avatar: $avatarID', context: 'MediaManager');
       
-      final fileName = '$avatarID.jpg';
+      final fileName = '${avatarID.toUpperCase()}.jpg';
       final bucket = RemoteImagePath.avatars.value;
       
-      await client.storage.from(bucket).remove([fileName]);
+      AppLogger.debug('Attempting to delete file: $fileName from bucket: $bucket', context: 'MediaManager');
       
+      // Check if file exists first and show all files for debugging
+      try {
+        final allFiles = await client.storage.from(bucket).list(path: '');
+        AppLogger.debug('All files in bucket $bucket: ${allFiles.length} files', context: 'MediaManager');
+        for (final file in allFiles.take(5)) { // Show first 5 files
+          AppLogger.debug('  - ${file.name} (size: ${file.metadata?['size']}, updated: ${file.updatedAt})', context: 'MediaManager');
+        }
+        
+        final targetFiles = allFiles.where((file) => file.name == fileName).toList();
+        AppLogger.debug('Files with exact name $fileName: ${targetFiles.length}', context: 'MediaManager');
+        
+        if (targetFiles.isEmpty) {
+          AppLogger.warning('File $fileName not found in bucket $bucket', context: 'MediaManager');
+          // Try case-insensitive search
+          final caseInsensitive = allFiles.where((file) => file.name.toLowerCase() == fileName.toLowerCase()).toList();
+          if (caseInsensitive.isNotEmpty) {
+            AppLogger.warning('Found case-insensitive matches: ${caseInsensitive.map((f) => f.name).join(", ")}', context: 'MediaManager');
+          }
+        } else {
+          AppLogger.info('Found target file: ${targetFiles.first.name} (${targetFiles.first.metadata?['size']} bytes)', context: 'MediaManager');
+        }
+      } catch (e) {
+        AppLogger.warning('Could not list files: $e', context: 'MediaManager');
+      }
+      
+      final result = await client.storage.from(bucket).remove([fileName]);
+      
+      AppLogger.debug('Delete result: $result (${result.length} files deleted)', context: 'MediaManager');
+      
+      if (result.isEmpty) {
+        AppLogger.warning('No files were deleted - file may not exist', context: 'MediaManager');
+      } else {
+        AppLogger.info('Successfully deleted ${result.length} files: ${result.map((f) => f.name).join(', ')}', context: 'MediaManager');
+      }
       AppLogger.success('Profile avatar deleted successfully', context: 'MediaManager');
     });
   }

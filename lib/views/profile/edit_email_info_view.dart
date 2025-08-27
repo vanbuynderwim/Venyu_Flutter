@@ -5,6 +5,7 @@ import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
+import '../../services/profile_service.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -59,7 +60,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
 
   /// Preload current email if exists
   void _preloadEmail() {
-    final currentEmail = sessionManager.currentProfile?.contactEmail;
+    final currentEmail = ProfileService.shared.currentProfile?.contactEmail;
     if (currentEmail != null && currentEmail.isNotEmpty) {
       _emailController.text = currentEmail;
       _isEmailValid = true;
@@ -256,7 +257,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     );
     
     // Update local profile
-    sessionManager.updateCurrentProfileFields(
+    ProfileService.shared.updateCurrentProfileFields(
       contactEmail: _emailController.text.trim(),
     );
   }

@@ -10,6 +10,7 @@ import '../../models/enums/edit_company_info_type.dart';
 import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
 import '../../services/session_manager.dart';
+import '../../services/profile_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -219,7 +220,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       // Refresh profile data from server when forced or when needed
       if (forceRefresh || _sessionManager.currentProfile == null) {
         final refreshedProfile = await _profileManager.fetchUserProfile();
-        _sessionManager.updateCurrentProfile(refreshedProfile);
+        ProfileService.shared.updateCurrentProfile(refreshedProfile);
       }
       
       setState(() {
