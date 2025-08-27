@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 
 /// InteractionButton - New toggle button implementation with Material Design interactions
@@ -31,8 +32,8 @@ class InteractionButton extends StatelessWidget {
       width: width,
       height: height ?? 56,
       child: Material(
-        color: isSelected ? interactionType.color : theme.unselectedBackground,
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+        color: isSelected ? interactionType.color : Colors.transparent,
+        borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
         child: InkWell(
           onTap: isUpdating ? null : () {
             if (!isSelected) {
@@ -40,26 +41,19 @@ class InteractionButton extends StatelessWidget {
             }
             onPressed?.call();
           },
-          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+          borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
           highlightColor: interactionType.color.withValues(alpha: 0.2),
           splashColor: interactionType.color.withValues(alpha: 0.3),
-          child: Container(
+          child: SizedBox(
             height: height ?? 56,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: interactionType.color,
-                width: AppModifiers.mediumBorder,
-              ),
-              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Icon
                 Image.asset(
                   interactionType.assetPath,
-                  width: 24,
-                  height: 24,
+                  width: 20,
+                  height: 20,
                   color: isSelected ? Colors.white : interactionType.color,
                   errorBuilder: (context, error, stackTrace) {
                     return Icon(
@@ -69,14 +63,14 @@ class InteractionButton extends StatelessWidget {
                     );
                   },
                 ),
-                
+
                 const SizedBox(width: 8),
-                
+
                 // Title
                 Flexible(
                   child: Text(
                     interactionType.buttonTitle,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: AppTextStyles.headline.copyWith(
                       color: isSelected ? Colors.white : interactionType.color,
                       fontWeight: FontWeight.w600,
                     ),
@@ -150,7 +144,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 interactionType: InteractionType.thisIsMe,
                 isSelected: _selectedType == InteractionType.thisIsMe,
                 onPressed: () => _handleSelection(InteractionType.thisIsMe),
-                height: widget.buttonHeight ?? 56,
+                height: widget.buttonHeight ?? 48,
                 isUpdating: widget.isUpdating,
               ),
             ),
@@ -160,7 +154,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 interactionType: InteractionType.lookingForThis,
                 isSelected: _selectedType == InteractionType.lookingForThis,
                 onPressed: () => _handleSelection(InteractionType.lookingForThis),
-                height: widget.buttonHeight ?? 56,
+                height: widget.buttonHeight ?? 48,
                 isUpdating: widget.isUpdating,
               ),
             ),
@@ -175,7 +169,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 interactionType: InteractionType.knowSomeone,
                 isSelected: _selectedType == InteractionType.knowSomeone,
                 onPressed: () => _handleSelection(InteractionType.knowSomeone),
-                height: widget.buttonHeight ?? 56,
+                height: widget.buttonHeight ?? 48,
                 isUpdating: widget.isUpdating,
               ),
             ),
@@ -185,7 +179,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 interactionType: InteractionType.notRelevant,
                 isSelected: _selectedType == InteractionType.notRelevant,
                 onPressed: () => _handleSelection(InteractionType.notRelevant),
-                height: widget.buttonHeight ?? 56,
+                height: widget.buttonHeight ?? 48,
                 isUpdating: widget.isUpdating,
               ),
             ),

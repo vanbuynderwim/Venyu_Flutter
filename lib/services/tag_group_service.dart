@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 
+import '../core/utils/app_logger.dart';
 import '../models/tag_group.dart';
-import 'supabase_manager.dart';
+import 'supabase_managers/content_manager.dart';
 
 /// Service for managing and caching tag group data.
 /// 
@@ -50,13 +50,13 @@ class TagGroupService {
     _isLoading = true;
 
     try {
-      final supabaseManager = SupabaseManager.shared;
-      final tagGroups = await supabaseManager.fetchAllTagGroups();
+      final contentManager = ContentManager.shared;
+      final tagGroups = await contentManager.fetchAllTagGroups();
       
       _cachedTagGroups = tagGroups;
       
       // Debug: Log all cached TagGroup codes
-      debugPrint('🏷️ Cached TagGroup codes: ${tagGroups.map((tg) => tg.code).toList()}');
+      AppLogger.debug('Cached TagGroup codes: ${tagGroups.map((tg) => tg.code).toList()}', context: 'TagGroupService');
       
       return tagGroups;
     } finally {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/avatar_upload_service.dart';
@@ -50,7 +50,6 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +111,6 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                       fontSize: 16,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
@@ -126,9 +124,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
         Center(
           child: Text(
             'Add a profile picture',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.title2,
           ),
         ),
         
@@ -141,7 +137,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
             child: Text(
               'Your avatar is often the first impression. Make it count by using a clear, welcoming headshot.',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              style: AppTextStyles.subheadline.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
@@ -210,7 +206,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
 
   /// Handle camera upload
   Future<void> _handleCameraUpload() async {
-    final success = await AvatarUploadService.pickFromCameraAndUpload(
+    await AvatarUploadService.pickFromCameraAndUpload(
       context: context,
       onUploadStart: () {
         setState(() {
@@ -231,7 +227,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
 
   /// Handle gallery upload
   Future<void> _handleGalleryUpload() async {
-    final success = await AvatarUploadService.pickFromGalleryAndUpload(
+    await AvatarUploadService.pickFromGalleryAndUpload(
       context: context,
       onUploadStart: () {
         setState(() {

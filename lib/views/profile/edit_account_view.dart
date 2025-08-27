@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../main.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 
@@ -97,8 +98,7 @@ class _EditAccountViewState extends State<EditAccountView> {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
+          style: AppTextStyles.title2.copyWith(
             color: venyuTheme.primaryText,
           ),
         ),
@@ -107,7 +107,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         
         Text(
           description,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          style: AppTextStyles.subheadline.copyWith(
             color: venyuTheme.secondaryText,
             height: 1.4,
           ),
@@ -149,7 +149,7 @@ class _EditAccountViewState extends State<EditAccountView> {
     });
 
     try {
-      await SupabaseManager.shared.exportData();
+      await ProfileManager.shared.exportData();
       
       if (mounted) {
         ToastService.success(
@@ -206,7 +206,7 @@ class _EditAccountViewState extends State<EditAccountView> {
 
     try {
       // Delete the account
-      await SupabaseManager.shared.deleteAccount();
+      await ProfileManager.shared.deleteAccount();
       
       // Sign out after deletion
       await SessionManager.shared.signOut();

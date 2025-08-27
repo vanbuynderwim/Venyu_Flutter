@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../services/supabase_manager.dart';
+import '../../models/enums/remote_image_path.dart';
+import '../../services/supabase_managers/media_manager.dart';
 
 /// A reusable avatar widget that displays user profile images.
 /// 
@@ -57,11 +58,16 @@ class AvatarView extends StatefulWidget {
 }
 
 class _AvatarViewState extends State<AvatarView> {
+  // Services
+  late final MediaManager _mediaManager;
+  
+  // State
   Future<String?>? _imageFuture;
 
   @override
   void initState() {
     super.initState();
+    _mediaManager = MediaManager.shared;
     _initializeImageFuture();
   }
 
@@ -77,9 +83,10 @@ class _AvatarViewState extends State<AvatarView> {
   void _initializeImageFuture() {
     // Cache the future to prevent rebuilds from triggering new network calls
     if (widget.avatarId != null && widget.avatarId!.isNotEmpty) {
-      _imageFuture = SupabaseManager.shared.getRemoteImage(
-        id: widget.avatarId!,
-        height: widget.size.toInt(),
+      _imageFuture = _mediaManager.getRemoteImage(
+        remotePath: RemoteImagePath.avatars,
+        imageID: widget.avatarId!,
+        size: widget.size.toInt(),
       );
     } else {
       // Initialize with a completed future when no avatar ID

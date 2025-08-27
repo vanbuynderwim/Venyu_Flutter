@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'app_logger.dart';
 
 /// DeviceInfo - Utility class to detect device information
 /// 
@@ -20,7 +20,7 @@ class DeviceInfo {
       
       if (locale.contains('_')) {
         final countryCode = locale.split('_').last.toUpperCase();
-        debugPrint('🌍 Detected country code: $countryCode');
+        AppLogger.info('Detected country code: $countryCode', context: 'DeviceInfo');
         return countryCode;
       }
       
@@ -37,11 +37,11 @@ class DeviceInfo {
       
       final languageCode = locale.toLowerCase();
       final countryCode = languageToCountryMap[languageCode] ?? 'NL';
-      debugPrint('🌍 Mapped country code from language $languageCode: $countryCode');
+      AppLogger.info('Mapped country code from language $languageCode: $countryCode', context: 'DeviceInfo');
       return countryCode;
       
     } catch (error) {
-      debugPrint('❌ Error detecting country: $error, using fallback NL');
+      AppLogger.error('Error detecting country, using fallback NL', error: error, context: 'DeviceInfo');
       return 'NL'; // Default fallback matching iOS
     }
   }
@@ -62,11 +62,11 @@ class DeviceInfo {
         languageCode = locale.toLowerCase();
       }
       
-      debugPrint('🗣️ Detected language code: $languageCode');
+      AppLogger.info('Detected language code: $languageCode', context: 'DeviceInfo');
       return languageCode;
       
     } catch (error) {
-      debugPrint('❌ Error detecting language: $error, using fallback nl');
+      AppLogger.error('Error detecting language, using fallback nl', error: error, context: 'DeviceInfo');
       return 'nl'; // Default fallback matching iOS
     }
   }
@@ -79,11 +79,11 @@ class DeviceInfo {
     try {
       final packageInfo = await PackageInfo.fromPlatform();
       final version = packageInfo.version;
-      debugPrint('📱 Detected app version: $version');
+      AppLogger.info('Detected app version: $version', context: 'DeviceInfo');
       return version;
       
     } catch (error) {
-      debugPrint('❌ Error detecting app version: $error, using fallback 1.0.0');
+      AppLogger.error('Error detecting app version, using fallback 1.0.0', error: error, context: 'DeviceInfo');
       return '1.0.0'; // Default fallback
     }
   }

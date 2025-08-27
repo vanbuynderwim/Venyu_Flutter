@@ -221,7 +221,6 @@ class _OptionButtonState extends State<OptionButton> {
                   widget.option.title,
                   style: AppTextStyles.headline.copyWith(
                     color: venyuTheme.primaryText,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 

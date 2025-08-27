@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/app_logger.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/profile_sections.dart';
 import '../../models/enums/edit_personal_info_type.dart';
 import '../../models/enums/edit_company_info_type.dart';
-import '../../models/enums/review_type.dart';
 import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
 import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/content_manager.dart';
+import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
-import 'profile_header.dart';
-import '../../widgets/buttons/section_button.dart';
-import '../../widgets/buttons/option_button.dart';
-import '../../widgets/common/loading_state_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
+import 'profile_header.dart';
+import 'profile_view/profile_section_button_bar.dart';
+import 'profile_view/personal_info_section.dart';
+import 'profile_view/company_info_section.dart';
+import 'profile_view/reviews_section.dart';
+import 'profile_view/profile_loading_header.dart';
 import 'edit_tag_group_view.dart';
 import 'edit_name_view.dart';
 import 'edit_bio_view.dart';
 import 'edit_account_view.dart';
 import 'edit_email_info_view.dart';
 import 'edit_company_name_view.dart';
-import 'review_pending_cards_view.dart';
 
 /// ProfileView - Current user's profile page
 /// 
@@ -42,9 +44,10 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
+class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorHandlingMixin {
   // Services
-  late final SupabaseManager _supabaseManager;
+  late final ContentManager _contentManager;
+  late final ProfileManager _profileManager;
   late final SessionManager _sessionManager;
   
   // State
@@ -58,7 +61,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _contentManager = ContentManager.shared;
+    _profileManager = ProfileManager.shared;
     _sessionManager = SessionManager.shared;
     
     // Listen to SessionManager updates for automatic profile refresh
@@ -128,13 +132,27 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
                 if (!_isProfileLoading && profile != null)
                   _buildProfileHeader(profile)
                 else
-                  _buildLoadingProfileHeader(),
+                  const ProfileLoadingHeader(),
                 
                 const SizedBox(height: 16),
                 
                 // Section Button Bar
                 if (!_isProfileLoading && profile != null)
-                  _buildSectionButtonBar(),
+                  ProfileSectionButtonBar(
+                    profile: profile,
+                    selectedSection: _selectedSection,
+                    onSectionSelected: (section) {
+                      setState(() {
+                        _selectedSection = section;
+                      });
+                      // Load tag groups when section is selected
+                      if (section == ProfileSections.personal && _personalTagGroups == null) {
+                        _loadPersonalTagGroups();
+                      } else if (section == ProfileSections.company && _companyTagGroups == null) {
+                        _loadCompanyTagGroups();
+                      }
+                    },
+                  ),
                 
                 const SizedBox(height: 16),
                 
@@ -160,308 +178,32 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
     );
   }
 
-  /// Builds the section button bar
-  Widget _buildSectionButtonBar() {
-    final profile = _sessionManager.currentProfile;
-    final availableSections = <ProfileSections>[
-      ProfileSections.personal,
-      ProfileSections.company,
-      // Only show reviews for super admins
-      if (profile?.isSuperAdmin == true) ProfileSections.reviews,
-    ];
-    
-    return SectionButtonBar<ProfileSections>(
-        sections: availableSections,
-        selectedSection: _selectedSection,
-        onSectionSelected: (section) {
-          setState(() {
-            _selectedSection = section;
-          });
-          // Load tag groups when section is selected
-          if (section == ProfileSections.personal && _personalTagGroups == null) {
-            _loadPersonalTagGroups();
-          } else if (section == ProfileSections.company && _companyTagGroups == null) {
-            _loadCompanyTagGroups();
-          }
-        },
-      );
-  }
   
   /// Builds the content for the selected section
   Widget _buildSectionContent() {
     switch (_selectedSection) {
       case ProfileSections.personal:
-        return _buildPersonalSection();
+        return PersonalInfoSection(
+          personalTagGroups: _personalTagGroups,
+          personalTagGroupsLoading: _personalTagGroupsLoading,
+          onPersonalInfoTap: _handlePersonalInfoTap,
+          onTagGroupTap: _handleTagGroupTap,
+        );
       case ProfileSections.company:
-        return _buildCompanySection();
+        return CompanyInfoSection(
+          companyTagGroups: _companyTagGroups,
+          companyTagGroupsLoading: _companyTagGroupsLoading,
+          onCompanyInfoTap: _handleCompanyInfoTap,
+          onCompanyTagGroupTap: _handleCompanyTagGroupTap,
+        );
       case ProfileSections.reviews:
-        return _buildReviewsSection();
+        return const ReviewsSection();
     }
   }
   
-  /// Builds the personal info section content
-  Widget _buildPersonalSection() {
-    debugPrint('🔧 Building personal section. TagGroups: ${_personalTagGroups?.length ?? 'null'}, Loading: $_personalTagGroupsLoading');
-    if (_personalTagGroupsLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4),
-        child: LoadingStateWidget(
-          height: 200,
-          message: 'Loading personal info...',
-        ),
-      );
-    }
-
-    final List<Widget> children = [];
-    
-    // Fixed section - EditPersonalInfoType options
-    for (final editPersonalInfoType in EditPersonalInfoType.values) {
-      children.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: OptionButton(
-            option: editPersonalInfoType,
-            isSelected: false,
-            isMultiSelect: false,
-            isSelectable: false,
-            isCheckmarkVisible: false,
-            isChevronVisible: true,
-            isButton: true,
-            withDescription: true,
-            onSelect: () {
-              _handlePersonalInfoTap(editPersonalInfoType);
-            },
-          ),
-        ),
-      );
-    }
-    
-    // Dynamic section - TagGroup options from Supabase
-    if (_personalTagGroups != null && _personalTagGroups!.isNotEmpty) {
-      for (final tagGroup in _personalTagGroups!) {
-        children.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0),
-            child: OptionButton(
-              option: tagGroup,
-              isSelected: false,
-              isMultiSelect: false,
-              isSelectable: false,
-              isCheckmarkVisible: false,
-              isChevronVisible: true,
-              isButton: true,
-              withDescription: true,
-              iconColor: tagGroup.color,
-              onSelect: () {
-                _handleTagGroupTap(tagGroup);
-              },
-            ),
-          ),
-        );
-      }
-    } else if (!_personalTagGroupsLoading && (_personalTagGroups?.isEmpty ?? false)) {
-      // Show message if no tag groups are available
-      children.add(
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            'No personal tag groups available',
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
-          ),
-        ),
-      );
-    }
-    
-    return Column(children: children);
-  }
   
-  /// Builds the company info section content
-  Widget _buildCompanySection() {
-    debugPrint('🔧 Building company section. TagGroups: ${_companyTagGroups?.length ?? 'null'}, Loading: $_companyTagGroupsLoading');
-    if (_companyTagGroupsLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: LoadingStateWidget(
-          height: 200,
-          message: 'Loading company info...',
-        ),
-      );
-    }
-
-    final List<Widget> children = [];
-    
-    // Fixed section - EditCompanyInfoType options
-    for (final editCompanyInfoType in EditCompanyInfoType.values) {
-      children.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: OptionButton(
-            option: editCompanyInfoType,
-            isSelected: false,
-            isMultiSelect: false,
-            isSelectable: false,
-            isCheckmarkVisible: false,
-            isChevronVisible: true,
-            isButton: true,
-            withDescription: true,
-            onSelect: () {
-              _handleCompanyInfoTap(editCompanyInfoType);
-            },
-          ),
-        ),
-      );
-    }
-    
-    // Dynamic section - TagGroup options from Supabase  
-    if (_companyTagGroups != null && _companyTagGroups!.isNotEmpty) {
-      for (final tagGroup in _companyTagGroups!) {
-        children.add(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0),
-            child: OptionButton(
-              option: tagGroup,
-              isSelected: false,
-              isMultiSelect: false,
-              isSelectable: false,
-              isCheckmarkVisible: false,
-              isChevronVisible: true,
-              isButton: true,
-              withDescription: true,
-              iconColor: tagGroup.color,
-              onSelect: () {
-                _handleCompanyTagGroupTap(tagGroup);
-              },
-            ),
-          ),
-        );
-      }
-    } else if (!_companyTagGroupsLoading && (_companyTagGroups?.isEmpty ?? false)) {
-      // Show message if no tag groups are available
-      children.add(
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            'No company tag groups available',
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
-          ),
-        ),
-      );
-    }
-    
-    return Column(children: children);
-  }
   
-  /// Builds the reviews section content (admin only)
-  Widget _buildReviewsSection() {
-    final List<Widget> children = [];
-    
-    // User generated reviews
-    children.add(
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0),
-        child: OptionButton(
-          option: ReviewType.user,
-          isSelected: false,
-          isMultiSelect: false,
-          isSelectable: false,
-          isCheckmarkVisible: false,
-          isChevronVisible: true,
-          isButton: true,
-          withDescription: true,
-          onSelect: () {
-            Navigator.push(
-              context,
-              platformPageRoute(
-                context: context,
-                builder: (context) => ReviewPendingCardsView(
-                  reviewType: ReviewType.user,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-    
-    // AI generated reviews  
-    children.add(
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0),
-        child: OptionButton(
-          option: ReviewType.system,
-          isSelected: false,
-          isMultiSelect: false,
-          isSelectable: false,
-          isCheckmarkVisible: false,
-          isChevronVisible: true,
-          isButton: true,
-          withDescription: true,
-          onSelect: () {
-            Navigator.push(
-              context,
-              platformPageRoute(
-                context: context,
-                builder: (context) => ReviewPendingCardsView(
-                  reviewType: ReviewType.system,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-    
-    return Column(children: children);
-  }
 
-  /// Builds a loading placeholder for the profile header
-  Widget _buildLoadingProfileHeader() {
-    final venyuTheme = context.venyuTheme;
-    
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: AppModifiers.cardContentPadding,
-      decoration: BoxDecoration(
-        color: venyuTheme.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: venyuTheme.borderColor,
-          width: AppModifiers.extraThinBorder,
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: venyuTheme.primary.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 20,
-                  width: 150,
-                  color: venyuTheme.primary.withValues(alpha: 0.1),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  height: 16,
-                  width: 100,
-                  color: venyuTheme.primary.withValues(alpha: 0.1),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
 
 
@@ -475,8 +217,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
     
     try {
       // Refresh profile data from server when forced or when needed
-      if (forceRefresh) {
-        final refreshedProfile = await _supabaseManager.fetchUserProfile();
+      if (forceRefresh || _sessionManager.currentProfile == null) {
+        final refreshedProfile = await _profileManager.fetchUserProfile();
         _sessionManager.updateCurrentProfile(refreshedProfile);
       }
       
@@ -485,7 +227,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
       });
       
     } catch (error) {
-      debugPrint('Error refreshing profile data: $error');
+      AppLogger.error('Error refreshing profile data', error: error, context: 'ProfileView');
       setState(() {
         _isProfileLoading = false;
       });
@@ -494,59 +236,53 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
   
   /// Loads personal tag groups
   void _loadPersonalTagGroups() async {
-    setState(() {
-      _personalTagGroupsLoading = true;
-    });
+    setState(() => _personalTagGroupsLoading = true);
     
-    try {
-      final tagGroups = await _supabaseManager.fetchTagGroups(CategoryType.personal);
-      debugPrint('✅ Loaded ${tagGroups.length} personal tag groups');
-      if (mounted) {
-        setState(() {
+    await executeSilently(
+      operation: () async {
+        final tagGroups = await _contentManager.fetchTagGroups(CategoryType.personal);
+        AppLogger.success('Loaded ${tagGroups.length} personal tag groups', context: 'ProfileView');
+        safeSetState(() {
           _personalTagGroups = tagGroups;
           _personalTagGroupsLoading = false;
         });
-      }
-    } catch (error) {
-      debugPrint('❌ Error loading personal tag groups: $error');
-      if (mounted) {
-        setState(() {
+      },
+      onError: (error) {
+        AppLogger.error('Error loading personal tag groups', error: error, context: 'ProfileView');
+        safeSetState(() {
           _personalTagGroups = [];
           _personalTagGroupsLoading = false;
         });
-      }
-    }
+      },
+    );
   }
   
   /// Loads company tag groups
   void _loadCompanyTagGroups() async {
-    setState(() {
-      _companyTagGroupsLoading = true;
-    });
+    setState(() => _companyTagGroupsLoading = true);
     
-    try {
-      final tagGroups = await _supabaseManager.fetchTagGroups(CategoryType.company);
-      debugPrint('✅ Loaded ${tagGroups.length} company tag groups');
-      if (mounted) {
-        setState(() {
+    await executeSilently(
+      operation: () async {
+        final tagGroups = await _contentManager.fetchTagGroups(CategoryType.company);
+        AppLogger.success('Loaded ${tagGroups.length} company tag groups', context: 'ProfileView');
+        safeSetState(() {
           _companyTagGroups = tagGroups;
           _companyTagGroupsLoading = false;
         });
-      }
-    } catch (error) {
-      debugPrint('❌ Error loading company tag groups: $error');
-      if (mounted) {
-        setState(() {
+      },
+      onError: (error) {
+        AppLogger.error('Error loading company tag groups', error: error, context: 'ProfileView');
+        safeSetState(() {
           _companyTagGroups = [];
           _companyTagGroupsLoading = false;
         });
-      }
-    }
+      },
+    );
   }
   
   /// Handles personal info option tap
   void _handlePersonalInfoTap(EditPersonalInfoType type) async {
-    debugPrint('Tapped on personal info type: ${type.title}');
+    AppLogger.ui('Tapped on personal info type: ${type.title}', context: 'ProfileView');
     
     switch (type) {
       case EditPersonalInfoType.name:
@@ -581,7 +317,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
   
   /// Handles company info option tap
   void _handleCompanyInfoTap(EditCompanyInfoType type) async {
-    debugPrint('Tapped on company info type: ${type.title}');
+    AppLogger.ui('Tapped on company info type: ${type.title}', context: 'ProfileView');
     
     switch (type) {
       case EditCompanyInfoType.name:
@@ -598,7 +334,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
   
   /// Handles personal tag group tap
   void _handleTagGroupTap(TagGroup tagGroup) async {
-    debugPrint('Tapped on personal tag group: ${tagGroup.title}');
+    AppLogger.ui('Tapped on personal tag group: ${tagGroup.title}', context: 'ProfileView');
     
     final result = await Navigator.push<bool>(
       context,
@@ -615,7 +351,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin {
   
   /// Handles company tag group tap
   void _handleCompanyTagGroupTap(TagGroup tagGroup) async {
-    debugPrint('Tapped on company tag group: ${tagGroup.title}');
+    AppLogger.ui('Tapped on company tag group: ${tagGroup.title}', context: 'ProfileView');
     
     final result = await Navigator.push<bool>(
       context,

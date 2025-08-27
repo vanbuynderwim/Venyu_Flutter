@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/app_logger.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/tag.dart';
 import '../../models/tag_group.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/content_manager.dart';
 import '../../services/session_manager.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/tag_group_service.dart';
@@ -38,7 +39,7 @@ class EditTagGroupView extends StatefulWidget {
 }
 
 class _EditTagGroupViewState extends State<EditTagGroupView> {
-  final SupabaseManager _supabaseManager = SupabaseManager.shared;
+  final ContentManager _contentManager = ContentManager.shared;
   final SessionManager _sessionManager = SessionManager.shared;
   TagGroup? _currentTagGroup;
   bool _isLoading = true;
@@ -62,7 +63,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
     try {
       // Fetch the complete TagGroup with all tags
-      final updatedTagGroup = await _supabaseManager.fetchTagGroup(widget.tagGroup);
+      final updatedTagGroup = await _contentManager.fetchTagGroup(widget.tagGroup);
       
       // Initialize selected tags based on current state
       final selectedTags = updatedTagGroup.tags?.where((tag) => tag.isSelected == true).toList() ?? [];
@@ -79,7 +80,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
         _isLoading = false;
       });
     } catch (error) {
-      debugPrint('Error fetching tag group: $error');
+      AppLogger.error('Error fetching tag group: $error', context: 'EditTagGroupView');
       setState(() {
         _error = error.toString();
         _isLoading = false;
@@ -273,7 +274,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
     // Validation: always require at least 1 tag selected
     if (_selectedTags.isEmpty) {
-      debugPrint('⚠️ Cannot save: no tags selected');
+      AppLogger.warning('Cannot save: no tags selected', context: 'EditTagGroupView');
       return; // Don't save if no tags selected
     }
 
@@ -285,10 +286,10 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       // Use the appropriate upsert method based on selection type
       if (_currentTagGroup!.isMultiSelect ?? false) {
         // Multi-select: upsert all selected tags
-        await _supabaseManager.upsertProfileTags(_currentTagGroup!.code, _selectedTags);
+        await _contentManager.upsertProfileTags(_currentTagGroup!.code, _selectedTags);
       } else {
         // Single-select: upsert single tag
-        await _supabaseManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
+        await _contentManager.upsertProfileTag(_currentTagGroup!.code, _selectedTags.first);
       }
 
       // Update local SessionManager profile to reflect the changes
@@ -305,7 +306,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
         }
       }
     } catch (error) {
-      debugPrint('Error saving tag changes: $error');
+      AppLogger.error('Error saving tag changes: $error', context: 'EditTagGroupView');
       
       if (mounted) {
         // Show error dialog or snackbar
@@ -337,11 +338,11 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   void _updateLocalProfile() {
     final currentProfile = _sessionManager.currentProfile;
     if (currentProfile?.taggroups == null || _currentTagGroup == null) {
-      debugPrint('⚠️ Cannot update local profile - missing data');
+      AppLogger.warning('Cannot update local profile - missing data', context: 'EditTagGroupView');
       return;
     }
 
-    debugPrint('🔄 Updating local profile taggroups for category: ${_currentTagGroup!.code}');
+    AppLogger.debug('Updating local profile taggroups for category: ${_currentTagGroup!.code}', context: 'EditTagGroupView');
 
     // Create a copy of the current taggroups
     List<TagGroup> updatedTagGroups = List.from(currentProfile!.taggroups!);
@@ -371,17 +372,17 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
         taggroups: updatedTagGroups,
       );
 
-      debugPrint('✅ Local profile updated for ${_currentTagGroup!.code}');
+      AppLogger.success('Local profile updated for ${_currentTagGroup!.code}', context: 'EditTagGroupView');
     } else {
-      debugPrint('⚠️ Could not find taggroup ${_currentTagGroup!.code} in profile');
+      AppLogger.warning('Could not find taggroup ${_currentTagGroup!.code} in profile', context: 'EditTagGroupView');
     }
   }
 
   void _navigateToNextStep() {
-    debugPrint('🔄 EditTagGroupView: Navigating from ${widget.currentStep} to next step');
+    AppLogger.debug('EditTagGroupView: Navigating from ${widget.currentStep} to next step', context: 'EditTagGroupView');
     
     final nextStep = widget.currentStep!.nextStep;
-    debugPrint('🎯 Next step: $nextStep');
+    AppLogger.debug('Next step: $nextStep', context: 'EditTagGroupView');
     
     // Check if next step is still a tag group step
     final tagGroupSteps = [
@@ -392,7 +393,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     
     if (nextStep == null || !tagGroupSteps.contains(nextStep)) {
       // No more tag group steps, navigate to next registration step
-      debugPrint('✅ No more tag group steps, navigating to next registration step: $nextStep');
+      AppLogger.success('No more tag group steps, navigating to next registration step: $nextStep', context: 'EditTagGroupView');
       
       if (nextStep == RegistrationStep.avatar) {
         // Navigate to avatar step
@@ -431,7 +432,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       desc: 'Select your ${code.replaceAll('_', ' ')}',
     );
 
-    debugPrint('➡️ Navigating to ${nextTagGroup.label} with code ${nextTagGroup.code}');
+    AppLogger.debug('Navigating to ${nextTagGroup.label} with code ${nextTagGroup.code}', context: 'EditTagGroupView');
     
     // Use push instead of pushReplacement to keep navigation stack intact
     Navigator.of(context).push(

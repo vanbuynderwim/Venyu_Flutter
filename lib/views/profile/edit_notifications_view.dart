@@ -4,8 +4,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/app_logger.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../models/enums/registration_step.dart';
 import '../../models/enums/onboarding_benefit.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../services/notification_service.dart';
@@ -99,9 +100,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         Center(
           child: Text(
             'Enable notifications to ...',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.title2,
           ),
         ),
         
@@ -167,11 +166,11 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
   /// Navigate to the next step without enabling notifications
   void _navigateToNext() {
-    debugPrint('🔔 Navigating to next step');
+    AppLogger.debug('Navigating to next step', context: 'EditNotificationsView');
     
     // If this is the last step in registration wizard, complete registration
     if (widget.registrationWizard) {
-      debugPrint('✅ Registration wizard completed!');
+      AppLogger.success('Registration wizard completed!', context: 'EditNotificationsView');
       // Navigate to registration complete screen
       Navigator.of(context).push(
         platformPageRoute(
@@ -189,24 +188,24 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
   Future<void> _enableNotifications() async {
     if (_isEnablingNotifications) return;
     
-    debugPrint('🔔 _enableNotifications called');
+    AppLogger.debug('_enableNotifications called', context: 'EditNotificationsView');
     
     setState(() {
       _isEnablingNotifications = true;
     });
     
     try {
-      debugPrint('🔔 Initializing notification service...');
+      AppLogger.debug('Initializing notification service...', context: 'EditNotificationsView');
       // Initialize notification service if needed
       await NotificationService.shared.initialize();
       
-      debugPrint('🔔 Checking current permission status...');
+      AppLogger.debug('Checking current permission status...', context: 'EditNotificationsView');
       // Check current permission status first
       final currentStatus = await NotificationService.shared.getPermissionStatus();
-      debugPrint('🔔 Current permission status: $currentStatus');
+      AppLogger.debug('Current permission status: $currentStatus', context: 'EditNotificationsView');
       
       if (currentStatus == AuthorizationStatus.denied) {
-        debugPrint('🔔 Permission denied, showing settings dialog...');
+        AppLogger.debug('Permission denied, showing settings dialog...', context: 'EditNotificationsView');
         // Permission was previously denied, show dialog to go to settings
         if (!mounted) return;
         
@@ -228,7 +227,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
           ],
         );
         
-        if (shouldOpenSettings == true) {
+        if (shouldOpenSettings == true && mounted) {
           // Open app settings
           await DialogUtils.openAppSettings(context);
         }
@@ -241,24 +240,24 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         return;
       }
       
-      debugPrint('🔔 Requesting notification permission...');
+      AppLogger.debug('Requesting notification permission...', context: 'EditNotificationsView');
       // Request notification permission
       final granted = await NotificationService.shared.requestPermission();
-      debugPrint('🔔 Permission granted: $granted');
+      AppLogger.debug('Permission granted: $granted', context: 'EditNotificationsView');
       
       if (granted) {
-        debugPrint('✅ Notification permission granted');
+        AppLogger.success('Notification permission granted', context: 'EditNotificationsView');
         
         // Check if device token was registered
         final fcmToken = NotificationService.shared.fcmToken;
-        debugPrint('🔔 FCM Token: $fcmToken');
+        AppLogger.debug('FCM Token: $fcmToken', context: 'EditNotificationsView');
         
         if (mounted) {
           // Navigate to next step
           _navigateToNext();
         }
       } else {
-        debugPrint('❌ Notification permission denied');
+        AppLogger.warning('Notification permission denied', context: 'EditNotificationsView');
         
         if (mounted) {
           ToastService.info(
@@ -271,7 +270,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         }
       }
     } catch (error) {
-      debugPrint('❌ Error enabling notifications: $error');
+      AppLogger.error('Error enabling notifications: $error', context: 'EditNotificationsView');
       
       if (mounted) {
         ToastService.error(

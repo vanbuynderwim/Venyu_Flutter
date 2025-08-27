@@ -33,7 +33,6 @@ class StatusBadgeView extends StatelessWidget {
         style: AppTextStyles.caption1.copyWith(
           color: status.textColor,
           fontSize: fontSize,
-          fontWeight: FontWeight.w500,
         ),
       ),
     );

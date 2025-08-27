@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../models/requests/update_company_request.dart';
 import '../../utils/website_validator.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
@@ -73,12 +72,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     final cleanedWebsiteURL = WebsiteValidator.normalizeForStorage(_websiteController.text) 
         ?? _websiteController.text;
     
-    final request = UpdateCompanyRequest(
-      companyName: _companyNameController.text,
-      websiteURL: cleanedWebsiteURL,
-    );
-    
-    await supabaseManager.updateCompanyInfo(request);
+    await profileManager.updateCompanyInfo(_companyNameController.text, cleanedWebsiteURL);
     
     // Update only the changed fields in SessionManager
     sessionManager.updateCurrentProfileFields(

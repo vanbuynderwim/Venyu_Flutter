@@ -59,7 +59,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
     final bio = _bioController.text;
     
     // Update in backend
-    await supabaseManager.updateProfileBio(bio);
+    await profileManager.updateProfileBio(bio);
     
     // Update local state
     sessionManager.updateCurrentProfileFields(bio: bio);

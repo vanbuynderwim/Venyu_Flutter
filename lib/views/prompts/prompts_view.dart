@@ -5,13 +5,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/utils/app_logger.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../../models/requests/update_prompt_interaction_request.dart';
-import '../../services/supabase_manager.dart';
+import '../../mixins/error_handling_mixin.dart';
+import '../../services/supabase_managers/content_manager.dart';
 
 /// PromptsView - Fullscreen modal for displaying prompts to users
 /// 
@@ -33,14 +34,13 @@ class PromptsView extends StatefulWidget {
   State<PromptsView> createState() => _PromptsViewState();
 }
 
-class _PromptsViewState extends State<PromptsView> {
+class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
   InteractionType? _selectedInteractionType;
-  bool _isUpdating = false;
   int _currentPromptIndex = 0;
   List<InteractionType?> _promptInteractions = [];
   
   // Services
-  late final SupabaseManager _supabaseManager;
+  late final ContentManager _contentManager;
 
   Prompt get _currentPrompt => widget.prompts[_currentPromptIndex];
   
@@ -50,13 +50,14 @@ class _PromptsViewState extends State<PromptsView> {
   }
 
   void _handleInteractionPressed(InteractionType interactionType) {
-    HapticFeedback.selectionClick();
+    HapticFeedback.mediumImpact();
+    SystemSound.play(SystemSoundType.click);
     setState(() {
       _selectedInteractionType = interactionType;
       _promptInteractions[_currentPromptIndex] = interactionType;
     });
     
-    debugPrint('User selected interaction: ${interactionType.value} for prompt: ${_currentPrompt.label}');
+    AppLogger.ui('User selected interaction: ${interactionType.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
   }
 
   void _handleClose() {
@@ -66,62 +67,49 @@ class _PromptsViewState extends State<PromptsView> {
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _contentManager = ContentManager.shared;
     // Initialize interactions list with null values
     _promptInteractions = List.filled(widget.prompts.length, null);
   }
 
   Future<void> _handleNext() async {
-    if (_selectedInteractionType == null || _isUpdating) return;
+    if (_selectedInteractionType == null || isProcessing) return;
     
-    setState(() {
-      _isUpdating = true;
-    });
+    await executeWithLoading(
+      operation: () async {
+        HapticFeedback.heavyImpact();
+        
+        final promptFeedID = _currentPrompt.feedID ?? 0;
+        final promptID = _currentPrompt.promptID;
+        final interactionType = _selectedInteractionType!;
+        
+        AppLogger.network('Request payload: {prompt_feed_id: $promptFeedID, prompt_id: $promptID, interaction_type: ${interactionType.toJson()}}', context: 'PromptsView');
 
-    try {
-      // Create the interaction request
-      final request = UpdatePromptInteractionRequest(
-        promptFeedID: _currentPrompt.feedID ?? 0,
-        promptID: _currentPrompt.promptID,
-        interactionType: _selectedInteractionType!,
-      );
-
-      debugPrint('🔍 Request payload: ${request.toJson()}');
-
-      // Submit interaction to backend
-      await _supabaseManager.insertPromptInteraction(request);
-
-      debugPrint('✅ Interaction submitted: ${_selectedInteractionType!.value} for prompt: ${_currentPrompt.label}');
-      
-      if (mounted) {
+        await _contentManager.insertPromptInteraction(promptFeedID, promptID, interactionType);
+        AppLogger.success('Interaction submitted: ${_selectedInteractionType!.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
+      },
+      showSuccessToast: false,
+      showErrorToast: false, // Handle navigation in callbacks
+      useProcessingState: true,
+      onSuccess: () {
         // Check if there are more prompts
         if (_currentPromptIndex < widget.prompts.length - 1) {
           // Move to next prompt and reset interaction selection
           setState(() {
             _currentPromptIndex++;
             _selectedInteractionType = null;
-            _isUpdating = false;
           });
         } else {
           // Last prompt - close the modal
           Navigator.of(context).pop();
         }
-      }
-    } catch (error) {
-      debugPrint('❌ Error submitting interaction: $error');
-      
-      if (mounted) {
-        // Show error feedback to user if needed
-        // For now, just close the modal
+      },
+      onError: (error) {
+        AppLogger.error('Error submitting interaction', error: error, context: 'PromptsView');
+        // Close modal on error
         Navigator.of(context).pop();
-      }
-    } finally {
-      if (mounted && _currentPromptIndex >= widget.prompts.length - 1) {
-        setState(() {
-          _isUpdating = false;
-        });
-      }
-    }
+      },
+    );
   }
 
   Widget _buildProgressIndicator() {
@@ -227,7 +215,7 @@ class _PromptsViewState extends State<PromptsView> {
                   child: InteractionButtonRow(
                     onInteractionPressed: _handleInteractionPressed,
                     selectedInteractionType: _selectedInteractionType,
-                    isUpdating: _isUpdating,
+                    isUpdating: isProcessing,
                     spacing: AppModifiers.smallSpacing,
                   ),
                 ),
@@ -240,7 +228,7 @@ class _PromptsViewState extends State<PromptsView> {
                   child: ActionButton(
                     label: 'Confirm',
                     onPressed: _selectedInteractionType != null ? _handleNext : null,
-                    isLoading: _isUpdating,
+                    isLoading: isProcessing,
                   ),
                 ),
                 

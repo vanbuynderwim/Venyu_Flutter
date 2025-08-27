@@ -4,11 +4,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/app_logger.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/tag_group_service.dart';
-import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../profile/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
@@ -65,25 +67,22 @@ abstract class BaseFormView extends StatefulWidget {
   BaseFormViewState<BaseFormView> createState();
 }
 
-abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
+abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with ErrorHandlingMixin<T> {
   /// Service instances
-  late final SupabaseManager _supabaseManager;
+  late final ProfileManager _profileManager;
   late final SessionManager _sessionManager;
   
-  /// Loading state for save operations
-  bool _isUpdating = false;
-  
   /// Getters for services (available to subclasses)
-  SupabaseManager get supabaseManager => _supabaseManager;
+  ProfileManager get profileManager => _profileManager;
   SessionManager get sessionManager => _sessionManager;
   
-  /// Whether the form is currently saving
-  bool get isUpdating => _isUpdating;
+  /// Whether the form is currently saving (uses mixin's isProcessing state)
+  bool get isUpdating => isProcessing;
 
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _profileManager = ProfileManager.shared;
     _sessionManager = SessionManager.shared;
     initializeForm();
   }
@@ -149,12 +148,12 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
     
     if (nextStep == null) {
       // Registration complete, navigate to main app
-      debugPrint('Registration wizard complete!');
+      AppLogger.success('Registration wizard complete!', context: 'BaseFormView');
       Navigator.of(context).pop(true);
       return;
     }
 
-    debugPrint('Navigating from $currentStep to $nextStep');
+    AppLogger.debug('Navigating from $currentStep to $nextStep', context: 'BaseFormView');
 
     // Navigate to the appropriate view based on the next step
     Widget nextView;
@@ -184,7 +183,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       case RegistrationStep.roles:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('roles');
         if (tagGroup == null) {
-          debugPrint('⚠️ TagGroup "roles" not found in cache, skipping step');
+          AppLogger.warning('TagGroup "roles" not found in cache, skipping step', context: 'BaseFormView');
           return _navigateToNextRegistrationStep(fromStep: RegistrationStep.roles);
         }
         nextView = EditTagGroupView(
@@ -196,7 +195,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       case RegistrationStep.sectors:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('sectors');
         if (tagGroup == null) {
-          debugPrint('⚠️ TagGroup "sectors" not found in cache, skipping step');
+          AppLogger.warning('TagGroup "sectors" not found in cache, skipping step', context: 'BaseFormView');
           return _navigateToNextRegistrationStep(fromStep: RegistrationStep.sectors);
         }
         nextView = EditTagGroupView(
@@ -208,7 +207,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       case RegistrationStep.meetingPreferences:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('meeting_preferences');
         if (tagGroup == null) {
-          debugPrint('⚠️ TagGroup "meeting_preferences" not found in cache, skipping step');
+          AppLogger.warning('TagGroup "meeting_preferences" not found in cache, skipping step', context: 'BaseFormView');
           return _navigateToNextRegistrationStep(fromStep: RegistrationStep.meetingPreferences);
         }
         nextView = EditTagGroupView(
@@ -220,7 +219,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       case RegistrationStep.networkingGoals:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('network_goals');
         if (tagGroup == null) {
-          debugPrint('⚠️ TagGroup "network_goals" not found in cache, skipping step');
+          AppLogger.warning('TagGroup "network_goals" not found in cache, skipping step', context: 'BaseFormView');
           return _navigateToNextRegistrationStep(fromStep: RegistrationStep.networkingGoals);
         }
         nextView = EditTagGroupView(
@@ -275,46 +274,26 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
   /// Common save handler with error handling and feedback
   @protected
   Future<void> handleSave() async {
-    if (!canSave || _isUpdating) return;
+    if (!canSave || isProcessing) return;
 
-    setState(() {
-      _isUpdating = true;
-    });
-
-    try {
-      // Perform the specific save operation
-      await performSave();
-      
-      // Update loading state
-      if (mounted) {
-        setState(() {
-          _isUpdating = false;
-        });
-      }
-      
-      // Navigate immediately after successful save
-      if (mounted) {
-        navigateAfterSave();
-      }
-    } catch (error) {
-      // Always update loading state first
-      if (mounted) {
-        setState(() {
-          _isUpdating = false;
-        });
-      }
-      
-      // Show error toast
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: getErrorMessage(),
-        );
-      }
-      
-      // Log error for debugging
-      debugPrint('Error in ${widget.runtimeType}: $error');
-    }
+    await executeWithLoading(
+      operation: performSave,
+      successMessage: null,  // Don't show success toast - we navigate immediately
+      errorMessage: getErrorMessage(),
+      showSuccessToast: false,  // We navigate on success, no need for toast
+      useProcessingState: true,  // Use processing state for save operations
+      onSuccess: navigateAfterSave,  // Navigate after successful save
+      onError: (error) {
+        // Additional error handling if needed by subclasses
+        onSaveError(error);
+      },
+    );
+  }
+  
+  /// Override this method in subclasses if you need custom error handling
+  @protected
+  void onSaveError(dynamic error) {
+    // Default: do nothing extra (error toast already shown by mixin)
   }
 
   /// Build a standard field section with title and content
@@ -331,8 +310,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
         children: [
           Text(
             title.toUpperCase(),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w600,
+            style: AppTextStyles.caption1.copyWith(
               letterSpacing: 0.5,
               color: context.venyuTheme.secondaryText,
             ),
@@ -358,7 +336,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> {
       child: ActionButton(
         label: label ?? defaultLabel,
         onPressed: !canSave ? null : (onPressed ?? handleSave),
-        isLoading: _isUpdating,
+        isLoading: isProcessing,  // Use mixin's processing state
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../models/enums/interaction_type.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -77,7 +76,6 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 36,
-                    fontWeight: FontWeight.bold,
                     fontFamily: AppFonts.graphie,
                   ),
                   textAlign: TextAlign.center,
@@ -110,6 +108,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   interactionType: InteractionType.thisIsMe,
                   onTap: () => _handleSelection(context, InteractionType.thisIsMe),
                 ),
+                
                 
                 const Spacer(flex: 2),
                 
@@ -176,8 +175,8 @@ class _InteractionTypeButton extends StatelessWidget {
               // Icon asset image
               Image.asset(
                 interactionType.assetPath,
-                width: 38,
-                height: 38,
+                width: 36,
+                height: 36,
                 color: Colors.white,
                 errorBuilder: (context, error, stackTrace) {
                   // Fallback to icon if asset fails
@@ -201,7 +200,6 @@ class _InteractionTypeButton extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -209,7 +207,7 @@ class _InteractionTypeButton extends StatelessWidget {
                       interactionType.selectionSubtitle,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 14,
                       ),
                     ),
                   ],

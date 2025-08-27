@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../models/requests/update_name_request.dart';
-import '../../services/toast_service.dart';
 import '../../utils/linked_in_validator.dart';
+import '../../services/supabase_managers/base_supabase_manager.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
@@ -42,9 +41,6 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   
   // OAuth provider state
   bool _isOAuthUser = false;
-  
-  // Custom loading state since we override handleSave
-  bool _isCustomUpdating = false;
 
   @override
   void initializeForm() {
@@ -75,7 +71,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     
     // Check if user signed in with OAuth provider
     try {
-      final storedInfo = await supabaseManager.getStoredUserInfo();
+      final storedInfo = await BaseSupabaseManager.getStoredUserInfo();
       final authProvider = storedInfo['auth_provider'];
       _isOAuthUser = authProvider != null && authProvider.isNotEmpty;
     } catch (e) {
@@ -119,46 +115,14 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   }
 
   @override
-  bool get isUpdating => _isCustomUpdating || super.isUpdating;
-
-  @override
-  Future<void> handleSave() async {
-    if (!canSave || _isCustomUpdating) return;
-
-    setState(() {
-      _isCustomUpdating = true;
-    });
-
-    try {
-      await performSave();
-      
-      // Success - reset loading and navigate
-      if (mounted) {
-        setState(() {
-          _isCustomUpdating = false;
-        });
-        navigateAfterSave();
-      }
-    } on _UserCancelledForUrlCheckException {
-      // User chose to check URL - reset loading but DON'T navigate or show error
-      if (mounted) {
-        setState(() {
-          _isCustomUpdating = false;
-        });
-      }
-    } catch (error) {
-      // Other errors - show toast and reset loading
-      if (mounted) {
-        setState(() {
-          _isCustomUpdating = false;
-        });
-        ToastService.error(
-          context: context,
-          message: getErrorMessage(),
-        );
-      }
-      debugPrint('Error in ${widget.runtimeType}: $error');
+  void onSaveError(dynamic error) {
+    // Don't show error toast for user-cancelled URL check
+    if (error is _UserCancelledForUrlCheckException) {
+      // User chose to check URL - don't show error or navigate
+      return;
     }
+    // For other errors, the base class already shows the error toast
+    super.onSaveError(error);
   }
 
   /// Custom save handler that includes LinkedIn validation
@@ -187,14 +151,12 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     final cleanedLinkedInURL = LinkedInValidator.normalizeForStorage(_linkedInController.text) 
         ?? _linkedInController.text;
     
-    final request = UpdateNameRequest(
-      firstName: _firstNameController.text,
-      lastName: _lastNameController.text,
-      linkedInURL: cleanedLinkedInURL,
-      linkedInURLValid: withValidLinkedInURL,
+    await profileManager.updateProfileName(
+      _firstNameController.text, 
+      _lastNameController.text, 
+      cleanedLinkedInURL, 
+      withValidLinkedInURL,
     );
-    
-    await supabaseManager.updateProfileName(request);
     
     // Update local state
     sessionManager.updateCurrentProfileFields(

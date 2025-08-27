@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../core/utils/app_logger.dart';
 import '../core/utils/dialog_utils.dart';
 import 'session_manager.dart';
 import 'toast_service.dart';
@@ -58,7 +59,7 @@ class AvatarUploadService {
       
       return true;
     } catch (error) {
-      debugPrint('❌ Avatar upload error: $error');
+      AppLogger.error('Avatar upload error: $error', context: 'AvatarUploadService');
       
       // Show error message
       if (context.mounted) {
@@ -138,7 +139,7 @@ class AvatarUploadService {
       
       return true;
     } catch (error) {
-      debugPrint('❌ Avatar removal error: $error');
+      AppLogger.error('Avatar removal error: $error', context: 'AvatarUploadService');
       
       // Show error message
       if (context.mounted) {

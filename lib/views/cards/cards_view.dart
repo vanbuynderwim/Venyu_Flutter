@@ -5,9 +5,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/app_logger.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../models/prompt.dart';
 import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
@@ -31,24 +33,23 @@ class CardsView extends StatefulWidget {
   State<CardsView> createState() => _CardsViewState();
 }
 
-class _CardsViewState extends State<CardsView> {
+class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
   // Services
-  late final SupabaseManager _supabaseManager;
+  late final ContentManager _contentManager;
   late final SessionManager _sessionManager;
   
   // State
   List<Prompt>? _cards;
-  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    debugPrint('CardsView: initState');
-    _supabaseManager = SupabaseManager.shared;
+    AppLogger.debug('initState', context: 'CardsView');
+    _contentManager = ContentManager.shared;
     _sessionManager = SessionManager.shared;
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint('CardsView: Loading cards...');
+      AppLogger.debug('Loading cards...', context: 'CardsView');
       _loadCards();
     });
   }
@@ -69,7 +70,7 @@ class _CardsViewState extends State<CardsView> {
       useSafeArea: true,
       body: RefreshIndicator(
         onRefresh: () => _loadCards(forceRefresh: true),
-        child: _isLoading
+        child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : _buildCardsContent(),
       ),
@@ -144,7 +145,7 @@ class _CardsViewState extends State<CardsView> {
   /// Opens the interaction type selection view for creating a new card
   Future<void> _openAddCardModal() async {
     HapticFeedback.selectionClick();
-    debugPrint('CardsView: Opening interaction type selection for new card...');
+    AppLogger.debug('Opening interaction type selection for new card...', context: 'CardsView');
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -153,25 +154,25 @@ class _CardsViewState extends State<CardsView> {
           useSafeArea: true,
         ),
         builder: (context) {
-          debugPrint('CardsView: Building InteractionTypeSelectionView...');
+          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'CardsView');
           return const InteractionTypeSelectionView();
         },
       );
       
-      debugPrint('CardsView: Card detail view closed with result: $result');
+      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
       
       // If card was successfully added, refresh the list
       if (result == true) {
         await _loadCards(forceRefresh: true);
       }
     } catch (error) {
-      debugPrint('CardsView: Error opening card detail view: $error');
+      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
     }
   }
 
   /// Navigates to the card detail view for editing an existing card
   Future<void> _navigateToCardDetail(Prompt prompt) async {
-    debugPrint('CardsView: Opening card detail view for editing card: ${prompt.label}');
+    AppLogger.debug('Opening card detail view for editing card: ${prompt.label}', context: 'CardsView');
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -182,64 +183,49 @@ class _CardsViewState extends State<CardsView> {
         builder: (context) => CardDetailView(existingPrompt: prompt),
       );
       
-      debugPrint('CardsView: Card detail view closed with result: $result');
+      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
       
       // If card was successfully updated, refresh the list
       if (result == true) {
         await _loadCards(forceRefresh: true);
       }
     } catch (error) {
-      debugPrint('CardsView: Error opening card detail view: $error');
+      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
     }
   }
 
   /// Loads cards from the server
   Future<void> _loadCards({bool forceRefresh = false}) async {
-    debugPrint('CardsView: _loadCards called, authenticated: ${_sessionManager.isAuthenticated}');
+    AppLogger.debug('_loadCards called, authenticated: ${_sessionManager.isAuthenticated}', context: 'CardsView');
     if (!_sessionManager.isAuthenticated) {
-      debugPrint('CardsView: Not authenticated, skipping load');
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _cards = [];
-        });
-      }
+      AppLogger.debug('Not authenticated, skipping load', context: 'CardsView');
+      safeSetState(() {
+        _cards = [];
+      });
       return;
     }
     
-    if (!mounted) return;
+    final fetchedCards = await executeWithLoadingAndReturn<List<Prompt>>(
+      operation: () async {
+        AppLogger.debug('Fetching cards from Supabase...', context: 'CardsView');
+        // Add timeout to prevent hanging
+        return await _contentManager.fetchCards().timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            AppLogger.warning('Fetch cards timeout!', context: 'CardsView');
+            return <Prompt>[]; // Return empty list on timeout
+          },
+        );
+      },
+      defaultValue: <Prompt>[],
+      showErrorToast: false,  // Don't show error toast for silent refresh
+    );
     
-    setState(() {
-      _isLoading = true;
-    });
-    
-    try {
-      debugPrint('CardsView: Fetching cards from Supabase...');
-      // Add timeout to prevent hanging
-      final fetchedCards = await _supabaseManager.fetchCards().timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          debugPrint('CardsView: Fetch cards timeout!');
-          return <Prompt>[]; // Return empty list on timeout
-        },
-      );
-      debugPrint('CardsView: Loaded ${fetchedCards.length} cards');
-      
-      if (mounted) {
-        setState(() {
-          _cards = fetchedCards;
-          _isLoading = false;
-        });
-      }
-      
-    } catch (error) {
-      debugPrint('CardsView: Error loading cards: $error');
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _cards = [];
-        });
-      }
+    if (fetchedCards != null) {
+      AppLogger.success('Loaded ${fetchedCards.length} cards', context: 'CardsView');
+      safeSetState(() {
+        _cards = fetchedCards;
+      });
     }
   }
 }

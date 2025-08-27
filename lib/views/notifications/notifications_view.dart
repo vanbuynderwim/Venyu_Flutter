@@ -7,7 +7,7 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import 'notification_item_view.dart';
 import '../../models/notification.dart' as venyu;
 import '../../models/requests/paginated_request.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/session_manager.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../matches/match_detail_view.dart';
@@ -22,11 +22,16 @@ class NotificationsView extends StatefulWidget {
 
 class _NotificationsViewState extends State<NotificationsView> 
     with PaginatedListViewMixin<NotificationsView> {
+  // Services
+  late final MatchingManager _matchingManager;
+  
+  // State
   final List<venyu.Notification> _notifications = [];
 
   @override
   void initState() {
     super.initState();
+    _matchingManager = MatchingManager.shared;
     initializePagination();
     _loadNotifications();
   }
@@ -56,7 +61,7 @@ class _NotificationsViewState extends State<NotificationsView>
           list: ServerListType.notifications,
         );
 
-        final notifications = await SupabaseManager.shared.fetchNotifications(request);
+        final notifications = await _matchingManager.fetchNotifications(request);
         if (mounted) {
           setState(() {
             _notifications.addAll(notifications);
@@ -93,7 +98,7 @@ class _NotificationsViewState extends State<NotificationsView>
         list: ServerListType.notifications,
       );
 
-      final notifications = await SupabaseManager.shared.fetchNotifications(request);
+      final notifications = await _matchingManager.fetchNotifications(request);
       if (mounted) {
         setState(() {
           _notifications.addAll(notifications);

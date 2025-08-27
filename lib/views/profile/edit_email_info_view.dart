@@ -3,7 +3,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../models/requests/verify_otp_request.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/app_logger.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -121,7 +122,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
       super.navigateAfterSave();
     } else {
       // This is after OTP send - don't navigate yet
-      debugPrint('OTP sent, waiting for verification');
+      AppLogger.debug('OTP sent, waiting for verification', context: 'EditEmailInfoView');
     }
   }
 
@@ -185,7 +186,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           context: context,
           message: getErrorMessage(),
         );
-        debugPrint('Error verifying OTP: $error');
+        AppLogger.error('Error verifying OTP: $error', context: 'EditEmailInfoView');
       }
     }
   }
@@ -194,19 +195,19 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   Future<void> _sendOTP() async {
     if (_isSendingOTP || isUpdating) return;
     
-    debugPrint('🔄 Starting OTP send process...');
+    AppLogger.debug('Starting OTP send process...', context: 'EditEmailInfoView');
     
     setState(() {
       _isSendingOTP = true;
     });
 
     try {
-      debugPrint('📡 Calling supabaseManager.sendContactEmailOTP...');
-      await supabaseManager.sendContactEmailOTP(_emailController.text.trim());
-      debugPrint('✅ OTP API call successful');
+      AppLogger.info('Calling profileManager.sendContactEmailOTP...', context: 'EditEmailInfoView');
+      await profileManager.sendContactEmailOTP(_emailController.text.trim());
+      AppLogger.success('OTP API call successful', context: 'EditEmailInfoView');
       
       if (mounted) {
-        debugPrint('🔄 Updating UI state after successful OTP send...');
+        AppLogger.ui('Updating UI state after successful OTP send...', context: 'EditEmailInfoView');
         
         // Show success toast BEFORE updating state
         ToastService.success(
@@ -221,13 +222,13 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           _showOTPField = true;
         });
         
-        debugPrint('✅ UI state updated - OTP field should now be visible and focused');
+        AppLogger.success('UI state updated - OTP field should now be visible and focused', context: 'EditEmailInfoView');
       } else {
-        debugPrint('⚠️ Widget not mounted after OTP send');
+        AppLogger.warning('Widget not mounted after OTP send', context: 'EditEmailInfoView');
       }
     } catch (error, stackTrace) {
-      debugPrint('❌ Error in _sendOTP: $error');
-      debugPrint('❌ Stack trace: $stackTrace');
+      AppLogger.error('Error in _sendOTP: $error', context: 'EditEmailInfoView');
+      AppLogger.error('Stack trace: $stackTrace', context: 'EditEmailInfoView');
       
       if (mounted) {
         setState(() {
@@ -240,7 +241,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           message: getErrorMessage(),
         );
       } else {
-        debugPrint('⚠️ Widget not mounted during error handling');
+        AppLogger.warning('Widget not mounted during error handling', context: 'EditEmailInfoView');
       }
     }
   }
@@ -248,13 +249,11 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   /// Perform OTP verification and save
   @override
   Future<void> performSave() async {
-    final request = VerifyOTPRequest(
-      email: _emailController.text.trim(),
-      code: _otpController.text.trim(),
-      subscribed: _isSubscribedToNewsletter,
+    await profileManager.verifyEmailOTP(
+      _emailController.text.trim(),
+      _otpController.text.trim(),
+      _isSubscribedToNewsletter,
     );
-
-    await supabaseManager.verifyEmailOTP(request);
     
     // Update local profile
     sessionManager.updateCurrentProfileFields(
@@ -264,7 +263,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
-    debugPrint('🎨 Building form content - _showOTPField: $_showOTPField, _isSendingOTP: $_isSendingOTP');
+    AppLogger.ui('Building form content - _showOTPField: $_showOTPField, _isSendingOTP: $_isSendingOTP', context: 'EditEmailInfoView');
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,7 +301,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     _emailHelperText,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    style: AppTextStyles.caption1.copyWith(
                       color: context.venyuTheme.secondaryText,
                     ),
                   ),
@@ -321,8 +320,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                 Expanded(
                   child: Text(
                     'VENYU NEWSLETTER',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: AppTextStyles.caption1.copyWith(
                       letterSpacing: 0.5,
                       color: context.venyuTheme.secondaryText,
                     ),

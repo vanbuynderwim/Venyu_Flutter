@@ -120,7 +120,6 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
                       style: TextStyle(
                         color: widget.type.textColor(context),
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
                         // Use system font by not specifying fontFamily
                       ),
                       maxLines: null, // Allow unlimited lines

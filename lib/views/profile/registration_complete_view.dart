@@ -3,8 +3,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/app_logger.dart';
 import '../../services/session_manager.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
@@ -33,16 +34,16 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
     });
 
     try {
-      final supabaseManager = SupabaseManager.shared;
-      await supabaseManager.completeRegistration();
+      final profileManager = ProfileManager.shared;
+      await profileManager.completeRegistration();
       
       // Refresh the user profile so SessionManager knows registration is complete
       final sessionManager = SessionManager.shared;
       await sessionManager.refreshProfile();
       
-      debugPrint('✅ Registration completed successfully');
-      debugPrint('🔍 Current auth state: ${sessionManager.authState}');
-      debugPrint('🔍 Profile registered at: ${sessionManager.currentProfile?.registeredAt}');
+      AppLogger.success('Registration completed successfully', context: 'RegistrationCompleteView');
+      AppLogger.info('Current auth state: ${sessionManager.authState}', context: 'RegistrationCompleteView');
+      AppLogger.info('Profile registered at: ${sessionManager.currentProfile?.registeredAt}', context: 'RegistrationCompleteView');
       
       // Navigate to main app - registration is complete
       if (mounted) {
@@ -56,7 +57,7 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
         );
       }
     } catch (error) {
-      debugPrint('❌ Failed to complete registration: $error');
+      AppLogger.error('Failed to complete registration', error: error, context: 'RegistrationCompleteView');
       
       if (mounted) {
         ToastService.error(
@@ -100,7 +101,6 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                         'Your profile is complete! 🎉',
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       

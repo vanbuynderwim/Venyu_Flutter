@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/app_logger.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../models/enums/review_type.dart';
 import '../../models/prompt.dart';
 import '../../models/requests/paginated_request.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/content_manager.dart';
 import '../../services/toast_service.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -41,12 +42,12 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
   String? _cursorId;
   DateTime? _cursorTime;
 
-  late final SupabaseManager _supabaseManager;
+  late final ContentManager _contentManager;
 
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _contentManager = ContentManager.shared;
     initializePagination();
     _loadPendingReviews();
   }
@@ -74,7 +75,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
         list: serverListType,
       );
 
-      final prompts = await _supabaseManager.fetchPendingReviews(request);
+      final prompts = await _contentManager.fetchPendingReviews(request);
 
       setState(() {
         _cards.clear();
@@ -93,7 +94,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
         isLoading = false;
       });
     } catch (error) {
-      debugPrint('Error loading pending reviews: $error');
+      AppLogger.error('Error loading pending reviews', error: error, context: 'ReviewPendingCardsView');
       setState(() {
         isLoading = false;
       });
@@ -119,7 +120,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
         list: serverListType,
       );
 
-      final prompts = await _supabaseManager.fetchPendingReviews(request);
+      final prompts = await _contentManager.fetchPendingReviews(request);
 
       setState(() {
         _cards.addAll(prompts);
@@ -133,7 +134,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
         isLoadingMore = false;
       });
     } catch (error) {
-      debugPrint('Error loading more pending reviews: $error');
+      AppLogger.error('Error loading more pending reviews', error: error, context: 'ReviewPendingCardsView');
       setState(() {
         isLoadingMore = false;
       });
@@ -180,7 +181,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
     try {
       final promptIds = _selectedPromptIds.toList();
       final status = isApproved ? PromptStatus.pendingTranslation : PromptStatus.rejected;
-      await _supabaseManager.updatePromptStatusBatch(promptIds, status);
+      await _contentManager.updatePromptStatusBatch(promptIds, status);
 
       setState(() {
         _selectedPromptIds.clear();
@@ -192,9 +193,9 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
       resetPagination();
       await _loadPendingReviews();
 
-      debugPrint(isApproved ? 'Prompts approved' : 'Prompts rejected');
+      AppLogger.info(isApproved ? 'Prompts approved' : 'Prompts rejected', context: 'ReviewPendingCardsView');
     } catch (error) {
-      debugPrint('Error updating prompt statuses: $error');
+      AppLogger.error('Error updating prompt statuses', error: error, context: 'ReviewPendingCardsView');
       if (mounted) {
         ToastService.error(
           context: context,
@@ -224,7 +225,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
 
     try {
       final status = isApproved ? PromptStatus.pendingTranslation : PromptStatus.rejected;
-      await _supabaseManager.updatePromptStatusByReviewType(widget.reviewType, status);
+      await _contentManager.updatePromptStatusByReviewType(widget.reviewType, status);
 
       setState(() {
         _selectedPromptIds.clear();
@@ -236,9 +237,9 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
       resetPagination();
       await _loadPendingReviews();
 
-      debugPrint(isApproved ? 'All prompts approved' : 'All prompts rejected');
+      AppLogger.info(isApproved ? 'All prompts approved' : 'All prompts rejected', context: 'ReviewPendingCardsView');
     } catch (error) {
-      debugPrint('Error updating all prompt statuses: $error');
+      AppLogger.error('Error updating all prompt statuses', error: error, context: 'ReviewPendingCardsView');
       if (mounted) {
         ToastService.error(
           context: context,

@@ -4,27 +4,21 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/theme/app_layout_styles.dart';
-import '../../core/theme/app_modifiers.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../models/match.dart';
-import '../../services/supabase_manager.dart';
-import '../../widgets/scaffolds/app_scaffold.dart';
-import '../profile/profile_header.dart';
-import '../../widgets/common/avatar_fullscreen_viewer.dart';
-import '../cards/card_item.dart';
-import 'match_item_view.dart';
-import '../../widgets/common/tag_view.dart';
-import 'match_overview_header.dart';
-import 'match_reasons_view.dart';
-import '../../core/constants/app_strings.dart';
-import '../../core/utils/dialog_utils.dart';
-import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/match_status.dart';
+import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/session_manager.dart';
 import '../../services/toast_service.dart';
-import '../../models/enums/action_button_type.dart';
-import '../../models/enums/match_response.dart';
-import '../../models/enums/match_status.dart';
-import '../../models/requests/match_response_request.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/avatar_fullscreen_viewer.dart';
+import '../profile/profile_header.dart';
+import 'match_reasons_view.dart';
+import 'match_detail/match_actions_section.dart';
+import 'match_detail/match_connections_section.dart';
+import 'match_detail/match_prompts_section.dart';
+import 'match_detail/match_section_header.dart';
+import 'match_detail/match_tags_section.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
@@ -49,44 +43,36 @@ class MatchDetailView extends StatefulWidget {
   State<MatchDetailView> createState() => _MatchDetailViewState();
 }
 
-class _MatchDetailViewState extends State<MatchDetailView> {
+class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMixin {
   // Services
-  late final SupabaseManager _supabaseManager;
+  late final MatchingManager _matchingManager;
   late final SessionManager _sessionManager;
   
   // State
   Match? _match;
-  bool _isLoading = true;
-  bool _isProcessingSkip = false;
-  bool _isProcessingInterested = false;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _matchingManager = MatchingManager.shared;
     _sessionManager = SessionManager.shared;
     _loadMatchDetail();
   }
 
   Future<void> _loadMatchDetail() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    try {
-      final match = await _supabaseManager.fetchMatchDetail(widget.matchId);
-      setState(() {
-        _match = match;
-        _isLoading = false;
-      });
-    } catch (error) {
-      debugPrint('Error loading match detail: $error');
-      setState(() {
-        _error = 'Failed to load match details';
-        _isLoading = false;
-      });
+    setState(() => _error = null);
+    
+    final match = await executeWithLoadingAndReturn<Match>(
+      operation: () => _matchingManager.fetchMatchDetail(widget.matchId),
+      showErrorToast: false,  // We show custom error UI
+      onError: (error) {
+        setState(() => _error = 'Failed to load match details');
+      },
+    );
+    
+    if (match != null) {
+      setState(() => _match = match);
     }
   }
 
@@ -121,14 +107,17 @@ class _MatchDetailViewState extends State<MatchDetailView> {
           ),
           // Fixed bottom action buttons for non-connected matches
           if (_match != null && !_match!.isConnected && _match!.response == null)
-            _buildMatchInterestView(),
+            MatchActionsSection(
+              match: _match!,
+              onMatchRemoved: widget.onMatchRemoved,
+            ),
         ],
       ),
     );
   }
 
   Widget _buildContent() {
-    if (_isLoading) {
+    if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -187,45 +176,48 @@ class _MatchDetailViewState extends State<MatchDetailView> {
             
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
-              _buildSectionHeader(
+              MatchSectionHeader(
                 iconName: 'card',
                 title: '${_match!.nrOfPrompts} matching ${_match!.nrOfPrompts == 1 ? "card" : "cards"}',
               ),
               const SizedBox(height: 16),
-              _buildPromptsSection(),
+              MatchPromptsSection(
+                match: _match!,
+                currentProfile: _sessionManager.currentProfile!,
+              ),
               const SizedBox(height: 24),
             ],
             
             // Shared Connections Section 
             if (_match!.nrOfConnections > 0) ...[
-              _buildSectionHeader(
+              MatchSectionHeader(
                 iconName: 'handshake',
                 title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "connection" : "connections"}',
               ),
               const SizedBox(height: 16),
-              _buildConnectionsSection(),
+              MatchConnectionsSection(match: _match!),
               const SizedBox(height: 24),
             ],
             
             // Company matches section
             if (_match!.nrOfCompanyTags > 0) ...[
-              _buildSectionHeader(
+              MatchSectionHeader(
                 iconName: 'company',
                 title: '${_match!.nrOfCompanyTags} company ${_match!.nrOfCompanyTags == 1 ? "match" : "matches"}',
               ),
               const SizedBox(height: 16),
-              _buildCompanyMatchesSection(),
+              MatchTagsSection(tagGroups: _match!.companyTagGroups),
               const SizedBox(height: 24),
             ],
             
             // Personal matches section  
             if (_match!.nrOfPersonalTags > 0) ...[
-              _buildSectionHeader(
+              MatchSectionHeader(
                 iconName: 'match',
                 title: '${_match!.nrOfPersonalTags} personal ${_match!.nrOfPersonalTags == 1 ? "match" : "matches"}',
               ),
               const SizedBox(height: 16),
-              _buildPersonalMatchesSection(),
+              MatchTagsSection(tagGroups: _match!.personalTagGroups),
               const SizedBox(height: 24),
             ],
             
@@ -241,363 +233,6 @@ class _MatchDetailViewState extends State<MatchDetailView> {
     );
   }
 
-  Widget _buildSectionHeader({required String iconName, required String title}) {
-    final venyuTheme = context.venyuTheme;
-    
-    return Row(
-      children: [
-        context.themedIcon(iconName, selected: true),
-        const SizedBox(width: 8),
-        Text(
-          title,
-          style: AppTextStyles.subheadline.copyWith(
-            fontWeight: FontWeight.w600,
-            color: venyuTheme.primaryText,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPromptsSection() {
-    if (_match!.prompts == null || _match!.prompts!.isEmpty) {
-      return Container(
-        padding: AppModifiers.cardContentPadding,
-        decoration: AppLayoutStyles.cardDecoration(context),
-        child: Text(
-          'No matching cards',
-          style: AppTextStyles.body.copyWith(
-            color: context.venyuTheme.secondaryText,
-          ),
-        ),
-      );
-    }
-
-    final currentProfile = _sessionManager.currentProfile;
-    if (currentProfile == null) {
-      return const Center(
-        child: Text('Profile not available'),
-      );
-    }
-
-    return Column(
-      children: [
-        // Match Overview Header
-        MatchOverviewHeader(
-          match: _match!,
-          currentProfile: currentProfile,
-        ),
-        
-        // Prompt Cards - no spacing between cards in shared view
-        ..._match!.prompts!.asMap().entries.map((entry) {
-          final index = entry.key;
-          final prompt = entry.value;
-          final isFirst = index == 0;
-          final isLast = index == _match!.prompts!.length - 1;
-          
-          return CardItem(
-            prompt: prompt,
-            isSharedPromptView: true,
-            showMatchInteraction: true,
-            isFirst: isFirst,
-            isLast: isLast,
-            onCardSelected: (selectedPrompt) {
-              // Card detail view - placeholder for future functionality
-              debugPrint('Card selected: ${selectedPrompt.label}');
-            },
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget _buildConnectionsSection() {
-    debugPrint('DEBUG: connections = ${_match!.connections}');
-    debugPrint('DEBUG: nrOfConnections = ${_match!.nrOfConnections}');
-    
-    if (_match!.connections == null || _match!.connections!.isEmpty) {
-      return Container(
-        padding: AppModifiers.cardContentPadding,
-        decoration: AppLayoutStyles.cardDecoration(context),
-        child: Text(
-          'No shared connections',
-          style: AppTextStyles.body.copyWith(
-            color: context.venyuTheme.secondaryText,
-          ),
-        ),
-      );
-    }
-
-    return Column(
-      children: _match!.connections!.asMap().entries.map((entry) {
-        final index = entry.key;
-        final connection = entry.value;
-        final isLast = index == _match!.connections!.length - 1;
-        
-        return Padding(
-          padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
-          child: MatchItemView(
-            match: connection,
-            onMatchSelected: (selectedMatch) {
-              Navigator.push(
-                context,
-                platformPageRoute(
-                  context: context,
-                  builder: (context) => MatchDetailView(
-                    matchId: selectedMatch.id,
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildCompanyMatchesSection() {
-    return _buildTagsSection(_match!.companyTagGroups);
-  }
-
-  Widget _buildPersonalMatchesSection() {
-    return _buildTagsSection(_match!.personalTagGroups);
-  }
-
-  Widget _buildTagsSection(List<dynamic> tagGroups) {
-    if (tagGroups.isEmpty) {
-      return Container(
-        padding: AppModifiers.cardContentPadding,
-        decoration: AppLayoutStyles.cardDecoration(context),
-        child: Text(
-          'No shared tags',
-          style: AppTextStyles.body.copyWith(
-            color: context.venyuTheme.secondaryText,
-          ),
-        ),
-      );
-    }
-
-    return Container(
-      padding: AppModifiers.cardContentPadding,
-      decoration: AppLayoutStyles.cardDecoration(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: tagGroups.asMap().entries.map((entry) {
-          final index = entry.key;
-          final tagGroup = entry.value;
-          final isLast = index == tagGroups.length - 1;
-          
-          return Padding(
-            padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // TagGroup label
-                Text(
-                  tagGroup.label ?? 'Unknown',
-                  style: AppTextStyles.subheadline.copyWith(
-                    color: context.venyuTheme.secondaryText,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Tags
-                if (tagGroup.tags != null && tagGroup.tags!.isNotEmpty)
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: (tagGroup.tags! as List).map((tag) {
-                      return TagView(
-                        id: tag.id,
-                        label: tag.label,
-                        icon: tag.icon,
-                        emoji: tag.emoji,
-                        fontSize: AppTextStyles.subheadline,
-                      );
-                    }).toList(),
-                  ),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  /// Build the match interest view with action buttons (MatchInterestView equivalent)
-  Widget _buildMatchInterestView() {
-    return Container(
-      padding: const EdgeInsets.only(top: 8),
-      child: SafeArea(
-        child: Row(
-          children: [
-            // Skip button
-            Expanded(
-              child: _isProcessingSkip 
-                ? ActionButton(
-                    label: '',
-                    onPressed: null,
-                    type: ActionButtonType.secondary,
-                    isDisabled: true,
-                    icon: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: PlatformCircularProgressIndicator(
-                        cupertino: (_, __) => CupertinoProgressIndicatorData(
-                          color: ActionButtonType.secondary.textColor(context),
-                        ),
-                        material: (_, __) => MaterialProgressIndicatorData(
-                          color: ActionButtonType.secondary.textColor(context),
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    ),
-                  )
-                : ActionButton(
-                    label: AppStrings.skip,
-                    onPressed: _isProcessingInterested ? null : _showSkipAlert,
-                    type: ActionButtonType.secondary,
-                    isDisabled: _isProcessingInterested,
-                  ),
-            ),
-            const SizedBox(width: 16),
-            // Connect button  
-            Expanded(
-              child: _isProcessingInterested
-                ? ActionButton(
-                    label: '',
-                    onPressed: null,
-                    type: ActionButtonType.primary,
-                    isDisabled: true,
-                    icon: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: PlatformCircularProgressIndicator(
-                        cupertino: (_, __) => CupertinoProgressIndicatorData(
-                          color: ActionButtonType.primary.textColor(context),
-                        ),
-                        material: (_, __) => MaterialProgressIndicatorData(
-                          color: ActionButtonType.primary.textColor(context),
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    ),
-                  )
-                : ActionButton(
-                    label: AppStrings.interested,
-                    onPressed: _isProcessingSkip ? null : _handleConnectMatch,
-                    type: ActionButtonType.primary,
-                    isDisabled: _isProcessingSkip,
-                  ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Show skip match confirmation alert
-  void _showSkipAlert() async {
-    if (_match == null) return;
-    
-    final confirmed = await DialogUtils.showConfirmationDialog(
-      context: context,
-      title: 'Skip this match?',
-      message: 'This match will be removed permanently and you won\'t see it again. ${_match!.profile.firstName} won\'t get notified.',
-      confirmText: AppStrings.skip,
-      cancelText: AppStrings.cancel,
-      isDestructive: true,
-    );
-    
-    if (confirmed) {
-      _handleSkipMatch();
-    }
-  }
-
-  /// Handle skip match action
-  Future<void> _handleSkipMatch() async {
-    if (_match == null) return;
-    
-    setState(() {
-      _isProcessingSkip = true;
-    });
-
-    try {
-      final request = MatchResponseRequest(
-        matchId: _match!.id,
-        response: MatchResponse.notInterested,
-      );
-      
-      await _supabaseManager.insertMatchResponse(request);
-      
-      if (mounted) {
-        // Notify parent that match was removed
-        widget.onMatchRemoved?.call();
-        
-        // Then navigate back to matches list
-        Navigator.of(context).pop();
-        
-        debugPrint('Match skipped');
-      }
-    } catch (error) {
-      debugPrint('Error skipping match: $error');
-      
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Failed to skip match',
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isProcessingSkip = false;
-        });
-      }
-    }
-  }
-
-  /// Handle connect match action
-  Future<void> _handleConnectMatch() async {
-    if (_match == null) return;
-    
-    setState(() {
-      _isProcessingInterested = true;
-    });
-
-    try {
-      final request = MatchResponseRequest(
-        matchId: _match!.id,
-        response: MatchResponse.interested,
-      );
-      
-      await _supabaseManager.insertMatchResponse(request);
-      
-      if (mounted) {
-        // Notify parent that match was removed
-        widget.onMatchRemoved?.call();
-        
-        // Then navigate back to matches list
-        Navigator.of(context).pop();
-        
-        debugPrint('Connection request sent!');
-      }
-    } catch (error) {
-      debugPrint('Error connecting with match: $error');
-      
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Failed to connect',
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isProcessingInterested = false;
-        });
-      }
-    }
-  }
 
   Future<void> _openLinkedIn() async {
     if (_match?.profile.linkedInURL == null) return;

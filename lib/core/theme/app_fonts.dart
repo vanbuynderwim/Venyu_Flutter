@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// Venyu App Fonts
 class AppFonts {
   AppFonts._();
@@ -40,5 +42,23 @@ class AppFonts {
   /// Returns null for system font, or a specific font name for custom fonts
   static String? getFontFamily({bool useSystem = true}) {
     return useSystem ? system : null;
+  }
+  
+  /// Helper method to convert AppFonts weight constants to Flutter FontWeight
+  /// This ensures we use our centralized weight definitions
+  static FontWeight toFontWeight(int weight) {
+    switch (weight) {
+      case 100: return FontWeight.w100;
+      case 200: return FontWeight.w200;
+      case 300: return FontWeight.w300;
+      case 400: return FontWeight.w400;
+      case 450: 
+      case 500: return FontWeight.w500; // Book maps to medium
+      case 600: return FontWeight.w600;
+      case 700: return FontWeight.w700;
+      case 800: return FontWeight.w800;
+      case 900: return FontWeight.w900;
+      default: return FontWeight.w400; // Default to regular
+    }
   }
 }

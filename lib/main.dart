@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'core/config/app_config.dart';
 import 'core/theme/app_theme.dart';
+import 'core/utils/app_logger.dart';
 import 'models/test_models.dart';
 import 'services/index.dart';
 import 'services/notification_service.dart';
@@ -22,8 +23,8 @@ void main() async {
   try {
     await dotenv.load(fileName: '.env.local');
   } catch (e) {
-    debugPrint('Warning: Could not load .env.local file: $e');
-    debugPrint('Using fallback configuration');
+    AppLogger.warning('Could not load .env.local file', error: e, context: 'main');
+    AppLogger.info('Using fallback configuration', context: 'main');
   }
   
   // Validate configuration before proceeding
@@ -32,8 +33,8 @@ void main() async {
       throw Exception('Invalid app configuration');
     }
   } catch (e) {
-    debugPrint('Configuration error: $e');
-    debugPrint('Please ensure environment variables are properly set in .env.local');
+    AppLogger.error('Configuration error', error: e, context: 'main');
+    AppLogger.error('Please ensure environment variables are properly set in .env.local', context: 'main');
     return;
   }
   
@@ -44,15 +45,15 @@ void main() async {
   try {
     await SupabaseManager.shared.initialize();
   } catch (e) {
-    debugPrint('❌ Failed to initialize SupabaseManager: $e');
-    debugPrint('Cannot continue without Supabase connection');
+    AppLogger.error('Failed to initialize SupabaseManager', error: e, context: 'main');
+    AppLogger.error('Cannot continue without Supabase connection', context: 'main');
     return;
   }
   
   // Initialize Firebase and NotificationService (non-blocking)
   NotificationService.shared.initialize().catchError((error) {
-    debugPrint('⚠️ NotificationService initialization failed: $error');
-    debugPrint('App will continue without push notifications');
+    AppLogger.warning('NotificationService initialization failed', error: error, context: 'main');
+    AppLogger.info('App will continue without push notifications', context: 'main');
   });
   
   runApp(const VenyuApp());
@@ -63,12 +64,12 @@ class VenyuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('🏗️ VenyuApp.build() - Creating ChangeNotifierProvider with SessionManager.shared');
+    AppLogger.ui('VenyuApp.build() - Creating ChangeNotifierProvider with SessionManager.shared', context: 'VenyuApp');
     
     return ChangeNotifierProvider(
       create: (_) {
         final sessionManager = SessionManager.shared;
-        debugPrint('🔗 ChangeNotifierProvider: Created with SessionManager instance ${sessionManager.hashCode}');
+        AppLogger.ui('ChangeNotifierProvider: Created with SessionManager instance ${sessionManager.hashCode}', context: 'VenyuApp');
         return sessionManager;
       },
       child: PlatformApp(
@@ -117,19 +118,19 @@ class _AuthFlowState extends State<AuthFlow> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('🏗️ AuthFlow.build() called');
+    AppLogger.ui('AuthFlow.build() called', context: 'AuthFlow');
     
     return Consumer<SessionManager>(
       builder: (context, sessionManager, child) {
-        debugPrint('🔄 AuthFlow Consumer: Current state = ${sessionManager.authState}');
-        debugPrint('🔄 AuthFlow Consumer: isAuthenticated = ${sessionManager.isAuthenticated}');
-        debugPrint('🔄 AuthFlow Consumer: isRegistered = ${sessionManager.isRegistered}');
-        debugPrint('🔄 AuthFlow Consumer: hasProfile = ${sessionManager.currentProfile != null}');
-        debugPrint('🔄 AuthFlow Consumer: SessionManager instance = ${sessionManager.hashCode}');
+        AppLogger.ui('AuthFlow Consumer: Current state = ${sessionManager.authState}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: isAuthenticated = ${sessionManager.isAuthenticated}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: isRegistered = ${sessionManager.isRegistered}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: hasProfile = ${sessionManager.currentProfile != null}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: SessionManager instance = ${sessionManager.hashCode}', context: 'AuthFlow');
         
         switch (sessionManager.authState) {
           case AuthenticationState.loading:
-            debugPrint('📱 Showing loading screen');
+            AppLogger.ui('Showing loading screen', context: 'AuthFlow');
             return PlatformScaffold(
               body: Center(
                 child: PlatformCircularProgressIndicator(),
@@ -137,19 +138,19 @@ class _AuthFlowState extends State<AuthFlow> {
             );
             
           case AuthenticationState.unauthenticated:
-            debugPrint('📱 Showing login view');
+            AppLogger.ui('Showing login view', context: 'AuthFlow');
             return const LoginView();
             
           case AuthenticationState.authenticated:
-            debugPrint('📱 Showing onboard view');
+            AppLogger.ui('Showing onboard view', context: 'AuthFlow');
             return const OnboardView();
             
           case AuthenticationState.registered:
-            debugPrint('📱 Showing main view');
+            AppLogger.ui('Showing main view', context: 'AuthFlow');
             return const MainView();
             
           case AuthenticationState.error:
-            debugPrint('📱 Showing error screen');
+            AppLogger.ui('Showing error screen', context: 'AuthFlow');
             return PlatformScaffold(
               body: Center(
                 child: Column(
@@ -163,7 +164,7 @@ class _AuthFlowState extends State<AuthFlow> {
                     const SizedBox(height: 16),
                     Text(
                       'Authentication Error',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: AppTextStyles.title2,
                     ),
                     const SizedBox(height: 8),
                     Text(

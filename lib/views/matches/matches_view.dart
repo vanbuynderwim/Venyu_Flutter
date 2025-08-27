@@ -4,13 +4,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../models/match.dart';
 import '../../models/enums/match_status.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/session_manager.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import 'match_detail_view.dart';
@@ -24,12 +25,17 @@ class MatchesView extends StatefulWidget {
 }
 
 class _MatchesViewState extends State<MatchesView> 
-    with PaginatedListViewMixin<MatchesView> {
+    with PaginatedListViewMixin<MatchesView>, ErrorHandlingMixin<MatchesView> {
+  // Services
+  late final MatchingManager _matchingManager;
+  
+  // State
   final List<Match> _matches = [];
 
   @override
   void initState() {
     super.initState();
+    _matchingManager = MatchingManager.shared;
     initializePagination();
     _loadMatches();
   }
@@ -43,76 +49,64 @@ class _MatchesViewState extends State<MatchesView>
     if (!SessionManager.shared.isAuthenticated) return;
 
     if (forceRefresh || _matches.isEmpty) {
-      if (mounted) {
-        setState(() {
-          isLoading = true;
-          if (forceRefresh) {
-            _matches.clear();
-            hasMorePages = true;
-          }
+      if (forceRefresh) {
+        safeSetState(() {
+          _matches.clear();
+          hasMorePages = true;
         });
       }
 
-      try {
-        final request = PaginatedRequest(
-          limit: PaginatedRequest.numberOfMatches,
-          list: ServerListType.matches,
-        );
+      await executeWithLoading(
+        operation: () async {
+          final request = PaginatedRequest(
+            limit: PaginatedRequest.numberOfMatches,
+            list: ServerListType.matches,
+          );
 
-        final matches = await SupabaseManager.shared.fetchMatches(request);
-        if (mounted) {
-          setState(() {
+          final matches = await _matchingManager.fetchMatches(request);
+          safeSetState(() {
             _matches.addAll(matches);
             hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
-            isLoading = false;
           });
-        }
-      } catch (error) {
-        debugPrint('Error fetching matches: $error');
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
+        },
+        showSuccessToast: false,
+        showErrorToast: false,  // Silent load for initial data
+      );
     }
   }
 
   Future<void> _loadMoreMatches() async {
     if (_matches.isEmpty || !hasMorePages) return;
 
-    if (mounted) {
-      setState(() {
-        isLoadingMore = true;
-      });
-    }
+    safeSetState(() {
+      isLoadingMore = true;
+    });
 
-    try {
-      final lastMatch = _matches.last;
-      final request = PaginatedRequest(
-        limit: PaginatedRequest.numberOfMatches,
-        cursorId: lastMatch.id,
-        cursorTime: lastMatch.updatedAt,
-        cursorStatus: lastMatch.status,
-        list: ServerListType.matches,
-      );
+    await executeSilently(
+      operation: () async {
+        final lastMatch = _matches.last;
+        final request = PaginatedRequest(
+          limit: PaginatedRequest.numberOfMatches,
+          cursorId: lastMatch.id,
+          cursorTime: lastMatch.updatedAt,
+          cursorStatus: lastMatch.status,
+          list: ServerListType.matches,
+        );
 
-      final matches = await SupabaseManager.shared.fetchMatches(request);
-      if (mounted) {
-        setState(() {
+        final matches = await _matchingManager.fetchMatches(request);
+        safeSetState(() {
           _matches.addAll(matches);
           hasMorePages = matches.length == PaginatedRequest.numberOfMatches;
           isLoadingMore = false;
         });
-      }
-    } catch (error) {
-      debugPrint('Error loading more matches: $error');
-      if (mounted) {
-        setState(() {
+      },
+      onError: (error) {
+        debugPrint('Error loading more matches: $error');
+        safeSetState(() {
           isLoadingMore = false;
         });
-      }
-    }
+      },
+    );
   }
 
   Future<void> _handleRefresh() async {
@@ -210,7 +204,6 @@ class _MatchesViewState extends State<MatchesView>
                                       'Connections',
                                       style: AppTextStyles.subheadline.copyWith(
                                         color: context.venyuTheme.primaryText,
-                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),

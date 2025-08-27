@@ -29,6 +29,7 @@
       "Bash(keytool:*)",
       "Bash(java:*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

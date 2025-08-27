@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/app_logger.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/login_button_type.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../services/index.dart';
@@ -23,85 +25,53 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  bool _isSigningIn = false;
+class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
+  // _isSigningIn removed - using mixin's isProcessing
 
   /// Performs Apple sign in using SessionManager - mirrors iOS implementation
   Future<void> _signInWithApple() async {
     final sessionManager = context.read<SessionManager>();
     
-    setState(() {
-      _isSigningIn = true;
-    });
-
-    try {
-      debugPrint('🍎 Starting Apple sign-in via SessionManager');
-      
-      // Use SessionManager for authentication - equivalent to iOS approach
-      await sessionManager.signInWithApple();
-      
-      debugPrint('✅ Apple sign-in initiated via SessionManager');
-      // Navigation will be handled automatically by AuthFlow via SessionManager state
-      
-    } catch (error) {
-      debugPrint('❌ Apple sign-in error: $error');
-      // Error handling is now managed by SessionManager
-      // UI will react to SessionManager.authState changes
-    } finally {
-      setState(() {
-        _isSigningIn = false;
-      });
-    }
+    await executeWithLoading(
+      operation: () async {
+        AppLogger.auth('Starting Apple sign-in via SessionManager', context: 'LoginView');
+        await sessionManager.signInWithApple();
+        AppLogger.auth('Apple sign-in initiated via SessionManager', context: 'LoginView');
+      },
+      showSuccessToast: false, // Navigation handled by AuthFlow
+      showErrorToast: false,   // Error handled by SessionManager
+      useProcessingState: true,
+    );
   }
   
   Future<void> _signInWithGoogle() async {
     final sessionManager = context.read<SessionManager>();
     
-    setState(() {
-      _isSigningIn = true;
-    });
-
-    try {
-      debugPrint('📱 Starting Google sign-in');
-      
-      await sessionManager.signInWithGoogle();
-      
-      debugPrint('✅ Google sign-in initiated successfully');
-      
-    } catch (error) {
-      debugPrint('❌ Google sign-in error: $error');
-    } finally {
-      setState(() {
-        _isSigningIn = false;
-      });
-    }
+    await executeWithLoading(
+      operation: () async {
+        AppLogger.auth('Starting Google sign-in', context: 'LoginView');
+        await sessionManager.signInWithGoogle();
+        AppLogger.auth('Google sign-in initiated successfully', context: 'LoginView');
+      },
+      showSuccessToast: false,
+      showErrorToast: false,
+      useProcessingState: true,
+    );
   }
   
   Future<void> _signInWithLinkedIn() async {
     final sessionManager = context.read<SessionManager>();
     
-    setState(() {
-      _isSigningIn = true;
-    });
-
-    try {
-      debugPrint('💼 Starting LinkedIn sign-in via SessionManager');
-      
-      // Use SessionManager for LinkedIn authentication - equivalent to iOS approach
-      await sessionManager.signInWithLinkedIn();
-      
-      debugPrint('✅ LinkedIn sign-in initiated via SessionManager');
-      // Navigation will be handled automatically by AuthFlow via SessionManager state
-      
-    } catch (error) {
-      debugPrint('❌ LinkedIn sign-in error: $error');
-      // Error handling is now managed by SessionManager
-      // UI will react to SessionManager.authState changes
-    } finally {
-      setState(() {
-        _isSigningIn = false;
-      });
-    }
+    await executeWithLoading(
+      operation: () async {
+        AppLogger.auth('Starting LinkedIn sign-in via SessionManager', context: 'LoginView');
+        await sessionManager.signInWithLinkedIn();
+        AppLogger.auth('LinkedIn sign-in initiated via SessionManager', context: 'LoginView');
+      },
+      showSuccessToast: false,
+      showErrorToast: false, 
+      useProcessingState: true,
+    );
   }
   
 
@@ -169,21 +139,21 @@ class _LoginViewState extends State<LoginView> {
                     // LinkedIn sign-in
                     LoginButton(
                       type: LoginButtonType.linkedIn,
-                      onPressed: _isSigningIn ? null : _signInWithLinkedIn,
+                      onPressed: isProcessing ? null : _signInWithLinkedIn,
                     ),
                     const SizedBox(height: 8),
                     
                     // Google sign-in
                     LoginButton(
                       type: LoginButtonType.google,
-                      onPressed: _isSigningIn ? null : _signInWithGoogle,
+                      onPressed: isProcessing ? null : _signInWithGoogle,
                     ),
                     const SizedBox(height: 8),
                     
                     // Apple sign-in
                     LoginButton(
                       type: LoginButtonType.apple,
-                      onPressed: _isSigningIn ? null : _signInWithApple,
+                      onPressed: isProcessing ? null : _signInWithApple,
                     ),
                   ],
                 ),
@@ -235,7 +205,7 @@ class _LoginViewState extends State<LoginView> {
           ),
           
           // Loading overlay
-          if (_isSigningIn)
+          if (isProcessing)
             Container(
               color: context.venyuTheme.pageBackground.withValues(alpha: 0.5),
               child: Center(

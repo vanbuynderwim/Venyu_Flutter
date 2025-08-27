@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/media_manager.dart';
 
 /// RemoteIconImage - Laadt remote icons met fallback naar lokale assets
 /// 
@@ -28,11 +28,18 @@ class RemoteIconImage extends StatefulWidget {
 }
 
 class _RemoteIconImageState extends State<RemoteIconImage> {
-  final SupabaseManager _supabaseManager = SupabaseManager.shared;
-
-  String _getIconUrl(BuildContext context) {
-    // Use Supabase storage to get icon URL
-    return _supabaseManager.getIcon(widget.iconName) ?? '';
+  // Services
+  late final MediaManager _mediaManager;
+  
+  @override
+  void initState() {
+    super.initState();
+    _mediaManager = MediaManager.shared;
+  }
+  
+  String _getRemoteIconUrl() {
+    // Get remote icon URL from MediaManager
+    return _mediaManager.getIcon(widget.iconName) ?? '';
   }
 
   @override
@@ -62,7 +69,7 @@ class _RemoteIconImageState extends State<RemoteIconImage> {
   }
 
   Widget _buildRemoteIcon() {
-    final iconUrl = _getIconUrl(context);
+    final iconUrl = _getRemoteIconUrl();
     final venyuTheme = context.venyuTheme;
     
     if (iconUrl.isNotEmpty) {

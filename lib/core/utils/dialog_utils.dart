@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_strings.dart';
+import '../theme/app_text_styles.dart';
 
 /// Centralized utility for creating platform-aware dialogs
 class DialogUtils {
@@ -151,7 +152,7 @@ class DialogUtils {
                 const SizedBox(height: 16),
                 Text(
                   message,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: AppTextStyles.subheadline,
                 ),
               ],
             ),

@@ -75,7 +75,7 @@ enum InteractionType {
       case InteractionType.knowSomeone:
         return 'I can refer';
       case InteractionType.notRelevant:
-        return 'Not relevant';
+        return 'Not for me';
     }
   }
 
@@ -143,31 +143,28 @@ enum InteractionType {
   /// 
   /// This is the main title displayed on the selection button.
   String get selectionTitle {
-    switch (this) {
-      case InteractionType.thisIsMe:
-        return 'I can help';
-      case InteractionType.lookingForThis:
-        return 'I need help';
-      case InteractionType.knowSomeone:
-        return 'I can refer';
-      case InteractionType.notRelevant:
-        return 'Not relevant';
-    }
+  switch (this) {
+    case InteractionType.thisIsMe:
+      return 'I can help';
+    case InteractionType.lookingForThis:
+      return 'I need help';
+    case InteractionType.knowSomeone:
+      return 'I can connect';
+    case InteractionType.notRelevant:
+      return 'Skip';
   }
-  
-  /// Returns the selection subtitle for the interaction type selection screen.
-  /// 
-  /// This provides additional context about what the interaction type means.
-  String get selectionSubtitle {
-    switch (this) {
-      case InteractionType.thisIsMe:
-        return 'Offer your expertise';
-      case InteractionType.lookingForThis:
-        return 'Find someone who can help';
-      case InteractionType.knowSomeone:
-        return 'Connect people you know';
-      case InteractionType.notRelevant:
-        return 'Skip this opportunity';
-    }
+}
+
+String get selectionSubtitle {
+  switch (this) {
+    case InteractionType.thisIsMe:
+      return 'Share your skills or experience';
+    case InteractionType.lookingForThis:
+      return 'Ask for advice or support';
+    case InteractionType.knowSomeone:
+      return 'Introduce people who can help';
+    case InteractionType.notRelevant:
+      return 'Pass on this one';
   }
+}
 }

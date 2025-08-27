@@ -3,8 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/utils/app_logger.dart';
 import '../models/models.dart';
 import 'supabase_manager.dart';
+import 'supabase_managers/authentication_manager.dart';
+import 'supabase_managers/media_manager.dart';
+import 'supabase_managers/profile_manager.dart';
 import 'tag_group_service.dart';
 
 /// Represents the current authentication state of the user.
@@ -70,7 +74,7 @@ class SessionManager extends ChangeNotifier {
   /// Provides convenient access to session management throughout the app.
   static SessionManager get shared {
     _instance ??= SessionManager._internal();
-    debugPrint('🔗 SessionManager.shared accessed - instance ${_instance.hashCode}');
+    AppLogger.debug('SessionManager.shared accessed - instance ${_instance.hashCode}', context: 'SessionManager');
     return _instance!;
   }
   
@@ -89,6 +93,10 @@ class SessionManager extends ChangeNotifier {
   /// Initializes the manager and sets up authentication state listening.
   SessionManager._internal({SupabaseManager? supabaseManager}) 
       : _supabaseManager = supabaseManager ?? SupabaseManager.shared {
+    // Initialize managers
+    _authenticationManager = AuthenticationManager.shared;
+    _mediaManager = MediaManager.shared;
+    _profileManager = ProfileManager.shared;
     // Initialize immediately since SupabaseManager should be ready when SessionManager is created
     _initialize();
   }
@@ -96,6 +104,9 @@ class SessionManager extends ChangeNotifier {
   // MARK: - Private Properties
   
   final SupabaseManager _supabaseManager;
+  late final AuthenticationManager _authenticationManager;
+  late final MediaManager _mediaManager;
+  late final ProfileManager _profileManager;
   late final StreamSubscription _authStateSubscription;
   
   // MARK: - Observable Properties (equivalent to iOS @Observable/@Published)
@@ -153,11 +164,11 @@ class SessionManager extends ChangeNotifier {
   
   /// Initialize SessionManager - equivalent to iOS init and setup
   void _initialize() {
-    debugPrint('🎯 SessionManager initializing...');
+    AppLogger.info('SessionManager initializing...', context: 'SessionManager');
     
     // Ensure SupabaseManager is initialized before proceeding
     if (!_supabaseManager.isInitialized) {
-      debugPrint('⚠️ SupabaseManager not yet initialized, SessionManager will wait');
+      AppLogger.warning('SupabaseManager not yet initialized, SessionManager will wait', context: 'SessionManager');
       // In a real scenario, this should be handled by proper initialization order in main.dart
       return;
     }
@@ -171,16 +182,16 @@ class SessionManager extends ChangeNotifier {
     // Perform initial session check
     _performInitialSessionCheck();
     
-    debugPrint('✅ SessionManager initialized');
+    AppLogger.success('SessionManager initialized', context: 'SessionManager');
   }
   
   /// Setup auth state listener - equivalent to iOS setupAuthStateChange
   void _setupAuthStateListener() {
-    debugPrint('👂 Setting up auth state listener');
+    AppLogger.debug('Setting up auth state listener', context: 'SessionManager');
     
     _authStateSubscription = _supabaseManager.client.auth.onAuthStateChange.listen(
       (AuthState authState) async {
-        debugPrint('🔄 Auth state changed: ${authState.event}');
+        AppLogger.debug('Auth state changed: ${authState.event}', context: 'SessionManager');
         
         switch (authState.event) {
           case AuthChangeEvent.initialSession:
@@ -210,7 +221,7 @@ class SessionManager extends ChangeNotifier {
         }
       },
       onError: (error) {
-        debugPrint('❌ Auth state listener error: $error');
+        AppLogger.error('Auth state listener error: $error', context: 'SessionManager');
         _handleAuthError(error);
       },
     );
@@ -218,20 +229,20 @@ class SessionManager extends ChangeNotifier {
   
   /// Perform initial session check - equivalent to iOS checkAuthState
   void _performInitialSessionCheck() async {
-    debugPrint('🔍 Performing initial session check');
+    AppLogger.debug('Performing initial session check', context: 'SessionManager');
     
     try {
       final session = _supabaseManager.currentSession;
       
       if (session != null) {
-        debugPrint('📋 Existing session found, fetching profile');
+        AppLogger.info('Existing session found, fetching profile', context: 'SessionManager');
         await _handleExistingSession(session);
       } else {
-        debugPrint('🚫 No existing session found');
+        AppLogger.info('No existing session found', context: 'SessionManager');
         _updateAuthState(AuthenticationState.unauthenticated);
       }
     } catch (error) {
-      debugPrint('❌ Initial session check error: $error');
+      AppLogger.error('Initial session check error: $error', context: 'SessionManager');
       _handleAuthError(error);
     }
   }
@@ -240,7 +251,7 @@ class SessionManager extends ChangeNotifier {
   
   /// Handle initial session - equivalent to iOS initial session handling
   Future<void> _handleInitialSession(Session? session) async {
-    debugPrint('🎬 Handling initial session');
+    AppLogger.info('Handling initial session', context: 'SessionManager');
     
     if (session != null) {
       await _handleExistingSession(session);
@@ -254,7 +265,7 @@ class SessionManager extends ChangeNotifier {
     try {
       _currentSession = session;
       
-      debugPrint('👤 Fetching user profile for session');
+      AppLogger.info('Fetching user profile for session', context: 'SessionManager');
       await _fetchUserProfile();
       
       // Initialize TagGroup cache for registration wizard
@@ -264,22 +275,22 @@ class SessionManager extends ChangeNotifier {
       _updateAuthState(_determineAuthenticationState());
       
     } catch (error) {
-      debugPrint('❌ Error handling existing session: $error');
+      AppLogger.error('Error handling existing session: $error', context: 'SessionManager');
       _handleAuthError(error);
     }
   }
   
   /// Handle successful sign in - equivalent to iOS sign in handling
   Future<void> _handleSignedIn(Session? session) async {
-    debugPrint('✅ User signed in (event)');
+    AppLogger.success('User signed in (event)', context: 'SessionManager');
     
     if (session == null) {
-      debugPrint('⚠️ Signed in event but no session - using current session');
+      AppLogger.warning('Signed in event but no session - using current session', context: 'SessionManager');
       session = _supabaseManager.currentSession;
     }
     
     if (session == null) {
-      debugPrint('❌ No session available after sign in');
+      AppLogger.error('No session available after sign in', context: 'SessionManager');
       _handleAuthError('No session available after sign in');
       return;
     }
@@ -288,7 +299,7 @@ class SessionManager extends ChangeNotifier {
 
     try {
       // Fetch user profile after successful sign in
-      debugPrint('🔍 Fetching profile after sign in...');
+      AppLogger.debug('Fetching profile after sign in...', context: 'SessionManager');
       await _fetchUserProfile();
       
       // Initialize TagGroup cache for registration wizard
@@ -296,13 +307,13 @@ class SessionManager extends ChangeNotifier {
       
       // Determine state based on profile completion
       final newState = _determineAuthenticationState();
-      debugPrint('🎯 After sign in, determined state: $newState');
+      AppLogger.info('After sign in, determined state: $newState', context: 'SessionManager');
       _updateAuthState(newState);
       
-      debugPrint('🎉 Sign in process completed successfully');
+      AppLogger.success('Sign in process completed successfully', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ Error after sign in: $error');
+      AppLogger.error('Error after sign in: $error', context: 'SessionManager');
       // Don't sign out - let user at least get to onboarding
       _updateAuthState(AuthenticationState.authenticated);
     }
@@ -310,12 +321,12 @@ class SessionManager extends ChangeNotifier {
   
   /// Handle sign out - equivalent to iOS sign out handling
   Future<void> _handleSignedOut() async {
-    debugPrint('👋 User signed out - performing complete reset');
+    AppLogger.info('User signed out - performing complete reset', context: 'SessionManager');
     
     // Perform complete reset to initial state
     await _performCompleteReset();
     
-    debugPrint('✅ Sign out cleanup completed - back to initial state');
+    AppLogger.success('Sign out cleanup completed - back to initial state', context: 'SessionManager');
   }
   
   /// Perform complete reset of SessionManager to initial state
@@ -323,7 +334,7 @@ class SessionManager extends ChangeNotifier {
   /// This method resets all internal properties to their initial values,
   /// exactly as they would be when SessionManager is first created.
   Future<void> _performCompleteReset() async {
-    debugPrint('🔄 Performing complete SessionManager reset');
+    AppLogger.debug('Performing complete SessionManager reset', context: 'SessionManager');
     
     // Clear all authentication-related data
     _currentSession = null;
@@ -345,12 +356,12 @@ class SessionManager extends ChangeNotifier {
     // Set to unauthenticated state and notify listeners
     _updateAuthState(AuthenticationState.unauthenticated);
     
-    debugPrint('✅ Complete reset finished');
-    debugPrint('📊 Post-reset state:');
-    debugPrint('  - authState: $_authState');
-    debugPrint('  - currentSession: $_currentSession');
-    debugPrint('  - currentProfile: $_currentProfile');
-    debugPrint('  - lastError: $_lastError');
+    AppLogger.success('Complete reset finished', context: 'SessionManager');
+    AppLogger.info('Post-reset state:', context: 'SessionManager');
+    AppLogger.info('  - authState: $_authState', context: 'SessionManager');
+    AppLogger.info('  - currentSession: $_currentSession', context: 'SessionManager');
+    AppLogger.info('  - currentProfile: $_currentProfile', context: 'SessionManager');
+    AppLogger.info('  - lastError: $_lastError', context: 'SessionManager');
   }
   
   /// Initialize TagGroup cache for registration wizard.
@@ -359,16 +370,16 @@ class SessionManager extends ChangeNotifier {
   /// It does not block the authentication flow if it fails.
   void _initializeTagGroups() {
     TagGroupService.shared.loadTagGroups().then((tagGroups) {
-      debugPrint('✅ TagGroups cache initialized with ${tagGroups.length} groups');
+      AppLogger.success('TagGroups cache initialized with ${tagGroups.length} groups', context: 'SessionManager');
     }).catchError((error) {
-      debugPrint('⚠️ Failed to initialize TagGroups cache: $error');
+      AppLogger.warning('Failed to initialize TagGroups cache: $error', context: 'SessionManager');
       // Don't throw - this is a background optimization
     });
   }
   
   /// Handle token refresh - equivalent to iOS token refresh handling
   Future<void> _handleTokenRefreshed(Session? session) async {
-    debugPrint('🔄 Token refreshed');
+    AppLogger.debug('Token refreshed', context: 'SessionManager');
     
     if (session != null) {
       _currentSession = session;
@@ -379,7 +390,7 @@ class SessionManager extends ChangeNotifier {
   
   /// Handle user updated - equivalent to iOS user update handling
   Future<void> _handleUserUpdated(Session? session) async {
-    debugPrint('👤 User updated');
+    AppLogger.info('User updated', context: 'SessionManager');
     
     if (session != null) {
       _currentSession = session;
@@ -389,7 +400,7 @@ class SessionManager extends ChangeNotifier {
         await _fetchUserProfile();
         _updateAuthState(_determineAuthenticationState());
       } catch (error) {
-        debugPrint('❌ Error updating user profile: $error');
+        AppLogger.error('Error updating user profile: $error', context: 'SessionManager');
       }
     }
   }
@@ -403,10 +414,10 @@ class SessionManager extends ChangeNotifier {
   /// Useful when profile data has been updated externally (like after registration completion).
   Future<void> refreshProfile() async {
     try {
-      debugPrint('🔄 Refreshing profile...');
+      AppLogger.debug('Refreshing profile...', context: 'SessionManager');
       
       if (_currentSession == null) {
-        debugPrint('⚠️ No session available for profile refresh');
+        AppLogger.warning('No session available for profile refresh', context: 'SessionManager');
         return;
       }
       
@@ -414,12 +425,12 @@ class SessionManager extends ChangeNotifier {
       
       // Update auth state after profile refresh
       final newState = _determineAuthenticationState();
-      debugPrint('🎯 After profile refresh, determined state: $newState');
+      AppLogger.info('After profile refresh, determined state: $newState', context: 'SessionManager');
       _updateAuthState(newState);
       
-      debugPrint('✅ Profile refreshed successfully');
+      AppLogger.success('Profile refreshed successfully', context: 'SessionManager');
     } catch (error) {
-      debugPrint('❌ Error refreshing profile: $error');
+      AppLogger.error('Error refreshing profile: $error', context: 'SessionManager');
       rethrow;
     }
   }
@@ -432,21 +443,21 @@ class SessionManager extends ChangeNotifier {
   /// 3. Handles errors by signing out (matching iOS behavior)
   Future<void> _fetchUserProfile() async {
     try {
-      debugPrint('📥 SessionManager: Fetching current profile');
+      AppLogger.info('SessionManager: Fetching current profile', context: 'SessionManager');
       
-      // Use SupabaseManager.fetchUserProfile() - exact equivalent of iOS call
-      final fetchedProfile = await _supabaseManager.fetchUserProfile();
+      // Use ProfileManager.fetchUserProfile() - exact equivalent of iOS call
+      final fetchedProfile = await _profileManager.fetchUserProfile();
       
       // Update current profile and authentication state - equivalent to iOS MainActor.run
       _currentProfile = fetchedProfile;
       
       // Update authentication state based on profile completion
       final newAuthState = _determineAuthenticationState();
-      debugPrint('🔄 About to update auth state to: $newAuthState');
+      AppLogger.debug('About to update auth state to: $newAuthState', context: 'SessionManager');
       _updateAuthState(newAuthState);
       
-      debugPrint('✅ fetchCurrentProfile successful');
-      debugPrint('👤 Profile loaded: ${_currentProfile?.displayName} (${_currentProfile?.contactEmail})');
+      AppLogger.success('fetchCurrentProfile successful', context: 'SessionManager');
+      AppLogger.info('Profile loaded: ${_currentProfile?.displayName} (${_currentProfile?.contactEmail})', context: 'SessionManager');
       
       // Set user context in Bugsnag for error tracking
       // Temporarily disabled for debugging
@@ -460,10 +471,10 @@ class SessionManager extends ChangeNotifier {
       // }
       
     } catch (error) {
-      debugPrint('❌ Failed to fetch profile: $error');
+      AppLogger.error('Failed to fetch profile: $error', context: 'SessionManager');
       
       // Don't sign out automatically - laat de user minstens naar onboarding gaan
-      debugPrint('⚠️ Profile fetch failed, but keeping session active for recovery');
+      AppLogger.warning('Profile fetch failed, but keeping session active for recovery', context: 'SessionManager');
       
       rethrow;
     }
@@ -471,28 +482,28 @@ class SessionManager extends ChangeNotifier {
   
   /// Determine authentication state based on session and profile
   AuthenticationState _determineAuthenticationState() {
-    debugPrint('🔍 Determining auth state:');
-    debugPrint('  - Session: ${_currentSession != null}');
-    debugPrint('  - Profile: ${_currentProfile != null}');
-    debugPrint('  - RegisteredAt: ${_currentProfile?.registeredAt}');
+    AppLogger.debug('Determining auth state:', context: 'SessionManager');
+    AppLogger.debug('  - Session: ${_currentSession != null}', context: 'SessionManager');
+    AppLogger.debug('  - Profile: ${_currentProfile != null}', context: 'SessionManager');
+    AppLogger.debug('  - RegisteredAt: ${_currentProfile?.registeredAt}', context: 'SessionManager');
     
     if (_currentSession == null) {
-      debugPrint('  → Unauthenticated (no session)');
+      AppLogger.debug('  → Unauthenticated (no session)', context: 'SessionManager');
       return AuthenticationState.unauthenticated;
     }
     
     if (_currentProfile == null) {
-      debugPrint('  → Authenticated (session but no profile)');
+      AppLogger.debug('  → Authenticated (session but no profile)', context: 'SessionManager');
       return AuthenticationState.authenticated;
     }
     
     // Check if profile is actually complete (has essential registration data)
     if (!_isProfileComplete(_currentProfile!)) {
-      debugPrint('  → Authenticated (session but incomplete profile)');
+      AppLogger.debug('  → Authenticated (session but incomplete profile)', context: 'SessionManager');
       return AuthenticationState.authenticated;
     }
     
-    debugPrint('  → Registered (session + complete profile)');
+    AppLogger.debug('  → Registered (session + complete profile)', context: 'SessionManager');
     return AuthenticationState.registered;
   }
   
@@ -506,13 +517,13 @@ class SessionManager extends ChangeNotifier {
                         profile.contactEmail != null && profile.contactEmail!.isNotEmpty;
     final hasCompletedOnboarding = profile.registeredAt != null;
     
-    debugPrint('  🔍 Profile completeness check:');
-    debugPrint('    - firstName: "${profile.firstName}" (${profile.firstName.isNotEmpty ? "✓" : "✗"})');
-    debugPrint('    - contactEmail: "${profile.contactEmail}" (${profile.contactEmail != null && profile.contactEmail!.isNotEmpty ? "✓" : "✗"})');
-    debugPrint('    - registeredAt: ${profile.registeredAt} (${hasCompletedOnboarding ? "✓" : "✗"})');
-    debugPrint('    - Has basic info: $hasBasicInfo');
-    debugPrint('    - Has completed onboarding: $hasCompletedOnboarding');
-    debugPrint('    - Overall complete: ${hasBasicInfo && hasCompletedOnboarding}');
+    AppLogger.debug('Profile completeness check:', context: 'SessionManager');
+    AppLogger.debug('    - firstName: "${profile.firstName}" (${profile.firstName.isNotEmpty ? "✓" : "✗"})', context: 'SessionManager');
+    AppLogger.debug('    - contactEmail: "${profile.contactEmail}" (${profile.contactEmail != null && profile.contactEmail!.isNotEmpty ? "✓" : "✗"})', context: 'SessionManager');
+    AppLogger.debug('    - registeredAt: ${profile.registeredAt} (${hasCompletedOnboarding ? "✓" : "✗"})', context: 'SessionManager');
+    AppLogger.debug('    - Has basic info: $hasBasicInfo', context: 'SessionManager');
+    AppLogger.debug('    - Has completed onboarding: $hasCompletedOnboarding', context: 'SessionManager');
+    AppLogger.debug('    - Overall complete: ${hasBasicInfo && hasCompletedOnboarding}', context: 'SessionManager');
     
     return hasBasicInfo && hasCompletedOnboarding;
   }
@@ -529,16 +540,16 @@ class SessionManager extends ChangeNotifier {
   /// Throws authentication exceptions if the sign in process fails.
   Future<void> signInWithApple() async {
     try {
-      debugPrint('🍎 SessionManager: Starting Apple sign in');
+      AppLogger.info('SessionManager: Starting Apple sign in', context: 'SessionManager');
       _clearError();
       
-      await _supabaseManager.signInWithApple();
+      await _authenticationManager.signInWithApple();
       
       // Auth state will be updated via the auth state listener
-      debugPrint('✅ SessionManager: Apple sign in initiated');
+      AppLogger.success('SessionManager: Apple sign in initiated', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ SessionManager: Apple sign in error: $error');
+      AppLogger.error('SessionManager: Apple sign in error: $error', context: 'SessionManager');
       _handleAuthError(error);
       rethrow;
     }
@@ -555,16 +566,16 @@ class SessionManager extends ChangeNotifier {
   /// Throws authentication exceptions if the sign in process fails.
   Future<void> signInWithLinkedIn() async {
     try {
-      debugPrint('💼 SessionManager: Starting LinkedIn sign in');
+      AppLogger.info('SessionManager: Starting LinkedIn sign in', context: 'SessionManager');
       _clearError();
       
-      await _supabaseManager.signInWithLinkedIn();
+      await _authenticationManager.signInWithLinkedIn();
       
       // Auth state will be updated via the auth state listener
-      debugPrint('✅ SessionManager: LinkedIn sign in initiated');
+      AppLogger.success('SessionManager: LinkedIn sign in initiated', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ SessionManager: LinkedIn sign in error: $error');
+      AppLogger.error('SessionManager: LinkedIn sign in error: $error', context: 'SessionManager');
       _handleAuthError(error);
       rethrow;
     }
@@ -581,16 +592,16 @@ class SessionManager extends ChangeNotifier {
   /// Throws authentication exceptions if the sign in process fails.
   Future<void> signInWithGoogle() async {
     try {
-      debugPrint('📱 SessionManager: Starting Google sign in');
+      AppLogger.info('SessionManager: Starting Google sign in', context: 'SessionManager');
       _clearError();
       
-      await _supabaseManager.signInWithGoogle();
+      await _authenticationManager.signInWithGoogle();
       
       // Auth state will be updated via the auth state listener
-      debugPrint('✅ SessionManager: Google sign in completed');
+      AppLogger.success('SessionManager: Google sign in completed', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ SessionManager: Google sign in error: $error');
+      AppLogger.error('SessionManager: Google sign in error: $error', context: 'SessionManager');
       _handleAuthError(error);
       rethrow;
     }
@@ -601,13 +612,13 @@ class SessionManager extends ChangeNotifier {
   /// This method should be called after successfully updating profile data
   /// to keep the SessionManager in sync with the database.
   void updateCurrentProfile(Profile updatedProfile) {
-    debugPrint('🔄 SessionManager: Updating current profile');
+    AppLogger.debug('SessionManager: Updating current profile', context: 'SessionManager');
     _currentProfile = updatedProfile;
     
     // Notify listeners about the profile update
     notifyListeners();
     
-    debugPrint('✅ Profile updated: ${_currentProfile?.displayName}');
+    AppLogger.success('Profile updated: ${_currentProfile?.displayName}', context: 'SessionManager');
   }
 
   /// Updates specific fields of the current profile without fetching from database.
@@ -633,11 +644,11 @@ class SessionManager extends ChangeNotifier {
     List<TagGroup>? taggroups,
   }) {
     if (_currentProfile == null) {
-      debugPrint('⚠️ SessionManager: Cannot update profile fields - no current profile');
+      AppLogger.warning('SessionManager: Cannot update profile fields - no current profile', context: 'SessionManager');
       return;
     }
 
-    debugPrint('🔄 SessionManager: Updating profile fields');
+    AppLogger.debug('SessionManager: Updating profile fields', context: 'SessionManager');
     
     _currentProfile = _currentProfile!.copyWith(
       firstName: firstName,
@@ -661,7 +672,7 @@ class SessionManager extends ChangeNotifier {
     // Notify listeners about the profile update
     notifyListeners();
     
-    debugPrint('✅ Profile fields updated: ${_currentProfile?.displayName}');
+    AppLogger.success('Profile fields updated: ${_currentProfile?.displayName}', context: 'SessionManager');
   }
 
   /// Signs out the current user and clears all session data.
@@ -674,16 +685,16 @@ class SessionManager extends ChangeNotifier {
   /// Throws exceptions if the sign out process fails.
   Future<void> signOut() async {
     try {
-      debugPrint('👋 SessionManager: Starting sign out');
+      AppLogger.info('SessionManager: Starting sign out', context: 'SessionManager');
       _clearError();
       
-      await _supabaseManager.signOut();
+      await _authenticationManager.signOut();
       
       // Auth state will be updated via the auth state listener
-      debugPrint('✅ SessionManager: Sign out completed');
+      AppLogger.success('SessionManager: Sign out completed', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ SessionManager: Sign out error: $error');
+      AppLogger.error('SessionManager: Sign out error: $error', context: 'SessionManager');
       _handleAuthError(error);
       rethrow;
     }
@@ -697,7 +708,7 @@ class SessionManager extends ChangeNotifier {
     _lastError = _formatErrorMessage(error);
     _updateAuthState(AuthenticationState.error);
     
-    debugPrint('🐛 SessionManager error: $_lastError');
+    AppLogger.error('SessionManager error: $_lastError', context: 'SessionManager');
   }
   
   /// Format error message for user display
@@ -724,14 +735,14 @@ class SessionManager extends ChangeNotifier {
       final oldState = _authState;
       _authState = newState;
       
-      debugPrint('📊 Auth state changed: $oldState → $newState');
+      AppLogger.info('Auth state changed: $oldState → $newState', context: 'SessionManager');
       
       // Notify all listeners (equivalent to iOS @Observable updates)
       notifyListeners();
       
-      debugPrint('🔔 notifyListeners() called - UI should update now');
+      AppLogger.debug('notifyListeners() called - UI should update now', context: 'SessionManager');
     } else {
-      debugPrint('⚠️ Auth state update ignored - already in state: $newState');
+      AppLogger.warning('Auth state update ignored - already in state: $newState', context: 'SessionManager');
     }
   }
   
@@ -740,7 +751,7 @@ class SessionManager extends ChangeNotifier {
   /// Dispose resources - Flutter lifecycle method
   @override
   void dispose() {
-    debugPrint('🧹 SessionManager disposing');
+    AppLogger.info('SessionManager disposing', context: 'SessionManager');
     _authStateSubscription.cancel();
     super.dispose();
   }
@@ -772,26 +783,25 @@ class SessionManager extends ChangeNotifier {
   /// SessionManager handles the orchestration while SupabaseManager does the heavy lifting.
   Future<void> uploadUserProfileAvatar(Uint8List imageData) async {
     try {
-      debugPrint('📤 SessionManager: Starting avatar upload');
+      AppLogger.info('SessionManager: Starting avatar upload', context: 'SessionManager');
       
       // Delete old avatar if exists
       if (_currentProfile?.avatarID != null) {
-        await _supabaseManager.deleteUserProfileAvatar(
+        await _mediaManager.deleteUserProfileAvatar(
           avatarID: _currentProfile!.avatarID!,
-          isFullDelete: false,
         );
       }
       
       // Upload new avatar and get the new avatar ID
-      final newAvatarID = await _supabaseManager.uploadUserProfileAvatar(imageData);
+      final newAvatarID = await _mediaManager.uploadUserProfileAvatar(imageData);
       
       // Update local profile
       updateCurrentProfileFields(avatarID: newAvatarID);
       
-      debugPrint('✅ SessionManager: Avatar upload completed successfully');
+      AppLogger.success('SessionManager: Avatar upload completed successfully', context: 'SessionManager');
       
     } catch (error) {
-      debugPrint('❌ SessionManager: Failed to upload avatar: $error');
+      AppLogger.error('SessionManager: Failed to upload avatar: $error', context: 'SessionManager');
       rethrow;
     }
   }
@@ -802,27 +812,26 @@ class SessionManager extends ChangeNotifier {
   Future<void> deleteProfileAvatar({bool isFullDelete = true}) async {
     final avatarID = _currentProfile?.avatarID;
     if (avatarID == null) {
-      debugPrint('⚠️ No avatar to delete');
+      AppLogger.warning('No avatar to delete', context: 'SessionManager');
       return;
     }
     
     try {
-      debugPrint('🗑️ SessionManager: Deleting avatar: $avatarID');
+      AppLogger.info('SessionManager: Deleting avatar: $avatarID', context: 'SessionManager');
       
-      // Delete avatar via SupabaseManager
-      await _supabaseManager.deleteUserProfileAvatar(
+      // Delete avatar via MediaManager
+      await _mediaManager.deleteUserProfileAvatar(
         avatarID: avatarID,
-        isFullDelete: isFullDelete,
       );
       
       if (isFullDelete) {
         // Update local profile
         updateCurrentProfileFields(avatarID: null);
-        debugPrint('✅ SessionManager: Avatar deleted completely');
+        AppLogger.success('SessionManager: Avatar deleted completely', context: 'SessionManager');
       }
       
     } catch (error) {
-      debugPrint('❌ SessionManager: Failed to delete avatar: $error');
+      AppLogger.error('SessionManager: Failed to delete avatar: $error', context: 'SessionManager');
       
       if (isFullDelete) {
         rethrow;

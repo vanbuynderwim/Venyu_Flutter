@@ -40,119 +40,119 @@ class AppTextStyles {
   // Note: Colors are applied separately using extension methods
   
   /// Extra Large Title - 36.0pt Bold (iOS 17+)
-  static const TextStyle extraLargeTitle = TextStyle(
+  static final TextStyle extraLargeTitle = TextStyle(
     fontSize: 36.0,
-    fontWeight: FontWeight.w700,
+    fontWeight: AppFonts.toFontWeight(AppFonts.bold),
     fontFamily: AppFonts.defaultFontFamily,
     height: 1.2,
   );
 
   /// Extra Large Title 2 - 28.0pt Bold (iOS 17+)
-  static const TextStyle extraLargeTitle2 = TextStyle(
+  static final TextStyle extraLargeTitle2 = TextStyle(
     fontSize: 28.0,
-    fontWeight: FontWeight.w700,
+    fontWeight: AppFonts.toFontWeight(AppFonts.bold),
     fontFamily: AppFonts.defaultFontFamily,
     height: 1.25,
   );
 
   /// Large Title - 34.0pt Regular
-  static const TextStyle largeTitle = TextStyle(
+  static final TextStyle largeTitle = TextStyle(
     fontSize: 34.0,
-    fontWeight: FontWeight.w700,
+    fontWeight: AppFonts.toFontWeight(AppFonts.bold),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Title 1 - 28.0pt Regular
-  static const TextStyle title1 = TextStyle(
+  static final TextStyle title1 = TextStyle(
     fontSize: 28.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
     height: 1.25,
   );
 
   /// Title 2 - 22.0pt Regular
-  static const TextStyle title2 = TextStyle(
+  static final TextStyle title2 = TextStyle(
     fontSize: 22.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
     height: 1.3,
   );
 
   /// Title 3 - 20.0pt Regular
-  static const TextStyle title3 = TextStyle(
+  static final TextStyle title3 = TextStyle(
     fontSize: 20.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Headline - 17.0pt Semibold
-  static const TextStyle headline = TextStyle(
+  static final TextStyle headline = TextStyle(
     fontSize: 17.0,
-    fontWeight: FontWeight.w600,
+    fontWeight: AppFonts.toFontWeight(AppFonts.semiBold),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Subheadline - 15.0pt Regular
-  static const TextStyle subheadline = TextStyle(
+  static final TextStyle subheadline = TextStyle(
     fontSize: 15.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Body - 17.0pt Regular
-  static const TextStyle body = TextStyle(
+  static final TextStyle body = TextStyle(
     fontSize: 17.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Callout - 16.0pt Regular
-  static const TextStyle callout = TextStyle(
+  static final TextStyle callout = TextStyle(
     fontSize: 16.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Footnote - 13.0pt Regular
-  static const TextStyle footnote = TextStyle(
+  static final TextStyle footnote = TextStyle(
     fontSize: 13.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Caption 1 - 12.0pt Regular
-  static const TextStyle caption1 = TextStyle(
+  static final TextStyle caption1 = TextStyle(
     fontSize: 12.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   /// Caption 2 - 11.0pt Regular
-  static const TextStyle caption2 = TextStyle(
+  static final TextStyle caption2 = TextStyle(
     fontSize: 11.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
   );
 
   // Special Graphie styles for branding
   /// App Title - Large Graphie style
-  static const TextStyle appTitle = TextStyle(
+  static final TextStyle appTitle = TextStyle(
     fontSize: 46.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.graphie,
   );
 
   /// App Subtitle - Medium Graphie style
-  static const TextStyle appSubtitle = TextStyle(
+  static final TextStyle appSubtitle = TextStyle(
     fontSize: 20.0,
-    fontWeight: FontWeight.w400,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.graphie,
   );
 
   /// Prompt Label - Large Graphie style
-  static const TextStyle promptLabel = TextStyle(
+  static final TextStyle promptLabel = TextStyle(
     fontSize: 40.0,
-    fontWeight: FontWeight.w600,
+    fontWeight: AppFonts.toFontWeight(AppFonts.semiBold),
     fontFamily: AppFonts.graphie,
   );
 }

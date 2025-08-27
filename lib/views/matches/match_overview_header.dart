@@ -78,14 +78,12 @@ class MatchOverviewHeader extends StatelessWidget {
                     Text(
                       'You',
                       style: AppTextStyles.subheadline.copyWith(
-                        fontWeight: FontWeight.w600,
                         color: venyuTheme.primaryText,
                       ),
                     ),
                     Text(
                       match.profile.firstName,
                       style: AppTextStyles.subheadline.copyWith(
-                        fontWeight: FontWeight.w600,
                         color: venyuTheme.primaryText,
                       ),
                     ),

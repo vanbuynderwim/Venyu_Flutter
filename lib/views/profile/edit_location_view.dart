@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:location/location.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../models/enums/onboarding_benefit.dart';
 import '../../core/utils/dialog_utils.dart';
-import '../../services/supabase_manager.dart';
+import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
@@ -100,9 +100,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         Center(
           child: Text(
             'Enable location to ...',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.title2,
           ),
         ),
         
@@ -250,7 +248,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           ],
         );
         
-        if (shouldOpenSettings == true) {
+        if (shouldOpenSettings == true && mounted) {
           // Open app settings
           await DialogUtils.openAppSettings(context);
         }
@@ -270,7 +268,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         debugPrint('📍 Got location: ${locationData.latitude}, ${locationData.longitude}');
         
         // Save location to database
-        await SupabaseManager.shared.updateProfileLocation(
+        await ProfileManager.shared.updateProfileLocation(
           latitude: locationData.latitude,
           longitude: locationData.longitude,
         );

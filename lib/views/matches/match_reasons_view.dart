@@ -52,7 +52,6 @@ class MatchReasonsView extends StatelessWidget {
                   'Why you and ${match.profile.firstName} match',
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

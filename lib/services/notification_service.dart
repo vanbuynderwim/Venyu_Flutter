@@ -4,9 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../core/utils/app_logger.dart';
 import '../models/device.dart';
 import '../firebase_options.dart';
-import 'supabase_manager.dart';
+import 'supabase_managers/profile_manager.dart';
 
 /// Service for managing Firebase Cloud Messaging and push notifications
 /// 
@@ -36,13 +37,13 @@ class NotificationService {
       // Check if Firebase is already initialized
       try {
         Firebase.app();
-        debugPrint('🔥 Firebase already initialized');
+        AppLogger.info('Firebase already initialized', context: 'NotificationService');
       } on FirebaseException catch (_) {
         // Firebase not initialized, initialize it
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
-        debugPrint('🔥 Firebase initialized');
+        AppLogger.info('Firebase initialized', context: 'NotificationService');
       }
       
       // Initialize Firebase Messaging after Firebase is initialized
@@ -59,9 +60,9 @@ class NotificationService {
       // Get initial token
       await _refreshToken();
       
-      debugPrint('🔔 NotificationService initialized');
+      AppLogger.success('NotificationService initialized', context: 'NotificationService');
     } catch (error) {
-      debugPrint('❌ Failed to initialize NotificationService: $error');
+      AppLogger.error('Failed to initialize NotificationService: $error', context: 'NotificationService');
       rethrow;
     }
   }
@@ -69,15 +70,15 @@ class NotificationService {
   /// Request notification permissions from the user
   /// Returns true if permission granted, false otherwise
   Future<bool> requestPermission() async {
-    debugPrint('🔔 NotificationService.requestPermission() called');
+    AppLogger.debug('NotificationService.requestPermission() called', context: 'NotificationService');
     
     if (_messaging == null) {
-      debugPrint('🔔 Messaging is null, initializing...');
+      AppLogger.debug('Messaging is null, initializing...', context: 'NotificationService');
       await initialize();
     }
     
     try {
-      debugPrint('🔔 Calling _messaging.requestPermission()...');
+      AppLogger.debug('Calling _messaging.requestPermission()...', context: 'NotificationService');
       // Request permission
       final NotificationSettings settings = await _messaging!.requestPermission(
         alert: true,
@@ -89,30 +90,30 @@ class NotificationService {
         criticalAlert: false,
       );
       
-      debugPrint('🔔 Permission settings received: ${settings.authorizationStatus}');
+      AppLogger.debug('Permission settings received: ${settings.authorizationStatus}', context: 'NotificationService');
       
       // Check if permission was granted
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-        debugPrint('✅ Notification permission granted (authorized)');
+        AppLogger.success('Notification permission granted (authorized)', context: 'NotificationService');
         
         // Get and register FCM token
         await _refreshToken();
         
         return true;
       } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-        debugPrint('⚠️ Provisional notification permission granted');
+        AppLogger.warning('Provisional notification permission granted', context: 'NotificationService');
         
         // Still register token for provisional permission
         await _refreshToken();
         
         return true;
       } else {
-        debugPrint('❌ Notification permission denied: ${settings.authorizationStatus}');
+        AppLogger.error('Notification permission denied: ${settings.authorizationStatus}', context: 'NotificationService');
         return false;
       }
     } catch (error, stackTrace) {
-      debugPrint('❌ Error requesting notification permission: $error');
-      debugPrint('❌ Stack trace: $stackTrace');
+      AppLogger.error('Error requesting notification permission: $error', context: 'NotificationService');
+      AppLogger.error('Stack trace: $stackTrace', context: 'NotificationService');
       return false;
     }
   }
@@ -129,22 +130,22 @@ class NotificationService {
   
   /// Refresh FCM token and register with backend
   Future<void> _refreshToken() async {
-    debugPrint('🔔 _refreshToken called');
+    AppLogger.debug('_refreshToken called', context: 'NotificationService');
     
     if (_messaging == null) {
-      debugPrint('🔔 _messaging is null, returning');
+      AppLogger.debug('_messaging is null, returning', context: 'NotificationService');
       return;
     }
     
     try {
-      debugPrint('🔔 Getting FCM token...');
+      AppLogger.debug('Getting FCM token...', context: 'NotificationService');
       // Get FCM token
       final token = await _messaging!.getToken();
-      debugPrint('🔔 Current token: $token');
-      debugPrint('🔔 Stored token: $_fcmToken');
+      AppLogger.debug('Current token: $token', context: 'NotificationService');
+      AppLogger.debug('Stored token: $_fcmToken', context: 'NotificationService');
       
       if (token != null && token != _fcmToken) {
-        debugPrint('🔔 New FCM token detected: $token');
+        AppLogger.debug('New FCM token detected: $token', context: 'NotificationService');
         
         // Store token locally
         _fcmToken = token;
@@ -153,21 +154,21 @@ class NotificationService {
         // Register with backend
         await _registerDevice(token);
       } else if (token != null && token == _fcmToken) {
-        debugPrint('🔔 Token unchanged, but registering anyway to ensure backend sync');
+        AppLogger.debug('Token unchanged, but registering anyway to ensure backend sync', context: 'NotificationService');
         // Register with backend even if token is the same (in case previous registration failed)
         await _registerDevice(token);
       } else {
-        debugPrint('🔔 No token available');
+        AppLogger.debug('No token available', context: 'NotificationService');
       }
     } catch (error, stackTrace) {
-      debugPrint('❌ Error refreshing FCM token: $error');
-      debugPrint('❌ Stack trace: $stackTrace');
+      AppLogger.error('Error refreshing FCM token: $error', context: 'NotificationService');
+      AppLogger.error('Stack trace: $stackTrace', context: 'NotificationService');
     }
   }
   
   /// Handle token refresh events
   void _handleTokenRefresh(String token) {
-    debugPrint('🔔 FCM token refreshed: $token');
+    AppLogger.debug('FCM token refreshed: $token', context: 'NotificationService');
     
     // Store new token
     _fcmToken = token;
@@ -179,7 +180,7 @@ class NotificationService {
   
   /// Register device token with backend
   Future<void> _registerDevice(String token) async {
-    debugPrint('🔔 _registerDevice called with token: $token');
+    AppLogger.debug('_registerDevice called with token: $token', context: 'NotificationService');
     
     try {
       // Get device info
@@ -188,7 +189,7 @@ class NotificationService {
       final String deviceType = await _getDeviceType();
       final String systemVersion = await _getSystemVersion();
       
-      debugPrint('🔔 Device info: OS=$deviceOS, Interface=$deviceInterface, Type=$deviceType, Version=$systemVersion');
+      AppLogger.debug('Device info: OS=$deviceOS, Interface=$deviceInterface, Type=$deviceType, Version=$systemVersion', context: 'NotificationService');
       
       // Create device object
       final device = Device(
@@ -199,14 +200,14 @@ class NotificationService {
         systemVersion: systemVersion,
       );
       
-      debugPrint('🔔 Calling SupabaseManager.insertDeviceToken...');
+      AppLogger.debug('Calling SupabaseManager.insertDeviceToken...', context: 'NotificationService');
       // Send to backend
-      await SupabaseManager.shared.insertDeviceToken(device);
+      await ProfileManager.shared.insertDeviceToken(device);
       
-      debugPrint('✅ Device registered with backend');
+      AppLogger.success('Device registered with backend', context: 'NotificationService');
     } catch (error, stackTrace) {
-      debugPrint('❌ Error registering device: $error');
-      debugPrint('❌ Stack trace: $stackTrace');
+      AppLogger.error('Error registering device: $error', context: 'NotificationService');
+      AppLogger.error('Stack trace: $stackTrace', context: 'NotificationService');
     }
   }
   

@@ -3,8 +3,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/constants/app_strings.dart';
 import '../core/theme/venyu_theme.dart';
+import '../core/utils/app_logger.dart';
 import '../models/prompt.dart';
-import '../services/supabase_manager.dart';
+import '../services/supabase_managers/content_manager.dart';
 import '../services/session_manager.dart';
 import 'matches/matches_view.dart';
 import 'cards/cards_view.dart';
@@ -25,7 +26,7 @@ class _MainViewState extends State<MainView> {
   final int _currentIndex = 0;
   
   // Services
-  late final SupabaseManager _supabaseManager;
+  late final ContentManager _contentManager;
   late final SessionManager _sessionManager;
   
   static const List<Widget> _pages = [
@@ -39,7 +40,7 @@ class _MainViewState extends State<MainView> {
   @override
   void initState() {
     super.initState();
-    _supabaseManager = SupabaseManager.shared;
+    _contentManager = ContentManager.shared;
     _sessionManager = SessionManager.shared;
     
     // Check for prompts on app startup
@@ -53,21 +54,21 @@ class _MainViewState extends State<MainView> {
     try {
       // Only check for prompts if user is authenticated
       if (!_sessionManager.isAuthenticated) {
-        debugPrint('MainView: User not authenticated, skipping prompt check');
+        AppLogger.info('User not authenticated, skipping prompt check', context: 'MainView');
         return;
       }
 
-      debugPrint('MainView: Checking for available prompts...');
-      final prompts = await _supabaseManager.fetchPrompts();
+      AppLogger.info('Checking for available prompts...', context: 'MainView');
+      final prompts = await _contentManager.fetchPrompts();
       
       if (prompts.isNotEmpty && mounted) {
-        debugPrint('MainView: Found ${prompts.length} prompts, showing PromptsView');
+        AppLogger.info('Found ${prompts.length} prompts, showing PromptsView', context: 'MainView');
         _showPromptsModal(prompts);
       } else {
-        debugPrint('MainView: No prompts available');
+        AppLogger.info('No prompts available', context: 'MainView');
       }
     } catch (error) {
-      debugPrint('MainView: Error fetching prompts: $error');
+      AppLogger.error('Error fetching prompts', error: error, context: 'MainView');
       // Don't show error to user - just log it and continue normally
     }
   }

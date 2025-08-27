@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../models/enums/profile_edit_type.dart';
+import '../../core/utils/app_logger.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import 'edit_account_view.dart';
@@ -44,21 +45,21 @@ class _ProfileEditViewState extends State<ProfileEditView> {
   }
 
   void _handleOptionTap(BuildContext context, ProfileEditType type) async {
-    debugPrint('Tapped on profile edit option: ${type.title}');
+    AppLogger.ui('Tapped on profile edit option: ${type.title}', context: 'ProfileEditView');
     
     bool? hasChanges = false;
     
     switch (type) {
       //case ProfileEditType.settings:
-      //  debugPrint('Navigate to Settings page');
+      //  AppLogger.ui('Navigate to Settings page', context: 'ProfileEditView');
         // TODO: Navigate to settings page
         //break;
       //case ProfileEditType.blocks:
-      //  debugPrint('Navigate to Blocked Users page');
+      //  AppLogger.ui('Navigate to Blocked Users page', context: 'ProfileEditView');
         // TODO: Navigate to blocked users page
       //  break;
       case ProfileEditType.account:
-        debugPrint('Navigate to Account page');
+        AppLogger.ui('Navigate to Account page', context: 'ProfileEditView');
         Navigator.of(context).push(
           platformPageRoute(
             context: context,
