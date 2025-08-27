@@ -2,6 +2,7 @@
 import '../../models/models.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import '../../mixins/disposable_manager_mixin.dart';
 
 /// MatchingManager - Handles matching and connection operations
 /// 
@@ -16,7 +17,7 @@ import 'base_supabase_manager.dart';
 /// - Detailed match information with prompts and connections
 /// - Match response recording
 /// - Push notification management
-class MatchingManager extends BaseSupabaseManager {
+class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
   static MatchingManager? _instance;
   
   /// The singleton instance of [MatchingManager].
@@ -110,5 +111,18 @@ class MatchingManager extends BaseSupabaseManager {
       AppLogger.success('Notifications parsed: ${notifications.length} notifications', context: 'MatchingManager');
       return notifications;
     });
+  }
+  
+  /// Dispose this manager and clean up resources.
+  void dispose() {
+    disposeResources('MatchingManager');
+  }
+  
+  /// Static method to dispose the singleton instance.
+  static void disposeSingleton() {
+    if (_instance != null && !_instance!.disposed) {
+      _instance!.dispose();
+      _instance = null;
+    }
   }
 }

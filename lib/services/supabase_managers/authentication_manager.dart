@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/config/environment.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import '../../mixins/disposable_manager_mixin.dart';
 
 /// AuthenticationManager - Handles all OAuth authentication operations
 /// 
@@ -23,7 +24,7 @@ import 'base_supabase_manager.dart';
 /// - Secure user data storage via FlutterSecureStorage
 /// - Consistent error handling and logging
 /// - Deep link callback processing for OAuth flows
-class AuthenticationManager extends BaseSupabaseManager {
+class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMixin {
   static AuthenticationManager? _instance;
   
   /// The singleton instance of [AuthenticationManager].
@@ -426,5 +427,18 @@ class AuthenticationManager extends BaseSupabaseManager {
       
       AppLogger.success('Sign-out process completed', context: 'AuthenticationManager');
     });
+  }
+  
+  /// Dispose this manager and clean up resources.
+  void dispose() {
+    disposeResources('AuthenticationManager');
+  }
+  
+  /// Static method to dispose the singleton instance.
+  static void disposeSingleton() {
+    if (_instance != null && !_instance!.disposed) {
+      _instance!.dispose();
+      _instance = null;
+    }
   }
 }

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:provider/provider.dart';
 
 import 'core/config/app_config.dart';
+import 'core/providers/app_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/app_logger.dart';
-import 'services/index.dart';
+import 'services/auth_service.dart';
+import 'services/profile_service.dart';
+import 'services/supabase_manager.dart';
 import 'services/notification_service.dart';
 import 'views/index.dart';
 
@@ -60,14 +62,9 @@ class VenyuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.ui('VenyuApp.build() - Creating ChangeNotifierProvider with SessionManager.shared', context: 'VenyuApp');
+    AppLogger.ui('VenyuApp.build() - Creating AppProviders with focused services', context: 'VenyuApp');
     
-    return ChangeNotifierProvider(
-      create: (_) {
-        final sessionManager = SessionManager.shared;
-        AppLogger.ui('ChangeNotifierProvider: Created with SessionManager instance ${sessionManager.hashCode}', context: 'VenyuApp');
-        return sessionManager;
-      },
+    return AppProviders(
       child: PlatformApp(
         title: 'Venyu',
         // Global localization settings
@@ -109,22 +106,48 @@ class AuthFlow extends StatefulWidget {
 }
 
 class _AuthFlowState extends State<AuthFlow> {
-  
-
+  /// Determines the overall app state by combining auth and profile services.
+  AuthenticationState _determineAppState(AuthService authService, ProfileService profileService) {
+    // Start with auth state
+    final authState = authService.authState;
+    
+    // If auth is not authenticated, return that state
+    if (authState == AuthenticationState.unauthenticated ||
+        authState == AuthenticationState.loading ||
+        authState == AuthenticationState.error) {
+      return authState;
+    }
+    
+    // If authenticated, check profile registration
+    if (authState == AuthenticationState.authenticated) {
+      // Check if profile is registered
+      if (profileService.isRegistered) {
+        return AuthenticationState.registered;
+      } else {
+        return AuthenticationState.authenticated;
+      }
+    }
+    
+    // Default case
+    return authState;
+  }
 
   @override
   Widget build(BuildContext context) {
     AppLogger.ui('AuthFlow.build() called', context: 'AuthFlow');
     
-    return Consumer<SessionManager>(
-      builder: (context, sessionManager, child) {
-        AppLogger.ui('AuthFlow Consumer: Current state = ${sessionManager.authState}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: isAuthenticated = ${sessionManager.isAuthenticated}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: isRegistered = ${sessionManager.isRegistered}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: hasProfile = ${sessionManager.currentProfile != null}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: SessionManager instance = ${sessionManager.hashCode}', context: 'AuthFlow');
+    return AuthProfileConsumer(
+      builder: (context, authService, profileService, child) {
+        AppLogger.ui('AuthFlow Consumer: Current state = ${authService.authState}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: isAuthenticated = ${authService.isAuthenticated}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: isRegistered = ${profileService.isRegistered}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: hasProfile = ${profileService.currentProfile != null}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: AuthService instance = ${authService.hashCode}', context: 'AuthFlow');
         
-        switch (sessionManager.authState) {
+        // Determine the overall app state by combining auth and profile services
+        final appState = _determineAppState(authService, profileService);
+        
+        switch (appState) {
           case AuthenticationState.loading:
             AppLogger.ui('Showing loading screen', context: 'AuthFlow');
             return PlatformScaffold(
@@ -164,7 +187,7 @@ class _AuthFlowState extends State<AuthFlow> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      sessionManager.lastError ?? 'Unknown error occurred',
+                      authService.lastError ?? 'Unknown error occurred',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),

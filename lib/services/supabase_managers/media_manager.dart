@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/enums/remote_image_path.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import '../../mixins/disposable_manager_mixin.dart';
 
 /// MediaManager - Handles media and storage operations
 /// 
@@ -20,7 +21,7 @@ import 'base_supabase_manager.dart';
 /// - Secure file storage management
 /// - Image URL retrieval with fallbacks
 /// - UUID-based file naming
-class MediaManager extends BaseSupabaseManager {
+class MediaManager extends BaseSupabaseManager with DisposableManagerMixin {
   static MediaManager? _instance;
   
   /// The singleton instance of [MediaManager].
@@ -176,5 +177,18 @@ class MediaManager extends BaseSupabaseManager {
   String _generateUUID() {
     const uuid = Uuid();
     return uuid.v4().toUpperCase();
+  }
+  
+  /// Dispose this manager and clean up resources.
+  void dispose() {
+    disposeResources('MediaManager');
+  }
+  
+  /// Static method to dispose the singleton instance.
+  static void disposeSingleton() {
+    if (_instance != null && !_instance!.disposed) {
+      _instance!.dispose();
+      _instance = null;
+    }
   }
 }

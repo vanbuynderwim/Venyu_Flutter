@@ -2,6 +2,7 @@
 import '../../models/models.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import '../../mixins/disposable_manager_mixin.dart';
 
 /// ContentManager - Handles content and prompt operations
 /// 
@@ -18,7 +19,7 @@ import 'base_supabase_manager.dart';
 /// - Admin review and approval workflows
 /// - Batch prompt status updates
 /// - Interaction tracking
-class ContentManager extends BaseSupabaseManager {
+class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   static ContentManager? _instance;
   
   /// The singleton instance of [ContentManager].
@@ -32,6 +33,7 @@ class ContentManager extends BaseSupabaseManager {
 
   /// Fetch tag groups by category type
   Future<List<TagGroup>> fetchTagGroups(CategoryType type) async {
+    checkNotDisposed('ContentManager');
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching tag groups for type: ${type.name}', context: 'ContentManager');
       
@@ -239,5 +241,18 @@ class ContentManager extends BaseSupabaseManager {
       
       AppLogger.success('Prompt status updated by review type', context: 'ContentManager');
     });
+  }
+  
+  /// Dispose this manager and clean up resources.
+  void dispose() {
+    disposeResources('ContentManager');
+  }
+  
+  /// Static method to dispose the singleton instance.
+  static void disposeSingleton() {
+    if (_instance != null && !_instance!.disposed) {
+      _instance!.dispose();
+      _instance = null;
+    }
   }
 }

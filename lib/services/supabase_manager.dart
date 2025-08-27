@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/utils/app_logger.dart';
-import '../models/models.dart';
 import 'supabase_managers/base_supabase_manager.dart';
 // AuthenticationManager import removed - SessionManager uses it directly
 // ProfileManager import removed - SessionManager handles profile avatar deletion directly
@@ -111,25 +109,4 @@ class SupabaseManager {
     await BaseSupabaseManager.initialize();
     AppLogger.success('SupabaseManager initialization completed', context: 'SupabaseManager');
   }
-
-  // MARK: - Authentication Methods have been removed
-  // SessionManager now uses AuthenticationManager directly
-
-  // MARK: - Profile Methods have been removed
-  // Views and SessionManager now use ProfileManager directly
-
-  // MARK: - Content Methods have been removed
-  // Views now use ContentManager directly
-
-  // MARK: - Matching Methods have been removed
-  // Views now use MatchingManager directly
-
-  // MARK: - Media Methods have been removed
-  // SessionManager now uses MediaManager directly for avatar operations
-  // Views use MediaManager directly for other media operations
-
-  // MARK: - Utility Methods
-
-  // MARK: - Utility Methods have been removed
-  // Views now access BaseSupabaseManager directly when needed
 }

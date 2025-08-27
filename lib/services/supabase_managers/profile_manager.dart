@@ -4,6 +4,7 @@ import '../../models/models.dart';
 import '../../models/device.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import '../../mixins/disposable_manager_mixin.dart';
 
 /// ProfileManager - Handles user profile operations
 /// 
@@ -19,7 +20,7 @@ import 'base_supabase_manager.dart';
 /// - Email OTP verification workflow
 /// - Location updates with coordinates
 /// - Company information management
-class ProfileManager extends BaseSupabaseManager {
+class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   static ProfileManager? _instance;
   
   /// The singleton instance of [ProfileManager].
@@ -36,6 +37,7 @@ class ProfileManager extends BaseSupabaseManager {
   /// This method fetches the user profile from Supabase and enhances it
   /// with stored OAuth data from secure storage.
   Future<Profile> fetchUserProfile() async {
+    checkNotDisposed('ProfileManager');
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching user profile', context: 'ProfileManager');
       
@@ -239,5 +241,18 @@ class ProfileManager extends BaseSupabaseManager {
       
       AppLogger.success('User account deletion initiated', context: 'ProfileManager');
     });
+  }
+  
+  /// Dispose this manager and clean up resources.
+  void dispose() {
+    disposeResources('ProfileManager');
+  }
+  
+  /// Static method to dispose the singleton instance.
+  static void disposeSingleton() {
+    if (_instance != null && !_instance!.disposed) {
+      _instance!.dispose();
+      _instance = null;
+    }
   }
 }
