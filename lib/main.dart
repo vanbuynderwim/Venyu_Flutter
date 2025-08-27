@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'core/config/app_config.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/app_logger.dart';
-import 'models/test_models.dart';
 import 'services/index.dart';
 import 'services/notification_service.dart';
 import 'views/index.dart';
@@ -37,9 +36,6 @@ void main() async {
     AppLogger.error('Please ensure environment variables are properly set in .env.local', context: 'main');
     return;
   }
-  
-  // Test models
-  TestModels.runTests();
   
   // Initialize Supabase through SupabaseManager - better separation of concerns
   try {

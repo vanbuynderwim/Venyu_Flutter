@@ -27,7 +27,6 @@ class MediaManager extends BaseSupabaseManager {
   /// The singleton instance of [MediaManager].
   static MediaManager get shared {
     _instance ??= MediaManager._internal();
-    AppLogger.debug('MediaManager.shared accessed - instance ${_instance.hashCode}', context: 'MediaManager');
     return _instance!;
   }
   

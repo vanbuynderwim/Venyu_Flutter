@@ -60,8 +60,6 @@ abstract class BaseSupabaseManager {
       return;
     }
     
-    AppLogger.info('Initializing Supabase with schema configuration...', context: 'BaseSupabaseManager');
-    
     try {
       // Initialize Supabase with secure configuration and schema
       await Supabase.initialize(

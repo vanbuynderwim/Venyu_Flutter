@@ -22,7 +22,6 @@ class MatchingManager extends BaseSupabaseManager {
   /// The singleton instance of [MatchingManager].
   static MatchingManager get shared {
     _instance ??= MatchingManager._internal();
-    AppLogger.debug('MatchingManager.shared accessed - instance ${_instance.hashCode}', context: 'MatchingManager');
     return _instance!;
   }
   

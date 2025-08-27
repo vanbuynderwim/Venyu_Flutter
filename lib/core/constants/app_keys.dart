@@ -1,79 +1,74 @@
 /// App Keys - Storage keys and identifiers used throughout the app
 /// 
-/// This class contains all key constants for SharedPreferences,
-/// database keys, and other identifiers to prevent typos and
-/// ensure consistency.
+/// This class contains key constants for storage buckets, SharedPreferences,
+/// and other identifiers to prevent typos and ensure consistency.
+/// 
+/// Only includes keys that are actually used in the codebase.
 class AppKeys {
   AppKeys._();
 
-  /// SharedPreferences keys
-  static const String userToken = 'user_token';
-  static const String userProfile = 'user_profile';
-  static const String appSettings = 'app_settings';
-  static const String onboardingCompleted = 'onboarding_completed';
-  static const String lastSyncTime = 'last_sync_time';
-  static const String pushNotificationToken = 'push_notification_token';
-  static const String biometricEnabled = 'biometric_enabled';
-  static const String darkModeEnabled = 'dark_mode_enabled';
+  // MARK: - Storage Bucket Names (Actively Used)
+  
+  /// Supabase storage bucket for user avatar images
+  static const String avatarsBucket = 'avatars';
+
+  // MARK: - Device & System Keys
+  
+  /// Language code identifier for device locale
   static const String languageCode = 'language_code';
 
-  /// Database table names
-  static const String profilesTable = 'profiles';
-  static const String promptsTable = 'prompts';
-  static const String matchesTable = 'matches';
-  static const String connectionsTable = 'connections';
-  static const String tagsTable = 'tags';
-  static const String messagesTable = 'messages';
-
-  /// Storage bucket names
-  static const String avatarsBucket = 'avatars';
-  static const String documentsBucket = 'documents';
-  static const String imagesBucket = 'images';
-  static const String videosBucket = 'videos';
-
-  /// API endpoints
-  static const String authEndpoint = '/auth';
-  static const String profileEndpoint = '/profile';
-  static const String matchesEndpoint = '/matches';
-  static const String messagesEndpoint = '/messages';
-  static const String notificationsEndpoint = '/notifications';
-
-  /// Form field keys
-  static const String firstNameField = 'firstName';
-  static const String lastNameField = 'lastName';
+  // MARK: - Database Field Keys (Frequently Used)
+  
+  /// Profile field names used in RPC calls and forms
+  static const String firstNameField = 'first_name';
+  static const String lastNameField = 'last_name';
+  static const String companyNameField = 'company_name';
+  static const String linkedinUrlField = 'linkedin_url';
+  static const String websiteUrlField = 'website_url';
   static const String emailField = 'email';
-  static const String phoneField = 'phone';
-  static const String companyField = 'company';
-  static const String jobTitleField = 'jobTitle';
-  static const String bioField = 'bio';
-  static const String locationField = 'location';
+  static const String bioField = 'p_bio';
+  
+  /// Location and system fields
+  static const String countryCodeField = 'country_code';
+  static const String appVersionField = 'app_version';
+  
+  /// Common RPC function names
+  static const String getMyProfileRpc = 'get_my_profile';
+  static const String updateProfileNameRpc = 'update_profile_name';
+  static const String updateCompanyInfoRpc = 'update_company_info';
+  static const String updateProfileBioRpc = 'update_profile_bio';
+  static const String completeRegistrationRpc = 'complete_registration';
+  static const String verifyMailOtpRpc = 'verify_mail_otp';
+  
+  /// Common payload key
+  static const String payloadKey = 'payload';
 
-  /// Navigation route names
-  static const String homeRoute = '/home';
-  static const String profileRoute = '/profile';
-  static const String matchesRoute = '/matches';
-  static const String settingsRoute = '/settings';
-  static const String authRoute = '/auth';
-  static const String onboardingRoute = '/onboarding';
-
-  /// Widget test keys
-  static const String loginButton = 'login_button';
-  static const String signupButton = 'signup_button';
-  static const String profileAvatar = 'profile_avatar';
-  static const String navigationBar = 'navigation_bar';
-  static const String searchField = 'search_field';
-
-  /// Analytics event names
-  static const String userSignedIn = 'user_signed_in';
-  static const String userSignedUp = 'user_signed_up';
-  static const String profileUpdated = 'profile_updated';
-  static const String matchCreated = 'match_created';
-  static const String messagesSent = 'message_sent';
-  static const String settingsChanged = 'settings_changed';
-
-  /// Push notification types
-  static const String newMatch = 'new_match';
-  static const String newMessage = 'new_message';
-  static const String profileViewed = 'profile_viewed';
-  static const String systemUpdate = 'system_update';
+  // MARK: - Future Implementation Keys
+  // Uncomment and implement when needed:
+  
+  // /// SharedPreferences keys
+  // static const String userProfile = 'user_profile';
+  // static const String appSettings = 'app_settings';
+  // static const String onboardingCompleted = 'onboarding_completed';
+  // static const String darkModeEnabled = 'dark_mode_enabled';
+  // static const String pushNotificationToken = 'push_notification_token';
+  
+  // /// Additional storage buckets
+  // static const String documentsBucket = 'documents';
+  // static const String imagesBucket = 'images';
+  
+  // /// Widget test keys (when implementing tests)
+  // static const String loginButton = 'login_button';
+  // static const String profileAvatar = 'profile_avatar';
+  // static const String navigationBar = 'navigation_bar';
+  
+  // /// Analytics event names (when implementing analytics)
+  // static const String userSignedIn = 'user_signed_in';
+  // static const String profileUpdated = 'profile_updated';
+  // static const String matchCreated = 'match_created';
+  
+  // /// Push notification types (when implementing push notifications)
+  // static const String newMatch = 'new_match';
+  // static const String newMessage = 'new_message';
+  // static const String profileViewed = 'profile_viewed';
 }

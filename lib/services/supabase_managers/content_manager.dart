@@ -24,7 +24,6 @@ class ContentManager extends BaseSupabaseManager {
   /// The singleton instance of [ContentManager].
   static ContentManager get shared {
     _instance ??= ContentManager._internal();
-    AppLogger.debug('ContentManager.shared accessed - instance ${_instance.hashCode}', context: 'ContentManager');
     return _instance!;
   }
   

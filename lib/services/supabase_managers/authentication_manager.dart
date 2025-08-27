@@ -29,7 +29,6 @@ class AuthenticationManager extends BaseSupabaseManager {
   /// The singleton instance of [AuthenticationManager].
   static AuthenticationManager get shared {
     _instance ??= AuthenticationManager._internal();
-    AppLogger.debug('AuthenticationManager.shared accessed - instance ${_instance.hashCode}', context: 'AuthenticationManager');
     return _instance!;
   }
   

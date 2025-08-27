@@ -3,6 +3,7 @@ import '../../core/utils/device_info.dart';
 import '../../models/models.dart';
 import '../../models/device.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/constants/app_keys.dart';
 import 'base_supabase_manager.dart';
 
 /// ProfileManager - Handles user profile operations
@@ -25,7 +26,6 @@ class ProfileManager extends BaseSupabaseManager {
   /// The singleton instance of [ProfileManager].
   static ProfileManager get shared {
     _instance ??= ProfileManager._internal();
-    AppLogger.debug('ProfileManager.shared accessed - instance ${_instance.hashCode}', context: 'ProfileManager');
     return _instance!;
   }
   
@@ -42,16 +42,16 @@ class ProfileManager extends BaseSupabaseManager {
       
       // Create payload with device information - exact equivalent of iOS UpdateCountryAndLanguageRequest
       final payload = {
-        'country_code': DeviceInfo.detectCountry(),
-        'language_code': DeviceInfo.detectLanguage(),
-        'app_version': await DeviceInfo.detectAppVersion(),
+        AppKeys.countryCodeField: DeviceInfo.detectCountry(),
+        AppKeys.languageCode: DeviceInfo.detectLanguage(),
+        AppKeys.appVersionField: await DeviceInfo.detectAppVersion(),
       };
       
       AppLogger.debug('Profile fetch payload: $payload', context: 'ProfileManager');
       
       // Call the get_my_profile RPC function - exact equivalent of iOS implementation
       final result = await client
-          .rpc('get_my_profile', params: {'payload': payload})
+          .rpc(AppKeys.getMyProfileRpc, params: {AppKeys.payloadKey: payload})
           .select()
           .single();
       
@@ -79,7 +79,7 @@ class ProfileManager extends BaseSupabaseManager {
       return profile.copyWith(
         firstName: storedData['firstName'] ?? profile.firstName,
         lastName: storedData['lastName'] ?? profile.lastName,
-        contactEmail: storedData['email'] ?? profile.contactEmail,
+        contactEmail: storedData[AppKeys.emailField] ?? profile.contactEmail,
         linkedInURL: storedData['linkedInProfileUrl'] ?? profile.linkedInURL,
       );
     } catch (error) {
@@ -95,13 +95,13 @@ class ProfileManager extends BaseSupabaseManager {
       AppLogger.info('Updating profile name', context: 'ProfileManager');
       
       final payload = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'linkedin_url': linkedInURL,
+        AppKeys.firstNameField: firstName,
+        AppKeys.lastNameField: lastName,
+        AppKeys.linkedinUrlField: linkedInURL,
         'linkedin_url_valid': linkedInURLValid,
       };
       
-      await client.rpc('update_profile_name', params: {'payload': payload});
+      await client.rpc(AppKeys.updateProfileNameRpc, params: {AppKeys.payloadKey: payload});
       
       AppLogger.success('Profile name updated successfully', context: 'ProfileManager');
     });
@@ -113,11 +113,11 @@ class ProfileManager extends BaseSupabaseManager {
       AppLogger.info('Updating company information', context: 'ProfileManager');
       
       final payload = {
-        'company_name': companyName,
-        'website_url': websiteURL,
+        AppKeys.companyNameField: companyName,
+        AppKeys.websiteUrlField: websiteURL,
       };
       
-      await client.rpc('update_company_info', params: {'payload': payload});
+      await client.rpc(AppKeys.updateCompanyInfoRpc, params: {AppKeys.payloadKey: payload});
       
       AppLogger.success('Company information updated successfully', context: 'ProfileManager');
     });
@@ -128,8 +128,8 @@ class ProfileManager extends BaseSupabaseManager {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Updating profile bio', context: 'ProfileManager');
       
-      await client.rpc('update_profile_bio', params: {
-        'p_bio': bio,
+      await client.rpc(AppKeys.updateProfileBioRpc, params: {
+        AppKeys.bioField: bio,
       });
       
       AppLogger.success('Profile bio updated successfully', context: 'ProfileManager');
@@ -158,7 +158,7 @@ class ProfileManager extends BaseSupabaseManager {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Completing registration', context: 'ProfileManager');
       
-      await client.rpc('complete_registration');
+      await client.rpc(AppKeys.completeRegistrationRpc);
       
       AppLogger.success('Registration completed successfully', context: 'ProfileManager');
     });
@@ -188,7 +188,7 @@ class ProfileManager extends BaseSupabaseManager {
         'subscribed': subscribed,
       };
       
-      await client.rpc('verify_mail_otp', params: {'payload': payload});
+      await client.rpc(AppKeys.verifyMailOtpRpc, params: {AppKeys.payloadKey: payload});
       
       AppLogger.success('Email OTP verified successfully', context: 'ProfileManager');
     });
