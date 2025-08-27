@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/constants/app_strings.dart';
+import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import 'notification_item_view.dart';
@@ -70,7 +71,7 @@ class _NotificationsViewState extends State<NotificationsView>
           });
         }
       } catch (error) {
-        debugPrint('Error fetching notifications: $error');
+        AppLogger.error('Error fetching notifications', context: 'NotificationsView', error: error);
         if (mounted) {
           setState(() {
             isLoading = false;
@@ -107,7 +108,7 @@ class _NotificationsViewState extends State<NotificationsView>
         });
       }
     } catch (error) {
-      debugPrint('Error loading more notifications: $error');
+      AppLogger.error('Error loading more notifications', context: 'NotificationsView', error: error);
       if (mounted) {
         setState(() {
           isLoadingMore = false;
@@ -157,7 +158,7 @@ class _NotificationsViewState extends State<NotificationsView>
                       return NotificationItemView(
                         notification: notification,
                         onNotificationSelected: (selectedNotification) {
-                          debugPrint('Tapped on notification: ${selectedNotification.title}');
+                          AppLogger.debug('Notification tapped: ${selectedNotification.title}', context: 'NotificationsView');
                           
                           // If notification has a match, navigate to match detail view
                           if (selectedNotification.match != null) {

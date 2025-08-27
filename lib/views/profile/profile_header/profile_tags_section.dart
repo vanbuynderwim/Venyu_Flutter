@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../models/profile.dart';
 import '../../../widgets/common/tag_view.dart';
 
@@ -54,7 +55,7 @@ class ProfileTagsSection extends StatelessWidget {
       // No sectors - show placeholder only if editable
       return GestureDetector(
         onTap: onSectorsEditTap ?? () {
-          debugPrint('Navigate to sectors edit');
+          AppLogger.debug('Navigate to sectors edit requested', context: 'ProfileTagsSection');
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

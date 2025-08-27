@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/match.dart';
 import '../../../models/profile.dart';
@@ -67,7 +68,7 @@ class MatchPromptsSection extends StatelessWidget {
             isLast: isLast,
             onCardSelected: (selectedPrompt) {
               // Card detail view - placeholder for future functionality
-              debugPrint('Card selected: ${selectedPrompt.label}');
+              AppLogger.debug('Card selected: ${selectedPrompt.label}', context: 'MatchPromptsSection');
             },
           );
         }),

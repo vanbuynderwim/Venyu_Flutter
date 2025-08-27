@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/venyu_theme.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../models/profile.dart';
 import '../../../models/enums/action_button_type.dart';
 import '../../../widgets/buttons/action_button.dart';
@@ -44,7 +45,7 @@ class ProfileActionsSection extends StatelessWidget {
               isIconOnly: true,
               type: ActionButtonType.secondary,
               onPressed: onLinkedInTap ?? () {
-                debugPrint('LinkedIn tap - ${profile.linkedInURL}');
+                AppLogger.debug('LinkedIn button tapped', context: 'ProfileActionsSection');
               },
             ),
           ),
@@ -60,7 +61,7 @@ class ProfileActionsSection extends StatelessWidget {
                 isIconOnly: true,
                 type: ActionButtonType.secondary,
                 onPressed: onEmailTap ?? () {
-                  debugPrint('Email tap - ${profile.contactEmail}');
+                  AppLogger.debug('Email button tapped', context: 'ProfileActionsSection');
                 },
               ),
             ),
@@ -76,7 +77,7 @@ class ProfileActionsSection extends StatelessWidget {
                 isIconOnly: true,
                 type: ActionButtonType.secondary,
                 onPressed: onWebsiteTap ?? () {
-                  debugPrint('Website tap - ${profile.websiteURL}');
+                  AppLogger.debug('Website button tapped', context: 'ProfileActionsSection');
                 },
               ),
             ),

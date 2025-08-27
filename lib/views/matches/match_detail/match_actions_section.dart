@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_strings.dart';
 import '../../../core/utils/dialog_utils.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../mixins/error_handling_mixin.dart';
 import '../../../models/enums/action_button_type.dart';
 import '../../../models/enums/match_response.dart';
@@ -79,7 +80,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         widget.onMatchRemoved?.call();
         // Then navigate back to matches list
         Navigator.of(context).pop();
-        debugPrint('Match skipped');
+        AppLogger.success('Match skipped successfully', context: 'MatchActionsSection');
       },
     );
     
@@ -102,7 +103,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         widget.onMatchRemoved?.call();
         // Then navigate back to matches list
         Navigator.of(context).pop();
-        debugPrint('Connection request sent!');
+        AppLogger.success('Connection request sent successfully', context: 'MatchActionsSection');
       },
     );
     

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/match.dart';
 import '../../models/enums/match_status.dart';
@@ -90,7 +91,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               icon: Icon(Icons.more_horiz, color: venyuTheme.primaryText),
               onPressed: () {
                 // Show match options - placeholder for future functionality
-                debugPrint('Show match options');
+                AppLogger.debug('Match options requested', context: 'MatchDetailView');
               },
             ),
         ],

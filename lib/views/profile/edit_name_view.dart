@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../utils/linked_in_validator.dart';
 import '../../services/supabase_managers/base_supabase_manager.dart';
+import '../../core/utils/app_logger.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
@@ -75,7 +76,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
       final authProvider = storedInfo['auth_provider'];
       _isOAuthUser = authProvider != null && authProvider.isNotEmpty;
     } catch (e) {
-      debugPrint('Failed to get stored user info: $e');
+      AppLogger.error('Failed to get stored user info', context: 'EditNameView', error: e);
       _isOAuthUser = false;
     }
     

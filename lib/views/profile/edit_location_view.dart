@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/utils/app_logger.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../models/enums/onboarding_benefit.dart';
@@ -265,7 +266,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
       final LocationData locationData = await _location.getLocation();
       
       if (locationData.latitude != null && locationData.longitude != null) {
-        debugPrint('📍 Got location: ${locationData.latitude}, ${locationData.longitude}');
+        AppLogger.success('Location obtained: ${locationData.latitude}, ${locationData.longitude}', context: 'EditLocationView');
         
         // Save location to database
         await ProfileManager.shared.updateProfileLocation(
@@ -286,7 +287,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         throw Exception('Could not get location coordinates');
       }
     } catch (error) {
-      debugPrint('❌ Error enabling location: $error');
+      AppLogger.error('Error enabling location', context: 'EditLocationView', error: error);
       
       if (mounted) {
         ToastService.error(

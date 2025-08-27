@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/dialog_utils.dart';
+import '../../core/utils/app_logger.dart';
 import '../../main.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../services/session_manager.dart';
@@ -158,7 +159,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         );
       }
     } catch (error) {
-      debugPrint('❌ Export data error: $error');
+      AppLogger.error('Export data failed', context: 'EditAccountView', error: error);
       
       if (mounted) {
         ToastService.error(
@@ -222,7 +223,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         );
       }
     } catch (error) {
-      debugPrint('❌ Delete account error: $error');
+      AppLogger.error('Delete account failed', context: 'EditAccountView', error: error);
       
       if (mounted) {
         ToastService.error(
@@ -280,7 +281,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         );
       }
     } catch (error) {
-      debugPrint('❌ Logout error: $error');
+      AppLogger.error('Logout failed', context: 'EditAccountView', error: error);
       
       if (mounted) {
         ToastService.error(

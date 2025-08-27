@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/match.dart';
 import '../match_item_view.dart';
@@ -29,8 +30,7 @@ class MatchConnectionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('DEBUG: connections = ${match.connections}');
-    debugPrint('DEBUG: nrOfConnections = ${match.nrOfConnections}');
+    AppLogger.debug('Connections: ${match.connections?.length ?? 0}, nrOfConnections: ${match.nrOfConnections}', context: 'MatchConnectionsSection');
     
     if (match.connections == null || match.connections!.isEmpty) {
       return Container(

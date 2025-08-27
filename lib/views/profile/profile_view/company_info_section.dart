@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/app_logger.dart';
 import '../../../models/enums/edit_company_info_type.dart';
 import '../../../models/tag_group.dart';
 import '../../../widgets/buttons/option_button.dart';
@@ -33,7 +34,7 @@ class CompanyInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('🔧 Building company section. TagGroups: ${companyTagGroups?.length ?? 'null'}, Loading: $companyTagGroupsLoading');
+    AppLogger.debug('Building company section. TagGroups: ${companyTagGroups?.length ?? 'null'}, Loading: $companyTagGroupsLoading', context: 'CompanyInfoSection');
     
     if (companyTagGroupsLoading) {
       return const Padding(

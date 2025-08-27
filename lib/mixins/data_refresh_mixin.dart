@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core/utils/app_logger.dart';
+
 /// DataRefreshMixin - Standardized data loading and error handling
 /// 
 /// Provides consistent state management for data loading operations across views.
@@ -95,7 +97,7 @@ mixin DataRefreshMixin<T extends StatefulWidget> on State<T> {
     } catch (error) {
       // Log error with context
       final contextStr = context != null ? ' ($context)' : '';
-      debugPrint('🔄 Data refresh error$contextStr: $error');
+      AppLogger.error('Data refresh failed$contextStr', context: 'DataRefreshMixin', error: error);
       
       if (!mounted) return;
       
@@ -129,7 +131,7 @@ mixin DataRefreshMixin<T extends StatefulWidget> on State<T> {
     } catch (error) {
       // Log error with context
       final contextStr = context != null ? ' ($context)' : '';
-      debugPrint('🔄 Silent refresh error$contextStr: $error');
+      AppLogger.error('Silent refresh failed$contextStr', context: 'DataRefreshMixin', error: error);
       
       if (!mounted) return;
       
