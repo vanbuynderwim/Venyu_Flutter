@@ -324,7 +324,9 @@ class _OptionButtonState extends State<OptionButton> {
   /// with appropriate sizing and color theming.
   Widget _buildIcon() {
     final venyuTheme = context.venyuTheme;
-    final iconColor = (widget.iconColor ?? venyuTheme.primary);
+    // Always use theme primary color for consistent theming across local and remote icons
+    // This ensures dark theme shows white icons and light theme shows proper themed icons
+    final iconColor = venyuTheme.primary;
     
     return Container(
       width: 24,
