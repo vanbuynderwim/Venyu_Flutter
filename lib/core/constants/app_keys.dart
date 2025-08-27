@@ -17,32 +17,6 @@ class AppKeys {
   /// Language code identifier for device locale
   static const String languageCode = 'language_code';
 
-  // MARK: - Database Field Keys (Frequently Used)
-  
-  /// Profile field names used in RPC calls and forms
-  static const String firstNameField = 'first_name';
-  static const String lastNameField = 'last_name';
-  static const String companyNameField = 'company_name';
-  static const String linkedinUrlField = 'linkedin_url';
-  static const String websiteUrlField = 'website_url';
-  static const String emailField = 'email';
-  static const String bioField = 'p_bio';
-  
-  /// Location and system fields
-  static const String countryCodeField = 'country_code';
-  static const String appVersionField = 'app_version';
-  
-  /// Common RPC function names
-  static const String getMyProfileRpc = 'get_my_profile';
-  static const String updateProfileNameRpc = 'update_profile_name';
-  static const String updateCompanyInfoRpc = 'update_company_info';
-  static const String updateProfileBioRpc = 'update_profile_bio';
-  static const String completeRegistrationRpc = 'complete_registration';
-  static const String verifyMailOtpRpc = 'verify_mail_otp';
-  
-  /// Common payload key
-  static const String payloadKey = 'payload';
-
   // MARK: - Future Implementation Keys
   // Uncomment and implement when needed:
   
