@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'app_logger.dart';
-import '../constants/app_keys.dart';
 
 /// DeviceInfo - Utility class to detect device information
 /// 
@@ -97,7 +96,7 @@ class DeviceInfo {
     
     return {
       'countryCode': country,
-      AppKeys.languageCode: language,  
+      'languageCode': language,  
       'appVersion': appVersion,
       'platform': Platform.operatingSystem,
       'platformVersion': Platform.operatingSystemVersion,

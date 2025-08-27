@@ -4,7 +4,6 @@ import 'package:uuid/uuid.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/enums/remote_image_path.dart';
-import '../../core/constants/app_keys.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
 
@@ -123,7 +122,7 @@ class MediaManager extends BaseSupabaseManager {
       // Generate unique avatar ID
       final avatarId = _generateUUID();
       final fileName = '$avatarId.jpg';
-      final bucket = AppKeys.avatarsBucket;
+      final bucket = RemoteImagePath.avatars.value;
       
       await client.storage.from(bucket).uploadBinary(
         fileName,
@@ -148,7 +147,7 @@ class MediaManager extends BaseSupabaseManager {
       AppLogger.storage('Deleting user profile avatar: $avatarID', context: 'MediaManager');
       
       final fileName = '$avatarID.jpg';
-      final bucket = AppKeys.avatarsBucket;
+      final bucket = RemoteImagePath.avatars.value;
       
       await client.storage.from(bucket).remove([fileName]);
       
