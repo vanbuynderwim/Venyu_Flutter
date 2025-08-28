@@ -37,36 +37,21 @@ class PromptEntryView extends StatelessWidget {
     );
   }
 
-  /// Get greeting based on time of day
-  String _getTimeBasedGreeting() {
-    final hour = DateTime.now().hour;
-    if (hour >= 5 && hour < 12) {
-      return 'Good morning';
-    } else if (hour >= 12 && hour < 17) {
-      return 'Good afternoon';
-    } else if (hour >= 17 && hour < 22) {
-      return 'Good evening';
-    } else {
-      return 'Good night';
-    }
-  }
-
   /// Get user's first name from session
   String _getFirstName() {
     final sessionManager = SessionManager.shared;
     final profile = sessionManager.currentProfile;
     final firstName = profile?.firstName;
     if (firstName != null && firstName.isNotEmpty) {
-      return '\n $firstName';
+      return ' $firstName';
     }
     return '';
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final venyuTheme = context.venyuTheme;
+    // Always use light theme for prompt flow
+    final venyuTheme = VenyuTheme.light;
     
     return Container(
       decoration: BoxDecoration(
@@ -75,35 +60,68 @@ class PromptEntryView extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: [
             AppColors.primair4Lilac,
-            isDark ? AppColors.secundair3Slategray : Colors.white,
+            Colors.white,
           ],
         ),
       ),
-      child: PlatformScaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
+      child: Stack(
+        children: [
+          // Radar background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/visuals/radar.png',
+              fit: BoxFit.cover,
+              opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
+              errorBuilder: (context, error, stackTrace) {
+                // If image fails to load, just show the gradient
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+          // Main content
+          PlatformScaffold(
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
               children: [
                 const Spacer(flex: 1),
                 
                 // Greeting text
                 Text(
-                  '👋  ${_getTimeBasedGreeting()},${_getFirstName()}',
+                  'Welcome back${_getFirstName()} 👋',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
-                    fontSize: 32,
+                    fontSize: 28,
                     fontFamily: AppFonts.graphie
                   ),
                   textAlign: TextAlign.center,
+                ),
+                
+                const Spacer(flex: 1),
+                
+                // Prompts icon
+                Image.asset(
+                  'assets/images/visuals/prompts.png',
+                  width: 134,
+                  height: 134,
+                  color: venyuTheme.primaryText,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback if icon fails to load
+                    return Icon(
+                      Icons.style_rounded,
+                      size: 80,
+                      color: venyuTheme.primaryText,
+                    );
+                  },
                 ),
               
                 const Spacer(flex: 1),
                 
                 // Cards count text
                 Text(
-                  'We have selected ${prompts.length} new cards for you.',
+                  'Your daily ${prompts.length} cards are here !',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 18,
@@ -114,21 +132,28 @@ class PromptEntryView extends StatelessWidget {
                 
                 const SizedBox(height: 24),
                 
-                // "Let's do this" button
+                // "Show me!" button - wrapped in light theme
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: ActionButton(
-                    label: "Make the net work",
-                    type: ActionButtonType.primary,
-                    onPressed: () => _handleLetsDoThis(context),
+                  child: Theme(
+                    data: ThemeData.light().copyWith(
+                      extensions: [VenyuTheme.light],
+                    ),
+                    child: ActionButton(
+                      label: "Show me",
+                      type: ActionButtonType.primary,
+                      onPressed: () => _handleLetsDoThis(context),
+                    ),
                   ),
                 ),
 
-                const Spacer(flex: 2),
+                const Spacer(flex: 1),
               ],
             ),
           ),
         ),
+      ),
+        ],
       ),
     );
   }

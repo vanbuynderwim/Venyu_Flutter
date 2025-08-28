@@ -16,7 +16,17 @@ import 'card_detail_view.dart';
 /// whether they need help or can offer help. After selection, it navigates
 /// to the CardDetailView with the chosen interaction type.
 class InteractionTypeSelectionView extends StatelessWidget {
-  const InteractionTypeSelectionView({super.key});
+  /// Whether this view is shown after completing prompts (affects back navigation)
+  final bool isFromPrompts;
+  
+  /// Callback to close the modal when coming from prompts
+  final VoidCallback? onCloseModal;
+  
+  const InteractionTypeSelectionView({
+    super.key,
+    this.isFromPrompts = false,
+    this.onCloseModal,
+  });
 
   void _handleSelection(BuildContext context, InteractionType type) {
     // Provide medium haptic feedback
@@ -36,33 +46,12 @@ class InteractionTypeSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
     final venyuTheme = context.venyuTheme;
     
-    return PlatformScaffold(
+    return PopScope(
+      canPop: !isFromPrompts, // Prevent back swipe if from prompts
+      child: PlatformScaffold(
         backgroundColor: venyuTheme.pageBackground,
-        appBar: PlatformAppBar(
-          backgroundColor: Colors.white,
-          leading: PlatformIconButton(
-            icon: Icon(
-              context.platformIcons.clear,
-              color: isDark ? Colors.white : Colors.black,
-            ),
-            onPressed: () => Navigator.of(context).pop(),
-            padding: EdgeInsets.zero,
-          ),
-          cupertino: (_, __) => CupertinoNavigationBarData(
-            backgroundColor: Colors.transparent,
-            border: null,
-          ),
-          material: (_, __) => MaterialAppBarData(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            surfaceTintColor: Colors.transparent,
-            centerTitle: true,
-          ),
-        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -118,7 +107,18 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   child: ActionButton(
                     label: 'Not now',
                     type: ActionButtonType.secondary,
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      if (isFromPrompts) {
+                        // For prompts flow: Pop until we're back to the main screen
+                        // Pop 3 times: InteractionTypeSelectionView, PromptsView, PromptEntryView
+                        Navigator.of(context).pop(); // InteractionTypeSelectionView
+                        Navigator.of(context).pop(); // PromptsView  
+                        Navigator.of(context).pop(); // PromptEntryView (closes modal)
+                      } else {
+                        // Normal flow - just close the modal
+                        Navigator.of(context).pop();
+                      }
+                    },
                   ),
                 ),
                 
@@ -127,7 +127,8 @@ class InteractionTypeSelectionView extends StatelessWidget {
             ),
           ),
         ),
-      );
+      ),
+    );
   }
 }
 

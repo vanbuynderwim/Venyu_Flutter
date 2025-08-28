@@ -47,6 +47,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
   
   /// Get the current gradient color based on selected interaction type or default
   Color get _currentGradientColor {
+    // Always use light theme colors
     return _selectedInteractionType?.color ?? AppColors.primair4Lilac;
   }
 
@@ -102,11 +103,12 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
           });
         } else {
           // Last prompt - navigate to InteractionTypeSelectionView
-          Navigator.of(context).pop(); // Close the prompts modal first
           Navigator.of(context).push(
             platformPageRoute(
               context: context,
-              builder: (context) => const InteractionTypeSelectionView(),
+              builder: (context) => const InteractionTypeSelectionView(
+                isFromPrompts: true,
+              ),
             ),
           );
         }
@@ -120,33 +122,39 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
   }
 
   Widget _buildProgressIndicator() {
-    final venyuTheme = context.venyuTheme;
-    
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.prompts.length, (index) {
         final isCompleted = _promptInteractions[index] != null;
         final isCurrent = index == _currentPromptIndex;
         
-        Color dotColor;
+        Color fillColor;
+        Color? borderColor;
+        double borderWidth = 0;
+        
         if (isCompleted) {
-          // Use the selected interaction type color
-          dotColor = _promptInteractions[index]!.color;
+          // Completed: Use the selected interaction type color
+          fillColor = _promptInteractions[index]!.color;
         } else if (isCurrent && _selectedInteractionType != null) {
-          // Use current selection color for current dot
-          dotColor = _selectedInteractionType!.color;
+          // Current with selection: Use current selection color
+          fillColor = _selectedInteractionType!.color;
         } else {
-          // Use theme primary color for dark mode compatibility
-          dotColor = venyuTheme.primary;
+          // Not completed: White with light gray border
+          fillColor = Colors.white;
+          borderColor = AppColors.secundair4Quicksilver;
+          borderWidth = 1.0;
         }
         
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 8,
-          height: 8,
+          width: 10,
+          height: 10,
           decoration: BoxDecoration(
-            color: dotColor,
+            color: fillColor,
             shape: BoxShape.circle,
+            border: borderColor != null
+                ? Border.all(color: borderColor, width: borderWidth)
+                : null,
           ),
         );
       }),
@@ -155,9 +163,8 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final venyuTheme = context.venyuTheme;
+    // Always use light theme for prompt flow
+    final venyuTheme = VenyuTheme.light;
     
     return Container(
       decoration: BoxDecoration(
@@ -166,15 +173,30 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
           end: Alignment.bottomCenter,
           colors: [
             _currentGradientColor,
-            isDark ? AppColors.secundair3Slategray : Colors.white,
+            Colors.white,
           ],
         ),
       ),
-      child: PlatformScaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          bottom: false, // Allow keyboard to overlay the bottom safe area
-          child: GestureDetector(
+      child: Stack(
+        children: [
+          // Radar background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/visuals/radar.png',
+              fit: BoxFit.cover,
+              opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
+              errorBuilder: (context, error, stackTrace) {
+                // If image fails to load, just show the gradient
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+          // Main content
+          PlatformScaffold(
+            backgroundColor: Colors.transparent,
+            body: SafeArea(
+              bottom: false, // Allow keyboard to overlay the bottom safe area
+              child: GestureDetector(
             onTap: () {
               // Allow dismissing by tapping outside the content area
               // Only close if no interaction is selected yet
@@ -229,13 +251,18 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
                 
                 const SizedBox(height: AppModifiers.largeSpacing),
                 
-                // Next button - enabled when interaction is selected
+                // Next button - enabled when interaction is selected, wrapped in light theme
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ActionButton(
-                    label: 'Next',
-                    onPressed: _selectedInteractionType != null ? _handleNext : null,
-                    isLoading: isProcessing,
+                  child: Theme(
+                    data: ThemeData.light().copyWith(
+                      extensions: [VenyuTheme.light],
+                    ),
+                    child: ActionButton(
+                      label: 'Next',
+                      onPressed: _selectedInteractionType != null ? _handleNext : null,
+                      isLoading: isProcessing,
+                    ),
                   ),
                 ),
                 
@@ -244,6 +271,8 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
             ),
           ),
         ),
+      ),
+        ],
       ),
     );
   }
