@@ -85,7 +85,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Subtitle text
                 Text(
-                  'Choose how you want to connect',
+                  'For you',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 16,

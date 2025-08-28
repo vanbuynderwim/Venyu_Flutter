@@ -69,13 +69,13 @@ enum InteractionType {
   String get buttonTitle {
     switch (this) {
       case InteractionType.thisIsMe:
-        return 'I can help';
+        return 'Can help';
       case InteractionType.lookingForThis:
-        return 'I need this';
+        return 'Need this';
       case InteractionType.knowSomeone:
-        return 'I can refer';
+        return 'Can refer';
       case InteractionType.notRelevant:
-        return 'Not for me';
+        return 'Can\'t help';
     }
   }
 

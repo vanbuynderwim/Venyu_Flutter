@@ -12,7 +12,7 @@ import 'cards/cards_view.dart';
 import 'venues/venues_view.dart';
 import 'notifications/notifications_view.dart';
 import 'profile/profile_view.dart';
-import 'prompts/prompts_view.dart';
+import 'prompts/prompt_entry_view.dart';
 
 /// MainView - Tab navigation using flutter_platform_widgets (based on Test project pattern)
 class MainView extends StatefulWidget {
@@ -73,7 +73,7 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  /// Show the PromptsView as a fullscreen modal
+  /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
     await showPlatformModalSheet<void>(
       context: context,
@@ -82,7 +82,7 @@ class _MainViewState extends State<MainView> {
         useSafeArea: true,
         isDismissible: true,
       ),
-      builder: (context) => PromptsView(prompts: prompts),
+      builder: (context) => PromptEntryView(prompts: prompts),
     );
   }
 

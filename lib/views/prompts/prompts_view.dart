@@ -13,6 +13,7 @@ import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
+import '../cards/interaction_type_selection_view.dart';
 
 /// PromptsView - Fullscreen modal for displaying prompts to users
 /// 
@@ -100,8 +101,14 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
             _selectedInteractionType = null;
           });
         } else {
-          // Last prompt - close the modal
-          Navigator.of(context).pop();
+          // Last prompt - navigate to InteractionTypeSelectionView
+          Navigator.of(context).pop(); // Close the prompts modal first
+          Navigator.of(context).push(
+            platformPageRoute(
+              context: context,
+              builder: (context) => const InteractionTypeSelectionView(),
+            ),
+          );
         }
       },
       onError: (error) {
@@ -226,7 +233,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: ActionButton(
-                    label: 'Confirm',
+                    label: 'Next',
                     onPressed: _selectedInteractionType != null ? _handleNext : null,
                     isLoading: isProcessing,
                   ),
