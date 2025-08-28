@@ -171,7 +171,9 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
     // Always use light theme for prompt flow
     final venyuTheme = VenyuTheme.light;
     
-    return Container(
+    return PopScope(
+      canPop: _currentPromptIndex == 0 || _selectedInteractionType != null,
+      child: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -201,15 +203,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
             backgroundColor: Colors.transparent,
             body: SafeArea(
               bottom: false, // Allow keyboard to overlay the bottom safe area
-              child: GestureDetector(
-            onTap: () {
-              // Allow dismissing by tapping outside the content area
-              // Only close if no interaction is selected yet
-              if (_selectedInteractionType == null) {
-                _handleClose();
-              }
-            },
-            child: Column(
+              child: Column(
               children: [
                 // Prompt content - takes all available space
                 Expanded(
@@ -265,7 +259,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
                     ),
                     child: ActionButton(
                       label: 'Next',
-                      onPressed: _selectedInteractionType != null ? _handleNext : null,
+                      onPressed: (_selectedInteractionType != null && !isProcessing) ? _handleNext : null,
                       isLoading: isProcessing,
                     ),
                   ),
@@ -276,8 +270,8 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
             ),
           ),
         ),
-      ),
         ],
+      ),
       ),
     );
   }

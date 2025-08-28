@@ -79,22 +79,13 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   @override
   Widget build(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(_match?.profile.fullName ?? 'Loading ...'),
-        trailingActions: [
-          if (_match != null && _match!.isConnected)
-            PlatformIconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(Icons.more_horiz, color: venyuTheme.primaryText),
-              onPressed: () {
-                // Show match options - placeholder for future functionality
-                AppLogger.debug('Match options requested', context: 'MatchDetailView');
-              },
-            ),
-        ],
+        title: Text(_match == null 
+          ? 'Loading...' 
+          : _match!.isConnected 
+            ? 'Connection' 
+            : 'Match'),
       ),
       usePadding: true,
       useSafeArea: true,

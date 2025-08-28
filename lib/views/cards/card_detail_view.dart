@@ -19,12 +19,16 @@ class CardDetailView extends StatefulWidget {
   final Prompt? existingPrompt; // null for new card, non-null for editing
   final InteractionType? initialInteractionType; // Pre-selected type for new cards
   final bool isNewCard; // Whether this is a new card (hides toggle buttons)
+  final bool isFromPrompts; // Whether coming from prompts flow
+  final VoidCallback? onCloseModal; // Callback to close modal when from prompts
 
   const CardDetailView({
     super.key,
     this.existingPrompt,
     this.initialInteractionType,
     this.isNewCard = false,
+    this.isFromPrompts = false,
+    this.onCloseModal,
   });
 
   @override
@@ -116,7 +120,23 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
       successMessage: "Thank you for your submission! Your card is under review and you'll receive a notification once it's approved.",
       errorMessage: 'Failed to save card. Please try again.',
       useProcessingState: true,
-      onSuccess: () => Navigator.of(context).pop(true),
+      onSuccess: () {
+        if (widget.isFromPrompts && widget.onCloseModal != null) {
+          // Close the entire modal stack when coming from prompts
+          // We need to pop: CardDetailView -> InteractionType -> Prompts -> PromptEntry
+          int popCount = 0;
+          Navigator.of(context).popUntil((route) {
+            popCount++;
+            // We want to pop 3 times (CardDetail -> InteractionType -> Prompts -> PromptEntry)
+            return popCount > 3;
+          });
+          // Now close the modal itself
+          widget.onCloseModal!();
+        } else {
+          // Normal flow - just pop this view
+          Navigator.of(context).pop(true);
+        }
+      },
     );
   }
 

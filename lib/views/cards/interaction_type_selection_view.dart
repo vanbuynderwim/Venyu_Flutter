@@ -8,6 +8,8 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
+import '../../services/session_manager.dart';
+import '../../core/theme/app_text_styles.dart';
 import 'card_detail_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
@@ -39,14 +41,28 @@ class InteractionTypeSelectionView extends StatelessWidget {
         builder: (context) => CardDetailView(
           initialInteractionType: type,
           isNewCard: true,
+          isFromPrompts: isFromPrompts,
+          onCloseModal: onCloseModal,
         ),
       ),
     );
   }
 
+  /// Get user's first name from session
+  String _getFirstName() {
+    final sessionManager = SessionManager.shared;
+    final profile = sessionManager.currentProfile;
+    final firstName = profile?.firstName;
+    if (firstName != null && firstName.isNotEmpty) {
+      return firstName;
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final firstName = _getFirstName();
     
     return PopScope(
       canPop: !isFromPrompts, // Prevent back swipe if from prompts
@@ -61,7 +77,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Title text
                 Text(
-                  'Make the net work',
+                  isFromPrompts 
+                    ? 'Thank you${firstName.isNotEmpty ? ' $firstName!' : ''}'
+                    : 'Make the net work',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 36,
@@ -74,7 +92,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Subtitle text
                 Text(
-                  'For you',
+                  isFromPrompts
+                    ? "Now, let's make the net work for you"
+                    : 'For you',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 16,
@@ -98,8 +118,102 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   onTap: () => _handleSelection(context, InteractionType.thisIsMe),
                 ),
                 
+                // Disclaimer and guidelines for prompts flow
+                if (isFromPrompts) ...[
+                  const SizedBox(height: 24),
+                  
+                  
+                  
+                  const SizedBox(height: 16),
+                  
+                  // Community guidelines title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'Community guidelines',
+                      style: AppTextStyles.caption1.copyWith(
+                        color: venyuTheme.secondaryText,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Community guidelines
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: venyuTheme.cardBackground.withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+                      border: Border.all(
+                        color: venyuTheme.borderColor,
+                        width: AppModifiers.extraThinBorder,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Allowed content
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '👍 ',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'networking, sharing knowledge or resources, asking for help, reach out for genuine connections',
+                                style: AppTextStyles.footnote.copyWith(
+                                  color: venyuTheme.primaryText,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        
+                        const SizedBox(height: 12),
+                        
+                        // Prohibited content
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '🚫 ',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches',
+                                style: AppTextStyles.footnote.copyWith(
+                                  color: venyuTheme.primaryText,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+                  // Disclaimer text
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'All cards are reviewed before going live',
+                      style: AppTextStyles.caption1.copyWith(
+                        color: venyuTheme.secondaryText,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
                 
-                const Spacer(flex: 2),
+                Spacer(flex: isFromPrompts ? 1 : 2),
                 
                 // "Not now" button
                 Padding(
