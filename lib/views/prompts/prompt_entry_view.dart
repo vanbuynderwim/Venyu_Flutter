@@ -18,21 +18,31 @@ import 'prompts_view.dart';
 /// that leads to the actual prompts.
 class PromptEntryView extends StatelessWidget {
   final List<Prompt> prompts;
+  final bool isModal;
 
   const PromptEntryView({
     super.key,
     required this.prompts,
+    this.isModal = false,
   });
 
   void _handleLetsDoThis(BuildContext context) {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
     
-    // Navigate to PromptsView
+    // Navigate to PromptsView with callback to close modal
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => PromptsView(prompts: prompts),
+        builder: (_) => PromptsView(
+          prompts: prompts,
+          onCloseModal: isModal 
+            ? () {
+                // Als we in een modal zijn, sluit de modal wanneer deze callback wordt aangeroepen
+                Navigator.of(context).pop();
+              }
+            : null,
+        ),
       ),
     );
   }

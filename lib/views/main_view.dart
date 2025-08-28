@@ -75,16 +75,24 @@ class _MainViewState extends State<MainView> {
 
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
-    await showPlatformModalSheet<void>(
-      context: context,
-      material: MaterialModalSheetData(
-        isScrollControlled: true,
-        useSafeArea: true,
-        isDismissible: true,
-      ),
-      builder: (context) => PromptEntryView(prompts: prompts),
-    );
-  }
+  await showPlatformModalSheet<void>(
+    context: context,
+    material: MaterialModalSheetData(
+      useRootNavigator: true,
+      isScrollControlled: true,
+      useSafeArea: true,
+      isDismissible: true,
+    ),
+    cupertino: CupertinoModalSheetData(
+      useRootNavigator: true,
+      barrierDismissible: true,
+    ),
+    builder: (sheetCtx) => PromptEntryView(
+      prompts: prompts,
+      isModal: true, // Geef aan dat dit in een modal is
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {

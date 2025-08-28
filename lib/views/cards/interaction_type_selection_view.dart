@@ -109,13 +109,17 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     type: ActionButtonType.secondary,
                     onPressed: () {
                       if (isFromPrompts) {
-                        // For prompts flow: Pop until we're back to the main screen
-                        // Pop 3 times: InteractionTypeSelectionView, PromptsView, PromptEntryView
-                        Navigator.of(context).pop(); // InteractionTypeSelectionView
-                        Navigator.of(context).pop(); // PromptsView  
-                        Navigator.of(context).pop(); // PromptEntryView (closes modal)
+                        // Pop terug naar PromptEntryView, dan PromptsView, dan sluit modal
+                        int popCount = 0;
+                        Navigator.of(context).popUntil((route) {
+                          popCount++;
+                          // We willen 2 keer poppen (InteractionType -> Prompts -> PromptEntry)
+                          // Dan nog 1 keer om de modal te sluiten
+                          return popCount > 2;
+                        });
+                        // Nu sluiten we de modal zelf
+                        onCloseModal!();
                       } else {
-                        // Normal flow - just close the modal
                         Navigator.of(context).pop();
                       }
                     },

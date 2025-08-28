@@ -26,9 +26,12 @@ import '../cards/interaction_type_selection_view.dart';
 class PromptsView extends StatefulWidget {
   final List<Prompt> prompts;
 
+  final VoidCallback? onCloseModal;
+
   const PromptsView({
     super.key,
     required this.prompts,
+    this.onCloseModal,
   });
 
   @override
@@ -39,6 +42,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
   InteractionType? _selectedInteractionType;
   int _currentPromptIndex = 0;
   List<InteractionType?> _promptInteractions = [];
+  
   
   // Services
   late final ContentManager _contentManager;
@@ -106,8 +110,9 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
           Navigator.of(context).push(
             platformPageRoute(
               context: context,
-              builder: (context) => const InteractionTypeSelectionView(
+              builder: (_) => InteractionTypeSelectionView(
                 isFromPrompts: true,
+                onCloseModal: widget.onCloseModal, // <- doorgeven
               ),
             ),
           );
