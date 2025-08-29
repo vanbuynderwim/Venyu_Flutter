@@ -110,20 +110,21 @@ class _MainViewState extends State<MainView> {
       }
     }
     
-    final closeModalCallback = () {
-      Navigator.of(context).pop();
-    };
+    void closeModalCallback() {
+      // Pop all routes (including modal) until we're back at MainView level
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
 
     await showPlatformModalSheet<void>(
       context: context,
       material: MaterialModalSheetData(
-        useRootNavigator: true,
+        useRootNavigator: false,
         isScrollControlled: true,
         useSafeArea: true,
         isDismissible: true,
       ),
       cupertino: CupertinoModalSheetData(
-        useRootNavigator: true,
+        useRootNavigator: false,
         barrierDismissible: true,
       ),
       builder: (sheetCtx) => PromptEntryView(

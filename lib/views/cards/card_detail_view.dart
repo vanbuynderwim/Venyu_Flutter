@@ -122,15 +122,7 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
       useProcessingState: true,
       onSuccess: () {
         if (widget.isFromPrompts && widget.onCloseModal != null) {
-          // Close the entire modal stack when coming from prompts
-          // We need to pop: CardDetailView -> InteractionType -> Prompts -> PromptEntry
-          int popCount = 0;
-          Navigator.of(context).popUntil((route) {
-            popCount++;
-            // We want to pop 3 times (CardDetail -> InteractionType -> Prompts -> PromptEntry)
-            return popCount > 3;
-          });
-          // Now close the modal itself
+          // Use the callback to close the entire modal stack
           widget.onCloseModal!();
         } else {
           // Normal flow - just pop this view
