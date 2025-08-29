@@ -8,7 +8,7 @@ import '../../core/theme/app_fonts.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import 'prompts_view.dart';
 
 /// Entry screen for prompt flow - shows before prompts when they exist
@@ -20,41 +20,35 @@ class PromptEntryView extends StatelessWidget {
   final List<Prompt> prompts;
   final bool isModal;
   final bool isFirstTimeUser;
+  final VoidCallback? onCloseModal;
 
   const PromptEntryView({
     super.key,
     required this.prompts,
     this.isModal = false,
     this.isFirstTimeUser = false,
+    this.onCloseModal,
   });
 
   void _handleLetsDoThis(BuildContext context) {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
     
-    // Navigate to PromptsView with callback to close modal
-    final closeModalCallback = isModal 
-      ? () {
-          // Als we in een modal zijn, sluit de hele modal via root navigator
-          Navigator.of(context, rootNavigator: true).pop();
-        }
-      : null;
-    
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
         builder: (_) => PromptsView(
           prompts: prompts,
-          onCloseModal: closeModalCallback,
+          onCloseModal: onCloseModal,
         ),
       ),
     );
   }
 
-  /// Get user's first name from session
-  String _getFirstName() {
-    final sessionManager = SessionManager.shared;
-    final profile = sessionManager.currentProfile;
+  /// Get user's first name from profile service
+  String _getFirstName(BuildContext context) {
+    final profileService = context.profileService;
+    final profile = profileService.currentProfile;
     final firstName = profile?.firstName;
     if (firstName != null && firstName.isNotEmpty) {
       return ' $firstName';
@@ -104,7 +98,7 @@ class PromptEntryView extends StatelessWidget {
                 
                 // Greeting text
                 Text(
-                  'Hi${_getFirstName()} 👋',
+                  'Hi${_getFirstName(context)} 👋',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 28,

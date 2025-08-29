@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../models/enums/registration_step.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../profile/edit_name_view.dart';
@@ -24,8 +24,8 @@ class _OnboardViewState extends State<OnboardView> {
   @override
   Widget build(BuildContext context) {
     final theme = context.venyuTheme;
-    final sessionManager = SessionManager.shared;
-    final currentProfile = sessionManager.currentProfile;
+    final profileService = context.profileService;
+    final currentProfile = profileService.currentProfile;
     final firstName = currentProfile?.firstName ?? 'there';
 
     return Scaffold(

@@ -10,7 +10,7 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_text_styles.dart';
 import 'card_detail_view.dart';
 
@@ -50,10 +50,10 @@ class InteractionTypeSelectionView extends StatelessWidget {
     );
   }
 
-  /// Get user's first name from session
-  String _getFirstName() {
-    final sessionManager = SessionManager.shared;
-    final profile = sessionManager.currentProfile;
+  /// Get user's first name from profile service
+  String _getFirstName(BuildContext context) {
+    final profileService = context.profileService;
+    final profile = profileService.currentProfile;
     final firstName = profile?.firstName;
     if (firstName != null && firstName.isNotEmpty) {
       return firstName;
@@ -65,7 +65,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     // Always use light theme
     final venyuTheme = VenyuTheme.light;
-    final firstName = _getFirstName();
+    final firstName = _getFirstName(context);
     
     return PopScope(
       canPop: !isFromPrompts, // Prevent back swipe if from prompts
@@ -258,22 +258,12 @@ class InteractionTypeSelectionView extends StatelessWidget {
                       label: 'Not now',
                       type: ActionButtonType.secondary,
                       onPressed: () {
-                      if (isFromPrompts) {
-                        // Pop terug naar PromptEntryView, dan PromptsView, dan sluit modal
-                        int popCount = 0;
-                        Navigator.of(context).popUntil((route) {
-                          popCount++;
-                          // We willen 2 keer poppen (InteractionType -> Prompts -> PromptEntry)
-                          // Dan nog 1 keer om de modal te sluiten
-                          return popCount > 2;
-                        });
-                        // Nu sluiten we de modal zelf
-                        if (onCloseModal != null) {
+                        if (isFromPrompts && onCloseModal != null) {
+                          // Use the callback to close the modal
                           onCloseModal!();
+                        } else {
+                          Navigator.of(context).pop();
                         }
-                      } else {
-                        Navigator.of(context).pop();
-                      }
                       },
                     ),
                   ),

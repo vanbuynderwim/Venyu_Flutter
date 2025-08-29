@@ -9,7 +9,7 @@ import '../../models/enums/edit_personal_info_type.dart';
 import '../../models/enums/edit_company_info_type.dart';
 import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
@@ -49,7 +49,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   // Services
   late final ContentManager _contentManager;
   late final ProfileManager _profileManager;
-  late final SessionManager _sessionManager;
   
   // State
   bool _isProfileLoading = true;
@@ -64,10 +63,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     super.initState();
     _contentManager = ContentManager.shared;
     _profileManager = ProfileManager.shared;
-    _sessionManager = SessionManager.shared;
-    
-    // Listen to SessionManager updates for automatic profile refresh
-    _sessionManager.addListener(_onSessionManagerUpdated);
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshProfile();
@@ -78,23 +73,13 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   @override
   void dispose() {
-    _sessionManager.removeListener(_onSessionManagerUpdated);
     super.dispose();
-  }
-  
-  /// Called when SessionManager notifies about profile updates
-  void _onSessionManagerUpdated() {
-    if (mounted) {
-      setState(() {
-        // Profile header and other UI will automatically rebuild
-        // when SessionManager.currentProfile is updated
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final profile = _sessionManager.currentProfile;
+    final profileService = context.profileService;
+    final profile = profileService.currentProfile;
     
     return AppScaffold(
       appBar: PlatformAppBar(
@@ -210,15 +195,17 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   /// Refreshes profile data
   Future<void> _refreshProfile({bool forceRefresh = false}) async {
-    if (!_sessionManager.isAuthenticated) return;
+    final authService = context.authService;
+    if (!authService.isAuthenticated) return;
     
     setState(() {
       _isProfileLoading = true;
     });
     
     try {
-      // Refresh profile data from server when forced or when needed
-      if (forceRefresh || _sessionManager.currentProfile == null) {
+      // Refresh profile data from server when forced or when needed  
+      final profileService = context.profileService;
+      if (forceRefresh || profileService.currentProfile == null) {
         final refreshedProfile = await _profileManager.fetchUserProfile();
         ProfileService.shared.updateCurrentProfile(refreshedProfile);
       }

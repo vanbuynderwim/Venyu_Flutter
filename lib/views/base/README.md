@@ -18,13 +18,11 @@ BaseFormView is an abstract base class that eliminates ~90% of duplicated code a
 ```dart
 // BEFORE - Repeated in every form
 late final SupabaseManager _supabaseManager;
-late final SessionManager _sessionManager;
 
 @override
 void initState() {
   super.initState();
   _supabaseManager = SupabaseManager.shared;
-  _sessionManager = SessionManager.shared;
 }
 ```
 
@@ -87,13 +85,13 @@ class _EditBioViewRefactoredState extends BaseFormViewState<EditBioViewRefactore
   
   @override
   void initializeForm() {
-    _bioController.text = sessionManager.currentProfile?.bio ?? '';
+    _bioController.text = context.profileService.currentProfile?.bio ?? '';
   }
   
   @override
   Future<void> performSave() async {
     await supabaseManager.updateProfileBio(_bioController.text);
-    sessionManager.updateCurrentProfileFields(bio: _bioController.text);
+    ProfileService.shared.updateCurrentProfile(/* updated profile */);
   }
   
   @override

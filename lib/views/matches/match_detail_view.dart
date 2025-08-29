@@ -4,12 +4,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/match.dart';
 import '../../models/enums/match_status.dart';
 import '../../services/supabase_managers/matching_manager.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
@@ -47,7 +46,6 @@ class MatchDetailView extends StatefulWidget {
 class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMixin {
   // Services
   late final MatchingManager _matchingManager;
-  late final SessionManager _sessionManager;
   
   // State
   Match? _match;
@@ -57,7 +55,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   void initState() {
     super.initState();
     _matchingManager = MatchingManager.shared;
-    _sessionManager = SessionManager.shared;
     _loadMatchDetail();
   }
 
@@ -175,7 +172,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               const SizedBox(height: 16),
               MatchPromptsSection(
                 match: _match!,
-                currentProfile: _sessionManager.currentProfile!,
+                currentProfile: context.profileService.currentProfile!,
               ),
               const SizedBox(height: 24),
             ],

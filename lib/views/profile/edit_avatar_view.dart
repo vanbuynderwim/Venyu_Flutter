@@ -6,7 +6,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/avatar_upload_service.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/avatar_view.dart';
@@ -80,9 +80,9 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                     ),
                   )
                 : AvatarView(
-                    avatarId: _forceNoAvatar == SessionManager.shared.currentProfile?.avatarID 
+                    avatarId: _forceNoAvatar == context.profileService.currentProfile?.avatarID 
                         ? null 
-                        : SessionManager.shared.currentProfile?.avatarID,
+                        : context.profileService.currentProfile?.avatarID,
                     size: 120,
                     showBorder: true,
                   ),
@@ -92,10 +92,10 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
         const SizedBox(height: 12),
         
         // Delete button (only show if avatar exists and not forced to hide)
-        if (SessionManager.shared.currentProfile?.avatarID != null && 
-            SessionManager.shared.currentProfile!.avatarID!.isNotEmpty &&
+        if (context.profileService.currentProfile?.avatarID != null && 
+            context.profileService.currentProfile!.avatarID!.isNotEmpty &&
             !_isUploading &&
-            _forceNoAvatar != SessionManager.shared.currentProfile?.avatarID)
+            _forceNoAvatar != context.profileService.currentProfile?.avatarID)
           Center(
             child: Material(
               color: Colors.transparent,
@@ -249,7 +249,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
   /// Handle avatar removal
   Future<void> _handleAvatarRemoval() async {
     // Remember the current avatar ID before deletion
-    final currentAvatarID = SessionManager.shared.currentProfile?.avatarID;
+    final currentAvatarID = context.profileService.currentProfile?.avatarID;
     
     final success = await AvatarUploadService.removeAvatar(
       context: context,

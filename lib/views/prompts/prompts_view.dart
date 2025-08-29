@@ -66,9 +66,6 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
     AppLogger.ui('User selected interaction: ${interactionType.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
   }
 
-  void _handleClose() {
-    Navigator.of(context).pop();
-  }
 
   @override
   void initState() {
@@ -112,7 +109,7 @@ class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
               context: context,
               builder: (_) => InteractionTypeSelectionView(
                 isFromPrompts: true,
-                onCloseModal: widget.onCloseModal, // <- doorgeven
+                onCloseModal: widget.onCloseModal,
               ),
             ),
           );

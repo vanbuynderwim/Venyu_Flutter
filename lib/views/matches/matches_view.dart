@@ -13,7 +13,7 @@ import '../../models/enums/match_status.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import 'match_detail_view.dart';
 
@@ -47,7 +47,8 @@ class _MatchesViewState extends State<MatchesView>
   }
 
   Future<void> _loadMatches({bool forceRefresh = false}) async {
-    if (!SessionManager.shared.isAuthenticated) return;
+    final authService = context.authService;
+    if (!authService.isAuthenticated) return;
 
     if (forceRefresh || _matches.isEmpty) {
       if (forceRefresh) {

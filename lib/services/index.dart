@@ -3,4 +3,5 @@
 // This file provides a single import point for all services in the app.
 
 export 'supabase_manager.dart';
-export 'session_manager.dart';
+export 'auth_service.dart';
+export 'profile_service.dart';

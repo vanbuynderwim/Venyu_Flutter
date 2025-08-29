@@ -6,7 +6,7 @@ import '../core/theme/venyu_theme.dart';
 import '../core/utils/app_logger.dart';
 import '../models/prompt.dart';
 import '../services/supabase_managers/content_manager.dart';
-import '../services/session_manager.dart';
+import '../core/providers/app_providers.dart';
 import 'matches/matches_view.dart';
 import 'cards/cards_view.dart';
 import 'venues/venues_view.dart';
@@ -25,11 +25,11 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   final int _currentIndex = 0;
   static bool _hasShownFirstTimePrompts = false; // Track if we've already shown prompts this session
+  static bool _hasCheckedPromptsThisSession = false; // Track if we've already checked for prompts this session
   bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
   
   // Services
   late final ContentManager _contentManager;
-  late final SessionManager _sessionManager;
   
   static const List<Widget> _pages = [
     MatchesView(),
@@ -43,7 +43,6 @@ class _MainViewState extends State<MainView> {
   void initState() {
     super.initState();
     _contentManager = ContentManager.shared;
-    _sessionManager = SessionManager.shared;
     
     // Check for prompts on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,6 +52,12 @@ class _MainViewState extends State<MainView> {
 
   /// Check for available prompts and show PromptsView if any are found
   Future<void> _checkForPrompts() async {
+    // Skip if we've already checked prompts this session
+    if (_hasCheckedPromptsThisSession) {
+      AppLogger.debug('Already checked prompts this session, skipping', context: 'MainView');
+      return;
+    }
+    
     // Prevent multiple simultaneous checks
     if (_isCheckingPrompts) {
       AppLogger.debug('Already checking prompts, skipping duplicate check', context: 'MainView');
@@ -60,10 +65,12 @@ class _MainViewState extends State<MainView> {
     }
     
     _isCheckingPrompts = true;
+    _hasCheckedPromptsThisSession = true; // Mark that we've checked this session
     
     try {
       // Only check for prompts if user is authenticated
-      if (!_sessionManager.isAuthenticated) {
+      final authService = context.authService;
+      if (!authService.isAuthenticated) {
         AppLogger.info('User not authenticated, skipping prompt check', context: 'MainView');
         return;
       }
@@ -88,7 +95,8 @@ class _MainViewState extends State<MainView> {
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
     // Check if this is a first-time user (profile registered within last 5 minutes)
-    final profile = _sessionManager.currentProfile;
+    final profileService = context.profileService;
+    final profile = profileService.currentProfile;
     bool isFirstTimeUser = false;
     
     if (profile?.registeredAt != null) {
@@ -102,6 +110,10 @@ class _MainViewState extends State<MainView> {
       }
     }
     
+    final closeModalCallback = () {
+      Navigator.of(context).pop();
+    };
+
     await showPlatformModalSheet<void>(
       context: context,
       material: MaterialModalSheetData(
@@ -118,6 +130,7 @@ class _MainViewState extends State<MainView> {
         prompts: prompts,
         isModal: true, // Geef aan dat dit in een modal is
         isFirstTimeUser: isFirstTimeUser,
+        onCloseModal: closeModalCallback,
       ),
     );
   }

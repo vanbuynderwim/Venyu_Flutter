@@ -9,7 +9,7 @@ import 'notification_item_view.dart';
 import '../../models/notification.dart' as venyu;
 import '../../models/requests/paginated_request.dart';
 import '../../services/supabase_managers/matching_manager.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../matches/match_detail_view.dart';
 
@@ -43,7 +43,8 @@ class _NotificationsViewState extends State<NotificationsView>
   }
 
   Future<void> _loadNotifications({bool forceRefresh = false}) async {
-    if (!SessionManager.shared.isAuthenticated) return;
+    final authService = context.authService;
+    if (!authService.isAuthenticated) return;
 
     if (forceRefresh || _notifications.isEmpty) {
       if (mounted) {

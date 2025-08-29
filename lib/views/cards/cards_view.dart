@@ -10,7 +10,7 @@ import '../../core/utils/dialog_utils.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/prompt.dart';
-import '../../services/session_manager.dart';
+import '../../core/providers/app_providers.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
@@ -38,7 +38,6 @@ class CardsView extends StatefulWidget {
 class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
   // Services
   late final ContentManager _contentManager;
-  late final SessionManager _sessionManager;
   
   // State
   List<Prompt>? _cards;
@@ -48,7 +47,6 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
     super.initState();
     AppLogger.debug('initState', context: 'CardsView');
     _contentManager = ContentManager.shared;
-    _sessionManager = SessionManager.shared;
     
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppLogger.debug('Loading cards...', context: 'CardsView');
@@ -284,8 +282,9 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
 
   /// Loads cards from the server
   Future<void> _loadCards({bool forceRefresh = false}) async {
-    AppLogger.debug('_loadCards called, authenticated: ${_sessionManager.isAuthenticated}', context: 'CardsView');
-    if (!_sessionManager.isAuthenticated) {
+    final authService = context.authService;
+    AppLogger.debug('_loadCards called, authenticated: ${authService.isAuthenticated}', context: 'CardsView');
+    if (!authService.isAuthenticated) {
       AppLogger.debug('Not authenticated, skipping load', context: 'CardsView');
       safeSetState(() {
         _cards = [];
