@@ -13,7 +13,7 @@ import '../../core/utils/dialog_utils.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../../widgets/buttons/option_button.dart';
+import '../../widgets/common/onboarding_benefits_card.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../base/base_form_view.dart';
 import 'edit_company_name_view.dart';
@@ -108,27 +108,12 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         const SizedBox(height: 24),
         
         // Location benefits
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              OptionButton(
-                option: OnboardingBenefit.nearbyMatches,
-                isSelectable: false,
-                disabled: true,
-              ),
-              OptionButton(
-                option: OnboardingBenefit.distanceAwareness,
-                isSelectable: false,
-                disabled: true,
-              ),
-              OptionButton(
-                option: OnboardingBenefit.betterMatching,
-                isSelectable: false,
-                disabled: true,
-              ),
-            ],
-          ),
+        OnboardingBenefitsCard(
+          benefits: [
+            OnboardingBenefit.nearbyMatches,
+            OnboardingBenefit.distanceAwareness,
+            OnboardingBenefit.betterMatching,
+          ],
         ),
       ],
     );

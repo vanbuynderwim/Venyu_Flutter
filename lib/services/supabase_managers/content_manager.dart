@@ -130,6 +130,28 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Update the status of a prompt/card
+  Future<void> updatePromptStatus({
+    required String promptId,
+    required PromptStatus status,
+  }) async {
+    AppLogger.info('Updating prompt $promptId status to: ${status.value}', context: 'ContentManager');
+    
+    return executeAuthenticatedRequest(() async {
+      final payload = {
+        'prompt_id': promptId,
+        'status': status.value,
+      };
+      
+      AppLogger.network('Calling update_prompt_status RPC with payload: $payload', context: 'ContentManager');
+      
+      // Pass the payload as a single JSONB parameter as expected by the PostgreSQL function
+      await client.rpc('update_prompt_status', params: {'payload': payload});
+      
+      AppLogger.success('Prompt status updated successfully', context: 'ContentManager');
+    });
+  }
+
   /// Fetch prompts (alias for fetchCards for API compatibility)
   Future<List<Prompt>> fetchPrompts() async {
     return executeAuthenticatedRequest(() async {

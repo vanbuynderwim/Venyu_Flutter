@@ -24,6 +24,8 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   final int _currentIndex = 0;
+  static bool _hasShownFirstTimePrompts = false; // Track if we've already shown prompts this session
+  bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
   
   // Services
   late final ContentManager _contentManager;
@@ -51,6 +53,14 @@ class _MainViewState extends State<MainView> {
 
   /// Check for available prompts and show PromptsView if any are found
   Future<void> _checkForPrompts() async {
+    // Prevent multiple simultaneous checks
+    if (_isCheckingPrompts) {
+      AppLogger.debug('Already checking prompts, skipping duplicate check', context: 'MainView');
+      return;
+    }
+    
+    _isCheckingPrompts = true;
+    
     try {
       // Only check for prompts if user is authenticated
       if (!_sessionManager.isAuthenticated) {
@@ -63,36 +73,54 @@ class _MainViewState extends State<MainView> {
       
       if (prompts.isNotEmpty && mounted) {
         AppLogger.info('Found ${prompts.length} prompts, showing PromptsView', context: 'MainView');
-        _showPromptsModal(prompts);
+        await _showPromptsModal(prompts);
       } else {
         AppLogger.info('No prompts available', context: 'MainView');
       }
     } catch (error) {
       AppLogger.error('Error fetching prompts', error: error, context: 'MainView');
       // Don't show error to user - just log it and continue normally
+    } finally {
+      _isCheckingPrompts = false;
     }
   }
 
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
-  await showPlatformModalSheet<void>(
-    context: context,
-    material: MaterialModalSheetData(
-      useRootNavigator: true,
-      isScrollControlled: true,
-      useSafeArea: true,
-      isDismissible: true,
-    ),
-    cupertino: CupertinoModalSheetData(
-      useRootNavigator: true,
-      barrierDismissible: true,
-    ),
-    builder: (sheetCtx) => PromptEntryView(
-      prompts: prompts,
-      isModal: true, // Geef aan dat dit in een modal is
-    ),
-  );
-}
+    // Check if this is a first-time user (profile registered within last 5 minutes)
+    final profile = _sessionManager.currentProfile;
+    bool isFirstTimeUser = false;
+    
+    if (profile?.registeredAt != null) {
+      final profileAge = DateTime.now().difference(profile!.registeredAt!);
+      isFirstTimeUser = profileAge.inMinutes < 5 && !_hasShownFirstTimePrompts;
+      AppLogger.debug('Profile age: ${profileAge.inMinutes} minutes, isFirstTimeUser: $isFirstTimeUser, hasShownBefore: $_hasShownFirstTimePrompts', context: 'MainView');
+      
+      // Mark that we've shown the first-time prompts
+      if (isFirstTimeUser) {
+        _hasShownFirstTimePrompts = true;
+      }
+    }
+    
+    await showPlatformModalSheet<void>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: true,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: true,
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: true,
+        barrierDismissible: true,
+      ),
+      builder: (sheetCtx) => PromptEntryView(
+        prompts: prompts,
+        isModal: true, // Geef aan dat dit in een modal is
+        isFirstTimeUser: isFirstTimeUser,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

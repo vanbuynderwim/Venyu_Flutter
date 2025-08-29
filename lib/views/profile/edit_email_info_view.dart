@@ -130,8 +130,16 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   /// Override save button behavior
   @override
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    // Check if keyboard is open and add extra bottom padding if so
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardOpen = keyboardHeight > 0;
+    
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isKeyboardOpen ? 16 : 0, // Extra padding when keyboard is open
+      ),
       child: ActionButton(
         label: _buttonLabel,
         onPressed: !canSave ? null : _handleCustomSave,

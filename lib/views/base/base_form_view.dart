@@ -332,8 +332,16 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
     // Use "Next" for registration wizard, "Save" for regular forms
     final defaultLabel = widget.registrationWizard ? AppStrings.next : AppStrings.save;
     
+    // Check if keyboard is open and add extra bottom padding if so
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardOpen = keyboardHeight > 0;
+    
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: isKeyboardOpen ? 16 : 0, // Extra padding when keyboard is open
+      ),
       child: ActionButton(
         label: label ?? defaultLabel,
         onPressed: !canSave ? null : (onPressed ?? handleSave),
@@ -363,7 +371,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
         title: Text(getFormTitle()),
       ),
       body: SafeArea(
-        bottom: false, // Allow keyboard to overlay the bottom safe area
+        bottom: true, // Allow keyboard to overlay the bottom safe area
         child: Column(
           children: [
             Expanded(
@@ -378,7 +386,6 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
                     ),
             ),
             buildSaveButton(),
-            const SizedBox(height: 16),
           ],
         ),
       ),

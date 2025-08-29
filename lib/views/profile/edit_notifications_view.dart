@@ -12,7 +12,7 @@ import '../../core/utils/dialog_utils.dart';
 import '../../services/notification_service.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../../widgets/buttons/option_button.dart';
+import '../../widgets/common/onboarding_benefits_card.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../base/base_form_view.dart';
 import './registration_complete_view.dart';
@@ -107,27 +107,12 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         const SizedBox(height: 24),
         
         // Notification benefits
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              OptionButton(
-                option: OnboardingBenefit.matchNotifications,
-                isSelectable: false,
-                disabled: true,
-              ),
-              OptionButton(
-                option: OnboardingBenefit.connectionNotifications,
-                isSelectable: false,
-                disabled: true,
-              ),
-              OptionButton(
-                option: OnboardingBenefit.dailyReminders,
-                isSelectable: false,
-                disabled: true,
-              ),
-            ],
-          ),
+        OnboardingBenefitsCard(
+          benefits: [
+            OnboardingBenefit.matchNotifications,
+            OnboardingBenefit.connectionNotifications,
+            OnboardingBenefit.dailyReminders,
+          ],
         ),
       ],
     );

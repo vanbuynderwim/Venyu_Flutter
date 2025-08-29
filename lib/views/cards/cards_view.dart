@@ -6,6 +6,8 @@ import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/utils/dialog_utils.dart';
+import '../../models/enums/prompt_status.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/prompt.dart';
 import '../../services/session_manager.dart';
@@ -170,8 +172,94 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
     }
   }
 
-  /// Navigates to the card detail view for editing an existing card
+  /// Handles card selection based on status
   Future<void> _navigateToCardDetail(Prompt prompt) async {
+    AppLogger.debug('Card selected with status: ${prompt.status?.value}', context: 'CardsView');
+    
+    // Handle different card statuses
+    switch (prompt.status) {
+      case PromptStatus.draft:
+        // Draft cards can be edited directly
+        await _openCardDetailView(prompt);
+        break;
+        
+      case PromptStatus.pendingReview:
+        // Show pending review dialog
+        await DialogUtils.showInfoDialog(
+          context: context,
+          title: 'Card under review',
+          message: 'Your card is still in review.',
+          buttonText: 'OK',
+        );
+        break;
+        
+      case PromptStatus.rejected:
+        // Show rejected dialog with edit/cancel options
+        final shouldEdit = await DialogUtils.showConfirmationDialog(
+          context: context,
+          title: 'Card rejected',
+          message: 'Your card is rejected because it didn\'t follow the community guidelines. Please edit and resubmit.',
+          confirmText: 'Edit',
+          cancelText: 'Cancel',
+          isDestructive: false,
+        );
+        
+        if (shouldEdit) {
+          // Update status to draft before opening detail view
+          await _updatePromptStatusToDraft(prompt);
+        }
+        break;
+        
+      case PromptStatus.approved:
+        // Show approved dialog
+        await DialogUtils.showInfoDialog(
+          context: context,
+          title: 'Card approved',
+          message: 'Your card has been approved and can not be changed.',
+          buttonText: 'OK',
+        );
+        break;
+        
+      case null:
+      case PromptStatus.pendingTranslation:
+      case PromptStatus.archived:
+        // For other statuses, open detail view
+        await _openCardDetailView(prompt);
+        break;
+    }
+  }
+  
+  /// Updates a rejected prompt's status to draft and opens detail view
+  Future<void> _updatePromptStatusToDraft(Prompt prompt) async {
+    try {
+      AppLogger.debug('Updating prompt ${prompt.promptID} status to draft', context: 'CardsView');
+      
+      await _contentManager.updatePromptStatus(
+        promptId: prompt.promptID,
+        status: PromptStatus.draft,
+      );
+      
+      // Refresh cards list to reflect status change
+      await _loadCards(forceRefresh: true);
+      
+      // Open detail view for editing
+      await _openCardDetailView(prompt);
+      
+    } catch (error) {
+      AppLogger.error('Error updating prompt status to draft: $error', context: 'CardsView');
+      // Show error to user but still try to open detail view
+      if (mounted) {
+        await DialogUtils.showErrorDialog(
+          context: context,
+          title: 'Error',
+          message: 'Failed to update card status. Please try again.',
+        );
+      }
+    }
+  }
+  
+  /// Opens the card detail view for editing
+  Future<void> _openCardDetailView(Prompt prompt) async {
     AppLogger.debug('Opening card detail view for editing card: ${prompt.label}', context: 'CardsView');
     try {
       final result = await showPlatformModalSheet<bool>(

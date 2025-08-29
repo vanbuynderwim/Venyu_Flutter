@@ -19,11 +19,13 @@ import 'prompts_view.dart';
 class PromptEntryView extends StatelessWidget {
   final List<Prompt> prompts;
   final bool isModal;
+  final bool isFirstTimeUser;
 
   const PromptEntryView({
     super.key,
     required this.prompts,
     this.isModal = false,
+    this.isFirstTimeUser = false,
   });
 
   void _handleLetsDoThis(BuildContext context) {
@@ -31,17 +33,19 @@ class PromptEntryView extends StatelessWidget {
     HapticFeedback.mediumImpact();
     
     // Navigate to PromptsView with callback to close modal
+    final closeModalCallback = isModal 
+      ? () {
+          // Als we in een modal zijn, sluit de hele modal via root navigator
+          Navigator.of(context, rootNavigator: true).pop();
+        }
+      : null;
+    
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
         builder: (_) => PromptsView(
           prompts: prompts,
-          onCloseModal: isModal 
-            ? () {
-                // Als we in een modal zijn, sluit de modal wanneer deze callback wordt aangeroepen
-                Navigator.of(context).pop();
-              }
-            : null,
+          onCloseModal: closeModalCallback,
         ),
       ),
     );
@@ -100,7 +104,7 @@ class PromptEntryView extends StatelessWidget {
                 
                 // Greeting text
                 Text(
-                  'Welcome back${_getFirstName()} 👋',
+                  'Hi${_getFirstName()} 👋',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
                     fontSize: 28,
@@ -129,13 +133,14 @@ class PromptEntryView extends StatelessWidget {
               
                 const Spacer(flex: 1),
                 
-                // Cards count text
+                // Cards count text - different for first time users
                 Text(
-                  'Your daily ${prompts.length} cards are here !',
+                  isFirstTimeUser 
+                    ? "Let's start networking!\nAnswer ${prompts.length} questions to get matched"
+                    : 'Your daily ${prompts.length} cards are here !',
                   style: TextStyle(
                     color: venyuTheme.primaryText,
-                    fontSize: 18,
-                    fontFamily: AppFonts.graphie
+                    fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),

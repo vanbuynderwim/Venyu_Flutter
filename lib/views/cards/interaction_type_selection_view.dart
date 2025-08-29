@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../models/enums/interaction_type.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -61,18 +63,45 @@ class InteractionTypeSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
+    // Always use light theme
+    final venyuTheme = VenyuTheme.light;
     final firstName = _getFirstName();
     
     return PopScope(
       canPop: !isFromPrompts, // Prevent back swipe if from prompts
-      child: PlatformScaffold(
-        backgroundColor: venyuTheme.pageBackground,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.primair4Lilac, // Lilac color - always visible
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Radar background image (always visible)
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/visuals/radar.png',
+                fit: BoxFit.cover,
+                opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
+                errorBuilder: (context, error, stackTrace) {
+                  // If image fails to load, just show the gradient
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+            // Main content
+            PlatformScaffold(
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
                 const Spacer(flex: 1),
                 
                 // Title text
@@ -105,30 +134,34 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 const Spacer(flex: 1),
                 
                 // "I need this" button
-                _InteractionTypeButton(
-                  interactionType: InteractionType.lookingForThis,
-                  onTap: () => _handleSelection(context, InteractionType.lookingForThis),
+                Theme(
+                  data: ThemeData.light().copyWith(
+                    extensions: [VenyuTheme.light],
+                  ),
+                  child: _InteractionTypeButton(
+                    interactionType: InteractionType.lookingForThis,
+                    onTap: () => _handleSelection(context, InteractionType.lookingForThis),
+                  ),
                 ),
                 
                 const SizedBox(height: AppModifiers.mediumSpacing),
                 
                 // "I can help" button
-                _InteractionTypeButton(
-                  interactionType: InteractionType.thisIsMe,
-                  onTap: () => _handleSelection(context, InteractionType.thisIsMe),
+                Theme(
+                  data: ThemeData.light().copyWith(
+                    extensions: [VenyuTheme.light],
+                  ),
+                  child: _InteractionTypeButton(
+                    interactionType: InteractionType.thisIsMe,
+                    onTap: () => _handleSelection(context, InteractionType.thisIsMe),
+                  ),
                 ),
                 
-                // Disclaimer and guidelines for prompts flow
-                if (isFromPrompts) ...[
+                // Disclaimer and guidelines (always visible)
                   const SizedBox(height: 24),
-                  
-                  
-                  
-                  const SizedBox(height: 16),
-                  
                   // Community guidelines title
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       'Community guidelines',
                       style: AppTextStyles.caption1.copyWith(
@@ -142,18 +175,16 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   const SizedBox(height: 8),
                   
                   // Community guidelines
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: venyuTheme.cardBackground.withValues(alpha: 0.5),
-                      borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                      border: Border.all(
-                        color: venyuTheme.borderColor,
-                        width: AppModifiers.extraThinBorder,
-                      ),
+                  Theme(
+                    data: ThemeData.light().copyWith(
+                      extensions: [VenyuTheme.light],
                     ),
-                    child: Column(
+                    child: Builder(
+                      builder: (lightContext) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(16),
+                        decoration: AppLayoutStyles.cardDecoration(lightContext),
+                        child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Allowed content
@@ -195,7 +226,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
+                        ],
+                        ),
+                      ),
                     ),
                   ),
 
@@ -211,17 +244,20 @@ class InteractionTypeSelectionView extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ],
                 
-                Spacer(flex: isFromPrompts ? 1 : 2),
+                Spacer(flex: 1),
                 
                 // "Not now" button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: ActionButton(
-                    label: 'Not now',
-                    type: ActionButtonType.secondary,
-                    onPressed: () {
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Theme(
+                    data: ThemeData.light().copyWith(
+                      extensions: [VenyuTheme.light],
+                    ),
+                    child: ActionButton(
+                      label: 'Not now',
+                      type: ActionButtonType.secondary,
+                      onPressed: () {
                       if (isFromPrompts) {
                         // Pop terug naar PromptEntryView, dan PromptsView, dan sluit modal
                         int popCount = 0;
@@ -232,18 +268,24 @@ class InteractionTypeSelectionView extends StatelessWidget {
                           return popCount > 2;
                         });
                         // Nu sluiten we de modal zelf
-                        onCloseModal!();
+                        if (onCloseModal != null) {
+                          onCloseModal!();
+                        }
                       } else {
                         Navigator.of(context).pop();
                       }
-                    },
+                      },
+                    ),
                   ),
                 ),
                 
                 const SizedBox(height: 16),
-              ],
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
