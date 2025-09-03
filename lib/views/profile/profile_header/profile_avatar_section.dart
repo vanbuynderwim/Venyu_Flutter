@@ -66,28 +66,43 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     
-    return Consumer<ProfileService>(
-      builder: (context, profileService, child) {
-        // Use live profile data from ProfileService instead of widget parameter
-        final currentProfile = profileService.currentProfile ?? widget.profile;
-        _currentProfile = currentProfile; // Cache for event handlers
-        
-        // Always use regular avatar - no local preview
-        // Use key to force rebuild when avatar changes
-        // During removal or if we've marked this avatar ID as removed, show null
-        final shouldShowAvatar = !_isRemoving && 
-                                currentProfile.avatarID != null && 
-                                currentProfile.avatarID != _forceNoAvatar;
-        
-        final avatarContent = AvatarView(
-          key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
-          avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
-          size: widget.avatarSize,
-        );
-        
-        return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
-      },
-    );
+    // If this is an editable profile (own profile), use Consumer for live updates
+    // Otherwise, just use the provided profile directly
+    if (widget.isEditable) {
+      return Consumer<ProfileService>(
+        builder: (context, profileService, child) {
+          // For editable profiles, use live data from ProfileService
+          final currentProfile = profileService.currentProfile ?? widget.profile;
+          _currentProfile = currentProfile; // Cache for event handlers
+          
+          // Always use regular avatar - no local preview
+          // Use key to force rebuild when avatar changes
+          // During removal or if we've marked this avatar ID as removed, show null
+          final shouldShowAvatar = !_isRemoving && 
+                                  currentProfile.avatarID != null && 
+                                  currentProfile.avatarID != _forceNoAvatar;
+          
+          final avatarContent = AvatarView(
+            key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
+            avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
+            size: widget.avatarSize,
+          );
+          
+          return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
+        },
+      );
+    } else {
+      // For non-editable profiles (viewing other profiles), use the provided profile directly
+      final currentProfile = widget.profile;
+      _currentProfile = currentProfile;
+      
+      final avatarContent = AvatarView(
+        avatarId: currentProfile.avatarID,
+        size: widget.avatarSize,
+      );
+      
+      return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
+    }
   }
   
   Widget _buildAvatarWidget(BuildContext context, VenyuTheme venyuTheme, Widget avatarContent, Profile currentProfile) {
