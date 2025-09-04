@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,6 +14,7 @@ import 'services/auth_service.dart';
 import 'services/profile_service.dart';
 import 'services/supabase_manager.dart';
 import 'services/notification_service.dart';
+import 'services/revenuecat_service.dart';
 import 'views/index.dart';
 
 void main() async {
@@ -61,7 +61,25 @@ void main() async {
     AppLogger.info('App will continue without push notifications', context: 'main');
   });
   
+  // Initialize RevenueCat
+  try {
+    await _initializeRevenueCat();
+  } catch (e) {
+    AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
+    AppLogger.info('App will continue without subscription features', context: 'main');
+  }
+  
   runApp(const VenyuApp());
+}
+
+/// Initialize RevenueCat using the dedicated service
+Future<void> _initializeRevenueCat() async {
+  try {
+    await RevenueCatService().initialize();
+  } catch (e) {
+    AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
+    AppLogger.info('App will continue without subscription features', context: 'main');
+  }
 }
 
 class VenyuApp extends StatelessWidget {

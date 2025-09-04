@@ -40,7 +40,29 @@ enum OnboardingBenefit implements OptionType {
     title: 'Make the net work',
     description: '',
     icon: 'card',
-  );
+  ),
+  
+  // Premium/Pro features
+  discreetPreview(
+  title: 'Discreet preview',
+  description: 'See matches first and decide who sees you',
+  icon: 'eye',
+),
+focusedReach(
+  title: 'Targeted audience',
+  description: 'Publish your questions to the right audience',
+  icon: 'target',
+),
+aiPoweredSuggestions(
+  title: 'AI suggestions (coming soon)',
+  description: 'Our AI finds your best matches',
+  icon: 'ai',
+),
+unlockFullProfiles(
+  title: 'Unlock full profiles',
+  description: 'View full profiles with extra details',
+  icon: 'profile',
+);
 
   @override
   final String title;

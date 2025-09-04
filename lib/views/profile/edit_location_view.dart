@@ -100,7 +100,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         // Title
         Center(
           child: Text(
-            'Enable location to ...',
+            'Enable location to',
             style: AppTextStyles.title2,
           ),
         ),

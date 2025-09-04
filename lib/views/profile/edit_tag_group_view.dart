@@ -225,6 +225,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           isCheckmarkVisible: true,
           isChevronVisible: false,
           withDescription: false,
+          useBorderSelection: true,
           onSelect: () {
             _handleTagTap(tag);
           },

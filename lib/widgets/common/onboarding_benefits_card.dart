@@ -27,7 +27,7 @@ class OnboardingBenefitsCard extends StatelessWidget {
     return Padding(
       padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(16),
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,16 +52,18 @@ class OnboardingBenefitsCard extends StatelessWidget {
   Widget _buildBenefitRow(OnboardingBenefit benefit, VenyuTheme venyuTheme, BuildContext context) {
     return Row(
       children: [
-        // Icon - using themedIcon helper with primary color
+        // Icon - centered in container with primary color
         SizedBox(
           width: 24,
           height: 24,
-          child: ColorFiltered(
-            colorFilter: ColorFilter.mode(
-              venyuTheme.primary,
-              BlendMode.srcIn,
+          child: Center(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                venyuTheme.primary,
+                BlendMode.srcIn,
+              ),
+              child: context.themedIcon(benefit.icon ?? 'help'),
             ),
-            child: context.themedIcon(benefit.icon ?? 'help'),
           ),
         ),
         
@@ -69,11 +71,26 @@ class OnboardingBenefitsCard extends StatelessWidget {
         
         // Text
         Expanded(
-          child: Text(
-            benefit.title,
-            style: AppTextStyles.body.copyWith(
-              color: venyuTheme.primaryText,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                benefit.title,
+                style: AppTextStyles.body.copyWith(
+                  color: venyuTheme.primaryText,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (benefit.description.isNotEmpty) ...[
+                const SizedBox(height: 2),
+                Text(
+                  benefit.description,
+                  style: AppTextStyles.footnote.copyWith(
+                    color: venyuTheme.secondaryText,
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ],

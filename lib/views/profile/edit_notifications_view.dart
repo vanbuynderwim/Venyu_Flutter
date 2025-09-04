@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -15,7 +13,8 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/onboarding_benefits_card.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../base/base_form_view.dart';
-import './registration_complete_view.dart';
+import '../subscription/paywall_view.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// A form screen for enabling notification permissions during registration.
 /// 
@@ -156,11 +155,11 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
     // If this is the last step in registration wizard, complete registration
     if (widget.registrationWizard) {
       AppLogger.success('Registration wizard completed!', context: 'EditNotificationsView');
-      // Navigate to registration complete screen
+      // Navigate to paywall before completing registration
       Navigator.of(context).push(
         platformPageRoute(
           context: context,
-          builder: (context) => const RegistrationCompleteView(),
+          builder: (context) => const PaywallView(),
         ),
       );
     } else {

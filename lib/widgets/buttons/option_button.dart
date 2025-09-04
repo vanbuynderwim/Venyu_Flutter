@@ -173,6 +173,9 @@ class OptionButton extends StatefulWidget {
   
   /// Whether to display the option's description text. Defaults to false.
   final bool withDescription;
+  
+  /// Whether to use thick border selection instead of standard selection indicator. Defaults to false.
+  final bool useBorderSelection;
 
   /// Creates an [OptionButton] widget.
   /// 
@@ -192,6 +195,7 @@ class OptionButton extends StatefulWidget {
     this.isButton = false,
     this.iconColor,
     this.withDescription = false,
+    this.useBorderSelection = false,
   });
 
   @override
@@ -207,9 +211,11 @@ class _OptionButtonState extends State<OptionButton> {
       padding: AppModifiers.cardContentPadding,
       child: Row(
         children: [
-          // Icon/Emoji
-          _buildIcon(),
-          const SizedBox(width: 12),
+          // Icon/Emoji - only show if there's an icon or emoji
+          if (widget.option.icon != null || widget.option.emoji != null) ...[
+            _buildIcon(),
+            const SizedBox(width: 12),
+          ],
           
           // Content
           Expanded(
@@ -308,6 +314,33 @@ class _OptionButtonState extends State<OptionButton> {
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: AppLayoutStyles.cardDecoration(context),
         child: content,
+      );
+    }
+    
+    // Use border selection styling when enabled
+    if (widget.useBorderSelection) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        decoration: BoxDecoration(
+          color: widget.isSelected 
+              ? venyuTheme.primary.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.4 : 0.1)
+              : venyuTheme.cardBackground,
+          borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+          border: Border.all(
+            color: widget.isSelected ? venyuTheme.primary : venyuTheme.borderColor,
+            width: AppModifiers.extraThinBorder,
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: _handleTap,
+            splashFactory: NoSplash.splashFactory,
+            highlightColor: venyuTheme.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+            child: content,
+          ),
+        ),
       );
     }
     

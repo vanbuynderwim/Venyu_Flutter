@@ -27,7 +27,18 @@
       "Bash(brew:*)",
       "Bash(export:*)",
       "Bash(keytool:*)",
-      "Bash(java:*)"
+      "Bash(java:*)",
+      "WebFetch(domain:docs.revenuecat.com)",
+      "WebFetch(domain:www.revenuecat.com)",
+      "Bash(dart test_revenuecat.dart:*)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
+      "Bash(dart:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
