@@ -6,7 +6,8 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/providers/app_providers.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
-import '../subscription/paywall_view.dart';
+import '../profile/edit_name_view.dart';
+import '../../models/enums/registration_step.dart';
 
 /// OnboardView - Registration start screen matching iOS RegisterStartView
 /// 
@@ -65,14 +66,17 @@ class _OnboardViewState extends State<OnboardView> {
                   
                   const SizedBox(height: 24),
                   
-                  // Get Started button - TEMPORARILY show PaywallView first
+                  // Get Started button
                   ActionButton(
                     label: 'Get Started',
                     onPressed: () {
                       Navigator.of(context).push(
                         platformPageRoute(
                           context: context,
-                          builder: (context) => const PaywallView(), // TEMPORARY: Show paywall first for testing
+                          builder: (context) => const EditNameView(
+                            registrationWizard: true,
+                            currentStep: RegistrationStep.name,
+                          ),
                         ),
                       );
                     },

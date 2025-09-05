@@ -6,6 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/utils/app_logger.dart';
 import 'supabase_managers/authentication_manager.dart';
 import 'supabase_managers/base_supabase_manager.dart';
+import 'supabase_managers/profile_manager.dart';
+import 'revenuecat_service.dart';
 
 /// Represents the current authentication state of the user.
 enum AuthenticationState {
@@ -192,6 +194,9 @@ class AuthService extends ChangeNotifier {
     try {
       _currentSession = session;
       
+      // Link RevenueCat user ID with existing Supabase user ID
+      await _linkRevenueCatUser(session.user.id);
+      
       // Just set to authenticated - let ProfileService handle profile logic
       _updateAuthState(AuthenticationState.authenticated);
       
@@ -215,6 +220,10 @@ class AuthService extends ChangeNotifier {
     }
 
     _currentSession = session;
+    
+    // Link RevenueCat user ID with Supabase user ID
+    await _linkRevenueCatUser(session.user.id);
+    
     _updateAuthState(AuthenticationState.authenticated);
     
     AppLogger.success('Sign in process completed successfully', context: 'AuthService');
@@ -224,6 +233,9 @@ class AuthService extends ChangeNotifier {
     if (_disposed) return;
     
     AppLogger.info('User signed out - performing reset', context: 'AuthService');
+    
+    // Log out RevenueCat user
+    await _logOutRevenueCatUser();
     
     _currentSession = null;
     _lastError = null;
@@ -338,6 +350,55 @@ class AuthService extends ChangeNotifier {
   void updateAuthState(AuthenticationState newState) {
     if (_disposed) return;
     _updateAuthState(newState);
+  }
+  
+  // MARK: - RevenueCat Integration
+  
+  /// Link RevenueCat user ID with Supabase user ID
+  Future<void> _linkRevenueCatUser(String supabaseUserId) async {
+    try {
+      AppLogger.info('🔗 Linking RevenueCat user with Supabase ID: $supabaseUserId', context: 'AuthService');
+      AppLogger.info('🔗 Current user email: ${currentUser?.email ?? 'NO EMAIL'}', context: 'AuthService');
+      AppLogger.info('🔗 Current user metadata: ${currentUser?.userMetadata ?? 'NO METADATA'}', context: 'AuthService');
+      
+      await RevenueCatService().setUserId(supabaseUserId);
+      
+      AppLogger.success('✅ RevenueCat user linked successfully with ID: $supabaseUserId', context: 'AuthService');
+      
+      // Update the database with the RevenueCat user ID
+      await _updateRevenueCatUserIdInDatabase(supabaseUserId);
+      
+    } catch (error) {
+      AppLogger.warning('❌ Failed to link RevenueCat user: $error', context: 'AuthService');
+      // Don't throw - this shouldn't block authentication
+    }
+  }
+  
+  /// Update RevenueCat user ID in database using ProfileManager
+  Future<void> _updateRevenueCatUserIdInDatabase(String supabaseUserId) async {
+    try {
+      AppLogger.info('📝 Updating RevenueCat user ID in database via ProfileManager', context: 'AuthService');
+      
+      final profileManager = ProfileManager.shared;
+      await profileManager.updateRevenueCatAppUserId(supabaseUserId);
+      
+      AppLogger.success('✅ Database updated with RevenueCat user ID via ProfileManager', context: 'AuthService');
+    } catch (error) {
+      AppLogger.warning('❌ Failed to update RevenueCat user ID in database: $error', context: 'AuthService');
+      // Don't throw - this shouldn't block authentication
+    }
+  }
+  
+  /// Log out RevenueCat user
+  Future<void> _logOutRevenueCatUser() async {
+    try {
+      AppLogger.info('Logging out RevenueCat user', context: 'AuthService');
+      await RevenueCatService().logOut();
+      AppLogger.success('RevenueCat user logged out successfully', context: 'AuthService');
+    } catch (error) {
+      AppLogger.warning('Failed to log out RevenueCat user: $error', context: 'AuthService');
+      // Don't throw - this shouldn't block sign out
+    }
   }
   
   // MARK: - Error Handling

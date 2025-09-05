@@ -11,58 +11,62 @@ enum OnboardingBenefit implements OptionType {
   // Location benefits
   nearbyMatches(
     title: 'Meet entrepreneurs nearby',
-    description: '',
+    description: 'Discover people close to you',
     icon: 'coffee',
   ),
   distanceAwareness(
     title: 'See who is within reach',
-    description: '',
+    description: 'Know the distance to matches',
     icon: 'map',
   ),
   betterMatching(
     title: 'Grow your network locally',
-    description: '',
+    description: 'Get better results with local focus',
     icon: 'network',
   ),
   
   // Notification benefits
   matchNotifications(
-    title: 'Get match alerts',
-    description: '',
+    title: 'New match alerts',
+    description: 'Get alerted as soon as a new match appears',
     icon: 'match',
   ),
   connectionNotifications(
-    title: 'See new connections',
-    description: '',
+    title: 'Never miss an intro',
+    description: 'Know right away when you receive a new introduction',
     icon: 'handshake',
   ),
   dailyReminders(
-    title: 'Make the net work',
-    description: '',
+    title: 'Stay in the game',
+    description: 'Get reminded every day to make the net work',
     icon: 'card',
   ),
-  
   // Premium/Pro features
   discreetPreview(
-  title: 'Discreet preview',
-  description: 'See matches first and decide who sees you',
-  icon: 'eye',
-),
-focusedReach(
-  title: 'Targeted audience',
-  description: 'Publish your questions to the right audience',
-  icon: 'target',
-),
-aiPoweredSuggestions(
-  title: 'AI suggestions (coming soon)',
-  description: 'Our AI finds your best matches',
-  icon: 'ai',
-),
-unlockFullProfiles(
-  title: 'Unlock full profiles',
-  description: 'View full profiles with extra details',
-  icon: 'profile',
-);
+    title: 'Discreet preview',
+    description: 'See matches first and decide who sees you',
+    icon: 'eye',
+  ),
+  focusedReach(
+    title: 'Smart targeting',
+    description: 'Publish your questions to the right audience',
+    icon: 'target',
+  ),
+  unlimitedIntroductions(
+    title: 'Unlimited introductions',
+    description: 'Never run out of new introductions.',
+    icon: 'handshake',
+  ),
+  unlockFullProfiles(
+    title: 'Unlock full profiles',
+    description: 'View full profiles with extra details',
+    icon: 'profile',
+  ),
+  aiPoweredMatches(
+    title: 'AI-powered matches (later)',
+    description: 'Receive smart suggestions based on your profile.',
+    icon: 'ai',
+  );
 
   @override
   final String title;

@@ -109,4 +109,18 @@ class RevenueCatService {
     }
     return await Purchases.logOut();
   }
+
+  /// Get current RevenueCat app user ID
+  Future<String?> getCurrentUserId() async {
+    if (!_isInitialized) {
+      return null;
+    }
+    try {
+      final customerInfo = await Purchases.getCustomerInfo();
+      return customerInfo.originalAppUserId;
+    } catch (e) {
+      AppLogger.warning('Failed to get RevenueCat user ID: $e', context: 'RevenueCatService');
+      return null;
+    }
+  }
 }

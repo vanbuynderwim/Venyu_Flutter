@@ -57,8 +57,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
   @override
   bool get canSave => 
-    _companyNameController.text.isNotEmpty &&
-    _websiteController.text.isNotEmpty &&
+    _companyNameController.text.trim().isNotEmpty &&
     _websiteFormatIsValid;
 
   @override
@@ -83,28 +82,23 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
   }
 
   void _onCompanyNameChanged() {
-    if (!_companyNameTouched) {
-      setState(() {
+    setState(() {
+      if (!_companyNameTouched) {
         _companyNameTouched = true;
-      });
-    }
+      }
+    });
   }
 
   void _onWebsiteChanged() {
-    if (!_websiteTouched) {
-      setState(() {
-        _websiteTouched = true;
-      });
-    }
-    
     final isValid = _websiteController.text.isEmpty || 
         WebsiteValidator.isValidFormat(_websiteController.text);
     
-    if (isValid != _websiteFormatIsValid) {
-      setState(() {
-        _websiteFormatIsValid = isValid;
-      });
-    }
+    setState(() {
+      if (!_websiteTouched) {
+        _websiteTouched = true;
+      }
+      _websiteFormatIsValid = isValid;
+    });
   }
 
   @override
@@ -131,9 +125,12 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
-            state: _companyNameTouched && _companyNameController.text.isEmpty 
+            state: _companyNameTouched && _companyNameController.text.trim().isEmpty 
                 ? AppTextFieldState.error 
                 : AppTextFieldState.normal,
+            errorText: _companyNameTouched && _companyNameController.text.trim().isEmpty
+                ? 'Company name is required'
+                : null,
             autofillHints: const [AutofillHints.organizationName],
             enabled: !isUpdating,
           ),

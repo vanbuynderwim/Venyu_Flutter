@@ -90,6 +90,21 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
     }
   }
 
+  /// Update RevenueCat app user ID for the current user
+  Future<void> updateRevenueCatAppUserId(String rcAppUserId) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating RevenueCat app user ID', context: 'ProfileManager');
+      
+      await client
+          .rpc('update_profile_rc_app_id', params: {
+            'p_rc_app_user_id': rcAppUserId,
+          });
+      
+      AppLogger.success('RevenueCat app user ID updated successfully', context: 'ProfileManager');
+    });
+  }
+
   /// Update user's name
   Future<void> updateProfileName(String firstName, String lastName, String linkedInURL, bool linkedInURLValid) async {
     return executeAuthenticatedRequest(() async {

@@ -159,7 +159,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
       Navigator.of(context).push(
         platformPageRoute(
           context: context,
-          builder: (context) => const PaywallView(),
+          builder: (context) => const PaywallView(registrationWizard: true),
         ),
       );
     } else {

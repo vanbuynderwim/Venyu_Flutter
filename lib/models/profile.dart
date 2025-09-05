@@ -70,6 +70,9 @@ class Profile {
   /// Whether the user has subscribed to newsletters.
   final bool? newsletterSubscribed;
   
+  /// Whether the user has an active pro subscription.
+  final bool isPro;
+  
   /// Public key for secure communications.
   final String? publicKey;
 
@@ -79,7 +82,7 @@ class Profile {
 
   /// Creates a [Profile] instance.
   /// 
-  /// [id] and [firstName] are required. [isSuperAdmin] defaults to false
+  /// [id] and [firstName] are required. [isSuperAdmin] and [isPro] default to false
   /// if not explicitly provided during JSON deserialization.
   const Profile({
     required this.id,
@@ -97,6 +100,7 @@ class Profile {
     this.distance,
     required this.isSuperAdmin,
     this.newsletterSubscribed,
+    required this.isPro,
     this.publicKey,
     this.taggroups,
   });
@@ -122,6 +126,7 @@ class Profile {
       distance: json['distance']?.toDouble(),
       isSuperAdmin: json['is_super_admin'] as bool? ?? false,
       newsletterSubscribed: json['newsletter_subscribed'] as bool?,
+      isPro: json['is_pro'] as bool? ?? false,
       publicKey: json['public_key'] as String?,
       taggroups: json['taggroups'] != null 
           ? (json['taggroups'] as List).map((tagGroup) => TagGroup.fromJson(tagGroup)).toList()
@@ -150,6 +155,7 @@ class Profile {
       'distance': distance,
       'is_super_admin': isSuperAdmin,
       'newsletter_subscribed': newsletterSubscribed,
+      'is_pro': isPro,
       'public_key': publicKey,
       'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
     };
@@ -298,6 +304,7 @@ class Profile {
     double? distance,
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
+    bool? isPro,
     String? publicKey,
     List<TagGroup>? taggroups,
   }) {
@@ -317,6 +324,7 @@ class Profile {
       distance: distance ?? this.distance,
       isSuperAdmin: isSuperAdmin ?? this.isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed ?? this.newsletterSubscribed,
+      isPro: isPro ?? this.isPro,
       publicKey: publicKey ?? this.publicKey,
       taggroups: taggroups ?? this.taggroups,
     );

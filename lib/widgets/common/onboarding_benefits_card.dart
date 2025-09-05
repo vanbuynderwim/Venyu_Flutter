@@ -25,7 +25,7 @@ class OnboardingBenefitsCard extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
     
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 0),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: AppLayoutStyles.cardDecoration(context),
@@ -39,7 +39,7 @@ class OnboardingBenefitsCard extends StatelessWidget {
               children: [
                 _buildBenefitRow(benefit, venyuTheme, context),
                 // Add spacing between items except for the last one
-                if (index < benefits.length - 1) const SizedBox(height: 16),
+                if (index < benefits.length - 1) const SizedBox(height: 24),
               ],
             );
           }).toList(),

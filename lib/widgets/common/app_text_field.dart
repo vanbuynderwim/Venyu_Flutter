@@ -256,10 +256,10 @@ class AppTextField extends StatelessWidget {
           ],
           _buildCupertinoTextField(context),
           if (errorText != null || helperText != null) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               errorText ?? helperText!,
-              style: AppTextStyles.body.copyWith(
+              style: AppTextStyles.footnote.copyWith(
                 color: errorText != null ? venyuTheme.error : venyuTheme.secondaryText,
               ),
             ),

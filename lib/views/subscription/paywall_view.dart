@@ -9,10 +9,10 @@ import '../../core/utils/app_logger.dart';
 import '../../services/revenuecat_service.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/common/onboarding_benefits_card.dart';
-import '../profile/edit_name_view.dart';
-import '../../models/enums/registration_step.dart';
+import '../profile/registration_complete_view.dart';
 import '../../models/enums/onboarding_benefit.dart';
 import '../../models/package_option.dart';
 import '../../widgets/buttons/option_button.dart';
@@ -20,7 +20,13 @@ import '../../core/theme/app_fonts.dart';
 
 /// Paywall view that shows subscription options to users during onboarding
 class PaywallView extends StatefulWidget {
-  const PaywallView({super.key});
+  /// Whether this paywall is part of the registration wizard
+  final bool registrationWizard;
+  
+  const PaywallView({
+    super.key, 
+    this.registrationWizard = false,
+  });
 
   @override
   State<PaywallView> createState() => _PaywallViewState();
@@ -141,16 +147,12 @@ class _PaywallViewState extends State<PaywallView> {
     }
   }
 
-  /// Navigate to next step - TEMPORARILY to EditNameView for testing
+  /// Navigate to registration complete after paywall
   void _navigateToComplete() {
-    // TEMPORARY: Navigate to EditNameView instead of RegistrationCompleteView
     Navigator.of(context).pushReplacement(
       platformPageRoute(
         context: context,
-        builder: (context) => const EditNameView(
-          registrationWizard: true,
-          currentStep: RegistrationStep.name,
-        ),
+        builder: (context) => const RegistrationCompleteView(),
       ),
     );
   }
@@ -258,24 +260,26 @@ class _PaywallViewState extends State<PaywallView> {
                                 'Join Venyu Pro',
                                 style: AppTextStyles.title2.copyWith(
                                   color: venyuTheme.primaryText,
+                                  fontSize: 28,
                                   fontFamily: AppFonts.graphie
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                           ),
-                          // Close button top right
-                          Positioned(
-                            top: -8,
-                            right: -8,
-                            child: PlatformIconButton(
-                              icon: Icon(
-                                PlatformIcons(context).clear,
-                                color: venyuTheme.primaryText,
+                          // Close button top right (only when not in registration wizard)
+                          if (!widget.registrationWizard)
+                            Positioned(
+                              top: 0,
+                              right: -8,
+                              child: PlatformIconButton(
+                                icon: Icon(
+                                  PlatformIcons(context).clear,
+                                  color: venyuTheme.primaryText,
+                                ),
+                                onPressed: _navigateToComplete,
                               ),
-                              onPressed: _navigateToComplete,
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -286,7 +290,7 @@ class _PaywallViewState extends State<PaywallView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
-                        'Build better connections, faster',
+                        'Get the right introductions, faster',
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -294,7 +298,7 @@ class _PaywallViewState extends State<PaywallView> {
                       ),
                     ),
                     
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
                   ],
                 ),
                 
@@ -303,16 +307,20 @@ class _PaywallViewState extends State<PaywallView> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SizedBox(height: 16),
+                        //const SizedBox(height: 16),
                         
                         // Premium features using OnboardingBenefitsCard - no extra padding
-                        OnboardingBenefitsCard(
-                          benefits: [
-                            OnboardingBenefit.focusedReach,
-                            OnboardingBenefit.discreetPreview,
-                            OnboardingBenefit.unlockFullProfiles,
-                            OnboardingBenefit.aiPoweredSuggestions,
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: OnboardingBenefitsCard(
+                            benefits: [
+                              OnboardingBenefit.focusedReach,
+                              OnboardingBenefit.discreetPreview,
+                              OnboardingBenefit.unlimitedIntroductions,
+                              OnboardingBenefit.unlockFullProfiles,
+                              //OnboardingBenefit.aiPoweredMatches,
+                            ],
+                          ),
                         ),
                         
                         const SizedBox(height: 16),
@@ -329,7 +337,7 @@ class _PaywallViewState extends State<PaywallView> {
                               children: [
                                 for (final package in _offerings!.current!.availablePackages)
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 8),
+                                    padding: const EdgeInsets.only(bottom: 0),
                                     child: Stack(
                                       clipBehavior: Clip.none,
                                       children: [
@@ -398,7 +406,7 @@ class _PaywallViewState extends State<PaywallView> {
                     // Daily cost calculation
                     if (_selectedPackage != null && _calculateDailyCost() != null)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Text(
                           _calculateDailyCost()!,
                           style: AppTextStyles.footnote.copyWith(
@@ -408,14 +416,41 @@ class _PaywallViewState extends State<PaywallView> {
                         ),
                       ),
                     
-                    // Action button with margin like base_form_view
+
+                    // Action button(s) with margin like base_form_view
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ActionButton(
-                        label: _selectedPackage != null ? 'Subscribe & Continue' : 'Continue to Venyu',
-                        onPressed: _selectedPackage != null ? _purchaseSelectedPackage : _navigateToComplete,
-                        isLoading: _isPurchasing,
-                      ),
+                      child: widget.registrationWizard 
+                        ? Row(
+                            children: [
+                              
+                              // Not now button (secondary) for registration wizard
+                              Expanded(
+                                child: ActionButton(
+                                  label: 'Not now',
+                                  type: ActionButtonType.secondary,
+                                  onPressed: _navigateToComplete,
+                                ),
+                              ),
+                              
+                              const SizedBox(width: 12),
+                              
+                              // Subscribe button (primary) for registration wizard
+                              Expanded(
+                                child: ActionButton(
+                                  label: _selectedPackage != null ? 'Subscribe' : 'Continue',
+                                  type: ActionButtonType.primary,
+                                  onPressed: _selectedPackage != null ? _purchaseSelectedPackage : _navigateToComplete,
+                                  isLoading: _isPurchasing,
+                                ),
+                              ),
+                            ],
+                          )
+                        : ActionButton(
+                            label: _selectedPackage != null ? 'Subscribe & Continue' : 'Continue to Venyu',
+                            onPressed: _selectedPackage != null ? _purchaseSelectedPackage : _navigateToComplete,
+                            isLoading: _isPurchasing,
+                          ),
                     ),
                     
                     // Restore purchases button

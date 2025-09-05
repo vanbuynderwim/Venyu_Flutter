@@ -23,7 +23,7 @@ class EditAvatarView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Profile Photo');
+  }) : super(title: 'Profile Picture');
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditAvatarViewState();
@@ -37,10 +37,10 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
   bool get canSave => !_isUploading;
 
   @override
-  String getSuccessMessage() => 'Profile photo saved';
+  String getSuccessMessage() => 'Profile picture saved';
 
   @override
-  String getErrorMessage() => 'Failed to save profile photo';
+  String getErrorMessage() => 'Failed to save profile picture';
 
   @override
   Future<void> performSave() async {
