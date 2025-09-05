@@ -8,8 +8,11 @@ import '../../mixins/error_handling_mixin.dart';
 import '../../models/match.dart';
 import '../../models/enums/match_status.dart';
 import '../../services/supabase_managers/matching_manager.dart';
+import '../../services/profile_service.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/toast_service.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../subscription/paywall_view.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../profile/profile_header.dart';
@@ -206,7 +209,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 title: '${_match!.nrOfPersonalTags} personal ${_match!.nrOfPersonalTags == 1 ? "match" : "matches"}',
               ),
               const SizedBox(height: 16),
-              MatchTagsSection(tagGroups: _match!.personalTagGroups),
+              _buildPersonalMatchesContent(),
               const SizedBox(height: 24),
             ],
             
@@ -222,6 +225,83 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     );
   }
 
+  /// Build personal matches content based on user's Pro status
+  Widget _buildPersonalMatchesContent() {
+    final currentProfile = ProfileService.shared.currentProfile;
+    final isPro = currentProfile?.isPro ?? false;
+    
+    if (isPro) {
+      // Show actual personal matches for Pro users
+      return MatchTagsSection(tagGroups: _match!.personalTagGroups);
+    } else {
+      // Show upgrade prompt for free users
+      return _buildUpgradePrompt();
+    }
+  }
+  
+  /// Build upgrade prompt widget for non-Pro users
+  Widget _buildUpgradePrompt() {
+    final venyuTheme = context.venyuTheme;
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: venyuTheme.cardBackground,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: venyuTheme.secondaryText.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        children: [
+          context.themedIcon(
+            'lock',
+            size: 32,
+            overrideColor: venyuTheme.secondaryText,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Unlock Personal Matches',
+            style: AppTextStyles.body.copyWith(
+              color: venyuTheme.primaryText,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'See what you have in common on a personal level with Venyu Pro',
+            style: AppTextStyles.footnote.copyWith(
+              color: venyuTheme.secondaryText,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ActionButton(
+              label: 'Upgrade now',
+              onPressed: _showPaywall,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  /// Show paywall modal
+  void _showPaywall() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.9,
+        child: const PaywallView(),
+      ),
+    );
+  }
 
   Future<void> _openLinkedIn() async {
     if (_match?.profile.linkedInURL == null) return;

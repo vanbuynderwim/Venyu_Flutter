@@ -240,6 +240,8 @@ extension VenyuThemeAccess on BuildContext {
         : VenyuTheme.light;
   }
   
+  
+  
   /// Helper to get the correct icon path (only _regular and _selected variants)
   String getIconPath(String baseName, {bool selected = false}) {
     final suffix = selected ? '_selected' : '_regular';
