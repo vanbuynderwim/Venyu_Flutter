@@ -17,7 +17,8 @@ import '../../core/theme/venyu_theme.dart';
 enum ActionButtonType {
   primary('primary'),
   secondary('secondary'),
-  destructive('destructive');
+  destructive('destructive'),
+  unlock('unlock');
 
   const ActionButtonType(this.value);
   
@@ -49,6 +50,8 @@ enum ActionButtonType {
       case ActionButtonType.destructive:
         // Use theme-aware background colors
         return venyuTheme.secondaryButtonBackground;
+      case ActionButtonType.unlock:
+        return venyuTheme.info;
     }
   }
 
@@ -65,6 +68,8 @@ enum ActionButtonType {
         return venyuTheme.primary;
       case ActionButtonType.destructive:
         return venyuTheme.error;
+      case ActionButtonType.unlock:
+        return venyuTheme.cardBackground; // White text for good contrast on tangerine background
     }
   }
 
@@ -80,6 +85,8 @@ enum ActionButtonType {
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
         return venyuTheme.borderColor;
+      case ActionButtonType.unlock:
+        return venyuTheme.info;
     }
   }
   
@@ -93,6 +100,7 @@ enum ActionButtonType {
       case ActionButtonType.primary:
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
+      case ActionButtonType.unlock:
         return FontWeight.w600; // semibold
     }
   }
@@ -118,6 +126,9 @@ enum ActionButtonType {
       case ActionButtonType.destructive:
         // For light background with error text, use error color highlight
         return venyuTheme.error.withValues(alpha: 0.2);
+      case ActionButtonType.unlock:
+        // For tangerine background with white text, use white highlight
+        return Colors.white.withValues(alpha: 0.3);
     }
   }
 }

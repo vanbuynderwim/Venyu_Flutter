@@ -57,11 +57,11 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
           .single();
       
       AppLogger.success('Profile RPC call successful', context: 'ProfileManager');
-      AppLogger.debug('Profile data received: ${result.toString()}', context: 'ProfileManager');
+      //AppLogger.debug('Profile data received: ${result.toString()}', context: 'ProfileManager');
       
       // Create profile from response
       final profile = Profile.fromJson(result);
-      AppLogger.debug('Profile parsed: ${profile.displayName} (${profile.contactEmail})', context: 'ProfileManager');
+      AppLogger.debug('Profile parsed: ${profile.displayName} (${profile.contactEmail}) is_pro: ${profile.isPro}', context: 'ProfileManager');
       
       // Enhance with stored OAuth data
       final enhancedProfile = await _enhanceProfileWithStoredData(profile);

@@ -8,6 +8,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../services/revenuecat_service.dart';
 import '../../services/toast_service.dart';
+import '../../services/profile_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/radar_background.dart';
@@ -90,12 +91,15 @@ class _PaywallViewState extends State<PaywallView> {
       
       AppLogger.info('Purchase successful', context: 'PaywallView');
       
+      // Refresh profile to update isPro status
+      await ProfileService.shared.refreshProfile();
+      
       if (mounted) {
         ToastService.success(
           context: context,
           message: 'Subscription activated successfully!',
         );
-        _navigateToComplete();
+        _navigateToComplete(subscriptionCompleted: true);
       }
     } catch (e) {
       AppLogger.error('Purchase failed', error: e, context: 'PaywallView');
@@ -125,7 +129,7 @@ class _PaywallViewState extends State<PaywallView> {
             context: context,
             message: 'Purchases restored successfully!',
           );
-          _navigateToComplete();
+          _navigateToComplete(subscriptionCompleted: true);
         }
       } else {
         if (mounted) {
@@ -147,14 +151,19 @@ class _PaywallViewState extends State<PaywallView> {
     }
   }
 
-  /// Navigate to registration complete after paywall
-  void _navigateToComplete() {
-    Navigator.of(context).pushReplacement(
-      platformPageRoute(
-        context: context,
-        builder: (context) => const RegistrationCompleteView(),
-      ),
-    );
+  /// Navigate to registration complete after paywall or close modal
+  void _navigateToComplete({bool subscriptionCompleted = false}) {
+    if (widget.registrationWizard) {
+      Navigator.of(context).pushReplacement(
+        platformPageRoute(
+          context: context,
+          builder: (context) => const RegistrationCompleteView(),
+        ),
+      );
+    } else {
+      // Close the modal and return subscription status
+      Navigator.of(context).pop(subscriptionCompleted);
+    }
   }
 
   /// Calculate daily cost for the selected package

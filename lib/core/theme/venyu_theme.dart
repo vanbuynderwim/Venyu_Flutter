@@ -72,6 +72,12 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   /// LinkedIn brand color for social authentication.
   final Color linkedIn;
   
+  /// Accent color for unlock buttons.
+  final Color accent;
+  
+  /// Accent background color.
+  final Color accentBackground;
+  
   /// Color for unselected/inactive UI elements.
   /// Secondary text color in light mode, white in dark mode.
   final Color unselectedText;
@@ -103,6 +109,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.warning,
     required this.info,
     required this.linkedIn,
+    required this.accent,
+    required this.accentBackground,
     required this.unselectedText,
     required this.unselectedBackground,
     required this.snackbarSuccess,
@@ -126,6 +134,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                      // Warning/Know color
     info: AppColors.need,                         // Info/Need color
     linkedIn: AppColors.linkedIn,                 // LinkedIn brand color
+    accent: AppColors.accent1Tangerine,    // Tangerine color for unlock buttons
+    accentBackground: AppColors.accent4Bluch,        // Blush color for accent backgrounds
     unselectedText: AppColors.secundair3Slategray,                // Gray color for unselected elements
     unselectedBackground: AppColors.primair7Pearl,           // White background for unselected elements
     snackbarSuccess: AppColors.me,                // Success color for snackbars
@@ -149,6 +159,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                         // Warning/Know color
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
+    accent: Colors.white,                  // White color for unlock buttons in dark mode
+    accentBackground: AppColors.secundair2Offblack,  // Dark background for accent elements in dark mode
     unselectedText: Colors.white,                    // White for unselected elements in dark mode
     unselectedBackground: AppColors.secundair3Slategray, // Pinball gray background for unselected elements
     snackbarSuccess: AppColors.me,                   // Success color for snackbars
@@ -172,6 +184,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? warning,
     Color? info,
     Color? linkedIn,
+    Color? accent,
+    Color? accentBackground,
     Color? unselectedText,
     Color? unselectedBackground,
     Color? snackbarSuccess,
@@ -193,6 +207,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: warning ?? this.warning,
       info: info ?? this.info,
       linkedIn: linkedIn ?? this.linkedIn,
+      accent: accent ?? this.accent,
+      accentBackground: accentBackground ?? this.accentBackground,
       unselectedText: unselectedText ?? this.unselectedText,
       unselectedBackground: unselectedBackground ?? this.unselectedBackground,
       snackbarSuccess: snackbarSuccess ?? this.snackbarSuccess,
@@ -220,6 +236,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
       linkedIn: Color.lerp(linkedIn, other.linkedIn, t)!,
+      accent: Color.lerp(accent, other.accent, t)!,
+      accentBackground: Color.lerp(accentBackground, other.accentBackground, t)!,
       unselectedText: Color.lerp(unselectedText, other.unselectedText, t)!,
       unselectedBackground: Color.lerp(unselectedBackground, other.unselectedBackground, t)!,
       snackbarSuccess: Color.lerp(snackbarSuccess, other.snackbarSuccess, t)!,

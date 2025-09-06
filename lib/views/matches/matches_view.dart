@@ -203,7 +203,7 @@ class _MatchesViewState extends State<MatchesView>
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: Text(
-                                      'Connections',
+                                      'Introductions',
                                       style: AppTextStyles.subheadline.copyWith(
                                         color: context.venyuTheme.primaryText,
                                       ),

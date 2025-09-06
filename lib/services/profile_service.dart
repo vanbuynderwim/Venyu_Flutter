@@ -6,6 +6,7 @@ import 'auth_service.dart';
 import 'supabase_managers/media_manager.dart';
 import 'supabase_managers/profile_manager.dart';
 import 'tag_group_service.dart';
+import 'revenuecat_service.dart';
 
 /// Focused profile service handling user profile management.
 /// 
@@ -171,6 +172,32 @@ class ProfileService extends ChangeNotifier {
       }
       
       await _fetchUserProfile();
+      
+      // Check RevenueCat for subscription status as fallback
+      // This handles cases where webhook hasn't updated database yet
+      if (_currentProfile != null && !(_currentProfile!.isPro)) {
+        AppLogger.debug('Checking RevenueCat for subscription status...', context: 'ProfileService');
+        
+        try {
+          final revenueCatService = RevenueCatService();
+          final customerInfo = await revenueCatService.getCustomerInfo();
+          
+          if (revenueCatService.hasActiveSubscription(customerInfo)) {
+            AppLogger.info('RevenueCat shows active subscription, updating profile isPro status', context: 'ProfileService');
+            
+            // Update local profile with Pro status
+            _currentProfile = _currentProfile!.copyWith(isPro: true);
+            notifyListeners();
+            
+            AppLogger.info('Profile isPro status updated locally from RevenueCat', context: 'ProfileService');
+          } else {
+            AppLogger.debug('No active subscription found in RevenueCat', context: 'ProfileService');
+          }
+        } catch (rcError) {
+          AppLogger.warning('Failed to check RevenueCat subscription status: $rcError', context: 'ProfileService');
+          // Continue anyway - database value will be used
+        }
+      }
       
       // Update auth service about registration state
       if (_currentProfile?.registeredAt != null) {
