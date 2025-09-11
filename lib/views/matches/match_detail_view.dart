@@ -1,7 +1,7 @@
 import 'package:app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../core/utils/url_helper.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -10,13 +10,11 @@ import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/profile_service.dart';
 import '../../core/providers/app_providers.dart';
-import '../../services/toast_service.dart';
 import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
-import 'match_reasons_view.dart';
 import 'match_detail/match_actions_section.dart';
 import 'match_detail/match_connections_section.dart';
 import 'match_detail/match_prompts_section.dart';
@@ -205,13 +203,17 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                     }
                   : null,
               onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
-                  ? () => _openLinkedIn()
+                  ? () => UrlHelper.openLinkedIn(context, _match!.profile.linkedInURL!)
                   : null,
               onEmailTap: _match!.isConnected && _match!.profile.contactEmail != null
-                  ? () => _composeEmail()
+                  ? () => UrlHelper.composeEmail(
+                      context, 
+                      _match!.profile.contactEmail!,
+                      subject: 'We are connected on Venyu!',
+                    )
                   : null,
               onWebsiteTap: _match!.isConnected && _match!.profile.websiteURL != null
-                  ? () => _openWebsite()
+                  ? () => UrlHelper.openWebsite(context, _match!.profile.websiteURL!)
                   : null,
             ),
             
@@ -323,61 +325,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           });
         },
       );
-    }
-  }
-
-  Future<void> _openLinkedIn() async {
-    if (_match?.profile.linkedInURL == null) return;
-    
-    final uri = Uri.parse(_match!.profile.linkedInURL!);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Could not open LinkedIn profile',
-        );
-      }
-    }
-  }
-
-  Future<void> _composeEmail() async {
-    if (_match?.profile.contactEmail == null) return;
-    
-    final emailUri = Uri(
-      scheme: 'mailto',
-      path: _match!.profile.contactEmail!,
-      queryParameters: {
-        'subject': 'We are connected on Venyu!',
-      },
-    );
-    
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Could not open email app',
-        );
-      }
-    }
-  }
-
-  Future<void> _openWebsite() async {
-    if (_match?.profile.websiteURL == null) return;
-    
-    final uri = Uri.parse(_match!.profile.websiteURL!);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Could not open website',
-        );
-      }
     }
   }
 

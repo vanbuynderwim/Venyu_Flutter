@@ -44,6 +44,9 @@ class Venue {
   /// Detailed description about the venue (optional).
   final String? about;
 
+  /// Website URL of the venue (optional).
+  final String? website;
+
   /// Number of active profiles/members in the venue (optional).
   /// This is populated when fetching detailed venue information.
   final int? profileCount;
@@ -51,6 +54,29 @@ class Venue {
   /// Number of prompts associated with the venue (optional).
   /// This is populated when fetching detailed venue information.
   final int? promptCount;
+
+  /// Number of matches in the venue (optional).
+  /// This is populated when fetching detailed venue information.
+  final int? matchCount;
+
+  /// Number of connections in the venue (optional).
+  /// This is populated when fetching detailed venue information.
+  final int? connectionCount;
+
+  /// Start date for the venue (for events only).
+  final DateTime? startsAt;
+
+  /// Expiration date for the venue (for events only).
+  final DateTime? expiresAt;
+
+  /// Event date (for events only).
+  final DateTime? eventDate;
+
+  /// Event hour/time (for events only).
+  final DateTime? eventHour;
+
+  /// Event location (for events only).
+  final String? eventLocation;
 
   /// Creates a [Venue] instance.
   /// 
@@ -62,8 +88,16 @@ class Venue {
     required this.avatarId,
     required this.type,
     this.about,
+    this.website,
     this.profileCount,
     this.promptCount,
+    this.matchCount,
+    this.connectionCount,
+    this.startsAt,
+    this.expiresAt,
+    this.eventDate,
+    this.eventHour,
+    this.eventLocation,
   });
 
   /// Creates a [Venue] from a JSON object.
@@ -78,12 +112,32 @@ class Venue {
       avatarId: json['avatar_id'] as String,
       type: VenueType.fromJson(json['type'] ?? 'organisation'),
       about: json['about'] as String?,
+      website: json['website'] as String?,
       profileCount: json['profile_count'] != null 
           ? (json['profile_count'] as num).toInt() 
           : null,
       promptCount: json['prompt_count'] != null 
           ? (json['prompt_count'] as num).toInt() 
           : null,
+      matchCount: json['match_count'] != null 
+          ? (json['match_count'] as num).toInt() 
+          : null,
+      connectionCount: json['connection_count'] != null 
+          ? (json['connection_count'] as num).toInt() 
+          : null,
+      startsAt: json['starts_at'] != null 
+          ? DateTime.parse(json['starts_at'] as String) 
+          : null,
+      expiresAt: json['expires_at'] != null 
+          ? DateTime.parse(json['expires_at'] as String) 
+          : null,
+      eventDate: json['event_date'] != null 
+          ? DateTime.parse(json['event_date'] as String) 
+          : null,
+      eventHour: json['event_hour'] != null 
+          ? DateTime.parse('2000-01-01 ${json['event_hour']}') 
+          : null,
+      eventLocation: json['event_location'] as String?,
     );
   }
 
@@ -99,8 +153,16 @@ class Venue {
       'avatar_id': avatarId,
       'type': type.toJson(),
       'about': about,
+      'website': website,
       if (profileCount != null) 'profile_count': profileCount,
       if (promptCount != null) 'prompt_count': promptCount,
+      if (matchCount != null) 'match_count': matchCount,
+      if (connectionCount != null) 'connection_count': connectionCount,
+      if (startsAt != null) 'starts_at': startsAt!.toIso8601String(),
+      if (expiresAt != null) 'expires_at': expiresAt!.toIso8601String(),
+      if (eventDate != null) 'event_date': eventDate!.toIso8601String(),
+      if (eventHour != null) 'event_hour': '${eventHour!.hour.toString().padLeft(2, '0')}:${eventHour!.minute.toString().padLeft(2, '0')}:00',
+      if (eventLocation != null) 'event_location': eventLocation,
     };
   }
 
@@ -118,8 +180,16 @@ class Venue {
     String? avatarId,
     VenueType? type,
     String? about,
+    String? website,
     int? profileCount,
     int? promptCount,
+    int? matchCount,
+    int? connectionCount,
+    DateTime? startsAt,
+    DateTime? expiresAt,
+    DateTime? eventDate,
+    DateTime? eventHour,
+    String? eventLocation,
   }) {
     return Venue(
       id: id ?? this.id,
@@ -128,8 +198,16 @@ class Venue {
       avatarId: avatarId ?? this.avatarId,
       type: type ?? this.type,
       about: about ?? this.about,
+      website: website ?? this.website,
       profileCount: profileCount ?? this.profileCount,
       promptCount: promptCount ?? this.promptCount,
+      matchCount: matchCount ?? this.matchCount,
+      connectionCount: connectionCount ?? this.connectionCount,
+      startsAt: startsAt ?? this.startsAt,
+      expiresAt: expiresAt ?? this.expiresAt,
+      eventDate: eventDate ?? this.eventDate,
+      eventHour: eventHour ?? this.eventHour,
+      eventLocation: eventLocation ?? this.eventLocation,
     );
   }
 

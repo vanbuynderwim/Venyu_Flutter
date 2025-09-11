@@ -84,4 +84,33 @@ extension DateTimeExtensions on DateTime {
       return 'just now';
     }
   }
+
+  /// Formats date as "15 Mar 2024"
+  String formatDate() {
+    final months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '$day ${months[month - 1]} $year';
+  }
+
+  /// Formats date with day of week as "Friday, 15 Mar 2024"
+  String formatDateWithWeekday() {
+    final weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    final months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    
+    // DateTime.weekday returns 1 for Monday, 7 for Sunday
+    final weekdayName = weekdays[weekday - 1];
+    return '$weekdayName, $day ${months[month - 1]} $year';
+  }
+
+  /// Formats time as "19:30"
+  String formatTime() {
+    final hourStr = hour.toString().padLeft(2, '0');
+    final minuteStr = minute.toString().padLeft(2, '0');
+    return '$hourStr:$minuteStr';
+  }
 }

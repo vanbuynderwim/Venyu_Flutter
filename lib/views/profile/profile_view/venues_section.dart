@@ -10,6 +10,7 @@ import '../../venues/join_venue_view.dart';
 import '../../../services/supabase_managers/venue_manager.dart';
 import '../../../models/venue.dart';
 import '../../venues/venue_item_view.dart';
+import '../../venues/venue_detail_view.dart';
 
 /// VenuesSection - Venues and organizations section
 /// 
@@ -140,8 +141,14 @@ class _VenuesSectionState extends State<VenuesSection> {
         return VenueItemView(
           venue: venue,
           onTap: () {
-            // TODO: Navigate to venue detail view
-            AppLogger.info('Tapped on venue: ${venue.name}', context: 'VenuesSection');
+            AppLogger.info('Navigating to venue detail: ${venue.name}', context: 'VenuesSection');
+            Navigator.push(
+              context,
+              platformPageRoute(
+                context: context,
+                builder: (context) => VenueDetailView(venueId: venue.id),
+              ),
+            );
           },
         );
       }),
