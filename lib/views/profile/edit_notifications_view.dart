@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import '../../core/theme/venyu_theme.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../models/enums/action_button_type.dart';
@@ -12,6 +10,7 @@ import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/onboarding_benefits_card.dart';
 import '../../widgets/common/progress_bar.dart';
+import '../../widgets/common/visual_icon_widget.dart';
 import '../base/base_form_view.dart';
 import '../subscription/paywall_view.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -52,8 +51,6 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
   @override
   Widget buildFormContent(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -69,28 +66,8 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         const SizedBox(height: 16),
 
         // Notification image in circle
-        Center(
-          child: Container(
-            width: 120,
-            height: 120,
-            decoration: AppLayoutStyles.circleDecoration(context),
-            child: Center(
-              child: Image.asset(
-                'assets/images/visuals/notification.png',
-                width: 100,
-                height: 100,
-                color: venyuTheme.primary,
-                errorBuilder: (context, error, stackTrace) {
-                  // Fallback to icon if image not found
-                  return Icon(
-                    Icons.notifications_outlined,
-                    size: 60,
-                    color: venyuTheme.secondaryText,
-                  );
-                },
-              ),
-            ),
-          ),
+        VisualIconWidget(
+          iconName: 'notification',
         ),
         
         const SizedBox(height: 24),

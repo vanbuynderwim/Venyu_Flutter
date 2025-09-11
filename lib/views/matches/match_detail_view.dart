@@ -14,6 +14,7 @@ import '../../services/toast_service.dart';
 import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
+import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
 import 'match_reasons_view.dart';
 import 'match_detail/match_actions_section.dart';
@@ -76,8 +77,47 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     }
   }
 
+  /// Build the bottom section - either action buttons or upgrade prompt
+  Widget _buildBottomSection() {
+    final currentProfile = ProfileService.shared.currentProfile;
+    final isPro = currentProfile?.isPro ?? false;
+    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
+    
+    // Show upgrade prompt if user is not Pro and has reached connections limit
+    if (!isPro && connectionsLimitReached) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: UpgradePromptWidget(
+          title: 'Connection limit reached',
+          subtitle: 'Upgrade to Venyu Pro to connect with unlimited matches',
+          buttonText: 'Upgrade now',
+          onSubscriptionCompleted: () {
+            // Refresh the view to update Pro status and show action buttons
+            setState(() {
+              final currentProfile = ProfileService.shared.currentProfile;
+              final isPro = currentProfile?.isPro ?? false;
+              AppLogger.debug('Subscription completed - isPro status: $isPro', context: 'MatchDetailView');
+            });
+          },
+        ),
+      );
+    }
+    
+    // Show regular action buttons if user is Pro or hasn't reached limit
+    return MatchActionsSection(
+      match: _match!,
+      onMatchRemoved: widget.onMatchRemoved,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Check if we should hide the bottom section due to connection limit
+    final currentProfile = ProfileService.shared.currentProfile;
+    final isPro = currentProfile?.isPro ?? false;
+    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
+    final shouldHideBottomSection = !isPro && connectionsLimitReached;
+    
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(_match == null 
@@ -96,12 +136,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               child: _buildContent(),
             ),
           ),
-          // Fixed bottom action buttons for non-connected matches
-          if (_match != null && !_match!.isConnected && _match!.response == null)
-            MatchActionsSection(
-              match: _match!,
-              onMatchRemoved: widget.onMatchRemoved,
-            ),
+          // Fixed bottom action buttons only if not connected, no response, and limit not reached
+          if (_match != null && !_match!.isConnected && _match!.response == null && !shouldHideBottomSection)
+            _buildBottomSection(),
         ],
       ),
     );
@@ -139,6 +176,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       );
     }
 
+    // Check if connection limit is reached for non-Pro users
+    final currentProfile = ProfileService.shared.currentProfile;
+    final isPro = currentProfile?.isPro ?? false;
+    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
+    final shouldShowLimitedView = !isPro && connectionsLimitReached && !_match!.isConnected && _match!.response == null;
+
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -149,8 +192,17 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               avatarSize: 80.0,
               isEditable: false,
               isConnection: _match!.isConnected,
+              isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               onAvatarTap: _match!.profile.avatarID != null
-                  ? () => _viewMatchAvatar(context)
+                  ? () {
+                      final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
+                      final isConnection = _match!.isConnected;
+                      if (isPro || isConnection) {
+                        _viewMatchAvatar(context);
+                      } else {
+                        _showPaywallForAvatar(context);
+                      }
+                    }
                   : null,
               onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
                   ? () => _openLinkedIn()
@@ -175,65 +227,89 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
+                isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               ),
               const SizedBox(height: 24),
             ],
             
-            // Shared Connections Section 
-            if (_match!.nrOfConnections > 0) ...[
-              MatchSectionHeader(
-                iconName: 'handshake',
-                title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "connection" : "connections"}',
+            // If connection limit is reached, show upgrade prompt instead of other sections
+            if (shouldShowLimitedView) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: UpgradePromptWidget(
+                  title: 'Monthly limit reached',
+                  subtitle: 'You\'ve reached your limit of 3 introductions per month. Upgrade to Venyu Pro for unlimited connections.',
+                  buttonText: 'Upgrade to Pro',
+                  onSubscriptionCompleted: () {
+                    // Refresh the view to update Pro status
+                    setState(() {
+                      final currentProfile = ProfileService.shared.currentProfile;
+                      final isPro = currentProfile?.isPro ?? false;
+                      AppLogger.debug('Subscription completed - isPro status: $isPro', context: 'MatchDetailView');
+                    });
+                  },
+                ),
               ),
-              const SizedBox(height: 16),
-              MatchConnectionsSection(match: _match!),
-              const SizedBox(height: 24),
-            ],
-            
-            // Company matches section
-            if (_match!.nrOfCompanyTags > 0) ...[
-              MatchSectionHeader(
-                iconName: 'company',
-                title: '${_match!.nrOfCompanyTags} mutual company ${_match!.nrOfCompanyTags == 1 ? "fact" : "facts"}',
-              ),
-              const SizedBox(height: 16),
-              MatchTagsSection(tagGroups: _match!.companyTagGroups),
-              const SizedBox(height: 24),
-            ],
-            
-            // Personal matches section  
-            if (_match!.nrOfPersonalTags > 0) ...[
-              MatchSectionHeader(
-                iconName: 'match',
-                title: '${_match!.nrOfPersonalTags} mutual personal ${_match!.nrOfPersonalTags == 1 ? "interest" : "interests"}',
-              ),
-              const SizedBox(height: 16),
-              _buildPersonalMatchesContent(),
-              const SizedBox(height: 24),
-            ],
-            
-            // Match reasons section (only for matched status)
-            if (_match!.status == MatchStatus.matched && 
-                _match!.reason != null && 
-                _match!.reason!.isNotEmpty) ...[
-              MatchReasonsView(match: _match!)
-
+            ] else ...[
+              // Show all other sections only if limit is not reached
+              
+              // Shared Connections Section 
+              if (_match!.nrOfConnections > 0) ...[
+                MatchSectionHeader(
+                  iconName: 'handshake',
+                  title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "introduction" : "introductions"}',
+                ),
+                const SizedBox(height: 16),
+                MatchConnectionsSection(match: _match!),
+                const SizedBox(height: 24),
+              ],
+              
+              // Company matches section
+              if (_match!.nrOfCompanyTags > 0) ...[
+                MatchSectionHeader(
+                  iconName: 'company',
+                  title: '${_match!.nrOfCompanyTags} mutual company ${_match!.nrOfCompanyTags == 1 ? "fact" : "facts"}',
+                ),
+                const SizedBox(height: 16),
+                MatchTagsSection(tagGroups: _match!.companyTagGroups),
+                const SizedBox(height: 24),
+              ],
+              
+              // Personal matches section  
+              if (_match!.nrOfPersonalTags > 0) ...[
+                MatchSectionHeader(
+                  iconName: 'match',
+                  title: '${_match!.nrOfPersonalTags} mutual personal ${_match!.nrOfPersonalTags == 1 ? "interest" : "interests"}',
+                ),
+                const SizedBox(height: 16),
+                _buildPersonalMatchesContent(),
+                const SizedBox(height: 24),
+              ],
+              
+              // Match reasons section (only for matched status)
+              //if (_match!.status == MatchStatus.matched && 
+              //    _match!.reason != null && 
+              //    _match!.reason!.isNotEmpty) ...[
+              //  MatchReasonsView(match: _match!)
+              //],
             ],
             
       ],
     );
   }
 
-  /// Build personal matches content based on user's Pro status
+  /// Build personal matches content based on user's Pro status and connection status
   Widget _buildPersonalMatchesContent() {
     final currentProfile = ProfileService.shared.currentProfile;
     final isPro = currentProfile?.isPro ?? false;
+    final isConnection = _match!.isConnected;
     
-    if (isPro) {
-      // Show actual personal matches for Pro users
+    // Show personal matches if user is Pro OR if they're already connected
+    if (isPro || isConnection) {
+      // Show actual personal matches for Pro users or connections
       return MatchTagsSection(tagGroups: _match!.personalTagGroups);
     } else {
-      // Show upgrade prompt for free users
+      // Show upgrade prompt for free users who aren't connected
       return UpgradePromptWidget(
         title: 'Unlock mutual interests',
         subtitle: 'See what you share on a personal level with Venyu Pro',
@@ -313,5 +389,33 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       showBorder: false,
       preserveAspectRatio: true,
     );
+  }
+  
+  /// Shows the paywall when non-Pro user tries to view avatar
+  void _showPaywallForAvatar(BuildContext context) async {
+    final result = await showPlatformModalSheet<bool>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: true,
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: false,
+        barrierDismissible: true,
+      ),
+      builder: (sheetContext) => const PaywallView(),
+    );
+    
+    // If subscription was completed, refresh the view
+    if (result == true) {
+      setState(() {
+        // This will trigger a rebuild and check isPro status again
+        final currentProfile = ProfileService.shared.currentProfile;
+        final isPro = currentProfile?.isPro ?? false;
+        AppLogger.debug('Subscription completed from avatar tap - isPro status: $isPro', context: 'MatchDetailView');
+      });
+    }
   }
 }

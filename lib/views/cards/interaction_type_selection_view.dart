@@ -144,7 +144,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   ),
                 ),
                 
-                const SizedBox(height: AppModifiers.mediumSpacing),
+                const SizedBox(height: AppModifiers.smallSpacing),
                 
                 // "I can help" button
                 Theme(
@@ -158,7 +158,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 ),
                 
                 // Disclaimer and guidelines (always visible)
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
                   // Community guidelines title
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -172,7 +172,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     ),
                   ),
                   
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   
                   // Community guidelines
                   Theme(
@@ -181,7 +181,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     ),
                     child: Builder(
                       builder: (lightContext) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        margin: const EdgeInsets.symmetric(horizontal: 0),
                         padding: const EdgeInsets.all(16),
                         decoration: AppLayoutStyles.cardDecoration(lightContext),
                         child: Column(
@@ -192,14 +192,14 @@ class InteractionTypeSelectionView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              '👍 ',
-                              style: TextStyle(fontSize: 16),
+                              '✅  ',
+                              style: TextStyle(fontSize: 20),
                             ),
                             Expanded(
                               child: Text(
                                 'networking, sharing knowledge or resources, asking for help, reach out for genuine connections',
                                 style: AppTextStyles.footnote.copyWith(
-                                  color: venyuTheme.primaryText,
+                                  color: venyuTheme.secondaryText,
                                 ),
                               ),
                             ),
@@ -213,14 +213,14 @@ class InteractionTypeSelectionView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              '🚫 ',
-                              style: TextStyle(fontSize: 16),
+                              '🚫  ',
+                              style: TextStyle(fontSize: 20),
                             ),
                             Expanded(
                               child: Text(
                                 'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches',
                                 style: AppTextStyles.footnote.copyWith(
-                                  color: venyuTheme.primaryText,
+                                  color: venyuTheme.secondaryText,
                                 ),
                               ),
                             ),
@@ -249,7 +249,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // "Not now" button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Theme(
                     data: ThemeData.light().copyWith(
                       extensions: [VenyuTheme.light],
@@ -294,31 +294,20 @@ class _InteractionTypeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-    
+       
     return Container(
       decoration: BoxDecoration(
         color: interactionType.color,
         borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
-        border: Border.all(
-          color: venyuTheme.borderColor,
-          width: AppModifiers.thinBorder,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            blurRadius: 10,
-            offset: const Offset(4, 4),
-          ),
-        ],
+        
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(AppModifiers.largeRadius),
-          highlightColor: Colors.white.withValues(alpha: 0.3),
-          splashFactory: NoSplash.splashFactory,
+          highlightColor: Colors.white.withValues(alpha: 0.2),
+          splashFactory: InkSplash.splashFactory,
           child: Padding(
             padding: const EdgeInsets.all(AppModifiers.largeSpacing),
             child: Row(

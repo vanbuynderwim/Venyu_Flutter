@@ -78,6 +78,11 @@ class ActionButton extends StatefulWidget {
   /// The label is hidden and replaced with a spinner.
   final bool isLoading;
 
+  /// Whether the button should use compact sizing for app bars.
+  /// 
+  /// When true, uses smaller padding and dimensions suitable for app bar usage.
+  final bool isCompact;
+
   /// Creates an [ActionButton] widget.
   /// 
   /// Either [label] must be provided, or [icon] must be provided with [isIconOnly] set to true.
@@ -92,6 +97,7 @@ class ActionButton extends StatefulWidget {
     this.height,
     this.isIconOnly = false,
     this.isLoading = false,
+    this.isCompact = false,
   }) : assert(label != null || (icon != null && isIconOnly), 
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
@@ -105,9 +111,15 @@ class _ActionButtonState extends State<ActionButton> {
     final isActuallyDisabled = widget.isDisabled || widget.onPressed == null || widget.isLoading;
     final isIconOnlyButton = widget.isIconOnly && widget.icon != null;
     
+    // Use compact sizing for app bar usage
+    final double? defaultWidth = widget.isCompact 
+        ? (isIconOnlyButton ? 44.0 : null) // No default width for compact text buttons
+        : (isIconOnlyButton ? 56.0 : double.infinity);
+    final double defaultHeight = widget.isCompact ? 36.0 : 56.0;
+    
     return SizedBox(
-      width: widget.width ?? (isIconOnlyButton ? 56 : double.infinity),
-      height: widget.height ?? 56,
+      width: widget.width ?? defaultWidth,
+      height: widget.height ?? defaultHeight,
       child: AppLayoutStyles.interactiveButton(
         context: context,
         onTap: isActuallyDisabled ? null : widget.onPressed,
@@ -117,7 +129,7 @@ class _ActionButtonState extends State<ActionButton> {
         opacity: isActuallyDisabled ? 0.7 : 1.0,
         child: Container(
           padding: EdgeInsets.symmetric(
-            horizontal: isIconOnlyButton ? 0 : 16,
+            horizontal: isIconOnlyButton ? 0 : (widget.isCompact ? 12 : 16),
           ),
           child: Center(
             child: widget.isLoading

@@ -75,6 +75,9 @@ abstract class BaseListViewState<T, W extends BaseListView<T>> extends State<W> 
   /// Message to show when list is empty - must be implemented by subclasses
   String get emptyMessage;
   
+  /// Icon name to show when list is empty - must be implemented by subclasses
+  String get emptyIcon;
+  
   /// Build the app bar - must be implemented by subclasses
   PlatformAppBar buildAppBar();
   
@@ -153,6 +156,7 @@ abstract class BaseListViewState<T, W extends BaseListView<T>> extends State<W> 
       return [
         EmptyStateWidget(
           message: emptyMessage,
+          iconName: emptyIcon,
           height: 300,
         ),
       ];

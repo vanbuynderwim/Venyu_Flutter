@@ -14,6 +14,7 @@ import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../core/providers/app_providers.dart';
+import '../../services/profile_service.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import 'match_detail_view.dart';
 
@@ -115,20 +116,6 @@ class _MatchesViewState extends State<MatchesView>
     await _loadMatches(forceRefresh: true);
   }
 
-  bool _shouldShowDivider(int index) {
-    // Check if we have at least 2 items and we're not at the last item
-    if (_matches.length < 2 || index >= _matches.length - 1) return false;
-    
-    final currentMatch = _matches[index];
-    final nextMatch = _matches[index + 1];
-    
-    // Debug logging
-    AppLogger.debug('Checking divider at index $index: current=${currentMatch.status.value}, next=${nextMatch.status.value}', context: 'MatchesView');
-    
-    return currentMatch.status == MatchStatus.matched && 
-           nextMatch.status == MatchStatus.connected;
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -148,7 +135,7 @@ class _MatchesViewState extends State<MatchesView>
                         child: EmptyStateWidget(
                           message: ServerListType.matches.emptyStateTitle,
                           description: ServerListType.matches.emptyStateDescription,
-                          iconName: ServerListType.matches.emptyStateIcon,
+                          iconName: "nomatches",
                           height: MediaQuery.of(context).size.height * 0.6,
                         ),
                       ),
@@ -169,6 +156,7 @@ class _MatchesViewState extends State<MatchesView>
                         children: [
                           MatchItemView(
                             match: match,
+                            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
                             onMatchSelected: (selectedMatch) {
                               Navigator.push(
                                 context,
@@ -188,37 +176,7 @@ class _MatchesViewState extends State<MatchesView>
                               );
                             },
                           ),
-                          if (_shouldShowDivider(index))
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Divider(
-                                      height: 1,
-                                      thickness: 0.5,
-                                      color: context.venyuTheme.borderColor,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                                    child: Text(
-                                      'Introductions',
-                                      style: AppTextStyles.subheadline.copyWith(
-                                        color: context.venyuTheme.primaryText,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Divider(
-                                      height: 1,
-                                      thickness: 0.5,
-                                      color: context.venyuTheme.borderColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
                         ],
                       );
                     },

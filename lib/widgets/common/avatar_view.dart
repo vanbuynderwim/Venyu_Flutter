@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../core/theme/app_modifiers.dart';
@@ -45,12 +47,16 @@ class AvatarView extends StatefulWidget {
   /// Defaults to false for backward compatibility.
   final bool preserveAspectRatio;
   
+  /// Whether the avatar should be blurred with optional lock overlay.
+  final bool shouldBlur;
+  
   const AvatarView({
     super.key,
     this.avatarId,
     this.size = 80,
     this.showBorder = true,
     this.preserveAspectRatio = false,
+    this.shouldBlur = false,
   });
 
   @override
@@ -175,27 +181,73 @@ class _AvatarViewState extends State<AvatarView> {
         return _buildPlaceholder(context, venyuTheme);
       }
       
+      // Use the provided shouldBlur parameter
+      
+      Widget avatarImage = CachedNetworkImage(
+        imageUrl: imageUrl,
+        fit: BoxFit.cover, // Gebruik BoxFit.cover
+        alignment: Alignment.center,
+        placeholder: (context, url) => Container(
+          color: venyuTheme.secondaryButtonBackground,
+          child: const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+        ),
+        errorWidget: (context, url, error) => _buildPlaceholder(context, venyuTheme),
+        fadeInDuration: const Duration(milliseconds: 250),
+        // Only set cache dimensions if not preserving aspect ratio
+        memCacheWidth: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
+        memCacheHeight: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
+      );
+      
+      // Apply blur if needed (only when there's an actual avatar)
+      if (widget.shouldBlur && widget.avatarId != null && widget.avatarId!.isNotEmpty) {
+        avatarImage = ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: avatarImage,
+        );
+      }
+      
       return Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: venyuTheme.secondaryButtonBackground,
         ),
         child: ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            fit: BoxFit.cover, // Gebruik BoxFit.cover
-            alignment: Alignment.center,
-            placeholder: (context, url) => Container(
-              color: venyuTheme.secondaryButtonBackground,
-              child: const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-            ),
-            errorWidget: (context, url, error) => _buildPlaceholder(context, venyuTheme),
-            fadeInDuration: const Duration(milliseconds: 250),
-            // Only set cache dimensions if not preserving aspect ratio
-            memCacheWidth: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
-            memCacheHeight: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
+          child: Stack(
+            children: [
+              avatarImage,
+              // Add overlay if blurred (only when there's an actual avatar)
+              if (widget.shouldBlur && widget.avatarId != null && widget.avatarId!.isNotEmpty)
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.3),
+                    ),
+                    child: widget.size > 60 
+                        ? Center(
+                            child: Container(
+                              width: widget.size * 0.35,
+                              height: widget.size * 0.35,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white.withValues(alpha: 0.9),
+                              ),
+                              child: Center(
+                                child: context.themedIcon(
+                                  'lock',
+                                  size: widget.size * 0.25,
+                                  selected: true,
+                                  overrideColor: AppColors.info,
+                                ),
+                              ),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+            ],
           ),
         ),
       );

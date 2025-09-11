@@ -18,19 +18,19 @@ enum ServerListType {
       case ServerListType.pendingSystemReviews:
         return 'All caught up!';
       case ServerListType.matches:
-        return 'All caught up!';
+        return 'Waiting for your first match!';
     }
   }
 
   String get emptyStateDescription {
     switch (this) {
       case ServerListType.notifications:
-        return 'When something happens that you should know about, we\'ll brief you here';
+        return 'When something happens that you should know about, we\'ll update you here';
       case ServerListType.pendingUserReviews:
       case ServerListType.pendingSystemReviews:
         return 'When cards are submitted for review, they will appear here';
       case ServerListType.matches:
-        return 'All your matches will appear here';
+        return 'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
     }
   }
 

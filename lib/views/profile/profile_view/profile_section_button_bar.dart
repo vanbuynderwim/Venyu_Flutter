@@ -31,6 +31,7 @@ class ProfileSectionButtonBar extends StatelessWidget {
     final availableSections = <ProfileSections>[
       ProfileSections.personal,
       ProfileSections.company,
+      ProfileSections.venues,
       // Only show reviews for super admins
       if (profile?.isSuperAdmin == true) ProfileSections.reviews,
     ];

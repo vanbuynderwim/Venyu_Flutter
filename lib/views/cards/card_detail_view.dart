@@ -4,8 +4,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
+import '../../widgets/buttons/action_button.dart';
 import 'card_detail/card_gradient_container.dart';
-import 'card_detail/card_submit_button.dart';
 import 'card_detail/card_content_field.dart';
 
 /// Card detail view for creating or editing cards/prompts.
@@ -142,10 +142,12 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
           trailingActions: [
-            CardSubmitButton(
-              isEnabled: !_contentIsEmpty,
+            ActionButton(
+              label: 'Submit',
+              isDisabled: _contentIsEmpty,
               isLoading: isProcessing,
               onPressed: _handleSave,
+              isCompact: true,
             ),
           ],
           cupertino: (_, __) => CupertinoNavigationBarData(

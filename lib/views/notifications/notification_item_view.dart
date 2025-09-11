@@ -7,7 +7,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../models/notification.dart' as venyu;
-import '../profile/role_view.dart';
+import '../../widgets/common/role_view.dart';
 
 /// NotificationItemView - Flutter equivalent of Swift NotificationItemView
 /// 

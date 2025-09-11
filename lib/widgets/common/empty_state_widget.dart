@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../buttons/action_button.dart';
+import 'visual_icon_widget.dart';
 
 /// EmptyStateWidget - Reusable empty state component
 /// 
@@ -33,17 +35,17 @@ class EmptyStateWidget extends StatelessWidget {
   /// Optional description/subtitle
   final String? description;
   
-  /// Themed icon name (from assets/images/icons/)
-  final String? iconName;
-  
-  /// Custom icon widget (overrides iconName if provided)
-  final Widget? customIcon;
+  /// Themed icon name (from assets/images/icons/ or visuals/)
+  final String iconName;
   
   /// Optional action button callback
   final VoidCallback? onAction;
   
   /// Text for the action button
   final String? actionText;
+  
+  /// Optional icon for the action button
+  final Widget? actionButtonIcon;
   
   /// Height of the empty state container
   final double height;
@@ -53,33 +55,27 @@ class EmptyStateWidget extends StatelessWidget {
   
   /// Size of the icon
   final double iconSize;
+  
 
   const EmptyStateWidget({
     super.key,
     required this.message,
+    required this.iconName,
     this.description,
-    this.iconName,
-    this.customIcon,
     this.onAction,
     this.actionText,
+    this.actionButtonIcon,
     this.height = 300,
     this.fullHeight = false,
-    this.iconSize = 80,
+    this.iconSize = 60
   });
 
   /// Builds the icon with safe fallback for themedIcon errors
   Widget _buildIcon(BuildContext context) {
-    if (customIcon != null) {
-      return customIcon!;
-    } else if (iconName != null) {
-      return context.themedIcon(iconName!, size: iconSize);
-    } else {
-      return Icon(
-        Icons.inbox_outlined,
-        size: iconSize,
-        color: context.venyuTheme.disabledText,
+    return VisualIconWidget(
+        iconName: iconName,
+        imageSize: iconSize,
       );
-    }
   }
 
   @override
@@ -95,26 +91,31 @@ class EmptyStateWidget extends StatelessWidget {
         // Primary message
         Text(
           message,
-          style: AppTextStyles.subheadline.primaryText(context),
+          style: AppTextStyles.headline.primaryText(context),
           textAlign: TextAlign.center,
         ),
         
         // Description
         if (description != null) ...[
           AppModifiers.verticalSpaceSmall,
-          Text(
-            description!,
-            style: AppTextStyles.body.secondary(context),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text(
+              description!,
+              style: AppTextStyles.subheadline.secondary(context),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
         
         // Action button
         if (onAction != null && actionText != null) ...[
           const SizedBox(height: 24),
-          ElevatedButton(
+          ActionButton(
+            label: actionText!,
+            icon: actionButtonIcon,
             onPressed: onAction,
-            child: Text(actionText!),
+            width: 200,
           ),
         ],
       ],

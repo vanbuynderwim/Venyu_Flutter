@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
-import '../profile/role_view.dart';
+import '../../widgets/common/role_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
 /// 
@@ -28,11 +28,15 @@ class MatchItemView extends StatefulWidget {
   
   /// Callback when the match is selected/tapped
   final Function(Match)? onMatchSelected;
+  
+  /// Whether the avatar should be blurred (true when user is not Pro and not connected)
+  final bool shouldBlur;
 
   const MatchItemView({
     super.key,
     required this.match,
     this.onMatchSelected,
+    this.shouldBlur = false,
   });
 
   @override
@@ -57,6 +61,8 @@ class _MatchItemViewState extends State<MatchItemView> {
               avatarSize: 60,
               showChevron: true,
               buttonDisabled: false,
+              shouldBlur: widget.shouldBlur,
+              showNotificationDot: !widget.match.isConnected,
             ),
           ],
         ),

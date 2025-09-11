@@ -3,7 +3,7 @@ import '../../models/profile.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../widgets/common/avatar_view.dart';
+import 'avatar_view.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -13,6 +13,8 @@ class RoleView extends StatelessWidget {
   final bool buttonDisabled;
   final VoidCallback? onTap;
   final EdgeInsets? padding;
+  final bool shouldBlur;
+  final bool showNotificationDot;
 
   const RoleView({
     super.key,
@@ -22,6 +24,8 @@ class RoleView extends StatelessWidget {
     this.buttonDisabled = false,
     this.onTap,
     this.padding,
+    this.shouldBlur = false,
+    this.showNotificationDot = false,
   });
 
   @override
@@ -93,7 +97,11 @@ class RoleView extends StatelessWidget {
             ),
           ),
           
-          // Chevron
+          // Notification dot and chevron
+          if (showNotificationDot && !buttonDisabled) ...[
+            _buildNotificationDot(context),
+            const SizedBox(width: 6),
+          ],
           if (showChevron && !buttonDisabled)
             _buildChevronIcon(context),
         ],
@@ -123,6 +131,19 @@ class RoleView extends StatelessWidget {
     return AvatarView(
       avatarId: profile.avatarID,
       size: avatarSize,
+      shouldBlur: shouldBlur,
+    );
+  }
+
+  /// Build notification dot for unread/unconnected items
+  Widget _buildNotificationDot(BuildContext context) {
+    return Container(
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        color: context.venyuTheme.primary,
+        shape: BoxShape.circle,
+      ),
     );
   }
 
@@ -131,7 +152,7 @@ class RoleView extends StatelessWidget {
     return context.themedIcon(
       'chevron',
       selected: false,
-      size: 20,
+      size: 18,
     );
   }
 }

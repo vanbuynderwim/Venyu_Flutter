@@ -294,7 +294,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
             child: EmptyStateWidget(
               message: serverListType.emptyStateTitle,
               description: serverListType.emptyStateDescription,
-              iconName: serverListType.emptyStateIcon,
+              iconName: "nocards",
               height: MediaQuery.of(context).size.height * 0.6,
             ),
           ),

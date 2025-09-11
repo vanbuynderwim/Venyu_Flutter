@@ -62,6 +62,16 @@ enum OnboardingBenefit implements OptionType {
     description: 'View full profiles with extra details',
     icon: 'profile',
   ),
+  viewsAndImpressions(
+    title: 'Views and impressions',
+    description: 'Understand your reach with simple stats',
+    icon: 'grow',
+  ),
+  dailyCardsBoost(
+    title: 'More daily cards',
+    description: 'More cards to grow your network faster.',
+    icon: 'card',
+  ),
   aiPoweredMatches(
     title: 'AI-powered matches (later)',
     description: 'Receive smart suggestions based on your profile.',

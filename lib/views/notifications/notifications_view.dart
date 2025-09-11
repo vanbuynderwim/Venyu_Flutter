@@ -140,7 +140,7 @@ class _NotificationsViewState extends State<NotificationsView>
                         child: EmptyStateWidget(
                           message: ServerListType.notifications.emptyStateTitle,
                           description: ServerListType.notifications.emptyStateDescription,
-                          iconName: ServerListType.notifications.emptyStateIcon,
+                          iconName: "notification",
                           height: MediaQuery.of(context).size.height * 0.6,
                         ),
                       ),

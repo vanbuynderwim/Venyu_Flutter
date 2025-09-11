@@ -24,6 +24,7 @@ class ProfileHeader extends StatefulWidget {
   final VoidCallback? onEmailTap;
   final VoidCallback? onWebsiteTap;
   final VoidCallback? onSectorsEditTap;
+  final bool? isPro;
 
   const ProfileHeader({
     super.key,
@@ -36,6 +37,7 @@ class ProfileHeader extends StatefulWidget {
     this.onEmailTap,
     this.onWebsiteTap,
     this.onSectorsEditTap,
+    this.isPro,
   });
 
   @override
@@ -60,6 +62,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               isEditable: widget.isEditable,
               avatarSize: widget.avatarSize,
               onAvatarTap: widget.onAvatarTap,
+              isPro: widget.isPro,
               onAvatarChanged: () {
                 // Refresh parent widget when avatar changes
                 setState(() {});

@@ -9,7 +9,7 @@ import '../../../core/utils/app_logger.dart';
 import '../../venues/join_venue_view.dart';
 import '../../../services/supabase_managers/venue_manager.dart';
 import '../../../models/venue.dart';
-import '../../../widgets/common/venue_item_view.dart';
+import '../../venues/venue_item_view.dart';
 
 /// VenuesSection - Venues and organizations section
 /// 

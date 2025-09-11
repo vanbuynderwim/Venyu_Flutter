@@ -327,6 +327,8 @@ class _PaywallViewState extends State<PaywallView> {
                               OnboardingBenefit.discreetPreview,
                               OnboardingBenefit.unlimitedIntroductions,
                               OnboardingBenefit.unlockFullProfiles,
+                              OnboardingBenefit.dailyCardsBoost,
+                              OnboardingBenefit.viewsAndImpressions
                               //OnboardingBenefit.aiPoweredMatches,
                             ],
                           ),
@@ -402,7 +404,7 @@ class _PaywallViewState extends State<PaywallView> {
                         ],
                         
                         // Add bottom padding for scrollable content
-                        const SizedBox(height: 120), // Space for fixed buttons
+                        //const SizedBox(height: 120), // Space for fixed buttons
                       ],
                     ),
                   ),

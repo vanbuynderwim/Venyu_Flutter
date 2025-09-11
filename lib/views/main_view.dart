@@ -7,9 +7,10 @@ import '../core/utils/app_logger.dart';
 import '../models/prompt.dart';
 import '../services/supabase_managers/content_manager.dart';
 import '../core/providers/app_providers.dart';
+import '../services/notification_service.dart';
+import '../models/badge_data.dart';
 import 'matches/matches_view.dart';
 import 'cards/cards_view.dart';
-import 'venues/venues_view.dart';
 import 'notifications/notifications_view.dart';
 import 'profile/profile_view.dart';
 import 'prompts/prompt_entry_view.dart';
@@ -28,13 +29,16 @@ class _MainViewState extends State<MainView> {
   static bool _hasCheckedPromptsThisSession = false; // Track if we've already checked for prompts this session
   bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
   
+  // Badge counts
+  BadgeData? _badgeData;
+  
   // Services
   late final ContentManager _contentManager;
+  late final NotificationService _notificationService;
   
   static const List<Widget> _pages = [
     MatchesView(),
     CardsView(),
-    VenuesView(),
     NotificationsView(),
     ProfileView(),
   ];
@@ -43,10 +47,12 @@ class _MainViewState extends State<MainView> {
   void initState() {
     super.initState();
     _contentManager = ContentManager.shared;
+    _notificationService = NotificationService.shared;
     
-    // Check for prompts on app startup
+    // Check for prompts and badges on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPrompts();
+      _fetchBadges();
     });
   }
 
@@ -135,6 +141,20 @@ class _MainViewState extends State<MainView> {
       ),
     );
   }
+  
+  /// Fetch badge counts for tab bar items
+  Future<void> _fetchBadges() async {
+    try {
+      final badges = await _notificationService.fetchBadges();
+      if (badges != null && mounted) {
+        setState(() {
+          _badgeData = badges;
+        });
+      }
+    } catch (error) {
+      AppLogger.error('Failed to fetch badges', error: error, context: 'MainView');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +164,18 @@ class _MainViewState extends State<MainView> {
       ),
       items: [
         BottomNavigationBarItem(
-          icon: context.themedIcon('match', selected: false),
-          activeIcon: context.themedIcon('match', selected: true),
+          icon: _badgeData != null && _badgeData!.matchesCount > 0
+              ? Badge.count(
+                  count: _badgeData!.matchesCount,
+                  child: context.themedIcon('handshake', selected: false),
+                )
+              : context.themedIcon('handshake', selected: false),
+          activeIcon: _badgeData != null && _badgeData!.matchesCount > 0
+              ? Badge.count(
+                  count: _badgeData!.matchesCount,
+                  child: context.themedIcon('handshake', selected: true),
+                )
+              : context.themedIcon('handshake', selected: true),
           label: AppStrings.matches,
         ),
         BottomNavigationBarItem(
@@ -154,18 +184,33 @@ class _MainViewState extends State<MainView> {
           label: AppStrings.cards,
         ),
         BottomNavigationBarItem(
-          icon: context.themedIcon('venue', selected: false),
-          activeIcon: context.themedIcon('venue', selected: true),
-          label: AppStrings.venues,
-        ),
-        BottomNavigationBarItem(
-          icon: context.themedIcon('notification', selected: false),
-          activeIcon: context.themedIcon('notification', selected: true),
+          icon: _badgeData != null && _badgeData!.unreadNotifications > 0
+              ? Badge.count(
+                  count: _badgeData!.unreadNotifications,
+                  child: context.themedIcon('notification', selected: false),
+                )
+              : context.themedIcon('notification', selected: false),
+          activeIcon: _badgeData != null && _badgeData!.unreadNotifications > 0
+              ? Badge.count(
+                  count: _badgeData!.unreadNotifications,
+                  child: context.themedIcon('notification', selected: true),
+                )
+              : context.themedIcon('notification', selected: true),
           label: AppStrings.notifications,
         ),
         BottomNavigationBarItem(
-          icon: context.themedIcon('profile', selected: false),
-          activeIcon: context.themedIcon('profile', selected: true),
+          icon: _badgeData != null && _badgeData!.totalReviews > 0
+              ? Badge.count(
+                  count: _badgeData!.totalReviews,
+                  child: context.themedIcon('profile', selected: false),
+                )
+              : context.themedIcon('profile', selected: false),
+          activeIcon: _badgeData != null && _badgeData!.totalReviews > 0
+              ? Badge.count(
+                  count: _badgeData!.totalReviews,
+                  child: context.themedIcon('profile', selected: true),
+                )
+              : context.themedIcon('profile', selected: true),
           label: AppStrings.profile,
         ),
       ],

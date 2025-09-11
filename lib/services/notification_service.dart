@@ -6,8 +6,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../core/utils/app_logger.dart';
 import '../models/device.dart';
+import '../models/badge_data.dart';
 import '../firebase_options.dart';
 import 'supabase_managers/profile_manager.dart';
+import 'supabase_managers/base_supabase_manager.dart';
 
 /// Service for managing Firebase Cloud Messaging and push notifications
 /// 
@@ -222,6 +224,40 @@ class NotificationService {
       return 'phone'; // Default to phone for now
     } else {
       return 'desktop';
+    }
+  }
+  
+  /// Fetch badge counts for tab bar items
+  Future<BadgeData?> fetchBadges() async {
+    try {
+      AppLogger.debug('Fetching badge counts...', context: 'NotificationService');
+      
+      final client = BaseSupabaseManager.getClient();
+      final response = await client.rpc('get_badges');
+      
+      if (response == null) {
+        AppLogger.warning('No badge data returned', context: 'NotificationService');
+        return null;
+      }
+      
+      // Response is a list with single item for single-row functions
+      final data = response is List && response.isNotEmpty 
+          ? response.first as Map<String, dynamic>
+          : response as Map<String, dynamic>;
+      
+      final badgeData = BadgeData.fromJson(data);
+      
+      AppLogger.debug(
+        'Badge counts: notifications=${badgeData.unreadNotifications}, '
+        'matches=${badgeData.matchesCount}, '
+        'reviews=${badgeData.totalReviews}',
+        context: 'NotificationService'
+      );
+      
+      return badgeData;
+    } catch (error) {
+      AppLogger.error('Failed to fetch badge counts', error: error, context: 'NotificationService');
+      return null;
     }
   }
   

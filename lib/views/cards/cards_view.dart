@@ -17,6 +17,7 @@ import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
 import 'card_detail_view.dart';
 import 'interaction_type_selection_view.dart';
+import '../../widgets/common/empty_state_widget.dart';
 
 /// CardsView - Dedicated view for user's cards and prompts
 /// 
@@ -61,11 +62,13 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
       appBar: PlatformAppBar(
         title: Text(AppStrings.cards),
       ),
-      floatingActionButton: FABButton(
-        icon: context.themedIcon('edit'),
-        label: 'New',
-        onPressed: _openAddCardModal,
-      ),
+      floatingActionButton: _cards != null && _cards!.isNotEmpty
+          ? FABButton(
+              icon: context.themedIcon('edit'),
+              label: 'New',
+              onPressed: _openAddCardModal,
+            )
+          : null,
       usePadding: true,
       useSafeArea: true,
       body: RefreshIndicator(
@@ -107,35 +110,13 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
       physics: const AlwaysScrollableScrollPhysics(),
       slivers: [
         SliverFillRemaining(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.credit_card_outlined,
-                    size: 64,
-                    color: context.venyuTheme.secondaryText,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No cards',
-                    style: AppTextStyles.headline.copyWith(
-                      color: context.venyuTheme.primaryText,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "You don't have any cards yet.",
-                    style: AppTextStyles.body.copyWith(
-                      color: context.venyuTheme.secondaryText,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
+          child: EmptyStateWidget(
+            message: "Ready to get matched?",
+            description: "Cards open the door to meaningful introductions. Add yours and match with the right people.",
+            iconName: "nocards",
+            onAction: _openAddCardModal,
+            actionText: "Add card",
+            actionButtonIcon: context.themedIcon('edit'),
           ),
         ),
       ],

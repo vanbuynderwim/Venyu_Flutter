@@ -73,6 +73,9 @@ class Profile {
   /// Whether the user has an active pro subscription.
   final bool isPro;
   
+  /// Whether the user has reached the connections limit (for non-Pro users).
+  final bool connectionsLimitReached;
+  
   /// Public key for secure communications.
   final String? publicKey;
 
@@ -101,6 +104,7 @@ class Profile {
     required this.isSuperAdmin,
     this.newsletterSubscribed,
     required this.isPro,
+    required this.connectionsLimitReached,
     this.publicKey,
     this.taggroups,
   });
@@ -127,6 +131,7 @@ class Profile {
       isSuperAdmin: json['is_super_admin'] as bool? ?? false,
       newsletterSubscribed: json['newsletter_subscribed'] as bool?,
       isPro: json['is_pro'] as bool? ?? false,
+      connectionsLimitReached: json['connections_limit_reached'] as bool? ?? false,
       publicKey: json['public_key'] as String?,
       taggroups: json['taggroups'] != null 
           ? (json['taggroups'] as List).map((tagGroup) => TagGroup.fromJson(tagGroup)).toList()
@@ -156,6 +161,7 @@ class Profile {
       'is_super_admin': isSuperAdmin,
       'newsletter_subscribed': newsletterSubscribed,
       'is_pro': isPro,
+      'connections_limit_reached': connectionsLimitReached,
       'public_key': publicKey,
       'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
     };
@@ -305,6 +311,7 @@ class Profile {
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
     bool? isPro,
+    bool? connectionsLimitReached,
     String? publicKey,
     List<TagGroup>? taggroups,
   }) {
@@ -325,6 +332,7 @@ class Profile {
       isSuperAdmin: isSuperAdmin ?? this.isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed ?? this.newsletterSubscribed,
       isPro: isPro ?? this.isPro,
+      connectionsLimitReached: connectionsLimitReached ?? this.connectionsLimitReached,
       publicKey: publicKey ?? this.publicKey,
       taggroups: taggroups ?? this.taggroups,
     );
