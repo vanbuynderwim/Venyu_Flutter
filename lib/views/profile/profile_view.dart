@@ -14,11 +14,14 @@ import '../../services/profile_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/buttons/fab_button.dart';
 import '../../mixins/data_refresh_mixin.dart';
+import '../venues/join_venue_view.dart';
 import 'profile_header.dart';
 import 'profile_view/profile_section_button_bar.dart';
 import 'profile_view/personal_info_section.dart';
 import 'profile_view/company_info_section.dart';
+import 'profile_view/venues_section.dart';
 import 'profile_view/reviews_section.dart';
 import 'profile_view/profile_loading_header.dart';
 import 'edit_tag_group_view.dart';
@@ -57,6 +60,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   List<TagGroup>? _companyTagGroups;
   bool _personalTagGroupsLoading = false;
   bool _companyTagGroupsLoading = false;
+  bool _hasVenues = false;
 
   @override
   void initState() {
@@ -103,6 +107,13 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           ),
         ],
       ),
+      floatingActionButton: _shouldShowFAB()
+          ? FABButton(
+              icon: context.themedIcon('plus'),
+              label: 'Join',
+              onPressed: _openJoinVenueModal,
+            )
+          : null,
       useSafeArea: true,
       body: Column(
         children: [
@@ -182,8 +193,40 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           onCompanyInfoTap: _handleCompanyInfoTap,
           onCompanyTagGroupTap: _handleCompanyTagGroupTap,
         );
+      case ProfileSections.venues:
+        return VenuesSection(
+          onVenuesChanged: (hasVenues) {
+            setState(() {
+              _hasVenues = hasVenues;
+            });
+          },
+        );
       case ProfileSections.reviews:
         return const ReviewsSection();
+    }
+  }
+
+  /// Determines if the FAB should be shown
+  bool _shouldShowFAB() {
+    return _selectedSection == ProfileSections.venues && _hasVenues;
+  }
+
+  /// Opens the join venue modal
+  Future<void> _openJoinVenueModal() async {
+    try {
+      await showPlatformModalSheet<bool>(
+        context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
+        builder: (context) => const JoinVenueView(),
+      );
+      
+      // If successful, the VenuesSection will handle its own refresh
+      // and notify us through onVenuesChanged callback
+    } catch (error) {
+      AppLogger.error('Error opening join venue view: $error', context: 'ProfileView');
     }
   }
   
