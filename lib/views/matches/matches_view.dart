@@ -8,8 +8,8 @@ import '../../core/theme/venyu_theme.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import '../../models/match.dart';
-import '../../models/enums/match_status.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
@@ -126,7 +126,7 @@ class _MatchesViewState extends State<MatchesView>
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const LoadingStateWidget()
             : _matches.isEmpty
                 ? CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),

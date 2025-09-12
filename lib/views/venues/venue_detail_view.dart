@@ -14,6 +14,7 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/loading_state_widget.dart';
 
 /// VenueDetailView - Detailed view of a venue showing information and member stats
 /// 
@@ -72,7 +73,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(_venue?.name ?? 'Loading...'),
+        title: Text("Venue details"),
       ),
       usePadding: true,
       useSafeArea: true,
@@ -94,7 +95,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
   Widget _buildContent() {
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingStateWidget();
     }
 
     if (_error != null) {
@@ -194,7 +195,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
               const SizedBox(height: 4),
               
               // Baseline
-              if (venue.baseline != null && venue.baseline.isNotEmpty) ...[
+              if (venue.baseline.isNotEmpty) ...[
                 Text(
                   venue.baseline,
                   style: AppTextStyles.subheadline.secondary(context),
@@ -281,7 +282,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                 if (venue.eventDate != null && venue.eventLocation != null) ...[
                   const SizedBox(height: 12),
                   Divider(
-                    color: context.venyuTheme.borderColor.withValues(alpha: 0.7),
+                    color: context.venyuTheme.borderColor.withValues(alpha: 0.5),
                     height: 1,
                   ),
                   const SizedBox(height: 12),
@@ -347,16 +348,16 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Venue Statistics',
+          'Stats',
           style: AppTextStyles.headline.primaryText(context),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: venyuTheme.primary.withValues(alpha: 0.1),
+            color: venyuTheme.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: venyuTheme.borderColor.withValues(alpha: 0.1),
+              color: venyuTheme.borderColor.withValues(alpha: 0.5),
               width: 1,
             ),
           ),
@@ -380,7 +381,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                 Container(
                   width: 1,
                   height: 40,
-                  color: venyuTheme.borderColor.withValues(alpha: 0.7),
+                  color: venyuTheme.borderColor.withValues(alpha: 0.5),
                 ),
                 
                 // Cards count
@@ -415,7 +416,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                 Container(
                   width: 1,
                   height: 40,
-                  color: venyuTheme.borderColor.withValues(alpha: 0.7),
+                  color: venyuTheme.borderColor.withValues(alpha: 0.5),
                 ),
                 
                 // Connections count
@@ -489,10 +490,10 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: venyuTheme.primary.withValues(alpha: 0.1),
+            color: venyuTheme.primary.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: venyuTheme.borderColor.withValues(alpha: 0.1),
+              color: venyuTheme.borderColor.withValues(alpha: 0.5),
               width: 1,
             ),
           ),
@@ -523,7 +524,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                 if (venue.startsAt != null && venue.expiresAt != null) ...[
                   const SizedBox(height: 8),
                   Divider(
-                    color: context.venyuTheme.borderColor.withValues(alpha: 0.7),
+                    color: context.venyuTheme.borderColor.withValues(alpha: 0.5),
                     height: 1,
                   ),
                   const SizedBox(height: 8),

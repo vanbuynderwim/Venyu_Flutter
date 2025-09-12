@@ -13,6 +13,7 @@ import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../cards/card_item.dart';
 import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 
@@ -278,7 +279,7 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
   Widget _buildContent(VenyuTheme venyuTheme) {
     if (isLoading) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: LoadingStateWidget(),
       );
     }
 

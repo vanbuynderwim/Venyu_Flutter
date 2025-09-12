@@ -62,13 +62,27 @@ class _JoinVenueViewState extends State<JoinVenueView> with ErrorHandlingMixin {
   
   /// Enforces character limit on venue code.
   void _limitText() {
-    final text = _codeController.text;
-    if (text.length > _maxLength) {
-      final truncated = text.substring(0, _maxLength);
-      _codeController.value = _codeController.value.copyWith(
-        text: truncated,
-        selection: TextSelection.collapsed(offset: truncated.length),
-      );
+    try {
+      final text = _codeController.text;
+      if (text.length > _maxLength) {
+        final truncated = text.substring(0, _maxLength);
+        
+        // Check if the controller is still mounted and valid
+        if (!mounted || _codeController.value.text != text) {
+          return;
+        }
+        
+        // Safely update the controller value
+        final newOffset = truncated.length.clamp(0, truncated.length);
+        
+        _codeController.value = TextEditingValue(
+          text: truncated,
+          selection: TextSelection.collapsed(offset: newOffset),
+        );
+      }
+    } catch (e) {
+      // Log the error but don't crash the app
+      AppLogger.warning('Error in _limitText: $e', context: 'JoinVenueView');
     }
   }
 

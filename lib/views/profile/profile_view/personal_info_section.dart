@@ -39,10 +39,7 @@ class PersonalInfoSection extends StatelessWidget {
     if (personalTagGroupsLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(horizontal: 4),
-        child: LoadingStateWidget(
-          height: 200,
-          message: 'Loading personal info...',
-        ),
+        child: LoadingStateWidget(),
       );
     }
 

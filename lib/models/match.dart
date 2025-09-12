@@ -1,6 +1,7 @@
 import 'profile.dart';
 import 'prompt.dart';
 import 'tag_group.dart';
+import 'venue.dart';
 import 'enums/match_status.dart';
 import 'enums/match_response.dart';
 
@@ -15,6 +16,7 @@ class Match {
   final List<Prompt>? prompts;
   final List<Match>? connections;
   final List<TagGroup>? tagGroups;
+  final List<Venue>? venues;
   final int? unreadCount;
 
   const Match({
@@ -28,6 +30,7 @@ class Match {
     this.prompts,
     this.connections,
     this.tagGroups,
+    this.venues,
     this.unreadCount,
   });
 
@@ -39,7 +42,8 @@ class Match {
       score: json['score']?.toDouble(),
       reason: json['reason'] as String?,
       response: json['response'] != null ? MatchResponse.fromJson(json['response']) : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      updatedAt: json['updated_at'] != null && json['updated_at'] is String 
+          ? DateTime.parse(json['updated_at']) : null,
       prompts: json['prompts'] != null
           ? (json['prompts'] as List).map((prompt) => Prompt.fromJson(prompt)).toList()
           : null,
@@ -48,6 +52,9 @@ class Match {
           : null,
       tagGroups: json['taggroups'] != null
           ? (json['taggroups'] as List).map((group) => TagGroup.fromJson(group)).toList()
+          : null,
+      venues: json['venues'] != null
+          ? (json['venues'] as List).map((venue) => Venue.fromJson(venue)).toList()
           : null,
       unreadCount: json['unread_count'] as int?,
     );
@@ -65,6 +72,7 @@ class Match {
       'prompts': prompts?.map((prompt) => prompt.toJson()).toList(),
       'connections': connections?.map((conn) => conn.toJson()).toList(),
       'taggroups': tagGroups?.map((group) => group.toJson()).toList(),
+      'venues': venues?.map((venue) => venue.toJson()).toList(),
       'unread_count': unreadCount,
     };
   }
@@ -83,6 +91,7 @@ class Match {
   int get nrOfPrompts => prompts?.length ?? 0;
   int get nrOfConnections => connections?.length ?? 0;
   int get nrOfTagGroups => tagGroups?.length ?? 0;
+  int get nrOfVenues => venues?.length ?? 0;
   
   int get nrOfTags {
     if (tagGroups == null) return 0;

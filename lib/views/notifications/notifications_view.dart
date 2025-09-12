@@ -5,6 +5,7 @@ import '../../core/constants/app_strings.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import 'notification_item_view.dart';
 import '../../models/notification.dart' as venyu;
 import '../../models/requests/paginated_request.dart';
@@ -131,7 +132,7 @@ class _NotificationsViewState extends State<NotificationsView>
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const LoadingStateWidget()
             : _notifications.isEmpty
                 ? CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),

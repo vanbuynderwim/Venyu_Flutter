@@ -13,6 +13,7 @@ import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
 import 'card_detail_view.dart';
@@ -74,7 +75,7 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
       body: RefreshIndicator(
         onRefresh: () => _loadCards(forceRefresh: true),
         child: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const LoadingStateWidget()
             : _buildCardsContent(),
       ),
     );

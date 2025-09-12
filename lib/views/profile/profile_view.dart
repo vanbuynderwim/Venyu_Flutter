@@ -110,7 +110,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       floatingActionButton: _shouldShowFAB()
           ? FABButton(
               icon: context.themedIcon('plus'),
-              label: 'Join',
+              label: 'Join a venue',
               onPressed: _openJoinVenueModal,
             )
           : null,

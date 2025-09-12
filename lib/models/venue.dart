@@ -125,16 +125,16 @@ class Venue {
       connectionCount: json['connection_count'] != null 
           ? (json['connection_count'] as num).toInt() 
           : null,
-      startsAt: json['starts_at'] != null 
-          ? DateTime.parse(json['starts_at'] as String) 
+      startsAt: json['starts_at'] != null && json['starts_at'] is String
+          ? DateTime.parse(json['starts_at']) 
           : null,
-      expiresAt: json['expires_at'] != null 
-          ? DateTime.parse(json['expires_at'] as String) 
+      expiresAt: json['expires_at'] != null && json['expires_at'] is String
+          ? DateTime.parse(json['expires_at']) 
           : null,
-      eventDate: json['event_date'] != null 
-          ? DateTime.parse(json['event_date'] as String) 
+      eventDate: json['event_date'] != null && json['event_date'] is String
+          ? DateTime.parse(json['event_date']) 
           : null,
-      eventHour: json['event_hour'] != null 
+      eventHour: json['event_hour'] != null && json['event_hour'] is String
           ? DateTime.parse('2000-01-01 ${json['event_hour']}') 
           : null,
       eventLocation: json['event_location'] as String?,

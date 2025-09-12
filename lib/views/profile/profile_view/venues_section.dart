@@ -83,10 +83,7 @@ class _VenuesSectionState extends State<VenuesSection> {
     if (_isLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: LoadingStateWidget(
-          height: 200,
-          message: 'Loading venues...',
-        ),
+        child: LoadingStateWidget(),
       );
     }
 
@@ -127,7 +124,7 @@ class _VenuesSectionState extends State<VenuesSection> {
             description: 'Got an invite code in your inbox? Redeem it to unlock your venue and match within your community.',
             iconName: 'novenues',
             onAction: () => _openJoinVenueModal(context),
-            actionText: 'Join venue',
+            actionText: 'Join a venue',
             actionButtonIcon: context.themedIcon('plus')
           ),
         ),

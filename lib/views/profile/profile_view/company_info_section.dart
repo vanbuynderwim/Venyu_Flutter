@@ -39,10 +39,7 @@ class CompanyInfoSection extends StatelessWidget {
     if (companyTagGroupsLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: LoadingStateWidget(
-          height: 200,
-          message: 'Loading company info...',
-        ),
+        child: LoadingStateWidget(),
       );
     }
 

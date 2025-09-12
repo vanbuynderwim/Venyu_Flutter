@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/common/loading_state_widget.dart';
 
 /// PaginatedListViewMixin - Common pagination logic for list views
 /// 
@@ -99,7 +100,7 @@ mixin PaginatedListViewMixin<T extends StatefulWidget> on State<T> {
     return const Center(
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: CircularProgressIndicator(),
+        child: LoadingStateWidget(),
       ),
     );
   }

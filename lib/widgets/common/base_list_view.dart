@@ -129,10 +129,7 @@ abstract class BaseListViewState<T, W extends BaseListView<T>> extends State<W> 
   List<Widget> _buildContent() {
     if (isLoading) {
       return [
-        LoadingStateWidget(
-          message: loadingMessage,
-          height: 300,
-        ),
+        const LoadingStateWidget(),
       ];
     }
 

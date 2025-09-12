@@ -13,6 +13,7 @@ import '../../core/providers/app_providers.dart';
 import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
 import 'match_detail/match_actions_section.dart';
@@ -20,6 +21,7 @@ import 'match_detail/match_connections_section.dart';
 import 'match_detail/match_prompts_section.dart';
 import 'match_detail/match_section_header.dart';
 import 'match_detail/match_tags_section.dart';
+import 'match_detail/match_venues_section.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
@@ -77,30 +79,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Build the bottom section - either action buttons or upgrade prompt
   Widget _buildBottomSection() {
-    final currentProfile = ProfileService.shared.currentProfile;
-    final isPro = currentProfile?.isPro ?? false;
-    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
-    
-    // Show upgrade prompt if user is not Pro and has reached connections limit
-    if (!isPro && connectionsLimitReached) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: UpgradePromptWidget(
-          title: 'Connection limit reached',
-          subtitle: 'Upgrade to Venyu Pro to connect with unlimited matches',
-          buttonText: 'Upgrade now',
-          onSubscriptionCompleted: () {
-            // Refresh the view to update Pro status and show action buttons
-            setState(() {
-              final currentProfile = ProfileService.shared.currentProfile;
-              final isPro = currentProfile?.isPro ?? false;
-              AppLogger.debug('Subscription completed - isPro status: $isPro', context: 'MatchDetailView');
-            });
-          },
-        ),
-      );
-    }
-    
+   
     // Show regular action buttons if user is Pro or hasn't reached limit
     return MatchActionsSection(
       match: _match!,
@@ -121,7 +100,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         title: Text(_match == null 
           ? 'Loading...' 
           : _match!.isConnected 
-            ? 'Connection' 
+            ? 'Introduction' 
             : 'Match'),
       ),
       usePadding: true,
@@ -144,7 +123,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   Widget _buildContent() {
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingStateWidget();
     }
 
     if (_error != null) {
@@ -240,7 +219,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 padding: const EdgeInsets.symmetric(horizontal: 0.0),
                 child: UpgradePromptWidget(
                   title: 'Monthly limit reached',
-                  subtitle: 'You\'ve reached your limit of 3 introductions per month. Upgrade to Venyu Pro for unlimited connections.',
+                  subtitle: 'You\'ve reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.',
                   buttonText: 'Upgrade to Pro',
                   onSubscriptionCompleted: () {
                     // Refresh the view to update Pro status
@@ -263,6 +242,17 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchConnectionsSection(match: _match!),
+                const SizedBox(height: 24),
+              ],
+
+              // Shared Venues Section
+              if (_match!.nrOfVenues > 0) ...[
+                MatchSectionHeader(
+                  iconName: 'venue',
+                  title: '${_match!.nrOfVenues} shared ${_match!.nrOfVenues == 1 ? "venue" : "venues"}',
+                ),
+                const SizedBox(height: 16),
+                MatchVenuesSection(match: _match!),
                 const SizedBox(height: 24),
               ],
               
