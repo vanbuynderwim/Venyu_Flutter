@@ -1,4 +1,5 @@
 import 'enums/venue_type.dart';
+import 'enums/venue_role.dart';
 
 /// Represents a venue for networking events or organizations.
 /// 
@@ -6,6 +7,10 @@ import 'enums/venue_type.dart';
 /// a permanent organization (companies, associations). Venues serve as
 /// networking hubs where users can connect and interact based on shared
 /// contexts or interests.
+/// 
+/// Each venue includes the user's role (member or admin) which determines
+/// their permissions within that venue, such as managing venue settings
+/// or inviting other users.
 /// 
 /// The venue model contains basic information and supports JSON serialization
 /// for API communication with the Supabase database.
@@ -15,11 +20,15 @@ import 'enums/venue_type.dart';
 /// // Create from API response
 /// final venue = Venue.fromJson(apiResponse);
 /// 
-/// // Check venue type
+/// // Check venue type and user permissions
 /// if (venue.isEvent) {
 ///   // Handle event venue
 /// } else if (venue.isPermanent) {
 ///   // Handle organization venue
+/// }
+/// 
+/// if (venue.isUserAdmin) {
+///   // Show admin controls
 /// }
 /// 
 /// // Convert for API request
@@ -40,6 +49,9 @@ class Venue {
 
   /// Type of venue (event or organisation).
   final VenueType type;
+
+  /// User's role within this venue (member or admin).
+  final VenueRole role;
 
   /// Detailed description about the venue (optional).
   final String? about;
@@ -80,13 +92,14 @@ class Venue {
 
   /// Creates a [Venue] instance.
   /// 
-  /// [id], [name], [baseline], [avatarId], and [type] are required.
+  /// [id], [name], [baseline], [avatarId], [type], and [role] are required.
   const Venue({
     required this.id,
     required this.name,
     required this.baseline,
     required this.avatarId,
     required this.type,
+    required this.role,
     this.about,
     this.website,
     this.profileCount,
@@ -111,6 +124,7 @@ class Venue {
       baseline: json['baseline'] as String,
       avatarId: json['avatar_id'] as String,
       type: VenueType.fromJson(json['type'] ?? 'organisation'),
+      role: VenueRole.fromJson(json['role'] ?? 'member'),
       about: json['about'] as String?,
       website: json['website'] as String?,
       profileCount: json['profile_count'] != null 
@@ -152,6 +166,7 @@ class Venue {
       'baseline': baseline,
       'avatar_id': avatarId,
       'type': type.toJson(),
+      'role': role.toJson(),
       'about': about,
       'website': website,
       if (profileCount != null) 'profile_count': profileCount,
@@ -172,6 +187,18 @@ class Venue {
   /// Returns whether this venue is a temporary event.
   bool get isEvent => type == VenueType.event;
 
+  /// Returns whether the user is an admin of this venue.
+  bool get isUserAdmin => role == VenueRole.admin;
+
+  /// Returns whether the user is a member of this venue.
+  bool get isUserMember => role == VenueRole.member;
+
+  /// Returns whether the user can manage this venue.
+  bool get canUserManageVenue => role.canManageVenue;
+
+  /// Returns whether the user can invite others to this venue.
+  bool get canUserInviteUsers => role.canInviteUsers;
+
   /// Creates a copy of this venue with updated fields.
   Venue copyWith({
     String? id,
@@ -179,6 +206,7 @@ class Venue {
     String? baseline,
     String? avatarId,
     VenueType? type,
+    VenueRole? role,
     String? about,
     String? website,
     int? profileCount,
@@ -197,6 +225,7 @@ class Venue {
       baseline: baseline ?? this.baseline,
       avatarId: avatarId ?? this.avatarId,
       type: type ?? this.type,
+      role: role ?? this.role,
       about: about ?? this.about,
       website: website ?? this.website,
       profileCount: profileCount ?? this.profileCount,
@@ -223,6 +252,6 @@ class Venue {
 
   @override
   String toString() {
-    return 'Venue(id: $id, name: $name, type: ${type.displayName})';
+    return 'Venue(id: $id, name: $name, type: ${type.displayName}, role: ${role.displayName})';
   }
 }
