@@ -1,7 +1,24 @@
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+
 /// Extension on DateTime to provide time-ago functionality
 /// 
 /// This extension provides a Flutter equivalent of the iOS Date.timeAgo() function,
 /// returning short, human-readable time differences like "2h", "1d", "3mo", etc.
+/// Helper function to get effective locale string with country code
+String effectiveLocaleString(BuildContext context) {
+  // Use Flutter's localization system - this ensures consistency
+  // with what the app actually uses for localization
+  final locale = Localizations.localeOf(context);
+  
+  // Intl expects underscore + uppercase country code
+  final country = (locale.countryCode ?? '').toUpperCase();
+  final result = country.isNotEmpty ? '${locale.languageCode}_$country' : locale.languageCode;
+
+  
+  return result;
+}
+
 extension DateTimeExtensions on DateTime {
   /// Returns a short string representation of how long ago this date was compared to now.
   /// 
@@ -74,13 +91,40 @@ extension DateTimeExtensions on DateTime {
     final now = DateTime.now();
     final difference = now.difference(this);
     
-    if (difference.inDays > 0) {
-      return '${difference.inDays} day${difference.inDays == 1 ? '' : 's'} ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} hour${difference.inHours == 1 ? '' : 's'} ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minute${difference.inMinutes == 1 ? '' : 's'} ago';
-    } else {
+    // Calculate time units
+    final years = difference.inDays ~/ 365;
+    final months = difference.inDays ~/ 30;
+    final weeks = difference.inDays ~/ 7;
+    final days = difference.inDays;
+    final hours = difference.inHours;
+    final minutes = difference.inMinutes;
+    
+    // Years
+    if (years > 0) {
+      return '$years year${years == 1 ? '' : 's'} ago';
+    }
+    // Months  
+    else if (months > 0) {
+      return '$months month${months == 1 ? '' : 's'} ago';
+    }
+    // Weeks
+    else if (weeks > 0) {
+      return '$weeks week${weeks == 1 ? '' : 's'} ago';
+    }
+    // Days
+    else if (days > 0) {
+      return '$days day${days == 1 ? '' : 's'} ago';
+    }
+    // Hours
+    else if (hours > 0) {
+      return '$hours hour${hours == 1 ? '' : 's'} ago';
+    }
+    // Minutes
+    else if (minutes > 0) {
+      return '$minutes minute${minutes == 1 ? '' : 's'} ago';
+    }
+    // Just now
+    else {
       return 'just now';
     }
   }
@@ -94,23 +138,31 @@ extension DateTimeExtensions on DateTime {
     return '$day ${months[month - 1]} $year';
   }
 
-  /// Formats date with day of week as "Friday, 15 Mar 2024"
-  String formatDateWithWeekday() {
-    final weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    
-    // DateTime.weekday returns 1 for Monday, 7 for Sunday
-    final weekdayName = weekdays[weekday - 1];
-    return '$weekdayName, $day ${months[month - 1]} $year';
+  /// Formats date using system locale format but shorter
+  String formatDateShort(BuildContext context) {
+    final loc = effectiveLocaleString(context);
+    final full = DateFormat.yMd(loc).format(this);     // bv. 13/11/2025 of 11/13/2025
+    // vervang alleen de jaartalcomponent door 2 cijfers
+    final currentYear = year.toString();
+    final shortYear = currentYear.substring(2);
+    return full.replaceAll(currentYear, shortYear);
   }
 
-  /// Formats time as "19:30"
-  String formatTime() {
-    final hourStr = hour.toString().padLeft(2, '0');
-    final minuteStr = minute.toString().padLeft(2, '0');
-    return '$hourStr:$minuteStr';
+  /// Formats date with day of week using system locale format
+  String formatDateWithWeekday(BuildContext context) {
+    final loc = effectiveLocaleString(context);
+    return DateFormat.yMEd(loc).format(this);
+  }
+
+  /// Formats date using system locale format with full year (for event dates)
+  String formatDateFull(BuildContext context) {
+    final loc = effectiveLocaleString(context);
+    return DateFormat.yMd(loc).format(this); // gebruikt 13/11/2025 in nl_BE
+  }
+
+  /// Formats time using system locale format (respects 24h/12h setting)
+  String formatTime(BuildContext context) {
+    final loc = effectiveLocaleString(context);
+    return DateFormat.Hm(loc).format(this); // 19:30 in 24u-landen
   }
 }

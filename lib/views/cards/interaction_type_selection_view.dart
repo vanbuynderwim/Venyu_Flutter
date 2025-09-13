@@ -12,13 +12,13 @@ import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_text_styles.dart';
-import 'card_detail_view.dart';
+import 'card_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
 /// 
 /// This view presents two large, prominent buttons for the user to select
 /// whether they need help or can offer help. After selection, it navigates
-/// to the CardDetailView with the chosen interaction type.
+/// to the CardEditView with the chosen interaction type.
 class InteractionTypeSelectionView extends StatelessWidget {
   /// Whether this view is shown after completing prompts (affects back navigation)
   final bool isFromPrompts;
@@ -36,11 +36,11 @@ class InteractionTypeSelectionView extends StatelessWidget {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
     
-    // Navigate to CardDetailView with the selected interaction type
+    // Navigate to CardEditView with the selected interaction type
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => CardDetailView(
+        builder: (context) => CardEditView(
           initialInteractionType: type,
           isNewCard: true,
           isFromPrompts: isFromPrompts,

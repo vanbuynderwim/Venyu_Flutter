@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/config/app_config.dart';
 import 'core/providers/app_providers.dart';
@@ -25,6 +26,16 @@ void main() async {
   
   // Temporarily disable Bugsnag for debugging
   // await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
+  
+  // Initialize date formatting for all supported locales
+  try {
+    await initializeDateFormatting();
+    // Explicitly initialize nl_BE locale
+    await initializeDateFormatting('nl_BE');
+    AppLogger.info('Date formatting initialized for all locales including nl_BE', context: 'main');
+  } catch (e) {
+    AppLogger.warning('Date formatting initialization failed', error: e, context: 'main');
+  }
   
   // Load environment variables
   try {
@@ -101,6 +112,7 @@ class VenyuApp extends StatelessWidget {
         supportedLocales: const [
           Locale('en', 'US'),
           Locale('nl', 'NL'),
+          Locale('nl', 'BE'),
         ],
         material: (_, __) => MaterialAppData(
           theme: AppTheme.lightTheme,

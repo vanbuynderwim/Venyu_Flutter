@@ -1,4 +1,7 @@
 import '../../models/venue.dart';
+import '../../models/profile.dart';
+import '../../models/prompt.dart';
+import '../../models/requests/paginated_request.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
 import '../../mixins/disposable_manager_mixin.dart';
@@ -174,6 +177,139 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Fetch profiles (members) of a venue with pagination.
+  /// 
+  /// This method is only available to venue admins and returns a paginated list
+  /// of venue members. The response includes profile information with tag groups.
+  /// 
+  /// Returns a list of [Profile] objects for active venue members sorted by join date.
+  /// 
+  /// Parameters:
+  /// - [venueId]: The ID of the venue to fetch members for
+  /// - [request]: Paginated request parameters including limit and cursor info
+  /// 
+  /// Throws an exception if:
+  /// - User is not an admin of the venue
+  /// - The venue doesn't exist
+  /// - Invalid request parameters
+  Future<List<Profile>> fetchVenueProfiles(String venueId, PaginatedRequest request) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching venue profiles for venue: $venueId', context: 'VenueManager');
+      
+      try {
+        // Build payload for the RPC function
+        final payload = <String, dynamic>{
+          'venue_id': venueId,
+          'limit': request.limit,
+        };
+        
+        // Add cursor parameters if provided
+        if (request.cursorTime != null) {
+          payload['cursor_time'] = request.cursorTime!.toIso8601String();
+        }
+        if (request.cursorId != null) {
+          payload['cursor_id'] = request.cursorId;
+        }
+        
+        // Call the get_venue_profiles RPC function
+        final result = await client
+            .rpc('get_venue_profiles', params: {'payload': payload})
+            .select();
+        
+        AppLogger.success('Venue profiles fetched successfully', context: 'VenueManager');
+        
+        // Convert response to list of Profile objects
+        final profiles = (result as List)
+            .map((json) => Profile.fromJson(json))
+            .toList();
+        
+        AppLogger.info('Fetched ${profiles.length} venue profiles', context: 'VenueManager');
+        
+        return profiles;
+      } catch (error) {
+        AppLogger.error('Failed to fetch venue profiles', error: error, context: 'VenueManager');
+        
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+        
+        if (errorMessage.contains('Only venue admins can view venue profiles')) {
+          throw Exception('You need admin privileges to view venue members.');
+        } else if (errorMessage.contains('venue_id is required')) {
+          throw Exception('Venue ID is required.');
+        }
+        
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
+    });
+  }
+
+  /// Fetch paginated prompts for a specific venue (admin only).
+  /// 
+  /// This method retrieves all approved prompts for a venue with pagination support.
+  /// Only venue admins can access this information.
+  /// 
+  /// Parameters:
+  /// - [venueId]: The UUID of the venue to fetch prompts for
+  /// - [request]: Pagination parameters including limit, cursor time, and cursor ID
+  /// 
+  /// Returns a list of [Prompt] objects ordered by creation date (most recent first).
+  /// 
+  /// Throws an exception if:
+  /// - User is not an admin of the venue
+  /// - The venue doesn't exist
+  /// - Invalid request parameters
+  Future<List<Prompt>> fetchVenuePrompts(String venueId, PaginatedRequest request) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching venue prompts for venue: $venueId', context: 'VenueManager');
+      
+      try {
+        // Build payload for the RPC function
+        final payload = <String, dynamic>{
+          'venue_id': venueId,
+          'limit': request.limit,
+        };
+        
+        // Add cursor parameters if provided
+        if (request.cursorTime != null) {
+          payload['cursor_time'] = request.cursorTime!.toIso8601String();
+        }
+        if (request.cursorId != null) {
+          payload['cursor_id'] = request.cursorId;
+        }
+        
+        // Call the get_venue_prompts RPC function
+        final result = await client
+            .rpc('get_venue_prompts', params: {'payload': payload})
+            .select();
+        
+        AppLogger.success('Venue prompts fetched successfully', context: 'VenueManager');
+        
+        // Convert response to list of Prompt objects
+        final prompts = (result as List)
+            .map((json) => Prompt.fromJson(json))
+            .toList();
+        
+        AppLogger.info('Fetched ${prompts.length} venue prompts', context: 'VenueManager');
+        
+        return prompts;
+      } catch (error) {
+        AppLogger.error('Failed to fetch venue prompts', error: error, context: 'VenueManager');
+        
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+        
+        if (errorMessage.contains('Only venue admins can view venue prompts')) {
+          throw Exception('You need admin privileges to view venue prompts.');
+        } else if (errorMessage.contains('venue_id is required')) {
+          throw Exception('Venue ID is required.');
+        }
+        
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
+    });
+  }
   
   /// Dispose this manager and clean up resources.
   void dispose() {

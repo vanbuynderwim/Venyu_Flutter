@@ -49,7 +49,7 @@ class MatchReasonsView extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Why you and ${match.profile.firstName} match',
+                  'Why you and ${match.profile_1.firstName} match',
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),

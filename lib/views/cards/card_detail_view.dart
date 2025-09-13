@@ -1,34 +1,31 @@
-import 'package:app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
-import '../../services/supabase_managers/content_manager.dart';
-import '../../widgets/buttons/action_button.dart';
-import 'card_detail/card_gradient_container.dart';
-import 'card_detail/card_content_field.dart';
+import '../../models/match.dart';
+import '../../models/prompt.dart';
+import '../../services/supabase_managers/matching_manager.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/loading_state_widget.dart';
+import '../matches/match_item_view.dart';
+import '../matches/match_detail_view.dart';
+import 'card_item.dart';
 
-/// Card detail view for creating or editing cards/prompts.
+/// CardDetailView - Shows a card with its associated matches
 /// 
-/// This view provides a clean form interface for users to create new cards or edit existing ones.
-/// Features:
-/// - Toggle between "Searching for" and "I can help with" interaction types
-/// - Clean, borderless textarea-like content field
-/// - Scrollable content area
+/// This view displays:
+/// - The card/prompt at the top (using CardItem)
+/// - List of matches associated with this card
+/// - Navigation to match details when tapping a match
 class CardDetailView extends StatefulWidget {
-  final Prompt? existingPrompt; // null for new card, non-null for editing
-  final InteractionType? initialInteractionType; // Pre-selected type for new cards
-  final bool isNewCard; // Whether this is a new card (hides toggle buttons)
-  final bool isFromPrompts; // Whether coming from prompts flow
-  final VoidCallback? onCloseModal; // Callback to close modal when from prompts
+  final Prompt prompt;
 
   const CardDetailView({
     super.key,
-    this.existingPrompt,
-    this.initialInteractionType,
-    this.isNewCard = false,
-    this.isFromPrompts = false,
-    this.onCloseModal,
+    required this.prompt,
   });
 
   @override
@@ -36,149 +33,136 @@ class CardDetailView extends StatefulWidget {
 }
 
 class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin {
-  // Controllers
-  final TextEditingController _contentController = TextEditingController();
-  final FocusNode _contentFocusNode = FocusNode();
+  late final MatchingManager _matchingManager;
   
-  // Services
-  late final ContentManager _contentManager;
-  
-  // State
-  InteractionType _selectedInteractionType = InteractionType.lookingForThis;
-  bool _contentIsEmpty = true;
-  // _isUpdating removed - using mixin's isProcessing
-  String _originalContent = '';
-  InteractionType _originalInteractionType = InteractionType.lookingForThis;
-  
-  // Constants
-  static const int _maxLength = 200;
+  List<Match> _matches = [];
+  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _contentManager = ContentManager.shared;
-    
-    // Load existing data if editing
-    if (widget.existingPrompt != null) {
-      _originalContent = widget.existingPrompt!.label;
-      _originalInteractionType = widget.existingPrompt!.interactionType ?? InteractionType.lookingForThis;
-      _contentController.text = _originalContent;
-      _selectedInteractionType = _originalInteractionType;
-      _contentIsEmpty = false;
-    } else if (widget.initialInteractionType != null) {
-      // Use pre-selected interaction type for new cards
-      _selectedInteractionType = widget.initialInteractionType!;
-      _originalInteractionType = widget.initialInteractionType!;
-    }
-    
-    // Add listener for validation and character limiting
-    _contentController.addListener(() {
-      _limitText();
-      setState(() {
-        _contentIsEmpty = _contentController.text.trim().isEmpty;
-      });
-    });
-    
-    // Auto-focus the content field to open keyboard
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _contentFocusNode.requestFocus();
-    });
+    _matchingManager = MatchingManager.shared;
+    _loadPromptMatches();
   }
 
-  @override
-  void dispose() {
-    _contentController.dispose();
-    _contentFocusNode.dispose();
-    super.dispose();
-  }
-  
-  /// Enforces character limit on card content.
-  void _limitText() {
-    final text = _contentController.text;
-    if (text.length > _maxLength) {
-      final truncated = text.substring(0, _maxLength);
-      _contentController.value = _contentController.value.copyWith(
-        text: truncated,
-        selection: TextSelection.collapsed(offset: truncated.length),
-      );
-    }
-  }
-
-
-
-  Future<void> _handleSave() async {
-    if (_contentIsEmpty || isProcessing) return;
+  Future<void> _loadPromptMatches() async {
+    if (!mounted) return;
+    setState(() => _error = null);
     
-    await executeWithLoading(
-      operation: () async {
-        await _contentManager.upsertPrompt(
-          widget.existingPrompt?.promptID,
-          _selectedInteractionType,
-          _contentController.text.trim(),
-        );
-      },
-      successMessage: "Thank you for your submission! Your card is under review and you'll receive a notification once it's approved.",
-      errorMessage: 'Failed to save card. Please try again.',
-      useProcessingState: true,
-      onSuccess: () {
-        if (widget.isFromPrompts && widget.onCloseModal != null) {
-          // Use the callback to close the entire modal stack
-          widget.onCloseModal!();
-        } else {
-          // Normal flow - just pop this view
-          Navigator.of(context).pop(true);
+    final matches = await executeWithLoadingAndReturn<List<Match>>(
+      operation: () => _matchingManager.fetchPromptMatches(widget.prompt.promptID),
+      showErrorToast: false,
+      onError: (error) {
+        if (mounted) {
+          setState(() => _error = 'Failed to load matches');
         }
       },
     );
+    
+    if (matches != null && mounted) {
+      setState(() => _matches = matches);
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return CardGradientContainer(
-      interactionType: _selectedInteractionType,
-      child: PlatformScaffold(
-        backgroundColor: Colors.transparent,
-        appBar: PlatformAppBar(
-          backgroundColor: Colors.transparent,
-          trailingActions: [
-            ActionButton(
-              label: 'Submit',
-              isDisabled: _contentIsEmpty,
-              isLoading: isProcessing,
-              onPressed: _handleSave,
-              isCompact: true,
+    return AppScaffold(
+      appBar: PlatformAppBar(
+        title: Text('Card matches'),
+      ),
+      usePadding: true,
+      useSafeArea: true,
+      body: RefreshIndicator(
+        onRefresh: _loadPromptMatches,
+        child: _buildContent(),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (isLoading) {
+      return const LoadingStateWidget();
+    }
+
+    if (_error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _error!,
+              style: AppTextStyles.body.copyWith(
+                color: context.venyuTheme.secondaryText,
+              ),
+            ),
+            const SizedBox(height: 16),
+            PlatformTextButton(
+              onPressed: _loadPromptMatches,
+              child: const Text('Retry'),
             ),
           ],
-          cupertino: (_, __) => CupertinoNavigationBarData(
-            backgroundColor: Colors.transparent,
-            border: null, // Remove border
-          ),
-          material: (_, __) => MaterialAppBarData(
-            backgroundColor: Colors.transparent,
-            elevation: 0, // Remove shadow
-            surfaceTintColor: Colors.transparent,
-          ),
         ),
-        body: SafeArea(
-          bottom: false, // Allow keyboard to overlay the bottom safe area
-          child: Column(
-            children: [
-              // Main content field with character counter
-              CardContentField(
-                controller: _contentController,
-                focusNode: _contentFocusNode,
-                interactionType: _selectedInteractionType,
-                isEnabled: !isProcessing,
-                maxLength: _maxLength,
+      );
+    }
+
+    return ListView(
+      children: [
+        // Card at the top
+        CardItem(
+          prompt: widget.prompt,
+          reviewing: false,
+          isFirst: true,
+          isLast: true,
+          showMatchInteraction: false,
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Matches section header
+        if (_matches.isNotEmpty) ...[
+          Text(
+            '${_matches.length} ${_matches.length == 1 ? 'match' : 'matches'}',
+            style: AppTextStyles.headline.copyWith(
+              color: context.venyuTheme.primaryText,
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+        
+        // Matches list
+        if (_matches.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 48),
+            child: Center(
+              child: Text(
+                'No matches yet for this card',
+                style: AppTextStyles.body.copyWith(
+                  color: context.venyuTheme.secondaryText,
+                ),
               ),
-          
-              // Add bottom padding when toggle buttons are hidden
-              if (widget.isNewCard)
-                const SizedBox(height: 16),
-            ],
-          ),
-        ),
+            ),
+          )
+        else
+          ..._matches.map((match) => Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: MatchItemView(
+              match: match,
+              shouldBlur: false, // Don't blur in card detail view
+              onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
+            ),
+          )),
+      ],
+    );
+  }
+
+  void _navigateToMatchDetail(Match match) {
+    AppLogger.ui('Navigating to match detail from card: ${match.id}', context: 'CardDetailView');
+    
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchDetailView(matchId: match.id),
       ),
     );
   }

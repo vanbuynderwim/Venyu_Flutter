@@ -55,6 +55,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       children: [
         // Avatar and Info row
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Avatar with optional edit overlay
             ProfileAvatarSection(
@@ -82,7 +83,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                     isEditable: widget.isEditable,
                   ),
                   
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   
                   // Sectors/Tags
                   ProfileTagsSection(

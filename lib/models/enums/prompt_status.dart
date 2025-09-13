@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/venyu_theme.dart';
 
 enum PromptStatus {
   draft('draft'),
@@ -7,7 +8,9 @@ enum PromptStatus {
   pendingTranslation('pending_translation'),
   approved('approved'),
   rejected('rejected'),
-  archived('archived');
+  archived('archived'),
+  online('online'),
+  offline('offline');
 
   const PromptStatus(this.value);
   
@@ -22,22 +25,9 @@ enum PromptStatus {
 
   String toJson() => value;
 
-  /// Get the background color for this status
-  Color get backgroundColor {
-    switch (this) {
-      case PromptStatus.draft:
-        return AppColors.secundair7Cascadingwhite;
-      case PromptStatus.pendingReview:
-        return AppColors.accent4Bluch;
-      case PromptStatus.pendingTranslation:
-        return AppColors.primair6Periwinkel;
-      case PromptStatus.approved:
-        return AppColors.me.withValues(alpha: 0.1);
-      case PromptStatus.rejected:
-        return AppColors.na.withValues(alpha: 0.1);
-      case PromptStatus.archived:
-        return AppColors.secundair6Rocket;
-    }
+  /// Get the background color for this status - always uses tagBackground from theme
+  Color backgroundColor(BuildContext context) {
+    return context.venyuTheme.tagBackground;
   }
 
   /// Get the border color for this status
@@ -55,6 +45,10 @@ enum PromptStatus {
         return AppColors.na;
       case PromptStatus.archived:
         return AppColors.secundair4Quicksilver;
+      case PromptStatus.online:
+        return AppColors.me;
+      case PromptStatus.offline:
+        return AppColors.na;
     }
   }
 
@@ -73,6 +67,10 @@ enum PromptStatus {
         return AppColors.na;
       case PromptStatus.archived:
         return AppColors.secundair3Slategray;
+      case PromptStatus.online:
+        return AppColors.me;
+      case PromptStatus.offline:
+        return AppColors.na;
     }
   }
 
@@ -91,6 +89,10 @@ enum PromptStatus {
         return 'Rejected';
       case PromptStatus.archived:
         return 'Archived';
+      case PromptStatus.online:
+        return 'Online';
+      case PromptStatus.offline:
+        return 'Offline';
     }
   }
 }

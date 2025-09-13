@@ -107,7 +107,6 @@ class VenueItemView extends StatelessWidget {
   Widget _buildChevronIcon(BuildContext context) {
     return context.themedIcon(
       'chevron',
-      selected: false,
       size: 18,
     );
   }

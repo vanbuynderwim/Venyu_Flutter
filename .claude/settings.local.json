@@ -39,7 +39,8 @@
       "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
       "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
       "Bash(dart:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

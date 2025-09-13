@@ -57,7 +57,7 @@ class _MatchItemViewState extends State<MatchItemView> {
           mainAxisSize: MainAxisSize.min,
           children: [
             RoleView(
-              profile: widget.match.profile,
+              profile: widget.match.profile_1,
               avatarSize: 60,
               showChevron: true,
               buttonDisabled: false,

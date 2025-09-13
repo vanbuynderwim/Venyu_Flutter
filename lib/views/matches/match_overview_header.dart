@@ -53,10 +53,10 @@ class MatchOverviewHeader extends StatelessWidget {
           children: [
             // Left avatar (current user)
             Container(
-              width: 40,
+              width: 60,
               padding: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
-                color: venyuTheme.tagBackground,
+                color: venyuTheme.cardBackground,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(AppModifiers.defaultRadius),
                 ),
@@ -64,7 +64,7 @@ class MatchOverviewHeader extends StatelessWidget {
               child: Center(
                 child: AvatarView(
                   avatarId: currentProfile.avatarID,
-                  size: 24,
+                  size: 40,
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class MatchOverviewHeader extends StatelessWidget {
             // Center content
             Expanded(
               child: Container(
-                padding: AppModifiers.cardContentPadding,
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 decoration: BoxDecoration(
                   color: venyuTheme.cardBackground,
                 ),
@@ -86,7 +86,7 @@ class MatchOverviewHeader extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      match.profile.firstName,
+                      match.profile_1.firstName,
                       style: AppTextStyles.subheadline.copyWith(
                         color: venyuTheme.primaryText,
                       ),
@@ -98,18 +98,18 @@ class MatchOverviewHeader extends StatelessWidget {
             
             // Right avatar (match profile)
             Container(
-              width: 40,
+              width: 60,
               padding: const EdgeInsets.symmetric(vertical: 8),
               decoration: BoxDecoration(
-                color: venyuTheme.tagBackground,
+                color: venyuTheme.cardBackground,
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(AppModifiers.defaultRadius),
                 ),
               ),
               child: Center(
                 child: AvatarView(
-                  avatarId: match.profile.avatarID,
-                  size: 24,
+                  avatarId: match.profile_1.avatarID,
+                  size: 40,
                   shouldBlur: isPro == false,
                 ),
               ),

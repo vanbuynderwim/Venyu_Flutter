@@ -5,7 +5,8 @@ enum ServerListType {
   notifications('get_notifications'),
   pendingUserReviews('get_pending_user_reviews'), 
   pendingSystemReviews('get_pending_system_reviews'),
-  matches('get_matches');
+  matches('get_matches'),
+  cards('get_profile_prompts');
 
   const ServerListType(this.value);
   final String value;
@@ -19,6 +20,8 @@ enum ServerListType {
         return 'All caught up!';
       case ServerListType.matches:
         return 'Waiting for your first match!';
+      case ServerListType.cards:
+        return 'Ready to get matched?';
     }
   }
 
@@ -31,6 +34,8 @@ enum ServerListType {
         return 'When cards are submitted for review, they will appear here';
       case ServerListType.matches:
         return 'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
+      case ServerListType.cards:
+        return 'Cards open the door to meaningful introductions. Add yours and match with the right people.';
     }
   }
 
@@ -43,6 +48,8 @@ enum ServerListType {
         return 'home_regular';
       case ServerListType.matches:
         return 'couple_regular';
+      case ServerListType.cards:
+        return 'nocards';
     }
   }
 }
@@ -57,6 +64,7 @@ class PaginatedRequest {
   final String? cursorId;
   final DateTime? cursorTime;
   final MatchStatus? cursorStatus;
+  final bool? cursorExpired;
   final ServerListType list;
 
   const PaginatedRequest({
@@ -64,6 +72,7 @@ class PaginatedRequest {
     this.cursorId,
     this.cursorTime,
     this.cursorStatus,
+    this.cursorExpired,
     required this.list,
   });
 
@@ -85,11 +94,15 @@ class PaginatedRequest {
       json['cursor_status'] = cursorStatus!.value;
     }
 
+    if (cursorExpired != null) {
+      json['cursor_expired'] = cursorExpired;
+    }
+
     return json;
   }
 
   @override
   String toString() {
-    return 'PaginatedRequest(limit: $limit, cursorId: $cursorId, cursorTime: $cursorTime, cursorStatus: $cursorStatus, list: $list)';
+    return 'PaginatedRequest(limit: $limit, cursorId: $cursorId, cursorTime: $cursorTime, cursorStatus: $cursorStatus, cursorExpired: $cursorExpired, list: $list)';
   }
 }

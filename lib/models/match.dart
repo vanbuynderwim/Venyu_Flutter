@@ -7,7 +7,8 @@ import 'enums/match_response.dart';
 
 class Match {
   final String id;
-  final Profile profile;
+  final Profile profile_1;
+  final Profile? profile_2;
   final MatchStatus status;
   final double? score;
   final String? reason;
@@ -21,7 +22,8 @@ class Match {
 
   const Match({
     required this.id,
-    required this.profile,
+    required this.profile_1,
+    this.profile_2,
     required this.status,
     this.score,
     this.reason,
@@ -37,7 +39,8 @@ class Match {
   factory Match.fromJson(Map<String, dynamic> json) {
     return Match(
       id: json['id'] as String,
-      profile: Profile.fromJson(json['profile']),
+      profile_1: Profile.fromJson(json['profile_1']),
+      profile_2: json['profile_2'] != null ? Profile.fromJson(json['profile_2']) : null,
       status: MatchStatus.fromJson(json['status']),
       score: json['score']?.toDouble(),
       reason: json['reason'] as String?,
@@ -63,7 +66,8 @@ class Match {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'profile': profile.toJson(),
+      'profile_1': profile_1.toJson(),
+      'profile_2': profile_2?.toJson(),
       'status': status.toJson(),
       'score': score,
       'reason': reason,

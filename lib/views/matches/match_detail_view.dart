@@ -165,12 +165,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       children: [
             // Profile Header
             ProfileHeader(
-              profile: _match!.profile,
+              profile: _match!.profile_1,
               avatarSize: 80.0,
               isEditable: false,
               isConnection: _match!.isConnected,
               isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
-              onAvatarTap: _match!.profile.avatarID != null
+              onAvatarTap: _match!.profile_1.avatarID != null
                   ? () {
                       final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
                       final isConnection = _match!.isConnected;
@@ -181,22 +181,22 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                       }
                     }
                   : null,
-              onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
-                  ? () => UrlHelper.openLinkedIn(context, _match!.profile.linkedInURL!)
+              onLinkedInTap: _match!.isConnected && _match!.profile_1.linkedInURL != null
+                  ? () => UrlHelper.openLinkedIn(context, _match!.profile_1.linkedInURL!)
                   : null,
-              onEmailTap: _match!.isConnected && _match!.profile.contactEmail != null
+              onEmailTap: _match!.isConnected && _match!.profile_1.contactEmail != null
                   ? () => UrlHelper.composeEmail(
                       context, 
-                      _match!.profile.contactEmail!,
+                      _match!.profile_1.contactEmail!,
                       subject: 'We are connected on Venyu!',
                     )
                   : null,
-              onWebsiteTap: _match!.isConnected && _match!.profile.websiteURL != null
-                  ? () => UrlHelper.openWebsite(context, _match!.profile.websiteURL!)
+              onWebsiteTap: _match!.isConnected && _match!.profile_1.websiteURL != null
+                  ? () => UrlHelper.openWebsite(context, _match!.profile_1.websiteURL!)
                   : null,
             ),
             
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
             
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
@@ -210,7 +210,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 currentProfile: context.profileService.currentProfile!,
                 isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
             ],
             
             // If connection limit is reached, show upgrade prompt instead of other sections
@@ -242,7 +242,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchConnectionsSection(match: _match!),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
               ],
 
               // Shared Venues Section
@@ -251,9 +251,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   iconName: 'venue',
                   title: '${_match!.nrOfVenues} shared ${_match!.nrOfVenues == 1 ? "venue" : "venues"}',
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 MatchVenuesSection(match: _match!),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
               ],
               
               // Company matches section
@@ -264,7 +264,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchTagsSection(tagGroups: _match!.companyTagGroups),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
               ],
               
               // Personal matches section  
@@ -275,7 +275,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 _buildPersonalMatchesContent(),
-                const SizedBox(height: 24),
+               const SizedBox(height: 16),
               ],
               
               // Match reasons section (only for matched status)
@@ -322,7 +322,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   Future<void> _viewMatchAvatar(BuildContext context) async {
     await AvatarFullscreenViewer.show(
       context: context,
-      avatarId: _match?.profile.avatarID,
+      avatarId: _match?.profile_1.avatarID,
       showBorder: false,
       preserveAspectRatio: true,
     );

@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/constants/app_strings.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../mixins/error_handling_mixin.dart';
+import '../../mixins/paginated_list_view_mixin.dart';
 import '../../models/prompt.dart';
+import '../../models/requests/paginated_request.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/fab_button.dart';
 import 'card_item.dart';
+import 'card_edit_view.dart';
 import 'card_detail_view.dart';
 import 'interaction_type_selection_view.dart';
-import '../../widgets/common/empty_state_widget.dart';
 
 /// CardsView - Dedicated view for user's cards and prompts
 /// 
@@ -37,92 +38,89 @@ class CardsView extends StatefulWidget {
   State<CardsView> createState() => _CardsViewState();
 }
 
-class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
+class _CardsViewState extends State<CardsView> 
+    with PaginatedListViewMixin<CardsView>, ErrorHandlingMixin<CardsView> {
   // Services
   late final ContentManager _contentManager;
   
   // State
-  List<Prompt>? _cards;
+  final List<Prompt> _cards = [];
 
   @override
   void initState() {
     super.initState();
     AppLogger.debug('initState', context: 'CardsView');
     _contentManager = ContentManager.shared;
-    
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      AppLogger.debug('Loading cards...', context: 'CardsView');
-      _loadCards();
-    });
+    initializePagination();
+    _loadCards();
+  }
+
+  @override
+  Future<void> loadMoreItems() async {
+    await _loadMoreCards();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Back to original AppScaffold approach but with FAB support
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(AppStrings.cards),
+        title: Text("Your cards"),
       ),
-      floatingActionButton: _cards != null && _cards!.isNotEmpty
+      floatingActionButton: _cards.isNotEmpty
           ? FABButton(
               icon: context.themedIcon('edit'),
-              label: 'New',
+              label: 'Get matched',
               onPressed: _openAddCardModal,
             )
           : null,
       usePadding: true,
       useSafeArea: true,
       body: RefreshIndicator(
-        onRefresh: () => _loadCards(forceRefresh: true),
+        onRefresh: _handleRefresh,
         child: isLoading
             ? const LoadingStateWidget()
-            : _buildCardsContent(),
+            : _cards.isEmpty
+                ? CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverFillRemaining(
+                        child: EmptyStateWidget(
+                          message: ServerListType.cards.emptyStateTitle,
+                          description: ServerListType.cards.emptyStateDescription,
+                          iconName: ServerListType.cards.emptyStateIcon,
+                          onAction: _openAddCardModal,
+                          actionText: "Get matched",
+                          actionButtonIcon: context.themedIcon('edit'),
+                        ),
+                      ),
+                    ],
+                  )
+                : ListView.builder(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: _cards.length + (isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _cards.length) {
+                        return buildLoadingIndicator();
+                      }
+
+                      final prompt = _cards[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: CardItem(
+                          prompt: prompt,
+                          showChevron: true,
+                          onCardSelected: (selectedPrompt) {
+                            _navigateToCardDetail(selectedPrompt);
+                          },
+                        ),
+                      );
+                    },
+                  ),
       ),
     );
   }
 
-  /// Builds the cards content - list or empty state
-  Widget _buildCardsContent() {
-    if (_cards == null || _cards!.isEmpty) {
-      return _buildEmptyState();
-    }
-    
-    return ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: _cards!.length,
-      itemBuilder: (context, index) {
-        final prompt = _cards![index];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: CardItem(
-            prompt: prompt,
-            onCardSelected: (selectedPrompt) {
-              _navigateToCardDetail(selectedPrompt);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  /// Builds the empty state when no cards are available
-  Widget _buildEmptyState() {
-    return CustomScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      slivers: [
-        SliverFillRemaining(
-          child: EmptyStateWidget(
-            message: "Ready to get matched?",
-            description: "Cards open the door to meaningful introductions. Add yours and match with the right people.",
-            iconName: "nocards",
-            onAction: _openAddCardModal,
-            actionText: "Add card",
-            actionButtonIcon: context.themedIcon('edit'),
-          ),
-        ),
-      ],
-    );
-  }
 
   /// Opens the interaction type selection view for creating a new card
   Future<void> _openAddCardModal() async {
@@ -145,7 +143,7 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
       
       // If card was successfully added, refresh the list
       if (result == true) {
-        await _loadCards(forceRefresh: true);
+        await _handleRefresh();
       }
     } catch (error) {
       AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
@@ -191,20 +189,17 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
         break;
         
       case PromptStatus.approved:
-        // Show approved dialog
-        await DialogUtils.showInfoDialog(
-          context: context,
-          title: 'Card approved',
-          message: 'Your card has been approved and can not be changed.',
-          buttonText: 'OK',
-        );
+      case PromptStatus.online:
+      case PromptStatus.offline:
+        // Approved/online/offline cards show matches (read-only)
+        await _openCardMatchesView(prompt);
         break;
         
       case null:
       case PromptStatus.pendingTranslation:
       case PromptStatus.archived:
-        // For other statuses, open detail view
-        await _openCardDetailView(prompt);
+        // For other statuses, show matches
+        await _openCardMatchesView(prompt);
         break;
     }
   }
@@ -220,7 +215,7 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
       );
       
       // Refresh cards list to reflect status change
-      await _loadCards(forceRefresh: true);
+      await _handleRefresh();
       
       // Open detail view for editing
       await _openCardDetailView(prompt);
@@ -248,53 +243,104 @@ class _CardsViewState extends State<CardsView> with ErrorHandlingMixin {
           isScrollControlled: true,
           useSafeArea: true,
         ),
-        builder: (context) => CardDetailView(existingPrompt: prompt),
+        builder: (context) => CardEditView(existingPrompt: prompt),
       );
       
       AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
       
       // If card was successfully updated, refresh the list
       if (result == true) {
-        await _loadCards(forceRefresh: true);
+        await _handleRefresh();
       }
     } catch (error) {
       AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
     }
   }
 
-  /// Loads cards from the server
+  /// Opens the new card detail view to show matches
+  Future<void> _openCardMatchesView(Prompt prompt) async {
+    AppLogger.debug('Opening card matches view for card: ${prompt.label}', context: 'CardsView');
+    try {
+      await Navigator.push(
+        context,
+        platformPageRoute(
+          context: context,
+          builder: (context) => CardDetailView(prompt: prompt),
+        ),
+      );
+      
+      AppLogger.debug('Card matches view closed', context: 'CardsView');
+    } catch (error) {
+      AppLogger.error('Error opening card matches view: $error', context: 'CardsView');
+    }
+  }
+
   Future<void> _loadCards({bool forceRefresh = false}) async {
     final authService = context.authService;
-    AppLogger.debug('_loadCards called, authenticated: ${authService.isAuthenticated}', context: 'CardsView');
-    if (!authService.isAuthenticated) {
-      AppLogger.debug('Not authenticated, skipping load', context: 'CardsView');
-      safeSetState(() {
-        _cards = [];
-      });
-      return;
+    if (!authService.isAuthenticated) return;
+
+    if (forceRefresh || _cards.isEmpty) {
+      if (forceRefresh) {
+        safeSetState(() {
+          _cards.clear();
+          hasMorePages = true;
+        });
+      }
+
+      await executeWithLoading(
+        operation: () async {
+          final request = PaginatedRequest(
+            limit: PaginatedRequest.numberOfCards,
+            list: ServerListType.cards,
+          );
+
+          final cards = await _contentManager.fetchCards(request);
+          safeSetState(() {
+            _cards.addAll(cards);
+            hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+          });
+        },
+        showSuccessToast: false,
+        showErrorToast: false,  // Silent load for initial data
+      );
     }
-    
-    final fetchedCards = await executeWithLoadingAndReturn<List<Prompt>>(
+  }
+
+  Future<void> _loadMoreCards() async {
+    if (_cards.isEmpty || !hasMorePages) return;
+
+    safeSetState(() {
+      isLoadingMore = true;
+    });
+
+    await executeSilently(
       operation: () async {
-        AppLogger.debug('Fetching cards from Supabase...', context: 'CardsView');
-        // Add timeout to prevent hanging
-        return await _contentManager.fetchCards().timeout(
-          const Duration(seconds: 10),
-          onTimeout: () {
-            AppLogger.warning('Fetch cards timeout!', context: 'CardsView');
-            return <Prompt>[]; // Return empty list on timeout
-          },
+        final lastCard = _cards.last;
+        final request = PaginatedRequest(
+          limit: PaginatedRequest.numberOfCards,
+          cursorId: lastCard.promptID,
+          cursorTime: lastCard.createdAt,
+          cursorExpired: lastCard.expired,
+          list: ServerListType.cards,
         );
+
+        final cards = await _contentManager.fetchCards(request);
+        safeSetState(() {
+          _cards.addAll(cards);
+          hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+          isLoadingMore = false;
+        });
       },
-      defaultValue: <Prompt>[],
-      showErrorToast: false,  // Don't show error toast for silent refresh
+      onError: (error) {
+        AppLogger.error('Error loading more cards', context: 'CardsView', error: error);
+        safeSetState(() {
+          isLoadingMore = false;
+        });
+      },
     );
-    
-    if (fetchedCards != null) {
-      AppLogger.success('Loaded ${fetchedCards.length} cards', context: 'CardsView');
-      safeSetState(() {
-        _cards = fetchedCards;
-      });
-    }
+  }
+
+  Future<void> _handleRefresh() async {
+    await _loadCards(forceRefresh: true);
   }
 }

@@ -68,9 +68,27 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Convert response to Match object
       final match = Match.fromJson(result);
-      AppLogger.success('Match detail parsed: ${match.profile.fullName}', context: 'MatchingManager');
+      AppLogger.success('Match detail parsed: ${match.profile_1.fullName}', context: 'MatchingManager');
       
       return match;
+    });
+  }
+
+  /// Fetch matches for a specific prompt
+  Future<List<Match>> fetchPromptMatches(String promptId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching prompt matches for: $promptId', context: 'MatchingManager');
+      
+      final result = await client.rpc('get_prompt_matches', params: {'p_prompt_id': promptId});
+      
+      AppLogger.success('Prompt matches RPC call successful', context: 'MatchingManager');
+      AppLogger.debug('Prompt matches data received', context: 'MatchingManager');
+      
+      // Convert response to List<Match>
+      final matches = (result as List).map((item) => Match.fromJson(item)).toList();
+      AppLogger.success('Fetched ${matches.length} matches for prompt', context: 'MatchingManager');
+      
+      return matches;
     });
   }
 

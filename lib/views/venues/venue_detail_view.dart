@@ -15,6 +15,8 @@ import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import 'venue_profiles_view.dart';
+import 'venue_prompts_view.dart';
 
 /// VenueDetailView - Detailed view of a venue showing information and member stats
 /// 
@@ -54,17 +56,20 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   }
 
   Future<void> _loadVenueDetail() async {
+    if (!mounted) return;
     setState(() => _error = null);
     
     final venue = await executeWithLoadingAndReturn<Venue>(
       operation: () => _venueManager.fetchVenue(widget.venueId),
       showErrorToast: false,  // We show custom error UI
       onError: (error) {
-        setState(() => _error = 'Failed to load venue details');
+        if (mounted) {
+          setState(() => _error = 'Failed to load venue details');
+        }
       },
     );
     
-    if (venue != null) {
+    if (venue != null && mounted) {
       setState(() => _venue = venue);
     }
   }
@@ -85,9 +90,19 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
               child: _buildContent(),
             ),
           ),
-          // Fixed bottom action button
-          if (_venue != null)
+          // Fixed bottom sections
+          if (_venue != null) ...[
+            // Fixed bottom action button
             _buildBottomSection(),
+            
+            // Event dates section fixed at bottom (only for events)
+            if (_venue!.isEvent) ...[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _buildEventDatesSection(_venue!),
+              ),
+            ],
+          ],
         ],
       ),
     );
@@ -132,36 +147,25 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
         // Venue Header
         _buildVenueHeader(_venue!),
         
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
+         // Stats section        
+        _buildStatsSection(_venue!),
+
         
         // About section
         if (_venue!.about != null && _venue!.about!.isNotEmpty) ...[
-          _buildAboutSection(_venue!),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
+          _buildAboutSection(_venue!),          
         ],
 
-        // Website section
-        if (_venue!.website != null && _venue!.website!.isNotEmpty) ...[
-          _buildWebsiteSection(_venue!),
-          const SizedBox(height: 24),
-        ],
         
-        // Event info section (only for events)
-        if (_venue!.isEvent && (_venue!.eventDate != null || _venue!.eventLocation != null)) ...[
-          _buildEventInfoSection(_venue!),
-          const SizedBox(height: 24),
+        // Event info section (for events or venues with website)
+        if ((_venue!.isEvent && (_venue!.eventDate != null || _venue!.eventLocation != null)) || 
+            (_venue!.website != null && _venue!.website!.isNotEmpty)) ...[
+          const SizedBox(height: 16),
+          _buildEventInfoSection(_venue!),          
         ],
-
-        // Event dates section (only for events)
-        if (_venue!.isEvent) ...[
-          _buildEventDatesSection(_venue!),
-          const SizedBox(height: 24),
-        ],
-
-        // Stats section        
-        _buildStatsSection(_venue!),
-        
-        const SizedBox(height: 24),
+      
       ],
     );
   }
@@ -221,11 +225,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'About',
-          style: AppTextStyles.headline.primaryText(context),
-        ),
-        const SizedBox(height: 8),
+
         Text(
           venue.about!,
           style: AppTextStyles.body.secondary(context),
@@ -238,12 +238,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   Widget _buildEventInfoSection(Venue venue) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Event Details',
-          style: AppTextStyles.headline.primaryText(context),
-        ),
-        const SizedBox(height: 8),
+      children: [  
         Container(
           decoration: AppLayoutStyles.cardDecoration(context),
           child: Padding(
@@ -261,13 +256,13 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              venue.eventDate!.formatDateWithWeekday(),
+                              venue.eventDate!.formatDateFull(context),
                               style: AppTextStyles.body.primaryText(context),
                             ),
                             if (venue.eventHour != null) ...[
                               const SizedBox(height: 2),
                               Text(
-                                venue.eventHour!.formatTime(),
+                                venue.eventHour!.formatTime(context),
                                 style: AppTextStyles.caption1.secondary(context),
                               ),
                             ],
@@ -308,6 +303,37 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                     ),
                   ),
                 ],
+                
+                // Separator if location and website are both present
+                if (venue.eventLocation != null && venue.website != null && venue.website!.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Divider(
+                    color: context.venyuTheme.borderColor.withValues(alpha: 0.5),
+                    height: 1,
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                
+                // Website
+                if (venue.website != null && venue.website!.isNotEmpty) ...[
+                  GestureDetector(
+                    onTap: () => UrlHelper.openWebsite(context, venue.website!),
+                    child: Row(
+                      children: [
+                        context.themedIcon('link', size: 20, selected: false),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            venue.website!,
+                            style: AppTextStyles.body.copyWith(
+                              color: context.venyuTheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -316,29 +342,6 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     );
   }
 
-  /// Builds the website section
-  Widget _buildWebsiteSection(Venue venue) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Website',
-          style: AppTextStyles.headline.primaryText(context),
-        ),
-        const SizedBox(height: 8),
-        GestureDetector(
-          onTap: () => UrlHelper.openWebsite(context, venue.website!),
-          child: Text(
-            venue.website!,
-            style: AppTextStyles.body.copyWith(
-              color: context.venyuTheme.primary,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
   /// Builds the stats section with all venue counters
   Widget _buildStatsSection(Venue venue) {
@@ -347,11 +350,6 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Stats',
-          style: AppTextStyles.headline.primaryText(context),
-        ),
-        const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
             color: venyuTheme.primary.withValues(alpha: 0.05),
@@ -374,6 +372,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                     context.themedIcon('venue', size: 24, selected: true),
                     '${venue.profileCount ?? 0}',
                     venue.profileCount == 1 ? 'Member' : 'Members',
+                    onTap: venue.isUserAdmin ? () => _navigateToVenueProfiles(venue) : null,
+                    isClickable: venue.isUserAdmin,
                   ),
                 ),
                 
@@ -392,6 +392,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                       context.themedIcon('card', size: 24, selected: true),
                       '${venue.promptCount ?? 0}',
                       venue.promptCount == 1 ? 'Card' : 'Cards',
+                      onTap: venue.isUserAdmin ? () => _navigateToVenuePrompts(venue) : null,
+                      isClickable: venue.isUserAdmin,
                     ),
                   ),
                 ),
@@ -441,8 +443,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   }
 
   /// Builds a single stat item with icon, count, and label
-  Widget _buildStatItem(Widget icon, String count, String label) {
-    return Row(
+  Widget _buildStatItem(Widget icon, String count, String label, {VoidCallback? onTap, bool isClickable = false}) {
+    final content = Row(
       children: [
         icon,
         const SizedBox(width: 16),
@@ -452,25 +454,49 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
             children: [
               Text(
                 count,
-                style: AppTextStyles.headline.primaryText(context),
+                style: AppTextStyles.headline.copyWith(
+                  color: isClickable 
+                      ? context.venyuTheme.primary 
+                      : context.venyuTheme.primaryText,
+                ),
               ),
               Text(
                 label,
-                style: AppTextStyles.caption1.secondary(context),
+                style: AppTextStyles.caption1.copyWith(
+                  color: isClickable 
+                      ? context.venyuTheme.primary 
+                      : context.venyuTheme.secondaryText,
+                ),
               ),
             ],
           ),
         ),
       ],
     );
+
+    // If no onTap callback, return plain content
+    if (onTap == null) {
+      return content;
+    }
+
+    // Otherwise, make it tappable with subtle highlight
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        splashFactory: NoSplash.splashFactory,
+        highlightColor: Colors.transparent,
+        child: content,
+      ),
+    );
   }
 
   /// Builds the bottom action button section
   Widget _buildBottomSection() {
     return ActionButton(
-        label: 'Add Card',
+        label: 'Get matched',
         onPressed: _handleAddCard,
-        icon: context.themedIcon('plus', size: 20),
+        icon: context.themedIcon('edit'),
       );
   }
 
@@ -478,81 +504,52 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   Widget _buildEventDatesSection(Venue venue) {
     if (!venue.isEvent) return const SizedBox.shrink();
     
-    final venyuTheme = context.venyuTheme;
+    String message = 'Open for matchmaking';
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Open for matchmaking',
-          style: AppTextStyles.headline.primaryText(context),
+    if (venue.startsAt != null && venue.expiresAt != null) {
+      message += ' from ${venue.startsAt!.formatDateShort(context)} until ${venue.expiresAt!.formatDateShort(context)}';
+    } else if (venue.startsAt != null) {
+      message += ' from ${venue.startsAt!.formatDateShort(context)}';
+    } else if (venue.expiresAt != null) {
+      message += ' until ${venue.expiresAt!.formatDateShort(context)}';
+    }
+
+    return Text(
+      message,
+      style: AppTextStyles.caption1.secondary(context),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  /// Navigate to venue profiles view (admin only)
+  void _navigateToVenueProfiles(Venue venue) {
+    AppLogger.ui('Navigating to venue profiles for: ${venue.name}', context: 'VenueDetailView');
+    
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => VenueProfilesView(
+          venueId: venue.id,
+          venueName: venue.name,
         ),
-        const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: venyuTheme.primary.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: venyuTheme.borderColor.withValues(alpha: 0.5),
-              width: 1,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                // Start date
-                if (venue.startsAt != null) ...[
-                  Row(
-                    children: [
-                      context.themedIcon('event', size: 20, selected: false),
-                      const SizedBox(width: 16),
-                      Text(
-                        'From',
-                        style: AppTextStyles.subheadline.secondary(context),
-                      ),
-                      const Spacer(),
-                      Text(
-                        venue.startsAt!.formatDate(),
-                        style: AppTextStyles.subheadline.primaryText(context),
-                      ),
-                    ],
-                  ),
-                ],
-                
-                // Separator if both dates are present
-                if (venue.startsAt != null && venue.expiresAt != null) ...[
-                  const SizedBox(height: 8),
-                  Divider(
-                    color: context.venyuTheme.borderColor.withValues(alpha: 0.5),
-                    height: 1,
-                  ),
-                  const SizedBox(height: 8),
-                ],
-                
-                // End date
-                if (venue.expiresAt != null) ...[
-                  Row(
-                    children: [
-                      context.themedIcon('event', size: 20, selected: false),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Until',
-                        style: AppTextStyles.subheadline.secondary(context),
-                      ),
-                      const Spacer(),
-                      Text(
-                        venue.expiresAt!.formatDate(),
-                        style: AppTextStyles.subheadline.primaryText(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
+      ),
+    );
+  }
+
+  /// Navigate to venue prompts view (admin only)
+  void _navigateToVenuePrompts(Venue venue) {
+    AppLogger.ui('Navigating to venue prompts for: ${venue.name}', context: 'VenueDetailView');
+    
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => VenuePromptsView(
+          venueId: venue.id,
+          venueName: venue.name,
         ),
-      ],
+      ),
     );
   }
 

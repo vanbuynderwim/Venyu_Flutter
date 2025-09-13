@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
-import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/status_badge_view.dart';
+import '../../widgets/common/interaction_tag.dart';
+import '../../widgets/common/venue_tag.dart';
 
 /// CardItem - Flutter equivalent van Swift CardItemView
 class CardItem extends StatefulWidget {
@@ -16,6 +18,7 @@ class CardItem extends StatefulWidget {
   final bool isFirst;
   final bool isSharedPromptView;
   final bool showMatchInteraction;
+  final bool showChevron;
   final Function(Prompt)? onCardSelected;
 
   const CardItem({
@@ -26,6 +29,7 @@ class CardItem extends StatefulWidget {
     this.isFirst = false,
     this.isSharedPromptView = false,
     this.showMatchInteraction = false,
+    this.showChevron = false,
     this.onCardSelected,
   });
 
@@ -61,65 +65,115 @@ class _CardItemState extends State<CardItem> {
                   width: AppModifiers.extraThinBorder,
                 ),
               ),
-              child: IntrinsicHeight(
+              child: Container(
+                padding: AppModifiers.cardContentPadding,
+                decoration: _buildGradientOverlay(),
                 child: Row(
                   children: [
-                    // Leading interaction type bar
-                    if (widget.prompt.interactionType != null)
-                      _buildInteractionBar(widget.prompt.interactionType!, isLeading: true),
-                    
-                    // Main content
                     Expanded(
-                      child: Container(
-                        padding: AppModifiers.cardContentPadding,
-                        decoration: _buildGradientOverlay(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Profile/Role view
-                            if (widget.prompt.profile != null)
-                              RoleView(
-                                profile: widget.prompt.profile!,
-                                avatarSize: 40,
-                                showChevron: false,
-                                buttonDisabled: true,
-                              ),
-                            
-                            if (widget.prompt.profile != null)
-                              AppModifiers.verticalSpaceMedium,
-                            
-                            // Prompt label
-                            Text(
-                              widget.prompt.label,
-                              style: AppTextStyles.callout.copyWith(
-                                color: context.venyuTheme.primaryText,
-                              ),
-                              maxLines: null,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Profile/Role view
+                          if (widget.prompt.profile != null) ...[
+                            RoleView(
+                              profile: widget.prompt.profile!,
+                              avatarSize: 40,
+                              showChevron: false,
+                              buttonDisabled: true,
                             ),
-                            
-                            // Status badge
-                            if (widget.prompt.status != null)
-                              Padding(
-                                padding: EdgeInsets.only(top: AppModifiers.mediumSpacing),
-                                child: StatusBadgeView(
-                                  status: widget.prompt.status!,
-                                ),
-                              ),
+                            AppModifiers.verticalSpaceMedium,
                           ],
+                    
+                    // Created date and status badge row - above prompt label
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Date on the left
+                        if (widget.prompt.createdAt != null) ...[
+                          Text(
+                            widget.prompt.createdAt!.timeAgoFull(),
+                            style: AppTextStyles.caption1.copyWith(
+                              color: context.venyuTheme.secondaryText,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                        
+                        // Status badge next to date - use displayStatus for online/offline logic
+                        StatusBadgeView(
+                          status: widget.prompt.displayStatus,
+                          compact: true,
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    
+                    // Prompt label - takes full width
+                    Text(
+                      widget.prompt.label,
+                      style: AppTextStyles.callout.copyWith(
+                        color: context.venyuTheme.primaryText,
+                      ),
+                      maxLines: null,
+                    ),
+                    
+                    // Interaction and venue tags row - below the label
+                    if (widget.prompt.interactionType != null || 
+                        widget.prompt.venue != null ||
+                        (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)) ...[
+                      SizedBox(height: AppModifiers.mediumSpacing),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Left side: interaction tag and venue tag
+                          Expanded(
+                            child: Row(
+                              children: [
+                                if (widget.prompt.interactionType != null) ...[
+                                  InteractionTag(
+                                    interactionType: widget.prompt.interactionType!,
+                                    compact: true,
+                                  ),
+                                  if (widget.prompt.venue != null)
+                                    const SizedBox(width: 8),
+                                ],
+                                if (widget.prompt.venue != null)
+                                  VenueTag(
+                                    venue: widget.prompt.venue!,
+                                    compact: true,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          
+                          // Right interaction tag (for match interactions)
+                          if (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)
+                            InteractionTag(
+                              interactionType: widget.prompt.matchInteractionType!,
+                              compact: true,
+                            ),
+                        ],
+                      ),
+                    ],
+                    
+                          // Checkbox for reviewing mode
+                          if (widget.reviewing) ...[
+                            SizedBox(height: AppModifiers.mediumSpacing),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: _buildCheckbox(),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                     
-                    // Trailing interaction type bar (for match interactions)
-                    if (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)
-                      _buildInteractionBar(widget.prompt.matchInteractionType!, isLeading: false),
-                    
-                    // Checkbox for reviewing
-                    if (widget.reviewing)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: _buildCheckbox(),
-                      ),
+                    // Chevron on the right
+                    if (widget.showChevron) ...[
+                      const SizedBox(width: 12),
+                      context.themedIcon('chevron', size: 18),
+                    ],
                   ],
                 ),
               ),
@@ -128,62 +182,54 @@ class _CardItemState extends State<CardItem> {
         );
   }
 
-  /// Bouw de interaction type bar (verticale balk met icoon)
-  Widget _buildInteractionBar(InteractionType interactionType, {required bool isLeading}) {
-    return Container(
-      width: 40,
-      constraints: const BoxConstraints.expand(width: 40), // Full height, fixed width
-      decoration: BoxDecoration(
-        color: interactionType.color,
-      ),
-      child: Center(
-        child: Image.asset(
-          interactionType.assetPath,
-          width: 24,
-          height: 24,
-          color: AppColors.white,
-          errorBuilder: (context, error, stackTrace) {
-            return Icon(
-              interactionType.fallbackIcon,
-              size: 24,
-              color: AppColors.white,
-            );
-          },
-        ),
-      ),
-    );
-  }
 
   /// Bouw de checkbox voor reviewing mode
   Widget _buildCheckbox() {
     return context.themedIcon('checkbox', selected: isSelected);
   }
 
-  /// Build gradient overlay - only show gradient if interaction colors exist
+  /// Build gradient overlay - only use interaction colors when prompt is online, otherwise lilac
   BoxDecoration? _buildGradientOverlay() {
-    final leftColor = widget.prompt.interactionType?.color;
-    final rightColor = widget.showMatchInteraction && widget.prompt.matchInteractionType != null
-        ? widget.prompt.matchInteractionType!.color
-        : null;
-    
-    // If no interaction colors, no overlay needed (cardBackground is on main container)
-    if (leftColor == null && rightColor == null) {
-      return null;
-    }
-    
-    // If interaction colors exist, show gradient overlay
     final venyuTheme = context.venyuTheme;
-    return BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          (leftColor ?? venyuTheme.cardBackground).withValues(alpha: 0.15),
-          (rightColor ?? venyuTheme.cardBackground).withValues(alpha: 0.15),
-        ],
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      ),
-    );
+    
+    // If prompt is online, use interaction colors
+    if (widget.prompt.isOnline) {
+      final leftColor = widget.prompt.interactionType?.color;
+      final rightColor = widget.showMatchInteraction && widget.prompt.matchInteractionType != null
+          ? widget.prompt.matchInteractionType!.color
+          : null;
+      
+      // If no interaction colors, no overlay needed
+      if (leftColor == null && rightColor == null) {
+        return null;
+      }
+      
+      // Show interaction color gradient
+      return BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            (leftColor ?? venyuTheme.cardBackground).withValues(alpha: 0.3),
+            (rightColor ?? venyuTheme.cardBackground).withValues(alpha: 0.3),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      );
+    } else {
+      // If prompt is offline, use lilac color
+      return BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.primair4Lilac.withValues(alpha: 0.3),
+            venyuTheme.cardBackground.withValues(alpha: 0.3),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+      );
+    }
   }
+
 
   /// Simple card border radius - equivalent to Swift applyCardShape
   BorderRadius _getCardBorderRadius() {

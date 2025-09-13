@@ -117,15 +117,25 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
-  /// Fetch user's cards/prompts
-  Future<List<Prompt>> fetchCards() async {
+  /// Fetch user's cards/prompts with pagination
+  Future<List<Prompt>> fetchCards(PaginatedRequest paginatedRequest) async {
     return executeAuthenticatedRequest(() async {
-      AppLogger.info('Fetching user cards', context: 'ContentManager');
+      AppLogger.info('Fetching user cards with pagination: $paginatedRequest', context: 'ContentManager');
       
-      final List<dynamic> data = await client.rpc('get_profile_cards');
-      final cards = data.map((json) => Prompt.fromJson(json as Map<String, dynamic>)).toList();
+      // Call the get_profile_prompts RPC function with payload
+      final result = await client
+          .rpc('get_profile_prompts', params: {'payload': paginatedRequest.toJson()})
+          .select();
       
-      AppLogger.success('Fetched ${cards.length} cards', context: 'ContentManager');
+      AppLogger.success('Cards RPC call successful', context: 'ContentManager');
+      AppLogger.debug('Cards data received: ${result.length} cards', context: 'ContentManager');
+      
+      // Convert response to list of Prompt objects
+      final cards = (result as List)
+          .map((json) => Prompt.fromJson(json))
+          .toList();
+      
+      AppLogger.success('Cards parsed: ${cards.length} cards', context: 'ContentManager');
       return cards;
     });
   }

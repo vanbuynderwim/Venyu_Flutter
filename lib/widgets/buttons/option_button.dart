@@ -304,7 +304,7 @@ class _OptionButtonState extends State<OptionButton> {
           
           // Chevron
           if (widget.isChevronVisible)
-            context.themedIcon('chevron', size: 16),
+            context.themedIcon('chevron', size: 18),
         ],
       ),
     );
