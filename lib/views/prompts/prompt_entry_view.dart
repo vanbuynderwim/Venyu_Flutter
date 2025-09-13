@@ -9,7 +9,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
-import 'prompts_view.dart';
+import 'daily_prompts_view.dart';
 
 /// Entry screen for prompt flow - shows before prompts when they exist
 /// 
@@ -37,7 +37,7 @@ class PromptEntryView extends StatelessWidget {
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (_) => PromptsView(
+        builder: (_) => DailyPromptsView(
           prompts: prompts,
           onCloseModal: onCloseModal,
         ),

@@ -12,7 +12,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_text_styles.dart';
-import 'card_edit_view.dart';
+import 'prompt_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
 /// 
@@ -40,9 +40,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => CardEditView(
+        builder: (context) => PromptEditView(
           initialInteractionType: type,
-          isNewCard: true,
+          isNewPrompt: true,
           isFromPrompts: isFromPrompts,
           onCloseModal: onCloseModal,
         ),

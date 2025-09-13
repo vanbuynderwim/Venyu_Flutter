@@ -5,7 +5,7 @@ import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
-import '../cards/card_item.dart';
+import '../prompts/prompt_item.dart';
 import '../../models/prompt.dart';
 import '../../models/requests/paginated_request.dart';
 import '../../services/supabase_managers/venue_manager.dart';
@@ -177,9 +177,9 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
                       final prompt = _prompts[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: CardItem(
+                        child: PromptItem(
                           prompt: prompt,
-                          onCardSelected: (selectedPrompt) {
+                          onPromptSelected: (selectedPrompt) {
                             AppLogger.debug('Prompt tapped: ${selectedPrompt.label}', context: 'VenuePromptsView');
                             // TODO: Navigate to card detail view if needed
                           },

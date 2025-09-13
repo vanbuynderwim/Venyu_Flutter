@@ -10,7 +10,7 @@ import '../core/providers/app_providers.dart';
 import '../services/notification_service.dart';
 import '../models/badge_data.dart';
 import 'matches/matches_view.dart';
-import 'cards/cards_view.dart';
+import 'prompts/prompts_view.dart';
 import 'notifications/notifications_view.dart';
 import 'profile/profile_view.dart';
 import 'prompts/prompt_entry_view.dart';
@@ -38,7 +38,7 @@ class _MainViewState extends State<MainView> {
   
   static const List<Widget> _pages = [
     MatchesView(),
-    CardsView(),
+    PromptsView(),
     NotificationsView(),
     ProfileView(),
   ];

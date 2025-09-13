@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../../models/enums/review_type.dart';
 import '../../../widgets/buttons/option_button.dart';
-import '../review_pending_cards_view.dart';
+import '../review_pending_prompts_view.dart';
 
 /// ReviewsSection - Admin reviews section
 /// 
@@ -40,7 +40,7 @@ class ReviewsSection extends StatelessWidget {
               context,
               platformPageRoute(
                 context: context,
-                builder: (context) => const ReviewPendingCardsView(
+                builder: (context) => const ReviewPendingPromptsView(
                   reviewType: ReviewType.user,
                 ),
               ),
@@ -68,7 +68,7 @@ class ReviewsSection extends StatelessWidget {
               context,
               platformPageRoute(
                 context: context,
-                builder: (context) => const ReviewPendingCardsView(
+                builder: (context) => const ReviewPendingPromptsView(
                   reviewType: ReviewType.system,
                 ),
               ),

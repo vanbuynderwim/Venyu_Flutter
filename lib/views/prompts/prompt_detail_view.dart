@@ -12,27 +12,27 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../matches/match_item_view.dart';
 import '../matches/match_detail_view.dart';
-import 'card_item.dart';
+import 'prompt_item.dart';
 
-/// CardDetailView - Shows a card with its associated matches
+/// PromptDetailView - Shows a prompt with its associated matches
 /// 
 /// This view displays:
-/// - The card/prompt at the top (using CardItem)
-/// - List of matches associated with this card
+/// - The prompt at the top (using PromptItem)
+/// - List of matches associated with this prompt
 /// - Navigation to match details when tapping a match
-class CardDetailView extends StatefulWidget {
+class PromptDetailView extends StatefulWidget {
   final Prompt prompt;
 
-  const CardDetailView({
+  const PromptDetailView({
     super.key,
     required this.prompt,
   });
 
   @override
-  State<CardDetailView> createState() => _CardDetailViewState();
+  State<PromptDetailView> createState() => _PromptDetailViewState();
 }
 
-class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin {
+class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingMixin {
   late final MatchingManager _matchingManager;
   
   List<Match> _matches = [];
@@ -68,7 +68,7 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Card matches'),
+        title: Text('Prompt matches'),
       ),
       usePadding: true,
       useSafeArea: true,
@@ -107,8 +107,8 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
 
     return ListView(
       children: [
-        // Card at the top
-        CardItem(
+        // Prompt at the top
+        PromptItem(
           prompt: widget.prompt,
           reviewing: false,
           isFirst: true,
@@ -135,7 +135,7 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
             padding: const EdgeInsets.symmetric(vertical: 48),
             child: Center(
               child: Text(
-                'No matches yet for this card',
+                'No matches yet for this prompt',
                 style: AppTextStyles.body.copyWith(
                   color: context.venyuTheme.secondaryText,
                 ),
@@ -156,7 +156,7 @@ class _CardDetailViewState extends State<CardDetailView> with ErrorHandlingMixin
   }
 
   void _navigateToMatchDetail(Match match) {
-    AppLogger.ui('Navigating to match detail from card: ${match.id}', context: 'CardDetailView');
+    AppLogger.ui('Navigating to match detail from prompt: ${match.id}', context: 'PromptDetailView');
     
     Navigator.push(
       context,

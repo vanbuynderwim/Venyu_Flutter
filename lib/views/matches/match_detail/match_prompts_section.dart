@@ -7,7 +7,8 @@ import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/match.dart';
 import '../../../models/profile.dart';
-import '../../cards/card_item.dart';
+import '../../prompts/prompt_item.dart';
+import '../../prompts/prompt_detail_view.dart';
 import '../match_overview_header.dart';
 
 /// MatchPromptsSection - Displays matching prompts/cards section
@@ -63,16 +64,12 @@ class MatchPromptsSection extends StatelessWidget {
           final isFirst = index == 0;
           final isLast = index == match.prompts!.length - 1;
           
-          return CardItem(
+          return PromptItem(
             prompt: prompt,
             isSharedPromptView: true,
             showMatchInteraction: true,
             isFirst: isFirst,
             isLast: isLast,
-            onCardSelected: (selectedPrompt) {
-              // Card detail view - placeholder for future functionality
-              AppLogger.debug('Card selected: ${selectedPrompt.label}', context: 'MatchPromptsSection');
-            },
           );
         }),
       ],

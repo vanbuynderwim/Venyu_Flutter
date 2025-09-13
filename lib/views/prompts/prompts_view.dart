@@ -2,274 +2,345 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../models/prompt.dart';
-import '../../models/enums/interaction_type.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/utils/app_logger.dart';
-import '../../core/theme/app_fonts.dart';
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../widgets/buttons/interaction_button.dart';
-import '../../widgets/buttons/action_button.dart';
+import '../../core/utils/app_logger.dart';
+import '../../core/utils/dialog_utils.dart';
+import '../../models/enums/prompt_status.dart';
 import '../../mixins/error_handling_mixin.dart';
+import '../../mixins/paginated_list_view_mixin.dart';
+import '../../models/prompt.dart';
+import '../../models/requests/paginated_request.dart';
+import '../../core/providers/app_providers.dart';
 import '../../services/supabase_managers/content_manager.dart';
-import '../cards/interaction_type_selection_view.dart';
+import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/buttons/fab_button.dart';
+import 'prompt_item.dart';
+import 'prompt_edit_view.dart';
+import 'prompt_detail_view.dart';
+import 'interaction_type_selection_view.dart';
 
-/// PromptsView - Fullscreen modal for displaying prompts to users
+/// PromptsView - Dedicated view for user's prompts
 /// 
-/// This view shows available prompts to users on app startup when prompts are available.
+/// This view displays the user's prompts and prompt responses in a dedicated tab.
+/// Previously this content was part of the ProfileView's cards section.
+/// 
 /// Features:
-/// - Fullscreen modal design
-/// - Displays first prompt prominently
-/// - Interactive buttons for user response
-/// - Gradient background with theming support
+/// - Display user's prompts in a scrollable list
+/// - Pull-to-refresh functionality
+/// - Empty state when no prompts available
+/// - Prompt selection handling
 class PromptsView extends StatefulWidget {
-  final List<Prompt> prompts;
-
-  final VoidCallback? onCloseModal;
-
-  const PromptsView({
-    super.key,
-    required this.prompts,
-    this.onCloseModal,
-  });
+  const PromptsView({super.key});
 
   @override
   State<PromptsView> createState() => _PromptsViewState();
 }
 
-class _PromptsViewState extends State<PromptsView> with ErrorHandlingMixin {
-  InteractionType? _selectedInteractionType;
-  int _currentPromptIndex = 0;
-  List<InteractionType?> _promptInteractions = [];
-  
-  
+class _PromptsViewState extends State<PromptsView>
+    with PaginatedListViewMixin<PromptsView>, ErrorHandlingMixin<PromptsView> {
   // Services
   late final ContentManager _contentManager;
-
-  Prompt get _currentPrompt => widget.prompts[_currentPromptIndex];
   
-  /// Get the current gradient color based on selected interaction type or default
-  Color get _currentGradientColor {
-    // Always use light theme colors
-    return _selectedInteractionType?.color ?? AppColors.primair4Lilac;
-  }
-
-  void _handleInteractionPressed(InteractionType interactionType) {
-    HapticFeedback.mediumImpact();
-    SystemSound.play(SystemSoundType.click);
-    setState(() {
-      _selectedInteractionType = interactionType;
-      _promptInteractions[_currentPromptIndex] = interactionType;
-    });
-    
-    AppLogger.ui('User selected interaction: ${interactionType.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
-  }
-
+  // State
+  final List<Prompt> _prompts = [];
 
   @override
   void initState() {
     super.initState();
+    AppLogger.debug('initState', context: 'PromptsView');
     _contentManager = ContentManager.shared;
-    // Initialize interactions list with null values
-    _promptInteractions = List.filled(widget.prompts.length, null);
+    initializePagination();
+    _loadPrompts();
   }
 
-  Future<void> _handleNext() async {
-    if (_selectedInteractionType == null || isProcessing) return;
-    
-    await executeWithLoading(
-      operation: () async {
-        HapticFeedback.heavyImpact();
-        
-        final promptFeedID = _currentPrompt.feedID ?? 0;
-        final promptID = _currentPrompt.promptID;
-        final interactionType = _selectedInteractionType!;
-        
-        AppLogger.network('Request payload: {prompt_feed_id: $promptFeedID, prompt_id: $promptID, interaction_type: ${interactionType.toJson()}}', context: 'PromptsView');
-
-        await _contentManager.insertPromptInteraction(promptFeedID, promptID, interactionType);
-        AppLogger.success('Interaction submitted: ${_selectedInteractionType!.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
-      },
-      showSuccessToast: false,
-      showErrorToast: false, // Handle navigation in callbacks
-      useProcessingState: true,
-      onSuccess: () {
-        // Check if there are more prompts
-        if (_currentPromptIndex < widget.prompts.length - 1) {
-          // Move to next prompt and reset interaction selection
-          setState(() {
-            _currentPromptIndex++;
-            _selectedInteractionType = null;
-          });
-        } else {
-          // Last prompt - navigate to InteractionTypeSelectionView
-          Navigator.of(context).push(
-            platformPageRoute(
-              context: context,
-              builder: (_) => InteractionTypeSelectionView(
-                isFromPrompts: true,
-                onCloseModal: widget.onCloseModal,
-              ),
-            ),
-          );
-        }
-      },
-      onError: (error) {
-        AppLogger.error('Error submitting interaction', error: error, context: 'PromptsView');
-        // Close modal on error
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
-  Widget _buildProgressIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(widget.prompts.length, (index) {
-        final isCompleted = _promptInteractions[index] != null;
-        final isCurrent = index == _currentPromptIndex;
-        
-        Color fillColor;
-        Color? borderColor;
-        double borderWidth = 0;
-        
-        if (isCompleted) {
-          // Completed: Use the selected interaction type color
-          fillColor = _promptInteractions[index]!.color;
-        } else if (isCurrent && _selectedInteractionType != null) {
-          // Current with selection: Use current selection color
-          fillColor = _selectedInteractionType!.color;
-        } else {
-          // Not completed: White with light gray border
-          fillColor = Colors.white;
-          borderColor = AppColors.secundair4Quicksilver;
-          borderWidth = 1.0;
-        }
-        
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: fillColor,
-            shape: BoxShape.circle,
-            border: borderColor != null
-                ? Border.all(color: borderColor, width: borderWidth)
-                : null,
-          ),
-        );
-      }),
-    );
+  @override
+  Future<void> loadMoreItems() async {
+    await _loadMorePrompts();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Always use light theme for prompt flow
-    final venyuTheme = VenyuTheme.light;
-    
-    return PopScope(
-      canPop: _currentPromptIndex == 0 || _selectedInteractionType != null,
-      child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            _currentGradientColor,
-            Colors.white,
-          ],
-        ),
+    return AppScaffold(
+      appBar: PlatformAppBar(
+        title: Text("Your prompts"),
       ),
-      child: Stack(
-        children: [
-          // Radar background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/visuals/radar.png',
-              fit: BoxFit.cover,
-              opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
-              errorBuilder: (context, error, stackTrace) {
-                // If image fails to load, just show the gradient
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
-          // Main content
-          PlatformScaffold(
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              bottom: false, // Allow keyboard to overlay the bottom safe area
-              child: Column(
-              children: [
-                // Prompt content - takes all available space
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    padding: AppModifiers.pagePadding,
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            _currentPrompt.label,
-                            style: TextStyle(
-                              color: venyuTheme.primaryText,
-                              fontSize: 36,
-                              fontFamily: AppFonts.graphie,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+      floatingActionButton: _prompts.isNotEmpty
+          ? FABButton(
+              icon: context.themedIcon('edit'),
+              label: 'Get matched',
+              onPressed: _openAddPromptModal,
+            )
+          : null,
+      usePadding: true,
+      useSafeArea: true,
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: isLoading
+            ? const LoadingStateWidget()
+            : _prompts.isEmpty
+                ? CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverFillRemaining(
+                        child: EmptyStateWidget(
+                          message: ServerListType.cards.emptyStateTitle,
+                          description: ServerListType.cards.emptyStateDescription,
+                          iconName: ServerListType.cards.emptyStateIcon,
+                          onAction: _openAddPromptModal,
+                          actionText: "Get matched",
+                          actionButtonIcon: context.themedIcon('edit'),
                         ),
                       ),
-                    ),
+                    ],
+                  )
+                : ListView.builder(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _prompts.length) {
+                        return buildLoadingIndicator();
+                      }
+
+                      final prompt = _prompts[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: PromptItem(
+                          prompt: prompt,
+                          showChevron: true,
+                          onPromptSelected: (selectedPrompt) {
+                            _navigateToPromptDetail(selectedPrompt);
+                          },
+                        ),
+                      );
+                    },
                   ),
-                ),
-                
-                // Progress indicator dots
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _buildProgressIndicator(),
-                ),
-                
-                const SizedBox(height: AppModifiers.largeSpacing),
-                
-                // Interaction buttons - fixed at bottom (base_form_view pattern)
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: InteractionButtonRow(
-                    onInteractionPressed: _handleInteractionPressed,
-                    selectedInteractionType: _selectedInteractionType,
-                    isUpdating: isProcessing,
-                    spacing: AppModifiers.smallSpacing,
-                  ),
-                ),
-                
-                const SizedBox(height: AppModifiers.largeSpacing),
-                
-                // Next button - enabled when interaction is selected, wrapped in light theme
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Theme(
-                    data: ThemeData.light().copyWith(
-                      extensions: [VenyuTheme.light],
-                    ),
-                    child: ActionButton(
-                      label: 'Next',
-                      onPressed: (_selectedInteractionType != null && !isProcessing) ? _handleNext : null,
-                      isLoading: isProcessing,
-                    ),
-                  ),
-                ),
-                
-                const SizedBox(height: AppModifiers.extraLargeSpacing),
-              ],
-            ),
-          ),
-        ),
-        ],
-      ),
       ),
     );
+  }
+
+
+  /// Opens the interaction type selection view for creating a new prompt
+  Future<void> _openAddPromptModal() async {
+    HapticFeedback.selectionClick();
+    AppLogger.debug('Opening interaction type selection for new card...', context: 'CardsView');
+    try {
+      final result = await showPlatformModalSheet<bool>(
+        context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
+        builder: (context) {
+          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'CardsView');
+          return const InteractionTypeSelectionView();
+        },
+      );
+      
+      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
+      
+      // If card was successfully added, refresh the list
+      if (result == true) {
+        await _handleRefresh();
+      }
+    } catch (error) {
+      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
+    }
+  }
+
+  /// Handles card selection based on status
+  Future<void> _navigateToPromptDetail(Prompt prompt) async {
+    AppLogger.debug('Card selected with status: ${prompt.status?.value}', context: 'CardsView');
+    
+    // Handle different card statuses
+    switch (prompt.status) {
+      case PromptStatus.draft:
+        // Draft cards can be edited directly
+        await _openPromptDetailView(prompt);
+        break;
+        
+      case PromptStatus.pendingReview:
+        // Show pending review dialog
+        await DialogUtils.showInfoDialog(
+          context: context,
+          title: 'Card under review',
+          message: 'Your card is still in review.',
+          buttonText: 'OK',
+        );
+        break;
+        
+      case PromptStatus.rejected:
+        // Show rejected dialog with edit/cancel options
+        final shouldEdit = await DialogUtils.showConfirmationDialog(
+          context: context,
+          title: 'Card rejected',
+          message: 'Your card is rejected because it didn\'t follow the community guidelines. Please edit and resubmit.',
+          confirmText: 'Edit',
+          cancelText: 'Cancel',
+          isDestructive: false,
+        );
+        
+        if (shouldEdit) {
+          // Update status to draft before opening detail view
+          await _updatePromptStatusToDraft(prompt);
+        }
+        break;
+        
+      case PromptStatus.approved:
+      case PromptStatus.online:
+      case PromptStatus.offline:
+        // Approved/online/offline cards show matches (read-only)
+        await _openPromptMatchesView(prompt);
+        break;
+        
+      case null:
+      case PromptStatus.pendingTranslation:
+      case PromptStatus.archived:
+        // For other statuses, show matches
+        await _openPromptMatchesView(prompt);
+        break;
+    }
+  }
+  
+  /// Updates a rejected prompt's status to draft and opens detail view
+  Future<void> _updatePromptStatusToDraft(Prompt prompt) async {
+    try {
+      AppLogger.debug('Updating prompt ${prompt.promptID} status to draft', context: 'CardsView');
+      
+      await _contentManager.updatePromptStatus(
+        promptId: prompt.promptID,
+        status: PromptStatus.draft,
+      );
+      
+      // Refresh cards list to reflect status change
+      await _handleRefresh();
+      
+      // Open detail view for editing
+      await _openPromptDetailView(prompt);
+      
+    } catch (error) {
+      AppLogger.error('Error updating prompt status to draft: $error', context: 'CardsView');
+      // Show error to user but still try to open detail view
+      if (mounted) {
+        await DialogUtils.showErrorDialog(
+          context: context,
+          title: 'Error',
+          message: 'Failed to update card status. Please try again.',
+        );
+      }
+    }
+  }
+  
+  /// Opens the prompt detail view for editing
+  Future<void> _openPromptDetailView(Prompt prompt) async {
+    AppLogger.debug('Opening card detail view for editing card: ${prompt.label}', context: 'CardsView');
+    try {
+      final result = await showPlatformModalSheet<bool>(
+        context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
+        builder: (context) => PromptEditView(existingPrompt: prompt),
+      );
+      
+      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
+      
+      // If card was successfully updated, refresh the list
+      if (result == true) {
+        await _handleRefresh();
+      }
+    } catch (error) {
+      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
+    }
+  }
+
+  /// Opens the new prompt detail view to show matches
+  Future<void> _openPromptMatchesView(Prompt prompt) async {
+    AppLogger.debug('Opening card matches view for card: ${prompt.label}', context: 'CardsView');
+    try {
+      await Navigator.push(
+        context,
+        platformPageRoute(
+          context: context,
+          builder: (context) => PromptDetailView(prompt: prompt),
+        ),
+      );
+      
+      AppLogger.debug('Card matches view closed', context: 'CardsView');
+    } catch (error) {
+      AppLogger.error('Error opening card matches view: $error', context: 'CardsView');
+    }
+  }
+
+  Future<void> _loadPrompts({bool forceRefresh = false}) async {
+    final authService = context.authService;
+    if (!authService.isAuthenticated) return;
+
+    if (forceRefresh || _prompts.isEmpty) {
+      if (forceRefresh) {
+        safeSetState(() {
+          _prompts.clear();
+          hasMorePages = true;
+        });
+      }
+
+      await executeWithLoading(
+        operation: () async {
+          final request = PaginatedRequest(
+            limit: PaginatedRequest.numberOfCards,
+            list: ServerListType.cards,
+          );
+
+          final cards = await _contentManager.fetchCards(request);
+          safeSetState(() {
+            _prompts.addAll(cards);
+            hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+          });
+        },
+        showSuccessToast: false,
+        showErrorToast: false,  // Silent load for initial data
+      );
+    }
+  }
+
+  Future<void> _loadMorePrompts() async {
+    if (_prompts.isEmpty || !hasMorePages) return;
+
+    safeSetState(() {
+      isLoadingMore = true;
+    });
+
+    await executeSilently(
+      operation: () async {
+        final lastPrompt = _prompts.last;
+        final request = PaginatedRequest(
+          limit: PaginatedRequest.numberOfCards,
+          cursorId: lastPrompt.promptID,
+          cursorTime: lastPrompt.createdAt,
+          cursorExpired: lastPrompt.expired,
+          list: ServerListType.cards,
+        );
+
+        final cards = await _contentManager.fetchCards(request);
+        safeSetState(() {
+          _prompts.addAll(cards);
+          hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+          isLoadingMore = false;
+        });
+      },
+      onError: (error) {
+        AppLogger.error('Error loading more cards', context: 'CardsView', error: error);
+        safeSetState(() {
+          isLoadingMore = false;
+        });
+      },
+    );
+  }
+
+  Future<void> _handleRefresh() async {
+    await _loadPrompts(forceRefresh: true);
   }
 }

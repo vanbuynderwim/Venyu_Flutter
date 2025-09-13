@@ -10,8 +10,8 @@ import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/interaction_tag.dart';
 import '../../widgets/common/venue_tag.dart';
 
-/// CardItem - Flutter equivalent van Swift CardItemView
-class CardItem extends StatefulWidget {
+/// PromptItem - Flutter equivalent van Swift CardItemView
+class PromptItem extends StatefulWidget {
   final Prompt prompt;
   final bool reviewing;
   final bool isLast;
@@ -19,9 +19,9 @@ class CardItem extends StatefulWidget {
   final bool isSharedPromptView;
   final bool showMatchInteraction;
   final bool showChevron;
-  final Function(Prompt)? onCardSelected;
+  final Function(Prompt)? onPromptSelected;
 
-  const CardItem({
+  const PromptItem({
     super.key,
     required this.prompt,
     this.reviewing = false,
@@ -30,14 +30,14 @@ class CardItem extends StatefulWidget {
     this.isSharedPromptView = false,
     this.showMatchInteraction = false,
     this.showChevron = false,
-    this.onCardSelected,
+    this.onPromptSelected,
   });
 
   @override
-  State<CardItem> createState() => _CardItemState();
+  State<PromptItem> createState() => _PromptItemState();
 }
 
-class _CardItemState extends State<CardItem> {
+class _PromptItemState extends State<PromptItem> {
   bool isSelected = false;
 
   @override
@@ -45,13 +45,14 @@ class _CardItemState extends State<CardItem> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-            onTap: widget.showMatchInteraction 
-                ? null 
-                : () {
-                    setState(() {
-                      isSelected = !isSelected;
-                    });
-                    widget.onCardSelected?.call(widget.prompt);
+            onTap: () {
+                    // Only toggle selection if not showing match interactions
+                    if (!widget.showMatchInteraction) {
+                      setState(() {
+                        isSelected = !isSelected;
+                      });
+                    }
+                    widget.onPromptSelected?.call(widget.prompt);
                   },
             splashFactory: NoSplash.splashFactory,
             borderRadius: _getCardBorderRadius(),
@@ -100,11 +101,12 @@ class _CardItemState extends State<CardItem> {
                           const SizedBox(width: 8),
                         ],
                         
-                        // Status badge next to date - use displayStatus for online/offline logic
-                        StatusBadgeView(
-                          status: widget.prompt.displayStatus,
-                          compact: true,
-                        ),
+                        // Status badge next to date - only show if not showing match interactions
+                        if (!widget.showMatchInteraction)
+                          StatusBadgeView(
+                            status: widget.prompt.displayStatus,
+                            compact: true,
+                          ),
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -188,28 +190,48 @@ class _CardItemState extends State<CardItem> {
     return context.themedIcon('checkbox', selected: isSelected);
   }
 
-  /// Build gradient overlay - only use interaction colors when prompt is online, otherwise lilac
+  /// Build gradient overlay - show interaction colors for matches, status-based colors otherwise
   BoxDecoration? _buildGradientOverlay() {
     final venyuTheme = context.venyuTheme;
     
-    // If prompt is online, use interaction colors
+    // If showing match interactions, always show the two interaction colors
+    if (widget.showMatchInteraction) {
+      final leftColor = widget.prompt.interactionType?.color;
+      final rightColor = widget.prompt.matchInteractionType?.color;
+      
+      // If we have both colors, show gradient
+      if (leftColor != null && rightColor != null) {
+        return BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              leftColor.withValues(alpha: 0.3),
+              rightColor.withValues(alpha: 0.3),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        );
+      }
+      // If missing colors, no gradient
+      return null;
+    }
+    
+    // Regular logic for non-match views
+    // If prompt is online (approved and not expired), show interaction colors
     if (widget.prompt.isOnline) {
       final leftColor = widget.prompt.interactionType?.color;
-      final rightColor = widget.showMatchInteraction && widget.prompt.matchInteractionType != null
-          ? widget.prompt.matchInteractionType!.color
-          : null;
       
-      // If no interaction colors, no overlay needed
-      if (leftColor == null && rightColor == null) {
+      // If no interaction color, no overlay needed
+      if (leftColor == null) {
         return null;
       }
       
-      // Show interaction color gradient
+      // Show single interaction color gradient
       return BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            (leftColor ?? venyuTheme.cardBackground).withValues(alpha: 0.3),
-            (rightColor ?? venyuTheme.cardBackground).withValues(alpha: 0.3),
+            leftColor.withValues(alpha: 0.3),
+            venyuTheme.cardBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,

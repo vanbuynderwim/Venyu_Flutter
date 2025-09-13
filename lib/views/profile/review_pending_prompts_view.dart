@@ -11,30 +11,30 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../services/toast_service.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../cards/card_item.dart';
+import '../prompts/prompt_item.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 
-/// ReviewPendingCardsView - Flutter equivalent of iOS PendingReviewsView
-/// 
-/// Shows a paginated list of pending review cards that can be selected
+/// ReviewPendingPromptsView - Flutter equivalent of iOS PendingReviewsView
+///
+/// Shows a paginated list of pending review prompts that can be selected
 /// and either approved or rejected in batches.
-class ReviewPendingCardsView extends StatefulWidget {
+class ReviewPendingPromptsView extends StatefulWidget {
   final ReviewType reviewType;
 
-  const ReviewPendingCardsView({
+  const ReviewPendingPromptsView({
     super.key,
     required this.reviewType,
   });
 
   @override
-  State<ReviewPendingCardsView> createState() => _ReviewPendingCardsViewState();
+  State<ReviewPendingPromptsView> createState() => _ReviewPendingPromptsViewState();
 }
 
-class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView> 
-    with PaginatedListViewMixin<ReviewPendingCardsView> {
+class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
+    with PaginatedListViewMixin<ReviewPendingPromptsView> {
   final List<Prompt> _cards = [];
   final Set<String> _selectedPromptIds = <String>{};
   
@@ -319,12 +319,12 @@ class _ReviewPendingCardsViewState extends State<ReviewPendingCardsView>
 
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
-            child: CardItem(
+            child: PromptItem(
               prompt: prompt,
               reviewing: true,
               isFirst: index == 0,
               isLast: index == _cards.length - 1,
-              onCardSelected: _togglePromptSelection,
+              onPromptSelected: _togglePromptSelection,
             ),
           );
         },

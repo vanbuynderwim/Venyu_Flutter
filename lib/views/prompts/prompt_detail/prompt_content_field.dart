@@ -6,11 +6,11 @@ import '../../../core/theme/venyu_theme.dart';
 import '../../../models/enums/interaction_type.dart';
 import '../../../widgets/common/character_counter_overlay.dart';
 
-/// CardContentField - Main content input field for card detail view
-/// 
+/// PromptContentField - Main content input field for prompt detail view
+///
 /// This widget provides the large, centered text field where users
-/// input their card content, with character counting and validation.
-/// 
+/// input their prompt content, with character counting and validation.
+///
 /// Features:
 /// - Large, centered text input with custom styling
 /// - Character counter overlay
@@ -18,14 +18,14 @@ import '../../../widgets/common/character_counter_overlay.dart';
 /// - Dynamic placeholder based on interaction type
 /// - Auto-focus capability
 /// - Multiline support with flexible height
-class CardContentField extends StatelessWidget {
+class PromptContentField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final InteractionType interactionType;
   final bool isEnabled;
   final int maxLength;
 
-  const CardContentField({
+  const PromptContentField({
     super.key,
     required this.controller,
     required this.focusNode,

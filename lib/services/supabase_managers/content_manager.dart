@@ -122,9 +122,13 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching user cards with pagination: $paginatedRequest', context: 'ContentManager');
       
+      // Add cache buster to force fresh data
+      final payload = paginatedRequest.toJson();
+      payload['cache_buster'] = DateTime.now().millisecondsSinceEpoch;
+      
       // Call the get_profile_prompts RPC function with payload
       final result = await client
-          .rpc('get_profile_prompts', params: {'payload': paginatedRequest.toJson()})
+          .rpc('get_profile_prompts', params: {'payload': payload})
           .select();
       
       AppLogger.success('Cards RPC call successful', context: 'ContentManager');
