@@ -5,14 +5,16 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
-import '../../models/match.dart';
+import '../../models/enums/prompt_sections.dart';
 import '../../models/prompt.dart';
-import '../../services/supabase_managers/matching_manager.dart';
+import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
-import '../matches/match_item_view.dart';
-import '../matches/match_detail_view.dart';
 import 'prompt_item.dart';
+import 'prompt_detail/prompt_section_button_bar.dart';
+import 'prompt_detail/prompt_card_section.dart';
+import 'prompt_detail/prompt_stats_section.dart';
+import 'prompt_detail/prompt_intro_section.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -21,11 +23,11 @@ import 'prompt_item.dart';
 /// - List of matches associated with this prompt
 /// - Navigation to match details when tapping a match
 class PromptDetailView extends StatefulWidget {
-  final Prompt prompt;
+  final String promptId;
 
   const PromptDetailView({
     super.key,
-    required this.prompt,
+    required this.promptId,
   });
 
   @override
@@ -33,71 +35,119 @@ class PromptDetailView extends StatefulWidget {
 }
 
 class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingMixin {
-  late final MatchingManager _matchingManager;
-  
-  List<Match> _matches = [];
+  late final ContentManager _contentManager;
+
+  Prompt? _prompt;
   String? _error;
+  PromptSections _selectedSection = PromptSections.card;
 
   @override
   void initState() {
     super.initState();
-    _matchingManager = MatchingManager.shared;
-    _loadPromptMatches();
+    _contentManager = ContentManager.shared;
+    _loadPromptData();
   }
 
-  Future<void> _loadPromptMatches() async {
+  Future<void> _loadPromptData() async {
     if (!mounted) return;
     setState(() => _error = null);
-    
-    final matches = await executeWithLoadingAndReturn<List<Match>>(
-      operation: () => _matchingManager.fetchPromptMatches(widget.prompt.promptID),
+
+    await executeWithLoading(
+      operation: () async {
+        // Fetch the prompt
+        final prompt = await _contentManager.fetchPrompt(widget.promptId);
+
+        if (prompt != null && mounted) {
+          setState(() => _prompt = prompt);
+        } else if (mounted) {
+          setState(() => _error = 'Failed to load prompt');
+        }
+      },
       showErrorToast: false,
       onError: (error) {
+        AppLogger.error('Error loading prompt data: $error', context: 'PromptDetailView');
         if (mounted) {
-          setState(() => _error = 'Failed to load matches');
+          setState(() => _error = 'Failed to load prompt data');
         }
       },
     );
-    
-    if (matches != null && mounted) {
-      setState(() => _matches = matches);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Prompt matches'),
+        title: Text('Your card'),
       ),
-      usePadding: true,
+      usePadding: false,
       useSafeArea: true,
       body: RefreshIndicator(
-        onRefresh: _loadPromptMatches,
-        child: _buildContent(),
+        onRefresh: _loadPromptData,
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(bottom: 32.0),
+          children: [
+            // Prompt item header (scrolls with content)
+            if (_prompt != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: PromptItem(
+                  prompt: _prompt!,
+                  reviewing: false,
+                  isFirst: true,
+                  isLast: true,
+                  showMatchInteraction: false,
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
+            // Section button bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: PromptSectionButtonBar(
+                selectedSection: _selectedSection,
+                onSectionSelected: (section) {
+                  setState(() {
+                    _selectedSection = section;
+                  });
+                },
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Section content
+            _buildSectionContent(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildSectionContent() {
     if (isLoading) {
-      return const LoadingStateWidget();
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 48),
+        child: LoadingStateWidget(),
+      );
     }
 
     if (_error != null) {
-      return Center(
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               _error!,
               style: AppTextStyles.body.copyWith(
                 color: context.venyuTheme.secondaryText,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
-            PlatformTextButton(
-              onPressed: _loadPromptMatches,
+            TextButton(
+              onPressed: _loadPromptData,
               child: const Text('Retry'),
             ),
           ],
@@ -105,65 +155,22 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       );
     }
 
-    return ListView(
-      children: [
-        // Prompt at the top
-        PromptItem(
-          prompt: widget.prompt,
-          reviewing: false,
-          isFirst: true,
-          isLast: true,
-          showMatchInteraction: false,
-        ),
-        
-        const SizedBox(height: 24),
-        
-        // Matches section header
-        if (_matches.isNotEmpty) ...[
-          Text(
-            '${_matches.length} ${_matches.length == 1 ? 'match' : 'matches'}',
-            style: AppTextStyles.headline.copyWith(
-              color: context.venyuTheme.primaryText,
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-        
-        // Matches list
-        if (_matches.isEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 48),
-            child: Center(
-              child: Text(
-                'No matches yet for this prompt',
-                style: AppTextStyles.body.copyWith(
-                  color: context.venyuTheme.secondaryText,
-                ),
-              ),
-            ),
-          )
-        else
-          ..._matches.map((match) => Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: MatchItemView(
-              match: match,
-              shouldBlur: false, // Don't blur in card detail view
-              onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
-            ),
-          )),
-      ],
-    );
-  }
-
-  void _navigateToMatchDetail(Match match) {
-    AppLogger.ui('Navigating to match detail from prompt: ${match.id}', context: 'PromptDetailView');
-    
-    Navigator.push(
-      context,
-      platformPageRoute(
-        context: context,
-        builder: (context) => MatchDetailView(matchId: match.id),
-      ),
-    );
+    switch (_selectedSection) {
+      case PromptSections.card:
+        return PromptCardSection(
+          prompt: _prompt,
+          isLoading: isLoading,
+        );
+      case PromptSections.stats:
+        return PromptStatsSection(
+          prompt: _prompt,
+          isLoading: isLoading,
+        );
+      case PromptSections.intro:
+        return PromptIntroSection(
+          prompt: _prompt,
+          isLoading: isLoading,
+        );
+    }
   }
 }

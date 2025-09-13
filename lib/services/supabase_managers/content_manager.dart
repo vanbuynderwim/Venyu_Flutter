@@ -117,30 +117,47 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
-  /// Fetch user's cards/prompts with pagination
-  Future<List<Prompt>> fetchCards(PaginatedRequest paginatedRequest) async {
+  /// Fetch user's prompts with pagination
+  Future<List<Prompt>> fetchProfilePrompts(PaginatedRequest paginatedRequest) async {
     return executeAuthenticatedRequest(() async {
-      AppLogger.info('Fetching user cards with pagination: $paginatedRequest', context: 'ContentManager');
-      
-      // Add cache buster to force fresh data
-      final payload = paginatedRequest.toJson();
-      payload['cache_buster'] = DateTime.now().millisecondsSinceEpoch;
-      
+      AppLogger.info('Fetching user prompts with pagination: $paginatedRequest', context: 'ContentManager');
+
       // Call the get_profile_prompts RPC function with payload
       final result = await client
-          .rpc('get_profile_prompts', params: {'payload': payload})
+          .rpc('get_profile_prompts', params: {'payload': paginatedRequest.toJson()})
           .select();
-      
-      AppLogger.success('Cards RPC call successful', context: 'ContentManager');
-      AppLogger.debug('Cards data received: ${result.length} cards', context: 'ContentManager');
-      
+
+      AppLogger.success('Profile prompts RPC call successful', context: 'ContentManager');
+      AppLogger.debug('Prompt data received: ${result.length} prompts', context: 'ContentManager');
+
       // Convert response to list of Prompt objects
-      final cards = (result as List)
+      final prompts = (result as List)
           .map((json) => Prompt.fromJson(json))
           .toList();
-      
-      AppLogger.success('Cards parsed: ${cards.length} cards', context: 'ContentManager');
-      return cards;
+
+      AppLogger.success('Prompts parsed: ${prompts.length} prompts', context: 'ContentManager');
+      return prompts;
+    });
+  }
+
+  /// Fetch a single prompt by ID
+  Future<Prompt?> fetchPrompt(String promptId) async {
+    checkNotDisposed('ContentManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching prompt with ID: $promptId', context: 'ContentManager');
+
+      // Call the get_prompt RPC function
+      final result = await client
+          .rpc('get_prompt', params: {'p_prompt_id': promptId})
+          .select()
+          .single();
+
+      AppLogger.success('Prompt RPC call successful', context: 'ContentManager');
+      AppLogger.debug('Prompt data received: $result', context: 'ContentManager');
+
+      final prompt = Prompt.fromJson(result);
+      AppLogger.success('Prompt parsed successfully', context: 'ContentManager');
+      return prompt;
     });
   }
 

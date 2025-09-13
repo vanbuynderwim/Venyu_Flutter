@@ -3,10 +3,10 @@ import '../enums/match_status.dart';
 /// Server list types for paginated requests
 enum ServerListType {
   notifications('get_notifications'),
-  pendingUserReviews('get_pending_user_reviews'), 
+  pendingUserReviews('get_pending_user_reviews'),
   pendingSystemReviews('get_pending_system_reviews'),
   matches('get_matches'),
-  cards('get_profile_prompts');
+  profilePrompts('get_profile_prompts');
 
   const ServerListType(this.value);
   final String value;
@@ -20,7 +20,7 @@ enum ServerListType {
         return 'All caught up!';
       case ServerListType.matches:
         return 'Waiting for your first match!';
-      case ServerListType.cards:
+      case ServerListType.profilePrompts:
         return 'Ready to get matched?';
     }
   }
@@ -34,7 +34,7 @@ enum ServerListType {
         return 'When cards are submitted for review, they will appear here';
       case ServerListType.matches:
         return 'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
-      case ServerListType.cards:
+      case ServerListType.profilePrompts:
         return 'Cards open the door to meaningful introductions. Add yours and match with the right people.';
     }
   }
@@ -48,7 +48,7 @@ enum ServerListType {
         return 'home_regular';
       case ServerListType.matches:
         return 'couple_regular';
-      case ServerListType.cards:
+      case ServerListType.profilePrompts:
         return 'nocards';
     }
   }
@@ -57,7 +57,7 @@ enum ServerListType {
 /// Paginated request model equivalent to Swift PaginatedRequest
 class PaginatedRequest {
   static const int numberOfNotifications = 20;
-  static const int numberOfCards = 20;
+  static const int numberOfPrompts = 20;
   static const int numberOfMatches = 20;
 
   final int limit;

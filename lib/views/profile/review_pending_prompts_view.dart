@@ -35,7 +35,7 @@ class ReviewPendingPromptsView extends StatefulWidget {
 
 class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
     with PaginatedListViewMixin<ReviewPendingPromptsView> {
-  final List<Prompt> _cards = [];
+  final List<Prompt> _prompts = [];
   final Set<String> _selectedPromptIds = <String>{};
   
   bool _isProcessingApprove = false;
@@ -72,17 +72,17 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
           : ServerListType.pendingSystemReviews;
 
       final request = PaginatedRequest(
-        limit: PaginatedRequest.numberOfCards,
+        limit: PaginatedRequest.numberOfPrompts,
         list: serverListType,
       );
 
       final prompts = await _contentManager.fetchPendingReviews(request);
 
       setState(() {
-        _cards.clear();
-        _cards.addAll(prompts);
+        _prompts.clear();
+        _prompts.addAll(prompts);
         _selectedPromptIds.clear();
-        hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
+        hasMorePages = prompts.length >= PaginatedRequest.numberOfPrompts;
         
         if (prompts.isNotEmpty) {
           final lastPrompt = prompts.last;
@@ -95,7 +95,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
         isLoading = false;
       });
     } catch (error) {
-      AppLogger.error('Error loading pending reviews', error: error, context: 'ReviewPendingCardsView');
+      AppLogger.error('Error loading pending reviews', error: error, context: 'ReviewPendingPromptsView');
       setState(() {
         isLoading = false;
       });
@@ -115,7 +115,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
           : ServerListType.pendingSystemReviews;
 
       final request = PaginatedRequest(
-        limit: PaginatedRequest.numberOfCards,
+        limit: PaginatedRequest.numberOfPrompts,
         cursorId: _cursorId,
         cursorTime: _cursorTime,
         list: serverListType,
@@ -124,8 +124,8 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       final prompts = await _contentManager.fetchPendingReviews(request);
 
       setState(() {
-        _cards.addAll(prompts);
-        hasMorePages = prompts.length >= PaginatedRequest.numberOfCards;
+        _prompts.addAll(prompts);
+        hasMorePages = prompts.length >= PaginatedRequest.numberOfPrompts;
         
         if (prompts.isNotEmpty) {
           final lastPrompt = prompts.last;
@@ -135,7 +135,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
         isLoadingMore = false;
       });
     } catch (error) {
-      AppLogger.error('Error loading more pending reviews', error: error, context: 'ReviewPendingCardsView');
+      AppLogger.error('Error loading more pending reviews', error: error, context: 'ReviewPendingPromptsView');
       setState(() {
         isLoadingMore = false;
       });
@@ -194,9 +194,9 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       resetPagination();
       await _loadPendingReviews();
 
-      AppLogger.info(isApproved ? 'Prompts approved' : 'Prompts rejected', context: 'ReviewPendingCardsView');
+      AppLogger.info(isApproved ? 'Prompts approved' : 'Prompts rejected', context: 'ReviewPendingPromptsView');
     } catch (error) {
-      AppLogger.error('Error updating prompt statuses', error: error, context: 'ReviewPendingCardsView');
+      AppLogger.error('Error updating prompt statuses', error: error, context: 'ReviewPendingPromptsView');
       if (mounted) {
         ToastService.error(
           context: context,
@@ -214,7 +214,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
   }
 
   Future<void> _submitAll({required bool isApproved}) async {
-    if (_cards.isEmpty || _isProcessingApprove || _isProcessingReject) return;
+    if (_prompts.isEmpty || _isProcessingApprove || _isProcessingReject) return;
 
     setState(() {
       if (isApproved) {
@@ -238,9 +238,9 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       resetPagination();
       await _loadPendingReviews();
 
-      AppLogger.info(isApproved ? 'All prompts approved' : 'All prompts rejected', context: 'ReviewPendingCardsView');
+      AppLogger.info(isApproved ? 'All prompts approved' : 'All prompts rejected', context: 'ReviewPendingPromptsView');
     } catch (error) {
-      AppLogger.error('Error updating all prompt statuses', error: error, context: 'ReviewPendingCardsView');
+      AppLogger.error('Error updating all prompt statuses', error: error, context: 'ReviewPendingPromptsView');
       if (mounted) {
         ToastService.error(
           context: context,
@@ -283,7 +283,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       );
     }
 
-    if (_cards.isEmpty) {
+    if (_prompts.isEmpty) {
       final serverListType = widget.reviewType == ReviewType.user
           ? ServerListType.pendingUserReviews
           : ServerListType.pendingSystemReviews;
@@ -307,14 +307,14 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       onRefresh: _loadPendingReviews,
       child: ListView.builder(
         controller: scrollController,
-        itemCount: _cards.length + (isLoadingMore ? 1 : 0),
+        itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
         itemBuilder: (context, index) {
-          if (index == _cards.length) {
+          if (index == _prompts.length) {
             // Loading more indicator
             return buildLoadingIndicator();
           }
 
-          final prompt = _cards[index];
+          final prompt = _prompts[index];
           //final isSelected = _selectedPromptIds.contains(prompt.promptID);
 
           return Container(
@@ -323,7 +323,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
               prompt: prompt,
               reviewing: true,
               isFirst: index == 0,
-              isLast: index == _cards.length - 1,
+              isLast: index == _prompts.length - 1,
               onPromptSelected: _togglePromptSelection,
             ),
           );
@@ -365,7 +365,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
           ),
         ),
       );
-    } else if (_cards.isNotEmpty || _isProcessingApprove || _isProcessingReject) {
+    } else if (_prompts.isNotEmpty || _isProcessingApprove || _isProcessingReject) {
       // Show "all" actions - also show when processing even if cards are empty
       return Container(
         padding: const EdgeInsets.only(top: 8),

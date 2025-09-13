@@ -114,7 +114,7 @@ class _PromptItemState extends State<PromptItem> {
                     // Prompt label - takes full width
                     Text(
                       widget.prompt.label,
-                      style: AppTextStyles.callout.copyWith(
+                      style: AppTextStyles.subheadline.copyWith(
                         color: context.venyuTheme.primaryText,
                       ),
                       maxLines: null,

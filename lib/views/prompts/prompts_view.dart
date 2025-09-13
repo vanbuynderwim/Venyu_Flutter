@@ -85,9 +85,9 @@ class _PromptsViewState extends State<PromptsView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: ServerListType.cards.emptyStateTitle,
-                          description: ServerListType.cards.emptyStateDescription,
-                          iconName: ServerListType.cards.emptyStateIcon,
+                          message: ServerListType.profilePrompts.emptyStateTitle,
+                          description: ServerListType.profilePrompts.emptyStateDescription,
+                          iconName: ServerListType.profilePrompts.emptyStateIcon,
                           onAction: _openAddPromptModal,
                           actionText: "Get matched",
                           actionButtonIcon: context.themedIcon('edit'),
@@ -125,7 +125,7 @@ class _PromptsViewState extends State<PromptsView>
   /// Opens the interaction type selection view for creating a new prompt
   Future<void> _openAddPromptModal() async {
     HapticFeedback.selectionClick();
-    AppLogger.debug('Opening interaction type selection for new card...', context: 'CardsView');
+    AppLogger.debug('Opening interaction type selection for new prompt...', context: 'PromptsView');
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -134,30 +134,30 @@ class _PromptsViewState extends State<PromptsView>
           useSafeArea: true,
         ),
         builder: (context) {
-          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'CardsView');
+          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'PromptsView');
           return const InteractionTypeSelectionView();
         },
       );
       
-      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
+      AppLogger.debug('Prompt detail view closed with result: $result', context: 'PromptsView');
       
-      // If card was successfully added, refresh the list
+      // If prompt was successfully added, refresh the list
       if (result == true) {
         await _handleRefresh();
       }
     } catch (error) {
-      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
+      AppLogger.error('Error opening prompt detail view: $error', context: 'PromptsView');
     }
   }
 
-  /// Handles card selection based on status
+  /// Handles prompt selection based on status
   Future<void> _navigateToPromptDetail(Prompt prompt) async {
-    AppLogger.debug('Card selected with status: ${prompt.status?.value}', context: 'CardsView');
+    AppLogger.debug('Prompt selected with status: ${prompt.status?.value}', context: 'PromptsView');
     
-    // Handle different card statuses
+    // Handle different prompt statuses
     switch (prompt.status) {
       case PromptStatus.draft:
-        // Draft cards can be edited directly
+        // Draft prompts can be edited directly
         await _openPromptDetailView(prompt);
         break;
         
@@ -191,7 +191,7 @@ class _PromptsViewState extends State<PromptsView>
       case PromptStatus.approved:
       case PromptStatus.online:
       case PromptStatus.offline:
-        // Approved/online/offline cards show matches (read-only)
+        // Approved/online/offline prompts show matches (read-only)
         await _openPromptMatchesView(prompt);
         break;
         
@@ -207,27 +207,27 @@ class _PromptsViewState extends State<PromptsView>
   /// Updates a rejected prompt's status to draft and opens detail view
   Future<void> _updatePromptStatusToDraft(Prompt prompt) async {
     try {
-      AppLogger.debug('Updating prompt ${prompt.promptID} status to draft', context: 'CardsView');
+      AppLogger.debug('Updating prompt ${prompt.promptID} status to draft', context: 'PromptsView');
       
       await _contentManager.updatePromptStatus(
         promptId: prompt.promptID,
         status: PromptStatus.draft,
       );
       
-      // Refresh cards list to reflect status change
+      // Refresh prompts list to reflect status change
       await _handleRefresh();
       
       // Open detail view for editing
       await _openPromptDetailView(prompt);
       
     } catch (error) {
-      AppLogger.error('Error updating prompt status to draft: $error', context: 'CardsView');
+      AppLogger.error('Error updating prompt status to draft: $error', context: 'PromptsView');
       // Show error to user but still try to open detail view
       if (mounted) {
         await DialogUtils.showErrorDialog(
           context: context,
           title: 'Error',
-          message: 'Failed to update card status. Please try again.',
+          message: 'Failed to update prompt status. Please try again.',
         );
       }
     }
@@ -235,7 +235,7 @@ class _PromptsViewState extends State<PromptsView>
   
   /// Opens the prompt detail view for editing
   Future<void> _openPromptDetailView(Prompt prompt) async {
-    AppLogger.debug('Opening card detail view for editing card: ${prompt.label}', context: 'CardsView');
+    AppLogger.debug('Opening prompt detail view for editing prompt: ${prompt.label}', context: 'PromptsView');
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -246,32 +246,32 @@ class _PromptsViewState extends State<PromptsView>
         builder: (context) => PromptEditView(existingPrompt: prompt),
       );
       
-      AppLogger.debug('Card detail view closed with result: $result', context: 'CardsView');
+      AppLogger.debug('Prompt detail view closed with result: $result', context: 'PromptsView');
       
-      // If card was successfully updated, refresh the list
+      // If prompt was successfully updated, refresh the list
       if (result == true) {
         await _handleRefresh();
       }
     } catch (error) {
-      AppLogger.error('Error opening card detail view: $error', context: 'CardsView');
+      AppLogger.error('Error opening prompt detail view: $error', context: 'PromptsView');
     }
   }
 
   /// Opens the new prompt detail view to show matches
   Future<void> _openPromptMatchesView(Prompt prompt) async {
-    AppLogger.debug('Opening card matches view for card: ${prompt.label}', context: 'CardsView');
+    AppLogger.debug('Opening prompt matches view for prompt: ${prompt.label}', context: 'PromptsView');
     try {
       await Navigator.push(
         context,
         platformPageRoute(
           context: context,
-          builder: (context) => PromptDetailView(prompt: prompt),
+          builder: (context) => PromptDetailView(promptId: prompt.promptID),
         ),
       );
       
-      AppLogger.debug('Card matches view closed', context: 'CardsView');
+      AppLogger.debug('Prompt matches view closed', context: 'PromptsView');
     } catch (error) {
-      AppLogger.error('Error opening card matches view: $error', context: 'CardsView');
+      AppLogger.error('Error opening prompt matches view: $error', context: 'PromptsView');
     }
   }
 
@@ -290,14 +290,14 @@ class _PromptsViewState extends State<PromptsView>
       await executeWithLoading(
         operation: () async {
           final request = PaginatedRequest(
-            limit: PaginatedRequest.numberOfCards,
-            list: ServerListType.cards,
+            limit: PaginatedRequest.numberOfPrompts,
+            list: ServerListType.profilePrompts,
           );
 
-          final cards = await _contentManager.fetchCards(request);
+          final prompts = await _contentManager.fetchProfilePrompts(request);
           safeSetState(() {
-            _prompts.addAll(cards);
-            hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+            _prompts.addAll(prompts);
+            hasMorePages = prompts.length == PaginatedRequest.numberOfPrompts;
           });
         },
         showSuccessToast: false,
@@ -317,22 +317,22 @@ class _PromptsViewState extends State<PromptsView>
       operation: () async {
         final lastPrompt = _prompts.last;
         final request = PaginatedRequest(
-          limit: PaginatedRequest.numberOfCards,
+          limit: PaginatedRequest.numberOfPrompts,
           cursorId: lastPrompt.promptID,
           cursorTime: lastPrompt.createdAt,
           cursorExpired: lastPrompt.expired,
-          list: ServerListType.cards,
+          list: ServerListType.profilePrompts,
         );
 
-        final cards = await _contentManager.fetchCards(request);
+        final prompts = await _contentManager.fetchProfilePrompts(request);
         safeSetState(() {
-          _prompts.addAll(cards);
-          hasMorePages = cards.length == PaginatedRequest.numberOfCards;
+          _prompts.addAll(prompts);
+          hasMorePages = prompts.length == PaginatedRequest.numberOfPrompts;
           isLoadingMore = false;
         });
       },
       onError: (error) {
-        AppLogger.error('Error loading more cards', context: 'CardsView', error: error);
+        AppLogger.error('Error loading more prompts', context: 'PromptsView', error: error);
         safeSetState(() {
           isLoadingMore = false;
         });

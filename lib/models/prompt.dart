@@ -9,6 +9,7 @@ class Prompt {
   final String label;
   final PromptStatus? status;
   final DateTime? createdAt;
+  final DateTime? reviewedAt;
   final DateTime? expiresAt;
   final bool? expired;
   final int? impressionCount;
@@ -31,6 +32,7 @@ class Prompt {
     required this.label,
     this.status,
     this.createdAt,
+    this.reviewedAt,
     this.expiresAt,
     this.expired,
     this.impressionCount,
@@ -49,6 +51,7 @@ class Prompt {
       label: json['label'] as String,
       status: json['status'] != null ? PromptStatus.fromJson(json['status']) : null,
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      reviewedAt: json['reviewed_at'] != null ? DateTime.parse(json['reviewed_at']) : null,
       expiresAt: json['expires_at'] != null ? DateTime.parse(json['expires_at']) : null,
       expired: json['expired'] as bool?,
       impressionCount: json['impression_count'] as int?,
@@ -76,6 +79,7 @@ class Prompt {
       'label': label,
       'status': status?.toJson(),
       'created_at': createdAt?.toIso8601String(),
+      'reviewed_at': reviewedAt?.toIso8601String(),
       'expires_at': expiresAt?.toIso8601String(),
       'expired': expired,
       'impression_count': impressionCount,
