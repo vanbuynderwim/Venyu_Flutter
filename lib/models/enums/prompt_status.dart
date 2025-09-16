@@ -36,7 +36,7 @@ enum PromptStatus {
       case PromptStatus.draft:
         return AppColors.secundair5Pinball;
       case PromptStatus.pendingReview:
-        return AppColors.accent2Coral;
+        return Colors.blue;
       case PromptStatus.pendingTranslation:
         return AppColors.primair4Lilac;
       case PromptStatus.approved:
@@ -58,7 +58,7 @@ enum PromptStatus {
       case PromptStatus.draft:
         return AppColors.secundair3Slategray;
       case PromptStatus.pendingReview:
-        return AppColors.accent1Tangerine;
+        return AppColors.primair4Lilac;
       case PromptStatus.pendingTranslation:
         return AppColors.primair3Berry;
       case PromptStatus.approved:
@@ -92,7 +92,7 @@ enum PromptStatus {
       case PromptStatus.online:
         return 'Online';
       case PromptStatus.offline:
-        return 'Offline';
+        return 'Expired';
     }
   }
 }

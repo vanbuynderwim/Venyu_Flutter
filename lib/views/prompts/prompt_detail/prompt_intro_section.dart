@@ -67,29 +67,56 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
   Future<void> _loadMatches() async {
     if (widget.prompt == null || _matchesLoaded) return;
 
-    setState(() => _error = null);
+    setState(() {
+      _error = null;
+    });
 
-    final matches = await executeWithLoadingAndReturn<List<Match>>(
-      operation: () => _matchingManager.fetchPromptMatches(widget.prompt!.promptID),
-      showErrorToast: false,
-      onError: (error) {
-        AppLogger.error('Error loading matches: $error', context: 'PromptIntroSection');
-        if (mounted) {
-          setState(() => _error = 'Failed to load matches');
-        }
-      },
-    );
+    AppLogger.debug('Starting to load matches for prompt: ${widget.prompt!.promptID}', context: 'PromptIntroSection');
 
-    if (matches != null && mounted) {
-      setState(() {
-        _matches = matches;
-        _matchesLoaded = true;
-      });
+    try {
+      // Use simple approach without executeWithLoadingAndReturn to avoid loading state issues
+      final matches = await _matchingManager.fetchPromptMatches(widget.prompt!.promptID).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          AppLogger.warning('fetchPromptMatches timed out after 10 seconds', context: 'PromptIntroSection');
+          return <Match>[]; // Return empty list on timeout
+        },
+      );
+
+      AppLogger.debug('Received ${matches.length} matches', context: 'PromptIntroSection');
+
+      if (mounted) {
+        setState(() {
+          _matches = matches;
+          _matchesLoaded = true;
+        });
+      }
+    } catch (e) {
+      AppLogger.error('Exception loading matches: $e', context: 'PromptIntroSection');
+      if (mounted) {
+        setState(() {
+          _matches = [];
+          _matchesLoaded = true;
+          _error = 'Failed to load matches';
+        });
+      }
     }
+
+    AppLogger.debug('Finished loading matches, matchesLoaded: $_matchesLoaded', context: 'PromptIntroSection');
   }
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.debug(
+      'PromptIntroSection build: widget.isLoading=${widget.isLoading}, '
+      'widget.prompt=${widget.prompt?.label}, '
+      'isLoading=$isLoading, '
+      'matchesLoaded=$_matchesLoaded, '
+      'matches.length=${_matches.length}, '
+      'error=$_error',
+      context: 'PromptIntroSection'
+    );
+
     if (widget.isLoading || widget.prompt == null) {
       return const LoadingStateWidget();
     }
@@ -134,7 +161,7 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
       return EmptyStateWidget(
         message: 'No matches yet',
         description: 'When people match with your card, their profiles will appear here.',
-        iconName: 'couple',
+        iconName: 'match_regular',
       );
     }
 

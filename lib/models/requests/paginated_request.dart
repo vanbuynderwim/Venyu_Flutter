@@ -47,7 +47,7 @@ enum ServerListType {
       case ServerListType.pendingSystemReviews:
         return 'home_regular';
       case ServerListType.matches:
-        return 'couple_regular';
+        return 'match_regular';
       case ServerListType.profilePrompts:
         return 'nocards';
     }

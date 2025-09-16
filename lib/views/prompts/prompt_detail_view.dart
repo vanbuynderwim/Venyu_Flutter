@@ -14,7 +14,11 @@ import 'prompt_item.dart';
 // import 'prompt_detail/prompt_section_button_bar.dart';
 // import 'prompt_detail/prompt_card_section.dart';
 // import 'prompt_detail/prompt_stats_section.dart';
-import 'prompt_detail/prompt_intro_section.dart';
+import '../../services/supabase_managers/matching_manager.dart';
+import '../../models/match.dart';
+import '../matches/match_detail_view.dart';
+import '../matches/match_item_view.dart';
+import '../../widgets/common/empty_state_widget.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -36,15 +40,18 @@ class PromptDetailView extends StatefulWidget {
 
 class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingMixin {
   late final ContentManager _contentManager;
+  late final MatchingManager _matchingManager;
 
   Prompt? _prompt;
+  List<Match> _matches = [];
+  bool _matchesLoaded = false;
   String? _error;
-  // PromptSections _selectedSection = PromptSections.card;
 
   @override
   void initState() {
     super.initState();
     _contentManager = ContentManager.shared;
+    _matchingManager = MatchingManager.shared;
     _loadPromptData();
   }
 
@@ -59,6 +66,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
         if (prompt != null && mounted) {
           setState(() => _prompt = prompt);
+          // Load matches after prompt is loaded
+          _loadMatches();
         } else if (mounted) {
           setState(() => _error = 'Failed to load prompt');
         }
@@ -71,6 +80,39 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         }
       },
     );
+  }
+
+  Future<void> _loadMatches() async {
+    if (_prompt == null) return;
+
+    try {
+      AppLogger.debug('Loading matches for prompt: ${_prompt!.promptID}', context: 'PromptDetailView');
+
+      final matches = await _matchingManager.fetchPromptMatches(_prompt!.promptID).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          AppLogger.warning('fetchPromptMatches timed out', context: 'PromptDetailView');
+          return <Match>[];
+        },
+      );
+
+      AppLogger.debug('Received ${matches.length} matches', context: 'PromptDetailView');
+
+      if (mounted) {
+        setState(() {
+          _matches = matches;
+          _matchesLoaded = true;
+        });
+      }
+    } catch (e) {
+      AppLogger.error('Error loading matches: $e', context: 'PromptDetailView');
+      if (mounted) {
+        setState(() {
+          _matches = [];
+          _matchesLoaded = true;
+        });
+      }
+    }
   }
 
   @override
@@ -118,12 +160,87 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // const SizedBox(height: 16),
 
             // Matches content
-            PromptIntroSection(
-              prompt: _prompt,
-              isLoading: isLoading,
+            _buildMatchesContent(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMatchesContent() {
+    if (isLoading) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 48),
+        child: LoadingStateWidget(),
+      );
+    }
+
+    if (_error != null) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
+        child: Column(
+          children: [
+            Text(
+              _error!,
+              style: AppTextStyles.body.copyWith(
+                color: context.venyuTheme.secondaryText,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: _loadPromptData,
+              child: const Text('Retry'),
             ),
           ],
         ),
+      );
+    }
+
+    // Show loading while matches are being loaded
+    if (!_matchesLoaded) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 48),
+        child: LoadingStateWidget(),
+      );
+    }
+
+    // Show matches content
+    if (_matches.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: EmptyStateWidget(
+          message: 'No matches yet',
+          description: 'When people match with your card, their profiles will appear here.',
+          iconName: 'nomatches',
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Matches list
+        ..._matches.map((match) => Padding(
+          padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+          child: MatchItemView(
+            match: match,
+            shouldBlur: false,
+            onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
+          ),
+        )),
+      ],
+    );
+  }
+
+  void _navigateToMatchDetail(Match match) {
+    AppLogger.ui('Navigating to match detail from prompt: ${match.id}', context: 'PromptDetailView');
+
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchDetailView(matchId: match.id),
       ),
     );
   }

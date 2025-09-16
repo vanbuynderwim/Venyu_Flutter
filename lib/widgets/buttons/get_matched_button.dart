@@ -81,7 +81,7 @@ class GetMatchedButton extends StatelessWidget {
         if (!isVisible) return const SizedBox.shrink();
         return FABButton(
           icon: context.themedIcon('edit'),
-          label: 'Get matched',
+          label: null,
           onPressed: () => _openAddPromptModal(context),
         );
 

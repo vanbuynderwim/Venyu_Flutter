@@ -4,8 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
-import '../../core/utils/dialog_utils.dart';
-import '../../models/enums/prompt_status.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../../models/prompt.dart';
@@ -17,7 +15,6 @@ import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/get_matched_button.dart';
 import 'prompt_item.dart';
-import 'prompt_edit_view.dart';
 import 'prompt_detail_view.dart';
 import 'interaction_type_selection_view.dart';
 
@@ -114,9 +111,7 @@ class _PromptsViewState extends State<PromptsView>
                         child: PromptItem(
                           prompt: prompt,
                           showChevron: true,
-                          onPromptSelected: (selectedPrompt) {
-                            _navigateToPromptDetail(selectedPrompt);
-                          },
+                          onPromptSelected: _openPromptDetail,
                         ),
                       );
                     },
@@ -155,116 +150,11 @@ class _PromptsViewState extends State<PromptsView>
     }
   }
 
-  /// Handles prompt selection based on status
-  Future<void> _navigateToPromptDetail(Prompt prompt) async {
-    AppLogger.debug('Prompt selected with status: ${prompt.status?.value}', context: 'PromptsView');
-    
-    // Handle different prompt statuses
-    switch (prompt.status) {
-      case PromptStatus.draft:
-        // Draft prompts can be edited directly
-        await _openPromptDetailView(prompt);
-        break;
-        
-      case PromptStatus.pendingReview:
-        // Show pending review dialog
-        await DialogUtils.showInfoDialog(
-          context: context,
-          title: 'Card under review',
-          message: 'Your card is still in review.',
-          buttonText: 'OK',
-        );
-        break;
-        
-      case PromptStatus.rejected:
-        // Show rejected dialog with edit/cancel options
-        final shouldEdit = await DialogUtils.showConfirmationDialog(
-          context: context,
-          title: 'Card rejected',
-          message: 'Your card is rejected because it didn\'t follow the community guidelines. Please edit and resubmit.',
-          confirmText: 'Edit',
-          cancelText: 'Cancel',
-          isDestructive: false,
-        );
-        
-        if (shouldEdit) {
-          // Update status to draft before opening detail view
-          await _updatePromptStatusToDraft(prompt);
-        }
-        break;
-        
-      case PromptStatus.approved:
-      case PromptStatus.online:
-      case PromptStatus.offline:
-        // Approved/online/offline prompts show matches (read-only)
-        await _openPromptMatchesView(prompt);
-        break;
-        
-      case null:
-      case PromptStatus.pendingTranslation:
-      case PromptStatus.archived:
-        // For other statuses, show matches
-        await _openPromptMatchesView(prompt);
-        break;
-    }
-  }
   
-  /// Updates a rejected prompt's status to draft and opens detail view
-  Future<void> _updatePromptStatusToDraft(Prompt prompt) async {
-    try {
-      AppLogger.debug('Updating prompt ${prompt.promptID} status to draft', context: 'PromptsView');
-      
-      await _contentManager.updatePromptStatus(
-        promptId: prompt.promptID,
-        status: PromptStatus.draft,
-      );
-      
-      // Refresh prompts list to reflect status change
-      await _handleRefresh();
-      
-      // Open detail view for editing
-      await _openPromptDetailView(prompt);
-      
-    } catch (error) {
-      AppLogger.error('Error updating prompt status to draft: $error', context: 'PromptsView');
-      // Show error to user but still try to open detail view
-      if (mounted) {
-        await DialogUtils.showErrorDialog(
-          context: context,
-          title: 'Error',
-          message: 'Failed to update prompt status. Please try again.',
-        );
-      }
-    }
-  }
-  
-  /// Opens the prompt detail view for editing
-  Future<void> _openPromptDetailView(Prompt prompt) async {
-    AppLogger.debug('Opening prompt detail view for editing prompt: ${prompt.label}', context: 'PromptsView');
-    try {
-      final result = await showPlatformModalSheet<bool>(
-        context: context,
-        material: MaterialModalSheetData(
-          isScrollControlled: true,
-          useSafeArea: true,
-        ),
-        builder: (context) => PromptEditView(existingPrompt: prompt),
-      );
-      
-      AppLogger.debug('Prompt detail view closed with result: $result', context: 'PromptsView');
-      
-      // If prompt was successfully updated, refresh the list
-      if (result == true) {
-        await _handleRefresh();
-      }
-    } catch (error) {
-      AppLogger.error('Error opening prompt detail view: $error', context: 'PromptsView');
-    }
-  }
 
   /// Opens the new prompt detail view to show matches
-  Future<void> _openPromptMatchesView(Prompt prompt) async {
-    AppLogger.debug('Opening prompt matches view for prompt: ${prompt.label}', context: 'PromptsView');
+  Future<void> _openPromptDetail(Prompt prompt) async {
+    AppLogger.debug('Opening prompt detail view for prompt: ${prompt.label}', context: 'PromptsView');
     try {
       await Navigator.push(
         context,
@@ -273,10 +163,10 @@ class _PromptsViewState extends State<PromptsView>
           builder: (context) => PromptDetailView(promptId: prompt.promptID),
         ),
       );
-      
-      AppLogger.debug('Prompt matches view closed', context: 'PromptsView');
+
+      AppLogger.debug('Prompt detail view closed', context: 'PromptsView');
     } catch (error) {
-      AppLogger.error('Error opening prompt matches view: $error', context: 'PromptsView');
+      AppLogger.error('Error opening prompt detail view: $error', context: 'PromptsView');
     }
   }
 

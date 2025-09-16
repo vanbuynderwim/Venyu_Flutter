@@ -22,10 +22,10 @@ class StatusBadgeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = Text(
       status.displayText,
-      style: AppTextStyles.caption1.copyWith(
+      style: AppTextStyles.caption2.copyWith(
         color: status.textColor,
         fontSize: fontSize,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
         height: 1.0,
       ),
     );
@@ -38,10 +38,7 @@ class StatusBadgeView extends StatelessWidget {
       decoration: BoxDecoration(
         color: status.backgroundColor(context),
         borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-        border: Border.all(
-          color: status.borderColor,
-          width: AppModifiers.extraThinBorder,
-        ),
+
       ),
       child: compact 
         ? SizedBox(

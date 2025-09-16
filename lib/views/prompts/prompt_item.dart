@@ -8,7 +8,6 @@ import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/interaction_tag.dart';
-import '../../widgets/common/venue_tag.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
 class PromptItem extends StatefulWidget {
@@ -39,6 +38,24 @@ class PromptItem extends StatefulWidget {
 
 class _PromptItemState extends State<PromptItem> {
   bool isSelected = false;
+
+  /// Builds the combined date and venue text
+  String _buildDateVenueText() {
+    final dateText = widget.prompt.createdAt?.timeAgoFull() ?? '';
+    final venue = widget.prompt.venue;
+
+    if (dateText.isEmpty && venue != null) {
+      return 'in ${venue.name}';
+    } else if (dateText.isEmpty) {
+      return '';
+    }
+
+    if (venue != null) {
+      return '$dateText - in ${venue.name}';
+    } else {
+      return dateText;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,26 +103,29 @@ class _PromptItemState extends State<PromptItem> {
                             AppModifiers.verticalSpaceMedium,
                           ],
                     
-                    // Created date and status badge row - above prompt label
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    // Status badge and created date column - above prompt label
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Date on the left
-                        if (widget.prompt.createdAt != null) ...[
+                        // Status badge on top - only show if not showing match interactions
+                        if (!widget.showMatchInteraction) ...[
+                          IntrinsicWidth(
+                            child: StatusBadgeView(
+                              status: widget.prompt.displayStatus,
+                              compact: true,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+
+                        // Date and venue below status badge
+                        if (widget.prompt.createdAt != null)
                           Text(
-                            widget.prompt.createdAt!.timeAgoFull(),
+                            _buildDateVenueText(),
                             style: AppTextStyles.caption1.copyWith(
                               color: context.venyuTheme.secondaryText,
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                        
-                        // Status badge next to date - only show if not showing match interactions
-                        if (!widget.showMatchInteraction)
-                          StatusBadgeView(
-                            status: widget.prompt.displayStatus,
-                            compact: true,
                           ),
                       ],
                     ),
@@ -124,7 +144,7 @@ class _PromptItemState extends State<PromptItem> {
                     if (widget.prompt.interactionType != null || 
                         widget.prompt.venue != null ||
                         (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)) ...[
-                      SizedBox(height: AppModifiers.mediumSpacing),
+                      SizedBox(height: AppModifiers.smallSpacing),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -137,14 +157,9 @@ class _PromptItemState extends State<PromptItem> {
                                     interactionType: widget.prompt.interactionType!,
                                     compact: true,
                                   ),
-                                  if (widget.prompt.venue != null)
-                                    const SizedBox(width: 8),
+                                  
                                 ],
-                                if (widget.prompt.venue != null)
-                                  VenueTag(
-                                    venue: widget.prompt.venue!,
-                                    compact: true,
-                                  ),
+                          
                               ],
                             ),
                           ),
