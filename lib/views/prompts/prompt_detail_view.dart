@@ -5,15 +5,15 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
-import '../../models/enums/prompt_sections.dart';
+// import '../../models/enums/prompt_sections.dart';
 import '../../models/prompt.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import 'prompt_item.dart';
-import 'prompt_detail/prompt_section_button_bar.dart';
-import 'prompt_detail/prompt_card_section.dart';
-import 'prompt_detail/prompt_stats_section.dart';
+// import 'prompt_detail/prompt_section_button_bar.dart';
+// import 'prompt_detail/prompt_card_section.dart';
+// import 'prompt_detail/prompt_stats_section.dart';
 import 'prompt_detail/prompt_intro_section.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
@@ -39,7 +39,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
   Prompt? _prompt;
   String? _error;
-  PromptSections _selectedSection = PromptSections.card;
+  // PromptSections _selectedSection = PromptSections.card;
 
   @override
   void initState() {
@@ -103,74 +103,28 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             ],
 
             // Section button bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: PromptSectionButtonBar(
-                selectedSection: _selectedSection,
-                onSectionSelected: (section) {
-                  setState(() {
-                    _selectedSection = section;
-                  });
-                },
-              ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16),
+            //   child: PromptSectionButtonBar(
+            //     selectedSection: _selectedSection,
+            //     onSectionSelected: (section) {
+            //       setState(() {
+            //         _selectedSection = section;
+            //       });
+            //     },
+            //   ),
+            // ),
+
+            // const SizedBox(height: 16),
+
+            // Matches content
+            PromptIntroSection(
+              prompt: _prompt,
+              isLoading: isLoading,
             ),
-
-            const SizedBox(height: 16),
-
-            // Section content
-            _buildSectionContent(),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildSectionContent() {
-    if (isLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 48),
-        child: LoadingStateWidget(),
-      );
-    }
-
-    if (_error != null) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-        child: Column(
-          children: [
-            Text(
-              _error!,
-              style: AppTextStyles.body.copyWith(
-                color: context.venyuTheme.secondaryText,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: _loadPromptData,
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
-    }
-
-    switch (_selectedSection) {
-      case PromptSections.card:
-        return PromptCardSection(
-          prompt: _prompt,
-          isLoading: isLoading,
-        );
-      case PromptSections.stats:
-        return PromptStatsSection(
-          prompt: _prompt,
-          isLoading: isLoading,
-        );
-      case PromptSections.intro:
-        return PromptIntroSection(
-          prompt: _prompt,
-          isLoading: isLoading,
-        );
-    }
   }
 }

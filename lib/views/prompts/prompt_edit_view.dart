@@ -21,6 +21,7 @@ class PromptEditView extends StatefulWidget {
   final bool isNewPrompt; // Whether this is a new prompt (hides toggle buttons)
   final bool isFromPrompts; // Whether coming from prompts flow
   final VoidCallback? onCloseModal; // Callback to close modal when from prompts
+  final String? venueId; // Optional venue ID to associate with the new prompt
 
   const PromptEditView({
     super.key,
@@ -29,6 +30,7 @@ class PromptEditView extends StatefulWidget {
     this.isNewPrompt = false,
     this.isFromPrompts = false,
     this.onCloseModal,
+    this.venueId,
   });
 
   @override
@@ -115,6 +117,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
           widget.existingPrompt?.promptID,
           _selectedInteractionType,
           _contentController.text.trim(),
+          venueId: widget.venueId,
         );
       },
       successMessage: "Thank you for your submission! Your prompt is under review and you'll receive a notification once it's approved.",
@@ -125,7 +128,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
           // Use the callback to close the entire modal stack
           widget.onCloseModal!();
         } else {
-          // Normal flow - just pop this view
+          // Normal flow - just pop this view with result
           Navigator.of(context).pop(true);
         }
       },

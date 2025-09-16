@@ -13,7 +13,7 @@ import '../../models/venue.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
-import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/get_matched_button.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import 'venue_profiles_view.dart';
 import 'venue_prompts_view.dart';
@@ -493,11 +493,17 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
   /// Builds the bottom action button section
   Widget _buildBottomSection() {
-    return ActionButton(
-        label: 'Get matched',
-        onPressed: _handleAddCard,
-        icon: context.themedIcon('edit'),
-      );
+    return GetMatchedButton(
+      buttonType: GetMatchedButtonType.action,
+      venueId: _venue?.id,
+      onModalClosed: (result) {
+        if (result == true) {
+          AppLogger.debug('Prompt creation completed for venue: ${_venue?.name}',
+              context: 'VenueDetailView');
+          // Optionally refresh venue data or show success message
+        }
+      },
+    );
   }
 
   /// Builds the event dates section (only for events)
@@ -553,16 +559,4 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     );
   }
 
-  /// Handles add card button press
-  void _handleAddCard() {
-    AppLogger.ui('Add card button pressed for venue: ${_venue?.name}', context: 'VenueDetailView');
-    
-    // TODO: Implement navigation to add card view
-    // For now, just show a placeholder message
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Add card functionality coming soon'),
-      ),
-    );
-  }
 }

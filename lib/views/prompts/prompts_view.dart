@@ -15,7 +15,7 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/empty_state_widget.dart';
-import '../../widgets/buttons/fab_button.dart';
+import '../../widgets/buttons/get_matched_button.dart';
 import 'prompt_item.dart';
 import 'prompt_edit_view.dart';
 import 'prompt_detail_view.dart';
@@ -64,13 +64,17 @@ class _PromptsViewState extends State<PromptsView>
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text("Your prompts"),
+        title: Text("Your cards"),
       ),
       floatingActionButton: _prompts.isNotEmpty
-          ? FABButton(
-              icon: context.themedIcon('edit'),
-              label: 'Get matched',
-              onPressed: _openAddPromptModal,
+          ? GetMatchedButton(
+              buttonType: GetMatchedButtonType.fab,
+              onModalClosed: (result) {
+                if (result == true) {
+                  AppLogger.debug('Prompt creation completed, refreshing list', context: 'PromptsView');
+                  _handleRefresh();
+                }
+              },
             )
           : null,
       usePadding: true,
@@ -88,7 +92,7 @@ class _PromptsViewState extends State<PromptsView>
                           message: ServerListType.profilePrompts.emptyStateTitle,
                           description: ServerListType.profilePrompts.emptyStateDescription,
                           iconName: ServerListType.profilePrompts.emptyStateIcon,
-                          onAction: _openAddPromptModal,
+                          onAction: () => _handleGetMatchedPressed(),
                           actionText: "Get matched",
                           actionButtonIcon: context.themedIcon('edit'),
                         ),
@@ -122,10 +126,11 @@ class _PromptsViewState extends State<PromptsView>
   }
 
 
-  /// Opens the interaction type selection view for creating a new prompt
-  Future<void> _openAddPromptModal() async {
+  /// Handles the Get Matched button press (both FAB and EmptyState button)
+  Future<void> _handleGetMatchedPressed() async {
     HapticFeedback.selectionClick();
     AppLogger.debug('Opening interaction type selection for new prompt...', context: 'PromptsView');
+
     try {
       final result = await showPlatformModalSheet<bool>(
         context: context,
@@ -138,15 +143,15 @@ class _PromptsViewState extends State<PromptsView>
           return const InteractionTypeSelectionView();
         },
       );
-      
-      AppLogger.debug('Prompt detail view closed with result: $result', context: 'PromptsView');
-      
+
+      AppLogger.debug('Interaction type selection closed with result: $result', context: 'PromptsView');
+
       // If prompt was successfully added, refresh the list
       if (result == true) {
         await _handleRefresh();
       }
     } catch (error) {
-      AppLogger.error('Error opening prompt detail view: $error', context: 'PromptsView');
+      AppLogger.error('Error opening interaction type selection modal: $error', context: 'PromptsView');
     }
   }
 

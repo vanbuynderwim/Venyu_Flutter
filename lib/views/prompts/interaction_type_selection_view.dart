@@ -15,29 +15,33 @@ import '../../core/theme/app_text_styles.dart';
 import 'prompt_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
-/// 
+///
 /// This view presents two large, prominent buttons for the user to select
 /// whether they need help or can offer help. After selection, it navigates
 /// to the CardEditView with the chosen interaction type.
 class InteractionTypeSelectionView extends StatelessWidget {
   /// Whether this view is shown after completing prompts (affects back navigation)
   final bool isFromPrompts;
-  
+
   /// Callback to close the modal when coming from prompts
   final VoidCallback? onCloseModal;
-  
+
+  /// Optional venue ID to associate with the new prompt
+  final String? venueId;
+
   const InteractionTypeSelectionView({
     super.key,
     this.isFromPrompts = false,
     this.onCloseModal,
+    this.venueId,
   });
 
-  void _handleSelection(BuildContext context, InteractionType type) {
+  void _handleSelection(BuildContext context, InteractionType type) async {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
-    
+
     // Navigate to CardEditView with the selected interaction type
-    Navigator.of(context).push(
+    final result = await Navigator.of(context).push<bool>(
       platformPageRoute(
         context: context,
         builder: (context) => PromptEditView(
@@ -45,9 +49,15 @@ class InteractionTypeSelectionView extends StatelessWidget {
           isNewPrompt: true,
           isFromPrompts: isFromPrompts,
           onCloseModal: onCloseModal,
+          venueId: venueId,
         ),
       ),
     );
+
+    // If the prompt was successfully saved, close the entire modal
+    if (result == true && context.mounted) {
+      Navigator.of(context).pop(true);
+    }
   }
 
   /// Get user's first name from profile service

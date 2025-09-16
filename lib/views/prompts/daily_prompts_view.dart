@@ -94,7 +94,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
       showSuccessToast: false,
       showErrorToast: false, // Handle navigation in callbacks
       useProcessingState: true,
-      onSuccess: () {
+      onSuccess: () async {
         // Check if there are more prompts
         if (_currentPromptIndex < widget.prompts.length - 1) {
           // Move to next prompt and reset interaction selection
@@ -104,7 +104,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
           });
         } else {
           // Last prompt - navigate to InteractionTypeSelectionView
-          Navigator.of(context).push(
+          final result = await Navigator.of(context).push<bool>(
             platformPageRoute(
               context: context,
               builder: (_) => InteractionTypeSelectionView(
@@ -113,6 +113,11 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
               ),
             ),
           );
+
+          // If prompt was successfully created, close the modal
+          if (result == true && widget.onCloseModal != null) {
+            widget.onCloseModal!();
+          }
         }
       },
       onError: (error) {

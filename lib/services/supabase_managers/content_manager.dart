@@ -197,18 +197,19 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   }
 
   /// Create or update a prompt
-  Future<void> upsertPrompt(String? promptID, InteractionType interactionType, String label) async {
+  Future<void> upsertPrompt(String? promptID, InteractionType interactionType, String label, {String? venueId}) async {
     return executeAuthenticatedRequest(() async {
-      AppLogger.info('Upserting prompt', context: 'ContentManager');
-      
+      AppLogger.info('Upserting prompt${venueId != null ? " for venue: $venueId" : ""}', context: 'ContentManager');
+
       final payload = {
         'prompt_id': promptID,
         'interaction_type': interactionType.toJson(),
         'label': label,
+        if (venueId != null) 'venue_id': venueId,
       };
-      
+
       await client.rpc('upsert_prompt', params: {'payload': payload});
-      
+
       AppLogger.success('Prompt upserted successfully', context: 'ContentManager');
     });
   }
