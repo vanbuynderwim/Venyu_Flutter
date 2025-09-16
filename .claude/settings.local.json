@@ -40,7 +40,8 @@
       "Read(/Users/wimvanbuynder/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.6/lib/**)",
       "Bash(dart:*)",
       "Bash(git rm:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/keytool -genkey -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload -storepass venyu2024 -keypass venyu2024 -dname \"CN=Venyu App, OU=Development, O=Venyu, L=Brussels, S=Brussels, C=BE\")"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

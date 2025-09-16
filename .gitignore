@@ -54,3 +54,7 @@ ios/GoogleService-Info.plist
 
 # Firebase options
 lib/firebase_options.dart
+
+# Android signing
+android/app/upload-keystore.jks
+android/key.properties

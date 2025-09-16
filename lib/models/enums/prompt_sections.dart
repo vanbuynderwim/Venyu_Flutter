@@ -37,7 +37,7 @@ enum PromptSections implements SectionType {
   String get title {
     switch (this) {
       case PromptSections.card:
-        return 'Card';
+        return 'Status';
       case PromptSections.stats:
         return 'Stats';
       case PromptSections.intro:
@@ -63,7 +63,7 @@ enum PromptSections implements SectionType {
   String get icon {
     switch (this) {
       case PromptSections.card:
-        return 'card';
+        return 'clock';
       case PromptSections.stats:
         return 'grow';
       case PromptSections.intro:
