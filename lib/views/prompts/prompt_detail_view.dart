@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_layout_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 // import '../../models/enums/prompt_sections.dart';
@@ -260,14 +261,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        decoration: BoxDecoration(
-          color: context.venyuTheme.cardBackground,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: context.venyuTheme.borderColor,
-            width: 1,
-          ),
-        ),
+        decoration: AppLayoutStyles.cardDecoration(context),
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
