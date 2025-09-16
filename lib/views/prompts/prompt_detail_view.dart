@@ -22,6 +22,12 @@ import '../matches/match_item_view.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/prompt_status.dart';
+import '../../widgets/common/status_badge_view.dart';
+import '../../widgets/common/community_guidelines_widget.dart';
+import '../../widgets/common/sub_title.dart';
+import '../../core/utils/date_extensions.dart';
+import '../venues/venue_item_view.dart';
+import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
@@ -143,13 +149,47 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   isFirst: true,
                   isLast: true,
                   showMatchInteraction: false,
+                  shouldShowStatus: false,
                 ),
               ),
               const SizedBox(height: 16),
 
+              // Status section with title
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SubTitle(
+                  iconName: 'report',
+                  title: 'Status',
+                ),
+              ),
+              const SizedBox(height: 8),
+
               // Status info section
               _buildStatusInfoSection(),
-              const SizedBox(height: 16),
+
+              // Venue section - show if prompt has a venue
+              if (_prompt!.venue != null) ...[
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SubTitle(
+                        iconName: 'venue',
+                        title: 'Published in',
+                      ),
+                      const SizedBox(height: 8),
+                      VenueItemView(
+                        venue: _prompt!.venue!,
+                        onTap: () => _navigateToVenueDetail(_prompt!.venue!.id),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 12),
             ],
 
             // Section button bar
@@ -215,19 +255,35 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
     // Show matches content
     if (_matches.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: EmptyStateWidget(
-          message: 'No matches yet',
-          description: 'When people match with your card, their profiles will appear here.',
-          iconName: 'nomatches',
-        ),
-      );
+      // Show empty state for online and offline prompts
+      if (_prompt?.displayStatus == PromptStatus.online || _prompt?.displayStatus == PromptStatus.offline) {
+        return const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: EmptyStateWidget(
+            message: 'No matches yet',
+            description: 'When people match with your card, their profiles will appear here.',
+            iconName: 'nomatches',
+          ),
+        );
+      } else {
+        // For non-approved prompts, don't show matches section at all
+        return const SizedBox.shrink();
+      }
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Introductions title
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: SubTitle(
+            iconName: 'handshake',
+            title: 'Matches & Introductions',
+          ),
+        ),
+        const SizedBox(height: 8),
+
         // Matches list
         ..._matches.map((match) => Padding(
           padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
@@ -253,10 +309,22 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     );
   }
 
+  void _navigateToVenueDetail(String venueId) {
+    AppLogger.ui('Navigating to venue detail from prompt: $venueId', context: 'PromptDetailView');
+
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => VenueDetailView(venueId: venueId),
+      ),
+    );
+  }
+
   Widget _buildStatusInfoSection() {
     if (_prompt?.status == null) return const SizedBox.shrink();
 
-    final status = _prompt!.status!;
+    final status = _prompt!.displayStatus;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -266,26 +334,112 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Status badge
+            StatusBadgeView(
+              status: status,
+              compact: false,
+            ),
+            const SizedBox(height: 12),
+
             // Status info text
             Text(
-              status.statusInfo,
-              style: AppTextStyles.body.copyWith(
+              status.statusInfo(_prompt),
+              style: AppTextStyles.subheadline.copyWith(
                 color: context.venyuTheme.primaryText,
               ),
             ),
-            const SizedBox(height: 16),
 
-            // Edit button
-            ActionButton(
-              label: 'Edit Card',
-              onPressed: status.canEdit ? () => _editPrompt() : null,
-              isCompact: true,
-            ),
+            // Additional info for online/offline status
+            if (status == PromptStatus.online || status == PromptStatus.offline) ...[
+              const SizedBox(height: 16),
+              _buildStatusDetails(),
+            ],
+
+            // Show community guidelines for rejected status
+            if (status == PromptStatus.rejected) ...[
+              const SizedBox(height: 16),
+              const CommunityGuidelinesWidget(
+                showTitle: false,
+              ),
+            ],
+
+            // Edit button - only show if editing is allowed
+            if (status.canEdit) ...[
+              const SizedBox(height: 16),
+              ActionButton(
+                label: 'Edit Card',
+                icon: context.themedIcon('edit'),
+                onPressed: () => _editPrompt(),
+                isCompact: false,
+              ),
+            ],
           ],
         ),
       ),
     );
   }
+
+  Widget _buildStatusDetails() {
+    if (_prompt == null) return const SizedBox.shrink();
+
+    return Column(
+      children: [
+        // Reviewed date
+        if (_prompt!.reviewedAt != null)
+          _buildDetailRow('Online:', _prompt!.reviewedAt!.formatDate(), iconName: 'event'),
+
+        // Expires date
+        if (_prompt!.expiresAt != null) ...[
+          _buildDetailRow(
+            _prompt!.expiresAt!.isBefore(DateTime.now()) ? 'Expired:' : 'Expires:',
+            _prompt!.expiresAt!.formatDate(),
+            iconName: 'event'
+          ),
+        ],
+
+        // Match count
+        if (_prompt!.matchCount != null)
+          _buildDetailRow('Matches:', '${_prompt!.matchCount}', iconName: 'match'),
+
+        // Connection count
+        if (_prompt!.connectionCount != null)
+          _buildDetailRow('Introductions:', '${_prompt!.connectionCount}', iconName: 'handshake'),
+      ],
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value, {String? iconName}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              if (iconName != null) ...[
+                context.themedIcon(iconName, size: 18, selected: true),
+                const SizedBox(width: 8),
+              ],
+              Text(
+                label,
+                style: AppTextStyles.subheadline.copyWith(
+                  color: context.venyuTheme.secondaryText,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            value,
+            style: AppTextStyles.subheadline.copyWith(
+              color: context.venyuTheme.primaryText,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   void _editPrompt() async {
     if (_prompt == null) return;
@@ -299,7 +453,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
           isScrollControlled: true,
           useSafeArea: true,
         ),
-        builder: (context) => PromptEditView(existingPrompt: _prompt!),
+        builder: (context) => PromptEditView(
+          existingPrompt: _prompt!,
+          venueId: _prompt!.venue?.id,
+        ),
       );
 
       if (result == true) {

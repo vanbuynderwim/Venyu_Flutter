@@ -85,7 +85,10 @@ class TagView extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
     
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10.0,
+        vertical: 6.0,
+      ),
       decoration: AppLayoutStyles.tagDecoration(context),
       child: Row(
         mainAxisSize: MainAxisSize.min,

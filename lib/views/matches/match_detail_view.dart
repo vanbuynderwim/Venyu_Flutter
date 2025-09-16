@@ -19,7 +19,7 @@ import '../profile/profile_header.dart';
 import 'match_detail/match_actions_section.dart';
 import 'match_detail/match_connections_section.dart';
 import 'match_detail/match_prompts_section.dart';
-import 'match_detail/match_section_header.dart';
+import '../../widgets/common/sub_title.dart';
 import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
 
@@ -200,9 +200,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
-              MatchSectionHeader(
-                iconName: 'card',
-                title: '${_match!.nrOfPrompts} matching ${_match!.nrOfPrompts == 1 ? "card" : "cards"}',
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: SubTitle(
+                  iconName: 'card',
+                  title: '${_match!.nrOfPrompts} matching ${_match!.nrOfPrompts == 1 ? "card" : "cards"}',
+                ),
               ),
               const SizedBox(height: 16),
               MatchPromptsSection(
@@ -234,9 +237,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             ] else ...[
               // Show all other sections only if limit is not reached
               
-              // Shared Connections Section 
+              // Shared Connections Section
               if (_match!.nrOfConnections > 0) ...[
-                MatchSectionHeader(
+                SubTitle(
                   iconName: 'handshake',
                   title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "introduction" : "introductions"}',
                 ),
@@ -247,7 +250,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
               // Shared Venues Section
               if (_match!.nrOfVenues > 0) ...[
-                MatchSectionHeader(
+                SubTitle(
                   iconName: 'venue',
                   title: '${_match!.nrOfVenues} shared ${_match!.nrOfVenues == 1 ? "venue" : "venues"}',
                 ),
@@ -258,7 +261,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               
               // Company matches section
               if (_match!.nrOfCompanyTags > 0) ...[
-                MatchSectionHeader(
+                SubTitle(
                   iconName: 'company',
                   title: '${_match!.nrOfCompanyTags} mutual company ${_match!.nrOfCompanyTags == 1 ? "fact" : "facts"}',
                 ),
@@ -267,9 +270,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 const SizedBox(height: 16),
               ],
               
-              // Personal matches section  
+              // Personal matches section
               if (_match!.nrOfPersonalTags > 0) ...[
-                MatchSectionHeader(
+                SubTitle(
                   iconName: 'match',
                   title: '${_match!.nrOfPersonalTags} mutual personal ${_match!.nrOfPersonalTags == 1 ? "interest" : "interests"}',
                 ),

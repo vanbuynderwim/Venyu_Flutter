@@ -117,7 +117,7 @@ class _MatchesViewState extends State<MatchesView>
 
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text("Your introductions"),
+        title: Text("Matches & Introductions"),
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,

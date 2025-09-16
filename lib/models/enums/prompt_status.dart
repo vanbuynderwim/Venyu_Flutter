@@ -96,13 +96,38 @@ enum PromptStatus {
     }
   }
 
+  /// Get the emoji for this status
+  String get emoji {
+    switch (this) {
+      case PromptStatus.draft:
+        return '📝';
+      case PromptStatus.pendingReview:
+        return '🕙';
+      case PromptStatus.pendingTranslation:
+        return '🌐';
+      case PromptStatus.approved:
+        return '✅';
+      case PromptStatus.rejected:
+        return '🚫';
+      case PromptStatus.archived:
+        return '📦';
+      case PromptStatus.online:
+        return '🟢';
+      case PromptStatus.offline:
+        return '🔴';
+    }
+  }
+
   /// Get the status info description for this status
-  String get statusInfo {
+  ///
+  /// For online and offline status, provide a Prompt object to include
+  /// dynamic date information about expiry and duration.
+  String statusInfo([dynamic prompt]) {
     switch (this) {
       case PromptStatus.draft:
         return 'Your card is saved as a draft. Complete and submit it to start getting matches.';
       case PromptStatus.pendingReview:
-        return 'Your card is being reviewed by our team. This usually takes 24-48 hours.';
+        return 'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
       case PromptStatus.pendingTranslation:
         return 'Your card is being translated to other languages.';
       case PromptStatus.approved:
@@ -117,6 +142,7 @@ enum PromptStatus {
         return 'Your card has expired and is no longer visible to other users.';
     }
   }
+
 
   /// Check if the edit button should be enabled for this status
   bool get canEdit {

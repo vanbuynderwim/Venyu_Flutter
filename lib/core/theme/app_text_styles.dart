@@ -113,6 +113,12 @@ class AppTextStyles {
     fontFamily: AppFonts.defaultFontFamily,
   );
 
+  static final TextStyle subheadline2 = TextStyle(
+    fontSize: 14.0,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
+    fontFamily: AppFonts.defaultFontFamily,
+  );
+
   /// Footnote - 13.0pt Regular
   static final TextStyle footnote = TextStyle(
     fontSize: 13.0,

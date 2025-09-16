@@ -20,32 +20,38 @@ class StatusBadgeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final child = Text(
-      status.displayText,
-      style: AppTextStyles.caption2.copyWith(
-        color: status.textColor,
-        fontSize: fontSize,
-        fontWeight: FontWeight.w400,
-        height: 1.0,
-      ),
-    );
+    final child = compact
+        ? Text(
+            status.emoji
+          )
+        : Text(
+            '${status.emoji} ${status.displayText}',
+            style: AppTextStyles.footnote.copyWith(
+              color: status.textColor,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w400,
+            ),
+          );
+
+    if (compact) {
+      // In compact mode, show only the emoji without container/decoration
+      return child;
+    }
 
     return Container(
-      padding: padding ?? EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: compact ? 4.0 : 6.0,
+      padding: padding ?? const EdgeInsets.symmetric(
+        horizontal: 10.0,
+        vertical: 6.0,
       ),
       decoration: BoxDecoration(
         color: status.backgroundColor(context),
-        borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-
+        borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
+        border: Border.all(
+          color: status.borderColor,
+          width: AppModifiers.extraThinBorder,
+        ),
       ),
-      child: compact 
-        ? SizedBox(
-            height: 16, // Match icon height in InteractionTag
-            child: Center(child: child),
-          )
-        : child,
+      child: child,
     );
   }
 

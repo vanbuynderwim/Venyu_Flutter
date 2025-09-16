@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
+import '../../models/enums/prompt_status.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
-import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/interaction_tag.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
@@ -18,6 +18,7 @@ class PromptItem extends StatefulWidget {
   final bool isSharedPromptView;
   final bool showMatchInteraction;
   final bool showChevron;
+  final bool shouldShowStatus;
   final Function(Prompt)? onPromptSelected;
 
   const PromptItem({
@@ -29,6 +30,7 @@ class PromptItem extends StatefulWidget {
     this.isSharedPromptView = false,
     this.showMatchInteraction = false,
     this.showChevron = false,
+    this.shouldShowStatus = true,
     this.onPromptSelected,
   });
 
@@ -39,21 +41,24 @@ class PromptItem extends StatefulWidget {
 class _PromptItemState extends State<PromptItem> {
   bool isSelected = false;
 
-  /// Builds the combined date and venue text
+  /// Builds the combined date and venue text with status emoji
   String _buildDateVenueText() {
     final dateText = widget.prompt.createdAt?.timeAgoFull() ?? '';
     final venue = widget.prompt.venue;
+    final statusEmoji = widget.shouldShowStatus && !widget.showMatchInteraction
+        ? '${widget.prompt.displayStatus.emoji} '
+        : '';
 
     if (dateText.isEmpty && venue != null) {
-      return 'in ${venue.name}';
+      return '${statusEmoji}in ${venue.name}';
     } else if (dateText.isEmpty) {
-      return '';
+      return statusEmoji.isEmpty ? '' : statusEmoji.trim();
     }
 
     if (venue != null) {
-      return '$dateText - in ${venue.name}';
+      return '$statusEmoji$dateText - in ${venue.name}';
     } else {
-      return dateText;
+      return '$statusEmoji$dateText';
     }
   }
 
@@ -108,33 +113,23 @@ class _PromptItemState extends State<PromptItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Status badge on top - only show if not showing match interactions
-                        if (!widget.showMatchInteraction) ...[
-                          IntrinsicWidth(
-                            child: StatusBadgeView(
-                              status: widget.prompt.displayStatus,
-                              compact: true,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                        ],
-
-                        // Date and venue below status badge
-                        if (widget.prompt.createdAt != null)
+                        // Date with status emoji and venue
+                        if (widget.prompt.createdAt != null ||
+                            (widget.shouldShowStatus && !widget.showMatchInteraction))
                           Text(
                             _buildDateVenueText(),
-                            style: AppTextStyles.caption1.copyWith(
+                            style: AppTextStyles.footnote.copyWith(
                               color: context.venyuTheme.secondaryText,
                             ),
                           ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 8),
                     
                     // Prompt label - takes full width
                     Text(
                       widget.prompt.label,
-                      style: AppTextStyles.subheadline.copyWith(
+                      style: AppTextStyles.body.copyWith(
                         color: context.venyuTheme.primaryText,
                       ),
                       maxLines: null,
@@ -144,11 +139,11 @@ class _PromptItemState extends State<PromptItem> {
                     if (widget.prompt.interactionType != null || 
                         widget.prompt.venue != null ||
                         (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)) ...[
-                      SizedBox(height: AppModifiers.smallSpacing),
+                      SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Left side: interaction tag and venue tag
+                          // Left side: interaction tag
                           Expanded(
                             child: Row(
                               children: [
@@ -157,9 +152,7 @@ class _PromptItemState extends State<PromptItem> {
                                     interactionType: widget.prompt.interactionType!,
                                     compact: true,
                                   ),
-                                  
                                 ],
-                          
                               ],
                             ),
                           ),
@@ -208,12 +201,12 @@ class _PromptItemState extends State<PromptItem> {
   /// Build gradient overlay - show interaction colors for matches, status-based colors otherwise
   BoxDecoration? _buildGradientOverlay() {
     final venyuTheme = context.venyuTheme;
-    
+
     // If showing match interactions, always show the two interaction colors
     if (widget.showMatchInteraction) {
       final leftColor = widget.prompt.interactionType?.color;
       final rightColor = widget.prompt.matchInteractionType?.color;
-      
+
       // If we have both colors, show gradient
       if (leftColor != null && rightColor != null) {
         return BoxDecoration(
@@ -230,17 +223,17 @@ class _PromptItemState extends State<PromptItem> {
       // If missing colors, no gradient
       return null;
     }
-    
+
     // Regular logic for non-match views
-    // If prompt is online (approved and not expired), show interaction colors
-    if (widget.prompt.isOnline) {
+    // If prompt is online, show interaction colors
+    if (widget.prompt.displayStatus == PromptStatus.online) {
       final leftColor = widget.prompt.interactionType?.color;
-      
+
       // If no interaction color, no overlay needed
       if (leftColor == null) {
         return null;
       }
-      
+
       // Show single interaction color gradient
       return BoxDecoration(
         gradient: LinearGradient(
@@ -253,11 +246,11 @@ class _PromptItemState extends State<PromptItem> {
         ),
       );
     } else {
-      // If prompt is offline, use lilac color
+      // If prompt is not online, use light grey
       return BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primair4Lilac.withValues(alpha: 0.3),
+            AppColors.secondaryLight.withValues(alpha: 0.6),
             venyuTheme.cardBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,

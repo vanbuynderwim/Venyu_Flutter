@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/profile.dart';
+import '../../models/match.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -15,6 +16,7 @@ class RoleView extends StatelessWidget {
   final EdgeInsets? padding;
   final bool shouldBlur;
   final bool showNotificationDot;
+  final Match? match;
 
   const RoleView({
     super.key,
@@ -26,6 +28,7 @@ class RoleView extends StatelessWidget {
     this.padding,
     this.shouldBlur = false,
     this.showNotificationDot = false,
+    this.match,
   });
 
   @override
@@ -126,12 +129,48 @@ class RoleView extends StatelessWidget {
     );
   }
 
-  /// Bouw de avatar widget
+  /// Bouw de avatar widget met optionele match/intro indicator
   Widget _buildAvatar(BuildContext context) {
-    return AvatarView(
+    final avatar = AvatarView(
       avatarId: profile.avatarID,
       size: avatarSize,
       shouldBlur: shouldBlur,
+    );
+
+    // If no match provided, just return avatar
+    if (match == null) {
+      return avatar;
+    }
+
+    // Add match/intro indicator overlay
+    return Stack(
+      children: [
+        avatar,
+        // Small indicator in bottom right
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: context.venyuTheme.cardBackground,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: context.venyuTheme.borderColor,
+                width: AppModifiers.extraThinBorder,
+              ),
+            ),
+            child: Center(
+              child: context.themedIcon(
+                match!.isConnected ? 'handshake' : 'match',
+                size: 12,
+                selected: true,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
