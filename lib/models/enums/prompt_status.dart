@@ -95,4 +95,42 @@ enum PromptStatus {
         return 'Expired';
     }
   }
+
+  /// Get the status info description for this status
+  String get statusInfo {
+    switch (this) {
+      case PromptStatus.draft:
+        return 'Your card is saved as a draft. Complete and submit it to start getting matches.';
+      case PromptStatus.pendingReview:
+        return 'Your card is being reviewed by our team. This usually takes 24-48 hours.';
+      case PromptStatus.pendingTranslation:
+        return 'Your card is being translated to other languages.';
+      case PromptStatus.approved:
+        return 'Your card has been approved and will go online automatically on your next login.';
+      case PromptStatus.rejected:
+        return 'Your card was rejected for not following community guidelines. Please edit and resubmit.';
+      case PromptStatus.archived:
+        return 'Your card has been archived and is no longer visible to other users.';
+      case PromptStatus.online:
+        return 'Your card is live and visible to other users. You can receive matches.';
+      case PromptStatus.offline:
+        return 'Your card has expired and is no longer visible to other users.';
+    }
+  }
+
+  /// Check if the edit button should be enabled for this status
+  bool get canEdit {
+    switch (this) {
+      case PromptStatus.draft:
+      case PromptStatus.rejected:
+        return true;
+      case PromptStatus.pendingReview:
+      case PromptStatus.approved:
+      case PromptStatus.archived:
+      case PromptStatus.online:
+      case PromptStatus.offline:
+      case PromptStatus.pendingTranslation:
+        return false;
+    }
+  }
 }

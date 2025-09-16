@@ -19,6 +19,9 @@ import '../../models/match.dart';
 import '../matches/match_detail_view.dart';
 import '../matches/match_item_view.dart';
 import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/prompt_status.dart';
+import 'prompt_edit_view.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -142,6 +145,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Status info section
+              _buildStatusInfoSection(),
+              const SizedBox(height: 16),
             ],
 
             // Section button bar
@@ -243,5 +250,71 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         builder: (context) => MatchDetailView(matchId: match.id),
       ),
     );
+  }
+
+  Widget _buildStatusInfoSection() {
+    if (_prompt?.status == null) return const SizedBox.shrink();
+
+    final status = _prompt!.status!;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.venyuTheme.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: context.venyuTheme.borderColor,
+            width: 1,
+          ),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Status info text
+            Text(
+              status.statusInfo,
+              style: AppTextStyles.body.copyWith(
+                color: context.venyuTheme.primaryText,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Edit button
+            ActionButton(
+              label: 'Edit Card',
+              onPressed: status.canEdit ? () => _editPrompt() : null,
+              isCompact: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _editPrompt() async {
+    if (_prompt == null) return;
+
+    AppLogger.debug('Opening prompt edit view for: ${_prompt!.label}', context: 'PromptDetailView');
+
+    try {
+      final result = await showPlatformModalSheet<bool>(
+        context: context,
+        material: MaterialModalSheetData(
+          isScrollControlled: true,
+          useSafeArea: true,
+        ),
+        builder: (context) => PromptEditView(existingPrompt: _prompt!),
+      );
+
+      if (result == true) {
+        AppLogger.debug('Prompt updated, refreshing data', context: 'PromptDetailView');
+        // Refresh the prompt data after edit
+        _loadPromptData();
+      }
+    } catch (error) {
+      AppLogger.error('Error opening prompt edit view: $error', context: 'PromptDetailView');
+    }
   }
 }
