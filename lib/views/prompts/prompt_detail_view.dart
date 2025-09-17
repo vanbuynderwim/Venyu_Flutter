@@ -523,7 +523,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This card is shown to others, but they can only see the match after you. Your profile stays private until you\'re interested.',
+                  'Others see your card, but the match opens for them only if you show interest first. That way, your profile stays private.',
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.primaryText,
                   ),
