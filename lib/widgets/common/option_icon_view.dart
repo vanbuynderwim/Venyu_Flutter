@@ -39,7 +39,7 @@ class OptionIconView extends StatelessWidget {
           emoji!,
           style: TextStyle(
             fontSize: size, // Slightly smaller to match text baseline better
-            height: 0.9, // Control line height for better alignment
+            height: 1.1, // Control line height for better alignment
           ),
         ),
       );

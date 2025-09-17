@@ -24,14 +24,16 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  final int _currentIndex = 0;
   static bool _hasShownFirstTimePrompts = false; // Track if we've already shown prompts this session
   static bool _hasCheckedPromptsThisSession = false; // Track if we've already checked for prompts this session
   bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
-  
+
   // Badge counts
   BadgeData? _badgeData;
-  
+
+  // Tab controller
+  late final PlatformTabController _tabController;
+
   // Services
   late final ContentManager _contentManager;
   late final NotificationService _notificationService;
@@ -48,7 +50,17 @@ class _MainViewState extends State<MainView> {
     super.initState();
     _contentManager = ContentManager.shared;
     _notificationService = NotificationService.shared;
-    
+    _tabController = PlatformTabController(initialIndex: 0);
+
+    // Set up badge update callback
+    _notificationService.setBadgeUpdateCallback((badgeData) {
+      if (mounted) {
+        setState(() {
+          _badgeData = badgeData;
+        });
+      }
+    });
+
     // Check for prompts and badges on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPrompts();
@@ -157,11 +169,15 @@ class _MainViewState extends State<MainView> {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PlatformTabScaffold(
-      tabController: PlatformTabController(
-        initialIndex: _currentIndex,
-      ),
+      tabController: _tabController,
       items: [
         BottomNavigationBarItem(
           icon: _badgeData != null && _badgeData!.matchesCount > 0

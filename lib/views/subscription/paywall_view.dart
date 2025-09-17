@@ -323,12 +323,12 @@ class _PaywallViewState extends State<PaywallView> {
                           padding: const EdgeInsets.all(16),
                           child: OnboardingBenefitsCard(
                             benefits: [
-                              OnboardingBenefit.focusedReach,
+                              //OnboardingBenefit.focusedReach,
                               OnboardingBenefit.discreetPreview,
                               OnboardingBenefit.unlimitedIntroductions,
                               OnboardingBenefit.unlockFullProfiles,
-                              OnboardingBenefit.dailyCardsBoost,
-                              OnboardingBenefit.viewsAndImpressions
+                              //OnboardingBenefit.dailyCardsBoost,
+                              //OnboardingBenefit.viewsAndImpressions
                               //OnboardingBenefit.aiPoweredMatches,
                             ],
                           ),

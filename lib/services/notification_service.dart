@@ -27,9 +27,17 @@ class NotificationService {
   
   String? _fcmToken;
   bool _isInitialized = false;
+
+  // Badge update callback
+  Function(BadgeData)? _onBadgeUpdate;
   
   /// FCM token for this device
   String? get fcmToken => _fcmToken;
+
+  /// Set callback for badge updates
+  void setBadgeUpdateCallback(Function(BadgeData)? callback) {
+    _onBadgeUpdate = callback;
+  }
   
   /// Initialize Firebase and set up messaging
   Future<void> initialize() async {
@@ -253,7 +261,10 @@ class NotificationService {
         'reviews=${badgeData.totalReviews}',
         context: 'NotificationService'
       );
-      
+
+      // Notify callback if set
+      _onBadgeUpdate?.call(badgeData);
+
       return badgeData;
     } catch (error) {
       AppLogger.error('Failed to fetch badge counts', error: error, context: 'NotificationService');

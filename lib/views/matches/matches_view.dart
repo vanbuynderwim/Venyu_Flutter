@@ -9,6 +9,7 @@ import '../../models/match.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
+import '../../services/notification_service.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
@@ -22,11 +23,12 @@ class MatchesView extends StatefulWidget {
   State<MatchesView> createState() => _MatchesViewState();
 }
 
-class _MatchesViewState extends State<MatchesView> 
+class _MatchesViewState extends State<MatchesView>
     with PaginatedListViewMixin<MatchesView>, ErrorHandlingMixin<MatchesView> {
   // Services
   late final MatchingManager _matchingManager;
-  
+  NotificationService? _notificationService;
+
   // State
   final List<Match> _matches = [];
 
@@ -34,6 +36,7 @@ class _MatchesViewState extends State<MatchesView>
   void initState() {
     super.initState();
     _matchingManager = MatchingManager.shared;
+    _notificationService = NotificationService.shared;
     initializePagination();
     _loadMatches();
   }
@@ -110,6 +113,18 @@ class _MatchesViewState extends State<MatchesView>
 
   Future<void> _handleRefresh() async {
     await _loadMatches(forceRefresh: true);
+    // Update badges after refreshing matches
+    _fetchBadges();
+  }
+
+  /// Fetch badge counts to update tab bar
+  Future<void> _fetchBadges() async {
+    try {
+      _notificationService ??= NotificationService.shared;
+      await _notificationService!.fetchBadges();
+    } catch (error) {
+      AppLogger.error('Failed to fetch badges after matches refresh', error: error, context: 'MatchesView');
+    }
   }
 
   @override
@@ -165,6 +180,8 @@ class _MatchesViewState extends State<MatchesView>
                                         setState(() {
                                           _matches.removeWhere((m) => m.id == selectedMatch.id);
                                         });
+                                        // Update badges after match is removed
+                                        _fetchBadges();
                                       }
                                     },
                                   ),

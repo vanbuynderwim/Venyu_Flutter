@@ -225,7 +225,7 @@ class _AvatarViewState extends State<AvatarView> {
                       shape: BoxShape.circle,
                       color: Colors.white.withValues(alpha: 0.3),
                     ),
-                    child: widget.size > 60 
+                    child: widget.size > 70 
                         ? Center(
                             child: Container(
                               width: widget.size * 0.35,

@@ -81,9 +81,10 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   /// Builds the match menu options for PlatformPopupMenu
   List<PopupMenuOption> _buildMatchMenuOptions(BuildContext context) {
         final venyuTheme = context.venyuTheme;
+    final List<PopupMenuOption> options = [];
 
-    return [
-      // Report option
+    // Report option (always available)
+    options.add(
       PopupMenuOption(
         label: 'Report',
         onTap: (_) => _handleReportMatch(),
@@ -113,39 +114,45 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           ),
         ),
       ),
+    );
 
-      // Remove option
-      PopupMenuOption(
-        label: 'Remove',
-        onTap: (_) => _handleRemoveMatch(),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          isDestructiveAction: true,
-          child: Row(
-            children: [
-              context.themedIcon('delete'),
-              const SizedBox(width: 12),
-              Text(
-                'Remove',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
+    // Remove option (only for connections)
+    if (_match?.isConnected == true) {
+      options.add(
+        PopupMenuOption(
+          label: 'Remove',
+          onTap: (_) => _handleRemoveMatch(),
+          cupertino: (_, __) => CupertinoPopupMenuOptionData(
+            isDestructiveAction: true,
+            child: Row(
+              children: [
+                context.themedIcon('delete'),
+                const SizedBox(width: 12),
+                Text(
+                  'Remove',
+                  style: TextStyle(color: venyuTheme.error),
+                ),
+              ],
+            ),
+          ),
+          material: (_, __) => MaterialPopupMenuOptionData(
+            child: Row(
+              children: [
+                context.themedIcon('delete'),
+                const SizedBox(width: 12),
+                Text(
+                  'Remove',
+                  style: TextStyle(color: venyuTheme.error),
+                ),
+              ],
+            ),
           ),
         ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('delete'),
-              const SizedBox(width: 12),
-              Text(
-                'Remove',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
-          ),
-        ),
-      ),
+      );
+    }
 
-      // Block option
+    // Block option (always available)
+    options.add(
       PopupMenuOption(
         label: 'Block',
         onTap: (_) => _handleBlockMatch(),
@@ -175,8 +182,10 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           ),
         ),
       ),
+    );
 
-      // Cancel option
+    // Cancel option (always available)
+    options.add(
       PopupMenuOption(
         label: 'Cancel',
         onTap: (_) {},  // Just close the menu
@@ -204,7 +213,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           ),
         ),
       ),
-    ];
+    );
+
+    return options;
   }
 
   /// Handles reporting a match
@@ -530,7 +541,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       // Show upgrade prompt for free users who aren't connected
       return UpgradePromptWidget(
         title: 'Unlock mutual interests',
-        subtitle: 'See what you share on a personal level with Venyu Pro',
+        subtitle: 'See what you share on a personal level with ${_match!.profile_1.firstName}',
         buttonText: 'Upgrade now',
         onSubscriptionCompleted: () {
           // Refresh the view to show personal matches

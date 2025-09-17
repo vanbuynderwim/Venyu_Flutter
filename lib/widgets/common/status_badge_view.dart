@@ -41,7 +41,7 @@ class StatusBadgeView extends StatelessWidget {
     return Container(
       padding: padding ?? const EdgeInsets.symmetric(
         horizontal: 10.0,
-        vertical: 6.0,
+        vertical: 4.0,
       ),
       decoration: BoxDecoration(
         color: status.backgroundColor(context),

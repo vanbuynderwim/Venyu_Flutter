@@ -6,6 +6,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../views/subscription/paywall_view.dart';
+import '../../core/theme/app_modifiers.dart';
 
 /// Reusable upgrade prompt widget for non-Pro users
 /// 
@@ -65,14 +66,14 @@ class UpgradePromptWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: borderColor ?? venyuTheme.info.withValues(alpha: 0.2),
-          width: 2,
+          width: AppModifiers.thinBorder,
         ),
       ),
       child: Column(
         children: [
           context.themedIcon(
             'lock',
-            size: 32,
+            size: 40,
             selected: true,
             overrideColor: iconColor ?? venyuTheme.info,
           ),
@@ -88,7 +89,7 @@ class UpgradePromptWidget extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle,
-            style: AppTextStyles.footnote.copyWith(
+            style: AppTextStyles.subheadline2.copyWith(
               color: venyuTheme.secondaryText,
             ),
             textAlign: TextAlign.center,

@@ -8,6 +8,7 @@ import '../../../models/enums/action_button_type.dart';
 import '../../../models/enums/match_response.dart';
 import '../../../models/match.dart';
 import '../../../services/supabase_managers/matching_manager.dart';
+import '../../../services/notification_service.dart';
 import '../../../widgets/buttons/action_button.dart';
 
 /// MatchActionsSection - Action buttons for match interactions
@@ -39,7 +40,8 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
   
   // Services
   late final MatchingManager _matchingManager;
-  
+  NotificationService? _notificationService;
+
   // State
   bool _isProcessingSkip = false;
   bool _isProcessingInterested = false;
@@ -48,6 +50,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
   void initState() {
     super.initState();
     _matchingManager = MatchingManager.shared;
+    _notificationService = NotificationService.shared;
   }
 
   /// Show skip match confirmation alert
@@ -76,6 +79,8 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       errorMessage: 'Failed to skip match',
       showSuccessToast: false,
       onSuccess: () {
+        // Update badges after match response
+        _fetchBadges();
         // Notify parent that match was removed
         widget.onMatchRemoved?.call();
         // Then navigate back to matches list
@@ -99,6 +104,8 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       errorMessage: 'Failed to connect',
       showSuccessToast: false,
       onSuccess: () {
+        // Update badges after match response
+        _fetchBadges();
         // Notify parent that match was removed
         widget.onMatchRemoved?.call();
         // Then navigate back to matches list
@@ -110,63 +117,45 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
     setState(() => _isProcessingInterested = false);
   }
 
+  /// Fetch badge counts to update tab bar
+  Future<void> _fetchBadges() async {
+    try {
+      _notificationService ??= NotificationService.shared;
+      await _notificationService!.fetchBadges();
+    } catch (error) {
+      AppLogger.error('Failed to fetch badges after match response', error: error, context: 'MatchActionsSection');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: SafeArea(
         child: Row(
           children: [
             // Skip button
             Expanded(
-              child: _isProcessingSkip 
-                ? ActionButton(
-                    label: '',
-                    onPressed: null,
-                    type: ActionButtonType.secondary,
-                    isDisabled: true,
-                    icon: const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  )
-                : ActionButton(
-                    label: AppStrings.skip,
-                    onPressed: _isProcessingInterested ? null : _showSkipAlert,
-                    type: ActionButtonType.secondary,
-                    isDisabled: _isProcessingInterested,
-                  ),
+              child: ActionButton(
+                label: AppStrings.skip,
+                onPressed: _isProcessingInterested ? null : _showSkipAlert,
+                type: ActionButtonType.secondary,
+                isLoading: _isProcessingSkip,
+                isDisabled: _isProcessingInterested,
+              ),
             ),
-            
+
             const SizedBox(width: 16),
-            
+
             // Interested button
             Expanded(
-              child: _isProcessingInterested
-                ? ActionButton(
-                    label: '',
-                    onPressed: null,
-                    type: ActionButtonType.primary,
-                    isDisabled: true,
-                    icon: const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : ActionButton(
-                    label: AppStrings.interested,
-                    onPressed: _isProcessingSkip ? null : _handleConnectMatch,
-                    type: ActionButtonType.primary,
-                    isDisabled: _isProcessingSkip,
-                  ),
+              child: ActionButton(
+                label: AppStrings.interested,
+                onPressed: _isProcessingSkip ? null : _handleConnectMatch,
+                type: ActionButtonType.primary,
+                isLoading: _isProcessingInterested,
+                isDisabled: _isProcessingSkip,
+              ),
             ),
           ],
         ),
