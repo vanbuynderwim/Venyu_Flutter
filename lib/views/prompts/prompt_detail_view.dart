@@ -30,6 +30,8 @@ import '../venues/venue_item_view.dart';
 import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
+import '../../widgets/common/upgrade_prompt_widget.dart';
+import '../../services/profile_service.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -156,6 +158,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                 ),
               ),
               const SizedBox(height: 16),
+
+              // Prior Preview section
+              _buildPreviewSection(),
 
               // Status section with title
               const Padding(
@@ -493,5 +498,89 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     } catch (error) {
       AppLogger.error('Error opening prompt edit view: $error', context: 'PromptDetailView');
     }
+  }
+
+  /// Build the Prior Preview settings section
+  Widget _buildPreviewSection() {
+    final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SubTitle(
+            iconName: 'eye',
+            title: 'First Call',
+          ),
+          const SizedBox(height: 8),
+
+          // Preview explanation card
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: AppLayoutStyles.cardDecoration(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'This card is shown to others, but they can only see the match after you. Your profile stays private until you\'re interested.',
+                  style: AppTextStyles.subheadline.copyWith(
+                    color: context.venyuTheme.primaryText,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Toggle section
+                Row(
+                  children: [
+                    if (isPro)
+                      Text(
+                        'Enable',
+                        style: AppTextStyles.subheadline.copyWith(
+                          color: context.venyuTheme.primaryText,
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        width: 140,
+                        child: UpgradePromptWidget(
+                          title: 'Enable',
+                          subtitle: 'Unlock First Call and see the matches first.',
+                          buttonText: 'Upgrade to Pro',
+                          isCompact: true,
+                          onSubscriptionCompleted: () {
+                            // Refresh the view to update Pro status
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    const Spacer(),
+                    PlatformSwitch(
+                      value: _prompt?.withPreview ?? false,
+                      onChanged: isPro ? (value) {
+                        // Handle toggle change when Pro
+                        _handlePreviewToggle(value);
+                      } : null,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
+  /// Handle preview toggle change
+  void _handlePreviewToggle(bool value) {
+    // TODO: Implement API call to update prompt with_preview setting
+    setState(() {
+      // Temporarily update local state (this should be replaced with API call)
+      // _prompt = _prompt?.copyWith(withPreview: value);
+    });
+
+    AppLogger.debug('Preview toggle changed to: $value for prompt: ${_prompt?.promptID}', context: 'PromptDetailView');
   }
 }

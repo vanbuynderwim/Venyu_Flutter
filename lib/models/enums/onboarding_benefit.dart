@@ -48,7 +48,7 @@ enum OnboardingBenefit implements OptionType {
   ),
   discreetPreview(
     title: 'First call',
-    description: 'Be the first to decide if you’re interested before they see the match',
+    description: 'On your cards, you get first call. Matches are only shown to others if you’re interested.',
     icon: 'eye',
   ),
   unlimitedIntroductions(

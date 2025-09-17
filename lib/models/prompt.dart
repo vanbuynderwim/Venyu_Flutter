@@ -26,6 +26,9 @@ class Prompt {
   /// This is populated when fetching detailed prompt information.
   final int? connectionCount;
 
+  /// Whether this prompt includes preview mode functionality (optional).
+  final bool? withPreview;
+
   const Prompt({
     this.feedID,
     required this.promptID,
@@ -42,6 +45,7 @@ class Prompt {
     this.venue,
     this.matchCount,
     this.connectionCount,
+    this.withPreview,
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
@@ -66,9 +70,10 @@ class Prompt {
       matchCount: json['match_count'] != null 
           ? (json['match_count'] as num).toInt() 
           : null,
-      connectionCount: json['connection_count'] != null 
-          ? (json['connection_count'] as num).toInt() 
+      connectionCount: json['connection_count'] != null
+          ? (json['connection_count'] as num).toInt()
           : null,
+      withPreview: json['with_preview'] as bool?,
     );
   }
 
@@ -89,6 +94,7 @@ class Prompt {
       'venue': venue?.toJson(),
       if (matchCount != null) 'match_count': matchCount,
       if (connectionCount != null) 'connection_count': connectionCount,
+      'with_preview': withPreview,
     };
   }
 

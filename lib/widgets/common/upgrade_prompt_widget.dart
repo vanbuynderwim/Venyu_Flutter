@@ -44,6 +44,9 @@ class UpgradePromptWidget extends StatelessWidget {
   /// Optional callback when subscription is completed
   final VoidCallback? onSubscriptionCompleted;
 
+  /// Whether to show a compact version (just the ActionButton)
+  final bool isCompact;
+
   const UpgradePromptWidget({
     super.key,
     required this.title,
@@ -53,12 +56,25 @@ class UpgradePromptWidget extends StatelessWidget {
     this.backgroundColor,
     this.borderColor,
     this.onSubscriptionCompleted,
+    this.isCompact = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+
+    // Return compact version if requested
+    if (isCompact) {
+      return ActionButton(
+        type: ActionButtonType.unlock,
+        label: title,
+        icon: context.themedIcon('lock'),
+        onPressed: () => _showPaywall(context),
+        isCompact: true,
+      );
+    }
+
+    // Return full version
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

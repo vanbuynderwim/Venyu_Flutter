@@ -115,7 +115,7 @@ class _ActionButtonState extends State<ActionButton> {
     final double? defaultWidth = widget.isCompact 
         ? (isIconOnlyButton ? 44.0 : null) // No default width for compact text buttons
         : (isIconOnlyButton ? 56.0 : double.infinity);
-    final double defaultHeight = widget.isCompact ? 36.0 : 56.0;
+    final double defaultHeight = widget.isCompact ? 40.0 : 56.0;
     
     return SizedBox(
       width: widget.width ?? defaultWidth,
