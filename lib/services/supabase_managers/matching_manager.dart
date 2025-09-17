@@ -112,22 +112,58 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<List<Notification>> fetchNotifications(PaginatedRequest paginatedRequest) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching notifications with pagination: $paginatedRequest', context: 'MatchingManager');
-      
+
       // Call the get_notifications RPC function - exact equivalent of iOS implementation
       final result = await client
           .rpc('get_notifications', params: {'payload': paginatedRequest.toJson()})
           .select();
-      
+
       AppLogger.success('Notifications RPC call successful', context: 'MatchingManager');
       AppLogger.debug('Notifications data received: ${result.length} notifications', context: 'MatchingManager');
-      
+
       // Convert response to list of Notification objects
       final notifications = (result as List)
           .map((json) => Notification.fromJson(json))
           .toList();
-      
+
       AppLogger.success('Notifications parsed: ${notifications.length} notifications', context: 'MatchingManager');
       return notifications;
+    });
+  }
+
+  /// Remove a match
+  Future<void> removeMatch(String matchId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Removing match with ID: $matchId', context: 'MatchingManager');
+
+      // Call the remove_match RPC function
+      await client.rpc('remove_match', params: {'p_match_id': matchId});
+
+      AppLogger.success('Match removed successfully', context: 'MatchingManager');
+    });
+  }
+
+  /// Block a profile
+  Future<void> blockProfile(String profileId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Blocking profile with ID: $profileId', context: 'MatchingManager');
+
+      // Call the block_profile RPC function
+      await client.rpc('block_profile', params: {'p_profile_id': profileId});
+
+      AppLogger.success('Profile blocked successfully', context: 'MatchingManager');
+    });
+  }
+
+  /// Report a profile
+  Future<void> reportProfile(String profileId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Reporting profile with ID: $profileId', context: 'MatchingManager');
+
+      // Call the report_profile RPC function
+      await client.rpc('report_profile', params: {'p_profile_id': profileId});
+
+      AppLogger.success('Profile reported successfully', context: 'MatchingManager');
     });
   }
   

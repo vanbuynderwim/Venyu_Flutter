@@ -55,12 +55,31 @@ class AppLayoutStyles {
     required Widget child,
     VoidCallback? onTap,
     EdgeInsets? margin,
+    bool useGradient = false,
   }) {
     final theme = context.venyuTheme;
-    
+
+    final gradient = LinearGradient(
+      colors: [
+        AppColors.primair4Lilac.withValues(alpha: 0.25),
+        AppColors.primair4Lilac.withValues(alpha: 0.02),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomCenter,
+    );
+
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(vertical: 4),
-      decoration: cardDecoration(context),
+      decoration: useGradient
+          ? BoxDecoration(
+              gradient: gradient,
+              borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+              border: Border.all(
+                color: theme.borderColor,
+                width: AppModifiers.extraThinBorder,
+              ),
+            )
+          : cardDecoration(context),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

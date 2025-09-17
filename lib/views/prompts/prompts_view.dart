@@ -106,13 +106,11 @@ class _PromptsViewState extends State<PromptsView>
                       }
 
                       final prompt = _prompts[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: PromptItem(
-                          prompt: prompt,
-                          showChevron: true,
-                          onPromptSelected: _openPromptDetail,
-                        ),
+                      return PromptItem(
+                        prompt: prompt,
+                        showChevron: true,
+                        showCounters: true,
+                        onPromptSelected: _openPromptDetail,
                       );
                     },
                   ),

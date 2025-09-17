@@ -6,6 +6,7 @@ import '../../core/utils/url_helper.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/utils/dialog_utils.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/profile_service.dart';
@@ -63,7 +64,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   Future<void> _loadMatchDetail() async {
     setState(() => _error = null);
-    
+
     final match = await executeWithLoadingAndReturn<Match>(
       operation: () => _matchingManager.fetchMatchDetail(widget.matchId),
       showErrorToast: false,  // We show custom error UI
@@ -71,9 +72,220 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         setState(() => _error = 'Failed to load match details');
       },
     );
-    
+
     if (match != null) {
       setState(() => _match = match);
+    }
+  }
+
+  /// Builds the match menu options for PlatformPopupMenu
+  List<PopupMenuOption> _buildMatchMenuOptions(BuildContext context) {
+        final venyuTheme = context.venyuTheme;
+
+    return [
+      // Report option
+      PopupMenuOption(
+        label: 'Report',
+        onTap: (_) => _handleReportMatch(),
+        cupertino: (_, __) => CupertinoPopupMenuOptionData(
+          isDestructiveAction: true,
+          child: Row(
+            children: [
+              context.themedIcon('report'),
+              const SizedBox(width: 12),
+              Text(
+                'Report',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+        material: (_, __) => MaterialPopupMenuOptionData(
+          child: Row(
+            children: [
+              context.themedIcon('report'),
+              const SizedBox(width: 12),
+              Text(
+                'Report',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // Remove option
+      PopupMenuOption(
+        label: 'Remove',
+        onTap: (_) => _handleRemoveMatch(),
+        cupertino: (_, __) => CupertinoPopupMenuOptionData(
+          isDestructiveAction: true,
+          child: Row(
+            children: [
+              context.themedIcon('delete'),
+              const SizedBox(width: 12),
+              Text(
+                'Remove',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+        material: (_, __) => MaterialPopupMenuOptionData(
+          child: Row(
+            children: [
+              context.themedIcon('delete'),
+              const SizedBox(width: 12),
+              Text(
+                'Remove',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // Block option
+      PopupMenuOption(
+        label: 'Block',
+        onTap: (_) => _handleBlockMatch(),
+        cupertino: (_, __) => CupertinoPopupMenuOptionData(
+          isDestructiveAction: true,
+          child: Row(
+            children: [
+              context.themedIcon('blocked'),
+              const SizedBox(width: 12),
+              Text(
+                'Block',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+        material: (_, __) => MaterialPopupMenuOptionData(
+          child: Row(
+            children: [
+              context.themedIcon('blocked'),
+              const SizedBox(width: 12),
+              Text(
+                'Block',
+                style: TextStyle(color: venyuTheme.error),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      // Cancel option
+      PopupMenuOption(
+        label: 'Cancel',
+        onTap: (_) {},  // Just close the menu
+        cupertino: (_, __) => CupertinoPopupMenuOptionData(
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Cancel',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ),
+        material: (_, __) => MaterialPopupMenuOptionData(
+          child: Row(
+            children: [
+              const Icon(Icons.close, size: 24),
+              const SizedBox(width: 12),
+              Text(
+                'Cancel',
+                style: TextStyle(color: venyuTheme.secondaryText),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
+  }
+
+  /// Handles reporting a match
+  Future<void> _handleReportMatch() async {
+    AppLogger.debug('Report match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
+
+    await executeWithLoading(
+      operation: () async {
+        await _matchingManager.reportProfile(_match!.profile_1.id);
+        AppLogger.success('Profile reported successfully for match: ${widget.matchId}', context: 'MatchDetailView');
+      },
+      showSuccessToast: true,
+      successMessage: 'Profile reported successfully',
+      showErrorToast: true,
+    );
+  }
+
+  /// Handles blocking a match
+  Future<void> _handleBlockMatch() async {
+    AppLogger.debug('Block match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
+
+    final confirmed = await DialogUtils.showConfirmationDialog(
+      context: context,
+      title: 'Block User?',
+      message: 'Blocking this user will remove the match and prevent future matching. This action cannot be undone.',
+      confirmText: 'Block',
+      isDestructive: true,
+    );
+
+    if (confirmed) {
+      await executeWithLoading(
+        operation: () async {
+          await _matchingManager.blockProfile(_match!.profile_1.id);
+          AppLogger.success('Profile blocked successfully for match: ${widget.matchId}', context: 'MatchDetailView');
+
+          // Call the callback to notify parent that match was removed
+          widget.onMatchRemoved?.call();
+
+          // Go back to previous screen
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        },
+        showSuccessToast: true,
+        successMessage: 'User blocked successfully',
+        showErrorToast: true,
+      );
+    }
+  }
+
+  /// Handles removing a match
+  Future<void> _handleRemoveMatch() async {
+    AppLogger.debug('Remove match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
+    final matchType = _match!.isConnected ? 'introduction' : 'match';
+
+    final confirmed = await DialogUtils.showConfirmationDialog(
+      context: context,
+      title: 'Remove $matchType?',
+      message: 'Are you sure you want to remove this $matchType? This action cannot be undone.',
+      confirmText: 'Remove',
+      isDestructive: true,
+    );
+
+    if (confirmed) {
+      await executeWithLoading(
+        operation: () async {
+          await _matchingManager.removeMatch(widget.matchId);
+          AppLogger.success('Match removed successfully: ${widget.matchId}', context: 'MatchDetailView');
+
+          // Call the callback to notify parent that match was removed
+          widget.onMatchRemoved?.call();
+
+          // Go back to previous screen
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        },
+        showSuccessToast: true,
+        successMessage: '${matchType.substring(0, 1).toUpperCase()}${matchType.substring(1)} removed successfully',
+        showErrorToast: true,
+      );
     }
   }
 
@@ -97,11 +309,22 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(_match == null 
-          ? 'Loading...' 
-          : _match!.isConnected 
-            ? 'Introduction' 
+        title: Text(_match == null
+          ? 'Loading...'
+          : _match!.isConnected
+            ? 'Introduction'
             : 'Match'),
+        trailingActions: _match != null
+          ? [
+              PlatformPopupMenu(
+                icon: Icon(
+                  PlatformIcons(context).ellipsis,
+                  color: context.venyuTheme.primaryText,
+                ),
+                options: _buildMatchMenuOptions(context),
+              ),
+            ]
+          : null,
       ),
       usePadding: true,
       useSafeArea: true,

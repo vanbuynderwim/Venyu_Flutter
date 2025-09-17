@@ -8,6 +8,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/interaction_tag.dart';
+import '../../widgets/common/prompt_counters.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
 class PromptItem extends StatefulWidget {
@@ -19,6 +20,7 @@ class PromptItem extends StatefulWidget {
   final bool showMatchInteraction;
   final bool showChevron;
   final bool shouldShowStatus;
+  final bool showCounters;
   final Function(Prompt)? onPromptSelected;
 
   const PromptItem({
@@ -31,6 +33,7 @@ class PromptItem extends StatefulWidget {
     this.showMatchInteraction = false,
     this.showChevron = false,
     this.shouldShowStatus = true,
+    this.showCounters = false,
     this.onPromptSelected,
   });
 
@@ -64,34 +67,37 @@ class _PromptItemState extends State<PromptItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-            onTap: () {
-                    // Only toggle selection if not showing match interactions
-                    if (!widget.showMatchInteraction) {
-                      setState(() {
-                        isSelected = !isSelected;
-                      });
-                    }
-                    widget.onPromptSelected?.call(widget.prompt);
-                  },
-            splashFactory: NoSplash.splashFactory,
-            borderRadius: _getCardBorderRadius(),
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: context.venyuTheme.cardBackground,
-                borderRadius: _getCardBorderRadius(),
-                border: Border.all(
-                  color: context.venyuTheme.borderColor,
-                  width: AppModifiers.extraThinBorder,
-                ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            // Only toggle selection if not showing match interactions
+            if (!widget.showMatchInteraction) {
+              setState(() {
+                isSelected = !isSelected;
+              });
+            }
+            widget.onPromptSelected?.call(widget.prompt);
+          },
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: context.venyuTheme.primary.withValues(alpha: 0.1),
+          borderRadius: _getCardBorderRadius(),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: context.venyuTheme.cardBackground,
+              borderRadius: _getCardBorderRadius(),
+              border: Border.all(
+                color: context.venyuTheme.borderColor,
+                width: AppModifiers.extraThinBorder,
               ),
-              child: Container(
-                padding: AppModifiers.cardContentPadding,
-                decoration: _buildGradientOverlay(),
-                child: Row(
+            ),
+            child: Container(
+              padding: AppModifiers.cardContentPadding,
+              decoration: _buildGradientOverlay(),
+              child: Row(
                   children: [
                     Expanded(
                       child: Column(
@@ -109,22 +115,23 @@ class _PromptItemState extends State<PromptItem> {
                           ],
                     
                     // Status badge and created date column - above prompt label
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Date with status emoji and venue
-                        if (widget.prompt.createdAt != null ||
-                            (widget.shouldShowStatus && !widget.showMatchInteraction))
+                    if (widget.prompt.createdAt != null ||
+                        (widget.shouldShowStatus && !widget.showMatchInteraction)) ...[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Date with status emoji and venue
                           Text(
                             _buildDateVenueText(),
                             style: AppTextStyles.footnote.copyWith(
                               color: context.venyuTheme.secondaryText,
                             ),
                           ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                     
                     // Prompt label - takes full width
                     Text(
@@ -135,38 +142,50 @@ class _PromptItemState extends State<PromptItem> {
                       maxLines: null,
                     ),
                     
-                    // Interaction and venue tags row - below the label
-                    if (widget.prompt.interactionType != null || 
+                    // Interaction tags and counters row - below the label
+                    if (widget.prompt.interactionType != null ||
                         widget.prompt.venue != null ||
-                        (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)) ...[
+                        (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) ||
+                        widget.showCounters) ...[
                       SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Left side: interaction tag
-                          Expanded(
-                            child: Row(
-                              children: [
-                                if (widget.prompt.interactionType != null) ...[
-                                  InteractionTag(
-                                    interactionType: widget.prompt.interactionType!,
-                                    compact: true,
-                                  ),
-                                ],
-                              ],
-                            ),
-                          ),
-                          
-                          // Right interaction tag (for match interactions)
-                          if (widget.showMatchInteraction && widget.prompt.matchInteractionType != null)
+                          // Left side: user interaction tag
+                          if (widget.prompt.interactionType != null)
                             InteractionTag(
-                              interactionType: widget.prompt.matchInteractionType!,
+                              interactionType: widget.prompt.interactionType!,
                               compact: true,
                             ),
+
+                          // Spacer to push right content to the end
+                          const Spacer(),
+
+                          // Right side: match interaction tag and/or counters
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Match interaction tag (for match views)
+                              if (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) ...[
+                                InteractionTag(
+                                  interactionType: widget.prompt.matchInteractionType!,
+                                  compact: true,
+                                ),
+                                if (widget.showCounters) const SizedBox(width: 12),
+                              ],
+
+                              // Counters
+                              if (widget.showCounters)
+                                PromptCounters(
+                                  matchCount: widget.prompt.matchCount,
+                                  connectionCount: widget.prompt.connectionCount,
+                                ),
+                            ],
+                          ),
                         ],
                       ),
                     ],
-                    
+
                           // Checkbox for reviewing mode
                           if (widget.reviewing) ...[
                             SizedBox(height: AppModifiers.mediumSpacing),
@@ -189,7 +208,8 @@ class _PromptItemState extends State<PromptItem> {
               ),
             ),
           ),
-        );
+        ),
+    );
   }
 
 
@@ -265,7 +285,7 @@ class _PromptItemState extends State<PromptItem> {
   BorderRadius _getCardBorderRadius() {
     final roundedBottom = widget.isLast && widget.isSharedPromptView;
     final roundedCard = !widget.isSharedPromptView;
-    
+
     if (roundedBottom) {
       // Only bottom corners rounded
       return const BorderRadius.only(
@@ -280,7 +300,4 @@ class _PromptItemState extends State<PromptItem> {
       return BorderRadius.zero;
     }
   }
-
-
-
 }

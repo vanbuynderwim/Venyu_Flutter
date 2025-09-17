@@ -175,16 +175,14 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
                       }
 
                       final prompt = _prompts[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: PromptItem(
+                      return PromptItem(
                           prompt: prompt,
+                          showCounters: true,
                           onPromptSelected: (selectedPrompt) {
                             AppLogger.debug('Prompt tapped: ${selectedPrompt.label}', context: 'VenuePromptsView');
                             // TODO: Navigate to card detail view if needed
                           },
-                        ),
-                      );
+                        );
                     },
                   ),
       ),
