@@ -129,7 +129,7 @@ class RoleView extends StatelessWidget {
     );
   }
 
-  /// Bouw de avatar widget met optionele match/intro indicator
+  /// Bouw de avatar widget met optionele preview indicator
   Widget _buildAvatar(BuildContext context) {
     final avatar = AvatarView(
       avatarId: profile.avatarID,
@@ -137,12 +137,12 @@ class RoleView extends StatelessWidget {
       shouldBlur: shouldBlur,
     );
 
-    // If no match provided, just return avatar
-    if (match == null) {
+    // If no match provided or preview is false, just return avatar
+    if (match == null || match!.isPreview != true) {
       return avatar;
     }
 
-    // Add match/intro indicator overlay
+    // Add preview indicator overlay when isPreview is true
     return Stack(
       children: [
         avatar,
@@ -163,9 +163,10 @@ class RoleView extends StatelessWidget {
             ),
             child: Center(
               child: context.themedIcon(
-                match!.isConnected ? 'handshake' : 'match',
-                size: 12,
-                selected: true,
+                'eye',
+                size: 20,
+                selected: false,
+                overrideColor: context.venyuTheme.primary,
               ),
             ),
           ),

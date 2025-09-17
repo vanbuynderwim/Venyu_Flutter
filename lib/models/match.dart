@@ -19,6 +19,8 @@ class Match {
   final List<TagGroup>? tagGroups;
   final List<Venue>? venues;
   final int? unreadCount;
+  final bool? isPreview;
+  final bool? isViewed;
 
   const Match({
     required this.id,
@@ -34,6 +36,8 @@ class Match {
     this.tagGroups,
     this.venues,
     this.unreadCount,
+    this.isPreview,
+    this.isViewed,
   });
 
   factory Match.fromJson(Map<String, dynamic> json) {
@@ -60,6 +64,8 @@ class Match {
           ? (json['venues'] as List).map((venue) => Venue.fromJson(venue)).toList()
           : null,
       unreadCount: json['unread_count'] as int?,
+      isPreview: json['is_preview'] as bool?,
+      isViewed: json['is_viewed'] as bool?,
     );
   }
 
@@ -78,6 +84,8 @@ class Match {
       'taggroups': tagGroups?.map((group) => group.toJson()).toList(),
       'venues': venues?.map((venue) => venue.toJson()).toList(),
       'unread_count': unreadCount,
+      'is_preview': isPreview,
+      'is_viewed': isViewed,
     };
   }
 
@@ -124,5 +132,41 @@ class Match {
     return personalTagGroups.fold(0, (total, tagGroup) {
       return total + (tagGroup.tags?.length ?? 0);
     });
+  }
+
+  Match copyWith({
+    String? id,
+    Profile? profile_1,
+    Profile? profile_2,
+    MatchStatus? status,
+    double? score,
+    String? reason,
+    MatchResponse? response,
+    DateTime? updatedAt,
+    List<Prompt>? prompts,
+    List<Match>? connections,
+    List<TagGroup>? tagGroups,
+    List<Venue>? venues,
+    int? unreadCount,
+    bool? isPreview,
+    bool? isViewed,
+  }) {
+    return Match(
+      id: id ?? this.id,
+      profile_1: profile_1 ?? this.profile_1,
+      profile_2: profile_2 ?? this.profile_2,
+      status: status ?? this.status,
+      score: score ?? this.score,
+      reason: reason ?? this.reason,
+      response: response ?? this.response,
+      updatedAt: updatedAt ?? this.updatedAt,
+      prompts: prompts ?? this.prompts,
+      connections: connections ?? this.connections,
+      tagGroups: tagGroups ?? this.tagGroups,
+      venues: venues ?? this.venues,
+      unreadCount: unreadCount ?? this.unreadCount,
+      isPreview: isPreview ?? this.isPreview,
+      isViewed: isViewed ?? this.isViewed,
+    );
   }
 }

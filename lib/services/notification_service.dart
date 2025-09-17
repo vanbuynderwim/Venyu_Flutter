@@ -30,6 +30,9 @@ class NotificationService {
 
   // Badge update callback
   Function(BadgeData)? _onBadgeUpdate;
+
+  // Local badge data for manual updates
+  BadgeData? _currentBadgeData;
   
   /// FCM token for this device
   String? get fcmToken => _fcmToken;
@@ -254,7 +257,10 @@ class NotificationService {
           : response as Map<String, dynamic>;
       
       final badgeData = BadgeData.fromJson(data);
-      
+
+      // Store current badge data for manual updates
+      _currentBadgeData = badgeData;
+
       AppLogger.debug(
         'Badge counts: notifications=${badgeData.unreadNotifications}, '
         'matches=${badgeData.matchesCount}, '
@@ -296,5 +302,27 @@ class NotificationService {
   Future<void> clearToken() async {
     _fcmToken = null;
     await _secureStorage.delete(key: 'fcm_token');
+  }
+
+  /// Manually decrease matches badge count by 1
+  void decreaseMatchesBadge() {
+    if (_currentBadgeData != null && _currentBadgeData!.matchesCount > 0) {
+      final updatedBadgeData = BadgeData(
+        unreadNotifications: _currentBadgeData!.unreadNotifications,
+        matchesCount: _currentBadgeData!.matchesCount - 1,
+        userReviewsCount: _currentBadgeData!.userReviewsCount,
+        systemReviewsCount: _currentBadgeData!.systemReviewsCount,
+      );
+
+      _currentBadgeData = updatedBadgeData;
+
+      // Notify callback with updated badge data
+      _onBadgeUpdate?.call(updatedBadgeData);
+
+      AppLogger.debug(
+        'Decreased matches badge count to ${updatedBadgeData.matchesCount}',
+        context: 'NotificationService'
+      );
+    }
   }
 }

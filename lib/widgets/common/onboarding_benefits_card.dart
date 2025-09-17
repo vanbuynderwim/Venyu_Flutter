@@ -39,7 +39,7 @@ class OnboardingBenefitsCard extends StatelessWidget {
               children: [
                 _buildBenefitRow(benefit, venyuTheme, context),
                 // Add spacing between items except for the last one
-                if (index < benefits.length - 1) const SizedBox(height: 24),
+                if (index < benefits.length - 1) const SizedBox(height: 10),
               ],
             );
           }).toList(),

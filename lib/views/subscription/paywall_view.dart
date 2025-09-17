@@ -299,15 +299,16 @@ class _PaywallViewState extends State<PaywallView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
-                        'Get the right introductions, faster',
-                        style: AppTextStyles.subheadline.copyWith(
+                        'Make the net work. Better 💪',
+                        style: AppTextStyles.callout.copyWith(
                           color: venyuTheme.secondaryText,
+                          fontWeight: FontWeight.w500
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                   ],
                 ),
                 
@@ -320,13 +321,13 @@ class _PaywallViewState extends State<PaywallView> {
                         
                         // Premium features using OnboardingBenefitsCard - no extra padding
                         Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: OnboardingBenefitsCard(
                             benefits: [
                               //OnboardingBenefit.focusedReach,
-                              OnboardingBenefit.discreetPreview,
-                              OnboardingBenefit.unlimitedIntroductions,
+                              OnboardingBenefit.unlimitedIntroductions,                              
                               OnboardingBenefit.unlockFullProfiles,
+                              OnboardingBenefit.discreetPreview,
                               //OnboardingBenefit.dailyCardsBoost,
                               //OnboardingBenefit.viewsAndImpressions
                               //OnboardingBenefit.aiPoweredMatches,

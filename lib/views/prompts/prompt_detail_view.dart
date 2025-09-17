@@ -29,6 +29,7 @@ import '../../core/utils/date_extensions.dart';
 import '../venues/venue_item_view.dart';
 import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
+import '../../services/notification_service.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -51,6 +52,7 @@ class PromptDetailView extends StatefulWidget {
 class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingMixin {
   late final ContentManager _contentManager;
   late final MatchingManager _matchingManager;
+  NotificationService? _notificationService;
 
   Prompt? _prompt;
   List<Match> _matches = [];
@@ -62,6 +64,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     super.initState();
     _contentManager = ContentManager.shared;
     _matchingManager = MatchingManager.shared;
+    _notificationService = NotificationService.shared;
     _loadPromptData();
   }
 
@@ -286,10 +289,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
         // Matches list
         ..._matches.map((match) => Padding(
-          padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           child: MatchItemView(
             match: match,
-            shouldBlur: false,
+            shouldBlur: true,
             onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
           ),
         )),
@@ -300,6 +303,19 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   void _navigateToMatchDetail(Match match) {
     AppLogger.ui('Navigating to match detail from prompt: ${match.id}', context: 'PromptDetailView');
 
+    // Mark match as viewed if it wasn't already
+    if (match.isViewed != true) {
+      setState(() {
+        final matchIndex = _matches.indexWhere((m) => m.id == match.id);
+        if (matchIndex != -1) {
+          _matches[matchIndex] = match.copyWith(isViewed: true);
+        }
+      });
+
+      // Decrease badge count manually
+      _decreaseMatchesBadge();
+    }
+
     Navigator.push(
       context,
       platformPageRoute(
@@ -307,6 +323,16 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         builder: (context) => MatchDetailView(matchId: match.id),
       ),
     );
+  }
+
+  /// Manually decrease the matches badge count by 1
+  void _decreaseMatchesBadge() {
+    try {
+      _notificationService ??= NotificationService.shared;
+      _notificationService!.decreaseMatchesBadge();
+    } catch (error) {
+      AppLogger.error('Failed to decrease matches badge', error: error, context: 'PromptDetailView');
+    }
   }
 
   void _navigateToVenueDetail(String venueId) {

@@ -97,7 +97,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           ],
         ),
         
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         
         // Bio section
         _buildBioSection(context, venyuTheme),

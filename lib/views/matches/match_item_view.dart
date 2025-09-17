@@ -65,7 +65,7 @@ class _MatchItemViewState extends State<MatchItemView> {
               showChevron: true,
               buttonDisabled: false,
               shouldBlur: widget.shouldBlur,
-              showNotificationDot: !widget.match.isConnected,
+              showNotificationDot: widget.match.isViewed == false,
               match: widget.match,
             ),
           ],

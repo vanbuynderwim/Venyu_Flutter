@@ -127,6 +127,16 @@ class _MatchesViewState extends State<MatchesView>
     }
   }
 
+  /// Manually decrease the matches badge count by 1
+  void _decreaseMatchesBadge() {
+    try {
+      _notificationService ??= NotificationService.shared;
+      _notificationService!.decreaseMatchesBadge();
+    } catch (error) {
+      AppLogger.error('Failed to decrease matches badge', error: error, context: 'MatchesView');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -169,6 +179,19 @@ class _MatchesViewState extends State<MatchesView>
                             match: match,
                             shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
                             onMatchSelected: (selectedMatch) {
+                              // Mark match as viewed if it wasn't already
+                              if (selectedMatch.isViewed != true) {
+                                setState(() {
+                                  final matchIndex = _matches.indexWhere((m) => m.id == selectedMatch.id);
+                                  if (matchIndex != -1) {
+                                    _matches[matchIndex] = selectedMatch.copyWith(isViewed: true);
+                                  }
+                                });
+
+                                // Decrease badge count manually
+                                _decreaseMatchesBadge();
+                              }
+
                               Navigator.push(
                                 context,
                                 platformPageRoute(

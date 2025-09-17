@@ -41,25 +41,24 @@ enum OnboardingBenefit implements OptionType {
     description: 'Get reminded every day to make the net work',
     icon: 'card',
   ),
-  // Premium/Pro features
-  discreetPreview(
-    title: 'Discreet preview',
-    description: 'See matches first and decide who sees you',
-    icon: 'eye',
-  ),
   focusedReach(
     title: 'Smart targeting',
     description: 'Publish your questions to the right audience',
     icon: 'target',
   ),
+  discreetPreview(
+    title: 'First call',
+    description: 'Be the first to decide if you’re interested before they see the match',
+    icon: 'eye',
+  ),
   unlimitedIntroductions(
-    title: 'Unlimited introductions',
-    description: 'Never run out of new introductions.',
+    title: 'Infinite intros',
+    description: 'Keep expanding your network with unlimited introductions and never miss an opportunity',
     icon: 'handshake',
   ),
   unlockFullProfiles(
-    title: 'Unlock full profiles',
-    description: 'View full profiles with extra details',
+    title: 'Full profiles',
+    description: 'Discover who’s behind the match with avatar, mutual interests, and personal bio',
     icon: 'profile',
   ),
   viewsAndImpressions(

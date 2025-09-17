@@ -23,6 +23,7 @@ import 'match_detail/match_prompts_section.dart';
 import '../../widgets/common/sub_title.dart';
 import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
+import 'match_detail/match_preview_indicator.dart';
 
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
@@ -429,9 +430,15 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   ? () => UrlHelper.openWebsite(context, _match!.profile_1.websiteURL!)
                   : null,
             ),
-            
+
             const SizedBox(height: 16),
-            
+
+            // Preview mode indicator if match is in preview
+            if (_match!.isPreview == true) ...[
+              MatchPreviewIndicator(match: _match!),
+              const SizedBox(height: 16),
+            ],
+
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
               Padding(
