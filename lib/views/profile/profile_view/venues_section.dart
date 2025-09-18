@@ -121,7 +121,7 @@ class _VenuesSectionState extends State<VenuesSection> {
         child: Center(
           child: EmptyStateWidget(
             message: 'Your venues will appear here',
-            description: 'Got an invite code in your inbox? Redeem it to unlock your venue and match within your community.',
+            description: 'Got an invite code? Redeem it to join that venue and start getting introductions in the community.',
             iconName: 'novenues',
             onAction: () => _openJoinVenueModal(context),
             actionText: 'Join a venue',

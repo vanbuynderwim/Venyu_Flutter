@@ -1,0 +1,156 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import '../../models/models.dart';
+import '../../models/venue.dart';
+import '../../models/simple_prompt_option.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
+import '../../widgets/common/sub_title.dart';
+import '../../core/theme/app_modifiers.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../venues/venue_item_view.dart';
+import 'prompt_firstcall_view.dart';
+
+/// Prompt venue selection view - allows user to select a venue for their prompt
+///
+/// This view displays available venues and allows the user to:
+/// - Select a venue to publish their prompt to
+/// - Skip venue selection to publish publicly
+/// - Navigate to the preview step
+class PromptSelectVenueView extends StatefulWidget {
+  final InteractionType interactionType;
+  final String promptLabel;
+  final List<Venue> venues;
+  final Prompt? existingPrompt;
+  final bool isFromPrompts;
+  final VoidCallback? onCloseModal;
+
+  const PromptSelectVenueView({
+    super.key,
+    required this.interactionType,
+    required this.promptLabel,
+    required this.venues,
+    this.existingPrompt,
+    this.isFromPrompts = false,
+    this.onCloseModal,
+  });
+
+  @override
+  State<PromptSelectVenueView> createState() => _PromptSelectVenueViewState();
+}
+
+class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
+  Venue? _selectedVenue;
+
+  void _handleNext() {
+    // Navigate to first call view with selected venue
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => PromptFirstCallView(
+          interactionType: widget.interactionType,
+          promptLabel: widget.promptLabel,
+          selectedVenue: _selectedVenue,
+          existingPrompt: widget.existingPrompt,
+          isFromPrompts: widget.isFromPrompts,
+          onCloseModal: widget.onCloseModal,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: const Text('Select venue'),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header section with subtitle
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: SubTitle(
+                title: 'Where would you like to publish?',
+                iconName: 'location',
+              ),
+            ),
+
+            // List of venues
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: widget.venues.length + 1, // +1 for "No venue" option
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    // "Publish publicly" option using OptionButton
+                    final publicOption = SimplePromptOption(
+                      id: 'public',
+                      title: 'Publish publicly',
+                      description: 'Visible to all users',
+                      icon: null,
+                      color: venyuTheme.primary,
+                    );
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: OptionButton(
+                        option: publicOption,
+                        isSelected: _selectedVenue == null,
+                        isMultiSelect: false,
+                        withDescription: true,
+                        onSelect: () {
+                          if (_selectedVenue != null) {
+                            HapticFeedback.mediumImpact();
+                          }
+                          setState(() => _selectedVenue = null);
+                        },
+                      ),
+                    );
+                  }
+
+                  final venue = widget.venues[index - 1];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: VenueItemView(
+                      venue: venue,
+                      selectable: true,
+                      isSelected: _selectedVenue?.id == venue.id,
+                      isMultiSelect: false,
+                      onTap: () {
+                        if (_selectedVenue?.id != venue.id) {
+                          HapticFeedback.mediumImpact();
+                        }
+                        setState(() => _selectedVenue = venue);
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            // Next button at bottom
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: ActionButton(
+                label: 'Next',
+                onPressed: _handleNext,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}

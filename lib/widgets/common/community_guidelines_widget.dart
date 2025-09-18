@@ -8,15 +8,11 @@ import '../../core/theme/venyu_theme.dart';
 /// This widget shows the community guidelines that define
 /// what content is allowed and prohibited on the platform.
 class CommunityGuidelinesWidget extends StatelessWidget {
-  /// Whether to show the title section
-  final bool showTitle;
-
   /// Custom padding around the widget
   final EdgeInsets? padding;
 
   const CommunityGuidelinesWidget({
     super.key,
-    this.showTitle = true,
     this.padding,
   });
 
@@ -27,17 +23,18 @@ class CommunityGuidelinesWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (showTitle) ...[
-            Text(
+          // Title - always shown and centered
+          Center(
+            child: Text(
               'Community guidelines',
               style: AppTextStyles.caption1.copyWith(
-                color: context.venyuTheme.secondaryText,
+                color: context.venyuTheme.darkText,
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 12),
-          ],
+          ),
+          const SizedBox(height: 12),
 
           Container(
             padding: const EdgeInsets.all(16),

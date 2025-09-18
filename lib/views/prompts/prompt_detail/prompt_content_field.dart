@@ -51,7 +51,7 @@ class PromptContentField extends StatelessWidget {
               minLines: 1,
               keyboardType: TextInputType.multiline,
               style: TextStyle(
-                color: venyuTheme.primaryText,
+                color: venyuTheme.darkText,
                 fontSize: 36,
                 fontFamily: AppFonts.graphie,
               ),
@@ -61,7 +61,7 @@ class PromptContentField extends StatelessWidget {
               cupertino: (_, __) => CupertinoTextFieldData(
                 placeholder: interactionType.hintText,
                 placeholderStyle: TextStyle(
-                  color: venyuTheme.secondaryText,
+                  color: venyuTheme.darkText.withValues(alpha: 0.5),
                   fontSize: 36,
                   fontFamily: AppFonts.graphie,
                 ),
@@ -72,7 +72,7 @@ class PromptContentField extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: interactionType.hintText,
                   hintStyle: TextStyle(
-                    color: venyuTheme.secondaryText,
+                    color: venyuTheme.darkText.withValues(alpha: 0.5),
                     fontSize: 36,
                     fontFamily: AppFonts.graphie,
                   ),

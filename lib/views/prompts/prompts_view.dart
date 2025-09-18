@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/helpers/get_matched_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../../models/prompt.dart';
@@ -16,7 +16,6 @@ import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/get_matched_button.dart';
 import 'prompt_item.dart';
 import 'prompt_detail_view.dart';
-import 'interaction_type_selection_view.dart';
 
 /// PromptsView - Dedicated view for user's prompts
 /// 
@@ -121,30 +120,14 @@ class _PromptsViewState extends State<PromptsView>
 
   /// Handles the Get Matched button press (both FAB and EmptyState button)
   Future<void> _handleGetMatchedPressed() async {
-    HapticFeedback.selectionClick();
-    AppLogger.debug('Opening interaction type selection for new prompt...', context: 'PromptsView');
+    final result = await GetMatchedHelper.openGetMatchedModal(
+      context: context,
+      callerContext: 'PromptsView',
+    );
 
-    try {
-      final result = await showPlatformModalSheet<bool>(
-        context: context,
-        material: MaterialModalSheetData(
-          isScrollControlled: true,
-          useSafeArea: true,
-        ),
-        builder: (context) {
-          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'PromptsView');
-          return const InteractionTypeSelectionView();
-        },
-      );
-
-      AppLogger.debug('Interaction type selection closed with result: $result', context: 'PromptsView');
-
-      // If prompt was successfully added, refresh the list
-      if (result == true) {
-        await _handleRefresh();
-      }
-    } catch (error) {
-      AppLogger.error('Error opening interaction type selection modal: $error', context: 'PromptsView');
+    // If prompt was successfully added, refresh the list
+    if (result == true) {
+      await _handleRefresh();
     }
   }
 

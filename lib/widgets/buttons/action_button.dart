@@ -79,9 +79,16 @@ class ActionButton extends StatefulWidget {
   final bool isLoading;
 
   /// Whether the button should use compact sizing for app bars.
-  /// 
+  ///
   /// When true, uses smaller padding and dimensions suitable for app bar usage.
   final bool isCompact;
+
+  /// Whether the button is displayed on an inverted background in dark mode.
+  ///
+  /// When true and in dark mode, primary buttons will use dark background with white text
+  /// instead of the default white background with dark text. This is useful when the
+  /// button is placed on a white or light background in dark mode.
+  final bool onInvertedBackground;
 
   /// Creates an [ActionButton] widget.
   /// 
@@ -98,7 +105,8 @@ class ActionButton extends StatefulWidget {
     this.isIconOnly = false,
     this.isLoading = false,
     this.isCompact = false,
-  }) : assert(label != null || (icon != null && isIconOnly), 
+    this.onInvertedBackground = false,
+  }) : assert(label != null || (icon != null && isIconOnly),
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
   @override
@@ -123,9 +131,9 @@ class _ActionButtonState extends State<ActionButton> {
       child: AppLayoutStyles.interactiveButton(
         context: context,
         onTap: isActuallyDisabled ? null : widget.onPressed,
-        backgroundColor: widget.type.backgroundColor(context),
-        borderColor: widget.type.borderColor(context),
-        highlightColor: widget.type.highlightColor(context),
+        backgroundColor: widget.type.backgroundColor(context, onInvertedBackground: widget.onInvertedBackground),
+        borderColor: widget.type.borderColor(context, onInvertedBackground: widget.onInvertedBackground),
+        highlightColor: widget.type.highlightColor(context, onInvertedBackground: widget.onInvertedBackground),
         opacity: isActuallyDisabled ? 0.7 : 1.0,
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -138,10 +146,10 @@ class _ActionButtonState extends State<ActionButton> {
                     height: 20,
                     child: PlatformCircularProgressIndicator(
                       cupertino: (_, __) => CupertinoProgressIndicatorData(
-                        color: widget.type.textColor(context),
+                        color: widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                       ),
                       material: (_, __) => MaterialProgressIndicatorData(
-                        color: widget.type.textColor(context),
+                        color: widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                         strokeWidth: 2,
                       ),
                     ),
@@ -153,7 +161,7 @@ class _ActionButtonState extends State<ActionButton> {
                       if (widget.icon != null) ...[
                         ColorFiltered(
                           colorFilter: ColorFilter.mode(
-                            widget.type.textColor(context),
+                            widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                             BlendMode.srcIn,
                           ),
                           child: widget.icon!,
@@ -164,7 +172,7 @@ class _ActionButtonState extends State<ActionButton> {
                         Text(
                           widget.label!,
                           style: AppTextStyles.body.copyWith(
-                            color: widget.type.textColor(context),
+                            color: widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                             fontWeight: widget.type.fontWeight,
                           ),
                         ),

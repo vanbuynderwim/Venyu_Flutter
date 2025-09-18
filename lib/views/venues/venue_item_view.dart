@@ -8,17 +8,24 @@ import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
 
 /// VenueItemView - Component for displaying venues with avatar and information
-/// 
+///
 /// Based on RoleView but adapted for Venue objects instead of Profile objects.
 /// Shows venue avatar, name, and baseline (tagline).
+/// Optionally supports selection with checkbox/radio button indicators.
 class VenueItemView extends StatelessWidget {
   final Venue venue;
   final VoidCallback? onTap;
+  final bool selectable;
+  final bool isSelected;
+  final bool isMultiSelect;
 
   const VenueItemView({
     super.key,
     required this.venue,
     this.onTap,
+    this.selectable = false,
+    this.isSelected = false,
+    this.isMultiSelect = false,
   });
 
   @override
@@ -84,11 +91,13 @@ class VenueItemView extends StatelessWidget {
           ),
           
           const SizedBox(width: 8),
-          
-          // Container 3: Chevron (center-aligned vertically)
+
+          // Container 3: Chevron or Selection indicator (center-aligned vertically)
           Align(
             alignment: Alignment.center,
-            child: _buildChevronIcon(context),
+            child: selectable
+                ? _buildSelectionIndicator(context)
+                : _buildChevronIcon(context),
           ),
         ],
       ),
@@ -109,5 +118,16 @@ class VenueItemView extends StatelessWidget {
       'chevron',
       size: 18,
     );
+  }
+
+  /// Build selection indicator (checkbox or radio button)
+  Widget _buildSelectionIndicator(BuildContext context) {
+    if (isMultiSelect) {
+      // Checkbox for multi-select
+      return context.themedIcon('checkbox', selected: isSelected);
+    } else {
+      // Radio button for single select
+      return context.themedIcon('radiobutton', selected: isSelected);
+    }
   }
 }

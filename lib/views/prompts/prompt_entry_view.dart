@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../models/prompt.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/radar_background_overlay.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
 import 'daily_prompts_view.dart';
@@ -59,33 +59,23 @@ class PromptEntryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Always use light theme for prompt flow
-    final venyuTheme = VenyuTheme.light;
-    
+    final venyuTheme = context.venyuTheme;
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.primair4Lilac,
+            venyuTheme.gradientPrimary,
             Colors.white,
           ],
         ),
       ),
       child: Stack(
         children: [
-          // Radar background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/visuals/radar.png',
-              fit: BoxFit.cover,
-              opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
-              errorBuilder: (context, error, stackTrace) {
-                // If image fails to load, just show the gradient
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
+          // Radar background overlay
+          const RadarBackgroundOverlay(),
           // Main content
           PlatformScaffold(
             backgroundColor: Colors.transparent,
@@ -100,7 +90,7 @@ class PromptEntryView extends StatelessWidget {
                 Text(
                   'Hi${_getFirstName(context)} 👋',
                   style: TextStyle(
-                    color: venyuTheme.primaryText,
+                    color: venyuTheme.darkText,
                     fontSize: 28,
                     fontFamily: AppFonts.graphie
                   ),
@@ -114,7 +104,7 @@ class PromptEntryView extends StatelessWidget {
                   'assets/images/visuals/prompts.png',
                   width: 134,
                   height: 134,
-                  color: venyuTheme.primaryText,
+                  color: venyuTheme.darkText,
                   errorBuilder: (context, error, stackTrace) {
                     // Fallback if icon fails to load
                     return Icon(
@@ -133,7 +123,7 @@ class PromptEntryView extends StatelessWidget {
                     ? "Let's start networking!\nAnswer ${prompts.length} questions to get matched"
                     : 'Your daily ${prompts.length} cards are here !',
                   style: TextStyle(
-                    color: venyuTheme.primaryText,
+                    color: venyuTheme.darkText,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -144,16 +134,12 @@ class PromptEntryView extends StatelessWidget {
                 // "Show me!" button - wrapped in light theme
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Theme(
-                    data: ThemeData.light().copyWith(
-                      extensions: [VenyuTheme.light],
-                    ),
-                    child: ActionButton(
+                  child: ActionButton(
                       label: "Show me",
                       type: ActionButtonType.primary,
+                      onInvertedBackground: true,
                       onPressed: () => _handleLetsDoThis(context),
                     ),
-                  ),
                 ),
 
                 const Spacer(flex: 1),

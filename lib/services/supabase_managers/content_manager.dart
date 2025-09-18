@@ -197,7 +197,7 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   }
 
   /// Create or update a prompt
-  Future<void> upsertPrompt(String? promptID, InteractionType interactionType, String label, {String? venueId}) async {
+  Future<void> upsertPrompt(String? promptID, InteractionType interactionType, String label, {String? venueId, bool? withPreview}) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Upserting prompt${venueId != null ? " for venue: $venueId" : ""}', context: 'ContentManager');
 
@@ -206,6 +206,7 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
         'interaction_type': interactionType.toJson(),
         'label': label,
         if (venueId != null) 'venue_id': venueId,
+        if (withPreview != null) 'with_preview': withPreview,
       };
 
       await client.rpc('upsert_prompt', params: {'payload': payload});
@@ -214,19 +215,35 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Toggle prompt preview mode
+  Future<void> togglePreview(String promptId, bool withPreview) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Toggling prompt preview for $promptId to: $withPreview', context: 'ContentManager');
+
+      final payload = {
+        'prompt_id': promptId,
+        'with_preview': withPreview,
+      };
+
+      await client.rpc('toggle_preview', params: {'payload': payload});
+
+      AppLogger.success('Prompt preview toggled successfully', context: 'ContentManager');
+    });
+  }
+
   /// Insert prompt interaction
   Future<void> insertPromptInteraction(int promptFeedID, String promptID, InteractionType interactionType) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Inserting prompt interaction', context: 'ContentManager');
-      
+
       final payload = {
         'prompt_feed_id': promptFeedID,
         'prompt_id': promptID,
         'interaction_type': interactionType.toJson(),
       };
-      
+
       await client.rpc('insert_prompt_interaction', params: {'payload': payload});
-      
+
       AppLogger.success('Prompt interaction inserted successfully', context: 'ContentManager');
     });
   }

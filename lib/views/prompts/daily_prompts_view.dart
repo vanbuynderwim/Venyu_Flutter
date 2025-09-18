@@ -6,11 +6,12 @@ import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_logger.dart';
-import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/prompts/prompt_display_widget.dart';
+import '../../widgets/common/radar_background_overlay.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import 'interaction_type_selection_view.dart';
@@ -51,8 +52,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
   
   /// Get the current gradient color based on selected interaction type or default
   Color get _currentGradientColor {
-    // Always use light theme colors
-    return _selectedInteractionType?.color ?? AppColors.primair4Lilac;
+    // Use theme-aware gradient primary color when no selection is made
+    return _selectedInteractionType?.color ?? context.venyuTheme.gradientPrimary;
   }
 
   void _handleInteractionPressed(InteractionType interactionType) {
@@ -179,110 +180,76 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
       );
     }
 
-    // Always use light theme for prompt flow
-    final venyuTheme = VenyuTheme.light;
-    
     return PopScope(
       canPop: _currentPromptIndex == 0 || _selectedInteractionType != null,
       child: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            _currentGradientColor,
-            Colors.white,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              _currentGradientColor,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Radar background overlay
+            const RadarBackgroundOverlay(),
+            // Main content
+            PlatformScaffold(
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                bottom: false, // Allow keyboard to overlay the bottom safe area
+                child: Column(
+                children: [
+                  // Prompt content - takes all available space
+                  Expanded(
+                    child: PromptDisplayWidget(
+                      promptLabel: _currentPrompt.label,
+                    ),
+                  ),
+
+                  // Progress indicator dots
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: _buildProgressIndicator(),
+                  ),
+
+                  const SizedBox(height: AppModifiers.largeSpacing),
+
+                  // Interaction buttons - fixed at bottom (base_form_view pattern)
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: InteractionButtonRow(
+                      onInteractionPressed: _handleInteractionPressed,
+                      selectedInteractionType: _selectedInteractionType,
+                      isUpdating: isProcessing,
+                      spacing: AppModifiers.smallSpacing,
+                    ),
+                  ),
+
+                  const SizedBox(height: AppModifiers.largeSpacing),
+
+                  // Next button - enabled when interaction is selected, wrapped in light theme
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ActionButton(
+                        label: 'Next',
+                        onPressed: (_selectedInteractionType != null && !isProcessing) ? _handleNext : null,
+                        isLoading: isProcessing,
+                        onInvertedBackground: true,
+                      ),
+                  ),
+
+                  const SizedBox(height: AppModifiers.extraLargeSpacing),
+                ],
+              ),
+            ),
+            ),
           ],
         ),
-      ),
-      child: Stack(
-        children: [
-          // Radar background image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/visuals/radar.png',
-              fit: BoxFit.cover,
-              opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
-              errorBuilder: (context, error, stackTrace) {
-                // If image fails to load, just show the gradient
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
-          // Main content
-          PlatformScaffold(
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              bottom: false, // Allow keyboard to overlay the bottom safe area
-              child: Column(
-              children: [
-                // Prompt content - takes all available space
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    padding: AppModifiers.pagePadding,
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            _currentPrompt.label,
-                            style: TextStyle(
-                              color: venyuTheme.primaryText,
-                              fontSize: 36,
-                              fontFamily: AppFonts.graphie,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                
-                // Progress indicator dots
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _buildProgressIndicator(),
-                ),
-                
-                const SizedBox(height: AppModifiers.largeSpacing),
-                
-                // Interaction buttons - fixed at bottom (base_form_view pattern)
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: InteractionButtonRow(
-                    onInteractionPressed: _handleInteractionPressed,
-                    selectedInteractionType: _selectedInteractionType,
-                    isUpdating: isProcessing,
-                    spacing: AppModifiers.smallSpacing,
-                  ),
-                ),
-                
-                const SizedBox(height: AppModifiers.largeSpacing),
-                
-                // Next button - enabled when interaction is selected, wrapped in light theme
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Theme(
-                    data: ThemeData.light().copyWith(
-                      extensions: [VenyuTheme.light],
-                    ),
-                    child: ActionButton(
-                      label: 'Next',
-                      onPressed: (_selectedInteractionType != null && !isProcessing) ? _handleNext : null,
-                      isLoading: isProcessing,
-                    ),
-                  ),
-                ),
-                
-                const SizedBox(height: AppModifiers.extraLargeSpacing),
-              ],
-            ),
-          ),
-        ),
-        ],
-      ),
       ),
     );
   }

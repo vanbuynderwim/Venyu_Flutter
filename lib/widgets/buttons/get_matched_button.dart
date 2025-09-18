@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
-import '../../core/utils/app_logger.dart';
-import '../../views/prompts/interaction_type_selection_view.dart';
+import '../../core/helpers/get_matched_helper.dart';
 import '../buttons/fab_button.dart';
 import '../buttons/action_button.dart';
 
@@ -40,38 +37,14 @@ class GetMatchedButton extends StatelessWidget {
 
   /// Opens the interaction type selection modal
   Future<void> _openAddPromptModal(BuildContext context) async {
-    HapticFeedback.selectionClick();
-    AppLogger.debug(
-      'Opening interaction type selection${venueId != null ? " for venue: $venueId" : ""}...',
-      context: 'GetMatchedButton'
+    final result = await GetMatchedHelper.openGetMatchedModal(
+      context: context,
+      venueId: venueId,
+      callerContext: 'GetMatchedButton',
     );
 
-    try {
-      final result = await showPlatformModalSheet<bool>(
-        context: context,
-        material: MaterialModalSheetData(
-          isScrollControlled: true,
-          useSafeArea: true,
-        ),
-        builder: (context) {
-          AppLogger.debug('Building InteractionTypeSelectionView...', context: 'GetMatchedButton');
-          return InteractionTypeSelectionView(
-            venueId: venueId,
-          );
-        },
-      );
-
-      if (result != null) {
-        AppLogger.success('Interaction type selection completed with result: $result',
-            context: 'GetMatchedButton');
-      }
-
-      // Call the optional callback with the result
-      onModalClosed?.call(result);
-    } catch (error) {
-      AppLogger.error('Error opening interaction type selection modal: $error',
-          context: 'GetMatchedButton');
-    }
+    // Call the optional callback with the result
+    onModalClosed?.call(result);
   }
 
   @override

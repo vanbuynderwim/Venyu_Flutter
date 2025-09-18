@@ -82,7 +82,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   @override
   Widget build(BuildContext context) {
-    final profileService = context.profileService;
+    final profileService = context.watchProfileService;
     final profile = profileService.currentProfile;
     
     return AppScaffold(

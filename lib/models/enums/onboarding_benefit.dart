@@ -48,17 +48,17 @@ enum OnboardingBenefit implements OptionType {
   ),
   discreetPreview(
     title: 'First call',
-    description: 'On your cards, you get first call. Matches are only shown to others if you’re interested.',
+    description: 'On your cards, you get the first call. Matches are only shown to others if you’re interested.',
     icon: 'eye',
   ),
   unlimitedIntroductions(
     title: 'Infinite intros',
-    description: 'Keep expanding your network with unlimited introductions and never miss an opportunity',
+    description: 'Keep growing your network with unlimited introductions and never miss an opportunity',
     icon: 'handshake',
   ),
   unlockFullProfiles(
     title: 'Full profiles',
-    description: 'Discover who’s behind the match with avatar, mutual interests, and personal bio',
+    description: 'Discover who’s behind the match by seeing their avatar and checking mutual interests',
     icon: 'profile',
   ),
   viewsAndImpressions(

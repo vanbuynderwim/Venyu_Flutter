@@ -131,15 +131,15 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       children: [
         Expanded(
           child: Text(
-            hasBio 
-                ? widget.profile.bio! 
+            hasBio
+                ? widget.profile.bio!
                 : 'Write something about yourself...',
             style: AppTextStyles.subheadline.copyWith(
-              color: hasBio 
-                  ? venyuTheme.primaryText 
+              color: hasBio
+                  ? venyuTheme.primaryText
                   : venyuTheme.secondaryText,
-              fontStyle: hasBio 
-                  ? FontStyle.normal 
+              fontStyle: hasBio
+                  ? FontStyle.normal
                   : FontStyle.italic,
             ),
           ),
@@ -155,7 +155,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   builder: (context) => const EditBioView(),
                 ),
               );
-              
+
               // No need to manually notify parent - ProfileView automatically updates
               // when SessionManager.currentProfile changes via listener
             },

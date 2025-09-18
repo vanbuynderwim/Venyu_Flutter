@@ -435,6 +435,14 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
             // Preview mode indicator if match is in preview
             if (_match!.isPreview == true) ...[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0),
+                child: SubTitle(
+                  iconName: 'eye',
+                  title: 'First Call active',
+                ),
+              ),
+              const SizedBox(height: 16),
               MatchPreviewIndicator(match: _match!),
               const SizedBox(height: 16),
             ],

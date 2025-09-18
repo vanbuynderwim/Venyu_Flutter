@@ -119,7 +119,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           ),
           if (!_isLoading && _currentTagGroup != null)
             Container(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.only(bottom: 8),
               child: ActionButton(
                 label: _isSaving 
                     ? 'Saving...' 

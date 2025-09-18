@@ -135,15 +135,6 @@ class _JoinVenueViewState extends State<JoinVenueView> with ErrorHandlingMixin {
         backgroundColor: Colors.transparent,
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
-          trailingActions: [
-            ActionButton(
-              label: 'Join',
-              isDisabled: !_codeIsValid,
-              isLoading: isProcessing,
-              onPressed: _handleJoin,
-              isCompact: true,
-            ),
-          ],
           cupertino: (_, __) => CupertinoNavigationBarData(
             backgroundColor: Colors.transparent,
             border: null, // Remove border
@@ -166,7 +157,20 @@ class _JoinVenueViewState extends State<JoinVenueView> with ErrorHandlingMixin {
                 maxLength: _maxLength,
                 onSubmit: _codeIsValid ? _handleJoin : null,
               ),
-              
+
+              const SizedBox(height: 24),
+
+              // Join button
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ActionButton(
+                  label: 'Join',
+                  isDisabled: !_codeIsValid,
+                  isLoading: isProcessing,
+                  onPressed: _handleJoin,
+                ),
+              ),
+
               const SizedBox(height: 16),
             ],
           ),

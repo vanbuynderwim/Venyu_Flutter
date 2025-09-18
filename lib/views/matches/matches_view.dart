@@ -5,6 +5,8 @@ import '../../mixins/error_handling_mixin.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../core/helpers/get_matched_helper.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../models/match.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
@@ -137,6 +139,20 @@ class _MatchesViewState extends State<MatchesView>
     }
   }
 
+  /// Handle get matched button press
+  Future<void> _handleGetMatchedPressed() async {
+    final result = await GetMatchedHelper.openGetMatchedModal(
+      context: context,
+      callerContext: 'MatchesView',
+    );
+
+    if (result == true) {
+      // Refresh matches list after prompt creation
+      AppLogger.debug('Prompt created, refreshing matches...', context: 'MatchesView');
+      _loadMatches(forceRefresh: true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -158,6 +174,9 @@ class _MatchesViewState extends State<MatchesView>
                           description: ServerListType.matches.emptyStateDescription,
                           iconName: "nomatches",
                           height: MediaQuery.of(context).size.height * 0.6,
+                          onAction: () => _handleGetMatchedPressed(),
+                          actionText: "Get matched",
+                          actionButtonIcon: context.themedIcon('edit'),
                         ),
                       ),
                     ],

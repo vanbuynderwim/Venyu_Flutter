@@ -91,8 +91,16 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
   
   /// Error color for snackbars and error feedback messages.
   final Color snackbarError;
-  
-  
+
+  /// Primary gradient color for backgrounds.
+  /// Lilac in light mode, Rocket in dark mode.
+  final Color gradientPrimary;
+
+  /// Dark text color that adapts between light and dark themes.
+  /// Off-black in light mode, Slate gray in dark mode.
+  final Color darkText;
+
+
   const VenyuTheme({
     required this.pageBackground,
     required this.cardBackground,
@@ -115,6 +123,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     required this.unselectedBackground,
     required this.snackbarSuccess,
     required this.snackbarError,
+    required this.gradientPrimary,
+    required this.darkText,
   });
 
   /// Light theme colors
@@ -140,6 +150,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     unselectedBackground: AppColors.primair7Pearl,           // White background for unselected elements
     snackbarSuccess: AppColors.me,                // Success color for snackbars
     snackbarError: AppColors.na,                  // Error color for snackbars
+    gradientPrimary: AppColors.primair4Lilac,     // Lilac for gradient backgrounds
+    darkText: AppColors.secundair2Offblack,       // Off-black for dark text in light mode
   );
 
   /// Dark theme colors
@@ -165,6 +177,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     unselectedBackground: AppColors.secundair3Slategray, // Pinball gray background for unselected elements
     snackbarSuccess: AppColors.me,                   // Success color for snackbars
     snackbarError: AppColors.na,                     // Error color for snackbars
+    gradientPrimary: AppColors.secundair1Deepblack,     // Rocket for gradient backgrounds in dark mode
+    darkText: AppColors.secundair1Deepblack,         // Slate gray for dark text in dark mode
   );
 
   @override
@@ -190,6 +204,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     Color? unselectedBackground,
     Color? snackbarSuccess,
     Color? snackbarError,
+    Color? gradientPrimary,
+    Color? darkText,
   }) {
     return VenyuTheme(
       pageBackground: pageBackground ?? this.pageBackground,
@@ -213,6 +229,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       unselectedBackground: unselectedBackground ?? this.unselectedBackground,
       snackbarSuccess: snackbarSuccess ?? this.snackbarSuccess,
       snackbarError: snackbarError ?? this.snackbarError,
+      gradientPrimary: gradientPrimary ?? this.gradientPrimary,
+      darkText: darkText ?? this.darkText,
     );
   }
 
@@ -242,6 +260,8 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
       unselectedBackground: Color.lerp(unselectedBackground, other.unselectedBackground, t)!,
       snackbarSuccess: Color.lerp(snackbarSuccess, other.snackbarSuccess, t)!,
       snackbarError: Color.lerp(snackbarError, other.snackbarError, t)!,
+      gradientPrimary: Color.lerp(gradientPrimary, other.gradientPrimary, t)!,
+      darkText: Color.lerp(darkText, other.darkText, t)!,
     );
   }
 }

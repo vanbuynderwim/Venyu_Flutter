@@ -159,9 +159,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
               ),
               const SizedBox(height: 16),
 
-              // Prior Preview section
-              _buildPreviewSection(),
-
               // Status section with title
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -170,14 +167,19 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   title: 'Status',
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
 
               // Status info section
               _buildStatusInfoSection(),
 
+              const SizedBox(height: 16),
+
+              // Prior Preview section
+              _buildPreviewSection(),
+
               // Venue section - show if prompt has a venue
               if (_prompt!.venue != null) ...[
-                const SizedBox(height: 16),
+                
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -389,9 +391,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Show community guidelines for rejected status
             if (status == PromptStatus.rejected) ...[
               const SizedBox(height: 16),
-              const CommunityGuidelinesWidget(
-                showTitle: false,
-              ),
+              const CommunityGuidelinesWidget(),
             ],
 
             // Edit button - only show if editing is allowed
@@ -513,7 +513,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             iconName: 'eye',
             title: 'First Call',
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
 
           // Preview explanation card
           Container(
@@ -536,8 +536,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                     if (isPro)
                       Text(
                         'Enable',
-                        style: AppTextStyles.subheadline.copyWith(
+                        style: AppTextStyles.headline.copyWith(
                           color: context.venyuTheme.primaryText,
+                          fontWeight: FontWeight.w500
                         ),
                       )
                     else
@@ -561,6 +562,17 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                         // Handle toggle change when Pro
                         _handlePreviewToggle(value);
                       } : null,
+                      material: (_, __) => MaterialSwitchData(
+                        activeColor: context.venyuTheme.primary,
+                        // For Material Design, the thumb color is automatically handled
+                      ),
+                      cupertino: (_, __) => CupertinoSwitchData(
+                        activeColor: context.venyuTheme.primary,
+                        // For iOS, we can set thumbColor for better contrast in dark mode
+                        thumbColor: Theme.of(context).brightness == Brightness.dark 
+                            ? context.venyuTheme.cardBackground  // Dark thumb on light track
+                            : null,  // Default white thumb
+                      )
                     ),
                   ],
                 ),
@@ -574,13 +586,23 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   }
 
   /// Handle preview toggle change
-  void _handlePreviewToggle(bool value) {
-    // TODO: Implement API call to update prompt with_preview setting
-    setState(() {
-      // Temporarily update local state (this should be replaced with API call)
-      // _prompt = _prompt?.copyWith(withPreview: value);
-    });
+  void _handlePreviewToggle(bool value) async {
+    if (_prompt?.promptID == null) return;
 
     AppLogger.debug('Preview toggle changed to: $value for prompt: ${_prompt?.promptID}', context: 'PromptDetailView');
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.togglePreview(_prompt!.promptID, value);
+
+        // Reload prompt data to get updated state
+        await _loadPromptData();
+
+        AppLogger.success('Preview setting updated successfully', context: 'PromptDetailView');
+      },
+      showSuccessToast: true,
+      successMessage: 'Preview setting updated',
+      showErrorToast: true,
+    );
   }
 }

@@ -38,13 +38,19 @@ enum ActionButtonType {
   String toJson() => value;
 
   /// Returns the appropriate background color for this button type.
-  /// 
+  ///
   /// Uses theme-aware colors that adapt to light/dark mode automatically.
-  Color backgroundColor(BuildContext context) {
+  /// When [onInvertedBackground] is true and in dark mode, primary buttons
+  /// use dark background instead of white.
+  Color backgroundColor(BuildContext context, {bool onInvertedBackground = false}) {
     final venyuTheme = context.venyuTheme;
-    
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     switch (this) {
       case ActionButtonType.primary:
+        if (onInvertedBackground && isDarkMode) {
+          return venyuTheme.pageBackground; // Dark background in dark mode when on inverted background
+        }
         return venyuTheme.primary;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
@@ -56,13 +62,19 @@ enum ActionButtonType {
   }
 
   /// Returns the appropriate text color for this button type.
-  /// 
+  ///
   /// Ensures proper contrast ratios for accessibility across all themes.
-  Color textColor(BuildContext context) {
+  /// When [onInvertedBackground] is true and in dark mode, primary buttons
+  /// use white text instead of dark text.
+  Color textColor(BuildContext context, {bool onInvertedBackground = false}) {
     final venyuTheme = context.venyuTheme;
-    
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     switch (this) {
       case ActionButtonType.primary:
+        if (onInvertedBackground && isDarkMode) {
+          return Colors.white; // White text in dark mode when on inverted background
+        }
         return venyuTheme.cardBackground; // White in light mode, dark in dark mode
       case ActionButtonType.secondary:
         return venyuTheme.primary;
@@ -74,13 +86,19 @@ enum ActionButtonType {
   }
 
   /// Returns the appropriate border color for this button type.
-  /// 
+  ///
   /// Provides visual definition and maintains design consistency.
-  Color borderColor(BuildContext context) {
+  /// When [onInvertedBackground] is true and in dark mode, primary buttons
+  /// use dark border instead of primary color border.
+  Color borderColor(BuildContext context, {bool onInvertedBackground = false}) {
     final venyuTheme = context.venyuTheme;
-    
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     switch (this) {
       case ActionButtonType.primary:
+        if (onInvertedBackground && isDarkMode) {
+          return venyuTheme.pageBackground; // Dark border in dark mode when on inverted background
+        }
         return venyuTheme.primary;
       case ActionButtonType.secondary:
       case ActionButtonType.destructive:
@@ -106,18 +124,23 @@ enum ActionButtonType {
   }
 
   /// Returns the appropriate highlight color for this button type.
-  /// 
+  ///
   /// Uses contrasting colors to ensure the highlight effect is visible
   /// against different button background colors in both light and dark themes.
-  Color highlightColor(BuildContext context) {
+  /// When [onInvertedBackground] is true and in dark mode, primary buttons
+  /// use light highlight instead of dark highlight.
+  Color highlightColor(BuildContext context, {bool onInvertedBackground = false}) {
     final venyuTheme = context.venyuTheme;
     final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    
+
     switch (this) {
       case ActionButtonType.primary:
+        if (onInvertedBackground && isDarkTheme) {
+          return Colors.white.withValues(alpha: 0.3); // Light highlight on dark button when inverted
+        }
         // In dark theme, primary buttons have white background, so use dark highlight
         // In light theme, primary buttons have dark background, so use light highlight
-        return isDarkTheme 
+        return isDarkTheme
             ? Colors.black.withValues(alpha: 0.1) // Dark highlight on white button
             : Colors.white.withValues(alpha: 0.3); // Light highlight on dark button
       case ActionButtonType.secondary:

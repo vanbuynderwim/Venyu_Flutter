@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
@@ -9,6 +10,8 @@ import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/radar_background_overlay.dart';
+import '../../widgets/common/community_guidelines_widget.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -73,8 +76,8 @@ class InteractionTypeSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Always use light theme
-    final venyuTheme = VenyuTheme.light;
+
+    final venyuTheme = context.venyuTheme;
     final firstName = _getFirstName(context);
     
     return PopScope(
@@ -85,25 +88,15 @@ class InteractionTypeSelectionView extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.primair4Lilac, // Lilac color - always visible
+              venyuTheme.gradientPrimary, 
               Colors.white,
             ],
           ),
         ),
         child: Stack(
           children: [
-            // Radar background image (always visible)
-            Positioned.fill(
-              child: Image.asset(
-                'assets/images/visuals/radar.png',
-                fit: BoxFit.cover,
-                opacity: const AlwaysStoppedAnimation(0.5), // Semi-transparent overlay
-                errorBuilder: (context, error, stackTrace) {
-                  // If image fails to load, just show the gradient
-                  return const SizedBox.shrink();
-                },
-              ),
-            ),
+            // Radar background overlay
+            const RadarBackgroundOverlay(),
             // Main content
             PlatformScaffold(
               backgroundColor: Colors.transparent,
@@ -120,7 +113,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     ? 'Thank you${firstName.isNotEmpty ? ' $firstName!' : ''}'
                     : 'Make the net work',
                   style: TextStyle(
-                    color: venyuTheme.primaryText,
+                    color: venyuTheme.darkText,
                     fontSize: 36,
                     fontFamily: AppFonts.graphie,
                   ),
@@ -135,7 +128,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     ? "Now, let's make the net work for you"
                     : 'For you',
                   style: TextStyle(
-                    color: venyuTheme.primaryText,
+                    color: venyuTheme.darkText,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -167,80 +160,11 @@ class InteractionTypeSelectionView extends StatelessWidget {
                   ),
                 ),
                 
-                // Disclaimer and guidelines (always visible)
-                  const SizedBox(height: 16),
-                  // Community guidelines title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Community guidelines',
-                      style: AppTextStyles.caption1.copyWith(
-                        color: venyuTheme.secondaryText,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  
-                  const SizedBox(height: 12),
-                  
-                  // Community guidelines
-                  Theme(
-                    data: ThemeData.light().copyWith(
-                      extensions: [VenyuTheme.light],
-                    ),
-                    child: Builder(
-                      builder: (lightContext) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 0),
-                        padding: const EdgeInsets.all(16),
-                        decoration: AppLayoutStyles.cardDecoration(lightContext),
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Allowed content
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '✅  ',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'networking, sharing knowledge or resources, asking for help, reach out for genuine connections',
-                                style: AppTextStyles.footnote.copyWith(
-                                  color: venyuTheme.secondaryText,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        
-                        const SizedBox(height: 12),
-                        
-                        // Prohibited content
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '🚫  ',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Expanded(
-                              child: Text(
-                                'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches',
-                                style: AppTextStyles.footnote.copyWith(
-                                  color: venyuTheme.secondaryText,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        ],
-                        ),
-                      ),
-                    ),
-                  ),
+                // Community guidelines
+                const SizedBox(height: 16),
+                CommunityGuidelinesWidget(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
 
                   const SizedBox(height: 8),
                   // Disclaimer text
@@ -249,24 +173,21 @@ class InteractionTypeSelectionView extends StatelessWidget {
                     child: Text(
                       'All cards are reviewed before going live',
                       style: AppTextStyles.caption1.copyWith(
-                        color: venyuTheme.secondaryText,
+                        color: venyuTheme.darkText,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
                 
-                Spacer(flex: 1),
+                Spacer(flex: 2),
                 
                 // "Not now" button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: Theme(
-                    data: ThemeData.light().copyWith(
-                      extensions: [VenyuTheme.light],
-                    ),
-                    child: ActionButton(
+                  child: ActionButton(
                       label: 'Not now',
                       type: ActionButtonType.secondary,
+                      onInvertedBackground: true,
                       onPressed: () {
                         if (isFromPrompts && onCloseModal != null) {
                           // Use the callback to close the modal
@@ -276,10 +197,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
                         }
                       },
                     ),
-                  ),
                 ),
                 
-                const SizedBox(height: 16),
+                //const SizedBox(height: 16),
                     ],
                   ),
                 ),
