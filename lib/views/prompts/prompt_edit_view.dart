@@ -1,10 +1,10 @@
 import 'package:app/models/models.dart';
-import 'package:app/models/venue.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import '../../core/theme/venyu_theme.dart';
 import '../../mixins/error_handling_mixin.dart';
-import '../../services/supabase_managers/content_manager.dart';
+
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import 'prompt_detail/prompt_content_field.dart';
@@ -123,6 +123,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
           existingPrompt: widget.existingPrompt,
           isFromPrompts: widget.isFromPrompts,
           onCloseModal: widget.onCloseModal,
+          venueId: widget.venueId,
         ),
       ),
     );
@@ -139,7 +140,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
           end: Alignment.bottomCenter,
           colors: [
             _selectedInteractionType.color,
-            Colors.white,
+            context.venyuTheme.adaptiveBackground,
           ],
         ),
       ),

@@ -189,7 +189,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             end: Alignment.bottomCenter,
             colors: [
               _currentGradientColor,
-              Colors.white,
+            context.venyuTheme.adaptiveBackground,
             ],
           ),
         ),

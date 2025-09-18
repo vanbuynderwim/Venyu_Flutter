@@ -8,6 +8,7 @@ import '../../models/simple_prompt_option.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/sub_title.dart';
+import '../../widgets/common/radar_background_overlay.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -27,6 +28,7 @@ class PromptSelectVenueView extends StatefulWidget {
   final Prompt? existingPrompt;
   final bool isFromPrompts;
   final VoidCallback? onCloseModal;
+  final String? preselectedVenueId;
 
   const PromptSelectVenueView({
     super.key,
@@ -36,6 +38,7 @@ class PromptSelectVenueView extends StatefulWidget {
     this.existingPrompt,
     this.isFromPrompts = false,
     this.onCloseModal,
+    this.preselectedVenueId,
   });
 
   @override
@@ -44,6 +47,15 @@ class PromptSelectVenueView extends StatefulWidget {
 
 class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
   Venue? _selectedVenue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Pre-select venue if venueId is provided
+    if (widget.preselectedVenueId != null) {
+      _selectedVenue = widget.venues.where((venue) => venue.id == widget.preselectedVenueId).firstOrNull;
+    }
+  }
 
   void _handleNext() {
     // Navigate to first call view with selected venue
@@ -67,30 +79,54 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
 
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: const Text('Select venue'),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            widget.interactionType.color,
+            venyuTheme.adaptiveBackground,
+          ],
+        ),
       ),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header section with subtitle
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: SubTitle(
-                title: 'Where would you like to publish?',
-                iconName: 'location',
+      child: Stack(
+        children: [
+          // Radar background overlay
+          const RadarBackgroundOverlay(),
+
+          // Main content
+          PlatformScaffold(
+            backgroundColor: Colors.transparent,
+            appBar: PlatformAppBar(
+              backgroundColor: Colors.transparent,
+              title: Text(
+                'Select venue',
+                style: TextStyle(
+                  color: venyuTheme.darkText,
+                ),
               ),
             ),
+            body: SafeArea(
+              bottom: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header section with subtitle
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: SubTitle(
+                      title: 'Where would you like to publish?',
+                      iconName: 'location',
+                    ),
+                  ),
 
-            // List of venues
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: widget.venues.length + 1, // +1 for "No venue" option
-                itemBuilder: (context, index) {
+                  // List of venues
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: widget.venues.length + 1, // +1 for "No venue" option
+                      itemBuilder: (context, index) {
                   if (index == 0) {
                     // "Publish publicly" option using OptionButton
                     final publicOption = SimplePromptOption(
@@ -138,18 +174,22 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
               ),
             ),
 
-            // Next button at bottom
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: ActionButton(
-                label: 'Next',
-                onPressed: _handleNext,
+                  // Next button at bottom
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    child: ActionButton(
+                      label: 'Next',
+                      onInvertedBackground: true,
+                      onPressed: _handleNext,
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
-
-            const SizedBox(height: 16),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

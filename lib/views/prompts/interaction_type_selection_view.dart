@@ -89,7 +89,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               venyuTheme.gradientPrimary, 
-              Colors.white,
+              venyuTheme.adaptiveBackground,
             ],
           ),
         ),
@@ -163,7 +163,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 // Community guidelines
                 const SizedBox(height: 16),
                 CommunityGuidelinesWidget(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                 ),
 
                   const SizedBox(height: 8),
@@ -183,7 +183,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // "Not now" button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: ActionButton(
                       label: 'Not now',
                       type: ActionButtonType.secondary,

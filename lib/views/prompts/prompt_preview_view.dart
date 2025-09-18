@@ -29,6 +29,7 @@ class PromptPreviewView extends StatefulWidget {
   final Prompt? existingPrompt;
   final bool isFromPrompts;
   final VoidCallback? onCloseModal;
+  final String? venueId;
 
   const PromptPreviewView({
     super.key,
@@ -37,6 +38,7 @@ class PromptPreviewView extends StatefulWidget {
     this.existingPrompt,
     this.isFromPrompts = false,
     this.onCloseModal,
+    this.venueId,
   });
 
   @override
@@ -147,6 +149,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                       existingPrompt: widget.existingPrompt,
                                       isFromPrompts: widget.isFromPrompts,
                                       onCloseModal: widget.onCloseModal,
+                                      preselectedVenueId: widget.venueId,
                                     ),
                                   ),
                                 );

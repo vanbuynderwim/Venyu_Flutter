@@ -30,7 +30,7 @@ import '../venues/venue_item_view.dart';
 import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
-import '../../widgets/common/upgrade_prompt_widget.dart';
+import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../services/profile_service.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
@@ -299,7 +299,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: MatchItemView(
             match: match,
-            shouldBlur: true,
+            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
             onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
           ),
         )),
@@ -502,86 +502,13 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
   /// Build the Prior Preview settings section
   Widget _buildPreviewSection() {
-    final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SubTitle(
-            iconName: 'eye',
-            title: 'First Call',
-          ),
-          const SizedBox(height: 16),
-
-          // Preview explanation card
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: AppLayoutStyles.cardDecoration(context),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Others see your card, but the match opens for them only if you show interest first. That way, your profile stays private.',
-                  style: AppTextStyles.subheadline.copyWith(
-                    color: context.venyuTheme.primaryText,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Toggle section
-                Row(
-                  children: [
-                    if (isPro)
-                      Text(
-                        'Enable',
-                        style: AppTextStyles.headline.copyWith(
-                          color: context.venyuTheme.primaryText,
-                          fontWeight: FontWeight.w500
-                        ),
-                      )
-                    else
-                      SizedBox(
-                        width: 140,
-                        child: UpgradePromptWidget(
-                          title: 'Enable',
-                          subtitle: 'Unlock First Call and see the matches first.',
-                          buttonText: 'Upgrade to Pro',
-                          isCompact: true,
-                          onSubscriptionCompleted: () {
-                            // Refresh the view to update Pro status
-                            setState(() {});
-                          },
-                        ),
-                      ),
-                    const Spacer(),
-                    PlatformSwitch(
-                      value: _prompt?.withPreview ?? false,
-                      onChanged: isPro ? (value) {
-                        // Handle toggle change when Pro
-                        _handlePreviewToggle(value);
-                      } : null,
-                      material: (_, __) => MaterialSwitchData(
-                        activeColor: context.venyuTheme.primary,
-                        // For Material Design, the thumb color is automatically handled
-                      ),
-                      cupertino: (_, __) => CupertinoSwitchData(
-                        activeColor: context.venyuTheme.primary,
-                        // For iOS, we can set thumbColor for better contrast in dark mode
-                        thumbColor: Theme.of(context).brightness == Brightness.dark 
-                            ? context.venyuTheme.cardBackground  // Dark thumb on light track
-                            : null,  // Default white thumb
-                      )
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-      ),
+    return FirstCallSettingsWidget(
+      withPreview: _prompt?.withPreview ?? false,
+      onChanged: (value) {
+        // Handle toggle change
+        _handlePreviewToggle(value);
+      },
+      isEditing: true, // This is always editing an existing prompt
     );
   }
 
