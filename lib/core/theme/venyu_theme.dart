@@ -185,7 +185,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     snackbarError: AppColors.na,                     // Error color for snackbars
     gradientPrimary: AppColors.secundair1Deepblack,     // Rocket for gradient backgrounds in dark mode
     darkText: AppColors.secundair1Deepblack,         // Slate gray for dark text in dark mode
-    adaptiveBackground: AppColors.secundair5Pinball, // Pinball background in dark mode
+    adaptiveBackground: AppColors.secundair7Cascadingwhite, // Cascading white background in dark mode
   );
 
   @override

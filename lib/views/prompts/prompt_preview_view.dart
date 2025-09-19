@@ -14,7 +14,7 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import 'prompt_select_venue_view.dart';
-import 'prompt_firstcall_view.dart';
+import 'prompt_settings_view.dart';
 
 /// Prompt preview view - final step before publishing prompt
 ///
@@ -123,7 +123,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                               child: PromptDisplayWidget(
                                 promptLabel: widget.promptLabel,
                                 interactionType: widget.interactionType,
-                                showInteractionType: true,
+                                showInteractionType: false,
                               ),
                             ),
                           ),
@@ -131,7 +131,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
 
                         // Next button at bottom
                         Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                           child: ActionButton(
                             label: 'Next',
                             onInvertedBackground: true,
@@ -159,7 +159,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                   context,
                                   platformPageRoute(
                                     context: context,
-                                    builder: (context) => PromptFirstCallView(
+                                    builder: (context) => PromptSettingsView(
                                       interactionType: widget.interactionType,
                                       promptLabel: widget.promptLabel,
                                       existingPrompt: widget.existingPrompt,

@@ -3,11 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
+import '../../widgets/common/info_box_widget.dart';
 
 /// Prompt finish view - final confirmation screen
 ///
@@ -48,16 +48,6 @@ class PromptFinishView extends StatelessWidget {
             // Main content
             PlatformScaffold(
               backgroundColor: Colors.transparent,
-              appBar: PlatformAppBar(
-                backgroundColor: Colors.transparent,
-                automaticallyImplyLeading: false, // Hide back button
-                title: Text(
-                  'Success',
-                  style: TextStyle(
-                    color: venyuTheme.darkText,
-                  ),
-                ),
-              ),
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -99,7 +89,7 @@ class PromptFinishView extends StatelessWidget {
                       Text(
                         'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.',
                         style: AppTextStyles.body.copyWith(
-                          color: venyuTheme.secondaryText,
+                          color: venyuTheme.darkText,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -107,33 +97,10 @@ class PromptFinishView extends StatelessWidget {
                       const SizedBox(height: 24),
 
                       // Review info box
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: venyuTheme.cardBackground,
-                          borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
-                          border: Border.all(
-                            color: venyuTheme.borderColor.withValues(alpha: 0.1),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.info_outline,
-                              size: 20,
-                              color: venyuTheme.primary,
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Text(
-                                'Reviews typically take less than 24 hours',
-                                style: AppTextStyles.caption1.copyWith(
-                                  color: venyuTheme.secondaryText,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      InfoBoxWidget(
+                        text: 'Reviews typically take less than 24 hours',
+                        textColor: venyuTheme.secondaryText,
+                        iconColor: venyuTheme.primary,
                       ),
 
                       const Spacer(flex: 3),

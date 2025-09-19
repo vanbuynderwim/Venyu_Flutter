@@ -18,7 +18,7 @@ import 'prompt_finish_view.dart';
 /// - Shows First Call settings widget
 /// - No prompt preview (as requested)
 /// - Submit button to save prompt
-class PromptFirstCallView extends StatefulWidget {
+class PromptSettingsView extends StatefulWidget {
   final InteractionType interactionType;
   final String promptLabel;
   final Venue? selectedVenue;
@@ -26,7 +26,7 @@ class PromptFirstCallView extends StatefulWidget {
   final bool isFromPrompts;
   final VoidCallback? onCloseModal;
 
-  const PromptFirstCallView({
+  const PromptSettingsView({
     super.key,
     required this.interactionType,
     required this.promptLabel,
@@ -37,10 +37,10 @@ class PromptFirstCallView extends StatefulWidget {
   });
 
   @override
-  State<PromptFirstCallView> createState() => _PromptFirstCallViewState();
+  State<PromptSettingsView> createState() => _PromptSettingsViewState();
 }
 
-class _PromptFirstCallViewState extends State<PromptFirstCallView> {
+class _PromptSettingsViewState extends State<PromptSettingsView> {
   late final ContentManager _contentManager;
   bool _withPreview = false;
   bool _isProcessing = false;
@@ -61,7 +61,7 @@ class _PromptFirstCallViewState extends State<PromptFirstCallView> {
     setState(() => _isProcessing = true);
 
     try {
-      AppLogger.info('Submitting prompt with First Call: $_withPreview', context: 'PromptFirstCallView');
+      AppLogger.info('Submitting prompt with First Call: $_withPreview', context: 'PromptSettingsView');
 
       // Call upsertPrompt with all configurations
       await _contentManager.upsertPrompt(
@@ -86,7 +86,7 @@ class _PromptFirstCallViewState extends State<PromptFirstCallView> {
         ),
       );
     } catch (e) {
-      AppLogger.error('Failed to submit prompt', error: e, context: 'PromptFirstCallView');
+      AppLogger.error('Failed to submit prompt', error: e, context: 'PromptSettingsView');
 
       if (mounted) {
         // Show error message
@@ -155,6 +155,7 @@ class _PromptFirstCallViewState extends State<PromptFirstCallView> {
                               setState(() => _withPreview = value);
                             },
                             isEditing: widget.existingPrompt != null,
+                            hasVenue: widget.selectedVenue != null,
                           ),
 
                           const SizedBox(height: 24),

@@ -10,28 +10,30 @@ import '../../core/theme/venyu_theme.dart';
 ///
 /// Features:
 /// - Themed icon display with consistent 18px size
-/// - Consistent typography with semibold weight
+/// - Consistent typography with semibold weight with optional color override
 /// - Flexible icon and title content
 class SubTitle extends StatelessWidget {
   final String iconName;
   final String title;
+  final Color? textColor;
 
   const SubTitle({
     super.key,
     required this.iconName,
     required this.title,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        context.themedIcon(iconName, size: 18, selected: true),
+        context.themedIcon(iconName, size: 24, selected: true),
         const SizedBox(width: 8),
         Text(
           title,
           style: AppTextStyles.subheadline.copyWith(
-            color: context.venyuTheme.primaryText,
+            color: textColor ?? context.venyuTheme.primaryText,
             fontWeight: FontWeight.w600,
           ),
         ),

@@ -31,7 +31,7 @@ extension DateTimeExtensions on DateTime {
   /// - "30m" for 30 minutes ago
   /// - "45s" for 45 seconds ago
   /// - "Now" for less than 3 seconds ago
-  String timeAgo({String locale = 'en'}) {
+  String timeAgo() {
     final now = DateTime.now();
     final difference = now.difference(this);
 
@@ -44,44 +44,44 @@ extension DateTimeExtensions on DateTime {
     // Years (approximate: 365 days)
     if (days >= 365) {
       final years = (days / 365).floor();
-      return locale == 'nl' ? "${years}j" : "${years}y";
+      return "${years}y";
     }
-    
+
     // Months (approximate: 30 days)
     else if (days >= 30) {
       final months = (days / 30).floor();
-      return locale == 'nl' ? "${months}mnd" : "${months}mo";
+      return "${months}mo";
     }
-    
+
     // Weeks
     else if (days >= 7) {
       final weeks = (days / 7).floor();
       return "${weeks}w";
     }
-    
+
     // Days
     else if (days >= 1) {
       return "${days}d";
     }
-    
+
     // Hours
     else if (hours >= 1) {
-      return locale == 'nl' ? "${hours}u" : "${hours}h";
+      return "${hours}h";
     }
-    
+
     // Minutes
     else if (minutes >= 1) {
       return "${minutes}m";
     }
-    
+
     // Seconds (only show if >= 3 seconds)
     else if (seconds >= 3) {
       return "${seconds}s";
     }
-    
+
     // Less than 3 seconds
     else {
-      return locale == 'nl' ? "Nu" : "Now";
+      return "Just now";
     }
   }
   

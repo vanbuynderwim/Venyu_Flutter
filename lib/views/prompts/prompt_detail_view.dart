@@ -167,15 +167,26 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   title: 'Status',
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
 
               // Status info section
               _buildStatusInfoSection(),
 
               const SizedBox(height: 16),
 
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SubTitle(
+                  iconName: 'eye',
+                  title: 'First Call',
+                ),
+              ),
+              const SizedBox(height: 12),
+
               // Prior Preview section
               _buildPreviewSection(),
+
+              const SizedBox(height: 16),
 
               // Venue section - show if prompt has a venue
               if (_prompt!.venue != null) ...[
@@ -391,7 +402,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Show community guidelines for rejected status
             if (status == PromptStatus.rejected) ...[
               const SizedBox(height: 16),
-              const CommunityGuidelinesWidget(),
+              const CommunityGuidelinesWidget(
+                showTitle: false,
+              ),
             ],
 
             // Edit button - only show if editing is allowed
@@ -504,11 +517,13 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   Widget _buildPreviewSection() {
     return FirstCallSettingsWidget(
       withPreview: _prompt?.withPreview ?? false,
+      showTitle: false,
       onChanged: (value) {
         // Handle toggle change
         _handlePreviewToggle(value);
       },
       isEditing: true, // This is always editing an existing prompt
+      hasVenue: _prompt?.venue != null, // Check if prompt has a venue
     );
   }
 

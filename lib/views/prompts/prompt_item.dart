@@ -8,6 +8,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/interaction_tag.dart';
+import '../../widgets/common/venue_tag.dart';
 import '../../widgets/common/prompt_counters.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
@@ -44,25 +45,18 @@ class PromptItem extends StatefulWidget {
 class _PromptItemState extends State<PromptItem> {
   bool isSelected = false;
 
-  /// Builds the combined date and venue text with status emoji
-  String _buildDateVenueText() {
-    final dateText = widget.prompt.createdAt?.timeAgoFull() ?? '';
-    final venue = widget.prompt.venue;
+  /// Builds the date text with status emoji (no venue info)
+  String _buildDateText() {
+    final dateText = widget.prompt.createdAt?.timeAgo() ?? '';
     final statusEmoji = widget.shouldShowStatus && !widget.showMatchInteraction
         ? '${widget.prompt.displayStatus.emoji} '
         : '';
 
-    if (dateText.isEmpty && venue != null) {
-      return '${statusEmoji}in ${venue.name}';
-    } else if (dateText.isEmpty) {
+    if (dateText.isEmpty) {
       return statusEmoji.isEmpty ? '' : statusEmoji.trim();
     }
 
-    if (venue != null) {
-      return '$statusEmoji$dateText - in ${venue.name}';
-    } else {
-      return '$statusEmoji$dateText';
-    }
+    return '$statusEmoji$dateText';
   }
 
   @override
@@ -121,10 +115,10 @@ class _PromptItemState extends State<PromptItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Date with status emoji and venue
+                          // Date with status emoji (no venue)
                           Text(
-                            _buildDateVenueText(),
-                            style: AppTextStyles.footnote.copyWith(
+                            _buildDateText(),
+                            style: AppTextStyles.subheadline2.copyWith(
                               color: context.venyuTheme.secondaryText,
                             ),
                           ),
@@ -151,12 +145,24 @@ class _PromptItemState extends State<PromptItem> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Left side: user interaction tag
-                          if (widget.prompt.interactionType != null)
-                            InteractionTag(
-                              interactionType: widget.prompt.interactionType!,
-                              compact: true,
-                            ),
+                          // Left side: interaction tag and venue tag
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (widget.prompt.interactionType != null) ...[
+                                InteractionTag(
+                                  interactionType: widget.prompt.interactionType!,
+                                  compact: true,
+                                ),
+                                if (widget.prompt.venue != null) const SizedBox(width: 8),
+                              ],
+                              if (widget.prompt.venue != null)
+                                VenueTag(
+                                  venue: widget.prompt.venue!,
+                                  compact: true,
+                                ),
+                            ],
+                          ),
 
                           // Spacer to push right content to the end
                           const Spacer(),

@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_logger.dart';
 import '../../services/profile_service.dart';
 import '../../services/toast_service.dart';
@@ -343,14 +344,14 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                     });
                   },
                   material: (_, __) => MaterialSwitchData(
-                    activeColor: context.venyuTheme.primary,
+                    activeColor: AppColors.primair4Lilac,
                     // For Material Design, the thumb color is automatically handled
                   ),
                   cupertino: (_, __) => CupertinoSwitchData(
-                    activeColor: context.venyuTheme.primary,
+                    activeColor: AppColors.primair4Lilac,
                     // For iOS, we can set thumbColor for better contrast in dark mode
                     thumbColor: Theme.of(context).brightness == Brightness.dark 
-                        ? context.venyuTheme.cardBackground  // Dark thumb on light track
+                        ? context.venyuTheme.adaptiveBackground  // Dark thumb on light track
                         : null,  // Default white thumb
                   ),
                 ),

@@ -13,7 +13,7 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../venues/venue_item_view.dart';
-import 'prompt_firstcall_view.dart';
+import 'prompt_settings_view.dart';
 
 /// Prompt venue selection view - allows user to select a venue for their prompt
 ///
@@ -63,7 +63,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
       context,
       platformPageRoute(
         context: context,
-        builder: (context) => PromptFirstCallView(
+        builder: (context) => PromptSettingsView(
           interactionType: widget.interactionType,
           promptLabel: widget.promptLabel,
           selectedVenue: _selectedVenue,
@@ -101,7 +101,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
             appBar: PlatformAppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                'Select venue',
+                'Select audience',
                 style: TextStyle(
                   color: venyuTheme.darkText,
                 ),
@@ -117,7 +117,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                     child: SubTitle(
                       title: 'Where would you like to publish?',
-                      iconName: 'location',
+                      iconName: 'target',
                     ),
                   ),
 
@@ -125,8 +125,11 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: widget.venues.length + 1, // +1 for "No venue" option
+                      itemCount: widget.venues.isNotEmpty
+                          ? widget.venues.length + 2  // +1 for public option, +1 for subtitle
+                          : 1, // Just the public option
                       itemBuilder: (context, index) {
+
                   if (index == 0) {
                     // "Publish publicly" option using OptionButton
                     final publicOption = SimplePromptOption(
@@ -154,7 +157,19 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
                     );
                   }
 
-                  final venue = widget.venues[index - 1];
+                  // Add subtitle before first venue
+                  if (index == 1 && widget.venues.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12, top: 8),
+                      child: SubTitle(
+                        title: 'Or select a specific venue',
+                        iconName: 'venue',
+                      ),
+                    );
+                  }
+
+                  final venueIndex = widget.venues.isNotEmpty && index > 1 ? index - 2 : index - 1;
+                  final venue = widget.venues[venueIndex];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: VenueItemView(

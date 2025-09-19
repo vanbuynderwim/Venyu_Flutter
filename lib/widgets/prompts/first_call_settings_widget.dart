@@ -1,3 +1,4 @@
+import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -7,6 +8,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../services/profile_service.dart';
 import '../common/sub_title.dart';
 import '../common/upgrade_prompt_widget.dart';
+import '../common/info_box_widget.dart';
 
 /// First Call settings widget for prompts
 ///
@@ -14,46 +16,52 @@ import '../common/upgrade_prompt_widget.dart';
 /// It can be used in both prompt creation and editing flows.
 ///
 /// Features:
+/// - Optional SubTitle display (showTitle parameter)
 /// - Explanation of First Call functionality
-/// - Toggle to enable/disable (Pro feature)
-/// - Upgrade prompt for free users
+/// - Toggle to enable/disable (Pro feature or free with venue)
+/// - Upgrade prompt for free users (only when no venue selected)
 class FirstCallSettingsWidget extends StatelessWidget {
   final bool withPreview;
   final Function(bool) onChanged;
   final bool isEditing; // Whether editing existing prompt vs creating new
+  final bool hasVenue; // Whether a venue is selected (makes First Call free)
+  final bool showTitle; // Whether to show the SubTitle
 
   const FirstCallSettingsWidget({
     super.key,
     required this.withPreview,
     required this.onChanged,
     this.isEditing = false,
+    this.hasVenue = false,
+    this.showTitle = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
     final venyuTheme = context.venyuTheme;
+    // First Call is available if: user is Pro OR venue is selected
+    final canUseFirstCall = isPro || hasVenue;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SubTitle(
-            iconName: 'eye',
-            title: 'First Call',
-          ),
-          const SizedBox(height: 16),
-
-          // Preview explanation card
-          Container(
+      child: Container(
             padding: const EdgeInsets.all(16),
             decoration: AppLayoutStyles.cardDecoration(context),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Conditionally show SubTitle
+                if (showTitle) ...[
+                  const SubTitle(
+                    iconName: 'eye',
+                    title: 'First Call',
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
                 Text(
-                  'Others see your card, but the match opens for them only if you show interest first. That way, your profile stays private.',
+                  'You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.',
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),
@@ -63,7 +71,7 @@ class FirstCallSettingsWidget extends StatelessWidget {
                 // Toggle section
                 Row(
                   children: [
-                    if (isPro)
+                    if (canUseFirstCall)
                       Text(
                         'Enable',
                         style: AppTextStyles.headline.copyWith(
@@ -88,25 +96,30 @@ class FirstCallSettingsWidget extends StatelessWidget {
                     const Spacer(),
                     PlatformSwitch(
                       value: withPreview,
-                      onChanged: isPro ? onChanged : null,
+                      onChanged: canUseFirstCall ? onChanged : null,
                       material: (_, __) => MaterialSwitchData(
-                        activeColor: venyuTheme.primary,
+                        activeColor: AppColors.primair4Lilac,
                       ),
                       cupertino: (_, __) => CupertinoSwitchData(
-                        activeColor: venyuTheme.primary,
+                        activeColor: AppColors.primair4Lilac,
                         thumbColor: Theme.of(context).brightness == Brightness.dark
-                            ? venyuTheme.cardBackground
+                            ? venyuTheme.adaptiveBackground
                             : null,
                       )
                     ),
                   ],
                 ),
+
+                // Info text about venue benefit
+                if (hasVenue && !isPro) ...[
+                  const SizedBox(height: 12),
+                  const InfoBoxWidget(
+                    text: 'Available when publishing to a venue',
+                  ),
+                ],
               ],
             ),
           ),
-          const SizedBox(height: 16),
-        ],
-      ),
     );
   }
 }

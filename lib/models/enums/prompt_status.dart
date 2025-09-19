@@ -27,7 +27,7 @@ enum PromptStatus {
 
   /// Get the background color for this status - always uses tagBackground from theme
   Color backgroundColor(BuildContext context) {
-    return context.venyuTheme.tagBackground;
+    return context.venyuTheme.adaptiveBackground;
   }
 
   /// Get the border color for this status

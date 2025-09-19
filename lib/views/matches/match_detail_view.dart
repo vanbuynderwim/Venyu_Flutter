@@ -456,7 +456,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   title: '${_match!.nrOfPrompts} matching ${_match!.nrOfPrompts == 1 ? "card" : "cards"}',
                 ),
               ),
+
               const SizedBox(height: 16),
+              
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
