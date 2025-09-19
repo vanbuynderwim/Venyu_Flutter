@@ -31,7 +31,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
           if (showTitle) ...[
             Center(
               child: Text(
-                'Community guidelines',
+                'Guidelines',
                 style: AppTextStyles.caption1.copyWith(
                   color: context.venyuTheme.darkText,
                   fontWeight: FontWeight.w600,
@@ -53,7 +53,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      '✅  ',
+                      '👍  ',
                       style: TextStyle(fontSize: 20),
                     ),
                     Expanded(

@@ -43,8 +43,9 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
   InteractionType? _selectedInteractionType;
   int _currentPromptIndex = 0;
   List<InteractionType?> _promptInteractions = [];
-  
-  
+  bool _isPromptReported = false;
+
+
   // Services
   late final ContentManager _contentManager;
 
@@ -102,6 +103,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
           setState(() {
             _currentPromptIndex++;
             _selectedInteractionType = null;
+            _isPromptReported = false; // Reset report state for new prompt
           });
         } else {
           // Last prompt - navigate to InteractionTypeSelectionView
@@ -169,6 +171,25 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
     );
   }
 
+  /// Handle report button tap
+  Future<void> _handleReportPrompt() async {
+    if (_isPromptReported) return; // Already reported
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.reportPrompt(_currentPrompt.promptID);
+
+        setState(() {
+          _isPromptReported = true;
+        });
+      },
+      showSuccessToast: true,
+      successMessage: 'Card reported successfully',
+      showErrorToast: true,
+      errorMessage: 'Failed to report card',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Early return if no prompts available
@@ -200,6 +221,19 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             // Main content
             PlatformScaffold(
               backgroundColor: Colors.transparent,
+              appBar: PlatformAppBar(
+                backgroundColor: Colors.transparent,
+                automaticallyImplyLeading: false,
+                trailingActions: [
+                  GestureDetector(
+                    onTap: _handleReportPrompt,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: context.themedIcon('report', size: 18, selected: _isPromptReported),
+                    ),
+                  ),
+                ],
+              ),
               body: SafeArea(
                 bottom: false, // Allow keyboard to overlay the bottom safe area
                 child: Column(

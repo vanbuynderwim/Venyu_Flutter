@@ -25,21 +25,21 @@ class InfoBoxWidget extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       decoration: AppLayoutStyles.cardDecoration(context),
       child: Row(
         children: [
           context.themedIcon(
             'info',
-            size: 16,
+            size: 24,
             overrideColor: iconColor ?? venyuTheme.primary,
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: AppTextStyles.caption1.copyWith(
-                color: textColor ?? venyuTheme.primary,
+              style: AppTextStyles.footnote.copyWith(
+                color: textColor ?? venyuTheme.secondaryText,
               ),
             ),
           ),

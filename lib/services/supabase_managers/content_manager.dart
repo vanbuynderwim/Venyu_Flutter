@@ -313,7 +313,18 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
       AppLogger.success('Prompt status updated by review type', context: 'ContentManager');
     });
   }
-  
+
+  /// Report a prompt for review
+  Future<void> reportPrompt(String promptId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Reporting prompt: $promptId', context: 'ContentManager');
+
+      await client.rpc('report_prompt', params: {'p_prompt_id': promptId});
+
+      AppLogger.success('Prompt reported successfully', context: 'ContentManager');
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('ContentManager');

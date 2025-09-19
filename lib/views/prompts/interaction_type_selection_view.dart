@@ -15,6 +15,7 @@ import '../../widgets/common/community_guidelines_widget.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../widgets/common/info_box_widget.dart';
 import 'prompt_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
@@ -163,21 +164,14 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 // Community guidelines
                 const SizedBox(height: 16),
                 CommunityGuidelinesWidget(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
+                  showTitle: false,
                 ),
 
                   const SizedBox(height: 8),
                   // Disclaimer text
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      'All cards are reviewed before going live',
-                      style: AppTextStyles.caption1.copyWith(
-                        color: venyuTheme.darkText,
+                  InfoBoxWidget(
+                        text: 'All cards are subject to review before going live',
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
                 
                 Spacer(flex: 2),
                 

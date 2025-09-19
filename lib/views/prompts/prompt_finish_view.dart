@@ -99,8 +99,6 @@ class PromptFinishView extends StatelessWidget {
                       // Review info box
                       InfoBoxWidget(
                         text: 'Reviews typically take less than 24 hours',
-                        textColor: venyuTheme.secondaryText,
-                        iconColor: venyuTheme.primary,
                       ),
 
                       const Spacer(flex: 3),

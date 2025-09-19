@@ -9,12 +9,12 @@ import '../../widgets/prompts/prompt_display_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/buttons/action_button.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../services/supabase_managers/venue_manager.dart';
+import '../../core/utils/app_logger.dart';
 import 'prompt_select_venue_view.dart';
 import 'prompt_settings_view.dart';
+import 'prompt_finish_view.dart';
 
 /// Prompt preview view - final step before publishing prompt
 ///
@@ -52,6 +52,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
   // State
   List<Venue> _venues = [];
   bool _venuesLoaded = false;
+  bool _isProcessing = false;
 
   @override
   void initState() {
@@ -80,6 +81,41 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
     }
   }
 
+  /// Handle direct submit for existing prompts
+  Future<void> _handleDirectSubmit() async {
+    AppLogger.info('Submitting existing prompt update: ${widget.promptLabel}', context: 'PromptPreviewView');
+
+    await executeWithLoading(
+      operation: () async {
+        // Call upsertPrompt to update the existing prompt
+        await _contentManager.upsertPrompt(
+          widget.existingPrompt?.promptID,
+          widget.interactionType,
+          widget.promptLabel,
+          venueId: widget.venueId,
+          withPreview: widget.existingPrompt?.withPreview ?? false,
+        );
+
+        // Navigate to finish view
+        if (mounted) {
+          Navigator.push(
+            context,
+            platformPageRoute(
+              context: context,
+              builder: (context) => PromptFinishView(
+                isFromPrompts: widget.isFromPrompts,
+                onCloseModal: widget.onCloseModal,
+              ),
+            ),
+          );
+        }
+      },
+      useProcessingState: true,
+      showSuccessToast: false, // Don't show success toast as we're navigating away
+      showErrorToast: true,
+      errorMessage: 'Failed to update prompt',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +146,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                 ),
               ),
             ),
-            body: !_venuesLoaded
+            body: !_venuesLoaded || _isProcessing
                 ? const LoadingStateWidget()
                 : SafeArea(
                     bottom: false, // Allow content to go under bottom safe area for button
@@ -129,13 +165,21 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                           ),
                         ),
 
-                        // Next button at bottom
+                        // Next/Submit button at bottom
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                           child: ActionButton(
-                            label: 'Next',
+                            label: widget.existingPrompt != null ? 'Submit' : 'Next',
                             onInvertedBackground: true,
-                            onPressed: _venuesLoaded ? () {
+                            isLoading: _isProcessing,
+                            onPressed: _venuesLoaded && !_isProcessing ? () {
+                              // If editing existing prompt, submit directly
+                              if (widget.existingPrompt != null) {
+                                _handleDirectSubmit();
+                                return;
+                              }
+
+                              // Otherwise, continue with normal flow
                               if (_venues.isNotEmpty) {
                                 // Navigate to venue selection
                                 Navigator.push(
@@ -154,7 +198,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                   ),
                                 );
                               } else {
-                                // Navigate to first call view
+                                // Navigate to settings view
                                 Navigator.push(
                                   context,
                                   platformPageRoute(
