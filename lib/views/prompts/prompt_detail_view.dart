@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
@@ -174,19 +175,22 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
               const SizedBox(height: 16),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: SubTitle(
-                  iconName: 'eye',
-                  title: 'First Call',
+              // First Call section - only show if Pro features are enabled
+              if (AppConfig.showPro) ...[
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SubTitle(
+                    iconName: 'eye',
+                    title: 'First Call',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-              // Prior Preview section
-              _buildPreviewSection(),
+                // Prior Preview section
+                _buildPreviewSection(),
 
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
+              ],
 
               // Venue section - show if prompt has a venue
               if (_prompt!.venue != null) ...[

@@ -76,7 +76,7 @@ class VenueCodeField extends StatelessWidget {
                 }
               },
               cupertino: (_, __) => CupertinoTextFieldData(
-                placeholder: 'Invitation code',
+                placeholder: 'Invite code',
                 placeholderStyle: TextStyle(
                   color: venyuTheme.disabledText,
                   fontSize: 36,
@@ -87,7 +87,7 @@ class VenueCodeField extends StatelessWidget {
               ),
               material: (_, __) => MaterialTextFieldData(
                 decoration: InputDecoration(
-                  hintText: 'Enter invite code',
+                  hintText: 'Invite code',
                   hintStyle: TextStyle(
                     color: venyuTheme.disabledText,
                     fontSize: 36,

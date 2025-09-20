@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/app_text_styles.dart';
@@ -81,7 +82,7 @@ class PromptCardSection extends StatelessWidget {
             _buildOnlineForRow(context, isPro),
 
             // Upgrade prompt for free users
-            if (!isPro && prompt!.status == PromptStatus.approved) ...[
+            if (AppConfig.showPro && !isPro && prompt!.status == PromptStatus.approved) ...[
               const SizedBox(height: 16),
               UpgradePromptWidget(
                 title: 'Extend your card visibility',
@@ -161,7 +162,7 @@ class PromptCardSection extends StatelessWidget {
       // For approved prompts, calculate days left using expires_at - reviewed_at
       if (prompt!.expiresAt != null && prompt!.reviewedAt != null) {
         final daysLeft = prompt!.expiresAt!.difference(prompt!.reviewedAt!).inDays;
-        final maxDays = isPro ? 10 : 3;
+        final maxDays = isPro ? 30 : 10;
 
         if (daysLeft > 0) {
           value = '$maxDays days ($daysLeft ${daysLeft == 1 ? 'day' : 'days'} left)';

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../core/config/app_config.dart';
 import '../core/utils/app_logger.dart';
 import '../models/models.dart';
 import 'auth_service.dart';
@@ -175,7 +176,7 @@ class ProfileService extends ChangeNotifier {
       
       // Check RevenueCat for subscription status as fallback
       // This handles cases where webhook hasn't updated database yet
-      if (_currentProfile != null && !(_currentProfile!.isPro)) {
+      if (AppConfig.showPro && _currentProfile != null && !(_currentProfile!.isPro)) {
         AppLogger.debug('Checking RevenueCat for subscription status...', context: 'ProfileService');
         
         try {

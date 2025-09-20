@@ -22,6 +22,9 @@ class AppConfig {
   /// App metadata
   static const String appName = 'Venyu';
   static const String appVersion = '1.0.0';
+
+  /// Feature flags
+  static const bool showPro = false;
   
   /// Validate all configuration on app startup
   static bool validateConfiguration() {

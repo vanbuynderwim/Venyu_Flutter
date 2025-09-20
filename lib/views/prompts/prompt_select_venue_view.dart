@@ -9,9 +9,11 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/sub_title.dart';
 import '../../widgets/common/radar_background_overlay.dart';
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_modifiers.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/helpers/prompt_submission_helper.dart';
+import '../../mixins/error_handling_mixin.dart';
 import '../venues/venue_item_view.dart';
 import 'prompt_settings_view.dart';
 
@@ -45,7 +47,7 @@ class PromptSelectVenueView extends StatefulWidget {
   State<PromptSelectVenueView> createState() => _PromptSelectVenueViewState();
 }
 
-class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
+class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with ErrorHandlingMixin {
   Venue? _selectedVenue;
 
   @override
@@ -57,22 +59,44 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
     }
   }
 
-  void _handleNext() {
-    // Navigate to first call view with selected venue
-    Navigator.push(
-      context,
-      platformPageRoute(
-        context: context,
-        builder: (context) => PromptSettingsView(
-          interactionType: widget.interactionType,
-          promptLabel: widget.promptLabel,
-          selectedVenue: _selectedVenue,
-          existingPrompt: widget.existingPrompt,
-          isFromPrompts: widget.isFromPrompts,
-          onCloseModal: widget.onCloseModal,
+  Future<void> _handleNext() async {
+    if (AppConfig.showPro) {
+      // If Pro features are enabled, navigate to settings view
+      Navigator.push(
+        context,
+        platformPageRoute(
+          context: context,
+          builder: (context) => PromptSettingsView(
+            interactionType: widget.interactionType,
+            promptLabel: widget.promptLabel,
+            selectedVenue: _selectedVenue,
+            existingPrompt: widget.existingPrompt,
+            isFromPrompts: widget.isFromPrompts,
+            onCloseModal: widget.onCloseModal,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      // If Pro features are disabled, submit directly
+      await executeWithLoading(
+        operation: () async {
+          await PromptSubmissionHelper.submitPrompt(
+            context: context,
+            interactionType: widget.interactionType,
+            promptLabel: widget.promptLabel,
+            promptId: widget.existingPrompt?.promptID,
+            venueId: _selectedVenue?.id,
+            withPreview: false, // First Call is disabled when showPro is false
+            isFromPrompts: widget.isFromPrompts,
+            onCloseModal: widget.onCloseModal,
+          );
+        },
+        useProcessingState: true,
+        showSuccessToast: false, // Don't show toast as we're navigating
+        showErrorToast: true,
+        errorMessage: 'Failed to submit prompt',
+      );
+    }
   }
 
   @override
@@ -193,9 +217,10 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     child: ActionButton(
-                      label: 'Next',
+                      label: AppConfig.showPro ? 'Next' : 'Submit',
                       onInvertedBackground: true,
                       onPressed: _handleNext,
+                      isLoading: isProcessing,
                     ),
                   ),
 

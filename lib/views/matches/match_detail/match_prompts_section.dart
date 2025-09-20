@@ -24,13 +24,13 @@ import '../match_overview_header.dart';
 class MatchPromptsSection extends StatelessWidget {
   final Match match;
   final Profile currentProfile;
-  final bool? isPro;
+  final bool? shouldBlur;
 
   const MatchPromptsSection({
     super.key,
     required this.match,
     required this.currentProfile,
-    this.isPro,
+    this.shouldBlur,
   });
 
   @override
@@ -54,7 +54,7 @@ class MatchPromptsSection extends StatelessWidget {
         MatchOverviewHeader(
           match: match,
           currentProfile: currentProfile,
-          isPro: isPro,
+          shouldBlur: shouldBlur,
         ),
         
         // Prompt Cards - no spacing between cards in shared view

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../models/enums/action_button_type.dart';
@@ -13,6 +14,7 @@ import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/visual_icon_widget.dart';
 import '../base/base_form_view.dart';
 import '../subscription/paywall_view.dart';
+import 'registration_complete_view.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// A form screen for enabling notification permissions during registration.
@@ -132,13 +134,24 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
     // If this is the last step in registration wizard, complete registration
     if (widget.registrationWizard) {
       AppLogger.success('Registration wizard completed!', context: 'EditNotificationsView');
-      // Navigate to paywall before completing registration
-      Navigator.of(context).push(
-        platformPageRoute(
-          context: context,
-          builder: (context) => const PaywallView(registrationWizard: true),
-        ),
-      );
+
+      if (AppConfig.showPro) {
+        // Navigate to paywall before completing registration if Pro features are enabled
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const PaywallView(registrationWizard: true),
+          ),
+        );
+      } else {
+        // Skip paywall and go directly to registration complete if Pro features are disabled
+        Navigator.of(context).pushReplacement(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const RegistrationCompleteView(),
+          ),
+        );
+      }
     } else {
       // If not in wizard mode, just pop back
       Navigator.of(context).pop();

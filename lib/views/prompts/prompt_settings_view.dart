@@ -3,14 +3,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../models/models.dart';
 import '../../models/venue.dart';
-import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/helpers/prompt_submission_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
-import 'prompt_finish_view.dart';
 
 /// Prompt First Call configuration view
 ///
@@ -42,14 +41,12 @@ class PromptSettingsView extends StatefulWidget {
 }
 
 class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandlingMixin {
-  late final ContentManager _contentManager;
   bool _withPreview = false;
   bool _isProcessing = false;
 
   @override
   void initState() {
     super.initState();
-    _contentManager = ContentManager.shared;
 
     // If editing existing prompt, use its preview setting
     if (widget.existingPrompt != null) {
@@ -63,28 +60,16 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
 
     await executeWithLoading(
       operation: () async {
-        // Call upsertPrompt with all configurations
-        await _contentManager.upsertPrompt(
-          widget.existingPrompt?.promptID,
-          widget.interactionType,
-          widget.promptLabel,
+        await PromptSubmissionHelper.submitPrompt(
+          context: context,
+          interactionType: widget.interactionType,
+          promptLabel: widget.promptLabel,
+          promptId: widget.existingPrompt?.promptID,
           venueId: widget.selectedVenue?.id,
           withPreview: _withPreview,
+          isFromPrompts: widget.isFromPrompts,
+          onCloseModal: widget.onCloseModal,
         );
-
-        // Navigate to finish view
-        if (mounted) {
-          Navigator.push(
-            context,
-            platformPageRoute(
-              context: context,
-              builder: (context) => PromptFinishView(
-                isFromPrompts: widget.isFromPrompts,
-                onCloseModal: widget.onCloseModal,
-              ),
-            ),
-          );
-        }
       },
       useProcessingState: true,
       showSuccessToast: false, // Don't show success toast as we're navigating away

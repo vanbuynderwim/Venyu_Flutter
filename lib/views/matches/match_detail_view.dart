@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/utils/url_helper.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
@@ -317,7 +318,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     final currentProfile = ProfileService.shared.currentProfile;
     final isPro = currentProfile?.isPro ?? false;
     final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
-    final shouldHideBottomSection = !isPro && connectionsLimitReached;
+    final shouldHideBottomSection = AppConfig.showPro && !isPro && connectionsLimitReached;
     
     return AppScaffold(
       appBar: PlatformAppBar(
@@ -392,7 +393,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     final currentProfile = ProfileService.shared.currentProfile;
     final isPro = currentProfile?.isPro ?? false;
     final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
-    final shouldShowLimitedView = !isPro && connectionsLimitReached && !_match!.isConnected && _match!.response == null;
+    final shouldShowLimitedView = AppConfig.showPro && !isPro && connectionsLimitReached && !_match!.isConnected && _match!.response == null;
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -404,12 +405,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               avatarSize: 80.0,
               isEditable: false,
               isConnection: _match!.isConnected,
-              isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
+              shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               onAvatarTap: _match!.profile_1.avatarID != null
                   ? () {
                       final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
                       final isConnection = _match!.isConnected;
-                      if (isPro || isConnection) {
+                      if (!AppConfig.showPro || isPro || isConnection) {
                         _viewMatchAvatar(context);
                       } else {
                         _showPaywallForAvatar(context);
@@ -462,7 +463,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
-                isPro: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
+                shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               ),
               const SizedBox(height: 16),
             ],
@@ -551,7 +552,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     final isConnection = _match!.isConnected;
     
     // Show personal matches if user is Pro OR if they're already connected
-    if (isPro || isConnection) {
+    if (!AppConfig.showPro || isPro || isConnection) {
       // Show actual personal matches for Pro users or connections
       return MatchTagsSection(tagGroups: _match!.personalTagGroups);
     } else {

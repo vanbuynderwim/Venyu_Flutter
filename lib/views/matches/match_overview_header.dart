@@ -23,14 +23,14 @@ class MatchOverviewHeader extends StatelessWidget {
   final Profile currentProfile;
   
   /// Whether the user has Pro subscription or is connected with this match
-  final bool? isPro;
+  final bool? shouldBlur;
 
   /// Creates a [MatchOverviewHeader] widget.
   const MatchOverviewHeader({
     super.key,
     required this.match,
     required this.currentProfile,
-    this.isPro,
+    this.shouldBlur,
   });
 
   @override
@@ -110,7 +110,7 @@ class MatchOverviewHeader extends StatelessWidget {
                 child: AvatarView(
                   avatarId: match.profile_1.avatarID,
                   size: 40,
-                  shouldBlur: isPro == false,
+                  shouldBlur: shouldBlur == false,
                 ),
               ),
             ),

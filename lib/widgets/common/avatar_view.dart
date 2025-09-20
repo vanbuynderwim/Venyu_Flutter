@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:app/core/config/app_config.dart';
 import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -225,7 +226,7 @@ class _AvatarViewState extends State<AvatarView> {
                       shape: BoxShape.circle,
                       color: Colors.white.withValues(alpha: 0.3),
                     ),
-                    child: widget.size > 70 
+                    child: (AppConfig.showPro && widget.size > 70)
                         ? Center(
                             child: Container(
                               width: widget.size * 0.35,

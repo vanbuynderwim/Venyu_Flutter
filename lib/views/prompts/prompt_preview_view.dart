@@ -4,17 +4,17 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../models/models.dart';
 import '../../models/venue.dart';
 import '../../mixins/error_handling_mixin.dart';
-import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/prompts/prompt_display_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/config/app_config.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/helpers/prompt_submission_helper.dart';
 import 'prompt_select_venue_view.dart';
 import 'prompt_settings_view.dart';
-import 'prompt_finish_view.dart';
 
 /// Prompt preview view - final step before publishing prompt
 ///
@@ -46,7 +46,6 @@ class PromptPreviewView extends StatefulWidget {
 }
 
 class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlingMixin {
-  late final ContentManager _contentManager;
   late final VenueManager _venueManager;
 
   // State
@@ -57,7 +56,6 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
   @override
   void initState() {
     super.initState();
-    _contentManager = ContentManager.shared;
     _venueManager = VenueManager.shared;
 
     // Fetch venues to determine next step options
@@ -87,28 +85,16 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
 
     await executeWithLoading(
       operation: () async {
-        // Call upsertPrompt to update the existing prompt
-        await _contentManager.upsertPrompt(
-          widget.existingPrompt?.promptID,
-          widget.interactionType,
-          widget.promptLabel,
+        await PromptSubmissionHelper.submitPrompt(
+          context: context,
+          interactionType: widget.interactionType,
+          promptLabel: widget.promptLabel,
+          promptId: widget.existingPrompt?.promptID,
           venueId: widget.venueId,
           withPreview: widget.existingPrompt?.withPreview ?? false,
+          isFromPrompts: widget.isFromPrompts,
+          onCloseModal: widget.onCloseModal,
         );
-
-        // Navigate to finish view
-        if (mounted) {
-          Navigator.push(
-            context,
-            platformPageRoute(
-              context: context,
-              builder: (context) => PromptFinishView(
-                isFromPrompts: widget.isFromPrompts,
-                onCloseModal: widget.onCloseModal,
-              ),
-            ),
-          );
-        }
       },
       useProcessingState: true,
       showSuccessToast: false, // Don't show success toast as we're navigating away
@@ -172,7 +158,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                             label: widget.existingPrompt != null ? 'Submit' : 'Next',
                             onInvertedBackground: true,
                             isLoading: _isProcessing,
-                            onPressed: _venuesLoaded && !_isProcessing ? () {
+                            onPressed: _venuesLoaded && !_isProcessing ? () async {
                               // If editing existing prompt, submit directly
                               if (widget.existingPrompt != null) {
                                 _handleDirectSubmit();
@@ -198,20 +184,43 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                   ),
                                 );
                               } else {
-                                // Navigate to settings view
-                                Navigator.push(
-                                  context,
-                                  platformPageRoute(
-                                    context: context,
-                                    builder: (context) => PromptSettingsView(
-                                      interactionType: widget.interactionType,
-                                      promptLabel: widget.promptLabel,
-                                      existingPrompt: widget.existingPrompt,
-                                      isFromPrompts: widget.isFromPrompts,
-                                      onCloseModal: widget.onCloseModal,
+                                // No venues available
+                                if (AppConfig.showPro) {
+                                  // Navigate to settings view if Pro features are enabled
+                                  Navigator.push(
+                                    context,
+                                    platformPageRoute(
+                                      context: context,
+                                      builder: (context) => PromptSettingsView(
+                                        interactionType: widget.interactionType,
+                                        promptLabel: widget.promptLabel,
+                                        existingPrompt: widget.existingPrompt,
+                                        isFromPrompts: widget.isFromPrompts,
+                                        onCloseModal: widget.onCloseModal,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  // Submit directly if Pro features are disabled
+                                  await executeWithLoading(
+                                    operation: () async {
+                                      await PromptSubmissionHelper.submitPrompt(
+                                        context: context,
+                                        interactionType: widget.interactionType,
+                                        promptLabel: widget.promptLabel,
+                                        promptId: widget.existingPrompt?.promptID,
+                                        venueId: null,
+                                        withPreview: false, // First Call is disabled when showPro is false
+                                        isFromPrompts: widget.isFromPrompts,
+                                        onCloseModal: widget.onCloseModal,
+                                      );
+                                    },
+                                    useProcessingState: true,
+                                    showSuccessToast: false,
+                                    showErrorToast: true,
+                                    errorMessage: 'Failed to submit prompt',
+                                  );
+                                }
                               }
                             } : null,
                           ),
