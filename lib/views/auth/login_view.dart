@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../core/utils/url_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/login_button_type.dart';
 import '../../widgets/buttons/login_button.dart';
@@ -194,15 +195,24 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                 
                 const Spacer(flex: 1),
                 
-                // Legal text
+                // Legal text - clickable
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24),
-                  child: Text(
-                    'By signing in, you agree to our Terms of Service and Privacy Policy',
-                    style: AppTextStyles.footnote.copyWith(
-                      color: venyuTheme.secondaryText,
+                  child: GestureDetector(
+                    onTap: () {
+                      UrlHelper.openWebsite(
+                        context,
+                        'https://app.getvenyu.com/functions/v1/terms',
+                      );
+                    },
+                    child: Text(
+                      'By signing in, you agree to our Terms of Service and Privacy Policy',
+                      style: AppTextStyles.footnote.copyWith(
+                        color: venyuTheme.secondaryText,
+                        decoration: TextDecoration.underline,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ],

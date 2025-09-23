@@ -79,7 +79,7 @@ class InviteScreeningView extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        'Welcome to Venyu!',
+                        'Welcome to venyu 🤝',
                         style: AppTextStyles.title1.copyWith(
                           color: venyuTheme.darkText,
                           fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class InviteScreeningView extends StatelessWidget {
                       const SizedBox(height: 8),
 
                       Text(
-                         'An invite-only network for entrepreneurs who want to grow through trust, quality, and real introductions.',
+                         'The invite-only network for entrepreneurs who want to grow through trust, quality, and real introductions.',
                         style: AppTextStyles.body.copyWith(
                           fontWeight: FontWeight.w400,
                           color: venyuTheme.darkText,
