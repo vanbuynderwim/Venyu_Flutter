@@ -67,7 +67,6 @@ class AppTextStyles {
     fontSize: 28.0,
     fontWeight: AppFonts.toFontWeight(AppFonts.regular),
     fontFamily: AppFonts.defaultFontFamily,
-    height: 1.25,
   );
 
   /// Title 2 - 22.0pt Regular

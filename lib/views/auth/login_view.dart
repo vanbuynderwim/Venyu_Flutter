@@ -15,11 +15,16 @@ import '../../widgets/common/radar_background.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 
 /// LoginView - Initial authentication screen
-/// 
+///
 /// Displays the Venyu branding with radar background and
 /// authentication options for LinkedIn and Apple sign-in.
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  final bool hasInviteCode;
+
+  const LoginView({
+    super.key,
+    this.hasInviteCode = false,
+  });
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -98,8 +103,8 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                 Column(
                   children: [
                     SizedBox(
-                      width: 160,
-                      height: 160,
+                      width: 180,
+                      height: 180,
                       child: Center(
                         child: Image.asset(
                           'assets/images/visuals/logo.png',

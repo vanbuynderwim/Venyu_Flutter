@@ -288,6 +288,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             message: 'No matches yet',
             description: 'When people match with your card, their profiles will appear here.',
             iconName: 'nomatches',
+            height: 200,
           ),
         );
       } else {

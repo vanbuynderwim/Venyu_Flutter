@@ -17,6 +17,7 @@ import 'services/supabase_manager.dart';
 import 'services/notification_service.dart';
 import 'services/revenuecat_service.dart';
 import 'views/index.dart';
+import 'views/auth/invite_screening_view.dart';
 
 void main() async {
   // Critical: Preserve splash screen immediately to prevent white screen
@@ -223,8 +224,8 @@ class _AuthFlowState extends State<AuthFlow> {
             );
             
           case AuthenticationState.unauthenticated:
-            AppLogger.ui('Showing login view', context: 'AuthFlow');
-            return const LoginView();
+            AppLogger.ui('Showing invite screening view', context: 'AuthFlow');
+            return const InviteScreeningView();
             
           case AuthenticationState.registered:
             AppLogger.ui('Showing main view', context: 'AuthFlow');
