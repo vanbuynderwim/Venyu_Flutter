@@ -84,8 +84,42 @@ abstract class BaseSupabaseManager {
     }
   }
 
+  /// Execute a request without authentication requirements.
+  ///
+  /// This method provides consistent error handling for anonymous/public
+  /// Supabase requests that don't require authentication.
+  Future<T> executeAnonymousRequest<T>(Future<T> Function() request) async {
+    if (!_isInitialized) {
+      throw Exception('SupabaseManager must be initialized before making requests');
+    }
+
+    try {
+      final result = await request();
+      return result;
+    } on PostgrestException catch (postgrestError) {
+      AppLogger.database('Database error: ${postgrestError.message}', context: 'BaseSupabaseManager');
+      AppLogger.database('Details: ${postgrestError.details}', context: 'BaseSupabaseManager');
+      AppLogger.database('Hint: ${postgrestError.hint}', context: 'BaseSupabaseManager');
+      AppLogger.database('Code: ${postgrestError.code}', context: 'BaseSupabaseManager');
+
+      // Track database errors with full context
+      _trackError('Database Error', postgrestError, StackTrace.current, {
+        'details': postgrestError.details,
+        'hint': postgrestError.hint,
+        'code': postgrestError.code,
+      });
+      rethrow;
+    } catch (error, stackTrace) {
+      AppLogger.error('Unexpected error in anonymous request', error: error, context: 'BaseSupabaseManager');
+
+      // Track any other unexpected errors
+      _trackError('Unexpected Anonymous Request Error', error, stackTrace);
+      rethrow;
+    }
+  }
+
   /// Execute a request with proper authentication and error handling.
-  /// 
+  ///
   /// This method provides consistent error handling and authentication
   /// for all Supabase requests across all domain managers.
   Future<T> executeAuthenticatedRequest<T>(Future<T> Function() request) async {

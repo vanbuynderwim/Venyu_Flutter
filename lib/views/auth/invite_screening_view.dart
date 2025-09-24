@@ -7,6 +7,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import 'login_view.dart';
+import 'waitlist_view.dart';
 
 /// Invite screening view - First screen for unauthenticated users
 ///
@@ -27,6 +28,16 @@ class InviteScreeningView extends StatelessWidget {
       platformPageRoute(
         context: context,
         builder: (context) => LoginView(hasInviteCode: hasInviteCode),
+      ),
+    );
+  }
+
+  void _navigateToWaitlist(BuildContext context) {
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => const WaitlistView(),
       ),
     );
   }
@@ -117,7 +128,7 @@ class InviteScreeningView extends StatelessWidget {
                       ActionButton(
                         label: "I don't have an invite code",
                         type: ActionButtonType.secondary,
-                        onPressed: () => _navigateToLogin(context, false),
+                        onPressed: () => _navigateToWaitlist(context),
                       ),
                     ],
                   ),

@@ -1,0 +1,197 @@
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_fonts.dart';
+import '../../core/theme/app_input_styles.dart';
+import '../../services/supabase_managers/public_manager.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/common/app_text_field.dart';
+import '../base/base_form_view.dart';
+
+/// WaitlistView - Waitlist signup screen for users without invite codes
+///
+/// This view allows users to join the waitlist by providing their name, company and email.
+/// Features the same visual styling as login_view with radar background and
+/// Venyu branding, but focuses on waitlist registration functionality.
+class WaitlistView extends BaseFormView {
+  const WaitlistView({super.key}) : super(title: '');
+
+  @override
+  BaseFormViewState<BaseFormView> createState() => _WaitlistViewState();
+}
+
+class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
+  final _nameController = TextEditingController();
+  final _companyController = TextEditingController();
+  final _emailController = TextEditingController();
+  bool _isFormValid = false;
+
+  @override
+  void initializeForm() {
+    super.initializeForm();
+    _nameController.addListener(_validateForm);
+    _companyController.addListener(_validateForm);
+    _emailController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _companyController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  /// Validate all form fields
+  void _validateForm() {
+    setState(() {
+      final nameValid = _nameController.text.trim().isNotEmpty;
+      final companyValid = _companyController.text.trim().isNotEmpty;
+      final emailValid = InputValidation.validateEmail(_emailController.text.trim()) == null;
+      _isFormValid = nameValid && companyValid && emailValid;
+    });
+  }
+
+  /// Check if form can be saved
+  @override
+  bool get canSave => _isFormValid;
+
+  /// Perform waitlist submission
+  @override
+  Future<void> performSave() async {
+    try {
+      await PublicManager.shared.joinWaitlist(
+        name: _nameController.text.trim(),
+        company: _companyController.text.trim(),
+        email: _emailController.text.trim(),
+      );
+    } on PostgrestException catch (e) {
+      // Handle specific database errors
+      String message = e.message;
+      if (e.code == 'validation_error') {
+        // Use the specific validation error message
+        throw Exception(message);
+      } else if (e.message.contains('duplicate key') || e.message.contains('already exists')) {
+        throw Exception('This email is already on the waitlist');
+      } else {
+        throw Exception('Failed to join waitlist: $message');
+      }
+    } catch (e) {
+      // Handle any other errors
+      throw Exception('Failed to join waitlist. Please try again.');
+    }
+  }
+
+  /// Get success message
+  @override
+  String getSuccessMessage() {
+    return 'You\'ve been added to the waitlist! We\'ll notify you when we\'re ready.';
+  }
+
+  /// Get error message
+  @override
+  String getErrorMessage() {
+    return 'Failed to join waitlist. Please try again.';
+  }
+
+  /// Override navigation to go back to invite screening
+  @override
+  void navigateAfterSave() {
+    Navigator.pop(context);
+  }
+
+
+  @override
+  Widget buildFormContent(BuildContext context) {
+    final venyuTheme = context.venyuTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title and description
+        Center(
+          child: Column(
+            children: [
+              Text(
+                'Join the waitlist',
+                style: AppTextStyles.title1.copyWith(
+                  color: venyuTheme.darkText,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: AppFonts.graphie,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Venyu is invite-only. Join the waitlist and get invited when new spots are open.',
+                style: AppTextStyles.body.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: venyuTheme.darkText,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 24),
+
+        // Name field
+        AppTextField(
+          controller: _nameController,
+          hintText: 'Your full name',
+          style: AppTextFieldStyle.large,
+          state: AppTextFieldState.normal,
+          autofillHints: const [AutofillHints.name],
+          keyboardType: TextInputType.name,
+          textInputAction: TextInputAction.next,
+          autofocus: true,
+          textCapitalization: TextCapitalization.words,
+        ),
+        const SizedBox(height: 8),
+
+        // Company field
+        AppTextField(
+          controller: _companyController,
+          hintText: 'Your company name',
+          style: AppTextFieldStyle.large,
+          state: AppTextFieldState.normal,
+          autofillHints: const [AutofillHints.organizationName],
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.words,
+        ),
+        const SizedBox(height: 8),
+
+        // Email field
+        AppTextField(
+          controller: _emailController,
+          hintText: 'Your email address',
+          style: AppTextFieldStyle.large,
+          state: AppTextFieldState.normal,
+          autofillHints: const [AutofillHints.email],
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.none,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: SafeArea(
+        top: false,
+        child: ActionButton(
+          label: label ?? 'Join waitlist',
+          onPressed: !canSave ? null : (onPressed ?? handleSave),
+          isLoading: isProcessing,
+        ),
+      ),
+    );
+  }
+}
