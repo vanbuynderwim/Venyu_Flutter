@@ -252,10 +252,81 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<void> deleteAccount() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Deleting user account', context: 'ProfileManager');
-      
+
       await client.rpc('delete_profile');
-      
+
       AppLogger.success('User account deletion initiated', context: 'ProfileManager');
+    });
+  }
+
+  /// Get current user's invite codes
+  ///
+  /// Fetches all invite codes belonging to the authenticated user,
+  /// including their redemption and sending status.
+  Future<List<Invite>> getMyInviteCodes() async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching user invite codes', context: 'ProfileManager');
+
+      try {
+        final response = await client.rpc('get_my_invite_codes');
+
+        if (response == null) {
+          AppLogger.info('No invite codes found', context: 'ProfileManager');
+          return <Invite>[];
+        }
+
+        final List<dynamic> data = response as List<dynamic>;
+        final invites = data.map((json) => Invite.fromJson(json as Map<String, dynamic>)).toList();
+
+        AppLogger.success('Fetched ${invites.length} invite codes', context: 'ProfileManager');
+        return invites;
+      } catch (error) {
+        AppLogger.error('Failed to fetch invite codes', error: error, context: 'ProfileManager');
+        rethrow;
+      }
+    });
+  }
+
+  /// Redeem an invite code
+  ///
+  /// This method validates and redeems an 8-character invite code.
+  /// The code can be for venues, organizations, or other purposes.
+  /// If it's a venue code, the user will automatically join that venue.
+  ///
+  /// Throws:
+  /// - Exception if code is invalid, expired, or already used
+  /// - Exception if code format is incorrect (not 8 characters)
+  Future<void> redeemInviteCode(String code) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Attempting to redeem invite code: ${code.substring(0, 3)}***', context: 'ProfileManager');
+
+      try {
+        // Call the redeem_invite_code RPC function
+        await client.rpc(
+          'redeem_invite_code',
+          params: {'p_code': code.toUpperCase()},
+        );
+
+        AppLogger.success('Successfully redeemed invite code', context: 'ProfileManager');
+      } catch (error) {
+        AppLogger.error('Failed to redeem invite code', error: error, context: 'ProfileManager');
+
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+
+        if (errorMessage.contains('Invalid or expired code')) {
+          throw Exception('This code is invalid or has expired. Please check your code and try again.');
+        } else if (errorMessage.contains('Code is required')) {
+          throw Exception('Please enter an invite code.');
+        } else if (errorMessage.contains('exactly 8 characters')) {
+          throw Exception('The code must be exactly 8 characters long.');
+        }
+
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
     });
   }
   

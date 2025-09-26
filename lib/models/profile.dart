@@ -59,6 +59,10 @@ class Profile {
   /// When the user completed the registration process.
   /// Null indicates an incomplete registration.
   final DateTime? registeredAt;
+
+  /// When the user redeemed their invite code.
+  /// Null indicates no invite code has been redeemed yet.
+  final DateTime? redeemedAt;
   
   /// Distance to this profile (in location-based queries).
   /// Used for proximity-based matching and networking.
@@ -100,6 +104,7 @@ class Profile {
     this.avatarID,
     this.timestamp,
     this.registeredAt,
+    this.redeemedAt,
     this.distance,
     required this.isSuperAdmin,
     this.newsletterSubscribed,
@@ -127,6 +132,7 @@ class Profile {
       avatarID: json['avatar_id'] as String?,
       timestamp: json['timestamp'] != null ? DateTime.parse(json['timestamp']) : null,
       registeredAt: json['registered_at'] != null ? DateTime.parse(json['registered_at']) : null,
+      redeemedAt: json['redeemed_at'] != null ? DateTime.parse(json['redeemed_at']) : null,
       distance: json['distance']?.toDouble(),
       isSuperAdmin: json['is_super_admin'] as bool? ?? false,
       newsletterSubscribed: json['newsletter_subscribed'] as bool?,
@@ -157,6 +163,7 @@ class Profile {
       'avatar_id': avatarID,
       'timestamp': timestamp?.toIso8601String(),
       'registered_at': registeredAt?.toIso8601String(),
+      'redeemed_at': redeemedAt?.toIso8601String(),
       'distance': distance,
       'is_super_admin': isSuperAdmin,
       'newsletter_subscribed': newsletterSubscribed,

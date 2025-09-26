@@ -7,6 +7,7 @@ export 'tag.dart';
 export 'tag_group.dart';
 export 'badge.dart';
 export 'language.dart';
+export 'invite.dart';
 export 'requests/paginated_request.dart';
 
 // Enums - Core functionality

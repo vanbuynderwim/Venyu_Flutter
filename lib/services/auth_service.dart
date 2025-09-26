@@ -13,16 +13,19 @@ import 'revenuecat_service.dart';
 enum AuthenticationState {
   /// Initial state while checking for existing sessions.
   loading,
-  
+
   /// No valid authentication session exists.
   unauthenticated,
-  
+
   /// User is authenticated but profile setup is incomplete.
   authenticated,
-  
+
+  /// User is authenticated and has redeemed an invite code but hasn't completed registration.
+  redeemed,
+
   /// User is authenticated and has completed profile registration.
   registered,
-  
+
   /// An authentication error has occurred.
   error
 }

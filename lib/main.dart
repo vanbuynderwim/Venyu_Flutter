@@ -18,6 +18,7 @@ import 'services/notification_service.dart';
 import 'services/revenuecat_service.dart';
 import 'views/index.dart';
 import 'views/auth/invite_screening_view.dart';
+import 'views/auth/redeem_invite_view.dart';
 
 void main() async {
   // Critical: Preserve splash screen immediately to prevent white screen
@@ -164,11 +165,15 @@ class _AuthFlowState extends State<AuthFlow> {
       if (profileService.currentProfile == null) {
         return AuthenticationState.loading;
       }
-      
+
       // Check if profile is registered
       if (profileService.isRegistered) {
         return AuthenticationState.registered;
+      } else if (profileService.currentProfile?.redeemedAt != null) {
+        // User has redeemed an invite code but hasn't completed registration
+        return AuthenticationState.redeemed;
       } else {
+        // User is authenticated but hasn't redeemed an invite code yet
         return AuthenticationState.authenticated;
       }
     }
@@ -232,9 +237,13 @@ class _AuthFlowState extends State<AuthFlow> {
             return const MainView();
 
           case AuthenticationState.authenticated:
+            AppLogger.ui('Showing redeem invite view', context: 'AuthFlow');
+            return const RedeemInviteView();
+
+          case AuthenticationState.redeemed:
             AppLogger.ui('Showing onboard view', context: 'AuthFlow');
             return const OnboardView();
-            
+
           case AuthenticationState.error:
             AppLogger.ui('Showing error screen', context: 'AuthFlow');
             return PlatformScaffold(
