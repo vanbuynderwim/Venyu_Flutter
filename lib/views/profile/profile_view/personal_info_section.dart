@@ -83,6 +83,7 @@ class PersonalInfoSection extends StatelessWidget {
               isButton: true,
               withDescription: true,
               iconColor: tagGroup.color,
+              showTagMotivation: true,
               onSelect: () {
                 onTagGroupTap(tagGroup);
               },

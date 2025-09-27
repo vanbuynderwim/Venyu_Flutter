@@ -86,7 +86,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     if (_showOTPField) {
       return '';
     }
-    return "We'll use this email address to notify you about new matches and introduce you to your connections";
+    return "This email address will be used for all app notifications, including new matches, introductions and other information.";
   }
 
   /// Check if form can be saved
@@ -311,7 +311,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Text(
                     _emailHelperText,
-                    style: AppTextStyles.caption1.copyWith(
+                    style: AppTextStyles.footnote.copyWith(
                       color: context.venyuTheme.secondaryText,
                     ),
                   ),
@@ -329,7 +329,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
               children: [
                 Expanded(
                   child: Text(
-                    'VENYU NEWSLETTER',
+                    'SUBSCRIBE FOR VENYU UPDATES',
                     style: AppTextStyles.caption1.copyWith(
                       letterSpacing: 0.5,
                       color: context.venyuTheme.secondaryText,

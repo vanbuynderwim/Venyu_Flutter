@@ -69,6 +69,9 @@ class ProfileService extends ChangeNotifier {
   
   /// Whether the user has completed the registration process.
   bool get isRegistered => _currentProfile?.registeredAt != null;
+
+  /// Whether the user has redeemed an invite code.
+  bool get isRedeemed => _currentProfile?.redeemedAt != null;
   
   /// Whether a profile operation is currently in progress.
   bool get isLoading => _isLoading;
@@ -242,6 +245,7 @@ class ProfileService extends ChangeNotifier {
     String? avatarID,
     DateTime? timestamp,
     DateTime? registeredAt,
+    DateTime? redeemedAt,
     double? distance,
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
@@ -269,6 +273,7 @@ class ProfileService extends ChangeNotifier {
       avatarID: avatarID,
       timestamp: timestamp,
       registeredAt: registeredAt,
+      redeemedAt: redeemedAt,
       distance: distance,
       isSuperAdmin: isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed,

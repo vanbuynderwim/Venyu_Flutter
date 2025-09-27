@@ -26,7 +26,10 @@ enum ProfileSections implements SectionType {
   
   /// User's venues and organizations.
   venues,
-  
+
+  /// User's invites and invitations.
+  invites,
+
   /// User's reviews and feedback from others (admin only).
   reviews;
 
@@ -43,6 +46,8 @@ enum ProfileSections implements SectionType {
         return 'Company';
       case ProfileSections.venues:
         return 'Venues';
+      case ProfileSections.invites:
+        return 'Invites';
       case ProfileSections.reviews:
         return 'Reviews';
     }
@@ -58,6 +63,8 @@ enum ProfileSections implements SectionType {
         return 'Company information';
       case ProfileSections.venues:
         return 'Events and organizations';
+      case ProfileSections.invites:
+        return 'Invites and invitations';
       case ProfileSections.reviews:
         return 'User reviews and feedback';
     }
@@ -73,6 +80,8 @@ enum ProfileSections implements SectionType {
         return 'company';
       case ProfileSections.venues:
         return 'venue';
+      case ProfileSections.invites:
+        return 'ticket';
       case ProfileSections.reviews:
         return 'verified';
     }

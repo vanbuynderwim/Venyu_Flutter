@@ -9,6 +9,7 @@ import '../../models/enums/edit_personal_info_type.dart';
 import '../../models/enums/edit_company_info_type.dart';
 import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
+import '../../models/invite.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
@@ -22,6 +23,7 @@ import 'profile_view/profile_section_button_bar.dart';
 import 'profile_view/personal_info_section.dart';
 import 'profile_view/company_info_section.dart';
 import 'profile_view/venues_section.dart';
+import 'profile_view/invites_section.dart';
 import 'profile_view/reviews_section.dart';
 import 'profile_view/profile_loading_header.dart';
 import 'edit_tag_group_view.dart';
@@ -61,6 +63,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   bool _personalTagGroupsLoading = false;
   bool _companyTagGroupsLoading = false;
   bool _hasVenues = false;
+  List<Invite>? _inviteCodes;
+  bool _inviteCodesLoading = false;
 
   @override
   void initState() {
@@ -142,11 +146,14 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                       setState(() {
                         _selectedSection = section;
                       });
-                      // Load tag groups when section is selected
+                      // Load data when section is selected
                       if (section == ProfileSections.personal && _personalTagGroups == null) {
                         _loadPersonalTagGroups();
                       } else if (section == ProfileSections.company && _companyTagGroups == null) {
                         _loadCompanyTagGroups();
+                      } else if (section == ProfileSections.invites) {
+                        // Always reload invite codes when switching to invites section
+                        _loadInviteCodes(forceRefresh: true);
                       }
                     },
                   ),
@@ -201,6 +208,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
             });
           },
         );
+      case ProfileSections.invites:
+        return InvitesSection(
+          inviteCodes: _inviteCodes,
+          inviteCodesLoading: _inviteCodesLoading,
+        );
       case ProfileSections.reviews:
         return const ReviewsSection();
     }
@@ -246,13 +258,40 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     });
     
     try {
-      // Refresh profile data from server when forced or when needed  
+      // Refresh profile data from server when forced or when needed
       final profileService = context.profileService;
       if (forceRefresh || profileService.currentProfile == null) {
         final refreshedProfile = await _profileManager.fetchUserProfile();
         ProfileService.shared.updateCurrentProfile(refreshedProfile);
       }
-      
+
+      // Force refresh section data if this is a forced refresh (pull-to-refresh)
+      if (forceRefresh) {
+        // Reset cached data to force reload
+        _personalTagGroups = null;
+        _companyTagGroups = null;
+        _inviteCodes = null;
+
+        // Reload current section data
+        switch (_selectedSection) {
+          case ProfileSections.personal:
+            _loadPersonalTagGroups();
+            break;
+          case ProfileSections.company:
+            _loadCompanyTagGroups();
+            break;
+          case ProfileSections.invites:
+            _loadInviteCodes(forceRefresh: true);
+            break;
+          case ProfileSections.venues:
+            // VenuesSection manages its own refresh
+            break;
+          case ProfileSections.reviews:
+            // ReviewsSection doesn't need refresh yet
+            break;
+        }
+      }
+
       setState(() {
         _isProfileLoading = false;
       });
@@ -291,7 +330,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   /// Loads company tag groups
   void _loadCompanyTagGroups() async {
     setState(() => _companyTagGroupsLoading = true);
-    
+
     await executeSilently(
       operation: () async {
         final tagGroups = await _contentManager.fetchTagGroups(CategoryType.company);
@@ -306,6 +345,32 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         safeSetState(() {
           _companyTagGroups = [];
           _companyTagGroupsLoading = false;
+        });
+      },
+    );
+  }
+
+  /// Loads invite codes
+  void _loadInviteCodes({bool forceRefresh = false}) async {
+    // Always reload if forceRefresh is true, or if we don't have data yet
+    if (!forceRefresh && _inviteCodes != null) return;
+
+    setState(() => _inviteCodesLoading = true);
+
+    await executeSilently(
+      operation: () async {
+        final inviteCodes = await _profileManager.getMyInviteCodes();
+        AppLogger.success('Loaded ${inviteCodes.length} invite codes', context: 'ProfileView');
+        safeSetState(() {
+          _inviteCodes = inviteCodes;
+          _inviteCodesLoading = false;
+        });
+      },
+      onError: (error) {
+        AppLogger.error('Error loading invite codes', error: error, context: 'ProfileView');
+        safeSetState(() {
+          _inviteCodes = [];
+          _inviteCodesLoading = false;
         });
       },
     );

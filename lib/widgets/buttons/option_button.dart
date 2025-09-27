@@ -178,8 +178,11 @@ class OptionButton extends StatefulWidget {
   /// Whether to use thick border selection instead of standard selection indicator. Defaults to false.
   final bool useBorderSelection;
 
+  /// Whether to show motivational tag when tag list is empty. Defaults to false.
+  final bool showTagMotivation;
+
   /// Creates an [OptionButton] widget.
-  /// 
+  ///
   /// The [option] parameter is required and contains the data to display.
   const OptionButton({
     super.key,
@@ -197,6 +200,7 @@ class OptionButton extends StatefulWidget {
     this.iconColor,
     this.withDescription = false,
     this.useBorderSelection = false,
+    this.showTagMotivation = false,
   });
 
   @override
@@ -243,14 +247,14 @@ class _OptionButtonState extends State<OptionButton> {
                     ),
                   ),
                 
-                // Tag list
+                // Tag list or motivational tag
                 if (widget.option.list != null && widget.option.list!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Wrap(
                       spacing: 4,
                       runSpacing: 4,
-                      children: widget.option.list!.map((tag) => 
+                      children: widget.option.list!.map((tag) =>
                         TagView(
                           id: tag.id,
                           label: tag.label,
@@ -260,6 +264,18 @@ class _OptionButtonState extends State<OptionButton> {
                           backgroundColor: venyuTheme.tagBackground,
                         ),
                       ).toList(),
+                    ),
+                  )
+                else if (widget.showTagMotivation && (widget.option.list == null || widget.option.list!.isEmpty))
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: TagView(
+                      id: 'motivation',
+                      label: 'Complete profile',
+                      emoji: '✨',
+                      fontSize: AppTextStyles.caption1,
+                      backgroundColor: venyuTheme.primary.withValues(alpha: 0.15),
+                      textColor: venyuTheme.primary,
                     ),
                   ),
               ],

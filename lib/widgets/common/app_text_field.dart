@@ -194,9 +194,7 @@ class AppTextField extends StatelessWidget {
         color: venyuTheme.cardBackground,
         borderRadius: BorderRadius.circular(_getCupertinoBorderRadius()),
         border: Border.all(
-          color: state == AppTextFieldState.error 
-            ? venyuTheme.error 
-            : state == AppTextFieldState.success
+          color: state == AppTextFieldState.success
               ? venyuTheme.success
               : state == AppTextFieldState.warning
                 ? venyuTheme.warning

@@ -144,6 +144,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             hintText: 'Website',
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.done,
+            textCapitalization: TextCapitalization.none,
             style: AppTextFieldStyle.large,
             state: _websiteTouched && !_websiteFormatIsValid
                 ? AppTextFieldState.error

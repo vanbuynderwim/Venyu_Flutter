@@ -12,6 +12,7 @@ class JoinVenueView extends BaseCodeEntryView {
         title: 'Join venue',
         subtitle: 'Enter the 8-character venue code to join and start networking.',
         buttonLabel: 'Join',
+        showCloseButton: true,
       );
 
   @override

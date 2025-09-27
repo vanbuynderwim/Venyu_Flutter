@@ -68,12 +68,6 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       // Initialize selected tags based on current state
       final selectedTags = updatedTagGroup.tags?.where((tag) => tag.isSelected == true).toList() ?? [];
       
-      // During onboarding, start with no tags selected
-      // For existing profile editing, ensure at least 1 tag is selected
-      if (!widget.registrationWizard && selectedTags.isEmpty && updatedTagGroup.tags != null && updatedTagGroup.tags!.isNotEmpty) {
-        selectedTags.add(updatedTagGroup.tags!.first);
-      }
-      
       setState(() {
         _currentTagGroup = updatedTagGroup;
         _selectedTags = List.from(selectedTags);

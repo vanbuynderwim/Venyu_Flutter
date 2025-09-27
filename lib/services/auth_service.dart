@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../core/config/app_config.dart';
 import '../core/utils/app_logger.dart';
 import 'supabase_managers/authentication_manager.dart';
 import 'supabase_managers/base_supabase_manager.dart';
@@ -359,18 +360,24 @@ class AuthService extends ChangeNotifier {
   
   /// Link RevenueCat user ID with Supabase user ID
   Future<void> _linkRevenueCatUser(String supabaseUserId) async {
+    // Only link RevenueCat if Pro features are enabled
+    if (!AppConfig.showPro) {
+      AppLogger.info('🚫 RevenueCat linking skipped - Pro features disabled in config', context: 'AuthService');
+      return;
+    }
+
     try {
       AppLogger.info('🔗 Linking RevenueCat user with Supabase ID: $supabaseUserId', context: 'AuthService');
       AppLogger.info('🔗 Current user email: ${currentUser?.email ?? 'NO EMAIL'}', context: 'AuthService');
       AppLogger.info('🔗 Current user metadata: ${currentUser?.userMetadata ?? 'NO METADATA'}', context: 'AuthService');
-      
+
       await RevenueCatService().setUserId(supabaseUserId);
-      
+
       AppLogger.success('✅ RevenueCat user linked successfully with ID: $supabaseUserId', context: 'AuthService');
-      
+
       // Update the database with the RevenueCat user ID
       await _updateRevenueCatUserIdInDatabase(supabaseUserId);
-      
+
     } catch (error) {
       AppLogger.warning('❌ Failed to link RevenueCat user: $error', context: 'AuthService');
       // Don't throw - this shouldn't block authentication
@@ -379,12 +386,17 @@ class AuthService extends ChangeNotifier {
   
   /// Update RevenueCat user ID in database using ProfileManager
   Future<void> _updateRevenueCatUserIdInDatabase(String supabaseUserId) async {
+    // Only update database if Pro features are enabled
+    if (!AppConfig.showPro) {
+      return;
+    }
+
     try {
       AppLogger.info('📝 Updating RevenueCat user ID in database via ProfileManager', context: 'AuthService');
-      
+
       final profileManager = ProfileManager.shared;
       await profileManager.updateRevenueCatAppUserId(supabaseUserId);
-      
+
       AppLogger.success('✅ Database updated with RevenueCat user ID via ProfileManager', context: 'AuthService');
     } catch (error) {
       AppLogger.warning('❌ Failed to update RevenueCat user ID in database: $error', context: 'AuthService');
@@ -394,6 +406,12 @@ class AuthService extends ChangeNotifier {
   
   /// Log out RevenueCat user
   Future<void> _logOutRevenueCatUser() async {
+    // Only log out RevenueCat if Pro features are enabled
+    if (!AppConfig.showPro) {
+      AppLogger.info('🚫 RevenueCat logout skipped - Pro features disabled in config', context: 'AuthService');
+      return;
+    }
+
     try {
       AppLogger.info('Logging out RevenueCat user', context: 'AuthService');
       await RevenueCatService().logOut();

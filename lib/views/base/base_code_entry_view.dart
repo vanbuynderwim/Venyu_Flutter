@@ -36,11 +36,15 @@ abstract class BaseCodeEntryView extends StatefulWidget {
   /// Label for the action button
   final String buttonLabel;
 
+  /// Whether to show a close button in the top right
+  final bool showCloseButton;
+
   const BaseCodeEntryView({
     super.key,
     required this.title,
     required this.subtitle,
     required this.buttonLabel,
+    this.showCloseButton = false,
   });
 }
 
@@ -278,6 +282,35 @@ abstract class BaseCodeEntryViewState<T extends BaseCodeEntryView> extends State
             bottom: true, // Respect bottom safe area
             child: Column(
               children: [
+                // Close button (optional)
+                if (widget.showCloseButton)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, right: 24),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: venyuTheme.cardBackground.withValues(alpha: 0.9),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: venyuTheme.borderColor,
+                              width: AppModifiers.extraThinBorder,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            size: 20,
+                            color: venyuTheme.primaryText,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                 // Main content area (expanded)
                 Expanded(
                   child: Padding(

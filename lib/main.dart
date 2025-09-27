@@ -74,12 +74,16 @@ void main() async {
     AppLogger.info('App will continue without push notifications', context: 'main');
   });
   
-  // Initialize RevenueCat
-  try {
-    await _initializeRevenueCat();
-  } catch (e) {
-    AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
-    AppLogger.info('App will continue without subscription features', context: 'main');
+  // Initialize RevenueCat (only if Pro features are enabled)
+  if (AppConfig.showPro) {
+    try {
+      await _initializeRevenueCat();
+    } catch (e) {
+      AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
+      AppLogger.info('App will continue without subscription features', context: 'main');
+    }
+  } else {
+    AppLogger.info('RevenueCat initialization skipped - Pro features disabled in config', context: 'main');
   }
   
   runApp(const VenyuApp());
@@ -196,6 +200,7 @@ class _AuthFlowState extends State<AuthFlow> {
         AppLogger.ui('AuthFlow Consumer: Current state = ${authService.authState}', context: 'AuthFlow');
         AppLogger.ui('AuthFlow Consumer: isAuthenticated = ${authService.isAuthenticated}', context: 'AuthFlow');
         AppLogger.ui('AuthFlow Consumer: isRegistered = ${profileService.isRegistered}', context: 'AuthFlow');
+        AppLogger.ui('AuthFlow Consumer: isRedeemed = ${profileService.isRedeemed}', context: 'AuthFlow');
         AppLogger.ui('AuthFlow Consumer: hasProfile = ${profileService.currentProfile != null}', context: 'AuthFlow');
         AppLogger.ui('AuthFlow Consumer: AuthService instance = ${authService.hashCode}', context: 'AuthFlow');
         

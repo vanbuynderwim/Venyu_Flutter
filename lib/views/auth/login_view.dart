@@ -34,6 +34,23 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   // _isSigningIn removed - using mixin's isProcessing
 
+  void _handleSuccessfulAuth(AuthenticationState authState) {
+    // If user successfully authenticated, pop this view to return to AuthFlow
+    if (authState == AuthenticationState.authenticated ||
+        authState == AuthenticationState.registered ||
+        authState == AuthenticationState.redeemed) {
+
+      AppLogger.auth('Authentication successful (state: $authState), closing LoginView', context: 'LoginView');
+
+      // Use addPostFrameCallback to ensure the UI update is complete
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+      });
+    }
+  }
+
   /// Performs Apple sign in using AuthService
   Future<void> _signInWithApple() async {
     final authService = context.read<AuthService>();
@@ -84,8 +101,13 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
-    return AppScaffold(
+
+    return Consumer<AuthService>(
+      builder: (context, authService, child) {
+        // Check if authentication was successful and close this view
+        _handleSuccessfulAuth(authService.authState);
+
+        return AppScaffold(
       usePadding: false,
       useSafeArea: false,
       body: Stack(
@@ -104,8 +126,8 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                 Column(
                   children: [
                     SizedBox(
-                      width: 180,
-                      height: 180,
+                      width: 140,
+                      height: 140,
                       child: Center(
                         child: Image.asset(
                           'assets/images/visuals/logo.png',
@@ -236,6 +258,8 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
             ),
         ],
       ),
+    );
+      },
     );
   }
 }

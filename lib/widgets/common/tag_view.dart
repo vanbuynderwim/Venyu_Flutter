@@ -65,8 +65,11 @@ class TagView extends StatelessWidget {
   /// Optional custom background color. Uses theme default if not specified.
   final Color? backgroundColor;
 
+  /// Optional custom text color. Uses theme default if not specified.
+  final Color? textColor;
+
   /// Creates a [TagView] widget.
-  /// 
+  ///
   /// [id] and [label] are required. Provide either [icon] or [emoji] for visual enhancement.
   const TagView({
     super.key,
@@ -78,18 +81,26 @@ class TagView extends StatelessWidget {
     this.fontSize,
     this.iconSize = 16,
     this.backgroundColor,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+
+    // Use custom backgroundColor if provided, otherwise use default tagDecoration
+    final decoration = backgroundColor != null
+        ? AppLayoutStyles.tagDecoration(context).copyWith(
+            color: backgroundColor,
+          )
+        : AppLayoutStyles.tagDecoration(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 10.0,
         vertical: 6.0,
       ),
-      decoration: AppLayoutStyles.tagDecoration(context),
+      decoration: decoration,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,7 +121,7 @@ class TagView extends StatelessWidget {
           Text(
             label,
             style: (fontSize ?? AppTextStyles.footnote).copyWith(
-              color: venyuTheme.primaryText,
+              color: textColor ?? venyuTheme.primaryText,
             ),
           ),
         ],

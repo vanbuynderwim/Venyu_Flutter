@@ -67,7 +67,7 @@ class CompanyInfoSection extends StatelessWidget {
       );
     }
     
-    // Dynamic section - TagGroup options from Supabase  
+    // Dynamic section - TagGroup options from Supabase
     if (companyTagGroups != null && companyTagGroups!.isNotEmpty) {
       for (final tagGroup in companyTagGroups!) {
         children.add(
@@ -83,6 +83,7 @@ class CompanyInfoSection extends StatelessWidget {
               isButton: true,
               withDescription: true,
               iconColor: tagGroup.color,
+              showTagMotivation: true,
               onSelect: () {
                 onCompanyTagGroupTap(tagGroup);
               },
