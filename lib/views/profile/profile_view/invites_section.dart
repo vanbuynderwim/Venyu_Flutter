@@ -14,13 +14,14 @@ import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../core/utils/dialog_utils.dart';
 import '../../../models/invite.dart';
 import '../../../services/toast_service.dart';
 import '../../../services/profile_service.dart';
 import '../../invites/invite_item_view.dart';
 
 /// Enum for invite menu actions
-enum _InviteAction { share, copy, markSent, none }
+enum _InviteAction { share, copy, markSent }
 
 /// InvitesSection - Invites and invitations section
 ///
@@ -191,83 +192,38 @@ class _InvitesSectionState extends State<InvitesSection> {
     return widgets;
   }
 
-  /// Shows the invite menu using PlatformPopupMenu with MenuOptionBuilder
+  /// Shows the invite menu using centralized DialogUtils component
   Future<void> _showInviteMenu(BuildContext context, Invite invite) async {
     final menuOptions = [
       MenuOptionBuilder.create(
         context: context,
         label: 'Share invite code',
         iconName: 'share',
-        onTap: (_) {},  // Dummy onTap, we'll handle it differently
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
       MenuOptionBuilder.create(
         context: context,
         label: 'Copy',
         iconName: 'copy',
-        onTap: (_) {},  // Dummy onTap
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
       MenuOptionBuilder.create(
         context: context,
         label: 'Mark as sent',
         iconName: 'email',
-        onTap: (_) {},  // Dummy onTap
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
     ];
 
-    // Show the menu as a modal and wait for the selected action
-    final selectedAction = await showPlatformModalSheet<_InviteAction>(
+    // Show the menu using centralized DialogUtils
+    final selectedAction = await DialogUtils.showMenuModalSheet<_InviteAction>(
       context: context,
-      builder: (sheetContext) => PlatformWidget(
-        cupertino: (_, __) => CupertinoActionSheet(
-          actions: [
-            CupertinoActionSheetAction(
-              onPressed: () => Navigator.pop(sheetContext, _InviteAction.share),
-              child: menuOptions[0].cupertino?.call(context, PlatformTarget.iOS).child ?? Container(),
-            ),
-            CupertinoActionSheetAction(
-              onPressed: () => Navigator.pop(sheetContext, _InviteAction.copy),
-              child: menuOptions[1].cupertino?.call(context, PlatformTarget.iOS).child ?? Container(),
-            ),
-            CupertinoActionSheetAction(
-              onPressed: () => Navigator.pop(sheetContext, _InviteAction.markSent),
-              child: menuOptions[2].cupertino?.call(context, PlatformTarget.iOS).child ?? Container(),
-            ),
-          ],
-          cancelButton: CupertinoActionSheetAction(
-            onPressed: () => Navigator.pop(sheetContext, _InviteAction.none),
-            child: const Text('Cancel'),
-          ),
-        ),
-        material: (_, __) => Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: () => Navigator.pop(sheetContext, _InviteAction.share),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: menuOptions[0].material?.call(context, PlatformTarget.android).child ?? Container(),
-                ),
-              ),
-              InkWell(
-                onTap: () => Navigator.pop(sheetContext, _InviteAction.copy),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: menuOptions[1].material?.call(context, PlatformTarget.android).child ?? Container(),
-                ),
-              ),
-              InkWell(
-                onTap: () => Navigator.pop(sheetContext, _InviteAction.markSent),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: menuOptions[2].material?.call(context, PlatformTarget.android).child ?? Container(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      menuOptions: menuOptions,
+      actions: [
+        _InviteAction.share,
+        _InviteAction.copy,
+        _InviteAction.markSent,
+      ],
     );
 
     // Sheet is now closed - perform the action
@@ -283,7 +239,6 @@ class _InvitesSectionState extends State<InvitesSection> {
       case _InviteAction.markSent:
         await _markAsSent(context, invite);
         break;
-      case _InviteAction.none:
       case null:
         // User cancelled or tapped outside
         break;

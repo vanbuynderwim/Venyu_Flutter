@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../core/utils/dialog_utils.dart';
 import '../../../mixins/error_handling_mixin.dart';
 import '../../../models/profile.dart';
 import '../../../services/avatar_upload_service.dart';
@@ -18,7 +19,6 @@ enum AvatarAction {
   gallery,
   view,
   remove,
-  cancel,
 }
 
 /// ProfileAvatarSection - Handles avatar display, upload, and removal
@@ -137,10 +137,10 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
                   bottom: 0,
                   right: 0,
                   child: Container(
-                    width: 24,
-                    height: 24,
+                    width: 30,
+                    height: 30,
                     decoration: BoxDecoration(
-                      color: venyuTheme.cardBackground,
+                      color: venyuTheme.secondaryButtonBackground,
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: venyuTheme.borderColor,
@@ -148,7 +148,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
                       ),
                     ),
                     child: Center(
-                      child: context.themedIcon('edit', size: 14),
+                      child: context.themedIcon('edit', size: 20),
                     ),
                   ),
                 ),
@@ -158,9 +158,9 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
     // Make avatar tappable for editing if editable
     if (widget.isEditable) {
-      return _AvatarMenuWrapper(
-        avatar: avatarWidget,
-        options: _buildAvatarMenuOptions(context, currentProfile),
+      return GestureDetector(
+        onTap: () => _showAvatarMenu(context, currentProfile),
+        child: avatarWidget,
       );
     }
 
@@ -175,7 +175,27 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
     return avatarWidget;
   }
 
-  /// Builds the avatar menu options for PlatformPopupMenu
+  /// Shows the avatar menu using centralized DialogUtils component
+  Future<void> _showAvatarMenu(BuildContext context, Profile currentProfile) async {
+    final menuOptions = _buildAvatarMenuOptions(context, currentProfile);
+    final actions = _buildAvatarActions(currentProfile);
+
+    // Show the menu using centralized DialogUtils
+    final selectedAction = await DialogUtils.showMenuModalSheet<AvatarAction>(
+      context: context,
+      menuOptions: menuOptions,
+      actions: actions,
+    );
+
+    // Sheet is now closed - perform the action
+    if (!context.mounted) return;
+
+    if (selectedAction != null) {
+      await _handleAvatarAction(context, selectedAction);
+    }
+  }
+
+  /// Builds the avatar menu options for DialogUtils
   List<PopupMenuOption> _buildAvatarMenuOptions(BuildContext context, Profile currentProfile) {
     final hasAvatar = currentProfile.avatarID != null && currentProfile.avatarID != _forceNoAvatar;
 
@@ -185,7 +205,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
         context: context,
         label: 'Camera',
         iconName: 'camera',
-        onTap: (_) => _handleAvatarAction(context, AvatarAction.camera),
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
 
       // Gallery option (always available)
@@ -193,10 +213,10 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
         context: context,
         label: 'Gallery',
         iconName: 'image',
-        onTap: (_) => _handleAvatarAction(context, AvatarAction.gallery),
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
     ];
-    
+
     // View option (only if avatar exists)
     if (hasAvatar) {
       options.add(
@@ -204,23 +224,40 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
           context: context,
           label: 'View',
           iconName: 'eye',
-          onTap: (_) => _handleAvatarAction(context, AvatarAction.view),
+          onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         ),
       );
-      
+
       // Remove option (only if avatar exists)
       options.add(
         MenuOptionBuilder.create(
           context: context,
           label: 'Remove',
           iconName: 'delete',
-          onTap: (_) => _handleAvatarAction(context, AvatarAction.remove),
+          onTap: (_) {},  // Dummy onTap, handled by DialogUtils
           isDestructive: true,
         ),
       );
     }
-        
+
     return options;
+  }
+
+  /// Builds the corresponding actions list for DialogUtils
+  List<AvatarAction> _buildAvatarActions(Profile currentProfile) {
+    final hasAvatar = currentProfile.avatarID != null && currentProfile.avatarID != _forceNoAvatar;
+
+    final actions = <AvatarAction>[
+      AvatarAction.camera,
+      AvatarAction.gallery,
+    ];
+
+    if (hasAvatar) {
+      actions.add(AvatarAction.view);
+      actions.add(AvatarAction.remove);
+    }
+
+    return actions;
   }
 
   /// Handles avatar menu actions
@@ -238,9 +275,6 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
           break;
         case AvatarAction.remove:
           await _removeAvatar(context);
-          break;
-        case AvatarAction.cancel:
-          // Do nothing - just close the menu
           break;
       }
     } catch (error) {
@@ -361,21 +395,3 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   }
 }
 
-/// Custom wrapper widget to use avatar as the icon for PlatformPopupMenu
-class _AvatarMenuWrapper extends StatelessWidget {
-  final Widget avatar;
-  final List<PopupMenuOption> options;
-
-  const _AvatarMenuWrapper({
-    required this.avatar,
-    required this.options,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return PlatformPopupMenu(
-      icon: avatar,
-      options: options,
-    );
-  }
-}

@@ -27,6 +27,9 @@ import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
 import 'match_detail/match_preview_indicator.dart';
 
+/// Enum for match menu actions
+enum _MatchAction { report, remove, block }
+
 /// MatchDetailView - Detailed view of a match showing profile, prompts, connections, and tags
 /// 
 /// This view displays comprehensive information about a match including:
@@ -81,7 +84,38 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     }
   }
 
-  /// Builds the match menu options for PlatformPopupMenu
+  /// Shows the match menu using centralized DialogUtils component
+  Future<void> _showMatchMenu(BuildContext context) async {
+    final menuOptions = _buildMatchMenuOptions(context);
+    final actions = _buildMatchActions();
+
+    // Show the menu using centralized DialogUtils
+    final selectedAction = await DialogUtils.showMenuModalSheet<_MatchAction>(
+      context: context,
+      menuOptions: menuOptions,
+      actions: actions,
+    );
+
+    // Sheet is now closed - perform the action
+    if (!context.mounted) return;
+
+    switch (selectedAction) {
+      case _MatchAction.report:
+        await _handleReportMatch();
+        break;
+      case _MatchAction.remove:
+        await _handleRemoveMatch();
+        break;
+      case _MatchAction.block:
+        await _handleBlockMatch();
+        break;
+      case null:
+        // User cancelled or tapped outside
+        break;
+    }
+  }
+
+  /// Builds the match menu options for DialogUtils
   List<PopupMenuOption> _buildMatchMenuOptions(BuildContext context) {
     final List<PopupMenuOption> options = [];
 
@@ -91,7 +125,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         context: context,
         label: 'Report',
         iconName: 'report',
-        onTap: (_) => _handleReportMatch(),
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         isDestructive: true,
       ),
     );
@@ -103,7 +137,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           context: context,
           label: 'Remove',
           iconName: 'delete',
-          onTap: (_) => _handleRemoveMatch(),
+          onTap: (_) {},  // Dummy onTap, handled by DialogUtils
           isDestructive: true,
         ),
       );
@@ -115,22 +149,30 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         context: context,
         label: 'Block',
         iconName: 'blocked',
-        onTap: (_) => _handleBlockMatch(),
+        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         isDestructive: true,
       ),
     );
 
-    // Cancel option (always available)
-    options.add(
-      MenuOptionBuilder.create(
-        context: context,
-        label: 'Cancel',
-        iconName: 'close',
-        onTap: (_) {},  // Just close the menu
-      ),
-    );
-
     return options;
+  }
+
+  /// Builds the corresponding actions list for DialogUtils
+  List<_MatchAction> _buildMatchActions() {
+    final List<_MatchAction> actions = [];
+
+    // Report option (always available)
+    actions.add(_MatchAction.report);
+
+    // Remove option (only for connections)
+    if (_match?.isConnected == true) {
+      actions.add(_MatchAction.remove);
+    }
+
+    // Block option (always available)
+    actions.add(_MatchAction.block);
+
+    return actions;
   }
 
   /// Handles reporting a match
@@ -242,12 +284,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             : 'Match'),
         trailingActions: _match != null
           ? [
-              PlatformPopupMenu(
-                icon: Icon(
+              GestureDetector(
+                onTap: () => _showMatchMenu(context),
+                child: Icon(
                   PlatformIcons(context).ellipsis,
                   color: context.venyuTheme.primaryText,
                 ),
-                options: _buildMatchMenuOptions(context),
               ),
             ]
           : null,

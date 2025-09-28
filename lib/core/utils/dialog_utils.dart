@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/app_strings.dart';
 import '../theme/app_text_styles.dart';
+import '../../widgets/menus/menu_option_builder.dart';
 
 /// Centralized utility for creating platform-aware dialogs
 class DialogUtils {
@@ -165,6 +167,56 @@ class DialogUtils {
   /// Dismisses any currently shown dialog
   static void dismissDialog(BuildContext context) {
     Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  /// Shows a platform-aware modal sheet with menu options
+  /// Returns the selected action or null if cancelled
+  ///
+  /// This is a generic implementation that works with any enum type
+  /// and ensures the sheet is closed before executing actions
+  static Future<T?> showMenuModalSheet<T>({
+    required BuildContext context,
+    required List<PopupMenuOption> menuOptions,
+    required List<T> actions, // Must match the order of menuOptions
+    String cancelText = 'Cancel',
+  }) async {
+    assert(menuOptions.length == actions.length,
+      'menuOptions and actions must have the same length');
+
+    return await showPlatformModalSheet<T>(
+      context: context,
+      builder: (sheetContext) => PlatformWidget(
+        cupertino: (_, __) => CupertinoActionSheet(
+          actions: List.generate(
+            menuOptions.length,
+            (index) => CupertinoActionSheetAction(
+              onPressed: () => Navigator.pop(sheetContext, actions[index]),
+              child: menuOptions[index].cupertino?.call(context, PlatformTarget.iOS).child ?? Container(),
+            ),
+          ),
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () => Navigator.pop(sheetContext),
+            child: Text(cancelText),
+          ),
+        ),
+        material: (_, __) => Container(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              menuOptions.length,
+              (index) => InkWell(
+                onTap: () => Navigator.pop(sheetContext, actions[index]),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: menuOptions[index].material?.call(context, PlatformTarget.android).child ?? Container(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   /// Opens device settings for app permissions
