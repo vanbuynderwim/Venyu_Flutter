@@ -73,8 +73,7 @@ class InviteItemView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Invite code with conditional styling - selectable only for available codes
-              (!invite.isRedeemed && !invite.isSent)
-                  ? SelectableText(
+              Text(
                       invite.code,
                       style: AppTextStyles.headline.copyWith(
                         color: _getCodeColor(context),
@@ -83,20 +82,8 @@ class InviteItemView extends StatelessWidget {
                         decoration: invite.isRedeemed ? TextDecoration.lineThrough : null,
                         decorationStyle: invite.isRedeemed ? TextDecorationStyle.wavy : null,
                         decorationColor: _getCodeColor(context),
-                        
                       ),
                     )
-                  : Text(
-                      invite.code,
-                      style: AppTextStyles.headline.copyWith(
-                        color: _getCodeColor(context),
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.5,
-                        decoration: invite.isRedeemed ? TextDecoration.lineThrough : null,
-                        decorationStyle: invite.isRedeemed ? TextDecorationStyle.wavy : null,
-                        decorationColor: _getCodeColor(context),
-                      ),
-                    ),
 
             ],
           ),

@@ -331,6 +331,45 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Issue new invite codes for the current user
+  ///
+  /// Generates the specified number of new invite codes that expire in 1 year.
+  /// Only works for the authenticated user.
+  ///
+  /// Parameters:
+  /// - [count]: Number of invite codes to generate (1-100, default: 1)
+  ///
+  /// Throws:
+  /// - Exception if count is not between 1 and 100
+  /// - Exception if user is not authenticated
+  Future<void> issueProfileInviteCodes({int count = 1}) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Issuing $count invite codes', context: 'ProfileManager');
+
+      try {
+        // Call the issue_profile_invite_code RPC function
+        await client.rpc(
+          'issue_profile_invite_code',
+          params: {'p_count': count},
+        );
+
+        AppLogger.success('Successfully issued $count invite codes', context: 'ProfileManager');
+      } catch (error) {
+        AppLogger.error('Failed to issue invite codes', error: error, context: 'ProfileManager');
+
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+        if (errorMessage.contains('Count must be between 1 and 100')) {
+          throw Exception('You can only generate between 1 and 100 invite codes at a time.');
+        }
+
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
+    });
+  }
+
   /// Redeem an invite code
   ///
   /// This method validates and redeems an 8-character invite code.

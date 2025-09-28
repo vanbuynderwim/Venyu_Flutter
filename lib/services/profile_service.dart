@@ -416,6 +416,22 @@ class ProfileService extends ChangeNotifier {
     }
   }
 
+  /// Issue new invite codes for the current user
+  Future<void> issueProfileInviteCodes({int count = 1}) async {
+    if (_disposed) throw StateError('ProfileService has been disposed');
+
+    try {
+      AppLogger.info('Issuing $count invite codes', context: 'ProfileService');
+
+      await _profileManager.issueProfileInviteCodes(count: count);
+
+      AppLogger.success('Successfully issued $count invite codes', context: 'ProfileService');
+    } catch (error) {
+      AppLogger.error('Failed to issue invite codes', error: error, context: 'ProfileService');
+      rethrow;
+    }
+  }
+
   // MARK: - Helper Methods
 
   void _setLoading(bool loading) {

@@ -213,6 +213,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           inviteCodes: _inviteCodes,
           inviteCodesLoading: _inviteCodesLoading,
           onInviteMarkedAsSent: _markInviteAsSentLocally,
+          onRefreshRequested: () => _loadInviteCodes(forceRefresh: true),
         );
       case ProfileSections.reviews:
         return const ReviewsSection();

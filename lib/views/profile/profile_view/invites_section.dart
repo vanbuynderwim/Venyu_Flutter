@@ -38,12 +38,14 @@ class InvitesSection extends StatefulWidget {
   final List<Invite>? inviteCodes;
   final bool inviteCodesLoading;
   final Function(String codeId)? onInviteMarkedAsSent;
+  final VoidCallback? onRefreshRequested;
 
   const InvitesSection({
     super.key,
     this.inviteCodes,
     this.inviteCodesLoading = false,
     this.onInviteMarkedAsSent,
+    this.onRefreshRequested,
   });
 
   @override
@@ -76,6 +78,10 @@ class _InvitesSectionState extends State<InvitesSection> {
       );
     }
 
+    // Group invites by status to check if there are available codes
+    final availableInvites = widget.inviteCodes!.where((invite) => !invite.isSent && !invite.isRedeemed).toList();
+    final hasAvailableCodes = availableInvites.isNotEmpty;
+
     // Invite codes found - show header card and list of invite items
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,26 +93,27 @@ class _InvitesSectionState extends State<InvitesSection> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Section title and description
+                // Section title and description - different based on availability
                 Text(
-                  'Share these codes with friends to invite them to Venyu. Each code can only be used once.',
+                  hasAvailableCodes
+                    ? 'Share these codes with friends to invite them to Venyu. Each code can only be used once.'
+                    : 'You\'ve used all your invite codes. Generate new ones to keep inviting friends to Venyu.',
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.primaryText,
                   ),
                 ),
 
-                const SizedBox(height: 16),
-
-                // Generate more codes button
-                ActionButton(
-                  label: 'Generate More Codes',
-                  icon: context.themedIcon('plus'),
-                  onPressed: () {
-                    AppLogger.info('Generate more codes button tapped', context: 'InvitesSection');
-                    // TODO: Add generate more codes functionality
-                  },
-                  isCompact: false,
-                ),
+                // Only show button if no available codes
+                if (!hasAvailableCodes) ...[
+                  const SizedBox(height: 16),
+                  // Generate more codes button
+                  ActionButton(
+                    label: 'Generate new codes',
+                    icon: context.themedIcon('plus'),
+                    onPressed: () => _generateMoreCodes(context),
+                    isCompact: false,
+                  ),
+                ],
               ],
             ),
           ),
@@ -257,8 +264,18 @@ class _InvitesSectionState extends State<InvitesSection> {
       height: 1,
     );
 
+    final text = '''
+Join me on Venyu ! 
+  
+The invite-only network for entrepreneurs who want to grow their network through real introductions.
+
+🔑 Your invite code: ${invite.code}
+
+Download the app at 👉 www.getvenyu.com
+''';
+
     await Share.share(
-      'Join me on Venyu! Use my invite code: ${invite.code}',
+      text,
       subject: 'Your personal Venyu invite',
       sharePositionOrigin: origin, // belangrijk voor iPad
     );
@@ -301,6 +318,49 @@ class _InvitesSectionState extends State<InvitesSection> {
         ToastService.error(
           context: context,
           message: 'Failed to mark invite as sent',
+        );
+      }
+    }
+  }
+
+  /// Generate more invite codes functionality
+  Future<void> _generateMoreCodes(BuildContext context) async {
+    AppLogger.info('Generate more codes button tapped', context: 'InvitesSection');
+
+    try {
+      final profileService = context.read<ProfileService>();
+
+      // Show confirmation dialog first
+      final confirmed = await DialogUtils.showConfirmationDialog(
+        context: context,
+        title: 'Generate More Codes',
+        message: 'Generate 5 new invite codes? These will expire in 1 year.',
+        confirmText: 'Generate',
+        cancelText: 'Cancel',
+        isDestructive: false,
+      );
+
+      if (!confirmed || !context.mounted) return;
+
+      // Generate 5 new invite codes
+      await profileService.issueProfileInviteCodes(count: 5);
+
+      // Trigger refresh of invite codes
+      widget.onRefreshRequested?.call();
+
+      if (context.mounted) {
+        ToastService.success(
+          context: context,
+          message: '5 new invite codes generated successfully',
+        );
+      }
+    } catch (error) {
+      AppLogger.error('Failed to generate invite codes', error: error, context: 'InvitesSection');
+
+      if (context.mounted) {
+        ToastService.error(
+          context: context,
+          message: 'Failed to generate invite codes',
         );
       }
     }

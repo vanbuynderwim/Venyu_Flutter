@@ -73,7 +73,7 @@ class MatchTagsSection extends StatelessWidget {
                         label: tag.title,
                         icon: tag.icon,
                         emoji: tag.emoji,
-                        backgroundColor: tagGroup.color,
+                        //backgroundColor: tagGroup.color,
                       );
                     }).toList(),
                   ),
