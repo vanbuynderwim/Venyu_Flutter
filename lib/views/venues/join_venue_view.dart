@@ -10,7 +10,7 @@ class JoinVenueView extends BaseCodeEntryView {
   const JoinVenueView({super.key})
     : super(
         title: 'Join venue',
-        subtitle: 'Enter the 8-character venue code to join and start networking.',
+        subtitle: 'Enter the 8-character invite code to join.',
         buttonLabel: 'Join',
         showCloseButton: true,
       );

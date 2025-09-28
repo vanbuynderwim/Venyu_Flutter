@@ -70,6 +70,9 @@ class CompanyInfoSection extends StatelessWidget {
     // Dynamic section - TagGroup options from Supabase
     if (companyTagGroups != null && companyTagGroups!.isNotEmpty) {
       for (final tagGroup in companyTagGroups!) {
+        // Check if tag group has empty or null tag list
+        final hasNoTags = tagGroup.list == null || tagGroup.list!.isEmpty;
+
         children.add(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
@@ -84,6 +87,7 @@ class CompanyInfoSection extends StatelessWidget {
               withDescription: true,
               iconColor: tagGroup.color,
               showTagMotivation: true,
+              useGradient: hasNoTags,
               onSelect: () {
                 onCompanyTagGroupTap(tagGroup);
               },

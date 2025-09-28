@@ -10,8 +10,10 @@ import '../../models/enums/edit_company_info_type.dart';
 import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
 import '../../models/invite.dart';
+import '../../models/badge_data.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
+import '../../services/notification_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -54,7 +56,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   // Services
   late final ContentManager _contentManager;
   late final ProfileManager _profileManager;
-  
+  late final NotificationService _notificationService;
+
   // State
   bool _isProfileLoading = true;
   ProfileSections _selectedSection = ProfileSections.personal;
@@ -65,17 +68,21 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   bool _hasVenues = false;
   List<Invite>? _inviteCodes;
   bool _inviteCodesLoading = false;
+  BadgeData? _badgeData;
 
   @override
   void initState() {
     super.initState();
     _contentManager = ContentManager.shared;
     _profileManager = ProfileManager.shared;
-    
+    _notificationService = NotificationService.shared;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshProfile();
       // Load personal tag groups since it's the default selected section
       _loadPersonalTagGroups();
+      // Load badge data
+      _fetchBadges();
     });
   }
 
@@ -142,6 +149,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                   ProfileSectionButtonBar(
                     profile: profile,
                     selectedSection: _selectedSection,
+                    badgeData: _badgeData,
                     onSectionSelected: (section) {
                       setState(() {
                         _selectedSection = section;
@@ -213,7 +221,10 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           inviteCodes: _inviteCodes,
           inviteCodesLoading: _inviteCodesLoading,
           onInviteMarkedAsSent: _markInviteAsSentLocally,
-          onRefreshRequested: () => _loadInviteCodes(forceRefresh: true),
+          onRefreshRequested: () {
+            _loadInviteCodes(forceRefresh: true);
+            _fetchBadges(); // Refresh badges when invite codes are refreshed
+          },
         );
       case ProfileSections.reviews:
         return const ReviewsSection();
@@ -292,6 +303,9 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
             // ReviewsSection doesn't need refresh yet
             break;
         }
+
+        // Refresh badge data
+        _fetchBadges();
       }
 
       setState(() {
@@ -367,6 +381,9 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     });
 
     AppLogger.info('Invite code marked as sent locally: $codeId', context: 'ProfileView');
+
+    // Refresh badge data after marking invite as sent
+    _fetchBadges();
   }
 
   /// Loads invite codes
@@ -393,6 +410,20 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         });
       },
     );
+  }
+
+  /// Fetch badge counts for section buttons
+  Future<void> _fetchBadges() async {
+    try {
+      final badges = await _notificationService.fetchBadges();
+      if (badges != null && mounted) {
+        setState(() {
+          _badgeData = badges;
+        });
+      }
+    } catch (error) {
+      AppLogger.error('Failed to fetch badges in ProfileView', error: error, context: 'ProfileView');
+    }
   }
   
   /// Handles personal info option tap

@@ -96,8 +96,8 @@ class _InvitesSectionState extends State<InvitesSection> {
                 // Section title and description - different based on availability
                 Text(
                   hasAvailableCodes
-                    ? 'Share these codes with friends to invite them to Venyu. Each code can only be used once.'
-                    : 'You\'ve used all your invite codes. Generate new ones to keep inviting friends to Venyu.',
+                    ? 'You have invite codes ready to share. Each one unlocks Venyu for a new entrepreneur'
+                    : 'All your invite codes have been shared. Thank you for helping grow the Venyu community.',
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.primaryText,
                   ),
@@ -108,7 +108,7 @@ class _InvitesSectionState extends State<InvitesSection> {
                   const SizedBox(height: 16),
                   // Generate more codes button
                   ActionButton(
-                    label: 'Generate new codes',
+                    label: 'Generate more codes',
                     icon: context.themedIcon('plus'),
                     onPressed: () => _generateMoreCodes(context),
                     isCompact: false,
@@ -335,7 +335,7 @@ ${invite.code}
       // Show confirmation dialog first
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
-        title: 'Generate More Codes',
+        title: 'Generate more codes',
         message: 'Generate 5 new invite codes? These will expire in 1 year.',
         confirmText: 'Generate',
         cancelText: 'Cancel',

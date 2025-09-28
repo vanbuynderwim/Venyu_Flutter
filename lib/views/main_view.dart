@@ -215,15 +215,15 @@ class _MainViewState extends State<MainView> {
           label: AppStrings.notifications,
         ),
         BottomNavigationBarItem(
-          icon: _badgeData != null && _badgeData!.totalReviews > 0
+          icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
                   child: context.themedIcon('profile', selected: false),
                 )
               : context.themedIcon('profile', selected: false),
-          activeIcon: _badgeData != null && _badgeData!.totalReviews > 0
+          activeIcon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
                   child: context.themedIcon('profile', selected: true),
                 )
               : context.themedIcon('profile', selected: true),

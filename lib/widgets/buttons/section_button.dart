@@ -31,23 +31,28 @@ import '../../core/theme/app_layout_styles.dart';
 ///   section: ProfileSections.cards,
 ///   isSelected: true,
 ///   onPressed: () => print('Cards selected'),
+///   badgeCount: 5, // Optional badge
 /// )
 /// ```
 class SectionButton<T extends SectionType> extends StatefulWidget {
   /// The section data to display.
   final T section;
-  
+
   /// Whether this button is currently selected.
   final bool isSelected;
-  
+
   /// Callback when the button is pressed.
   final VoidCallback? onPressed;
+
+  /// Optional badge count to display on the button.
+  final int? badgeCount;
 
   const SectionButton({
     super.key,
     required this.section,
     required this.isSelected,
     this.onPressed,
+    this.badgeCount,
   });
 
   @override
@@ -91,10 +96,10 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icon
-              _buildIcon(context),
+              // Icon with optional badge
+              _buildIconWithBadge(context),
               const SizedBox(height: 4),
-              
+
               // Title
               Text(
                 widget.section.title,
@@ -111,6 +116,19 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
 
   Widget _buildIcon(BuildContext context) {
     return context.themedIcon(widget.section.icon, selected: widget.isSelected);
+  }
+
+  Widget _buildIconWithBadge(BuildContext context) {
+    final icon = _buildIcon(context);
+
+    if (widget.badgeCount != null && widget.badgeCount! > 0) {
+      return Badge.count(
+        count: widget.badgeCount!,
+        child: icon,
+      );
+    }
+
+    return icon;
   }
 }
 
@@ -141,18 +159,22 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
 class SectionButtonBar<T extends SectionType> extends StatelessWidget {
   /// List of sections to display as buttons.
   final List<T> sections;
-  
+
   /// The currently selected section.
   final T? selectedSection;
-  
+
   /// Callback when a section is selected.
   final ValueChanged<T>? onSectionSelected;
+
+  /// Optional badge counts for each section (by section ID).
+  final Map<String, int>? badgeCounts;
 
   const SectionButtonBar({
     super.key,
     required this.sections,
     this.selectedSection,
     this.onSectionSelected,
+    this.badgeCounts,
   });
 
   @override
@@ -169,11 +191,13 @@ class SectionButtonBar<T extends SectionType> extends StatelessWidget {
           // Buttons
           Row(
             children: sections.map((section) {
+              final badgeCount = badgeCounts?[section.id];
               return Expanded(
                 child: SectionButton<T>(
                   section: section,
                   isSelected: selectedSection?.id == section.id,
                   onPressed: () => onSectionSelected?.call(section),
+                  badgeCount: badgeCount,
                 ),
               );
             }).toList(),

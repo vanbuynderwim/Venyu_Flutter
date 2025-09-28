@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/enums/profile_sections.dart';
 import '../../../models/profile.dart';
+import '../../../models/badge_data.dart';
 import '../../../widgets/buttons/section_button.dart';
 
 /// ProfileSectionButtonBar - Section toggle buttons for profile view
@@ -18,12 +19,14 @@ class ProfileSectionButtonBar extends StatelessWidget {
   final Profile? profile;
   final ProfileSections selectedSection;
   final Function(ProfileSections) onSectionSelected;
+  final BadgeData? badgeData;
 
   const ProfileSectionButtonBar({
     super.key,
     required this.profile,
     required this.selectedSection,
     required this.onSectionSelected,
+    this.badgeData,
   });
 
   @override
@@ -36,11 +39,23 @@ class ProfileSectionButtonBar extends StatelessWidget {
       // Only show reviews for super admins
       if (profile?.isSuperAdmin == true) ProfileSections.reviews,
     ];
-    
+
+    // Create badge counts map
+    final badgeCounts = <String, int>{};
+    if (badgeData != null) {
+      if (badgeData!.invitesCount > 0) {
+        badgeCounts[ProfileSections.invites.id] = badgeData!.invitesCount;
+      }
+      if (badgeData!.totalReviews > 0) {
+        badgeCounts[ProfileSections.reviews.id] = badgeData!.totalReviews;
+      }
+    }
+
     return SectionButtonBar<ProfileSections>(
       sections: availableSections,
       selectedSection: selectedSection,
       onSectionSelected: onSectionSelected,
+      badgeCounts: badgeCounts.isNotEmpty ? badgeCounts : null,
     );
   }
 }

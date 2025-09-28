@@ -181,6 +181,9 @@ class OptionButton extends StatefulWidget {
   /// Whether to show motivational tag when tag list is empty. Defaults to false.
   final bool showTagMotivation;
 
+  /// Whether to use gradient background. Defaults to false.
+  final bool useGradient;
+
   /// Creates an [OptionButton] widget.
   ///
   /// The [option] parameter is required and contains the data to display.
@@ -201,6 +204,7 @@ class OptionButton extends StatefulWidget {
     this.withDescription = false,
     this.useBorderSelection = false,
     this.showTagMotivation = false,
+    this.useGradient = false,
   });
 
   @override
@@ -274,7 +278,7 @@ class _OptionButtonState extends State<OptionButton> {
                       label: 'Complete profile',
                       emoji: '✨',
                       fontSize: AppTextStyles.caption1,
-                      backgroundColor: venyuTheme.primary.withValues(alpha: 0.15),
+                      backgroundColor: venyuTheme.tagBackground,
                       textColor: venyuTheme.primary,
                     ),
                   ),
@@ -367,6 +371,7 @@ class _OptionButtonState extends State<OptionButton> {
     return AppLayoutStyles.interactiveCard(
       context: context,
       onTap: _handleTap,
+      useGradient: widget.useGradient,
       child: content,
     );
   }

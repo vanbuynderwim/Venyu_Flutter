@@ -70,6 +70,9 @@ class PersonalInfoSection extends StatelessWidget {
     // Dynamic section - TagGroup options from Supabase
     if (personalTagGroups != null && personalTagGroups!.isNotEmpty) {
       for (final tagGroup in personalTagGroups!) {
+        // Check if tag group has empty or null tag list
+        final hasNoTags = tagGroup.list == null || tagGroup.list!.isEmpty;
+
         children.add(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0),
@@ -84,6 +87,7 @@ class PersonalInfoSection extends StatelessWidget {
               withDescription: true,
               iconColor: tagGroup.color,
               showTagMotivation: true,
+              useGradient: hasNoTags,
               onSelect: () {
                 onTagGroupTap(tagGroup);
               },

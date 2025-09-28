@@ -61,7 +61,7 @@ class AppLayoutStyles {
 
     final gradient = LinearGradient(
       colors: [
-        AppColors.primair4Lilac.withValues(alpha: 0.25),
+        AppColors.primair4Lilac.withValues(alpha: 0.15),
         AppColors.primair4Lilac.withValues(alpha: 0.01),
       ],
       begin: Alignment.centerLeft,
