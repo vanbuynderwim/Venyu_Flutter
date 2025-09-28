@@ -142,7 +142,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'ticket',
-          title: 'Available',
+          title: 'Your invites',
         ),
       ));
 
@@ -160,7 +160,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'email',
-          title: 'Sent (pending)',
+          title: 'Invites shared',
         ),
       ));
 
@@ -181,7 +181,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'checkbox',
-          title: 'Redeemed',
+          title: 'Invites accepted',
         ),
       ));
 
@@ -204,7 +204,7 @@ class _InvitesSectionState extends State<InvitesSection> {
     final menuOptions = [
       MenuOptionBuilder.create(
         context: context,
-        label: 'Share invite code',
+        label: 'Share',
         iconName: 'share',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
@@ -216,7 +216,7 @@ class _InvitesSectionState extends State<InvitesSection> {
       ),
       MenuOptionBuilder.create(
         context: context,
-        label: 'Mark as sent',
+        label: 'Mark as shared',
         iconName: 'email',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
@@ -267,11 +267,13 @@ class _InvitesSectionState extends State<InvitesSection> {
     final text = '''
 Join me on Venyu ! 
   
-The invite-only network for entrepreneurs who want to grow their network through real introductions.
-
-🔑 Your invite code: ${invite.code}
+The invite-only network for entrepreneurs, built on real introductions
 
 Download the app at 👉 www.getvenyu.com
+
+🔑 Your invite code: 
+
+${invite.code}
 ''';
 
     await Share.share(

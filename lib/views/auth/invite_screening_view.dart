@@ -102,7 +102,7 @@ class InviteScreeningView extends StatelessWidget {
                       const SizedBox(height: 8),
 
                       Text(
-                         'The invite-only network for entrepreneurs who want to grow their network through real introductions.',
+                         'The invite-only network for entrepreneurs, built on real introductions',
                         style: AppTextStyles.body.copyWith(
                           fontWeight: FontWeight.w400,
                           color: venyuTheme.darkText,

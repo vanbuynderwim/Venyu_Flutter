@@ -4,12 +4,14 @@ class BadgeData {
   final int userReviewsCount;
   final int systemReviewsCount;
   final int matchesCount;
+  final int invitesCount;
 
   const BadgeData({
     required this.unreadNotifications,
     required this.userReviewsCount,
     required this.systemReviewsCount,
     required this.matchesCount,
+    required this.invitesCount,
   });
 
   /// Create BadgeData from JSON response
@@ -19,6 +21,7 @@ class BadgeData {
       userReviewsCount: json['user_reviews_count'] as int? ?? 0,
       systemReviewsCount: json['system_reviews_count'] as int? ?? 0,
       matchesCount: json['matches_count'] as int? ?? 0,
+      invitesCount: json['invites_count'] as int? ?? 0,
     );
   }
 
@@ -26,8 +29,9 @@ class BadgeData {
   int get totalReviews => userReviewsCount + systemReviewsCount;
 
   /// Check if any badges should be shown
-  bool get hasAnyBadges => 
-      unreadNotifications > 0 || 
-      matchesCount > 0 || 
-      totalReviews > 0;
+  bool get hasAnyBadges =>
+      unreadNotifications > 0 ||
+      matchesCount > 0 ||
+      totalReviews > 0 ||
+      invitesCount > 0;
 }

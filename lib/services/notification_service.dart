@@ -312,6 +312,7 @@ class NotificationService {
         matchesCount: _currentBadgeData!.matchesCount - 1,
         userReviewsCount: _currentBadgeData!.userReviewsCount,
         systemReviewsCount: _currentBadgeData!.systemReviewsCount,
+        invitesCount: _currentBadgeData!.invitesCount,
       );
 
       _currentBadgeData = updatedBadgeData;
