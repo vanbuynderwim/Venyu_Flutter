@@ -212,6 +212,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         return InvitesSection(
           inviteCodes: _inviteCodes,
           inviteCodesLoading: _inviteCodesLoading,
+          onInviteMarkedAsSent: _markInviteAsSentLocally,
         );
       case ProfileSections.reviews:
         return const ReviewsSection();
@@ -348,6 +349,23 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         });
       },
     );
+  }
+
+  /// Mark invite code as sent locally (instant UI update)
+  void _markInviteAsSentLocally(String codeId) {
+    if (_inviteCodes == null) return;
+
+    safeSetState(() {
+      _inviteCodes = _inviteCodes!.map((invite) {
+        if (invite.id == codeId) {
+          // Create a new invite marked as sent
+          return invite.copyWith(isSent: true);
+        }
+        return invite;
+      }).toList();
+    });
+
+    AppLogger.info('Invite code marked as sent locally: $codeId', context: 'ProfileView');
   }
 
   /// Loads invite codes

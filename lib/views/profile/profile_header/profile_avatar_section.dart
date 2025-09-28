@@ -10,6 +10,7 @@ import '../../../services/avatar_upload_service.dart';
 import '../../../services/profile_service.dart';
 import '../../../widgets/common/avatar_view.dart';
 import '../../../widgets/common/avatar_fullscreen_viewer.dart';
+import '../../../widgets/menus/menu_option_builder.dart';
 
 /// Enum for avatar actions in the menu
 enum AvatarAction {
@@ -177,150 +178,48 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   /// Builds the avatar menu options for PlatformPopupMenu
   List<PopupMenuOption> _buildAvatarMenuOptions(BuildContext context, Profile currentProfile) {
     final hasAvatar = currentProfile.avatarID != null && currentProfile.avatarID != _forceNoAvatar;
-    final venyuTheme = context.venyuTheme;
-    
+
     final options = <PopupMenuOption>[
       // Camera option (always available)
-      PopupMenuOption(
+      MenuOptionBuilder.create(
+        context: context,
         label: 'Camera',
+        iconName: 'camera',
         onTap: (_) => _handleAvatarAction(context, AvatarAction.camera),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('camera'),
-              const SizedBox(width: 12),
-              const Text('Camera'),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('camera'),
-              const SizedBox(width: 12),
-              const Text('Camera'),
-            ],
-          ),
-        ),
       ),
-      
+
       // Gallery option (always available)
-      PopupMenuOption(
+      MenuOptionBuilder.create(
+        context: context,
         label: 'Gallery',
+        iconName: 'image',
         onTap: (_) => _handleAvatarAction(context, AvatarAction.gallery),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('image'),
-              const SizedBox(width: 12),
-              const Text('Gallery'),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('image'),
-              const SizedBox(width: 12),
-              const Text('Gallery'),
-            ],
-          ),
-        ),
       ),
     ];
     
     // View option (only if avatar exists)
     if (hasAvatar) {
       options.add(
-        PopupMenuOption(
+        MenuOptionBuilder.create(
+          context: context,
           label: 'View',
+          iconName: 'eye',
           onTap: (_) => _handleAvatarAction(context, AvatarAction.view),
-          cupertino: (_, __) => CupertinoPopupMenuOptionData(
-            child: Row(
-              children: [
-                context.themedIcon('eye'),
-                const SizedBox(width: 12),
-                const Text('View'),
-              ],
-            ),
-          ),
-          material: (_, __) => MaterialPopupMenuOptionData(
-            child: Row(
-              children: [
-                context.themedIcon('eye'),
-                const SizedBox(width: 12),
-                const Text('View'),
-              ],
-            ),
-          ),
         ),
       );
       
       // Remove option (only if avatar exists)
       options.add(
-        PopupMenuOption(
+        MenuOptionBuilder.create(
+          context: context,
           label: 'Remove',
+          iconName: 'delete',
           onTap: (_) => _handleAvatarAction(context, AvatarAction.remove),
-          cupertino: (_, __) => CupertinoPopupMenuOptionData(
-            isDestructiveAction: true,
-            child: Row(
-              children: [
-                context.themedIcon('delete'),
-                const SizedBox(width: 12),
-                Text(
-                  'Remove',
-                  style: TextStyle(color: venyuTheme.error),
-                ),
-              ],
-            ),
-          ),
-          material: (_, __) => MaterialPopupMenuOptionData(
-            child: Row(
-              children: [
-                context.themedIcon('delete'),
-                const SizedBox(width: 12),
-                Text(
-                  'Remove',
-                  style: TextStyle(color: venyuTheme.error),
-                ),
-              ],
-            ),
-          ),
+          isDestructive: true,
         ),
       );
     }
-    
-    // Cancel option (always available, typically shown last)
-    options.add(
-      PopupMenuOption(
-        label: 'Cancel',
-        onTap: (_) => _handleAvatarAction(context, AvatarAction.cancel),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Cancel',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              const Icon(Icons.close, size: 24),
-              const SizedBox(width: 12),
-              Text(
-                'Cancel',
-                style: TextStyle(color: venyuTheme.secondaryText),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    
+        
     return options;
   }
 

@@ -5,7 +5,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../widgets/common/tag_view.dart';
 
 /// InviteItemView - Component for displaying invite codes with status and information
 ///
@@ -14,11 +13,13 @@ import '../../widgets/common/tag_view.dart';
 class InviteItemView extends StatelessWidget {
   final Invite invite;
   final VoidCallback? onTap;
+  final Function(Invite)? onMenuTap; // Callback with invite object
 
   const InviteItemView({
     super.key,
     required this.invite,
     this.onTap,
+    this.onMenuTap,
   });
 
   @override
@@ -30,14 +31,14 @@ class InviteItemView extends StatelessWidget {
       // Available - interactive card
       return AppLayoutStyles.interactiveCard(
         context: context,
-        onTap: onTap,
+        onTap: () => onMenuTap?.call(invite),
         child: Padding(
           padding: AppModifiers.cardContentPadding,
           child: _buildContent(context),
         ),
       );
     } else if (invite.isSent) {
-      // Sent - regular card without gray background
+      // Sent - regular card decoration
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: AppLayoutStyles.cardDecoration(context),
@@ -47,27 +48,15 @@ class InviteItemView extends StatelessWidget {
         ),
       );
     } else {
-      // Redeemed - regular card with gray overlay
+      // Redeemed - card decoration with gray background
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
-        decoration: AppLayoutStyles.cardDecoration(context),
-        child: Stack(
-          children: [
-            // Gray overlay only for redeemed
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: venyuTheme.secondaryText.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-                ),
-              ),
-            ),
-            // Content
-            Padding(
-              padding: AppModifiers.cardContentPadding,
-              child: _buildContent(context),
-            ),
-          ],
+        decoration: AppLayoutStyles.cardDecoration(context).copyWith(
+          color: venyuTheme.secondaryText.withValues(alpha: 0.08),
+        ),
+        child: Padding(
+          padding: AppModifiers.cardContentPadding,
+          child: _buildContent(context),
         ),
       );
     }
@@ -78,93 +67,54 @@ class InviteItemView extends StatelessWidget {
 
     return Row(
       children: [
-        // Ticket icon with conditional color
-        _buildTicketIcon(context),
-
-        const SizedBox(width: 12),
-
         // Content
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Invite code with conditional styling
-              Text(
-                invite.code,
-                style: AppTextStyles.headline.copyWith(
-                  color: _getCodeColor(context),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.5,
-                  decoration: invite.isRedeemed ? TextDecoration.lineThrough : null,
-                  decorationStyle: invite.isRedeemed ? TextDecorationStyle.wavy : null,
-                  decorationColor: _getCodeColor(context),
-                ),
-              ),
+              // Invite code with conditional styling - selectable only for available codes
+              (!invite.isRedeemed && !invite.isSent)
+                  ? SelectableText(
+                      invite.code,
+                      style: AppTextStyles.headline.copyWith(
+                        color: _getCodeColor(context),
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.5,
+                        decoration: invite.isRedeemed ? TextDecoration.lineThrough : null,
+                        decorationStyle: invite.isRedeemed ? TextDecorationStyle.wavy : null,
+                        decorationColor: _getCodeColor(context),
+                        
+                      ),
+                    )
+                  : Text(
+                      invite.code,
+                      style: AppTextStyles.headline.copyWith(
+                        color: _getCodeColor(context),
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.5,
+                        decoration: invite.isRedeemed ? TextDecoration.lineThrough : null,
+                        decorationStyle: invite.isRedeemed ? TextDecorationStyle.wavy : null,
+                        decorationColor: _getCodeColor(context),
+                      ),
+                    ),
 
-              const SizedBox(height: 4),
-
-              // Status tag with transparent background for sent/redeemed
-              TagView(
-                id: 'status',
-                label: invite.statusDescription,
-                fontSize: AppTextStyles.caption1,
-                backgroundColor: (!invite.isRedeemed && !invite.isSent)
-                    ? venyuTheme.primary.withValues(alpha: 0.08)  // Normal background for available
-                    : _getStatusColor(context).withValues(alpha: 0.05),  // Transparent for sent/redeemed
-                textColor: _getStatusColor(context),
-              ),
             ],
           ),
         ),
 
-        // Three dots menu button - only show for truly available codes (not sent, not redeemed)
+        // Three dots icon - only show for truly available codes (not sent, not redeemed)
         if (!invite.isRedeemed && !invite.isSent) ...[
           const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () {
-              // TODO: Show menu with options
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: venyuTheme.cardBackground.withValues(alpha: 0.9),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: venyuTheme.borderColor,
-                  width: AppModifiers.extraThinBorder,
-                ),
-              ),
-              child: Icon(
-                CupertinoIcons.ellipsis,
-                size: 18,
-                color: venyuTheme.primaryText,
-              ),
-            ),
+          Icon(
+            CupertinoIcons.ellipsis,
+            size: 18,
+            color: venyuTheme.primaryText,
           ),
         ],
       ],
     );
   }
 
-  /// Build ticket icon with conditional color
-  Widget _buildTicketIcon(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-
-    // Use same color as the code text for consistency
-    Color iconColor;
-    if (invite.isRedeemed) {
-      iconColor = venyuTheme.secondaryText.withValues(alpha: 0.3);
-    } else if (invite.isSent) {
-      iconColor = venyuTheme.secondaryText.withValues(alpha: 0.6);
-    } else {
-      // For available codes, use default theming
-      return context.themedIcon('ticket', size: 24, overrideColor: venyuTheme.primary);
-    }
-
-    // For sent/redeemed, use themed icon with override color
-    return context.themedIcon('ticket', size: 24, overrideColor: iconColor);
-  }
 
   /// Get color for the invite code text based on status
   Color _getCodeColor(BuildContext context) {
@@ -179,16 +129,4 @@ class InviteItemView extends StatelessWidget {
     }
   }
 
-  /// Get color for the status tag based on invite status
-  Color _getStatusColor(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-
-    if (invite.isRedeemed) {
-      return venyuTheme.secondaryText.withValues(alpha: 0.3); // Match code color for redeemed
-    } else if (invite.isSent) {
-      return venyuTheme.secondaryText.withValues(alpha: 0.8); // Slightly darker than code for sent
-    } else {
-      return venyuTheme.secondaryText; // Primary color for available
-    }
-  }
 }

@@ -16,6 +16,7 @@ import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/menus/menu_option_builder.dart';
 import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
 import 'match_detail/match_actions_section.dart';
@@ -82,138 +83,50 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Builds the match menu options for PlatformPopupMenu
   List<PopupMenuOption> _buildMatchMenuOptions(BuildContext context) {
-        final venyuTheme = context.venyuTheme;
     final List<PopupMenuOption> options = [];
 
     // Report option (always available)
     options.add(
-      PopupMenuOption(
+      MenuOptionBuilder.create(
+        context: context,
         label: 'Report',
+        iconName: 'report',
         onTap: (_) => _handleReportMatch(),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          isDestructiveAction: true,
-          child: Row(
-            children: [
-              context.themedIcon('report'),
-              const SizedBox(width: 12),
-              Text(
-                'Report',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('report'),
-              const SizedBox(width: 12),
-              Text(
-                'Report',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
-          ),
-        ),
+        isDestructive: true,
       ),
     );
 
     // Remove option (only for connections)
     if (_match?.isConnected == true) {
       options.add(
-        PopupMenuOption(
+        MenuOptionBuilder.create(
+          context: context,
           label: 'Remove',
+          iconName: 'delete',
           onTap: (_) => _handleRemoveMatch(),
-          cupertino: (_, __) => CupertinoPopupMenuOptionData(
-            isDestructiveAction: true,
-            child: Row(
-              children: [
-                context.themedIcon('delete'),
-                const SizedBox(width: 12),
-                Text(
-                  'Remove',
-                  style: TextStyle(color: venyuTheme.error),
-                ),
-              ],
-            ),
-          ),
-          material: (_, __) => MaterialPopupMenuOptionData(
-            child: Row(
-              children: [
-                context.themedIcon('delete'),
-                const SizedBox(width: 12),
-                Text(
-                  'Remove',
-                  style: TextStyle(color: venyuTheme.error),
-                ),
-              ],
-            ),
-          ),
+          isDestructive: true,
         ),
       );
     }
 
     // Block option (always available)
     options.add(
-      PopupMenuOption(
+      MenuOptionBuilder.create(
+        context: context,
         label: 'Block',
+        iconName: 'blocked',
         onTap: (_) => _handleBlockMatch(),
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          isDestructiveAction: true,
-          child: Row(
-            children: [
-              context.themedIcon('blocked'),
-              const SizedBox(width: 12),
-              Text(
-                'Block',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              context.themedIcon('blocked'),
-              const SizedBox(width: 12),
-              Text(
-                'Block',
-                style: TextStyle(color: venyuTheme.error),
-              ),
-            ],
-          ),
-        ),
+        isDestructive: true,
       ),
     );
 
     // Cancel option (always available)
     options.add(
-      PopupMenuOption(
+      MenuOptionBuilder.create(
+        context: context,
         label: 'Cancel',
+        iconName: 'close',
         onTap: (_) {},  // Just close the menu
-        cupertino: (_, __) => CupertinoPopupMenuOptionData(
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Cancel',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        material: (_, __) => MaterialPopupMenuOptionData(
-          child: Row(
-            children: [
-              const Icon(Icons.close, size: 24),
-              const SizedBox(width: 12),
-              Text(
-                'Cancel',
-                style: TextStyle(color: venyuTheme.secondaryText),
-              ),
-            ],
-          ),
-        ),
       ),
     );
 

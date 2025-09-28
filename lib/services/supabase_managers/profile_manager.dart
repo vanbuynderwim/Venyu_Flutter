@@ -288,6 +288,49 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Mark an invite code as sent
+  ///
+  /// Updates the sent_at timestamp for a specific invite code.
+  /// Only works for codes owned by the current authenticated user.
+  ///
+  /// Parameters:
+  /// - [codeId]: The UUID of the invite code to mark as sent
+  ///
+  /// Throws:
+  /// - Exception if the code doesn't exist or isn't owned by the user
+  /// - Exception if the code is already sent or redeemed
+  Future<void> markInviteCodeAsSent(String codeId) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Marking invite code as sent: $codeId', context: 'ProfileManager');
+
+      try {
+        // Call the mark_invite_code_as_sent RPC function
+        await client.rpc(
+          'mark_invite_code_as_sent',
+          params: {'p_code_id': codeId},
+        );
+
+        AppLogger.success('Successfully marked invite code as sent', context: 'ProfileManager');
+      } catch (error) {
+        AppLogger.error('Failed to mark invite code as sent', error: error, context: 'ProfileManager');
+
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+        if (errorMessage.contains('not found')) {
+          throw Exception('Invite code not found or you do not have permission to modify it.');
+        } else if (errorMessage.contains('already sent')) {
+          throw Exception('This invite code has already been marked as sent.');
+        } else if (errorMessage.contains('already redeemed')) {
+          throw Exception('This invite code has already been redeemed.');
+        }
+
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
+    });
+  }
+
   /// Redeem an invite code
   ///
   /// This method validates and redeems an 8-character invite code.

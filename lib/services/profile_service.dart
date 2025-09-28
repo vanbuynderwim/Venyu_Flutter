@@ -398,8 +398,26 @@ class ProfileService extends ChangeNotifier {
     }
   }
   
+  // MARK: - Invite Code Management
+
+  /// Mark an invite code as sent
+  Future<void> markInviteCodeAsSent(String codeId) async {
+    if (_disposed) throw StateError('ProfileService has been disposed');
+
+    try {
+      AppLogger.info('Marking invite code as sent: $codeId', context: 'ProfileService');
+
+      await _profileManager.markInviteCodeAsSent(codeId);
+
+      AppLogger.success('Invite code marked as sent', context: 'ProfileService');
+    } catch (error) {
+      AppLogger.error('Failed to mark invite code as sent', error: error, context: 'ProfileService');
+      rethrow;
+    }
+  }
+
   // MARK: - Helper Methods
-  
+
   void _setLoading(bool loading) {
     if (_disposed) return;
     
