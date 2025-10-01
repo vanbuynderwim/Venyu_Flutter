@@ -242,6 +242,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                   Expanded(
                     child: PromptDisplayWidget(
                       promptLabel: _currentPrompt.label,
+                      venue: _currentPrompt.venue,
                     ),
                   ),
 

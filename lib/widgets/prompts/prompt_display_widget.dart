@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/models.dart';
+import '../../models/venue.dart';
 import '../common/interaction_tag.dart';
+import '../common/venue_tag.dart';
 
 /// Reusable widget for displaying a prompt
 ///
@@ -13,12 +15,14 @@ class PromptDisplayWidget extends StatelessWidget {
   final String promptLabel;
   final InteractionType? interactionType;
   final bool showInteractionType;
+  final Venue? venue;
 
   const PromptDisplayWidget({
     super.key,
     required this.promptLabel,
     this.interactionType,
     this.showInteractionType = false,
+    this.venue,
   });
 
   @override
@@ -43,6 +47,15 @@ class PromptDisplayWidget extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+
+              // Venue tag (if provided)
+              if (venue != null) ...[
+                const SizedBox(height: 16),
+                VenueTag(
+                  venue: venue!,
+                  compact: true,
+                ),
+              ],
 
               // Interaction tag (if provided and showInteractionType is true)
               if (showInteractionType && interactionType != null) ...[
