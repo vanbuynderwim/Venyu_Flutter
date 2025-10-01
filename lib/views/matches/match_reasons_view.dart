@@ -4,6 +4,7 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/match.dart';
+import '../../widgets/common/sub_title.dart';
 
 /// MatchReasonsView - Shows why two users match
 /// Displays the AI-generated reason in a gradient card
@@ -39,23 +40,9 @@ class MatchReasonsView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              context.themedIcon(
-                'bulb',
-                selected: true,
-                size: 24,
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Why you and ${match.profile.firstName} match',
-                  style: AppTextStyles.subheadline.copyWith(
-                    color: venyuTheme.primaryText,
-                  ),
-                ),
-              ),
-            ],
+          SubTitle(
+            iconName: 'bulb',
+            title: 'Why you and ${match.profile.firstName} match',
           ),
           if (match.motivation != null && match.motivation!.isNotEmpty) ...[
             const SizedBox(height: 16),

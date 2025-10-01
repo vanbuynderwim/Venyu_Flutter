@@ -26,6 +26,7 @@ import '../../widgets/common/sub_title.dart';
 import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
 import 'match_detail/match_preview_indicator.dart';
+import 'match_reasons_view.dart';
 
 /// Enum for match menu actions
 enum _MatchAction { report, remove, block }
@@ -487,13 +488,13 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 _buildPersonalMatchesContent(),
                const SizedBox(height: 16),
               ],
-              
-              // Match reasons section (only for matched status)
-              //if (_match!.status == MatchStatus.matched &&
-              //    _match!.motivation != null &&
-              //    _match!.motivation!.isNotEmpty) ...[
-              //  MatchReasonsView(match: _match!)
-              //],
+
+              // Match reasons section (only for connected status)
+              if (_match!.status == MatchStatus.connected &&
+                  _match!.motivation != null &&
+                  _match!.motivation!.isNotEmpty) ...[
+                MatchReasonsView(match: _match!)
+              ],
             ],
             
       ],
