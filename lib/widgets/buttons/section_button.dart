@@ -103,7 +103,7 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
               // Title
               Text(
                 widget.section.title,
-                style: AppTextStyles.caption1.copyWith(
+                style: AppTextStyles.caption3.copyWith(
                   color: textColor,
                 ),
               ),

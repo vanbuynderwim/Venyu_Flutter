@@ -139,6 +139,12 @@ class AppTextStyles {
     fontFamily: AppFonts.defaultFontFamily,
   );
 
+  static final TextStyle caption3 = TextStyle(
+    fontSize: 10.0,
+    fontWeight: AppFonts.toFontWeight(AppFonts.regular),
+    fontFamily: AppFonts.defaultFontFamily,
+  );
+
   // Special Graphie styles for branding
   /// App Title - Large Graphie style
   static final TextStyle appTitle = TextStyle(
