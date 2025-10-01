@@ -7,11 +7,10 @@ import 'enums/match_response.dart';
 
 class Match {
   final String id;
-  final Profile profile_1;
-  final Profile? profile_2;
+  final Profile profile;
   final MatchStatus status;
   final double? score;
-  final String? reason;
+  final String? motivation;
   final MatchResponse? response;
   final DateTime? updatedAt;
   final List<Prompt>? prompts;
@@ -24,11 +23,10 @@ class Match {
 
   const Match({
     required this.id,
-    required this.profile_1,
-    this.profile_2,
+    required this.profile,
     required this.status,
     this.score,
-    this.reason,
+    this.motivation,
     this.response,
     this.updatedAt,
     this.prompts,
@@ -43,11 +41,10 @@ class Match {
   factory Match.fromJson(Map<String, dynamic> json) {
     return Match(
       id: json['id'] as String,
-      profile_1: Profile.fromJson(json['profile_1']),
-      profile_2: json['profile_2'] != null ? Profile.fromJson(json['profile_2']) : null,
+      profile: Profile.fromJson(json['profile']),
       status: MatchStatus.fromJson(json['status']),
       score: json['score']?.toDouble(),
-      reason: json['reason'] as String?,
+      motivation: json['motivation'] as String?,
       response: json['response'] != null ? MatchResponse.fromJson(json['response']) : null,
       updatedAt: json['updated_at'] != null && json['updated_at'] is String 
           ? DateTime.parse(json['updated_at']) : null,
@@ -72,11 +69,10 @@ class Match {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'profile_1': profile_1.toJson(),
-      'profile_2': profile_2?.toJson(),
+      'profile': profile.toJson(),
       'status': status.toJson(),
       'score': score,
-      'reason': reason,
+      'motivation': motivation,
       'response': response?.toJson(),
       'updated_at': updatedAt?.toIso8601String(),
       'prompts': prompts?.map((prompt) => prompt.toJson()).toList(),
@@ -136,11 +132,10 @@ class Match {
 
   Match copyWith({
     String? id,
-    Profile? profile_1,
-    Profile? profile_2,
+    Profile? profile,
     MatchStatus? status,
     double? score,
-    String? reason,
+    String? motivation,
     MatchResponse? response,
     DateTime? updatedAt,
     List<Prompt>? prompts,
@@ -153,11 +148,10 @@ class Match {
   }) {
     return Match(
       id: id ?? this.id,
-      profile_1: profile_1 ?? this.profile_1,
-      profile_2: profile_2 ?? this.profile_2,
+      profile: profile ?? this.profile,
       status: status ?? this.status,
       score: score ?? this.score,
-      reason: reason ?? this.reason,
+      motivation: motivation ?? this.motivation,
       response: response ?? this.response,
       updatedAt: updatedAt ?? this.updatedAt,
       prompts: prompts ?? this.prompts,

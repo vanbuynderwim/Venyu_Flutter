@@ -181,7 +181,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
     await executeWithLoading(
       operation: () async {
-        await _matchingManager.reportProfile(_match!.profile_1.id);
+        await _matchingManager.reportProfile(_match!.profile.id);
         AppLogger.success('Profile reported successfully for match: ${widget.matchId}', context: 'MatchDetailView');
       },
       showSuccessToast: true,
@@ -205,7 +205,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     if (confirmed) {
       await executeWithLoading(
         operation: () async {
-          await _matchingManager.blockProfile(_match!.profile_1.id);
+          await _matchingManager.blockProfile(_match!.profile.id);
           AppLogger.success('Profile blocked successfully for match: ${widget.matchId}', context: 'MatchDetailView');
 
           // Call the callback to notify parent that match was removed
@@ -356,12 +356,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       children: [
             // Profile Header
             ProfileHeader(
-              profile: _match!.profile_1,
+              profile: _match!.profile,
               avatarSize: 80.0,
               isEditable: false,
               isConnection: _match!.isConnected,
               shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
-              onAvatarTap: _match!.profile_1.avatarID != null
+              onAvatarTap: _match!.profile.avatarID != null
                   ? () {
                       final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
                       final isConnection = _match!.isConnected;
@@ -372,18 +372,18 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                       }
                     }
                   : null,
-              onLinkedInTap: _match!.isConnected && _match!.profile_1.linkedInURL != null
-                  ? () => UrlHelper.openLinkedIn(context, _match!.profile_1.linkedInURL!)
+              onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
+                  ? () => UrlHelper.openLinkedIn(context, _match!.profile.linkedInURL!)
                   : null,
-              onEmailTap: _match!.isConnected && _match!.profile_1.contactEmail != null
+              onEmailTap: _match!.isConnected && _match!.profile.contactEmail != null
                   ? () => UrlHelper.composeEmail(
-                      context, 
-                      _match!.profile_1.contactEmail!,
+                      context,
+                      _match!.profile.contactEmail!,
                       subject: 'We are connected on Venyu!',
                     )
                   : null,
-              onWebsiteTap: _match!.isConnected && _match!.profile_1.websiteURL != null
-                  ? () => UrlHelper.openWebsite(context, _match!.profile_1.websiteURL!)
+              onWebsiteTap: _match!.isConnected && _match!.profile.websiteURL != null
+                  ? () => UrlHelper.openWebsite(context, _match!.profile.websiteURL!)
                   : null,
             ),
 
@@ -489,9 +489,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               ],
               
               // Match reasons section (only for matched status)
-              //if (_match!.status == MatchStatus.matched && 
-              //    _match!.reason != null && 
-              //    _match!.reason!.isNotEmpty) ...[
+              //if (_match!.status == MatchStatus.matched &&
+              //    _match!.motivation != null &&
+              //    _match!.motivation!.isNotEmpty) ...[
               //  MatchReasonsView(match: _match!)
               //],
             ],
@@ -514,7 +514,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       // Show upgrade prompt for free users who aren't connected
       return UpgradePromptWidget(
         title: 'Unlock mutual interests',
-        subtitle: 'See what you share on a personal level with ${_match!.profile_1.firstName}',
+        subtitle: 'See what you share on a personal level with ${_match!.profile.firstName}',
         buttonText: 'Upgrade now',
         onSubscriptionCompleted: () {
           // Refresh the view to show personal matches
@@ -532,7 +532,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   Future<void> _viewMatchAvatar(BuildContext context) async {
     await AvatarFullscreenViewer.show(
       context: context,
-      avatarId: _match?.profile_1.avatarID,
+      avatarId: _match?.profile.avatarID,
       showBorder: false,
       preserveAspectRatio: true,
     );

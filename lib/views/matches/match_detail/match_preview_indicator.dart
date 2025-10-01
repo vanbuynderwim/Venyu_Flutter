@@ -37,7 +37,7 @@ class MatchPreviewIndicator extends StatelessWidget {
         ),
       ),
       child: Text(
-        '${match.profile_1.firstName} sees this match only if you\'re interested.',
+        '${match.profile.firstName} sees this match only if you\'re interested.',
         style: AppTextStyles.body.copyWith(
           color: venyuTheme.primaryText,
         ),

@@ -189,7 +189,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
       child: RoleView(
-        profile: match.profile_1,
+        profile: match.profile,
         avatarSize: 32,
         showChevron: false,
         buttonDisabled: true,

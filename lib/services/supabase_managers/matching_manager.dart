@@ -36,7 +36,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Call the get_matches RPC function - exact equivalent of iOS implementation
       final result = await client
-          .rpc('get_matches', params: {'payload': paginatedRequest.toJson()})
+          .rpc('get_pair_matches', params: {'payload': paginatedRequest.toJson()})
           .select();
       
       AppLogger.success('Matches RPC call successful', context: 'MatchingManager');
@@ -59,7 +59,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Call the get_match RPC function - exact equivalent of iOS implementation
       final result = await client
-          .rpc('get_match', params: {'p_match_id': matchId})
+          .rpc('get_pair_match', params: {'p_match_id': matchId})
           .select()
           .single();
       
@@ -68,7 +68,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Convert response to Match object
       final match = Match.fromJson(result);
-      AppLogger.success('Match detail parsed: ${match.profile_1.fullName}', context: 'MatchingManager');
+      AppLogger.success('Match detail parsed: ${match.profile.fullName}', context: 'MatchingManager');
       
       return match;
     });
@@ -79,7 +79,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching prompt matches for: $promptId', context: 'MatchingManager');
       
-      final result = await client.rpc('get_prompt_matches', params: {'p_prompt_id': promptId});
+      final result = await client.rpc('get_prompt_pair_matches', params: {'p_prompt_id': promptId});
       
       AppLogger.success('Prompt matches RPC call successful', context: 'MatchingManager');
       AppLogger.debug('Prompt matches data received', context: 'MatchingManager');

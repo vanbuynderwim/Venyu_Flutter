@@ -86,7 +86,7 @@ class MatchOverviewHeader extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      match.profile_1.firstName,
+                      match.profile.firstName,
                       style: AppTextStyles.subheadline.copyWith(
                         color: venyuTheme.primaryText,
                       ),
@@ -108,7 +108,7 @@ class MatchOverviewHeader extends StatelessWidget {
               ),
               child: Center(
                 child: AvatarView(
-                  avatarId: match.profile_1.avatarID,
+                  avatarId: match.profile.avatarID,
                   size: 40,
                   shouldBlur: shouldBlur == false,
                 ),

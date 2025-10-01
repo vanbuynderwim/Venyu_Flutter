@@ -49,7 +49,7 @@ class MatchReasonsView extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Why you and ${match.profile_1.firstName} match',
+                  'Why you and ${match.profile.firstName} match',
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),
@@ -57,10 +57,10 @@ class MatchReasonsView extends StatelessWidget {
               ),
             ],
           ),
-          if (match.reason != null && match.reason!.isNotEmpty) ...[
+          if (match.motivation != null && match.motivation!.isNotEmpty) ...[
             const SizedBox(height: 16),
             Text(
-              match.reason!,
+              match.motivation!,
               style: AppTextStyles.subheadline.copyWith(
                 color: venyuTheme.primaryText,
               ),
