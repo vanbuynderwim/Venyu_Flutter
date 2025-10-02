@@ -1,6 +1,7 @@
 import '../../models/venue.dart';
 import '../../models/profile.dart';
 import '../../models/prompt.dart';
+import '../../models/match.dart';
 import '../../models/requests/paginated_request.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
@@ -310,7 +311,59 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
       }
     });
   }
-  
+
+  /// Fetch matches for a specific venue (non-paginated).
+  ///
+  /// This method retrieves all matches for members of a specific venue.
+  /// Returns a list of matches with profile information, score, status, and metadata.
+  ///
+  /// Parameters:
+  /// - [venueId]: The UUID of the venue to fetch matches for
+  ///
+  /// Returns a list of [Match] objects ordered by update time (most recent first).
+  ///
+  /// Throws an exception if:
+  /// - The venue doesn't exist
+  /// - User doesn't have permission to view venue matches
+  /// - Invalid venue ID
+  Future<List<Match>> fetchVenueMatches(String venueId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching venue matches for venue: $venueId', context: 'VenueManager');
+
+      try {
+        // Call the get_venue_matches RPC function
+        final result = await client
+            .rpc('get_venue_matches', params: {'p_venue_id': venueId})
+            .select();
+
+        AppLogger.success('Venue matches fetched successfully', context: 'VenueManager');
+
+        // Convert response to list of Match objects
+        final matches = (result as List)
+            .map((json) => Match.fromJson(json))
+            .toList();
+
+        AppLogger.info('Fetched ${matches.length} venue matches', context: 'VenueManager');
+
+        return matches;
+      } catch (error) {
+        AppLogger.error('Failed to fetch venue matches', error: error, context: 'VenueManager');
+
+        // Parse the error message to provide user-friendly feedback
+        final errorMessage = error.toString();
+
+        if (errorMessage.contains('venue_id is required')) {
+          throw Exception('Venue ID is required.');
+        } else if (errorMessage.contains('permission')) {
+          throw Exception('You don\'t have permission to view matches for this venue.');
+        }
+
+        // Re-throw the original error if we can't provide a better message
+        rethrow;
+      }
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('VenueManager');
