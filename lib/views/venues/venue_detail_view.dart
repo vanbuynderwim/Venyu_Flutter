@@ -10,11 +10,17 @@ import '../../core/utils/url_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import '../../models/venue.dart';
+import '../../models/match.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/buttons/get_matched_button.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/common/sub_title.dart';
+import '../matches/match_item_view.dart';
+import '../matches/match_detail_view.dart';
+import '../../services/profile_service.dart';
 import 'venue_profiles_view.dart';
 import 'venue_prompts_view.dart';
 
@@ -43,9 +49,11 @@ class VenueDetailView extends StatefulWidget {
 class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMixin {
   // Services
   late final VenueManager _venueManager;
-  
+
   // State
   Venue? _venue;
+  List<Match> _matches = [];
+  bool _matchesLoaded = false;
   String? _error;
 
   @override
@@ -71,6 +79,41 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     
     if (venue != null && mounted) {
       setState(() => _venue = venue);
+      // Load matches after venue is loaded
+      _loadMatches();
+    }
+  }
+
+  Future<void> _loadMatches() async {
+    if (_venue == null) return;
+
+    try {
+      AppLogger.debug('Loading matches for venue: ${_venue!.id}', context: 'VenueDetailView');
+
+      final matches = await _venueManager.fetchVenueMatches(_venue!.id).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          AppLogger.warning('fetchVenueMatches timed out', context: 'VenueDetailView');
+          return <Match>[];
+        },
+      );
+
+      AppLogger.debug('Received ${matches.length} matches', context: 'VenueDetailView');
+
+      if (mounted) {
+        setState(() {
+          _matches = matches;
+          _matchesLoaded = true;
+        });
+      }
+    } catch (e) {
+      AppLogger.error('Error loading matches: $e', context: 'VenueDetailView');
+      if (mounted) {
+        setState(() {
+          _matches = [];
+          _matchesLoaded = true;
+        });
+      }
     }
   }
 
@@ -160,12 +203,17 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
         
         // Event info section (for events or venues with website)
-        if ((_venue!.isEvent && (_venue!.eventDate != null || _venue!.eventLocation != null)) || 
+        if ((_venue!.isEvent && (_venue!.eventDate != null || _venue!.eventLocation != null)) ||
             (_venue!.website != null && _venue!.website!.isNotEmpty)) ...[
           const SizedBox(height: 16),
-          _buildEventInfoSection(_venue!),          
+          _buildEventInfoSection(_venue!),
         ],
-      
+
+        const SizedBox(height: 16),
+
+        // Matches section
+        _buildVenueMatches(),
+
       ],
     );
   }
@@ -524,6 +572,64 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
       message,
       style: AppTextStyles.caption1.secondary(context),
       textAlign: TextAlign.center,
+    );
+  }
+
+  /// Build venue matches section
+  Widget _buildVenueMatches() {
+    // Show loading while matches are being loaded
+    if (!_matchesLoaded) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 48),
+        child: LoadingStateWidget(),
+      );
+    }
+
+    // Show empty state if no matches
+    if (_matches.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child: EmptyStateWidget(
+          message: 'No matches yet',
+          description: 'When members match through this venue, their profiles will appear here.',
+          iconName: 'nomatches',
+          height: 200,
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Matches title
+        const SubTitle(
+          iconName: 'handshake',
+          title: 'Matches & Introductions',
+        ),
+        const SizedBox(height: 8),
+
+        // Matches list
+        ..._matches.map((match) => Padding(
+          padding: const EdgeInsets.only(bottom: 0),
+          child: MatchItemView(
+            match: match,
+            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
+            onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
+          ),
+        )),
+      ],
+    );
+  }
+
+  void _navigateToMatchDetail(Match match) {
+    AppLogger.ui('Navigating to match detail from venue: ${match.id}', context: 'VenueDetailView');
+
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchDetailView(matchId: match.id),
+      ),
     );
   }
 
