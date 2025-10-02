@@ -172,17 +172,15 @@ class _VenueProfilesViewState extends State<VenueProfilesView>
                       }
 
                       final profile = _profiles[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ProfileItemView(
-                            profile: profile,
-                            onProfileSelected: (selectedProfile) {
-                              AppLogger.debug('Profile tapped: ${selectedProfile.fullName}', context: 'VenueProfilesView');
-                              // TODO: Navigate to profile detail view if needed
-                            },
-                          ),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ProfileItemView(
+                          profile: profile,
+                          onProfileSelected: (selectedProfile) {
+                            AppLogger.debug('Profile tapped: ${selectedProfile.fullName}', context: 'VenueProfilesView');
+                            // TODO: Navigate to profile detail view if needed
+                          },
+                        ),
                       );
                     },
                   ),
