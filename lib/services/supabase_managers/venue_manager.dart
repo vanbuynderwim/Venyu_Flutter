@@ -333,7 +333,7 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
       try {
         // Call the get_venue_matches RPC function
         final result = await client
-            .rpc('get_venue_matches', params: {'p_venue_id': venueId})
+            .rpc('get_venue_pair_matches', params: {'p_venue_id': venueId})
             .select();
 
         AppLogger.success('Venue matches fetched successfully', context: 'VenueManager');
