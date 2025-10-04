@@ -13,6 +13,7 @@ import '../../services/supabase_managers/matching_manager.dart';
 import '../../core/providers/app_providers.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../matches/match_detail_view.dart';
+import '../prompts/prompt_detail_view.dart';
 
 /// NotificationsView - Notifications page with ListView for server data
 class NotificationsView extends StatefulWidget {
@@ -174,7 +175,18 @@ class _NotificationsViewState extends State<NotificationsView>
                               ),
                             );
                           }
-                          // TODO: Handle other notification types (prompt, etc.)
+                          // If notification has a prompt, navigate to prompt detail view
+                          else if (selectedNotification.prompt != null) {
+                            Navigator.push(
+                              context,
+                              platformPageRoute(
+                                context: context,
+                                builder: (context) => PromptDetailView(
+                                  promptId: selectedNotification.prompt!.promptID,
+                                ),
+                              ),
+                            );
+                          }
                         },
                       );
                     },
