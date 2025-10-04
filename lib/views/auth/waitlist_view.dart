@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/theme/app_text_styles.dart';
@@ -9,6 +10,7 @@ import '../../services/supabase_managers/public_manager.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../base/base_form_view.dart';
+import 'waitlist_finish_view.dart';
 
 /// WaitlistView - Waitlist signup screen for users without invite codes
 ///
@@ -96,10 +98,15 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
     return 'Failed to join waitlist. Please try again.';
   }
 
-  /// Override navigation to go back to invite screening
+  /// Override navigation to show finish view
   @override
   void navigateAfterSave() {
-    Navigator.pop(context);
+    Navigator.of(context).pushReplacement(
+      platformPageRoute(
+        context: context,
+        builder: (context) => const WaitlistFinishView(),
+      ),
+    );
   }
 
 
