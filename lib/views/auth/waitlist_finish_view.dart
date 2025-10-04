@@ -7,7 +7,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
-import '../../widgets/common/info_box_widget.dart';
 
 /// Waitlist finish view - confirmation screen after joining waitlist
 ///
@@ -87,13 +86,7 @@ class WaitlistFinishView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: 24),
-
-                      // Info box
-                      InfoBoxWidget(
-                        text: 'In the meantime, share Venyu with your network to move up the list',
-                      ),
-
+                    
                       const Spacer(flex: 3),
 
                       // Done button
