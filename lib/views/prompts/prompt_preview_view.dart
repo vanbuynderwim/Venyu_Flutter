@@ -51,7 +51,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
   // State
   List<Venue> _venues = [];
   bool _venuesLoaded = false;
-  bool _isProcessing = false;
+  final bool _isProcessing = false;
 
   @override
   void initState() {

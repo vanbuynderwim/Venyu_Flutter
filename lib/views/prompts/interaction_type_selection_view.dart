@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/enums/interaction_type.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -14,7 +11,6 @@ import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../widgets/common/info_box_widget.dart';
 import 'prompt_edit_view.dart';
 

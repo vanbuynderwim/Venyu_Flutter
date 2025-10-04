@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/match.dart';
 import '../../../models/profile.dart';
 import '../../prompts/prompt_item.dart';
-import '../../prompts/prompt_detail_view.dart';
 import '../match_overview_header.dart';
 
 /// MatchPromptsSection - Displays matching prompts/cards section

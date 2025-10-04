@@ -42,7 +42,7 @@ class PromptSettingsView extends StatefulWidget {
 
 class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandlingMixin {
   bool _withPreview = false;
-  bool _isProcessing = false;
+  final bool _isProcessing = false;
 
   @override
   void initState() {

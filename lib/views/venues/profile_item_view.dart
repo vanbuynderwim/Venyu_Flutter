@@ -4,7 +4,6 @@ import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../widgets/common/role_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/common/avatar_view.dart';
 
