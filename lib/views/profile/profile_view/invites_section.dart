@@ -70,8 +70,10 @@ class _InvitesSectionState extends State<InvitesSection> {
           child: EmptyStateWidget(
             message: 'No invite codes yet',
             description: 'Your invite codes will appear here. You can share them with friends to invite them to Venyu.',
-            iconName: 'ticket',
-            actionText: null, // No action button for now
+            iconName: 'notickets',
+            actionText: 'Generate codes',
+            actionButtonIcon: context.themedIcon('plus'),
+            onAction: () => _generateMoreCodes(context),
           ),
         ),
       );

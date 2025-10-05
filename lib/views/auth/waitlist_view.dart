@@ -27,6 +27,7 @@ class WaitlistView extends BaseFormView {
 class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
   final _nameController = TextEditingController();
   final _companyController = TextEditingController();
+  final _roleController = TextEditingController();
   final _emailController = TextEditingController();
   bool _isFormValid = false;
 
@@ -35,6 +36,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
     super.initializeForm();
     _nameController.addListener(_validateForm);
     _companyController.addListener(_validateForm);
+    _roleController.addListener(_validateForm);
     _emailController.addListener(_validateForm);
   }
 
@@ -42,6 +44,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
   void dispose() {
     _nameController.dispose();
     _companyController.dispose();
+    _roleController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -51,8 +54,9 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
     setState(() {
       final nameValid = _nameController.text.trim().isNotEmpty;
       final companyValid = _companyController.text.trim().isNotEmpty;
+      final roleValid = _roleController.text.trim().isNotEmpty;
       final emailValid = InputValidation.validateEmail(_emailController.text.trim()) == null;
-      _isFormValid = nameValid && companyValid && emailValid;
+      _isFormValid = nameValid && companyValid && roleValid && emailValid;
     });
   }
 
@@ -67,6 +71,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
       await PublicManager.shared.joinWaitlist(
         name: _nameController.text.trim(),
         company: _companyController.text.trim(),
+        role: _roleController.text.trim(),
         email: _emailController.text.trim(),
       );
     } on PostgrestException catch (e) {
@@ -166,6 +171,19 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
           style: AppTextFieldStyle.large,
           state: AppTextFieldState.normal,
           autofillHints: const [AutofillHints.organizationName],
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.words,
+        ),
+        const SizedBox(height: 8),
+
+        // Role field
+        AppTextField(
+          controller: _roleController,
+          hintText: 'Your role / title',
+          style: AppTextFieldStyle.large,
+          state: AppTextFieldState.normal,
+          autofillHints: const [AutofillHints.jobTitle],
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.next,
           textCapitalization: TextCapitalization.words,

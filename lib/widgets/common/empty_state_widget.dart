@@ -114,7 +114,7 @@ class EmptyStateWidget extends StatelessWidget {
             label: actionText!,
             icon: actionButtonIcon,
             onPressed: onAction,
-            width: 200,
+            width: 250,
           ),
         ],
       ],

@@ -27,7 +27,7 @@ class PublicManager extends BaseSupabaseManager {
 
   // MARK: - Waitlist Management
 
-  /// Join the waitlist with name, company, and email.
+  /// Join the waitlist with name, company, role, and email.
   ///
   /// This is an anonymous function that doesn't require authentication.
   /// Calls the venyu_api_v1.join_waitlist database function.
@@ -35,6 +35,7 @@ class PublicManager extends BaseSupabaseManager {
   /// Parameters:
   /// - [name]: The user's full name
   /// - [company]: The user's company name
+  /// - [role]: The user's role or title
   /// - [email]: The user's email address
   ///
   /// Throws:
@@ -43,6 +44,7 @@ class PublicManager extends BaseSupabaseManager {
   Future<void> joinWaitlist({
     required String name,
     required String company,
+    required String role,
     required String email,
   }) async {
     return executeAnonymousRequest(() async {
@@ -59,6 +61,13 @@ class PublicManager extends BaseSupabaseManager {
       if (company.trim().isEmpty) {
         throw const PostgrestException(
           message: 'Company cannot be empty',
+          code: 'validation_error',
+        );
+      }
+
+      if (role.trim().isEmpty) {
+        throw const PostgrestException(
+          message: 'Role cannot be empty',
           code: 'validation_error',
         );
       }
@@ -87,6 +96,7 @@ class PublicManager extends BaseSupabaseManager {
             'payload': {
               'name': name.trim(),
               'company': company.trim(),
+              'role': role.trim(),
               'email': email.trim().toLowerCase(),
             },
           },

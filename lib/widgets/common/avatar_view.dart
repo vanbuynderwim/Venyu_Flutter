@@ -161,7 +161,7 @@ class _AvatarViewState extends State<AvatarView> {
   Widget _buildRemoteAvatar(BuildContext context) {
     return FutureBuilder<String?>(
       future: _imageFuture!,
-    builder: (context, snapshot) {
+      builder: (context, snapshot) {
       final venyuTheme = context.venyuTheme;
       
       if (snapshot.connectionState == ConnectionState.waiting) {
