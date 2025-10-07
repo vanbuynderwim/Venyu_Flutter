@@ -8,9 +8,7 @@ enum PromptStatus {
   pendingTranslation('pending_translation'),
   approved('approved'),
   rejected('rejected'),
-  archived('archived'),
-  online('online'),
-  offline('offline');
+  archived('archived');
 
   const PromptStatus(this.value);
   
@@ -45,10 +43,6 @@ enum PromptStatus {
         return AppColors.na;
       case PromptStatus.archived:
         return AppColors.secundair4Quicksilver;
-      case PromptStatus.online:
-        return AppColors.me;
-      case PromptStatus.offline:
-        return AppColors.na;
     }
   }
 
@@ -67,10 +61,6 @@ enum PromptStatus {
         return AppColors.na;
       case PromptStatus.archived:
         return AppColors.secundair3Slategray;
-      case PromptStatus.online:
-        return AppColors.me;
-      case PromptStatus.offline:
-        return AppColors.na;
     }
   }
 
@@ -89,10 +79,6 @@ enum PromptStatus {
         return 'Rejected';
       case PromptStatus.archived:
         return 'Archived';
-      case PromptStatus.online:
-        return 'Online';
-      case PromptStatus.offline:
-        return 'Expired';
     }
   }
 
@@ -111,18 +97,11 @@ enum PromptStatus {
         return '🚫';
       case PromptStatus.archived:
         return '📦';
-      case PromptStatus.online:
-        return '🟢';
-      case PromptStatus.offline:
-        return '🔴';
     }
   }
 
   /// Get the status info description for this status
-  ///
-  /// For online and offline status, provide a Prompt object to include
-  /// dynamic date information about expiry and duration.
-  String statusInfo([dynamic prompt]) {
+  String statusInfo() {
     switch (this) {
       case PromptStatus.draft:
         return 'Your card is saved as a draft. Complete and submit it to start getting matches.';
@@ -131,15 +110,11 @@ enum PromptStatus {
       case PromptStatus.pendingTranslation:
         return 'Your card is being translated to other languages.';
       case PromptStatus.approved:
-        return 'Your card has been approved and will go online automatically on your next login.';
+        return 'Your card has been approved and is live. You can receive matches.';
       case PromptStatus.rejected:
         return 'Your card was rejected for not following community guidelines. Please edit and resubmit.';
       case PromptStatus.archived:
         return 'Your card has been archived and is no longer visible to other users.';
-      case PromptStatus.online:
-        return 'Your card is live and visible to other users. You can receive matches.';
-      case PromptStatus.offline:
-        return 'Your card has expired and is no longer visible to other users.';
     }
   }
 
@@ -153,8 +128,6 @@ enum PromptStatus {
       case PromptStatus.pendingReview:
       case PromptStatus.approved:
       case PromptStatus.archived:
-      case PromptStatus.online:
-      case PromptStatus.offline:
       case PromptStatus.pendingTranslation:
         return false;
     }

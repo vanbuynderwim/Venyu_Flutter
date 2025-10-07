@@ -231,6 +231,17 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Toggle prompt interaction matching
+  Future<void> togglePromptInteraction(int interactionId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Toggling prompt interaction $interactionId', context: 'ContentManager');
+
+      await client.rpc('toggle_prompt_interaction', params: {'p_interaction_id': interactionId});
+
+      AppLogger.success('Prompt interaction toggled successfully', context: 'ContentManager');
+    });
+  }
+
   /// Insert prompt interaction
   Future<void> insertPromptInteraction(int promptFeedID, String promptID, InteractionType interactionType) async {
     return executeAuthenticatedRequest(() async {

@@ -358,7 +358,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             // Profile Header
             ProfileHeader(
               profile: _match!.profile,
-              avatarSize: 80.0,
+              avatarSize: 105.0,
               isEditable: false,
               isConnection: _match!.isConnected,
               shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
@@ -493,7 +493,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               if (_match!.status == MatchStatus.connected &&
                   _match!.motivation != null &&
                   _match!.motivation!.isNotEmpty) ...[
-                MatchReasonsView(match: _match!)
+                SubTitle(
+                  iconName: 'bulb',
+                  title: 'Why you and ${_match!.profile.firstName} match',
+                ),
+                const SizedBox(height: 16),
+                MatchReasonsView(match: _match!),
               ],
             ],
             

@@ -6,7 +6,7 @@ import '../../models/enums/edit_personal_info_type.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/common/character_counter_overlay.dart';
-import '../../widgets/common/sub_title.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user biography.
@@ -102,32 +102,10 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
         const SizedBox(height: 16),
 
         // About your bio info box
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: venyuTheme.info.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: venyuTheme.info.withValues(alpha: 0.2),
-              width: 1,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SubTitle(
-                iconName: 'bulb',
-                title: 'About your bio',
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.',
-                style: AppTextStyles.subheadline2.copyWith(
-                  color: venyuTheme.secondaryText,
-                ),
-              ),
-            ],
-          ),
+        FormInfoBox(
+          iconName: 'bulb',
+          title: 'About your bio',
+          content: 'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.',
         ),
 
         const SizedBox(height: 16),

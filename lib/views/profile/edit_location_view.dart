@@ -1,3 +1,4 @@
+import 'package:app/views/profile/edit_city_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:location/location.dart';
@@ -15,7 +16,6 @@ import '../../widgets/common/onboarding_benefits_card.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/visual_icon_widget.dart';
 import '../base/base_form_view.dart';
-import 'edit_company_name_view.dart';
 
 /// A placeholder form screen for editing user location information.
 /// 
@@ -60,7 +60,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         if (widget.registrationWizard) ...[
           ProgressBar(
             pageNumber: 3,
-            numberOfPages: 10,
+            numberOfPages: 11,
           ),
           const SizedBox(height: 16),
         ],
@@ -129,13 +129,13 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
   /// Navigate to the next step without enabling location
   void _navigateToNext() {
-    // Navigate directly to company name view
+    // Navigate directly to city view
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => const EditCompanyNameView(
+        builder: (context) => const EditCityView(
           registrationWizard: true,
-          currentStep: RegistrationStep.company,
+          currentStep: RegistrationStep.city,
         ),
       ),
     );

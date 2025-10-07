@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -148,15 +149,15 @@ class _NotificationItemViewState extends State<NotificationItemView> {
     final venyuTheme = context.venyuTheme;
     
     // Get interaction type color, default to primary if null
-    final interactionColor = prompt.interactionType?.color ?? venyuTheme.primary;
+   
     
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            interactionColor.withValues(alpha: 0.2),
-            venyuTheme.cardBackground.withValues(alpha: 0.2),
+            venyuTheme.gradientPrimary.withValues(alpha: 0.3),
+            venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -166,7 +167,9 @@ class _NotificationItemViewState extends State<NotificationItemView> {
       child: Text(
         prompt.label,
         style: AppTextStyles.subheadline.copyWith(
-          color: venyuTheme.primaryText,
+          color: context.venyuTheme.darkText,
+          fontSize: 16,
+          fontFamily: AppFonts.graphie, 
         ),
       ),
     );

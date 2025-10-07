@@ -221,7 +221,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
               pageNumber: 1,
-              numberOfPages: 10,
+              numberOfPages: 11,
             ),
           ),
         

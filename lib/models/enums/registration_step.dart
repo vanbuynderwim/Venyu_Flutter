@@ -13,26 +13,29 @@ enum RegistrationStep {
   
   /// Step 3: Collect user's location/country information
   location,
-  
-  /// Step 4: Collect user's company name and website
+
+  /// Step 4: Collect user's city
+  city,
+
+  /// Step 5: Collect user's company name and website
   company,
-  
-  /// Step 5: Select user roles (using EditTagGroupView)
+
+  /// Step 6: Select user roles (using EditTagGroupView)
   roles,
-  
-  /// Step 6: Select sectors (using EditTagGroupView)
+
+  /// Step 7: Select sectors (using EditTagGroupView)
   sectors,
-  
-  /// Step 7: Set meeting preferences (using EditTagGroupView)
+
+  /// Step 8: Set meeting preferences (using EditTagGroupView)
   meetingPreferences,
-  
-  /// Step 8: Set networking goals (using EditTagGroupView)
+
+  /// Step 9: Set networking goals (using EditTagGroupView)
   networkingGoals,
-  
-  /// Step 9: Upload user's profile avatar
+
+  /// Step 10: Upload user's profile avatar
   avatar,
-  
-  /// Step 10: Configure notification preferences  
+
+  /// Step 11: Configure notification preferences
   notifications,
   
   /// Final step: Show completion screen
@@ -75,6 +78,8 @@ enum RegistrationStep {
         return 'Email Verification';
       case RegistrationStep.location:
         return 'Location';
+      case RegistrationStep.city:
+        return 'City';
       case RegistrationStep.company:
         return 'Company Information';
       case RegistrationStep.roles:

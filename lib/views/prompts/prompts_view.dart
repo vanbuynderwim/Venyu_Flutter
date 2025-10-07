@@ -196,7 +196,6 @@ class _PromptsViewState extends State<PromptsView>
           limit: PaginatedRequest.numberOfPrompts,
           cursorId: lastPrompt.promptID,
           cursorTime: lastPrompt.createdAt,
-          cursorExpired: lastPrompt.expired,
           list: ServerListType.profilePrompts,
         );
 

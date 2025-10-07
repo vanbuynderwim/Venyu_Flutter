@@ -127,15 +127,28 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<void> updateCompanyInfo(String companyName, String websiteURL) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Updating company information', context: 'ProfileManager');
-      
+
       final payload = {
         'company_name': companyName,
         'website_url': websiteURL,
       };
-      
+
       await client.rpc('update_company_info', params: {'payload': payload});
-      
+
       AppLogger.success('Company information updated successfully', context: 'ProfileManager');
+    });
+  }
+
+  /// Update user's city
+  Future<void> updateProfileCity(String city) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating profile city', context: 'ProfileManager');
+
+      await client.rpc('update_profile_city', params: {
+        'p_city': city,
+      });
+
+      AppLogger.success('Profile city updated successfully', context: 'ProfileManager');
     });
   }
 

@@ -1,5 +1,6 @@
 import 'profile.dart';
 import 'venue.dart';
+import 'prompt_interaction.dart';
 import 'enums/prompt_status.dart';
 import 'enums/interaction_type.dart';
 
@@ -10,8 +11,6 @@ class Prompt {
   final PromptStatus? status;
   final DateTime? createdAt;
   final DateTime? reviewedAt;
-  final DateTime? expiresAt;
-  final bool? expired;
   final int? impressionCount;
   final InteractionType? interactionType;
   final InteractionType? matchInteractionType;
@@ -29,6 +28,12 @@ class Prompt {
   /// Whether this prompt includes preview mode functionality (optional).
   final bool? withPreview;
 
+  /// Whether the current user is the author of this prompt (optional).
+  final bool? fromAuthor;
+
+  /// List of interactions the current user has had with this prompt (optional).
+  final List<PromptInteraction>? interactions;
+
   const Prompt({
     this.feedID,
     required this.promptID,
@@ -36,8 +41,6 @@ class Prompt {
     this.status,
     this.createdAt,
     this.reviewedAt,
-    this.expiresAt,
-    this.expired,
     this.impressionCount,
     this.interactionType,
     this.matchInteractionType,
@@ -46,6 +49,8 @@ class Prompt {
     this.matchCount,
     this.connectionCount,
     this.withPreview,
+    this.fromAuthor,
+    this.interactions,
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
@@ -56,8 +61,6 @@ class Prompt {
       status: json['status'] != null ? PromptStatus.fromJson(json['status']) : null,
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
       reviewedAt: json['reviewed_at'] != null ? DateTime.parse(json['reviewed_at']) : null,
-      expiresAt: json['expires_at'] != null ? DateTime.parse(json['expires_at']) : null,
-      expired: json['expired'] as bool?,
       impressionCount: json['impression_count'] as int?,
       interactionType: json['interaction_type'] != null 
           ? InteractionType.fromJson(json['interaction_type']) 
@@ -74,6 +77,12 @@ class Prompt {
           ? (json['connection_count'] as num).toInt()
           : null,
       withPreview: json['with_preview'] as bool?,
+      fromAuthor: json['from_author'] as bool?,
+      interactions: json['interactions'] != null
+          ? (json['interactions'] as List)
+              .map((item) => PromptInteraction.fromJson(item))
+              .toList()
+          : null,
     );
   }
 
@@ -85,8 +94,6 @@ class Prompt {
       'status': status?.toJson(),
       'created_at': createdAt?.toIso8601String(),
       'reviewed_at': reviewedAt?.toIso8601String(),
-      'expires_at': expiresAt?.toIso8601String(),
-      'expired': expired,
       'impression_count': impressionCount,
       'interaction_type': interactionType?.toJson(),
       'match_interaction_type': matchInteractionType?.toJson(),
@@ -95,6 +102,8 @@ class Prompt {
       if (matchCount != null) 'match_count': matchCount,
       if (connectionCount != null) 'connection_count': connectionCount,
       'with_preview': withPreview,
+      'from_author': fromAuthor,
+      if (interactions != null) 'interactions': interactions!.map((i) => i.toJson()).toList(),
     };
   }
 
@@ -102,19 +111,9 @@ class Prompt {
   bool get isApproved => status == PromptStatus.approved;
   bool get isPending => status == PromptStatus.pendingReview;
   bool get isRejected => status == PromptStatus.rejected;
-  bool get isExpired => expired ?? false;
-  
-  /// A prompt is online only when it's approved AND not expired
-  bool get isOnline => isApproved && !isExpired;
-  
-  /// A prompt is offline in all other cases (not approved OR expired)
-  bool get isOffline => !isOnline;
-  
-  /// Get the display status for the UI - shows online/offline for approved prompts
+
+  /// Get the display status for the UI - just returns the actual status
   PromptStatus get displayStatus {
-    if (status == PromptStatus.approved) {
-      return isOnline ? PromptStatus.online : PromptStatus.offline;
-    }
     return status ?? PromptStatus.draft;
   }
 }

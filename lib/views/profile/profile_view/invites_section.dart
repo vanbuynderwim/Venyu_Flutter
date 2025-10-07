@@ -97,7 +97,7 @@ class _InvitesSectionState extends State<InvitesSection> {
                 // Section title and description - different based on availability
                 Text(
                   hasAvailableCodes
-                    ? 'You have invite codes ready to share. Each one unlocks Venyu for a new entrepreneur'
+                    ? 'You have ${availableInvites.length} invite ${availableInvites.length == 1 ? 'code' : 'codes'} ready to share. Each one unlocks Venyu for a new entrepreneur'
                     : 'All your invite codes have been shared. Thank you for helping grow the Venyu community.',
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.primaryText,
@@ -143,7 +143,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'ticket',
-          title: 'Your invites',
+          title: 'Available codes',
         ),
       ));
 
@@ -161,7 +161,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'email',
-          title: 'Invites shared',
+          title: 'Shared codes',
         ),
       ));
 
@@ -182,7 +182,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'checkbox',
-          title: 'Invites accepted',
+          title: 'Redeemed codes',
         ),
       ));
 

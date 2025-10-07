@@ -34,7 +34,10 @@ class Profile {
   
   /// Name of the user's company or organization.
   final String? companyName;
-  
+
+  /// User's city location.
+  final String? city;
+
   /// User's biography or professional description.
   final String? bio;
   
@@ -96,6 +99,7 @@ class Profile {
     required this.firstName,
     this.lastName,
     this.companyName,
+    this.city,
     this.bio,
     this.linkedInURL,
     this.websiteURL,
@@ -124,6 +128,7 @@ class Profile {
       firstName: json['first_name'] as String,
       lastName: json['last_name'] as String?,
       companyName: json['company_name'] as String?,
+      city: json['city'] as String?,
       bio: json['bio'] as String?,
       linkedInURL: json['linkedin_url'] as String?,
       websiteURL: json['website_url'] as String?,
@@ -155,6 +160,7 @@ class Profile {
       'first_name': firstName,
       'last_name': lastName,
       'company_name': companyName,
+      'city': city,
       'bio': bio,
       'linkedin_url': linkedInURL,
       'website_url': websiteURL,
@@ -306,6 +312,7 @@ class Profile {
     String? firstName,
     String? lastName,
     String? companyName,
+    String? city,
     String? bio,
     String? linkedInURL,
     String? websiteURL,
@@ -328,6 +335,7 @@ class Profile {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       companyName: companyName ?? this.companyName,
+      city: city ?? this.city,
       bio: bio ?? this.bio,
       linkedInURL: linkedInURL ?? this.linkedInURL,
       websiteURL: websiteURL ?? this.websiteURL,

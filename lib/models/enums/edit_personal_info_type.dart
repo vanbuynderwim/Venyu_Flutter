@@ -7,7 +7,8 @@ import '../tag.dart';
 enum EditPersonalInfoType implements OptionType {
   name,
   bio,
-  email;
+  email,
+  location;
 
   @override
   String get id => toString();
@@ -16,9 +17,11 @@ enum EditPersonalInfoType implements OptionType {
   String get title {
     switch (this) {
       case EditPersonalInfoType.name:
-        return 'Your identity';
+        return 'Name';
       case EditPersonalInfoType.bio:
-        return 'About you';
+        return 'Bio';
+      case EditPersonalInfoType.location:
+        return 'City';
       case EditPersonalInfoType.email:
         return 'Email';
     }
@@ -28,11 +31,13 @@ enum EditPersonalInfoType implements OptionType {
   String get description {
     switch (this) {
       case EditPersonalInfoType.name:
-        return 'Your name and LinkedIn';
+        return 'Your name and LinkedIn URL.';
       case EditPersonalInfoType.bio:
         return 'A short intro about yourself.';
+      case EditPersonalInfoType.location:
+        return 'The city you live in.';
       case EditPersonalInfoType.email:
-        return 'Your email address.';
+        return 'Your contact email address.';
     }
   }
 
@@ -43,6 +48,8 @@ enum EditPersonalInfoType implements OptionType {
         return 'profile';
       case EditPersonalInfoType.bio:
         return 'edit';
+      case EditPersonalInfoType.location:
+        return 'map';
       case EditPersonalInfoType.email:
         return 'email';
     }

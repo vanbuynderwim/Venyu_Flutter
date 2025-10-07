@@ -26,13 +26,15 @@ import '../../models/enums/prompt_status.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../widgets/common/sub_title.dart';
-import '../../core/utils/date_extensions.dart';
 import '../venues/venue_item_view.dart';
 import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../services/profile_service.dart';
+import '../../widgets/prompts/prompt_interaction_item_view.dart';
+import '../../models/prompt_interaction.dart';
+import '../../core/utils/dialog_utils.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -135,7 +137,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Your card'),
+        title: Text('Card detail'),
       ),
       usePadding: false,
       useSafeArea: true,
@@ -158,22 +160,58 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   shouldShowStatus: false,
                 ),
               ),
-              const SizedBox(height: 16),
 
-              // Status section with title
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: SubTitle(
-                  iconName: 'report',
-                  title: 'Status',
+              // Status section - only show if user is the author
+              if (_prompt!.fromAuthor == true) ...[
+                const SizedBox(height: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SubTitle(
+                    iconName: 'report',
+                    title: 'Status',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
-              // Status info section
-              _buildStatusInfoSection(),
+                // Status info section
+                _buildStatusInfoSection(),                
+              ],
 
-              const SizedBox(height: 16),
+              // Interactions section - show if there are interactions
+              if (_prompt!.interactions != null &&
+                  _prompt!.interactions!.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SubTitle(
+                    iconName: 'match',
+                    title: 'How you match',
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.',
+                    style: AppTextStyles.footnote.copyWith(
+                      color: context.venyuTheme.secondaryText,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: _prompt!.interactions!.map((interaction) {
+                      return PromptInteractionItemView(
+                        interaction: interaction,
+                        onMatchingToggled: (value) => _handleToggleInteraction(interaction),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
 
               // First Call section - only show if Pro features are enabled
               if (AppConfig.showPro) ...[
@@ -184,7 +222,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                     title: 'First Call',
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
                 // Prior Preview section
                 _buildPreviewSection(),
@@ -194,7 +232,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
               // Venue section - show if prompt has a venue
               if (_prompt!.venue != null) ...[
-                
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -212,25 +250,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                     ],
                   ),
                 ),
+                const SizedBox(height: 16),
               ],
-
-              const SizedBox(height: 12),
             ],
-
-            // Section button bar
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 16),
-            //   child: PromptSectionButtonBar(
-            //     selectedSection: _selectedSection,
-            //     onSectionSelected: (section) {
-            //       setState(() {
-            //         _selectedSection = section;
-            //       });
-            //     },
-            //   ),
-            // ),
-
-            // const SizedBox(height: 16),
 
             // Matches content
             _buildMatchesContent(),
@@ -280,8 +302,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
     // Show matches content
     if (_matches.isEmpty) {
-      // Show empty state for online and offline prompts
-      if (_prompt?.displayStatus == PromptStatus.online || _prompt?.displayStatus == PromptStatus.offline) {
+      // Show empty state for approved prompts
+      if (_prompt?.displayStatus == PromptStatus.approved) {
         return const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: EmptyStateWidget(
@@ -308,7 +330,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             title: 'Matches & Introductions',
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
 
         // Matches list
         ..._matches.map((match) => Padding(
@@ -392,17 +414,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
             // Status info text
             Text(
-              status.statusInfo(_prompt),
+              status.statusInfo(),
               style: AppTextStyles.subheadline.copyWith(
                 color: context.venyuTheme.primaryText,
               ),
             ),
-
-            // Additional info for online/offline status
-            if (status == PromptStatus.online || status == PromptStatus.offline) ...[
-              const SizedBox(height: 16),
-              _buildStatusDetails(),
-            ],
 
             // Show community guidelines for rejected status
             if (status == PromptStatus.rejected) ...[
@@ -427,68 +443,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       ),
     );
   }
-
-  Widget _buildStatusDetails() {
-    if (_prompt == null) return const SizedBox.shrink();
-
-    return Column(
-      children: [
-        // Reviewed date
-        if (_prompt!.reviewedAt != null)
-          _buildDetailRow('Online:', _prompt!.reviewedAt!.formatDate(), iconName: 'event'),
-
-        // Expires date
-        if (_prompt!.expiresAt != null) ...[
-          _buildDetailRow(
-            _prompt!.expiresAt!.isBefore(DateTime.now()) ? 'Expired:' : 'Expires:',
-            _prompt!.expiresAt!.formatDate(),
-            iconName: 'event'
-          ),
-        ],
-
-        // Match count
-        if (_prompt!.matchCount != null)
-          _buildDetailRow('Matches:', '${_prompt!.matchCount}', iconName: 'match'),
-
-        // Connection count
-        if (_prompt!.connectionCount != null)
-          _buildDetailRow('Introductions:', '${_prompt!.connectionCount}', iconName: 'handshake'),
-      ],
-    );
-  }
-
-  Widget _buildDetailRow(String label, String value, {String? iconName}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              if (iconName != null) ...[
-                context.themedIcon(iconName, size: 18, selected: true),
-                const SizedBox(width: 8),
-              ],
-              Text(
-                label,
-                style: AppTextStyles.subheadline.copyWith(
-                  color: context.venyuTheme.secondaryText,
-                ),
-              ),
-            ],
-          ),
-          Text(
-            value,
-            style: AppTextStyles.subheadline.copyWith(
-              color: context.venyuTheme.primaryText,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
 
   void _editPrompt() async {
     if (_prompt == null) return;
@@ -549,6 +503,40 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       },
       showSuccessToast: true,
       successMessage: 'Preview setting updated',
+      showErrorToast: true,
+    );
+  }
+
+  /// Handle interaction matching toggle
+  void _handleToggleInteraction(PromptInteraction interaction) async {
+    // If currently enabled (user wants to pause), show confirmation dialog
+    if (interaction.matchingEnabled) {
+      final confirmed = await DialogUtils.showConfirmationDialog(
+        context: context,
+        title: 'Pause matching?',
+        message: 'You will no longer receive matches for "${interaction.interactionType.buttonTitle}" on this card. You can resume matching anytime.',
+        confirmText: 'Pause',
+        cancelText: 'Cancel',
+      );
+
+      if (!confirmed) {
+        return; // User cancelled
+      }
+    }
+
+    AppLogger.debug('Toggling interaction: ${interaction.id}', context: 'PromptDetailView');
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.togglePromptInteraction(interaction.id);
+
+        // Reload prompt data to get updated state
+        await _loadPromptData();
+
+        AppLogger.success('Interaction toggled successfully', context: 'PromptDetailView');
+      },
+      showSuccessToast: true,
+      successMessage: 'Match setting updated',
       showErrorToast: true,
     );
   }

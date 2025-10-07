@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -131,7 +132,9 @@ class _PromptItemState extends State<PromptItem> {
                     Text(
                       widget.prompt.label,
                       style: AppTextStyles.body.copyWith(
-                        color: context.venyuTheme.primaryText,
+                        color: context.venyuTheme.darkText,
+                        fontSize: 18,
+                        fontFamily: AppFonts.graphie, 
                       ),
                       maxLines: null,
                     ),
@@ -251,39 +254,17 @@ class _PromptItemState extends State<PromptItem> {
     }
 
     // Regular logic for non-match views
-    // If prompt is online, show interaction colors
-    if (widget.prompt.displayStatus == PromptStatus.online) {
-      final leftColor = widget.prompt.interactionType?.color;
-
-      // If no interaction color, no overlay needed
-      if (leftColor == null) {
-        return null;
-      }
-
-      // Show single interaction color gradient
-      return BoxDecoration(
+    // If prompt is approved, show primary color gradient
+    return BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            leftColor.withValues(alpha: 0.3),
-            venyuTheme.cardBackground.withValues(alpha: 0.3),
+            venyuTheme.gradientPrimary.withValues(alpha: 0.3),
+            venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
       );
-    } else {
-      // If prompt is not online, use light grey
-      return BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.secondaryLight.withValues(alpha: 0.6),
-            venyuTheme.cardBackground.withValues(alpha: 0.3),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      );
-    }
   }
 
 

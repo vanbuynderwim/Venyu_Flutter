@@ -10,7 +10,7 @@ class Match {
   final Profile profile;
   final MatchStatus status;
   final double? score;
-  final String? motivation;
+  final List<String>? motivation;
   final MatchResponse? response;
   final DateTime? updatedAt;
   final List<Prompt>? prompts;
@@ -44,7 +44,9 @@ class Match {
       profile: Profile.fromJson(json['profile']),
       status: MatchStatus.fromJson(json['status']),
       score: json['score']?.toDouble(),
-      motivation: json['motivation'] as String?,
+      motivation: json['motivation'] != null
+          ? (json['motivation'] as List).map((item) => item as String).toList()
+          : null,
       response: json['response'] != null ? MatchResponse.fromJson(json['response']) : null,
       updatedAt: json['updated_at'] != null && json['updated_at'] is String 
           ? DateTime.parse(json['updated_at']) : null,
@@ -135,7 +137,7 @@ class Match {
     Profile? profile,
     MatchStatus? status,
     double? score,
-    String? motivation,
+    List<String>? motivation,
     MatchResponse? response,
     DateTime? updatedAt,
     List<Prompt>? prompts,

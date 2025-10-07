@@ -19,7 +19,7 @@ import 'prompt_edit_view.dart';
 /// This view presents two large, prominent buttons for the user to select
 /// whether they need help or can offer help. After selection, it navigates
 /// to the CardEditView with the chosen interaction type.
-class InteractionTypeSelectionView extends StatelessWidget {
+class InteractionTypeSelectionView extends StatefulWidget {
   /// Whether this view is shown after completing prompts (affects back navigation)
   final bool isFromPrompts;
 
@@ -36,6 +36,13 @@ class InteractionTypeSelectionView extends StatelessWidget {
     this.venueId,
   });
 
+  @override
+  State<InteractionTypeSelectionView> createState() => _InteractionTypeSelectionViewState();
+}
+
+class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionView> {
+  bool _showGuidelines = false;
+
   void _handleSelection(BuildContext context, InteractionType type) async {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
@@ -47,9 +54,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
         builder: (context) => PromptEditView(
           initialInteractionType: type,
           isNewPrompt: true,
-          isFromPrompts: isFromPrompts,
-          onCloseModal: onCloseModal,
-          venueId: venueId,
+          isFromPrompts: widget.isFromPrompts,
+          onCloseModal: widget.onCloseModal,
+          venueId: widget.venueId,
         ),
       ),
     );
@@ -58,6 +65,12 @@ class InteractionTypeSelectionView extends StatelessWidget {
     if (result == true && context.mounted) {
       Navigator.of(context).pop(true);
     }
+  }
+
+  void _toggleGuidelines() {
+    setState(() {
+      _showGuidelines = !_showGuidelines;
+    });
   }
 
   /// Get user's first name from profile service
@@ -76,9 +89,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
 
     final venyuTheme = context.venyuTheme;
     final firstName = _getFirstName(context);
-    
+
     return PopScope(
-      canPop: !isFromPrompts, // Prevent back swipe if from prompts
+      canPop: !widget.isFromPrompts, // Prevent back swipe if from prompts
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -106,7 +119,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Title text
                 Text(
-                  isFromPrompts 
+                  widget.isFromPrompts
                     ? 'Thank you${firstName.isNotEmpty ? ' $firstName!' : ''}'
                     : 'Make the net work',
                   style: TextStyle(
@@ -121,7 +134,7 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Subtitle text
                 Text(
-                  isFromPrompts
+                  widget.isFromPrompts
                     ? "Now, let's make the net work for you"
                     : 'For you',
                   style: TextStyle(
@@ -159,16 +172,48 @@ class InteractionTypeSelectionView extends StatelessWidget {
                 
                 // Community guidelines
                 const SizedBox(height: 16),
-                CommunityGuidelinesWidget(
-                  showTitle: false,
+                
+                
+                // Disclaimer text
+                InfoBoxWidget(
+                  text: 'All cards are subject to review before going live',
                 ),
 
-                  const SizedBox(height: 8),
-                  // Disclaimer text
-                  InfoBoxWidget(
-                        text: 'All cards are subject to review before going live',
+                const SizedBox(height: 8),
+
+                // Toggle guidelines button
+                GestureDetector(
+                  onTap: _toggleGuidelines,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _showGuidelines ? 'Hide community guidelines' : 'Show community guidelines',
+                        style: TextStyle(
+                          color: venyuTheme.darkText,
+                          fontSize: 14,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
-                
+                      const SizedBox(width: 4),
+                      Icon(
+                        _showGuidelines ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                        color: venyuTheme.darkText,
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Community guidelines (expandable)
+                if (_showGuidelines) ...[
+                  const SizedBox(height: 8),
+                  CommunityGuidelinesWidget(
+                    showTitle: false,
+                  ),
+                ],
+
+
                 Spacer(flex: 2),
                 
                 // "Not now" button
@@ -179,9 +224,9 @@ class InteractionTypeSelectionView extends StatelessWidget {
                       type: ActionButtonType.secondary,
                       onInvertedBackground: true,
                       onPressed: () {
-                        if (isFromPrompts && onCloseModal != null) {
+                        if (widget.isFromPrompts && widget.onCloseModal != null) {
                           // Use the callback to close the modal
-                          onCloseModal!();
+                          widget.onCloseModal!();
                         } else {
                           Navigator.of(context).pop();
                         }

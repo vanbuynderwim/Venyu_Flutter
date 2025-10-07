@@ -76,11 +76,6 @@ class PromptCardSection extends StatelessWidget {
             // Status
             _buildStatusRow(context),
 
-            const SizedBox(height: 12),
-
-            // Online for
-            _buildOnlineForRow(context, isPro),
-
             // Upgrade prompt for free users
             if (AppConfig.showPro && !isPro && prompt!.status == PromptStatus.approved) ...[
               const SizedBox(height: 16),
@@ -155,55 +150,4 @@ class PromptCardSection extends StatelessWidget {
     );
   }
 
-  Widget _buildOnlineForRow(BuildContext context, bool isPro) {
-    String value;
-
-    if (prompt!.status == PromptStatus.approved) {
-      // For approved prompts, calculate days left using expires_at - reviewed_at
-      if (prompt!.expiresAt != null && prompt!.reviewedAt != null) {
-        final daysLeft = prompt!.expiresAt!.difference(prompt!.reviewedAt!).inDays;
-        final maxDays = isPro ? 30 : 10;
-
-        if (daysLeft > 0) {
-          value = '$maxDays days ($daysLeft ${daysLeft == 1 ? 'day' : 'days'} left)';
-        } else {
-          value = '$maxDays days (expired)';
-        }
-      } else {
-        // Fallback if dates are missing
-        value = isPro ? '10 days' : '3 days';
-      }
-    } else {
-      // For non-approved prompts, just show the limits
-      value = isPro ? '10 days' : '3 days';
-    }
-
-    return Row(
-      children: [
-        Container(
-          width: 80,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: context.venyuTheme.secondaryText.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-            'Online for:',
-            style: AppTextStyles.footnote.copyWith(
-              color: context.venyuTheme.secondaryText,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.caption1.copyWith(
-              color: context.venyuTheme.primaryText,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }

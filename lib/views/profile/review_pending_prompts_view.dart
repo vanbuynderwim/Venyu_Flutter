@@ -336,7 +336,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
     if (_selectedPromptIds.isNotEmpty) {
       // Show selection actions
       return Container(
-        padding: const EdgeInsets.only(top: 8),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: SafeArea(
           child: Row(
             children: [
@@ -368,7 +368,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
     } else if (_prompts.isNotEmpty || _isProcessingApprove || _isProcessingReject) {
       // Show "all" actions - also show when processing even if cards are empty
       return Container(
-        padding: const EdgeInsets.only(top: 8),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: SafeArea(
           child: Row(
             children: [

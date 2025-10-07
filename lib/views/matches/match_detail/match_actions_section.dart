@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/dialog_utils.dart';
 import '../../../core/utils/app_logger.dart';
 import '../../../mixins/error_handling_mixin.dart';
@@ -58,7 +59,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
       title: 'Skip this match?',
-      message: 'This match will be removed from your matches.',
+      message: 'This match will be removed from your matches. The other person will not receive any notification and won\'t know you skipped them.',
       confirmText: AppStrings.skip,
     );
     
@@ -134,8 +135,9 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       child: SafeArea(
         child: Row(
           children: [
-            // Skip button
+            // Skip button (1/3 width)
             Expanded(
+              flex: 1,
               child: ActionButton(
                 label: AppStrings.skip,
                 onPressed: _isProcessingInterested ? null : _showSkipAlert,
@@ -145,12 +147,14 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
               ),
             ),
 
-            const SizedBox(width: 16),
+            const SizedBox(width: 8),
 
-            // Interested button
+            // Interested button (2/3 width)
             Expanded(
+              flex: 2,
               child: ActionButton(
                 label: AppStrings.interested,
+                icon: context.themedIcon('like'),
                 onPressed: _isProcessingSkip ? null : _handleConnectMatch,
                 type: ActionButtonType.primary,
                 isLoading: _isProcessingInterested,

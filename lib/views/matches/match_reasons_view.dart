@@ -4,7 +4,6 @@ import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/match.dart';
-import '../../widgets/common/sub_title.dart';
 
 /// MatchReasonsView - Shows why two users match
 /// Displays the AI-generated reason in a gradient card
@@ -40,18 +39,33 @@ class MatchReasonsView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SubTitle(
-            iconName: 'bulb',
-            title: 'Why you and ${match.profile.firstName} match',
-          ),
           if (match.motivation != null && match.motivation!.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Text(
-              match.motivation!,
-              style: AppTextStyles.subheadline.copyWith(
-                color: venyuTheme.primaryText,
-              ),
-            ),
+            ...match.motivation!.asMap().entries.map((entry) {
+              final index = entry.key;
+              final reason = entry.value;
+              final isLast = index == match.motivation!.length - 1;
+
+              return Padding(
+                padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2, right: 10),
+                      child: context.themedIcon('checkbox', selected: true, overrideColor: venyuTheme.secondaryText, size: 18),
+                    ),
+                    Expanded(
+                      child: Text(
+                        reason,
+                        style: AppTextStyles.subheadline.copyWith(
+                          color: venyuTheme.primaryText,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
           ],
         ],
       ),

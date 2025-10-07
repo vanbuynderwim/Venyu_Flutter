@@ -102,7 +102,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: ProgressBar(
                 pageNumber: _progressPageNumber,
-                numberOfPages: 10, // 10 steps with progress bar (complete step has no progress bar)
+                numberOfPages: 11, // 11 steps with progress bar (complete step has no progress bar)
               ),
             ),
           Expanded(

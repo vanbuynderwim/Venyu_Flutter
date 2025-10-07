@@ -1,3 +1,4 @@
+import 'package:app/views/profile/edit_city_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -429,7 +430,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   /// Handles personal info option tap
   void _handlePersonalInfoTap(EditPersonalInfoType type) async {
     AppLogger.ui('Tapped on personal info type: ${type.title}', context: 'ProfileView');
-    
+
     switch (type) {
       case EditPersonalInfoType.name:
         await Navigator.push<bool>(
@@ -446,6 +447,15 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           platformPageRoute(
             context: context,
             builder: (context) => const EditBioView(),
+          ),
+        );
+        break;
+      case EditPersonalInfoType.location:
+        await Navigator.push<bool>(
+          context,
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditCityView(),
           ),
         );
         break;

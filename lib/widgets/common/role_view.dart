@@ -61,7 +61,7 @@ class RoleView extends StatelessWidget {
                   Text(
                     profile.role,
                     style: AppTextStyles.subheadline.copyWith(
-                      color: context.venyuTheme.secondaryText,
+                      color: context.venyuTheme.primaryText,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -71,10 +71,10 @@ class RoleView extends StatelessWidget {
                 if (profile.formattedDistance != null)
                   Row(
                     children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        size: 16,
-                        color: context.venyuTheme.secondaryText,
+                      context.themedIcon(
+                        'location',
+                        size: 14,
+                        overrideColor: context.venyuTheme.secondaryText,
                       ),
                       const SizedBox(width: 4),
                       Text(

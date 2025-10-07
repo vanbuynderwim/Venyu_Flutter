@@ -31,7 +31,7 @@ class ProfileHeader extends StatefulWidget {
     required this.profile,
     this.isEditable = false,
     this.isConnection = false,
-    this.avatarSize = 100.0,
+    this.avatarSize = 105.0,
     this.onAvatarTap,
     this.onLinkedInTap,
     this.onEmailTap,
@@ -77,13 +77,14 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name, role, and distance
+                  // Name, role, distance, and city
                   ProfileInfoSection(
                     profile: widget.profile,
                     isEditable: widget.isEditable,
+                    showCity: widget.isConnection || widget.isEditable,
                   ),
                   
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   
                   // Sectors/Tags
                   ProfileTagsSection(
@@ -97,7 +98,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           ],
         ),
         
-        const SizedBox(height: 8),
+        const SizedBox(height: 16),
         
         // Bio section
         _buildBioSection(context, venyuTheme),

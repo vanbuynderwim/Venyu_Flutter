@@ -4,25 +4,29 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/profile.dart';
 
-/// ProfileInfoSection - Displays profile name, role, and distance
-/// 
+/// ProfileInfoSection - Displays profile name, role, distance, and city
+///
 /// This widget shows the core profile information:
 /// - Full name (first + last name)
 /// - Role/company information (computed from profile)
 /// - Distance (for non-editable profiles)
-/// 
+/// - City (for connections or own profile)
+///
 /// Features:
 /// - Responsive text styling based on theme
 /// - Conditional distance display for other profiles
+/// - Conditional city display based on showCity flag
 /// - Support for placeholder text when no company info
 class ProfileInfoSection extends StatelessWidget {
   final Profile profile;
   final bool isEditable;
+  final bool showCity;
 
   const ProfileInfoSection({
     super.key,
     required this.profile,
     this.isEditable = false,
+    this.showCity = false,
   });
 
   @override
@@ -44,22 +48,47 @@ class ProfileInfoSection extends StatelessWidget {
 
         // Role (computed property from profile)
         Text(
-          profile.role.isNotEmpty 
+          profile.role.isNotEmpty
               ? profile.role
               : 'Add company info',
           style: AppTextStyles.subheadline.copyWith(
             color: venyuTheme.primaryText,
           ),
         ),
-        
-        // Distance (only for other profiles)
-        if (!isEditable && profile.formattedDistance != null) ...[
+
+        // Distance and City
+        if (!isEditable && profile.formattedDistance != null || showCity && profile.city != null) ...[
           const SizedBox(height: 6),
-          Text(
-            profile.formattedDistance!,
-            style: AppTextStyles.caption1.copyWith(
-              color: venyuTheme.secondaryText,
-            ),
+          Row(
+            children: [
+              // Distance
+              if (!isEditable && profile.formattedDistance != null) ...[
+                context.themedIcon('location', size: 14),
+                const SizedBox(width: 4),
+                Text(
+                  profile.formattedDistance!,
+                  style: AppTextStyles.caption1.copyWith(
+                    color: venyuTheme.secondaryText,
+                  ),
+                ),
+              ],
+
+              // Spacing between distance and city
+              if (!isEditable && profile.formattedDistance != null && showCity && profile.city != null)
+                const SizedBox(width: 12),
+
+              // City
+              if (showCity && profile.city != null) ...[
+                context.themedIcon('map', size: 14),
+                const SizedBox(width: 4),
+                Text(
+                  profile.city!,
+                  style: AppTextStyles.caption1.copyWith(
+                    color: venyuTheme.secondaryText,
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ],

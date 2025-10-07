@@ -111,8 +111,8 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
-              pageNumber: 4,
-              numberOfPages: 10,
+              pageNumber: 5,
+              numberOfPages: 11,
             ),
           ),
         
@@ -128,9 +128,6 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             state: _companyNameTouched && _companyNameController.text.trim().isEmpty 
                 ? AppTextFieldState.error 
                 : AppTextFieldState.normal,
-            errorText: _companyNameTouched && _companyNameController.text.trim().isEmpty
-                ? 'Company name is required'
-                : null,
             autofillHints: const [AutofillHints.organizationName],
             enabled: !isUpdating,
           ),
@@ -149,9 +146,6 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             state: _websiteTouched && !_websiteFormatIsValid
                 ? AppTextFieldState.error
                 : AppTextFieldState.normal,
-            errorText: _websiteTouched && !_websiteFormatIsValid
-                ? 'Please enter a valid website URL'
-                : null,
             autofillHints: const [AutofillHints.url],
             enabled: !isUpdating,
           ),

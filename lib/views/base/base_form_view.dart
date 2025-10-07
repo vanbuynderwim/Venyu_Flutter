@@ -15,6 +15,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../profile/edit_company_name_view.dart';
 import '../profile/edit_email_info_view.dart';
 import '../profile/edit_location_view.dart';
+import '../profile/edit_city_view.dart';
 import '../profile/edit_tag_group_view.dart';
 import '../profile/edit_avatar_view.dart';
 import '../profile/edit_notifications_view.dart';
@@ -174,7 +175,13 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.location,
         );
-        
+
+      case RegistrationStep.city:
+        nextView = const EditCityView(
+          registrationWizard: true,
+          currentStep: RegistrationStep.city,
+        );
+
       case RegistrationStep.company:
         nextView = EditCompanyNameView(
           registrationWizard: true,
@@ -340,7 +347,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
       margin: EdgeInsets.only(
         left: 16,
         right: 16,
-        bottom: isKeyboardOpen ? 16 : 0, // Extra padding when keyboard is open
+        bottom: isKeyboardOpen ? 16 : 16, // Extra padding when keyboard is open
       ),
       child: ActionButton(
         label: label ?? defaultLabel,
