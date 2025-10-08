@@ -7,6 +7,7 @@ import '../../services/profile_service.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 
 /// Special exception for when user chooses to check LinkedIn URL
@@ -211,6 +212,9 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   }
 
   @override
+  bool get useScrollView => true; // Enable scroll view for info box content
+
+  @override
   Widget buildFormContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +228,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
               numberOfPages: 11,
             ),
           ),
-        
+
         // First Name field
         buildFieldSection(
           title: 'FIRST NAME',
@@ -239,7 +243,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             enabled: _firstNameIsEmpty && !isUpdating,
           ),
         ),
-        
+
         // Last Name field
         buildFieldSection(
           title: 'LAST NAME',
@@ -254,6 +258,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             enabled: _lastNameIsEmpty && !isUpdating,
           ),
         ),
+
         
         // LinkedIn URL field
         buildFieldSection(
@@ -270,6 +275,14 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             enabled: !isUpdating,
           ),
         ),
+
+        // LinkedIn info box
+        FormInfoBox(
+          content: 'We’ll only share your LinkedIn profile in the introduction email once there’s mutual interest. It’s never shared when you first get matched.',
+        ),
+        
+        const SizedBox(height: 16),
+
       ],
     );
   }

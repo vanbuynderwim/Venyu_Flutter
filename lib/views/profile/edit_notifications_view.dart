@@ -111,7 +111,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
             ),
           ),
           
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           
           // Enable button (primary)
           Expanded(

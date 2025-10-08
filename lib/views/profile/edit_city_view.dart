@@ -99,25 +99,7 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
             ),
           ),
 
-        // Description text
-        Text(
-          EditPersonalInfoType.location.description,
-          style: AppTextStyles.body.copyWith(
-            color: venyuTheme.secondaryText,
-          ),
-        ),
-
-        const SizedBox(height: 16),
-
-        // About your city info box
-        FormInfoBox(
-          iconName: 'bulb',
-          title: 'About your city',
-          content: 'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.',
-        ),
-
-        const SizedBox(height: 16),
-
+        
         // City field
         buildFieldSection(
           title: 'CITY',
@@ -134,6 +116,12 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
             enabled: !isUpdating,
           ),
         ),
+
+         FormInfoBox(
+          content: 'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.',
+        ),
+
+        const SizedBox(height: 16),
       ],
     );
   }

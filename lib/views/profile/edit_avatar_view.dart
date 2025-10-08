@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/avatar_upload_service.dart';
@@ -10,6 +11,7 @@ import '../../core/providers/app_providers.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/avatar_view.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 import '../profile/edit_notifications_view.dart';
 
@@ -49,8 +51,11 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
   }
 
   @override
+  bool get useScrollView => true; // Enable scroll view for info box content
+
+  @override
   Widget buildFormContent(BuildContext context) {
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -80,19 +85,19 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                     ),
                   )
                 : AvatarView(
-                    avatarId: _forceNoAvatar == context.profileService.currentProfile?.avatarID 
-                        ? null 
+                    avatarId: _forceNoAvatar == context.profileService.currentProfile?.avatarID
+                        ? null
                         : context.profileService.currentProfile?.avatarID,
                     size: 120,
                     showBorder: true,
                   ),
           ),
         ),
-        
+
         const SizedBox(height: 12),
-        
+
         // Delete button (only show if avatar exists and not forced to hide)
-        if (context.profileService.currentProfile?.avatarID != null && 
+        if (context.profileService.currentProfile?.avatarID != null &&
             context.profileService.currentProfile!.avatarID!.isNotEmpty &&
             !_isUploading &&
             _forceNoAvatar != context.profileService.currentProfile?.avatarID)
@@ -117,9 +122,9 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
               ),
             ),
           ),
-        
+
         const SizedBox(height: 12),
-        
+
         // Title
         Center(
           child: Text(
@@ -127,24 +132,18 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
             style: AppTextStyles.title2,
           ),
         ),
-        
-        const SizedBox(height: 12),
-        
-        // Subtitle with explanation
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'Your avatar is often the first impression. Make it count by using a clear, welcoming headshot.',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.subheadline.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ),
+
+        const SizedBox(height: 16),
+
+        // Info box with explanation
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: FormInfoBox(
+            content: 'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you’re introduced.',
           ),
         ),
-        
-        const SizedBox(height: 24),
+
+        const SizedBox(height: 16),
         
         // Camera and Gallery buttons
         Padding(
@@ -155,11 +154,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
               // Camera button
               Expanded(
                 child: ActionButton(
-                  icon: Image.asset(
-                    'assets/images/icons/camera_selected.png',
-                    width: 24,
-                    height: 24,
-                  ),
+                  icon: context.themedIcon('camera'),
                   label: 'Camera',
                   type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleCameraUpload,
@@ -172,11 +167,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
               // Gallery button
               Expanded(
                 child: ActionButton(
-                  icon: Image.asset(
-                    'assets/images/icons/image_selected.png',
-                    width: 24,
-                    height: 24,
-                  ),
+                  icon: context.themedIcon('image'),
                   label: 'Gallery',
                   type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleGalleryUpload,

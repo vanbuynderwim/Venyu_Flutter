@@ -4,12 +4,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
-import '../../services/profile_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
-import '../main_view.dart';
+import '../../models/enums/interaction_type.dart';
+import '../../models/prompt.dart';
+import '../prompts/prompt_entry_view.dart';
 
 /// Final view in the registration wizard that completes the user's profile
 /// 
@@ -26,7 +27,7 @@ class RegistrationCompleteView extends StatefulWidget {
 class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
   bool _isCompleting = false;
 
-  Future<void> _completeRegistration() async {
+  Future<void> _navigateToPromptEntry() async {
     if (_isCompleting) return;
 
     setState(() {
@@ -34,44 +35,66 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
     });
 
     try {
+      // Complete registration on server (but don't refresh profile yet to avoid MainView prompts check)
+      AppLogger.debug('Completing registration', context: 'RegistrationCompleteView');
       final profileManager = ProfileManager.shared;
       await profileManager.completeRegistration();
-      
-      // Refresh the user profile so ProfileService knows registration is complete
-      final profileService = ProfileService.shared;
-      await profileService.refreshProfile();
-      
+
       AppLogger.success('Registration completed successfully', context: 'RegistrationCompleteView');
-      AppLogger.info('Profile registered: ${profileService.isRegistered}', context: 'RegistrationCompleteView');
-      AppLogger.info('Profile registered at: ${profileService.currentProfile?.registeredAt}', context: 'RegistrationCompleteView');
-      
-      // Navigate to main app - registration is complete
-      if (mounted) {
-        // Use pushAndRemoveUntil to clear the entire navigation stack
-        Navigator.of(context).pushAndRemoveUntil(
-          platformPageRoute(
-            context: context,
-            builder: (context) => const MainView(),
+      AppLogger.debug('Profile refresh will happen after tutorial', context: 'RegistrationCompleteView');
+
+      if (!mounted) return;
+
+      // Create 3 dummy tutorial prompts - one for each main interaction type
+      final dummyPrompts = [
+        Prompt(
+          promptID: 'tutorial_1',
+          label:
+              'Looking to connect with entrepreneurs growing beyond Belgium.',
+          interactionType: InteractionType.thisIsMe,
+        ),
+        Prompt(
+          promptID: 'tutorial_2',
+          label:
+              'Looking for someone who’s raised investment before.',
+          interactionType: InteractionType.lookingForThis,
+        ),
+        Prompt(
+          promptID: 'tutorial_3',
+          label:
+              'A friend is launching a coworking space. I’d like to introduce her to others who’ve done it.',
+          interactionType: InteractionType.knowSomeone,
+        ),
+        Prompt(
+          promptID: 'tutorial_4',
+          label:
+              'Looking for an expert in animal nutrition for a new pet food concept.',
+          interactionType: InteractionType.notRelevant,
+        ),
+      ];
+
+      // Navigate to prompt entry
+      Navigator.of(context).push(
+        platformPageRoute(
+          context: context,
+          builder: (context) => PromptEntryView(
+            prompts: dummyPrompts,
+            isFirstTimeUser: true,
           ),
-          (route) => false, // Remove all previous routes
-        );
-      }
+        ),
+      );
     } catch (error) {
       AppLogger.error('Failed to complete registration', error: error, context: 'RegistrationCompleteView');
-      
-      if (mounted) {
-        ToastService.error(
-          context: context,
-          message: 'Failed to complete registration. Please try again.',
-        );
-      }
-      
-      // Error tracking handled within SupabaseManager methods
-    } finally {
+
       if (mounted) {
         setState(() {
           _isCompleting = false;
         });
+
+        ToastService.error(
+          context: context,
+          message: 'Failed to complete registration. Please try again.',
+        );
       }
     }
   }
@@ -98,16 +121,16 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                   Column(
                     children: [
                       Text(
-                        'Your profile is complete! 🎉',
+                        'Your profile is ready! 🎉',
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
                       ),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       Text(
-                        'Thank you for taking the time to create your professional profile. You\'re all set to connect with like-minded professionals and unlock new opportunities.',
+                        'Thanks for setting up your profile. Now let’s see how answering 3 cards each day helps you get matched with the right people.',
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -117,12 +140,12 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                   ),
                   
                   const SizedBox(height: 24),
-                  
-                  // Enter Venyu button
+
+                  // Continue button
                   ActionButton(
-                    label: 'Enter Venyu',
-                    onPressed: _completeRegistration,
-                    isLoading: _isCompleting,
+                    label: 'Continue',
+                    width: 120,
+                    onPressed: _isCompleting ? null : _navigateToPromptEntry,
                   ),
                   
                   const Spacer(),

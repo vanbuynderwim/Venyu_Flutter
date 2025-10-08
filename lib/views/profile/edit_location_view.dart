@@ -111,7 +111,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
             ),
           ),
           
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           
           // Enable button (primary)
           Expanded(

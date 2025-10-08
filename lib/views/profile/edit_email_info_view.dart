@@ -11,6 +11,7 @@ import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user email address with OTP verification.
@@ -81,12 +82,9 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     
   }
 
-  /// Get helper text for email field
-  String get _emailHelperText {
-    if (_showOTPField) {
-      return '';
-    }
-    return "This email address will be used for all app notifications, including new matches, introductions and other information.";
+  /// Check if we should show the email helper info box
+  bool get _showEmailHelperBox {
+    return !_showOTPField;
   }
 
   /// Check if form can be saved
@@ -272,9 +270,12 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   }
 
   @override
+  bool get useScrollView => true; // Enable scroll view for info box content
+
+  @override
   Widget buildFormContent(BuildContext context) {
     AppLogger.ui('Building form content - _showOTPField: $_showOTPField, _isSendingOTP: $_isSendingOTP', context: 'EditEmailInfoView');
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -290,36 +291,26 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         // Email input section
         buildFieldSection(
           title: _formTitle,
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppTextField(
-                controller: _emailController,
-                hintText: 'A valid email address',
-                style: AppTextFieldStyle.large,
-                state: _isEmailValid ? AppTextFieldState.normal : AppTextFieldState.normal,
-                autofillHints: const [AutofillHints.email],
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.done,
-                autofocus: true,
-                textCapitalization: TextCapitalization.none,
-                enabled: !_emailFieldDisabled,
-              ),
-              if (_emailHelperText.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(
-                    _emailHelperText,
-                    style: AppTextStyles.footnote.copyWith(
-                      color: context.venyuTheme.secondaryText,
-                    ),
-                  ),
-                ),
-              ],
-            ],
+          content: AppTextField(
+            controller: _emailController,
+            hintText: 'A valid email address',
+            style: AppTextFieldStyle.large,
+            state: _isEmailValid ? AppTextFieldState.normal : AppTextFieldState.normal,
+            autofillHints: const [AutofillHints.email],
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.done,
+            autofocus: true,
+            textCapitalization: TextCapitalization.none,
+            enabled: !_emailFieldDisabled,
           ),
         ),
+
+        // Email info box (shown before OTP)
+        if (_showEmailHelperBox) ...[
+          FormInfoBox(
+            content: 'We’ll only use this email for app notifications like new matches, introductions and important updates',
+          ),
+        ],
 
         // Newsletter subscription toggle (shown when OTP field is visible)
         if (_showOTPField) ...[
@@ -363,7 +354,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         // OTP input section (shown after sending OTP)
         if (_showOTPField)
           buildFieldSection(
-            title: 'Enter verification code',
+            title: 'Verification code',
             content: AppTextField(
               controller: _otpController,
               hintText: 'Enter 6-digit code',

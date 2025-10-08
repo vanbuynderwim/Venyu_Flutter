@@ -234,7 +234,7 @@ class _OptionButtonState extends State<OptionButton> {
                 // Title
                 Text(
                   widget.option.title,
-                  style: AppTextStyles.headline.copyWith(
+                  style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),
                 ),
@@ -245,7 +245,7 @@ class _OptionButtonState extends State<OptionButton> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       widget.option.description,
-                      style: AppTextStyles.subheadline.copyWith(
+                      style: AppTextStyles.footnote.copyWith(
                         color: venyuTheme.secondaryText,
                       ),
                     ),

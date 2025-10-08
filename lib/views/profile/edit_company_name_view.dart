@@ -4,6 +4,7 @@ import '../../utils/website_validator.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing company name and website information.
@@ -102,6 +103,9 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
   }
 
   @override
+  bool get useScrollView => true; // Enable scroll view for info box content
+
+  @override
   Widget buildFormContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +119,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
               numberOfPages: 11,
             ),
           ),
-        
+
         // Company Name field
         buildFieldSection(
           title: 'COMPANY NAME',
@@ -125,14 +129,14 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
-            state: _companyNameTouched && _companyNameController.text.trim().isEmpty 
-                ? AppTextFieldState.error 
+            state: _companyNameTouched && _companyNameController.text.trim().isEmpty
+                ? AppTextFieldState.error
                 : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.organizationName],
             enabled: !isUpdating,
           ),
         ),
-        
+
         // Website URL field
         buildFieldSection(
           title: 'WEBSITE',
@@ -149,6 +153,11 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             autofillHints: const [AutofillHints.url],
             enabled: !isUpdating,
           ),
+        ),
+
+        // Company info box
+        FormInfoBox(
+          content: 'Your company name and website are only shared with people you get introduced to, not with matches. They help make introductions more meaningful and relevant.',
         ),
       ],
     );

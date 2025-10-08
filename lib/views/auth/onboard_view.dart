@@ -6,8 +6,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/providers/app_providers.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
-import '../profile/edit_name_view.dart';
-import '../../models/enums/registration_step.dart';
+import '../onboarding/tutorial_view.dart';
 
 /// OnboardView - Registration start screen matching iOS RegisterStartView
 /// 
@@ -37,7 +36,7 @@ class _OnboardViewState extends State<OnboardView> {
           // Content overlay
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 36.0),
               child: Column(
                 children: [
                   const Spacer(),
@@ -55,7 +54,7 @@ class _OnboardViewState extends State<OnboardView> {
                       const SizedBox(height: 24),
                       
                       Text(
-                        "Let's set up your professional profile.\nThis will only take a few minutes.",
+                        "You’re now part of a community built on real introductions.\n\nLet’s start with a quick tour before setting up your profile.",
                         style: AppTextStyles.callout.copyWith(
                           color: theme.secondaryText,
                         ),
@@ -68,15 +67,13 @@ class _OnboardViewState extends State<OnboardView> {
                   
                   // Get Started button
                   ActionButton(
-                    label: 'Get Started',
+                    label: 'Start',
+                    width: 120,
                     onPressed: () {
                       Navigator.of(context).push(
                         platformPageRoute(
                           context: context,
-                          builder: (context) => const EditNameView(
-                            registrationWizard: true,
-                            currentStep: RegistrationStep.name,
-                          ),
+                          builder: (context) => const TutorialView(),
                         ),
                       );
                     },

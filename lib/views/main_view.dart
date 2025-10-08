@@ -112,21 +112,6 @@ class _MainViewState extends State<MainView> {
 
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
-    // Check if this is a first-time user (profile registered within last 5 minutes)
-    final profileService = context.profileService;
-    final profile = profileService.currentProfile;
-    bool isFirstTimeUser = false;
-    
-    if (profile?.registeredAt != null) {
-      final profileAge = DateTime.now().difference(profile!.registeredAt!);
-      isFirstTimeUser = profileAge.inMinutes < 5 && !_hasShownFirstTimePrompts;
-      AppLogger.debug('Profile age: ${profileAge.inMinutes} minutes, isFirstTimeUser: $isFirstTimeUser, hasShownBefore: $_hasShownFirstTimePrompts', context: 'MainView');
-      
-      // Mark that we've shown the first-time prompts
-      if (isFirstTimeUser) {
-        _hasShownFirstTimePrompts = true;
-      }
-    }
     
     void closeModalCallback() {
       // Pop all routes (including modal) until we're back at MainView level
@@ -148,7 +133,6 @@ class _MainViewState extends State<MainView> {
       builder: (sheetCtx) => PromptEntryView(
         prompts: prompts,
         isModal: true, // Geef aan dat dit in een modal is
-        isFirstTimeUser: isFirstTimeUser,
         onCloseModal: closeModalCallback,
       ),
     );

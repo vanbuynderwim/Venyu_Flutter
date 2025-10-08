@@ -35,6 +35,7 @@ import '../../services/profile_service.dart';
 import '../../widgets/prompts/prompt_interaction_item_view.dart';
 import '../../models/prompt_interaction.dart';
 import '../../core/utils/dialog_utils.dart';
+import '../../models/enums/action_button_type.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 /// 
@@ -63,6 +64,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   List<Match> _matches = [];
   bool _matchesLoaded = false;
   String? _error;
+  bool _isProcessingApprove = false;
+  bool _isProcessingReject = false;
 
   @override
   void initState() {
@@ -135,18 +138,25 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
   @override
   Widget build(BuildContext context) {
+    final currentProfile = ProfileService.shared.currentProfile;
+    final showAdminButtons = _prompt?.status == PromptStatus.pendingReview &&
+                             (currentProfile?.isSuperAdmin ?? false);
+
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text('Card detail'),
       ),
       usePadding: false,
       useSafeArea: true,
-      body: RefreshIndicator(
-        onRefresh: _loadPromptData,
-        child: ListView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(bottom: 32.0),
-          children: [
+      body: Column(
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _loadPromptData,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 32.0),
+                children: [
             // Prompt item header (scrolls with content)
             if (_prompt != null) ...[
               Padding(
@@ -256,8 +266,14 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
             // Matches content
             _buildMatchesContent(),
-          ],
-        ),
+                ],
+              ),
+            ),
+          ),
+
+          // Admin review buttons - only show for super admins when status is pending_review
+          if (showAdminButtons) _buildAdminButtons(),
+        ],
       ),
     );
   }
@@ -538,6 +554,98 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       showSuccessToast: true,
       successMessage: 'Match setting updated',
       showErrorToast: true,
+    );
+  }
+
+  /// Build admin review buttons
+  Widget _buildAdminButtons() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      child: SafeArea(
+        child: Row(
+          children: [
+            // Reject button
+            Expanded(
+              child: ActionButton(
+                label: 'Reject',
+                onPressed: _isProcessingApprove ? null : _handleReject,
+                type: ActionButtonType.destructive,
+                isLoading: _isProcessingReject,
+                isDisabled: _isProcessingApprove,
+              ),
+            ),
+            const SizedBox(width: 8),
+            // Approve button
+            Expanded(
+              child: ActionButton(
+                label: 'Approve',
+                onPressed: _isProcessingReject ? null : _handleApprove,
+                type: ActionButtonType.primary,
+                isLoading: _isProcessingApprove,
+                isDisabled: _isProcessingReject,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Handle approve action
+  Future<void> _handleApprove() async {
+    if (_prompt == null || _isProcessingApprove || _isProcessingReject) return;
+
+    setState(() => _isProcessingApprove = true);
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.updatePromptStatusBatch(
+          [_prompt!.promptID],
+          PromptStatus.pendingTranslation,
+        );
+
+        AppLogger.success('Prompt approved', context: 'PromptDetailView');
+
+        // Navigate back after approval
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      showSuccessToast: true,
+      successMessage: 'Card approved',
+      showErrorToast: true,
+      onError: (_) {
+        setState(() => _isProcessingApprove = false);
+      },
+    );
+  }
+
+  /// Handle reject action
+  Future<void> _handleReject() async {
+    if (_prompt == null || _isProcessingApprove || _isProcessingReject) return;
+
+    setState(() => _isProcessingReject = true);
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.updatePromptStatusBatch(
+          [_prompt!.promptID],
+          PromptStatus.rejected,
+        );
+
+        AppLogger.success('Prompt rejected', context: 'PromptDetailView');
+
+        // Navigate back after rejection
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      showSuccessToast: true,
+      successMessage: 'Card rejected',
+      showErrorToast: true,
+      onError: (_) {
+        setState(() => _isProcessingReject = false);
+      },
     );
   }
 }

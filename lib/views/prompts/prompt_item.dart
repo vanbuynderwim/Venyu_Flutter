@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
-import '../../models/enums/prompt_status.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';

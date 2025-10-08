@@ -28,7 +28,7 @@ class SubTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        context.themedIcon(iconName, size: 24, selected: true),
+        context.themedIcon(iconName, size: 24, selected: true, overrideColor: textColor ?? context.venyuTheme.primaryText),
         const SizedBox(width: 8),
         Text(
           title,

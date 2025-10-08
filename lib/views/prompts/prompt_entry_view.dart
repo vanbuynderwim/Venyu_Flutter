@@ -33,13 +33,14 @@ class PromptEntryView extends StatelessWidget {
   void _handleLetsDoThis(BuildContext context) {
     // Provide medium haptic feedback
     HapticFeedback.mediumImpact();
-    
+
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
         builder: (_) => DailyPromptsView(
           prompts: prompts,
           onCloseModal: onCloseModal,
+          isFirstTimeUser: isFirstTimeUser,
         ),
       ),
     );
@@ -81,7 +82,7 @@ class PromptEntryView extends StatelessWidget {
             backgroundColor: Colors.transparent,
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(36),
                 child: Column(
               children: [
                 const Spacer(flex: 1),
@@ -98,30 +99,45 @@ class PromptEntryView extends StatelessWidget {
                 ),
                 
                 const Spacer(flex: 1),
-                
-                // Prompts icon
-                Image.asset(
-                  'assets/images/visuals/prompts.png',
-                  width: 134,
-                  height: 134,
-                  color: venyuTheme.darkText,
-                  errorBuilder: (context, error, stackTrace) {
-                    // Fallback if icon fails to load
-                    return Icon(
-                      Icons.style_rounded,
-                      size: 80,
-                      color: venyuTheme.primaryText,
-                    );
-                  },
+
+                // Prompts icon in circle (like tutorial view)
+                Container(
+                  width: 160,
+                  height: 160,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.6),
+                    border: Border.all(
+                      color: venyuTheme.darkText,
+                      width: 5,
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/visuals/onboarding_cards.png',
+                      width: 80,
+                      height: 80,
+                      color: venyuTheme.darkText,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        // Fallback if icon fails to load
+                        return Icon(
+                          Icons.style_rounded,
+                          size: 80,
+                          color: venyuTheme.darkText,
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              
+
                 const Spacer(flex: 1),
                 
                 // Cards count text - different for first time users
                 Text(
-                  isFirstTimeUser 
-                    ? "Let's start networking!\nAnswer ${prompts.length} questions to get matched"
-                    : 'Your daily ${prompts.length} cards are here !',
+                  isFirstTimeUser
+                    ? "The next ${prompts.length} cards are practice examples to help you learn how to answer them."
+                    : 'Your daily ${prompts.length} cards are waiting for you.',
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 16,
@@ -133,7 +149,7 @@ class PromptEntryView extends StatelessWidget {
                 
                 // "Show me!" button - wrapped in light theme
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ActionButton(
                       label: "Show me",
                       type: ActionButtonType.primary,

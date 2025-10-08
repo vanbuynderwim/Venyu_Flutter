@@ -103,8 +103,6 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
 
         // About your bio info box
         FormInfoBox(
-          iconName: 'bulb',
-          title: 'About your bio',
           content: 'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.',
         ),
 

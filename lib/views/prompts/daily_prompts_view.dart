@@ -12,9 +12,12 @@ import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/prompts/prompt_display_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
+import '../../widgets/common/sub_title.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import 'interaction_type_selection_view.dart';
+import '../onboarding/tutorial_finished_view.dart';
+import '../onboarding/registration_finish_view.dart';
 
 /// DailyPromptsView - Fullscreen modal for displaying daily prompts to users
 /// 
@@ -26,13 +29,16 @@ import 'interaction_type_selection_view.dart';
 /// - Gradient background with theming support
 class DailyPromptsView extends StatefulWidget {
   final List<Prompt> prompts;
-
   final VoidCallback? onCloseModal;
+  final bool isFirstTimeUser;
+  final bool isPostTutorialRealPrompts; // True when showing real prompts after tutorial
 
   const DailyPromptsView({
     super.key,
     required this.prompts,
     this.onCloseModal,
+    this.isFirstTimeUser = false,
+    this.isPostTutorialRealPrompts = false,
   });
 
   @override
@@ -79,15 +85,41 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
   Future<void> _handleNext() async {
     if (_selectedInteractionType == null || isProcessing) return;
-    
+
+    // For first time users, just play feedback and move to next prompt
+    if (widget.isFirstTimeUser) {
+      HapticFeedback.heavyImpact();
+      SystemSound.play(SystemSoundType.click);
+
+      // Check if there are more prompts
+      if (_currentPromptIndex < widget.prompts.length - 1) {
+        // Move to next prompt and reset interaction selection
+        setState(() {
+          _currentPromptIndex++;
+          _selectedInteractionType = null;
+          _isPromptReported = false;
+        });
+      } else {
+        // Last prompt - navigate to TutorialFinishedView
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (_) => const TutorialFinishedView(),
+          ),
+        );
+      }
+      return;
+    }
+
+    // Normal flow with server operation
     await executeWithLoading(
       operation: () async {
         HapticFeedback.heavyImpact();
-        
+
         final promptFeedID = _currentPrompt.feedID ?? 0;
         final promptID = _currentPrompt.promptID;
         final interactionType = _selectedInteractionType!;
-        
+
         AppLogger.network('Request payload: {prompt_feed_id: $promptFeedID, prompt_id: $promptID, interaction_type: ${interactionType.toJson()}}', context: 'PromptsView');
 
         await _contentManager.insertPromptInteraction(promptFeedID, promptID, interactionType);
@@ -106,20 +138,36 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             _isPromptReported = false; // Reset report state for new prompt
           });
         } else {
-          // Last prompt - navigate to InteractionTypeSelectionView
-          final result = await Navigator.of(context).push<bool>(
-            platformPageRoute(
-              context: context,
-              builder: (_) => InteractionTypeSelectionView(
-                isFromPrompts: true,
-                onCloseModal: widget.onCloseModal,
-              ),
-            ),
-          );
+          // Last prompt completed
 
-          // If prompt was successfully created, close the modal
-          if (result == true && widget.onCloseModal != null) {
-            widget.onCloseModal!();
+          // If these were real prompts after tutorial, navigate to RegistrationFinishView
+          if (widget.isPostTutorialRealPrompts) {
+            AppLogger.debug('Completed onboarding prompts, navigating to RegistrationFinishView', context: 'DailyPromptsView');
+
+            if (mounted) {
+              Navigator.of(context).push(
+                platformPageRoute(
+                  context: context,
+                  builder: (_) => const RegistrationFinishView(),
+                ),
+              );
+            }
+          } else {
+            // Normal flow - navigate to InteractionTypeSelectionView
+            final result = await Navigator.of(context).push<bool>(
+              platformPageRoute(
+                context: context,
+                builder: (_) => InteractionTypeSelectionView(
+                  isFromPrompts: true,
+                  onCloseModal: widget.onCloseModal,
+                ),
+              ),
+            );
+
+            // If prompt was successfully created, close the modal
+            if (result == true && widget.onCloseModal != null) {
+              widget.onCloseModal!();
+            }
           }
         }
       },
@@ -254,6 +302,28 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
                   const SizedBox(height: AppModifiers.largeSpacing),
 
+                  // Info box for first time users showing which button to press
+                  if (widget.isFirstTimeUser && _currentPrompt.interactionType != null) ...[
+                    Center(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: SubTitle(
+                          iconName: 'bulb',
+                          textColor: context.venyuTheme.darkText,
+                          title: _selectedInteractionType == null
+                              ? 'Select "${_currentPrompt.interactionType!.buttonTitle}" 👇'
+                              : 'Select "Next" to confirm',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppModifiers.mediumSpacing),
+                  ],
+
                   // Interaction buttons - fixed at bottom (base_form_view pattern)
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -262,6 +332,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       selectedInteractionType: _selectedInteractionType,
                       isUpdating: isProcessing,
                       spacing: AppModifiers.smallSpacing,
+                      enabledInteractionType: widget.isFirstTimeUser ? _currentPrompt.interactionType : null,
                     ),
                   ),
 

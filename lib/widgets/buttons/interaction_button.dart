@@ -27,58 +27,62 @@ class InteractionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.venyuTheme;
-    
-    return SizedBox(
-      width: width,
-      height: height ?? 56,
-      child: Material(
-        color: isSelected ? interactionType.color : Colors.transparent,
-        borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
-        child: InkWell(
-          onTap: isUpdating ? null : () {
-            if (!isSelected) {
-              HapticFeedback.mediumImpact();
-            }
-            onPressed?.call();
-          },
+    final bool isDisabled = onPressed == null;
+
+    return Opacity(
+      opacity: isDisabled ? 0.3 : 1.0,
+      child: SizedBox(
+        width: width,
+        height: height ?? 56,
+        child: Material(
+          color: isSelected ? interactionType.color : Colors.transparent,
           borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
-          highlightColor: interactionType.color.withValues(alpha: 0.2),
-          splashColor: interactionType.color.withValues(alpha: 0.3),
-          child: SizedBox(
-            height: height ?? 56,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Icon
-                Image.asset(
-                  interactionType.assetPath,
-                  width: 28,
-                  height: 28,
-                  color: isSelected ? Colors.white : interactionType.color,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(
-                      interactionType.fallbackIcon,
-                      size: 28,
-                      color: isSelected ? Colors.white : theme.unselectedText,
-                    );
-                  },
-                ),
-
-                const SizedBox(width: 8),
-
-                // Title
-                Flexible(
-                  child: Text(
-                    interactionType.buttonTitle,
-                    style: AppTextStyles.headline.copyWith(
-                      color: isSelected ? Colors.white : interactionType.color,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
+          child: InkWell(
+            onTap: isUpdating ? null : () {
+              if (!isSelected) {
+                HapticFeedback.mediumImpact();
+              }
+              onPressed?.call();
+            },
+            borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
+            highlightColor: interactionType.color.withValues(alpha: 0.2),
+            splashColor: interactionType.color.withValues(alpha: 0.3),
+            child: SizedBox(
+              height: height ?? 56,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Icon
+                  Image.asset(
+                    interactionType.assetPath,
+                    width: 28,
+                    height: 28,
+                    color: isSelected ? Colors.white : interactionType.color,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        interactionType.fallbackIcon,
+                        size: 28,
+                        color: isSelected ? Colors.white : theme.unselectedText,
+                      );
+                    },
                   ),
-                ),
-              ],
+
+                  const SizedBox(width: 8),
+
+                  // Title
+                  Flexible(
+                    child: Text(
+                      interactionType.buttonTitle,
+                      style: AppTextStyles.headline.copyWith(
+                        color: isSelected ? Colors.white : interactionType.color,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -94,6 +98,7 @@ class InteractionButtonRow extends StatefulWidget {
   final double spacing;
   final double? buttonHeight;
   final bool isUpdating;
+  final InteractionType? enabledInteractionType; // Only this button will be enabled in tutorial mode
 
   const InteractionButtonRow({
     super.key,
@@ -102,6 +107,7 @@ class InteractionButtonRow extends StatefulWidget {
     this.spacing = 8.0,
     this.buttonHeight,
     this.isUpdating = false,
+    this.enabledInteractionType,
   });
 
   @override
@@ -132,20 +138,29 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
     widget.onInteractionPressed?.call(type);
   }
 
+  bool _isButtonEnabled(InteractionType type) {
+    // If no specific button is enabled (normal mode), all buttons are enabled
+    if (widget.enabledInteractionType == null) return true;
+    // In tutorial mode, only the specified button is enabled
+    return widget.enabledInteractionType == type;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // First row - "I can help" and "I need this"
+        // First row - "I can help" and "Not relevant"
         Row(
           children: [
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.thisIsMe,
                 isSelected: _selectedType == InteractionType.thisIsMe,
-                onPressed: () => _handleSelection(InteractionType.thisIsMe),
+                onPressed: _isButtonEnabled(InteractionType.thisIsMe)
+                    ? () => _handleSelection(InteractionType.thisIsMe)
+                    : null,
                 height: widget.buttonHeight ?? 48,
-                isUpdating: widget.isUpdating,
+                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.thisIsMe),
               ),
             ),
             SizedBox(width: widget.spacing),
@@ -153,35 +168,41 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
               child: InteractionButton(
                 interactionType: InteractionType.notRelevant,
                 isSelected: _selectedType == InteractionType.notRelevant,
-                onPressed: () => _handleSelection(InteractionType.notRelevant),
+                onPressed: _isButtonEnabled(InteractionType.notRelevant)
+                    ? () => _handleSelection(InteractionType.notRelevant)
+                    : null,
                 height: widget.buttonHeight ?? 48,
-                isUpdating: widget.isUpdating,
+                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.notRelevant),
               ),
             ),
           ],
         ),
         SizedBox(height: widget.spacing),
-        // Second row - "I can refer" and "Not relevant"
+        // Second row - "I need this" and "I can refer"
         Row(
           children: [
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.lookingForThis,
                 isSelected: _selectedType == InteractionType.lookingForThis,
-                onPressed: () => _handleSelection(InteractionType.lookingForThis),
+                onPressed: _isButtonEnabled(InteractionType.lookingForThis)
+                    ? () => _handleSelection(InteractionType.lookingForThis)
+                    : null,
                 height: widget.buttonHeight ?? 48,
-                isUpdating: widget.isUpdating,
+                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.lookingForThis),
               ),
             ),
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.knowSomeone,
                 isSelected: _selectedType == InteractionType.knowSomeone,
-                onPressed: () => _handleSelection(InteractionType.knowSomeone),
+                onPressed: _isButtonEnabled(InteractionType.knowSomeone)
+                    ? () => _handleSelection(InteractionType.knowSomeone)
+                    : null,
                 height: widget.buttonHeight ?? 48,
-                isUpdating: widget.isUpdating,
+                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.knowSomeone),
               ),
-            ),           
+            ),
           ],
         ),
       ],
