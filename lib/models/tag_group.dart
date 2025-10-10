@@ -68,10 +68,10 @@ class TagGroup implements OptionType {
 
   // OptionType implementation
   @override
-  String get title => label;
+  String title(BuildContext context) => label;
 
   @override
-  String get description => desc ?? '';
+  String description(BuildContext context) => desc ?? '';
 
   @override
   Color get color => hasSelectedTags 

@@ -75,16 +75,16 @@ class OnboardingBenefitsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                benefit.title,
+                benefit.title(context),
                 style: AppTextStyles.body.copyWith(
                   color: venyuTheme.primaryText,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              if (benefit.description.isNotEmpty) ...[
+              if (benefit.description(context).isNotEmpty) ...[
                 const SizedBox(height: 2),
                 Text(
-                  benefit.description,
+                  benefit.description(context),
                   style: AppTextStyles.footnote.copyWith(
                     color: venyuTheme.secondaryText,
                   ),

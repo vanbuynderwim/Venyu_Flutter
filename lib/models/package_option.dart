@@ -14,10 +14,10 @@ class PackageOption implements OptionType {
   String get id => package.identifier;
 
   @override
-  String get title => package.storeProduct.title;
+  String title(BuildContext context) => package.storeProduct.title;
 
   @override
-  String get description => _formatDescription();
+  String description(BuildContext context) => _formatDescription();
 
   @override
   String? get icon => null; // No icon for packages

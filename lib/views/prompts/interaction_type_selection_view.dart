@@ -301,7 +301,7 @@ class _InteractionTypeButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      interactionType.selectionTitle,
+                      interactionType.selectionTitle(context),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -309,7 +309,7 @@ class _InteractionTypeButton extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      interactionType.selectionSubtitle,
+                      interactionType.selectionSubtitle(context),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 14,

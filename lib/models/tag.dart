@@ -42,10 +42,10 @@ class Tag implements OptionType {
 
   // OptionType implementation
   @override
-  String get title => label;
+  String title(BuildContext context) => label;
 
   @override
-  String get description => '';
+  String description(BuildContext context) => '';
 
   @override
   Color get color => AppColors.primair4Lilac;

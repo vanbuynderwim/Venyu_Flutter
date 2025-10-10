@@ -14,7 +14,7 @@ enum EditPersonalInfoType implements OptionType {
   String get id => toString();
 
   @override
-  String get title {
+  String title(BuildContext context) {
     switch (this) {
       case EditPersonalInfoType.name:
         return 'Name';
@@ -28,7 +28,7 @@ enum EditPersonalInfoType implements OptionType {
   }
 
   @override
-  String get description {
+  String description(BuildContext context) {
     switch (this) {
       case EditPersonalInfoType.name:
         return 'Your name and LinkedIn URL.';

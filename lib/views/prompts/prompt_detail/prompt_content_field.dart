@@ -59,7 +59,7 @@ class PromptContentField extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               enabled: isEnabled,
               cupertino: (_, __) => CupertinoTextFieldData(
-                placeholder: interactionType.hintText,
+                placeholder: interactionType.hintText(context),
                 placeholderStyle: TextStyle(
                   color: venyuTheme.darkText.withValues(alpha: 0.5),
                   fontSize: 36,
@@ -70,7 +70,7 @@ class PromptContentField extends StatelessWidget {
               ),
               material: (_, __) => MaterialTextFieldData(
                 decoration: InputDecoration(
-                  hintText: interactionType.hintText,
+                  hintText: interactionType.hintText(context),
                   hintStyle: TextStyle(
                     color: venyuTheme.darkText.withValues(alpha: 0.5),
                     fontSize: 36,

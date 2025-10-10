@@ -317,7 +317,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                           iconName: 'bulb',
                           textColor: context.venyuTheme.darkText,
                           title: _selectedInteractionType == null
-                              ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle)
+                              ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
                               : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
                         ),
                       ),

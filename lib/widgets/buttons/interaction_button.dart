@@ -72,7 +72,7 @@ class InteractionButton extends StatelessWidget {
                   // Title
                   Flexible(
                     child: Text(
-                      interactionType.buttonTitle,
+                      interactionType.buttonTitle(context),
                       style: AppTextStyles.headline.copyWith(
                         color: isSelected ? Colors.white : interactionType.color,
                         fontWeight: FontWeight.w600,

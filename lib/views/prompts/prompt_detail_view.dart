@@ -530,7 +530,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
         title: 'Pause matching?',
-        message: 'You will no longer receive matches for "${interaction.interactionType.buttonTitle}" on this card. You can resume matching anytime.',
+        message: 'You will no longer receive matches for "${interaction.interactionType.buttonTitle(context)}" on this card. You can resume matching anytime.',
         confirmText: 'Pause',
         cancelText: 'Cancel',
       );

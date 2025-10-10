@@ -12,7 +12,7 @@ enum ReviewType implements OptionType {
   String get id => name;
 
   @override
-  String get title {
+  String title(BuildContext context) {
     switch (this) {
       case ReviewType.user:
         return 'User generated';
@@ -22,7 +22,7 @@ enum ReviewType implements OptionType {
   }
 
   @override
-  String get description {
+  String description(BuildContext context) {
     switch (this) {
       case ReviewType.user:
         return 'Cards submitted by users';

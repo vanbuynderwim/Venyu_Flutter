@@ -10,11 +10,9 @@ class SimplePromptOption implements OptionType {
   @override
   final String id;
 
-  @override
-  final String title;
+  final String _title;
 
-  @override
-  final String description;
+  final String _description;
 
   @override
   final Color color;
@@ -33,11 +31,19 @@ class SimplePromptOption implements OptionType {
 
   const SimplePromptOption({
     required this.id,
-    required this.title,
-    required this.description,
+    required String title,
+    required String description,
     required this.color,
     this.icon,
     this.emoji,
-  }) : badge = 0,
+  }) : _title = title,
+       _description = description,
+       badge = 0,
        list = null;
+
+  @override
+  String title(BuildContext context) => _title;
+
+  @override
+  String description(BuildContext context) => _description;
 }

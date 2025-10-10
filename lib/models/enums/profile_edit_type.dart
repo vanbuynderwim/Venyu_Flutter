@@ -13,7 +13,7 @@ enum ProfileEditType implements OptionType {
   String get id => name;
 
   @override
-  String get title {
+  String title(BuildContext context) {
     switch (this) {
       //case ProfileEditType.settings:
       //  return 'Settings';
@@ -25,7 +25,7 @@ enum ProfileEditType implements OptionType {
   }
 
   @override
-  String get description {
+  String description(BuildContext context) {
     switch (this) {
       //case ProfileEditType.settings:
       //  return 'Preferences';

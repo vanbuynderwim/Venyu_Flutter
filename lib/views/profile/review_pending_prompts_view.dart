@@ -263,7 +263,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
     
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Pending ${widget.reviewType.title.toLowerCase()}'),
+        title: Text('Pending ${widget.reviewType.title(context).toLowerCase()}'),
       ),
       body: Column(
         children: [

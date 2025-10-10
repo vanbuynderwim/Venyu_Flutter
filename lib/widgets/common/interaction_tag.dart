@@ -62,7 +62,7 @@ class InteractionTag extends StatelessWidget {
             // Label
             Flexible(
               child: Text(
-                interactionType.buttonTitle,
+                interactionType.buttonTitle(context),
                 style: (compact ? AppTextStyles.caption1 : AppTextStyles.callout).copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

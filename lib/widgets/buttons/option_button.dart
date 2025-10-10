@@ -58,10 +58,8 @@ abstract class OptionType {
 class SimpleOption implements OptionType {
   @override
   final String id;
-  @override
-  final String title;
-  @override
-  final String description;
+  final String _title;
+  final String _description;
   @override
   final Color color;
   @override
@@ -75,14 +73,20 @@ class SimpleOption implements OptionType {
 
   const SimpleOption({
     required this.id,
-    required this.title,
-    this.description = '',
+    required String title,
+    String description = '',
     this.color = Colors.blue,
     this.icon,
     this.emoji,
     this.badge = 0,
     this.list,
-  });
+  }) : _title = title, _description = description;
+
+  @override
+  String title(BuildContext context) => _title;
+
+  @override
+  String description(BuildContext context) => _description;
 }
 
 /// A customizable option selection button with rich content support.
@@ -233,18 +237,18 @@ class _OptionButtonState extends State<OptionButton> {
               children: [
                 // Title
                 Text(
-                  widget.option.title,
+                  widget.option.title(context),
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),
                 ),
-                
+
                 // Description
-                if (widget.withDescription && widget.option.description.isNotEmpty)
+                if (widget.withDescription && widget.option.description(context).isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      widget.option.description,
+                      widget.option.description(context),
                       style: AppTextStyles.footnote.copyWith(
                         color: venyuTheme.secondaryText,
                       ),

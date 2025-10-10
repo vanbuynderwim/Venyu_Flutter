@@ -11,7 +11,7 @@ enum EditCompanyInfoType implements OptionType {
   String get id => toString();
 
   @override
-  String get title {
+  String title(BuildContext context) {
     switch (this) {
       case EditCompanyInfoType.name:
         return 'Name & website';
@@ -19,7 +19,7 @@ enum EditCompanyInfoType implements OptionType {
   }
 
   @override
-  String get description {
+  String description(BuildContext context) {
     switch (this) {
       case EditCompanyInfoType.name:
         return 'The name of your company';

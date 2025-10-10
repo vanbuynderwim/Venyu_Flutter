@@ -93,7 +93,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
       children: [
         // Description text
         Text(
-          EditPersonalInfoType.bio.description,
+          EditPersonalInfoType.bio.description(context),
           style: AppTextStyles.body.copyWith(
             color: venyuTheme.secondaryText,
           ),
