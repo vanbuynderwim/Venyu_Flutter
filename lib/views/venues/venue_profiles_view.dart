@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -140,9 +141,11 @@ class _VenueProfilesViewState extends State<VenueProfilesView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('${widget.venueName} Members'),
+        title: Text(l10n.venueProfilesViewTitle(widget.venueName)),
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
@@ -154,8 +157,8 @@ class _VenueProfilesViewState extends State<VenueProfilesView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: 'No members found',
-                          description: 'This venue doesn\'t have any members yet.',
+                          message: l10n.venueProfilesViewEmptyTitle,
+                          description: l10n.venueProfilesViewEmptyDescription,
                           iconName: "venue",
                           height: MediaQuery.of(context).size.height * 0.6,
                         ),

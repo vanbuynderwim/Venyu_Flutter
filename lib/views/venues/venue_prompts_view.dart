@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -141,9 +142,11 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('${widget.venueName} Cards'),
+        title: Text(l10n.venuePromptsViewTitle(widget.venueName)),
       ),
       usePadding: true,
       useSafeArea: true,
@@ -157,8 +160,8 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: 'No cards found',
-                          description: 'This venue doesn\'t have any cards yet.',
+                          message: l10n.venuePromptsViewEmptyTitle,
+                          description: l10n.venuePromptsViewEmptyDescription,
                           iconName: "nocards",
                           height: MediaQuery.of(context).size.height * 0.6,
                         ),

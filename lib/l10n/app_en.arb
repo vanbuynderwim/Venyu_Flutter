@@ -835,5 +835,29 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "@_VENUE_PROFILES_VIEW": {},
+  "venueProfilesViewTitle": "{venueName} Members",
+  "@venueProfilesViewTitle": {
+    "placeholders": {
+      "venueName": {
+        "type": "String"
+      }
+    }
+  },
+  "venueProfilesViewEmptyTitle": "No members found",
+  "venueProfilesViewEmptyDescription": "This venue doesn't have any members yet.",
+
+  "@_VENUE_PROMPTS_VIEW": {},
+  "venuePromptsViewTitle": "{venueName} Cards",
+  "@venuePromptsViewTitle": {
+    "placeholders": {
+      "venueName": {
+        "type": "String"
+      }
+    }
+  },
+  "venuePromptsViewEmptyTitle": "No cards found",
+  "venuePromptsViewEmptyDescription": "This venue doesn't have any cards yet."
 }

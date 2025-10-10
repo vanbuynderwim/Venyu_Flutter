@@ -1658,4 +1658,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String venueDetailOpenFromUntil(String startDate, String endDate) {
     return 'Open for matchmaking from $startDate until $endDate';
   }
+
+  @override
+  String venueProfilesViewTitle(String venueName) {
+    return '$venueName Members';
+  }
+
+  @override
+  String get venueProfilesViewEmptyTitle => 'No members found';
+
+  @override
+  String get venueProfilesViewEmptyDescription =>
+      'This venue doesn\'t have any members yet.';
+
+  @override
+  String venuePromptsViewTitle(String venueName) {
+    return '$venueName Cards';
+  }
+
+  @override
+  String get venuePromptsViewEmptyTitle => 'No cards found';
+
+  @override
+  String get venuePromptsViewEmptyDescription =>
+      'This venue doesn\'t have any cards yet.';
 }

@@ -3075,6 +3075,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open for matchmaking from {startDate} until {endDate}'**
   String venueDetailOpenFromUntil(String startDate, String endDate);
+
+  /// No description provided for @venueProfilesViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{venueName} Members'**
+  String venueProfilesViewTitle(String venueName);
+
+  /// No description provided for @venueProfilesViewEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No members found'**
+  String get venueProfilesViewEmptyTitle;
+
+  /// No description provided for @venueProfilesViewEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This venue doesn\'t have any members yet.'**
+  String get venueProfilesViewEmptyDescription;
+
+  /// No description provided for @venuePromptsViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{venueName} Cards'**
+  String venuePromptsViewTitle(String venueName);
+
+  /// No description provided for @venuePromptsViewEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards found'**
+  String get venuePromptsViewEmptyTitle;
+
+  /// No description provided for @venuePromptsViewEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This venue doesn\'t have any cards yet.'**
+  String get venuePromptsViewEmptyDescription;
 }
 
 class _AppLocalizationsDelegate
