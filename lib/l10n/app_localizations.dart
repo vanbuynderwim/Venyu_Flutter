@@ -2793,6 +2793,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Card rejected'**
   String get promptDetailRejectedMessage;
+
+  /// No description provided for @promptEditNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get promptEditNextButton;
 }
 
 class _AppLocalizationsDelegate

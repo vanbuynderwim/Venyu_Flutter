@@ -1502,4 +1502,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptDetailRejectedMessage => 'Card rejected';
+
+  @override
+  String get promptEditNextButton => 'Next';
 }

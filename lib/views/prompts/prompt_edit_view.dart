@@ -2,6 +2,7 @@ import 'package:app/models/models.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../mixins/error_handling_mixin.dart';
 
@@ -182,7 +183,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: ActionButton(
-                      label: 'Next',
+                      label: AppLocalizations.of(context)!.promptEditNextButton,
                       onInvertedBackground: true,
                       isDisabled: _contentIsEmpty,
                       onPressed: _handleNext,

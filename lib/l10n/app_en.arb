@@ -725,5 +725,8 @@
   "promptDetailRejectButton": "Reject",
   "promptDetailApproveButton": "Approve",
   "promptDetailApprovedMessage": "Card approved",
-  "promptDetailRejectedMessage": "Card rejected"
+  "promptDetailRejectedMessage": "Card rejected",
+
+  "@_PROMPT_EDIT_VIEW": {},
+  "promptEditNextButton": "Next"
 }
