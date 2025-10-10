@@ -1576,4 +1576,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptSelectVenueErrorSubmit => 'Failed to submit prompt';
+
+  @override
+  String get promptSettingsTitle => 'Settings';
+
+  @override
+  String get promptSettingsSubmitButton => 'Submit';
+
+  @override
+  String get promptSettingsErrorSubmit => 'Failed to submit prompt';
+
+  @override
+  String get promptsViewTitle => 'Your cards';
+
+  @override
+  String get promptsViewEmptyActionButton => 'Get matched';
 }

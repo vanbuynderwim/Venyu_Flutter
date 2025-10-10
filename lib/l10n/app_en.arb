@@ -778,5 +778,14 @@
   "promptSelectVenueOrTitle": "Or select a specific venue",
   "promptSelectVenueNextButton": "Next",
   "promptSelectVenueSubmitButton": "Submit",
-  "promptSelectVenueErrorSubmit": "Failed to submit prompt"
+  "promptSelectVenueErrorSubmit": "Failed to submit prompt",
+
+  "@_PROMPT_SETTINGS_VIEW": {},
+  "promptSettingsTitle": "Settings",
+  "promptSettingsSubmitButton": "Submit",
+  "promptSettingsErrorSubmit": "Failed to submit prompt",
+
+  "@_PROMPTS_VIEW": {},
+  "promptsViewTitle": "Your cards",
+  "promptsViewEmptyActionButton": "Get matched"
 }

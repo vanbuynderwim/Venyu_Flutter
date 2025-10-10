@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/helpers/get_matched_helper.dart';
@@ -58,9 +59,11 @@ class _PromptsViewState extends State<PromptsView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text("Your cards"),
+        title: Text(l10n.promptsViewTitle),
       ),
       floatingActionButton: _prompts.isNotEmpty
           ? GetMatchedButton(
@@ -89,7 +92,7 @@ class _PromptsViewState extends State<PromptsView>
                           description: ServerListType.profilePrompts.emptyStateDescription(context),
                           iconName: ServerListType.profilePrompts.emptyStateIcon,
                           onAction: () => _handleGetMatchedPressed(),
-                          actionText: "Get matched",
+                          actionText: l10n.promptsViewEmptyActionButton,
                           actionButtonIcon: context.themedIcon('edit'),
                         ),
                       ),

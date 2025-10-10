@@ -2925,6 +2925,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to submit prompt'**
   String get promptSelectVenueErrorSubmit;
+
+  /// No description provided for @promptSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get promptSettingsTitle;
+
+  /// No description provided for @promptSettingsSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get promptSettingsSubmitButton;
+
+  /// No description provided for @promptSettingsErrorSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit prompt'**
+  String get promptSettingsErrorSubmit;
+
+  /// No description provided for @promptsViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cards'**
+  String get promptsViewTitle;
+
+  /// No description provided for @promptsViewEmptyActionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Get matched'**
+  String get promptsViewEmptyActionButton;
 }
 
 class _AppLocalizationsDelegate

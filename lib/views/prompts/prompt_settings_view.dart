@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../models/venue.dart';
 import '../../widgets/prompts/first_call_settings_widget.dart';
@@ -56,6 +57,7 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
 
   /// Handle submit button - saves the prompt
   Future<void> _handleSubmit() async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.info('Submitting prompt with First Call: $_withPreview', context: 'PromptSettingsView');
 
     await executeWithLoading(
@@ -74,12 +76,13 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
       useProcessingState: true,
       showSuccessToast: false, // Don't show success toast as we're navigating away
       showErrorToast: true,
-      errorMessage: 'Failed to submit prompt',
+      errorMessage: l10n.promptSettingsErrorSubmit,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
 
     return Container(
@@ -104,7 +107,7 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
             appBar: PlatformAppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                'Settings',
+                l10n.promptSettingsTitle,
                 style: TextStyle(
                   color: venyuTheme.darkText,
                 ),
@@ -142,7 +145,7 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
                   Container(
                     padding: const EdgeInsets.all(16),
                     child: ActionButton(
-                      label: 'Submit',
+                      label: l10n.promptSettingsSubmitButton,
                       onInvertedBackground: true,
                       onPressed: _isProcessing ? null : _handleSubmit,
                       isLoading: _isProcessing,
