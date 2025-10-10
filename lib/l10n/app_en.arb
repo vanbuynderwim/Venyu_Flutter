@@ -312,5 +312,130 @@
   "joinVenueTitle": "Join venue",
   "joinVenueSubtitle": "Enter the 8-character invite code to join.",
   "joinVenueButton": "Join",
-  "joinVenuePlaceholder": "Enter venue code"
+  "joinVenuePlaceholder": "Enter venue code",
+
+  "@_MATCH_VIEWS": {},
+  "matchDetailLoading": "Loading...",
+  "matchDetailTitleIntroduction": "Introduction",
+  "matchDetailTitleMatch": "Match",
+  "matchDetailMenuReport": "Report",
+  "matchDetailMenuRemove": "Remove",
+  "matchDetailMenuBlock": "Block",
+  "matchDetailReportSuccess": "Profile reported successfully",
+  "matchDetailBlockTitle": "Block User?",
+  "matchDetailBlockMessage": "Blocking this user will remove the match and prevent future matching. This action cannot be undone.",
+  "matchDetailBlockButton": "Block",
+  "matchDetailBlockSuccess": "User blocked successfully",
+  "matchDetailRemoveTitle": "Remove {type}?",
+  "@matchDetailRemoveTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailRemoveMessage": "Are you sure you want to remove this {type}? This action cannot be undone.",
+  "@matchDetailRemoveMessage": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailRemoveButton": "Remove",
+  "matchDetailRemoveSuccessIntroduction": "Introduction removed successfully",
+  "matchDetailRemoveSuccessMatch": "Match removed successfully",
+  "matchDetailTypeIntroduction": "introduction",
+  "matchDetailTypeMatch": "match",
+  "matchDetailErrorLoad": "Failed to load match details",
+  "matchDetailRetry": "Retry",
+  "matchDetailNotFound": "Match not found",
+  "matchDetailLimitTitle": "Monthly limit reached",
+  "matchDetailLimitMessage": "You've reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.",
+  "matchDetailLimitButton": "Upgrade to Pro",
+  "matchDetailFirstCallTitle": "First Call active",
+  "matchDetailMatchingCards": "{count} matching {cards}",
+  "@matchDetailMatchingCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailCard": "card",
+  "matchDetailCards": "cards",
+  "matchDetailSharedIntros": "{count} shared {intros}",
+  "@matchDetailSharedIntros": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "intros": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailIntroduction": "introduction",
+  "matchDetailIntroductions": "introductions",
+  "matchDetailSharedVenues": "{count} shared {venues}",
+  "@matchDetailSharedVenues": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "venues": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailVenue": "venue",
+  "matchDetailVenues": "venues",
+  "matchDetailCompanyFacts": "{count} mutual company {facts}",
+  "@matchDetailCompanyFacts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "facts": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailFact": "fact",
+  "matchDetailFacts": "facts",
+  "matchDetailPersonalInterests": "{count} mutual personal {interests}",
+  "@matchDetailPersonalInterests": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "interests": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailInterest": "interest",
+  "matchDetailInterests": "interests",
+  "matchDetailWhyMatch": "Why you and {name} match",
+  "@matchDetailWhyMatch": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailUnlockTitle": "Unlock mutual interests",
+  "matchDetailUnlockMessage": "See what you share on a personal level with {name}",
+  "@matchDetailUnlockMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailUnlockButton": "Upgrade now",
+  "matchOverviewYou": "You"
 }

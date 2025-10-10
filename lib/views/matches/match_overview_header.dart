@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -36,7 +37,8 @@ class MatchOverviewHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -80,7 +82,7 @@ class MatchOverviewHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'You',
+                      l10n.matchOverviewYou,
                       style: AppTextStyles.subheadline.copyWith(
                         color: venyuTheme.primaryText,
                       ),

@@ -1335,6 +1335,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter venue code'**
   String get joinVenuePlaceholder;
+
+  /// No description provided for @matchDetailLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get matchDetailLoading;
+
+  /// No description provided for @matchDetailTitleIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction'**
+  String get matchDetailTitleIntroduction;
+
+  /// No description provided for @matchDetailTitleMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Match'**
+  String get matchDetailTitleMatch;
+
+  /// No description provided for @matchDetailMenuReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get matchDetailMenuReport;
+
+  /// No description provided for @matchDetailMenuRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get matchDetailMenuRemove;
+
+  /// No description provided for @matchDetailMenuBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get matchDetailMenuBlock;
+
+  /// No description provided for @matchDetailReportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile reported successfully'**
+  String get matchDetailReportSuccess;
+
+  /// No description provided for @matchDetailBlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User?'**
+  String get matchDetailBlockTitle;
+
+  /// No description provided for @matchDetailBlockMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocking this user will remove the match and prevent future matching. This action cannot be undone.'**
+  String get matchDetailBlockMessage;
+
+  /// No description provided for @matchDetailBlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get matchDetailBlockButton;
+
+  /// No description provided for @matchDetailBlockSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'User blocked successfully'**
+  String get matchDetailBlockSuccess;
+
+  /// No description provided for @matchDetailRemoveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {type}?'**
+  String matchDetailRemoveTitle(String type);
+
+  /// No description provided for @matchDetailRemoveMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this {type}? This action cannot be undone.'**
+  String matchDetailRemoveMessage(String type);
+
+  /// No description provided for @matchDetailRemoveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get matchDetailRemoveButton;
+
+  /// No description provided for @matchDetailRemoveSuccessIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction removed successfully'**
+  String get matchDetailRemoveSuccessIntroduction;
+
+  /// No description provided for @matchDetailRemoveSuccessMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Match removed successfully'**
+  String get matchDetailRemoveSuccessMatch;
+
+  /// No description provided for @matchDetailTypeIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'introduction'**
+  String get matchDetailTypeIntroduction;
+
+  /// No description provided for @matchDetailTypeMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'match'**
+  String get matchDetailTypeMatch;
+
+  /// No description provided for @matchDetailErrorLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load match details'**
+  String get matchDetailErrorLoad;
+
+  /// No description provided for @matchDetailRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get matchDetailRetry;
+
+  /// No description provided for @matchDetailNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Match not found'**
+  String get matchDetailNotFound;
+
+  /// No description provided for @matchDetailLimitTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly limit reached'**
+  String get matchDetailLimitTitle;
+
+  /// No description provided for @matchDetailLimitMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.'**
+  String get matchDetailLimitMessage;
+
+  /// No description provided for @matchDetailLimitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get matchDetailLimitButton;
+
+  /// No description provided for @matchDetailFirstCallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Call active'**
+  String get matchDetailFirstCallTitle;
+
+  /// No description provided for @matchDetailMatchingCards.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} matching {cards}'**
+  String matchDetailMatchingCards(int count, String cards);
+
+  /// No description provided for @matchDetailCard.
+  ///
+  /// In en, this message translates to:
+  /// **'card'**
+  String get matchDetailCard;
+
+  /// No description provided for @matchDetailCards.
+  ///
+  /// In en, this message translates to:
+  /// **'cards'**
+  String get matchDetailCards;
+
+  /// No description provided for @matchDetailSharedIntros.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} shared {intros}'**
+  String matchDetailSharedIntros(int count, String intros);
+
+  /// No description provided for @matchDetailIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'introduction'**
+  String get matchDetailIntroduction;
+
+  /// No description provided for @matchDetailIntroductions.
+  ///
+  /// In en, this message translates to:
+  /// **'introductions'**
+  String get matchDetailIntroductions;
+
+  /// No description provided for @matchDetailSharedVenues.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} shared {venues}'**
+  String matchDetailSharedVenues(int count, String venues);
+
+  /// No description provided for @matchDetailVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'venue'**
+  String get matchDetailVenue;
+
+  /// No description provided for @matchDetailVenues.
+  ///
+  /// In en, this message translates to:
+  /// **'venues'**
+  String get matchDetailVenues;
+
+  /// No description provided for @matchDetailCompanyFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} mutual company {facts}'**
+  String matchDetailCompanyFacts(int count, String facts);
+
+  /// No description provided for @matchDetailFact.
+  ///
+  /// In en, this message translates to:
+  /// **'fact'**
+  String get matchDetailFact;
+
+  /// No description provided for @matchDetailFacts.
+  ///
+  /// In en, this message translates to:
+  /// **'facts'**
+  String get matchDetailFacts;
+
+  /// No description provided for @matchDetailPersonalInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} mutual personal {interests}'**
+  String matchDetailPersonalInterests(int count, String interests);
+
+  /// No description provided for @matchDetailInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'interest'**
+  String get matchDetailInterest;
+
+  /// No description provided for @matchDetailInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'interests'**
+  String get matchDetailInterests;
+
+  /// No description provided for @matchDetailWhyMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Why you and {name} match'**
+  String matchDetailWhyMatch(String name);
+
+  /// No description provided for @matchDetailUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock mutual interests'**
+  String get matchDetailUnlockTitle;
+
+  /// No description provided for @matchDetailUnlockMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'See what you share on a personal level with {name}'**
+  String matchDetailUnlockMessage(String name);
+
+  /// No description provided for @matchDetailUnlockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade now'**
+  String get matchDetailUnlockButton;
+
+  /// No description provided for @matchOverviewYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get matchOverviewYou;
 }
 
 class _AppLocalizationsDelegate

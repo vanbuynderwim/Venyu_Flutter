@@ -690,4 +690,160 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get joinVenuePlaceholder => 'Enter venue code';
+
+  @override
+  String get matchDetailLoading => 'Loading...';
+
+  @override
+  String get matchDetailTitleIntroduction => 'Introduction';
+
+  @override
+  String get matchDetailTitleMatch => 'Match';
+
+  @override
+  String get matchDetailMenuReport => 'Report';
+
+  @override
+  String get matchDetailMenuRemove => 'Remove';
+
+  @override
+  String get matchDetailMenuBlock => 'Block';
+
+  @override
+  String get matchDetailReportSuccess => 'Profile reported successfully';
+
+  @override
+  String get matchDetailBlockTitle => 'Block User?';
+
+  @override
+  String get matchDetailBlockMessage =>
+      'Blocking this user will remove the match and prevent future matching. This action cannot be undone.';
+
+  @override
+  String get matchDetailBlockButton => 'Block';
+
+  @override
+  String get matchDetailBlockSuccess => 'User blocked successfully';
+
+  @override
+  String matchDetailRemoveTitle(String type) {
+    return 'Remove $type?';
+  }
+
+  @override
+  String matchDetailRemoveMessage(String type) {
+    return 'Are you sure you want to remove this $type? This action cannot be undone.';
+  }
+
+  @override
+  String get matchDetailRemoveButton => 'Remove';
+
+  @override
+  String get matchDetailRemoveSuccessIntroduction =>
+      'Introduction removed successfully';
+
+  @override
+  String get matchDetailRemoveSuccessMatch => 'Match removed successfully';
+
+  @override
+  String get matchDetailTypeIntroduction => 'introduction';
+
+  @override
+  String get matchDetailTypeMatch => 'match';
+
+  @override
+  String get matchDetailErrorLoad => 'Failed to load match details';
+
+  @override
+  String get matchDetailRetry => 'Retry';
+
+  @override
+  String get matchDetailNotFound => 'Match not found';
+
+  @override
+  String get matchDetailLimitTitle => 'Monthly limit reached';
+
+  @override
+  String get matchDetailLimitMessage =>
+      'You\'ve reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.';
+
+  @override
+  String get matchDetailLimitButton => 'Upgrade to Pro';
+
+  @override
+  String get matchDetailFirstCallTitle => 'First Call active';
+
+  @override
+  String matchDetailMatchingCards(int count, String cards) {
+    return '$count matching $cards';
+  }
+
+  @override
+  String get matchDetailCard => 'card';
+
+  @override
+  String get matchDetailCards => 'cards';
+
+  @override
+  String matchDetailSharedIntros(int count, String intros) {
+    return '$count shared $intros';
+  }
+
+  @override
+  String get matchDetailIntroduction => 'introduction';
+
+  @override
+  String get matchDetailIntroductions => 'introductions';
+
+  @override
+  String matchDetailSharedVenues(int count, String venues) {
+    return '$count shared $venues';
+  }
+
+  @override
+  String get matchDetailVenue => 'venue';
+
+  @override
+  String get matchDetailVenues => 'venues';
+
+  @override
+  String matchDetailCompanyFacts(int count, String facts) {
+    return '$count mutual company $facts';
+  }
+
+  @override
+  String get matchDetailFact => 'fact';
+
+  @override
+  String get matchDetailFacts => 'facts';
+
+  @override
+  String matchDetailPersonalInterests(int count, String interests) {
+    return '$count mutual personal $interests';
+  }
+
+  @override
+  String get matchDetailInterest => 'interest';
+
+  @override
+  String get matchDetailInterests => 'interests';
+
+  @override
+  String matchDetailWhyMatch(String name) {
+    return 'Why you and $name match';
+  }
+
+  @override
+  String get matchDetailUnlockTitle => 'Unlock mutual interests';
+
+  @override
+  String matchDetailUnlockMessage(String name) {
+    return 'See what you share on a personal level with $name';
+  }
+
+  @override
+  String get matchDetailUnlockButton => 'Upgrade now';
+
+  @override
+  String get matchOverviewYou => 'You';
 }

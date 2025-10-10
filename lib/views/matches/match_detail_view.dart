@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/utils/url_helper.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -76,7 +77,8 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       operation: () => _matchingManager.fetchMatchDetail(widget.matchId),
       showErrorToast: false,  // We show custom error UI
       onError: (error) {
-        setState(() => _error = 'Failed to load match details');
+        final l10n = AppLocalizations.of(context)!;
+        setState(() => _error = l10n.matchDetailErrorLoad);
       },
     );
 
@@ -118,13 +120,14 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Builds the match menu options for DialogUtils
   List<PopupMenuOption> _buildMatchMenuOptions(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final List<PopupMenuOption> options = [];
 
     // Report option (always available)
     options.add(
       MenuOptionBuilder.create(
         context: context,
-        label: 'Report',
+        label: l10n.matchDetailMenuReport,
         iconName: 'report',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         isDestructive: true,
@@ -136,7 +139,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       options.add(
         MenuOptionBuilder.create(
           context: context,
-          label: 'Remove',
+          label: l10n.matchDetailMenuRemove,
           iconName: 'delete',
           onTap: (_) {},  // Dummy onTap, handled by DialogUtils
           isDestructive: true,
@@ -148,7 +151,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     options.add(
       MenuOptionBuilder.create(
         context: context,
-        label: 'Block',
+        label: l10n.matchDetailMenuBlock,
         iconName: 'blocked',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         isDestructive: true,
@@ -178,6 +181,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Handles reporting a match
   Future<void> _handleReportMatch() async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Report match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
 
     await executeWithLoading(
@@ -186,20 +190,21 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         AppLogger.success('Profile reported successfully for match: ${widget.matchId}', context: 'MatchDetailView');
       },
       showSuccessToast: true,
-      successMessage: 'Profile reported successfully',
+      successMessage: l10n.matchDetailReportSuccess,
       showErrorToast: true,
     );
   }
 
   /// Handles blocking a match
   Future<void> _handleBlockMatch() async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Block match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
 
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      title: 'Block User?',
-      message: 'Blocking this user will remove the match and prevent future matching. This action cannot be undone.',
-      confirmText: 'Block',
+      title: l10n.matchDetailBlockTitle,
+      message: l10n.matchDetailBlockMessage,
+      confirmText: l10n.matchDetailBlockButton,
       isDestructive: true,
     );
 
@@ -218,7 +223,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           }
         },
         showSuccessToast: true,
-        successMessage: 'User blocked successfully',
+        successMessage: l10n.matchDetailBlockSuccess,
         showErrorToast: true,
       );
     }
@@ -226,14 +231,15 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Handles removing a match
   Future<void> _handleRemoveMatch() async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Remove match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
-    final matchType = _match!.isConnected ? 'introduction' : 'match';
+    final matchType = _match!.isConnected ? l10n.matchDetailTypeIntroduction : l10n.matchDetailTypeMatch;
 
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      title: 'Remove $matchType?',
-      message: 'Are you sure you want to remove this $matchType? This action cannot be undone.',
-      confirmText: 'Remove',
+      title: l10n.matchDetailRemoveTitle(matchType),
+      message: l10n.matchDetailRemoveMessage(matchType),
+      confirmText: l10n.matchDetailRemoveButton,
       isDestructive: true,
     );
 
@@ -252,7 +258,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           }
         },
         showSuccessToast: true,
-        successMessage: '${matchType.substring(0, 1).toUpperCase()}${matchType.substring(1)} removed successfully',
+        successMessage: _match!.isConnected ? l10n.matchDetailRemoveSuccessIntroduction : l10n.matchDetailRemoveSuccessMatch,
         showErrorToast: true,
       );
     }
@@ -270,19 +276,20 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Check if we should hide the bottom section due to connection limit
     final currentProfile = ProfileService.shared.currentProfile;
     final isPro = currentProfile?.isPro ?? false;
     final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
     final shouldHideBottomSection = AppConfig.showPro && !isPro && connectionsLimitReached;
-    
+
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(_match == null
-          ? 'Loading...'
+          ? l10n.matchDetailLoading
           : _match!.isConnected
-            ? 'Introduction'
-            : 'Match'),
+            ? l10n.matchDetailTitleIntroduction
+            : l10n.matchDetailTitleMatch),
         trailingActions: _match != null
           ? [
               GestureDetector(
@@ -314,6 +321,8 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   }
 
   Widget _buildContent() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (isLoading) {
       return const LoadingStateWidget();
     }
@@ -332,7 +341,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             const SizedBox(height: 16),
             PlatformTextButton(
               onPressed: _loadMatchDetail,
-              child: const Text('Retry'),
+              child: Text(l10n.matchDetailRetry),
             ),
           ],
         ),
@@ -340,8 +349,8 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     }
 
     if (_match == null) {
-      return const Center(
-        child: Text('Match not found'),
+      return Center(
+        child: Text(l10n.matchDetailNotFound),
       );
     }
 
@@ -392,11 +401,11 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
             // Preview mode indicator if match is in preview
             if (_match!.isPreview == true) ...[
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: SubTitle(
                   iconName: 'eye',
-                  title: 'First Call active',
+                  title: l10n.matchDetailFirstCallTitle,
                 ),
               ),
               const SizedBox(height: 16),
@@ -410,7 +419,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: SubTitle(
                   iconName: 'card',
-                  title: '${_match!.nrOfPrompts} matching ${_match!.nrOfPrompts == 1 ? "card" : "cards"}',
+                  title: l10n.matchDetailMatchingCards(_match!.nrOfPrompts, _match!.nrOfPrompts == 1 ? l10n.matchDetailCard : l10n.matchDetailCards),
                 ),
               ),
 
@@ -429,9 +438,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.0),
                 child: UpgradePromptWidget(
-                  title: 'Monthly limit reached',
-                  subtitle: 'You\'ve reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.',
-                  buttonText: 'Upgrade to Pro',
+                  title: l10n.matchDetailLimitTitle,
+                  subtitle: l10n.matchDetailLimitMessage,
+                  buttonText: l10n.matchDetailLimitButton,
                   onSubscriptionCompleted: () {
                     // Refresh the view to update Pro status
                     setState(() {
@@ -449,7 +458,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               if (_match!.nrOfConnections > 0) ...[
                 SubTitle(
                   iconName: 'handshake',
-                  title: '${_match!.nrOfConnections} shared ${_match!.nrOfConnections == 1 ? "introduction" : "introductions"}',
+                  title: l10n.matchDetailSharedIntros(_match!.nrOfConnections, _match!.nrOfConnections == 1 ? l10n.matchDetailIntroduction : l10n.matchDetailIntroductions),
                 ),
                 const SizedBox(height: 16),
                 MatchConnectionsSection(match: _match!),
@@ -460,7 +469,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               if (_match!.nrOfVenues > 0) ...[
                 SubTitle(
                   iconName: 'venue',
-                  title: '${_match!.nrOfVenues} shared ${_match!.nrOfVenues == 1 ? "venue" : "venues"}',
+                  title: l10n.matchDetailSharedVenues(_match!.nrOfVenues, _match!.nrOfVenues == 1 ? l10n.matchDetailVenue : l10n.matchDetailVenues),
                 ),
                 const SizedBox(height: 8),
                 MatchVenuesSection(match: _match!),
@@ -471,7 +480,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               if (_match!.nrOfCompanyTags > 0) ...[
                 SubTitle(
                   iconName: 'company',
-                  title: '${_match!.nrOfCompanyTags} mutual company ${_match!.nrOfCompanyTags == 1 ? "fact" : "facts"}',
+                  title: l10n.matchDetailCompanyFacts(_match!.nrOfCompanyTags, _match!.nrOfCompanyTags == 1 ? l10n.matchDetailFact : l10n.matchDetailFacts),
                 ),
                 const SizedBox(height: 16),
                 MatchTagsSection(tagGroups: _match!.companyTagGroups),
@@ -482,7 +491,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               if (_match!.nrOfPersonalTags > 0) ...[
                 SubTitle(
                   iconName: 'match',
-                  title: '${_match!.nrOfPersonalTags} mutual personal ${_match!.nrOfPersonalTags == 1 ? "interest" : "interests"}',
+                  title: l10n.matchDetailPersonalInterests(_match!.nrOfPersonalTags, _match!.nrOfPersonalTags == 1 ? l10n.matchDetailInterest : l10n.matchDetailInterests),
                 ),
                 const SizedBox(height: 16),
                 _buildPersonalMatchesContent(),
@@ -495,7 +504,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   _match!.motivation!.isNotEmpty) ...[
                 SubTitle(
                   iconName: 'bulb',
-                  title: 'Why you and ${_match!.profile.firstName} match',
+                  title: l10n.matchDetailWhyMatch(_match!.profile.firstName),
                 ),
                 const SizedBox(height: 16),
                 MatchReasonsView(match: _match!),
@@ -508,10 +517,11 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Build personal matches content based on user's Pro status and connection status
   Widget _buildPersonalMatchesContent() {
+    final l10n = AppLocalizations.of(context)!;
     final currentProfile = ProfileService.shared.currentProfile;
     final isPro = currentProfile?.isPro ?? false;
     final isConnection = _match!.isConnected;
-    
+
     // Show personal matches if user is Pro OR if they're already connected
     if (!AppConfig.showPro || isPro || isConnection) {
       // Show actual personal matches for Pro users or connections
@@ -519,9 +529,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     } else {
       // Show upgrade prompt for free users who aren't connected
       return UpgradePromptWidget(
-        title: 'Unlock mutual interests',
-        subtitle: 'See what you share on a personal level with ${_match!.profile.firstName}',
-        buttonText: 'Upgrade now',
+        title: l10n.matchDetailUnlockTitle,
+        subtitle: l10n.matchDetailUnlockMessage(_match!.profile.firstName),
+        buttonText: l10n.matchDetailUnlockButton,
         onSubscriptionCompleted: () {
           // Refresh the view to show personal matches
           setState(() {
