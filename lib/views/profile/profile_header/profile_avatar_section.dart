@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/dialog_utils.dart';
@@ -197,13 +198,14 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
   /// Builds the avatar menu options for DialogUtils
   List<PopupMenuOption> _buildAvatarMenuOptions(BuildContext context, Profile currentProfile) {
+    final l10n = AppLocalizations.of(context)!;
     final hasAvatar = currentProfile.avatarID != null && currentProfile.avatarID != _forceNoAvatar;
 
     final options = <PopupMenuOption>[
       // Camera option (always available)
       MenuOptionBuilder.create(
         context: context,
-        label: 'Camera',
+        label: l10n.profileAvatarMenuCamera,
         iconName: 'camera',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
@@ -211,7 +213,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       // Gallery option (always available)
       MenuOptionBuilder.create(
         context: context,
-        label: 'Gallery',
+        label: l10n.profileAvatarMenuGallery,
         iconName: 'image',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
@@ -222,7 +224,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       options.add(
         MenuOptionBuilder.create(
           context: context,
-          label: 'View',
+          label: l10n.profileAvatarMenuView,
           iconName: 'eye',
           onTap: (_) {},  // Dummy onTap, handled by DialogUtils
         ),
@@ -232,7 +234,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       options.add(
         MenuOptionBuilder.create(
           context: context,
-          label: 'Remove',
+          label: l10n.profileAvatarMenuRemove,
           iconName: 'delete',
           onTap: (_) {},  // Dummy onTap, handled by DialogUtils
           isDestructive: true,
@@ -279,13 +281,16 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       }
     } catch (error) {
       if (context.mounted) {
-        _showErrorDialog(context, 'Avatar action failed: $error');
+        final l10n = AppLocalizations.of(context)!;
+        _showErrorDialog(context, l10n.profileAvatarErrorAction(error.toString()));
       }
     }
   }
 
   /// Select and upload photo from camera
   Future<void> _selectFromCamera(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+
     final success = await AvatarUploadService.pickFromCameraAndUpload(
       context: context,
       onUploadStart: () {
@@ -304,12 +309,14 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
     // Show error if upload failed (but not if cancelled)
     if (!success && mounted && context.mounted) {
-      _showErrorDialog(context, 'Failed to upload photo. Please try again.');
+      _showErrorDialog(context, l10n.profileAvatarErrorUpload);
     }
   }
 
   /// Select and upload photo from gallery
   Future<void> _selectFromGallery(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+
     final success = await AvatarUploadService.pickFromGalleryAndUpload(
       context: context,
       onUploadStart: () {
@@ -328,7 +335,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
     // Show error if upload failed (but not if cancelled)
     if (!success && mounted && context.mounted) {
-      _showErrorDialog(context, 'Failed to upload photo. Please try again.');
+      _showErrorDialog(context, l10n.profileAvatarErrorUpload);
     }
   }
 
@@ -344,9 +351,11 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
   /// Remove avatar with confirmation
   Future<void> _removeAvatar(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+
     // Remember the current avatar ID before deletion
     final currentAvatarID = _currentProfile?.avatarID ?? widget.profile.avatarID;
-    
+
     final success = await AvatarUploadService.removeAvatar(
       context: context,
       onRemoveStart: () {
@@ -365,29 +374,31 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
         }
       },
     );
-    
+
     // If removal failed, reset the force no avatar state
     if (!success && mounted) {
       setState(() {
         _forceNoAvatar = null; // Reset on failure so avatar can show again
       });
       if (context.mounted) {
-        _showErrorDialog(context, 'Failed to remove photo. Please try again.');
+        _showErrorDialog(context, l10n.profileAvatarErrorRemove);
       }
     }
   }
 
   /// Show error dialog
   void _showErrorDialog(BuildContext context, String message) {
+    final l10n = AppLocalizations.of(context)!;
+
     showPlatformDialog(
       context: context,
       builder: (context) => PlatformAlertDialog(
-        title: const Text('Error'),
+        title: Text(l10n.profileAvatarErrorTitle),
         content: Text(message),
         actions: [
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(l10n.profileAvatarErrorButton),
           ),
         ],
       ),

@@ -846,4 +846,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matchOverviewYou => 'You';
+
+  @override
+  String get profileAvatarMenuCamera => 'Camera';
+
+  @override
+  String get profileAvatarMenuGallery => 'Gallery';
+
+  @override
+  String get profileAvatarMenuView => 'View';
+
+  @override
+  String get profileAvatarMenuRemove => 'Remove';
+
+  @override
+  String profileAvatarErrorAction(String error) {
+    return 'Avatar action failed: $error';
+  }
+
+  @override
+  String get profileAvatarErrorUpload =>
+      'Failed to upload photo. Please try again.';
+
+  @override
+  String get profileAvatarErrorRemove =>
+      'Failed to remove photo. Please try again.';
+
+  @override
+  String get profileAvatarErrorTitle => 'Error';
+
+  @override
+  String get profileAvatarErrorButton => 'OK';
 }

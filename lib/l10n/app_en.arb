@@ -437,5 +437,23 @@
     }
   },
   "matchDetailUnlockButton": "Upgrade now",
-  "matchOverviewYou": "You"
+  "matchOverviewYou": "You",
+
+  "@_PROFILE_AVATAR": {},
+  "profileAvatarMenuCamera": "Camera",
+  "profileAvatarMenuGallery": "Gallery",
+  "profileAvatarMenuView": "View",
+  "profileAvatarMenuRemove": "Remove",
+  "profileAvatarErrorAction": "Avatar action failed: {error}",
+  "@profileAvatarErrorAction": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "profileAvatarErrorUpload": "Failed to upload photo. Please try again.",
+  "profileAvatarErrorRemove": "Failed to remove photo. Please try again.",
+  "profileAvatarErrorTitle": "Error",
+  "profileAvatarErrorButton": "OK"
 }

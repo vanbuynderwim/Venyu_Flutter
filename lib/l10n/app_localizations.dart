@@ -1605,6 +1605,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You'**
   String get matchOverviewYou;
+
+  /// No description provided for @profileAvatarMenuCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get profileAvatarMenuCamera;
+
+  /// No description provided for @profileAvatarMenuGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get profileAvatarMenuGallery;
+
+  /// No description provided for @profileAvatarMenuView.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get profileAvatarMenuView;
+
+  /// No description provided for @profileAvatarMenuRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get profileAvatarMenuRemove;
+
+  /// No description provided for @profileAvatarErrorAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar action failed: {error}'**
+  String profileAvatarErrorAction(String error);
+
+  /// No description provided for @profileAvatarErrorUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload photo. Please try again.'**
+  String get profileAvatarErrorUpload;
+
+  /// No description provided for @profileAvatarErrorRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove photo. Please try again.'**
+  String get profileAvatarErrorRemove;
+
+  /// No description provided for @profileAvatarErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get profileAvatarErrorTitle;
+
+  /// No description provided for @profileAvatarErrorButton.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get profileAvatarErrorButton;
 }
 
 class _AppLocalizationsDelegate
