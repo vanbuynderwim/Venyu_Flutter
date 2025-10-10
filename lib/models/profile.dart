@@ -266,7 +266,7 @@ class Profile {
   String get role {
     // Get role titles from roles list
     final roleLabels = roles.isNotEmpty
-        ? roles.map((role) => role.title).toList()
+        ? roles.map((role) => role.label).toList()
         : <String>[];
     final rolesString = roleLabels.join(', ');
     

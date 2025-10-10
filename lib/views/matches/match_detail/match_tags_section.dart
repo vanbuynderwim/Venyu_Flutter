@@ -70,7 +70,7 @@ class MatchTagsSection extends StatelessWidget {
                     children: tagGroup.tags!.map<Widget>((tag) {
                       return TagView(
                         id: tag.id,
-                        label: tag.title,
+                        label: tag.label,
                         icon: tag.icon,
                         emoji: tag.emoji,
                         //backgroundColor: tagGroup.color,

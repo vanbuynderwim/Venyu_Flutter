@@ -46,7 +46,7 @@ class ProfileTagsSection extends StatelessWidget {
         children: sortedSectors.map<Widget>((sector) {
           return TagView(
             id: sector.id,
-            label: sector.title,
+            label: sector.label,
             icon: sector.icon,
           );
         }).toList(),

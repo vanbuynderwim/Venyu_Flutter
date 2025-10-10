@@ -880,5 +880,40 @@
 
   "@_PROMPT_INTERACTION_ITEM_VIEW": {},
   "promptInteractionPauseButton": "Pause",
-  "promptInteractionResumeButton": "Resume"
+  "promptInteractionResumeButton": "Resume",
+
+  "@_PAYWALL_VIEW": {},
+  "paywallTitle": "Join Venyu Pro",
+  "paywallSubtitle": "Make the net work. Better 💪",
+  "paywallButtonNotNow": "Not now",
+  "paywallButtonSubscribe": "Subscribe",
+  "paywallButtonContinue": "Continue",
+  "paywallButtonSubscribeContinue": "Subscribe & Continue",
+  "paywallButtonContinueToVenyu": "Continue to Venyu",
+  "paywallButtonRestorePurchases": "Restore Purchases",
+  "paywallDailyCost": "{currency}{price} per day",
+  "@paywallDailyCost": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "paywallDiscountBadge": "{percentage}% OFF",
+  "@paywallDiscountBadge": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "paywallErrorLoadOptions": "Failed to load subscription options",
+  "paywallSuccessActivated": "Subscription activated successfully!",
+  "paywallErrorPurchaseFailed": "Purchase failed. Please try again.",
+  "paywallSuccessRestored": "Purchases restored successfully!",
+  "paywallInfoNoSubscriptions": "No active subscriptions found",
+  "paywallErrorRestoreFailed": "Failed to restore purchases"
 }

@@ -3189,6 +3189,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume'**
   String get promptInteractionResumeButton;
+
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Venyu Pro'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the net work. Better 💪'**
+  String get paywallSubtitle;
+
+  /// No description provided for @paywallButtonNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get paywallButtonNotNow;
+
+  /// No description provided for @paywallButtonSubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get paywallButtonSubscribe;
+
+  /// No description provided for @paywallButtonContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get paywallButtonContinue;
+
+  /// No description provided for @paywallButtonSubscribeContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe & Continue'**
+  String get paywallButtonSubscribeContinue;
+
+  /// No description provided for @paywallButtonContinueToVenyu.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Venyu'**
+  String get paywallButtonContinueToVenyu;
+
+  /// No description provided for @paywallButtonRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get paywallButtonRestorePurchases;
+
+  /// No description provided for @paywallDailyCost.
+  ///
+  /// In en, this message translates to:
+  /// **'{currency}{price} per day'**
+  String paywallDailyCost(String currency, String price);
+
+  /// No description provided for @paywallDiscountBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{percentage}% OFF'**
+  String paywallDiscountBadge(int percentage);
+
+  /// No description provided for @paywallErrorLoadOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load subscription options'**
+  String get paywallErrorLoadOptions;
+
+  /// No description provided for @paywallSuccessActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription activated successfully!'**
+  String get paywallSuccessActivated;
+
+  /// No description provided for @paywallErrorPurchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get paywallErrorPurchaseFailed;
+
+  /// No description provided for @paywallSuccessRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored successfully!'**
+  String get paywallSuccessRestored;
+
+  /// No description provided for @paywallInfoNoSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'No active subscriptions found'**
+  String get paywallInfoNoSubscriptions;
+
+  /// No description provided for @paywallErrorRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restore purchases'**
+  String get paywallErrorRestoreFailed;
 }
 
 class _AppLocalizationsDelegate

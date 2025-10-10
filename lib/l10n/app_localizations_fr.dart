@@ -1726,4 +1726,56 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptInteractionResumeButton => 'Resume';
+
+  @override
+  String get paywallTitle => 'Join Venyu Pro';
+
+  @override
+  String get paywallSubtitle => 'Make the net work. Better 💪';
+
+  @override
+  String get paywallButtonNotNow => 'Not now';
+
+  @override
+  String get paywallButtonSubscribe => 'Subscribe';
+
+  @override
+  String get paywallButtonContinue => 'Continue';
+
+  @override
+  String get paywallButtonSubscribeContinue => 'Subscribe & Continue';
+
+  @override
+  String get paywallButtonContinueToVenyu => 'Continue to Venyu';
+
+  @override
+  String get paywallButtonRestorePurchases => 'Restore Purchases';
+
+  @override
+  String paywallDailyCost(String currency, String price) {
+    return '$currency$price per day';
+  }
+
+  @override
+  String paywallDiscountBadge(int percentage) {
+    return '$percentage% OFF';
+  }
+
+  @override
+  String get paywallErrorLoadOptions => 'Failed to load subscription options';
+
+  @override
+  String get paywallSuccessActivated => 'Subscription activated successfully!';
+
+  @override
+  String get paywallErrorPurchaseFailed => 'Purchase failed. Please try again.';
+
+  @override
+  String get paywallSuccessRestored => 'Purchases restored successfully!';
+
+  @override
+  String get paywallInfoNoSubscriptions => 'No active subscriptions found';
+
+  @override
+  String get paywallErrorRestoreFailed => 'Failed to restore purchases';
 }

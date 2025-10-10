@@ -18,6 +18,7 @@ import '../../models/enums/onboarding_benefit.dart';
 import '../../models/package_option.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_fonts.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Paywall view that shows subscription options to users during onboarding
 class PaywallView extends StatefulWidget {
@@ -75,7 +76,7 @@ class _PaywallViewState extends State<PaywallView> {
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to load subscription options',
+          message: AppLocalizations.of(context)!.paywallErrorLoadOptions,
         );
       }
     }
@@ -97,7 +98,7 @@ class _PaywallViewState extends State<PaywallView> {
       if (mounted) {
         ToastService.success(
           context: context,
-          message: 'Subscription activated successfully!',
+          message: AppLocalizations.of(context)!.paywallSuccessActivated,
         );
         _navigateToComplete(subscriptionCompleted: true);
       }
@@ -107,7 +108,7 @@ class _PaywallViewState extends State<PaywallView> {
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Purchase failed. Please try again.',
+          message: AppLocalizations.of(context)!.paywallErrorPurchaseFailed,
         );
       }
     } finally {
@@ -127,7 +128,7 @@ class _PaywallViewState extends State<PaywallView> {
         if (mounted) {
           ToastService.success(
             context: context,
-            message: 'Purchases restored successfully!',
+            message: AppLocalizations.of(context)!.paywallSuccessRestored,
           );
           _navigateToComplete(subscriptionCompleted: true);
         }
@@ -135,7 +136,7 @@ class _PaywallViewState extends State<PaywallView> {
         if (mounted) {
           ToastService.info(
             context: context,
-            message: 'No active subscriptions found',
+            message: AppLocalizations.of(context)!.paywallInfoNoSubscriptions,
           );
         }
       }
@@ -145,7 +146,7 @@ class _PaywallViewState extends State<PaywallView> {
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to restore purchases',
+          message: AppLocalizations.of(context)!.paywallErrorRestoreFailed,
         );
       }
     }
@@ -167,12 +168,12 @@ class _PaywallViewState extends State<PaywallView> {
   }
 
   /// Calculate daily cost for the selected package
-  String? _calculateDailyCost() {
+  String? _calculateDailyCost(BuildContext context) {
     if (_selectedPackage == null) return null;
-    
+
     final price = _selectedPackage!.storeProduct.price;
     double dailyCost;
-    
+
     if (_selectedPackage!.packageType == PackageType.annual) {
       dailyCost = price / 365;
     } else if (_selectedPackage!.packageType == PackageType.monthly) {
@@ -180,12 +181,15 @@ class _PaywallViewState extends State<PaywallView> {
     } else {
       return null; // Unknown package type
     }
-    
+
     // Format the daily cost with currency symbol
     final currencyCode = _selectedPackage!.storeProduct.currencyCode;
     final currencySymbol = _getCurrencySymbol(currencyCode);
-    
-    return '$currencySymbol${dailyCost.toStringAsFixed(2)} per day';
+
+    return AppLocalizations.of(context)!.paywallDailyCost(
+      currencySymbol,
+      dailyCost.toStringAsFixed(2),
+    );
   }
   
   /// Get currency symbol from currency code
@@ -205,12 +209,12 @@ class _PaywallViewState extends State<PaywallView> {
   }
 
   /// Calculate discount percentage for annual vs monthly
-  String? _calculateDiscountPercentage() {
+  String? _calculateDiscountPercentage(BuildContext context) {
     if (_offerings?.current?.availablePackages.isEmpty != false) return null;
-    
+
     Package? monthlyPackage;
     Package? annualPackage;
-    
+
     // Find monthly and annual packages
     for (final package in _offerings!.current!.availablePackages) {
       if (package.packageType == PackageType.monthly) {
@@ -219,22 +223,22 @@ class _PaywallViewState extends State<PaywallView> {
         annualPackage = package;
       }
     }
-    
+
     // Need both packages to calculate discount
     if (monthlyPackage == null || annualPackage == null) return null;
-    
+
     // Calculate yearly cost if paying monthly
     final yearlyMonthlyPrice = monthlyPackage.storeProduct.price * 12;
     final annualPrice = annualPackage.storeProduct.price;
-    
+
     // Calculate discount percentage
     final savings = yearlyMonthlyPrice - annualPrice;
     final discountPercentage = (savings / yearlyMonthlyPrice) * 100;
-    
+
     // Round to whole number
     final roundedDiscount = discountPercentage.round();
-    
-    return '$roundedDiscount% OFF';
+
+    return AppLocalizations.of(context)!.paywallDiscountBadge(roundedDiscount);
   }
 
 
@@ -266,7 +270,7 @@ class _PaywallViewState extends State<PaywallView> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 8),
                               child: Text(
-                                'Join Venyu Pro',
+                                AppLocalizations.of(context)!.paywallTitle,
                                 style: AppTextStyles.title2.copyWith(
                                   color: venyuTheme.primaryText,
                                   fontSize: 28,
@@ -299,7 +303,7 @@ class _PaywallViewState extends State<PaywallView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
-                        'Make the net work. Better 💪',
+                        AppLocalizations.of(context)!.paywallSubtitle,
                         style: AppTextStyles.callout.copyWith(
                           color: venyuTheme.secondaryText,
                           fontWeight: FontWeight.w500
@@ -367,7 +371,7 @@ class _PaywallViewState extends State<PaywallView> {
                                           },
                                         ),
                                         // Discount badge for annual packages
-                                        if (package.packageType == PackageType.annual && _calculateDiscountPercentage() != null)
+                                        if (package.packageType == PackageType.annual && _calculateDiscountPercentage(context) != null)
                                           Positioned(
                                             top: -10,
                                             right: 12,
@@ -388,7 +392,7 @@ class _PaywallViewState extends State<PaywallView> {
                                                 ],
                                               ),
                                               child: Text(
-                                                _calculateDiscountPercentage()!,
+                                                _calculateDiscountPercentage(context)!,
                                                 style: AppTextStyles.caption1.copyWith(
                                                   color: venyuTheme.cardBackground,
                                                   fontWeight: FontWeight.w600,
@@ -416,11 +420,11 @@ class _PaywallViewState extends State<PaywallView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Daily cost calculation
-                    if (_selectedPackage != null && _calculateDailyCost() != null)
+                    if (_selectedPackage != null && _calculateDailyCost(context) != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Text(
-                          _calculateDailyCost()!,
+                          _calculateDailyCost(context)!,
                           style: AppTextStyles.footnote.copyWith(
                             color: venyuTheme.secondaryText,
                           ),
@@ -432,25 +436,25 @@ class _PaywallViewState extends State<PaywallView> {
                     // Action button(s) with margin like base_form_view
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: widget.registrationWizard 
+                      child: widget.registrationWizard
                         ? Row(
                             children: [
-                              
+
                               // Not now button (secondary) for registration wizard
                               Expanded(
                                 child: ActionButton(
-                                  label: 'Not now',
+                                  label: AppLocalizations.of(context)!.paywallButtonNotNow,
                                   type: ActionButtonType.secondary,
                                   onPressed: _navigateToComplete,
                                 ),
                               ),
-                              
+
                               const SizedBox(width: 12),
-                              
+
                               // Subscribe button (primary) for registration wizard
                               Expanded(
                                 child: ActionButton(
-                                  label: _selectedPackage != null ? 'Subscribe' : 'Continue',
+                                  label: _selectedPackage != null ? AppLocalizations.of(context)!.paywallButtonSubscribe : AppLocalizations.of(context)!.paywallButtonContinue,
                                   type: ActionButtonType.primary,
                                   onPressed: _selectedPackage != null ? _purchaseSelectedPackage : _navigateToComplete,
                                   isLoading: _isPurchasing,
@@ -459,7 +463,7 @@ class _PaywallViewState extends State<PaywallView> {
                             ],
                           )
                         : ActionButton(
-                            label: _selectedPackage != null ? 'Subscribe & Continue' : 'Continue to Venyu',
+                            label: _selectedPackage != null ? AppLocalizations.of(context)!.paywallButtonSubscribeContinue : AppLocalizations.of(context)!.paywallButtonContinueToVenyu,
                             onPressed: _selectedPackage != null ? _purchaseSelectedPackage : _navigateToComplete,
                             isLoading: _isPurchasing,
                           ),
@@ -469,7 +473,7 @@ class _PaywallViewState extends State<PaywallView> {
                     TextButton(
                       onPressed: _restorePurchases,
                       child: Text(
-                        'Restore Purchases',
+                        AppLocalizations.of(context)!.paywallButtonRestorePurchases,
                         style: AppTextStyles.caption1.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
