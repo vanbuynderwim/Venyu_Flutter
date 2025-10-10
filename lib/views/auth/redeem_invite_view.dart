@@ -20,6 +20,7 @@ class RedeemInviteView extends StatelessWidget {
       title: l10n.redeemInviteTitle,
       subtitle: l10n.redeemInviteSubtitle,
       buttonLabel: l10n.redeemInviteContinue,
+      placeholder: l10n.redeemInvitePlaceholder,
     );
   }
 }
@@ -29,6 +30,7 @@ class _RedeemInviteViewImpl extends BaseCodeEntryView {
     required super.title,
     required super.subtitle,
     required super.buttonLabel,
+    required super.placeholder,
   });
 
   @override

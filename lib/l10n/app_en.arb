@@ -273,6 +273,7 @@
   "redeemInviteTitle": "Enter your invite code",
   "redeemInviteSubtitle": "Please enter the 8-character invite code you received to continue.",
   "redeemInviteContinue": "Continue",
+  "redeemInvitePlaceholder": "Enter invite code",
 
   "waitlistFinishTitle": "You're on the list!",
   "waitlistFinishDescription": "Thanks for joining the Venyu waitlist. We'll notify you as soon as new spots open up.",
@@ -305,5 +306,11 @@
   "onboardDescription": "You're now part of a community built on real introductions.\n\nLet's start with a quick tour before setting up your profile.",
   "onboardStart": "Start",
 
-  "loginLegalText": "By signing in, you agree to our Terms of Service and Privacy Policy"
+  "loginLegalText": "By signing in, you agree to our Terms of Service and Privacy Policy",
+
+  "@_VENUE_VIEWS": {},
+  "joinVenueTitle": "Join venue",
+  "joinVenueSubtitle": "Enter the 8-character invite code to join.",
+  "joinVenueButton": "Join",
+  "joinVenuePlaceholder": "Enter venue code"
 }

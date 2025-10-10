@@ -609,6 +609,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get redeemInviteContinue => 'Continue';
 
   @override
+  String get redeemInvitePlaceholder => 'Enter invite code';
+
+  @override
   String get waitlistFinishTitle => 'You\'re on the list!';
 
   @override
@@ -675,4 +678,16 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get loginLegalText =>
       'By signing in, you agree to our Terms of Service and Privacy Policy';
+
+  @override
+  String get joinVenueTitle => 'Join venue';
+
+  @override
+  String get joinVenueSubtitle => 'Enter the 8-character invite code to join.';
+
+  @override
+  String get joinVenueButton => 'Join';
+
+  @override
+  String get joinVenuePlaceholder => 'Enter venue code';
 }

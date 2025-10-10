@@ -1186,6 +1186,12 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get redeemInviteContinue;
 
+  /// No description provided for @redeemInvitePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter invite code'**
+  String get redeemInvitePlaceholder;
+
   /// No description provided for @waitlistFinishTitle.
   ///
   /// In en, this message translates to:
@@ -1305,6 +1311,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By signing in, you agree to our Terms of Service and Privacy Policy'**
   String get loginLegalText;
+
+  /// No description provided for @joinVenueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join venue'**
+  String get joinVenueTitle;
+
+  /// No description provided for @joinVenueSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 8-character invite code to join.'**
+  String get joinVenueSubtitle;
+
+  /// No description provided for @joinVenueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get joinVenueButton;
+
+  /// No description provided for @joinVenuePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter venue code'**
+  String get joinVenuePlaceholder;
 }
 
 class _AppLocalizationsDelegate

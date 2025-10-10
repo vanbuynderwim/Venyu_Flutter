@@ -36,6 +36,9 @@ abstract class BaseCodeEntryView extends StatefulWidget {
   /// Label for the action button
   final String buttonLabel;
 
+  /// Placeholder text for the code input field
+  final String placeholder;
+
   /// Whether to show a close button in the top right
   final bool showCloseButton;
 
@@ -44,6 +47,7 @@ abstract class BaseCodeEntryView extends StatefulWidget {
     required this.title,
     required this.subtitle,
     required this.buttonLabel,
+    required this.placeholder,
     this.showCloseButton = false,
   });
 }
@@ -178,7 +182,7 @@ abstract class BaseCodeEntryViewState<T extends BaseCodeEntryView> extends State
         child: CupertinoTextField(
           controller: _codeController,
           focusNode: _codeFocusNode,
-          placeholder: 'Enter invite code',
+          placeholder: widget.placeholder,
           placeholderStyle: AppTextStyles.body.copyWith(
             color: venyuTheme.secondaryText,
           ),
@@ -226,7 +230,7 @@ abstract class BaseCodeEntryViewState<T extends BaseCodeEntryView> extends State
           controller: _codeController,
           focusNode: _codeFocusNode,
           decoration: InputDecoration(
-            hintText: 'Enter invite code',
+            hintText: widget.placeholder,
             hintStyle: AppTextStyles.body.copyWith(
               color: venyuTheme.secondaryText,
             ),
