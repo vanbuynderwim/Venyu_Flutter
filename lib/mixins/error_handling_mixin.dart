@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/utils/app_logger.dart';
 import '../services/toast_service.dart';
+import '../l10n/app_localizations.dart';
 
 /// A mixin that provides standardized error handling and loading state management
 /// for StatefulWidgets throughout the app.
@@ -235,7 +236,7 @@ mixin ErrorHandlingMixin<T extends StatefulWidget> on State<T> {
             return errorBuilder(snapshot.error);
           }
           return Center(
-            child: Text('Error: ${_extractErrorMessage(snapshot.error)}'),
+            child: Text('${AppLocalizations.of(context)!.errorPrefix} ${_extractErrorMessage(snapshot.error)}'),
           );
         } else if (snapshot.hasData) {
           return builder(snapshot.data as R);
@@ -475,7 +476,7 @@ mixin FormErrorHandlingMixin<T extends StatefulWidget> on State<T> implements Er
             return errorBuilder(snapshot.error);
           }
           return Center(
-            child: Text('Error: ${_extractErrorMessage(snapshot.error)}'),
+            child: Text('${AppLocalizations.of(context)!.errorPrefix} ${_extractErrorMessage(snapshot.error)}'),
           );
         } else if (snapshot.hasData) {
           return builder(snapshot.data as R);

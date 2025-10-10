@@ -260,11 +260,12 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
-    
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Pending ${widget.reviewType.title(context).toLowerCase()}'),
+        title: Text(l10n.reviewPendingPromptsAppBarTitle(widget.reviewType.title(context).toLowerCase())),
       ),
       body: Column(
         children: [

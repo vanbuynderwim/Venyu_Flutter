@@ -3453,6 +3453,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to update, please try again'**
   String get baseFormViewErrorUpdate;
+
+  /// No description provided for @errorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error:'**
+  String get errorPrefix;
+
+  /// No description provided for @reviewPendingPromptsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending {type}'**
+  String reviewPendingPromptsAppBarTitle(String type);
 }
 
 class _AppLocalizationsDelegate

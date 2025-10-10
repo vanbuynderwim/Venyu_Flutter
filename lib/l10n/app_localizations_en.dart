@@ -1869,4 +1869,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baseFormViewErrorUpdate => 'Failed to update, please try again';
+
+  @override
+  String get errorPrefix => 'Error:';
+
+  @override
+  String reviewPendingPromptsAppBarTitle(String type) {
+    return 'Pending $type';
+  }
 }

@@ -979,5 +979,18 @@
   "baseListViewErrorTitle": "Failed to load data",
 
   "@_BASE_FORM_VIEW": {},
-  "baseFormViewErrorUpdate": "Failed to update, please try again"
+  "baseFormViewErrorUpdate": "Failed to update, please try again",
+
+  "@_ERROR_HANDLING": {},
+  "errorPrefix": "Error:",
+
+  "@_REVIEW_PENDING_PROMPTS_TITLE": {},
+  "reviewPendingPromptsAppBarTitle": "Pending {type}",
+  "@reviewPendingPromptsAppBarTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  }
 }
