@@ -141,8 +141,8 @@ class _NotificationsViewState extends State<NotificationsView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: ServerListType.notifications.emptyStateTitle,
-                          description: ServerListType.notifications.emptyStateDescription,
+                          message: ServerListType.notifications.emptyStateTitle(context),
+                          description: ServerListType.notifications.emptyStateDescription(context),
                           iconName: "notification",
                           height: MediaQuery.of(context).size.height * 0.6,
                         ),

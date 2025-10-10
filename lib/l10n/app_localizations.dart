@@ -1119,6 +1119,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permanent venue for companies or organizations'**
   String get venueTypeOrganisationDescription;
+
+  /// No description provided for @emptyStateNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up!'**
+  String get emptyStateNotificationsTitle;
+
+  /// No description provided for @emptyStateNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When something happens that you should know about, we\'ll update you here'**
+  String get emptyStateNotificationsDescription;
+
+  /// No description provided for @emptyStateReviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up!'**
+  String get emptyStateReviewsTitle;
+
+  /// No description provided for @emptyStateReviewsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When cards are submitted for review, they will appear here'**
+  String get emptyStateReviewsDescription;
+
+  /// No description provided for @emptyStateMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your first match!'**
+  String get emptyStateMatchesTitle;
+
+  /// No description provided for @emptyStateMatchesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.'**
+  String get emptyStateMatchesDescription;
+
+  /// No description provided for @emptyStatePromptsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to get matched?'**
+  String get emptyStatePromptsTitle;
+
+  /// No description provided for @emptyStatePromptsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards open the door to meaningful introductions. Add yours and match with the right people.'**
+  String get emptyStatePromptsDescription;
 }
 
 class _AppLocalizationsDelegate

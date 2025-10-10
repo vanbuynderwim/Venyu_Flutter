@@ -569,4 +569,32 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get venueTypeOrganisationDescription =>
       'Permanent venue for companies or organizations';
+
+  @override
+  String get emptyStateNotificationsTitle => 'All caught up!';
+
+  @override
+  String get emptyStateNotificationsDescription =>
+      'When something happens that you should know about, we\'ll update you here';
+
+  @override
+  String get emptyStateReviewsTitle => 'All caught up!';
+
+  @override
+  String get emptyStateReviewsDescription =>
+      'When cards are submitted for review, they will appear here';
+
+  @override
+  String get emptyStateMatchesTitle => 'Waiting for your first match!';
+
+  @override
+  String get emptyStateMatchesDescription =>
+      'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
+
+  @override
+  String get emptyStatePromptsTitle => 'Ready to get matched?';
+
+  @override
+  String get emptyStatePromptsDescription =>
+      'Cards open the door to meaningful introductions. Add yours and match with the right people.';
 }

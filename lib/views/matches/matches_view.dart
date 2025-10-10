@@ -170,8 +170,8 @@ class _MatchesViewState extends State<MatchesView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: ServerListType.matches.emptyStateTitle,
-                          description: ServerListType.matches.emptyStateDescription,
+                          message: ServerListType.matches.emptyStateTitle(context),
+                          description: ServerListType.matches.emptyStateDescription(context),
                           iconName: "nomatches",
                           height: MediaQuery.of(context).size.height * 0.6,
                           onAction: () => _handleGetMatchedPressed(),

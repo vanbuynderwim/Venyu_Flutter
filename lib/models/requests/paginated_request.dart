@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../enums/match_status.dart';
 
 /// Server list types for paginated requests
@@ -11,31 +13,33 @@ enum ServerListType {
   const ServerListType(this.value);
   final String value;
 
-  String get emptyStateTitle {
+  String emptyStateTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ServerListType.notifications:
-        return 'All caught up!';
+        return l10n.emptyStateNotificationsTitle;
       case ServerListType.pendingUserReviews:
       case ServerListType.pendingSystemReviews:
-        return 'All caught up!';
+        return l10n.emptyStateReviewsTitle;
       case ServerListType.matches:
-        return 'Waiting for your first match!';
+        return l10n.emptyStateMatchesTitle;
       case ServerListType.profilePrompts:
-        return 'Ready to get matched?';
+        return l10n.emptyStatePromptsTitle;
     }
   }
 
-  String get emptyStateDescription {
+  String emptyStateDescription(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ServerListType.notifications:
-        return 'When something happens that you should know about, we\'ll update you here';
+        return l10n.emptyStateNotificationsDescription;
       case ServerListType.pendingUserReviews:
       case ServerListType.pendingSystemReviews:
-        return 'When cards are submitted for review, they will appear here';
+        return l10n.emptyStateReviewsDescription;
       case ServerListType.matches:
-        return 'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
+        return l10n.emptyStateMatchesDescription;
       case ServerListType.profilePrompts:
-        return 'Cards open the door to meaningful introductions. Add yours and match with the right people.';
+        return l10n.emptyStatePromptsDescription;
     }
   }
 

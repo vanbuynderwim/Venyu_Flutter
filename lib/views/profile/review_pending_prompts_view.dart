@@ -293,8 +293,8 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
         slivers: [
           SliverFillRemaining(
             child: EmptyStateWidget(
-              message: serverListType.emptyStateTitle,
-              description: serverListType.emptyStateDescription,
+              message: serverListType.emptyStateTitle(context),
+              description: serverListType.emptyStateDescription(context),
               iconName: "nocards",
               height: MediaQuery.of(context).size.height * 0.6,
             ),

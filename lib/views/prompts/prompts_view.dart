@@ -85,8 +85,8 @@ class _PromptsViewState extends State<PromptsView>
                     slivers: [
                       SliverFillRemaining(
                         child: EmptyStateWidget(
-                          message: ServerListType.profilePrompts.emptyStateTitle,
-                          description: ServerListType.profilePrompts.emptyStateDescription,
+                          message: ServerListType.profilePrompts.emptyStateTitle(context),
+                          description: ServerListType.profilePrompts.emptyStateDescription(context),
                           iconName: ServerListType.profilePrompts.emptyStateIcon,
                           onAction: () => _handleGetMatchedPressed(),
                           actionText: "Get matched",

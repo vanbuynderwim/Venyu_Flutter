@@ -257,5 +257,15 @@
   "venueTypeEventDisplayName": "Event",
   "venueTypeEventDescription": "Temporary venue for events, conferences, or meetups",
   "venueTypeOrganisationDisplayName": "Community",
-  "venueTypeOrganisationDescription": "Permanent venue for companies or organizations"
+  "venueTypeOrganisationDescription": "Permanent venue for companies or organizations",
+
+  "@_SERVER_LIST_TYPE_EMPTY_STATES": {},
+  "emptyStateNotificationsTitle": "All caught up!",
+  "emptyStateNotificationsDescription": "When something happens that you should know about, we'll update you here",
+  "emptyStateReviewsTitle": "All caught up!",
+  "emptyStateReviewsDescription": "When cards are submitted for review, they will appear here",
+  "emptyStateMatchesTitle": "Waiting for your first match!",
+  "emptyStateMatchesDescription": "Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.",
+  "emptyStatePromptsTitle": "Ready to get matched?",
+  "emptyStatePromptsDescription": "Cards open the door to meaningful introductions. Add yours and match with the right people."
 }
