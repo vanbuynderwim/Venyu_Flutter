@@ -1429,4 +1429,77 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionNotNowButton => 'Not now';
+
+  @override
+  String get promptDetailTitle => 'Card detail';
+
+  @override
+  String get promptDetailStatusTitle => 'Status';
+
+  @override
+  String get promptDetailHowYouMatchTitle => 'How you match';
+
+  @override
+  String get promptDetailHowYouMatchDescription =>
+      'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.';
+
+  @override
+  String get promptDetailFirstCallTitle => 'First Call';
+
+  @override
+  String get promptDetailPublishedInTitle => 'Published in';
+
+  @override
+  String get promptDetailMatchesTitle => 'Matches & Introductions';
+
+  @override
+  String get promptDetailErrorMessage => 'Failed to load prompt';
+
+  @override
+  String get promptDetailErrorDataMessage => 'Failed to load prompt data';
+
+  @override
+  String get promptDetailRetryButton => 'Retry';
+
+  @override
+  String get promptDetailEmptyMatchesTitle => 'No matches yet';
+
+  @override
+  String get promptDetailEmptyMatchesDescription =>
+      'When people match with your card, their profiles will appear here.';
+
+  @override
+  String get promptDetailEditButton => 'Edit Card';
+
+  @override
+  String get promptDetailPreviewUpdatedMessage => 'Preview setting updated';
+
+  @override
+  String get promptDetailMatchSettingUpdatedMessage => 'Match setting updated';
+
+  @override
+  String get promptDetailPauseMatchingTitle => 'Pause matching?';
+
+  @override
+  String promptDetailPauseMatchingMessage(String interactionType) {
+    return 'You will no longer receive matches for \"$interactionType\" on this card. You can resume matching anytime.';
+  }
+
+  @override
+  String get promptDetailPauseMatchingConfirm => 'Pause';
+
+  @override
+  String get promptDetailPauseMatchingCancel => 'Cancel';
+
+  @override
+  String get promptDetailRejectButton => 'Reject';
+
+  @override
+  String get promptDetailApproveButton => 'Approve';
+
+  @override
+  String get promptDetailApprovedMessage => 'Card approved';
+
+  @override
+  String get promptDetailRejectedMessage => 'Card rejected';
 }

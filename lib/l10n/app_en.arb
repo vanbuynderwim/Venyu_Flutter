@@ -693,5 +693,37 @@
   "interactionTypeSelectionDisclaimerText": "All cards are subject to review before going live",
   "interactionTypeSelectionShowGuidelines": "Show community guidelines",
   "interactionTypeSelectionHideGuidelines": "Hide community guidelines",
-  "interactionTypeSelectionNotNowButton": "Not now"
+  "interactionTypeSelectionNotNowButton": "Not now",
+
+  "@_PROMPT_DETAIL_VIEW": {},
+  "promptDetailTitle": "Card detail",
+  "promptDetailStatusTitle": "Status",
+  "promptDetailHowYouMatchTitle": "How you match",
+  "promptDetailHowYouMatchDescription": "Pause a matching option to temporarily stop receiving matches. Resume to start matching again.",
+  "promptDetailFirstCallTitle": "First Call",
+  "promptDetailPublishedInTitle": "Published in",
+  "promptDetailMatchesTitle": "Matches & Introductions",
+  "promptDetailErrorMessage": "Failed to load prompt",
+  "promptDetailErrorDataMessage": "Failed to load prompt data",
+  "promptDetailRetryButton": "Retry",
+  "promptDetailEmptyMatchesTitle": "No matches yet",
+  "promptDetailEmptyMatchesDescription": "When people match with your card, their profiles will appear here.",
+  "promptDetailEditButton": "Edit Card",
+  "promptDetailPreviewUpdatedMessage": "Preview setting updated",
+  "promptDetailMatchSettingUpdatedMessage": "Match setting updated",
+  "promptDetailPauseMatchingTitle": "Pause matching?",
+  "promptDetailPauseMatchingMessage": "You will no longer receive matches for \"{interactionType}\" on this card. You can resume matching anytime.",
+  "@promptDetailPauseMatchingMessage": {
+    "placeholders": {
+      "interactionType": {
+        "type": "String"
+      }
+    }
+  },
+  "promptDetailPauseMatchingConfirm": "Pause",
+  "promptDetailPauseMatchingCancel": "Cancel",
+  "promptDetailRejectButton": "Reject",
+  "promptDetailApproveButton": "Approve",
+  "promptDetailApprovedMessage": "Card approved",
+  "promptDetailRejectedMessage": "Card rejected"
 }

@@ -2655,6 +2655,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get interactionTypeSelectionNotNowButton;
+
+  /// No description provided for @promptDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Card detail'**
+  String get promptDetailTitle;
+
+  /// No description provided for @promptDetailStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get promptDetailStatusTitle;
+
+  /// No description provided for @promptDetailHowYouMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How you match'**
+  String get promptDetailHowYouMatchTitle;
+
+  /// No description provided for @promptDetailHowYouMatchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.'**
+  String get promptDetailHowYouMatchDescription;
+
+  /// No description provided for @promptDetailFirstCallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Call'**
+  String get promptDetailFirstCallTitle;
+
+  /// No description provided for @promptDetailPublishedInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Published in'**
+  String get promptDetailPublishedInTitle;
+
+  /// No description provided for @promptDetailMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches & Introductions'**
+  String get promptDetailMatchesTitle;
+
+  /// No description provided for @promptDetailErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load prompt'**
+  String get promptDetailErrorMessage;
+
+  /// No description provided for @promptDetailErrorDataMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load prompt data'**
+  String get promptDetailErrorDataMessage;
+
+  /// No description provided for @promptDetailRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get promptDetailRetryButton;
+
+  /// No description provided for @promptDetailEmptyMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches yet'**
+  String get promptDetailEmptyMatchesTitle;
+
+  /// No description provided for @promptDetailEmptyMatchesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When people match with your card, their profiles will appear here.'**
+  String get promptDetailEmptyMatchesDescription;
+
+  /// No description provided for @promptDetailEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Card'**
+  String get promptDetailEditButton;
+
+  /// No description provided for @promptDetailPreviewUpdatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview setting updated'**
+  String get promptDetailPreviewUpdatedMessage;
+
+  /// No description provided for @promptDetailMatchSettingUpdatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Match setting updated'**
+  String get promptDetailMatchSettingUpdatedMessage;
+
+  /// No description provided for @promptDetailPauseMatchingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause matching?'**
+  String get promptDetailPauseMatchingTitle;
+
+  /// No description provided for @promptDetailPauseMatchingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You will no longer receive matches for \"{interactionType}\" on this card. You can resume matching anytime.'**
+  String promptDetailPauseMatchingMessage(String interactionType);
+
+  /// No description provided for @promptDetailPauseMatchingConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get promptDetailPauseMatchingConfirm;
+
+  /// No description provided for @promptDetailPauseMatchingCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get promptDetailPauseMatchingCancel;
+
+  /// No description provided for @promptDetailRejectButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get promptDetailRejectButton;
+
+  /// No description provided for @promptDetailApproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get promptDetailApproveButton;
+
+  /// No description provided for @promptDetailApprovedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Card approved'**
+  String get promptDetailApprovedMessage;
+
+  /// No description provided for @promptDetailRejectedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Card rejected'**
+  String get promptDetailRejectedMessage;
 }
 
 class _AppLocalizationsDelegate

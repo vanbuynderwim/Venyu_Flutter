@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -90,14 +91,14 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
           // Load matches after prompt is loaded
           _loadMatches();
         } else if (mounted) {
-          setState(() => _error = 'Failed to load prompt');
+          setState(() => _error = AppLocalizations.of(context)!.promptDetailErrorMessage);
         }
       },
       showErrorToast: false,
       onError: (error) {
         AppLogger.error('Error loading prompt data: $error', context: 'PromptDetailView');
         if (mounted) {
-          setState(() => _error = 'Failed to load prompt data');
+          setState(() => _error = AppLocalizations.of(context)!.promptDetailErrorDataMessage);
         }
       },
     );
@@ -138,13 +139,14 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentProfile = ProfileService.shared.currentProfile;
     final showAdminButtons = _prompt?.status == PromptStatus.pendingReview &&
                              (currentProfile?.isSuperAdmin ?? false);
 
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Card detail'),
+        title: Text(l10n.promptDetailTitle),
       ),
       usePadding: false,
       useSafeArea: true,
@@ -174,11 +176,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
               // Status section - only show if user is the author
               if (_prompt!.fromAuthor == true) ...[
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SubTitle(
                     iconName: 'report',
-                    title: 'Status',
+                    title: l10n.promptDetailStatusTitle,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -191,18 +193,18 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
               if (_prompt!.interactions != null &&
                   _prompt!.interactions!.isNotEmpty) ...[
                     const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SubTitle(
                     iconName: 'match',
-                    title: 'How you match',
+                    title: l10n.promptDetailHowYouMatchTitle,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.',
+                    l10n.promptDetailHowYouMatchDescription,
                     style: AppTextStyles.footnote.copyWith(
                       color: context.venyuTheme.secondaryText,
                     ),
@@ -225,11 +227,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
               // First Call section - only show if Pro features are enabled
               if (AppConfig.showPro) ...[
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SubTitle(
                     iconName: 'eye',
-                    title: 'First Call',
+                    title: l10n.promptDetailFirstCallTitle,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -248,9 +250,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SubTitle(
+                      SubTitle(
                         iconName: 'venue',
-                        title: 'Published in',
+                        title: l10n.promptDetailPublishedInTitle,
                       ),
                       const SizedBox(height: 8),
                       VenueItemView(
@@ -279,6 +281,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   }
 
   Widget _buildMatchesContent() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (isLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 48),
@@ -301,7 +305,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             const SizedBox(height: 16),
             TextButton(
               onPressed: _loadPromptData,
-              child: const Text('Retry'),
+              child: Text(l10n.promptDetailRetryButton),
             ),
           ],
         ),
@@ -320,11 +324,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     if (_matches.isEmpty) {
       // Show empty state for approved prompts
       if (_prompt?.displayStatus == PromptStatus.approved) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: EmptyStateWidget(
-            message: 'No matches yet',
-            description: 'When people match with your card, their profiles will appear here.',
+            message: l10n.promptDetailEmptyMatchesTitle,
+            description: l10n.promptDetailEmptyMatchesDescription,
             iconName: 'nomatches',
             height: 200,
           ),
@@ -339,11 +343,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Introductions title
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SubTitle(
             iconName: 'handshake',
-            title: 'Matches & Introductions',
+            title: l10n.promptDetailMatchesTitle,
           ),
         ),
         const SizedBox(height: 16),
@@ -448,7 +452,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             if (status.canEdit) ...[
               const SizedBox(height: 16),
               ActionButton(
-                label: 'Edit Card',
+                label: AppLocalizations.of(context)!.promptDetailEditButton,
                 icon: context.themedIcon('edit'),
                 onPressed: () => _editPrompt(),
                 isCompact: false,
@@ -506,6 +510,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   void _handlePreviewToggle(bool value) async {
     if (_prompt?.promptID == null) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     AppLogger.debug('Preview toggle changed to: $value for prompt: ${_prompt?.promptID}', context: 'PromptDetailView');
 
     await executeWithLoading(
@@ -518,21 +524,23 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         AppLogger.success('Preview setting updated successfully', context: 'PromptDetailView');
       },
       showSuccessToast: true,
-      successMessage: 'Preview setting updated',
+      successMessage: l10n.promptDetailPreviewUpdatedMessage,
       showErrorToast: true,
     );
   }
 
   /// Handle interaction matching toggle
   void _handleToggleInteraction(PromptInteraction interaction) async {
+    final l10n = AppLocalizations.of(context)!;
+
     // If currently enabled (user wants to pause), show confirmation dialog
     if (interaction.matchingEnabled) {
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
-        title: 'Pause matching?',
-        message: 'You will no longer receive matches for "${interaction.interactionType.buttonTitle(context)}" on this card. You can resume matching anytime.',
-        confirmText: 'Pause',
-        cancelText: 'Cancel',
+        title: l10n.promptDetailPauseMatchingTitle,
+        message: l10n.promptDetailPauseMatchingMessage(interaction.interactionType.buttonTitle(context)),
+        confirmText: l10n.promptDetailPauseMatchingConfirm,
+        cancelText: l10n.promptDetailPauseMatchingCancel,
       );
 
       if (!confirmed) {
@@ -552,13 +560,15 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         AppLogger.success('Interaction toggled successfully', context: 'PromptDetailView');
       },
       showSuccessToast: true,
-      successMessage: 'Match setting updated',
+      successMessage: l10n.promptDetailMatchSettingUpdatedMessage,
       showErrorToast: true,
     );
   }
 
   /// Build admin review buttons
   Widget _buildAdminButtons() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: SafeArea(
@@ -567,7 +577,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Reject button
             Expanded(
               child: ActionButton(
-                label: 'Reject',
+                label: l10n.promptDetailRejectButton,
                 onPressed: _isProcessingApprove ? null : _handleReject,
                 type: ActionButtonType.destructive,
                 isLoading: _isProcessingReject,
@@ -578,7 +588,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Approve button
             Expanded(
               child: ActionButton(
-                label: 'Approve',
+                label: l10n.promptDetailApproveButton,
                 onPressed: _isProcessingReject ? null : _handleApprove,
                 type: ActionButtonType.primary,
                 isLoading: _isProcessingApprove,
@@ -595,6 +605,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   Future<void> _handleApprove() async {
     if (_prompt == null || _isProcessingApprove || _isProcessingReject) return;
 
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isProcessingApprove = true);
 
     await executeWithLoading(
@@ -612,7 +623,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         }
       },
       showSuccessToast: true,
-      successMessage: 'Card approved',
+      successMessage: l10n.promptDetailApprovedMessage,
       showErrorToast: true,
       onError: (_) {
         setState(() => _isProcessingApprove = false);
@@ -624,6 +635,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   Future<void> _handleReject() async {
     if (_prompt == null || _isProcessingApprove || _isProcessingReject) return;
 
+    final l10n = AppLocalizations.of(context)!;
     setState(() => _isProcessingReject = true);
 
     await executeWithLoading(
@@ -641,7 +653,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         }
       },
       showSuccessToast: true,
-      successMessage: 'Card rejected',
+      successMessage: l10n.promptDetailRejectedMessage,
       showErrorToast: true,
       onError: (_) {
         setState(() => _isProcessingReject = false);
