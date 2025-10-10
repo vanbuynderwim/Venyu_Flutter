@@ -71,13 +71,13 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
   /// Handle skip match action
   Future<void> _handleSkipMatch() async {
     setState(() => _isProcessingSkip = true);
-    
+
     await executeWithLoading(
       operation: () async {
         await _matchingManager.insertMatchResponse(widget.match.id, MatchResponse.notInterested);
       },
       successMessage: null,  // No toast - we navigate immediately
-      errorMessage: 'Failed to skip match',
+      errorMessage: AppLocalizations.of(context)!.matchActionsSkipError,
       showSuccessToast: false,
       onSuccess: () {
         // Update badges after match response
@@ -89,20 +89,20 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         AppLogger.success('Match skipped successfully', context: 'MatchActionsSection');
       },
     );
-    
+
     setState(() => _isProcessingSkip = false);
   }
 
   /// Handle connect match action
   Future<void> _handleConnectMatch() async {
     setState(() => _isProcessingInterested = true);
-    
+
     await executeWithLoading(
       operation: () async {
         await _matchingManager.insertMatchResponse(widget.match.id, MatchResponse.interested);
       },
       successMessage: null,  // No toast - we navigate immediately
-      errorMessage: 'Failed to connect',
+      errorMessage: AppLocalizations.of(context)!.matchActionsConnectError,
       showSuccessToast: false,
       onSuccess: () {
         // Update badges after match response
@@ -114,7 +114,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         AppLogger.success('Connection request sent successfully', context: 'MatchActionsSection');
       },
     );
-    
+
     setState(() => _isProcessingInterested = false);
   }
 

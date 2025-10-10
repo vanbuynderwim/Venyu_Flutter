@@ -95,6 +95,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dailyPromptsButtonNext => 'Next';
 
   @override
+  String get dailyPromptsReportSuccess => 'Card reported successfully';
+
+  @override
+  String get dailyPromptsReportError => 'Failed to report card';
+
+  @override
+  String get dailyPromptsNoPromptsAvailable => 'No prompts available';
+
+  @override
   String get tutorialFinishedTitle => 'You\'re all set! 🎉';
 
   @override
@@ -1401,6 +1410,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'When people match with your card, their profiles will appear here.';
 
   @override
+  String get promptStatsTitle => 'Stats coming soon';
+
+  @override
+  String get promptStatsDescription =>
+      'Track your card\'s performance, views, and engagement metrics.';
+
+  @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
     return 'Thank you$name';
   }
@@ -1778,4 +1794,79 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paywallErrorRestoreFailed => 'Failed to restore purchases';
+
+  @override
+  String get matchesViewTitle => 'Matches & Introductions';
+
+  @override
+  String get matchesViewEmptyActionButton => 'Get matched';
+
+  @override
+  String get profileViewTitle => 'Profile';
+
+  @override
+  String get profileViewFabJoinVenue => 'Join a venue';
+
+  @override
+  String get getMatchedButtonLabel => 'Get matched';
+
+  @override
+  String get reviewPendingPromptsErrorUpdate => 'Failed to update prompts';
+
+  @override
+  String get reviewPendingPromptsErrorUpdateAll =>
+      'Failed to update all prompts';
+
+  @override
+  String reviewPendingPromptsRejectSelected(int count) {
+    return 'Reject $count';
+  }
+
+  @override
+  String reviewPendingPromptsApproveSelected(int count) {
+    return 'Approve $count';
+  }
+
+  @override
+  String get reviewPendingPromptsRejectAll => 'Reject all';
+
+  @override
+  String get reviewPendingPromptsApproveAll => 'Approve all';
+
+  @override
+  String get matchSectionNoSharedConnections => 'No shared connections';
+
+  @override
+  String get matchSectionNoSharedTags => 'No shared tags';
+
+  @override
+  String get matchSectionNoSharedVenues => 'No shared venues';
+
+  @override
+  String get matchSectionUnknownTagGroup => 'Unknown';
+
+  @override
+  String get matchActionsSkipError => 'Failed to skip match';
+
+  @override
+  String get matchActionsConnectError => 'Failed to connect';
+
+  @override
+  String get registrationCompleteError =>
+      'Failed to complete registration. Please try again.';
+
+  @override
+  String get avatarUploadError => 'Failed to upload photo. Please try again.';
+
+  @override
+  String get avatarRemoveError => 'Failed to remove photo. Please try again.';
+
+  @override
+  String get baseListViewLoading => 'Loading...';
+
+  @override
+  String get baseListViewErrorTitle => 'Failed to load data';
+
+  @override
+  String get baseFormViewErrorUpdate => 'Failed to update, please try again';
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/app_logger.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../models/enums/review_type.dart';
@@ -200,7 +201,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to update prompts',
+          message: AppLocalizations.of(context)!.reviewPendingPromptsErrorUpdate,
         );
       }
     } finally {
@@ -244,7 +245,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to update all prompts',
+          message: AppLocalizations.of(context)!.reviewPendingPromptsErrorUpdateAll,
         );
       }
     } finally {
@@ -343,7 +344,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
               // Reject button
               Expanded(
                 child: ActionButton(
-                  label: 'Reject ${_selectedPromptIds.length}',
+                  label: AppLocalizations.of(context)!.reviewPendingPromptsRejectSelected(_selectedPromptIds.length),
                   onPressed: _isProcessingApprove ? null : _rejectSelection,
                   type: ActionButtonType.destructive,
                   isLoading: _isProcessingReject,
@@ -354,7 +355,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
               // Approve button
               Expanded(
                 child: ActionButton(
-                  label: 'Approve ${_selectedPromptIds.length}',
+                  label: AppLocalizations.of(context)!.reviewPendingPromptsApproveSelected(_selectedPromptIds.length),
                   onPressed: _isProcessingReject ? null : _approveSelection,
                   type: ActionButtonType.primary,
                   isLoading: _isProcessingApprove,
@@ -375,7 +376,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
               // Reject all button
               Expanded(
                 child: ActionButton(
-                  label: 'Reject all',
+                  label: AppLocalizations.of(context)!.reviewPendingPromptsRejectAll,
                   onPressed: _isProcessingApprove ? null : _rejectAll,
                   type: ActionButtonType.destructive,
                   isLoading: _isProcessingReject,
@@ -386,7 +387,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
               // Approve all button
               Expanded(
                 child: ActionButton(
-                  label: 'Approve all',
+                  label: AppLocalizations.of(context)!.reviewPendingPromptsApproveAll,
                   onPressed: _isProcessingReject ? null : _approveAll,
                   type: ActionButtonType.primary,
                   isLoading: _isProcessingApprove,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../scaffolds/app_scaffold.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import 'loading_state_widget.dart';
 import 'error_state_widget.dart';
@@ -83,13 +84,13 @@ abstract class BaseListViewState<T, W extends BaseListView<T>> extends State<W> 
   
   /// Optional: Custom empty state widget (overrides emptyMessage)
   Widget? buildEmptyState() => null;
-  
+
   /// Optional: Custom loading message
-  String get loadingMessage => 'Loading...';
-  
+  String get loadingMessage => AppLocalizations.of(context)!.baseListViewLoading;
+
   /// Optional: Custom error title
-  String get errorTitle => 'Failed to load data';
-  
+  String get errorTitle => AppLocalizations.of(context)!.baseListViewErrorTitle;
+
   /// Optional: Enable pull-to-refresh (default: true)
   bool get enableRefresh => true;
 

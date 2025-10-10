@@ -42,6 +42,9 @@
   },
   "dailyPromptsHintConfirm": "Select \"Next\" to confirm",
   "dailyPromptsButtonNext": "Next",
+  "dailyPromptsReportSuccess": "Card reported successfully",
+  "dailyPromptsReportError": "Failed to report card",
+  "dailyPromptsNoPromptsAvailable": "No prompts available",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
@@ -678,6 +681,10 @@
   "promptIntroEmptyTitle": "No matches yet",
   "promptIntroEmptyDescription": "When people match with your card, their profiles will appear here.",
 
+  "@_PROMPT_STATS_SECTION": {},
+  "promptStatsTitle": "Stats coming soon",
+  "promptStatsDescription": "Track your card's performance, views, and engagement metrics.",
+
   "@_INTERACTION_TYPE_SELECTION": {},
   "interactionTypeSelectionTitleFromPrompts": "Thank you{name}",
   "@interactionTypeSelectionTitleFromPrompts": {
@@ -915,5 +922,62 @@
   "paywallErrorPurchaseFailed": "Purchase failed. Please try again.",
   "paywallSuccessRestored": "Purchases restored successfully!",
   "paywallInfoNoSubscriptions": "No active subscriptions found",
-  "paywallErrorRestoreFailed": "Failed to restore purchases"
+  "paywallErrorRestoreFailed": "Failed to restore purchases",
+
+  "@_MATCHES_VIEW": {},
+  "matchesViewTitle": "Matches & Introductions",
+  "matchesViewEmptyActionButton": "Get matched",
+
+  "@_PROFILE_VIEW": {},
+  "profileViewTitle": "Profile",
+  "profileViewFabJoinVenue": "Join a venue",
+
+  "@_GET_MATCHED_BUTTON": {},
+  "getMatchedButtonLabel": "Get matched",
+
+  "@_REVIEW_PENDING_PROMPTS_VIEW": {},
+  "reviewPendingPromptsErrorUpdate": "Failed to update prompts",
+  "reviewPendingPromptsErrorUpdateAll": "Failed to update all prompts",
+  "reviewPendingPromptsRejectSelected": "Reject {count}",
+  "@reviewPendingPromptsRejectSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewPendingPromptsApproveSelected": "Approve {count}",
+  "@reviewPendingPromptsApproveSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewPendingPromptsRejectAll": "Reject all",
+  "reviewPendingPromptsApproveAll": "Approve all",
+
+  "@_MATCH_SECTIONS": {},
+  "matchSectionNoSharedConnections": "No shared connections",
+  "matchSectionNoSharedTags": "No shared tags",
+  "matchSectionNoSharedVenues": "No shared venues",
+  "matchSectionUnknownTagGroup": "Unknown",
+
+  "@_MATCH_ACTIONS": {},
+  "matchActionsSkipError": "Failed to skip match",
+  "matchActionsConnectError": "Failed to connect",
+
+  "@_REGISTRATION_COMPLETE": {},
+  "registrationCompleteError": "Failed to complete registration. Please try again.",
+
+  "@_AVATAR_UPLOAD": {},
+  "avatarUploadError": "Failed to upload photo. Please try again.",
+  "avatarRemoveError": "Failed to remove photo. Please try again.",
+
+  "@_BASE_LIST_VIEW": {},
+  "baseListViewLoading": "Loading...",
+  "baseListViewErrorTitle": "Failed to load data",
+
+  "@_BASE_FORM_VIEW": {},
+  "baseFormViewErrorUpdate": "Failed to update, please try again"
 }

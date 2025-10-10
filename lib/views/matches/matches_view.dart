@@ -16,6 +16,7 @@ import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import 'match_detail_view.dart';
+import '../../l10n/app_localizations.dart';
 
 /// MatchesView - Matches page with ListView for server data
 class MatchesView extends StatefulWidget {
@@ -155,10 +156,11 @@ class _MatchesViewState extends State<MatchesView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text("Matches & Introductions"),
+        title: Text(l10n.matchesViewTitle),
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
@@ -175,7 +177,7 @@ class _MatchesViewState extends State<MatchesView>
                           iconName: "nomatches",
                           height: MediaQuery.of(context).size.height * 0.6,
                           onAction: () => _handleGetMatchedPressed(),
-                          actionText: "Get matched",
+                          actionText: l10n.matchesViewEmptyActionButton,
                           actionButtonIcon: context.themedIcon('edit'),
                         ),
                       ),

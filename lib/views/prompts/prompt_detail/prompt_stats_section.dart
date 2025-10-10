@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../models/prompt.dart';
@@ -28,6 +29,8 @@ class PromptStatsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (isLoading || prompt == null) {
       return const LoadingStateWidget();
     }
@@ -44,14 +47,14 @@ class PromptStatsSection extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Stats coming soon',
+            l10n.promptStatsTitle,
             style: AppTextStyles.headline.copyWith(
               color: context.venyuTheme.primaryText,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Track your card\'s performance, views, and engagement metrics.',
+            l10n.promptStatsDescription,
             style: AppTextStyles.body.copyWith(
               color: context.venyuTheme.secondaryText,
             ),

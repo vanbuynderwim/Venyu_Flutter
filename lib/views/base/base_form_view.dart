@@ -118,7 +118,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
 
   /// Get the error message to display after failed save
   @protected
-  String getErrorMessage() => 'Failed to update, please try again';
+  String getErrorMessage() => AppLocalizations.of(context)!.baseFormViewErrorUpdate;
 
   /// Get the form title
   @protected

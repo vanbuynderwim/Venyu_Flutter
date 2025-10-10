@@ -233,9 +233,9 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
         });
       },
       showSuccessToast: true,
-      successMessage: 'Card reported successfully',
+      successMessage: AppLocalizations.of(context)!.dailyPromptsReportSuccess,
       showErrorToast: true,
-      errorMessage: 'Failed to report card',
+      errorMessage: AppLocalizations.of(context)!.dailyPromptsReportError,
     );
   }
 
@@ -245,7 +245,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
     if (widget.prompts.isEmpty) {
       return Scaffold(
         body: Center(
-          child: Text('No prompts available'),
+          child: Text(AppLocalizations.of(context)!.dailyPromptsNoPromptsAvailable),
         ),
       );
     }

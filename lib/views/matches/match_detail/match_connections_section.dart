@@ -6,6 +6,7 @@ import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/app_logger.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/match.dart';
 import '../match_item_view.dart';
 import '../match_detail_view.dart';
@@ -37,7 +38,7 @@ class MatchConnectionsSection extends StatelessWidget {
         padding: AppModifiers.cardContentPadding,
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
-          'No shared connections',
+          AppLocalizations.of(context)!.matchSectionNoSharedConnections,
           style: AppTextStyles.body.copyWith(
             color: context.venyuTheme.secondaryText,
           ),

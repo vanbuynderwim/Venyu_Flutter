@@ -4,6 +4,7 @@ import '../../../core/theme/app_modifiers.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/tag_view.dart';
 
 /// MatchTagsSection - Displays shared tags section
@@ -31,7 +32,7 @@ class MatchTagsSection extends StatelessWidget {
         padding: AppModifiers.cardContentPadding,
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
-          'No shared tags',
+          AppLocalizations.of(context)!.matchSectionNoSharedTags,
           style: AppTextStyles.body.copyWith(
             color: context.venyuTheme.secondaryText,
           ),
@@ -56,7 +57,7 @@ class MatchTagsSection extends StatelessWidget {
               children: [
                 // TagGroup label
                 Text(
-                  tagGroup.label ?? 'Unknown',
+                  tagGroup.label ?? AppLocalizations.of(context)!.matchSectionUnknownTagGroup,
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.secondaryText,
                   ),

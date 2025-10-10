@@ -250,6 +250,24 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get dailyPromptsButtonNext;
 
+  /// No description provided for @dailyPromptsReportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Card reported successfully'**
+  String get dailyPromptsReportSuccess;
+
+  /// No description provided for @dailyPromptsReportError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to report card'**
+  String get dailyPromptsReportError;
+
+  /// No description provided for @dailyPromptsNoPromptsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No prompts available'**
+  String get dailyPromptsNoPromptsAvailable;
+
   /// No description provided for @tutorialFinishedTitle.
   ///
   /// In en, this message translates to:
@@ -2608,6 +2626,18 @@ abstract class AppLocalizations {
   /// **'When people match with your card, their profiles will appear here.'**
   String get promptIntroEmptyDescription;
 
+  /// No description provided for @promptStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats coming soon'**
+  String get promptStatsTitle;
+
+  /// No description provided for @promptStatsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your card\'s performance, views, and engagement metrics.'**
+  String get promptStatsDescription;
+
   /// No description provided for @interactionTypeSelectionTitleFromPrompts.
   ///
   /// In en, this message translates to:
@@ -3285,6 +3315,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to restore purchases'**
   String get paywallErrorRestoreFailed;
+
+  /// No description provided for @matchesViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches & Introductions'**
+  String get matchesViewTitle;
+
+  /// No description provided for @matchesViewEmptyActionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Get matched'**
+  String get matchesViewEmptyActionButton;
+
+  /// No description provided for @profileViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileViewTitle;
+
+  /// No description provided for @profileViewFabJoinVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a venue'**
+  String get profileViewFabJoinVenue;
+
+  /// No description provided for @getMatchedButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Get matched'**
+  String get getMatchedButtonLabel;
+
+  /// No description provided for @reviewPendingPromptsErrorUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update prompts'**
+  String get reviewPendingPromptsErrorUpdate;
+
+  /// No description provided for @reviewPendingPromptsErrorUpdateAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update all prompts'**
+  String get reviewPendingPromptsErrorUpdateAll;
+
+  /// No description provided for @reviewPendingPromptsRejectSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject {count}'**
+  String reviewPendingPromptsRejectSelected(int count);
+
+  /// No description provided for @reviewPendingPromptsApproveSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve {count}'**
+  String reviewPendingPromptsApproveSelected(int count);
+
+  /// No description provided for @reviewPendingPromptsRejectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject all'**
+  String get reviewPendingPromptsRejectAll;
+
+  /// No description provided for @reviewPendingPromptsApproveAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve all'**
+  String get reviewPendingPromptsApproveAll;
+
+  /// No description provided for @matchSectionNoSharedConnections.
+  ///
+  /// In en, this message translates to:
+  /// **'No shared connections'**
+  String get matchSectionNoSharedConnections;
+
+  /// No description provided for @matchSectionNoSharedTags.
+  ///
+  /// In en, this message translates to:
+  /// **'No shared tags'**
+  String get matchSectionNoSharedTags;
+
+  /// No description provided for @matchSectionNoSharedVenues.
+  ///
+  /// In en, this message translates to:
+  /// **'No shared venues'**
+  String get matchSectionNoSharedVenues;
+
+  /// No description provided for @matchSectionUnknownTagGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get matchSectionUnknownTagGroup;
+
+  /// No description provided for @matchActionsSkipError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to skip match'**
+  String get matchActionsSkipError;
+
+  /// No description provided for @matchActionsConnectError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to connect'**
+  String get matchActionsConnectError;
+
+  /// No description provided for @registrationCompleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to complete registration. Please try again.'**
+  String get registrationCompleteError;
+
+  /// No description provided for @avatarUploadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload photo. Please try again.'**
+  String get avatarUploadError;
+
+  /// No description provided for @avatarRemoveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove photo. Please try again.'**
+  String get avatarRemoveError;
+
+  /// No description provided for @baseListViewLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get baseListViewLoading;
+
+  /// No description provided for @baseListViewErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data'**
+  String get baseListViewErrorTitle;
+
+  /// No description provided for @baseFormViewErrorUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update, please try again'**
+  String get baseFormViewErrorUpdate;
 }
 
 class _AppLocalizationsDelegate

@@ -98,7 +98,7 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
         setState(() {
           _matches = [];
           _matchesLoaded = true;
-          _error = 'Failed to load matches';
+          _error = AppLocalizations.of(context)!.promptIntroErrorMessage;
         });
       }
     }

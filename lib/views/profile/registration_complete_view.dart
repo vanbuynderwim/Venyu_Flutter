@@ -94,7 +94,7 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
 
         ToastService.error(
           context: context,
-          message: 'Failed to complete registration. Please try again.',
+          message: AppLocalizations.of(context)!.registrationCompleteError,
         );
       }
     }

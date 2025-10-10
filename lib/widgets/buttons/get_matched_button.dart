@@ -4,6 +4,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/helpers/get_matched_helper.dart';
 import '../buttons/fab_button.dart';
 import '../buttons/action_button.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Reusable GetMatchedButton widget that opens InteractionTypeSelectionView
 ///
@@ -60,7 +61,7 @@ class GetMatchedButton extends StatelessWidget {
 
       case GetMatchedButtonType.action:
         return ActionButton(
-          label: 'Get matched',
+          label: AppLocalizations.of(context)!.getMatchedButtonLabel,
           onPressed: () => _openAddPromptModal(context),
           icon: context.themedIcon('edit'),
         );

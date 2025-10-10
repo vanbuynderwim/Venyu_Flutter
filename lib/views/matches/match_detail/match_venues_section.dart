@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/match.dart';
 import '../../venues/venue_item_view.dart';
 import '../../venues/venue_detail_view.dart';
@@ -25,7 +26,7 @@ class MatchVenuesSection extends StatelessWidget {
       return Container(
         decoration: AppLayoutStyles.cardDecoration(context),
         child: Text(
-          'No shared venues',
+          AppLocalizations.of(context)!.matchSectionNoSharedVenues,
           style: AppTextStyles.body.secondary(context),
           textAlign: TextAlign.center,
         ),

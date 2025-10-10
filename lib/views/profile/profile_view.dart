@@ -35,6 +35,7 @@ import 'edit_bio_view.dart';
 import 'edit_account_view.dart';
 import 'edit_email_info_view.dart';
 import 'edit_company_name_view.dart';
+import '../../l10n/app_localizations.dart';
 
 /// ProfileView - Current user's profile page
 /// 
@@ -94,12 +95,13 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final profileService = context.watchProfileService;
     final profile = profileService.currentProfile;
-    
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text('Profile'),
+        title: Text(l10n.profileViewTitle),
         trailingActions: [
           PlatformIconButton(
             padding: EdgeInsets.zero,
@@ -122,7 +124,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       floatingActionButton: _shouldShowFAB()
           ? FABButton(
               icon: context.themedIcon('plus'),
-              label: 'Join a venue',
+              label: l10n.profileViewFabJoinVenue,
               onPressed: _openJoinVenueModal,
             )
           : null,

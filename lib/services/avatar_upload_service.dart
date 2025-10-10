@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../l10n/app_localizations.dart';
 import '../core/utils/app_logger.dart';
 import '../core/utils/dialog_utils.dart';
 import 'profile_service.dart';
@@ -65,7 +66,7 @@ class AvatarUploadService {
       if (context.mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to upload photo. Please try again.',
+          message: AppLocalizations.of(context)!.avatarUploadError,
         );
       }
       
@@ -145,7 +146,7 @@ class AvatarUploadService {
       if (context.mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to remove photo. Please try again.',
+          message: AppLocalizations.of(context)!.avatarRemoveError,
         );
       }
       
