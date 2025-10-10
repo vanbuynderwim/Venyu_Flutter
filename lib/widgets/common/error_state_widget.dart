@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 
@@ -46,14 +47,17 @@ class ErrorStateWidget extends StatelessWidget {
     super.key,
     required this.error,
     this.onRetry,
-    this.title = 'Something went wrong',
+    String? title,
     this.height = 200,
     this.fullHeight = false,
     this.icon,
-  });
+  }) : title = title ?? '';
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final displayTitle = title.isEmpty ? l10n.errorStateDefaultTitle : title;
+
     final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -64,7 +68,7 @@ class ErrorStateWidget extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          title,
+          displayTitle,
           style: AppTextStyles.headline.primaryText(context),
           textAlign: TextAlign.center,
         ),
@@ -78,7 +82,7 @@ class ErrorStateWidget extends StatelessWidget {
           const SizedBox(height: 16),
           PlatformElevatedButton(
             onPressed: onRetry,
-            child: const Text('Retry'),
+            child: Text(l10n.errorStateRetryButton),
           ),
         ],
       ],

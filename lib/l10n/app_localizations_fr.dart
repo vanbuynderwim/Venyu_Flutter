@@ -1682,4 +1682,21 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get venuePromptsViewEmptyDescription =>
       'This venue doesn\'t have any cards yet.';
+
+  @override
+  String get communityGuidelinesTitle => 'Guidelines';
+
+  @override
+  String get communityGuidelinesAllowed =>
+      'networking, sharing knowledge or resources, asking for help, reach out for genuine connections';
+
+  @override
+  String get communityGuidelinesProhibited =>
+      'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches';
+
+  @override
+  String get errorStateDefaultTitle => 'Something went wrong';
+
+  @override
+  String get errorStateRetryButton => 'Retry';
 }

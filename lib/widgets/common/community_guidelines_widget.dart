@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -22,6 +23,8 @@ class CommunityGuidelinesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: padding ?? EdgeInsets.zero,
       child: Column(
@@ -31,7 +34,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
           if (showTitle) ...[
             Center(
               child: Text(
-                'Guidelines',
+                l10n.communityGuidelinesTitle,
                 style: AppTextStyles.caption1.copyWith(
                   color: context.venyuTheme.darkText,
                   fontWeight: FontWeight.w600,
@@ -58,7 +61,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'networking, sharing knowledge or resources, asking for help, reach out for genuine connections',
+                        l10n.communityGuidelinesAllowed,
                         style: AppTextStyles.footnote.copyWith(
                           color: context.venyuTheme.secondaryText,
                         ),
@@ -79,7 +82,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches',
+                        l10n.communityGuidelinesProhibited,
                         style: AppTextStyles.footnote.copyWith(
                           color: context.venyuTheme.secondaryText,
                         ),

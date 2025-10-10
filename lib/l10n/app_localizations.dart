@@ -3111,6 +3111,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This venue doesn\'t have any cards yet.'**
   String get venuePromptsViewEmptyDescription;
+
+  /// No description provided for @communityGuidelinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guidelines'**
+  String get communityGuidelinesTitle;
+
+  /// No description provided for @communityGuidelinesAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'networking, sharing knowledge or resources, asking for help, reach out for genuine connections'**
+  String get communityGuidelinesAllowed;
+
+  /// No description provided for @communityGuidelinesProhibited.
+  ///
+  /// In en, this message translates to:
+  /// **'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches'**
+  String get communityGuidelinesProhibited;
+
+  /// No description provided for @errorStateDefaultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get errorStateDefaultTitle;
+
+  /// No description provided for @errorStateRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get errorStateRetryButton;
 }
 
 class _AppLocalizationsDelegate
