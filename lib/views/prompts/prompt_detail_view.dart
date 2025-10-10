@@ -430,7 +430,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
             // Status info text
             Text(
-              status.statusInfo(),
+              status.statusInfo(context),
               style: AppTextStyles.subheadline.copyWith(
                 color: context.venyuTheme.primaryText,
               ),

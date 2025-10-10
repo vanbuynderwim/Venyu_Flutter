@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../../widgets/common/section_type.dart';
 
 /// Defines the different sections available in user profile views.
@@ -38,7 +39,7 @@ enum ProfileSections implements SectionType {
 
   /// Returns the display title for this profile section.
   @override
-  String get title {
+  String title(BuildContext context) {
     switch (this) {
       case ProfileSections.personal:
         return 'Personal';
@@ -55,7 +56,7 @@ enum ProfileSections implements SectionType {
 
   /// Returns a brief description of this profile section's content.
   @override
-  String get description {
+  String description(BuildContext context) {
     switch (this) {
       case ProfileSections.personal:
         return 'Personal information';

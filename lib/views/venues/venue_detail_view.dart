@@ -258,7 +258,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
               // Venue type tag
               TagView(
                 id: venue.type.name,
-                label: venue.type.displayName,
+                label: venue.type.displayName(context),
                 icon: venue.type.icon,
               ),
             ],

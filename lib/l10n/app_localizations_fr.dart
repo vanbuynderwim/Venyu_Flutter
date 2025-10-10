@@ -471,4 +471,102 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get validationOtpNumeric =>
       'Verification code must contain only numbers';
+
+  @override
+  String get imageSourceCameraTitle => 'Camera';
+
+  @override
+  String get imageSourceCameraDescription => 'Take a new photo';
+
+  @override
+  String get imageSourcePhotoLibraryTitle => 'Photo Library';
+
+  @override
+  String get imageSourcePhotoLibraryDescription => 'Choose from library';
+
+  @override
+  String get pagesProfileEditTitle => 'Profile Edit';
+
+  @override
+  String get pagesProfileEditDescription => 'Edit profile information';
+
+  @override
+  String get pagesLocationTitle => 'Location';
+
+  @override
+  String get pagesLocationDescription => 'Location settings';
+
+  @override
+  String get promptSectionCardTitle => 'Status';
+
+  @override
+  String get promptSectionCardDescription => 'View your card details';
+
+  @override
+  String get promptSectionStatsTitle => 'Stats';
+
+  @override
+  String get promptSectionStatsDescription => 'Performance and analytics';
+
+  @override
+  String get promptSectionIntroTitle => 'Intros';
+
+  @override
+  String get promptSectionIntroDescription => 'Matches and introductions';
+
+  @override
+  String get promptStatusDraftDisplay => 'Draft';
+
+  @override
+  String get promptStatusDraftInfo =>
+      'Your card is saved as a draft. Complete and submit it to start getting matches.';
+
+  @override
+  String get promptStatusPendingReviewDisplay => 'Pending Review';
+
+  @override
+  String get promptStatusPendingReviewInfo =>
+      'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
+
+  @override
+  String get promptStatusPendingTranslationDisplay => 'Pending Translation';
+
+  @override
+  String get promptStatusPendingTranslationInfo =>
+      'Your card is being translated to other languages.';
+
+  @override
+  String get promptStatusApprovedDisplay => 'Approved';
+
+  @override
+  String get promptStatusApprovedInfo =>
+      'Your card has been approved and is live. You can receive matches.';
+
+  @override
+  String get promptStatusRejectedDisplay => 'Rejected';
+
+  @override
+  String get promptStatusRejectedInfo =>
+      'Your card was rejected for not following community guidelines. Please edit and resubmit.';
+
+  @override
+  String get promptStatusArchivedDisplay => 'Archived';
+
+  @override
+  String get promptStatusArchivedInfo =>
+      'Your card has been archived and is no longer visible to other users.';
+
+  @override
+  String get venueTypeEventDisplayName => 'Event';
+
+  @override
+  String get venueTypeEventDescription =>
+      'Temporary venue for events, conferences, or meetups';
+
+  @override
+  String get venueTypeOrganisationDisplayName => 'Community';
+
+  @override
+  String get venueTypeOrganisationDescription =>
+      'Permanent venue for companies or organizations';
 }

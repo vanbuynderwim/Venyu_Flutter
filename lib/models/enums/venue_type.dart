@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 /// Defines the types of venues available in the platform.
 /// 
 /// This enum represents different types of venues that can be created
@@ -37,22 +40,24 @@ enum VenueType {
   String toJson() => value;
 
   /// Returns the user-facing display name for this venue type.
-  String get displayName {
+  String displayName(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case VenueType.event:
-        return 'Event';
+        return l10n.venueTypeEventDisplayName;
       case VenueType.organisation:
-        return 'Community';
+        return l10n.venueTypeOrganisationDisplayName;
     }
   }
 
   /// Returns a description of this venue type.
-  String get description {
+  String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case VenueType.event:
-        return 'Temporary venue for events, conferences, or meetups';
+        return l10n.venueTypeEventDescription;
       case VenueType.organisation:
-        return 'Permanent venue for companies or organizations';
+        return l10n.venueTypeOrganisationDescription;
     }
   }
 

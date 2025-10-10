@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/section_type.dart';
 
 /// Defines the different sections available in prompt detail views.
@@ -34,27 +36,29 @@ enum PromptSections implements SectionType {
 
   /// Returns the display title for this prompt section.
   @override
-  String get title {
+  String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case PromptSections.card:
-        return 'Status';
+        return l10n.promptSectionCardTitle;
       case PromptSections.stats:
-        return 'Stats';
+        return l10n.promptSectionStatsTitle;
       case PromptSections.intro:
-        return 'Intros';
+        return l10n.promptSectionIntroTitle;
     }
   }
 
   /// Returns a brief description of this prompt section's content.
   @override
-  String get description {
+  String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case PromptSections.card:
-        return 'View your card details';
+        return l10n.promptSectionCardDescription;
       case PromptSections.stats:
-        return 'Performance and analytics';
+        return l10n.promptSectionStatsDescription;
       case PromptSections.intro:
-        return 'Matches and introductions';
+        return l10n.promptSectionIntroDescription;
     }
   }
 

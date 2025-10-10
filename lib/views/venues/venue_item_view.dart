@@ -83,7 +83,7 @@ class VenueItemView extends StatelessWidget {
                 // Venue type tag
                 TagView(
                   id: venue.type.id,
-                  label: venue.type.displayName,
+                  label: venue.type.displayName(context),
                   icon: venue.type.icon,
                 ),
               ],

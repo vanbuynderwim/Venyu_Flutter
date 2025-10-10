@@ -939,6 +939,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verification code must contain only numbers'**
   String get validationOtpNumeric;
+
+  /// No description provided for @imageSourceCameraTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get imageSourceCameraTitle;
+
+  /// No description provided for @imageSourceCameraDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a new photo'**
+  String get imageSourceCameraDescription;
+
+  /// No description provided for @imageSourcePhotoLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Library'**
+  String get imageSourcePhotoLibraryTitle;
+
+  /// No description provided for @imageSourcePhotoLibraryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from library'**
+  String get imageSourcePhotoLibraryDescription;
+
+  /// No description provided for @pagesProfileEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Edit'**
+  String get pagesProfileEditTitle;
+
+  /// No description provided for @pagesProfileEditDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile information'**
+  String get pagesProfileEditDescription;
+
+  /// No description provided for @pagesLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get pagesLocationTitle;
+
+  /// No description provided for @pagesLocationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Location settings'**
+  String get pagesLocationDescription;
+
+  /// No description provided for @promptSectionCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get promptSectionCardTitle;
+
+  /// No description provided for @promptSectionCardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View your card details'**
+  String get promptSectionCardDescription;
+
+  /// No description provided for @promptSectionStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stats'**
+  String get promptSectionStatsTitle;
+
+  /// No description provided for @promptSectionStatsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance and analytics'**
+  String get promptSectionStatsDescription;
+
+  /// No description provided for @promptSectionIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Intros'**
+  String get promptSectionIntroTitle;
+
+  /// No description provided for @promptSectionIntroDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches and introductions'**
+  String get promptSectionIntroDescription;
+
+  /// No description provided for @promptStatusDraftDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get promptStatusDraftDisplay;
+
+  /// No description provided for @promptStatusDraftInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card is saved as a draft. Complete and submit it to start getting matches.'**
+  String get promptStatusDraftInfo;
+
+  /// No description provided for @promptStatusPendingReviewDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Review'**
+  String get promptStatusPendingReviewDisplay;
+
+  /// No description provided for @promptStatusPendingReviewInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.'**
+  String get promptStatusPendingReviewInfo;
+
+  /// No description provided for @promptStatusPendingTranslationDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Translation'**
+  String get promptStatusPendingTranslationDisplay;
+
+  /// No description provided for @promptStatusPendingTranslationInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card is being translated to other languages.'**
+  String get promptStatusPendingTranslationInfo;
+
+  /// No description provided for @promptStatusApprovedDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get promptStatusApprovedDisplay;
+
+  /// No description provided for @promptStatusApprovedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card has been approved and is live. You can receive matches.'**
+  String get promptStatusApprovedInfo;
+
+  /// No description provided for @promptStatusRejectedDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get promptStatusRejectedDisplay;
+
+  /// No description provided for @promptStatusRejectedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card was rejected for not following community guidelines. Please edit and resubmit.'**
+  String get promptStatusRejectedInfo;
+
+  /// No description provided for @promptStatusArchivedDisplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get promptStatusArchivedDisplay;
+
+  /// No description provided for @promptStatusArchivedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card has been archived and is no longer visible to other users.'**
+  String get promptStatusArchivedInfo;
+
+  /// No description provided for @venueTypeEventDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get venueTypeEventDisplayName;
+
+  /// No description provided for @venueTypeEventDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary venue for events, conferences, or meetups'**
+  String get venueTypeEventDescription;
+
+  /// No description provided for @venueTypeOrganisationDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get venueTypeOrganisationDisplayName;
+
+  /// No description provided for @venueTypeOrganisationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanent venue for companies or organizations'**
+  String get venueTypeOrganisationDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/venyu_theme.dart';
 
@@ -65,20 +66,21 @@ enum PromptStatus {
   }
 
   /// Get the display text for this status
-  String get displayText {
+  String displayText(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case PromptStatus.draft:
-        return 'Draft';
+        return l10n.promptStatusDraftDisplay;
       case PromptStatus.pendingReview:
-        return 'Pending Review';
+        return l10n.promptStatusPendingReviewDisplay;
       case PromptStatus.pendingTranslation:
-        return 'Pending Translation';
+        return l10n.promptStatusPendingTranslationDisplay;
       case PromptStatus.approved:
-        return 'Approved';
+        return l10n.promptStatusApprovedDisplay;
       case PromptStatus.rejected:
-        return 'Rejected';
+        return l10n.promptStatusRejectedDisplay;
       case PromptStatus.archived:
-        return 'Archived';
+        return l10n.promptStatusArchivedDisplay;
     }
   }
 
@@ -101,20 +103,21 @@ enum PromptStatus {
   }
 
   /// Get the status info description for this status
-  String statusInfo() {
+  String statusInfo(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case PromptStatus.draft:
-        return 'Your card is saved as a draft. Complete and submit it to start getting matches.';
+        return l10n.promptStatusDraftInfo;
       case PromptStatus.pendingReview:
-        return 'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
+        return l10n.promptStatusPendingReviewInfo;
       case PromptStatus.pendingTranslation:
-        return 'Your card is being translated to other languages.';
+        return l10n.promptStatusPendingTranslationInfo;
       case PromptStatus.approved:
-        return 'Your card has been approved and is live. You can receive matches.';
+        return l10n.promptStatusApprovedInfo;
       case PromptStatus.rejected:
-        return 'Your card was rejected for not following community guidelines. Please edit and resubmit.';
+        return l10n.promptStatusRejectedInfo;
       case PromptStatus.archived:
-        return 'Your card has been archived and is no longer visible to other users.';
+        return l10n.promptStatusArchivedInfo;
     }
   }
 

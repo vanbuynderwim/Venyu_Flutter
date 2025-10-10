@@ -217,5 +217,45 @@
   },
   "validationOtpRequired": "Verification code is required",
   "validationOtpLength": "Verification code must be 6 digits",
-  "validationOtpNumeric": "Verification code must contain only numbers"
+  "validationOtpNumeric": "Verification code must contain only numbers",
+
+  "@_IMAGE_SOURCE_TYPE": {},
+  "imageSourceCameraTitle": "Camera",
+  "imageSourceCameraDescription": "Take a new photo",
+  "imageSourcePhotoLibraryTitle": "Photo Library",
+  "imageSourcePhotoLibraryDescription": "Choose from library",
+
+  "@_PAGES_TYPE": {},
+  "pagesProfileEditTitle": "Profile Edit",
+  "pagesProfileEditDescription": "Edit profile information",
+  "pagesLocationTitle": "Location",
+  "pagesLocationDescription": "Location settings",
+
+  "@_PROMPT_SECTIONS": {},
+  "promptSectionCardTitle": "Status",
+  "promptSectionCardDescription": "View your card details",
+  "promptSectionStatsTitle": "Stats",
+  "promptSectionStatsDescription": "Performance and analytics",
+  "promptSectionIntroTitle": "Intros",
+  "promptSectionIntroDescription": "Matches and introductions",
+
+  "@_PROMPT_STATUS": {},
+  "promptStatusDraftDisplay": "Draft",
+  "promptStatusDraftInfo": "Your card is saved as a draft. Complete and submit it to start getting matches.",
+  "promptStatusPendingReviewDisplay": "Pending Review",
+  "promptStatusPendingReviewInfo": "Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.",
+  "promptStatusPendingTranslationDisplay": "Pending Translation",
+  "promptStatusPendingTranslationInfo": "Your card is being translated to other languages.",
+  "promptStatusApprovedDisplay": "Approved",
+  "promptStatusApprovedInfo": "Your card has been approved and is live. You can receive matches.",
+  "promptStatusRejectedDisplay": "Rejected",
+  "promptStatusRejectedInfo": "Your card was rejected for not following community guidelines. Please edit and resubmit.",
+  "promptStatusArchivedDisplay": "Archived",
+  "promptStatusArchivedInfo": "Your card has been archived and is no longer visible to other users.",
+
+  "@_VENUE_TYPE": {},
+  "venueTypeEventDisplayName": "Event",
+  "venueTypeEventDescription": "Temporary venue for events, conferences, or meetups",
+  "venueTypeOrganisationDisplayName": "Community",
+  "venueTypeOrganisationDescription": "Permanent venue for companies or organizations"
 }
