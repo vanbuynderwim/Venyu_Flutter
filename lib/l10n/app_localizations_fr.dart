@@ -1699,4 +1699,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get errorStateRetryButton => 'Retry';
+
+  @override
+  String get firstCallSettingsTitle => 'First Call';
+
+  @override
+  String get firstCallSettingsDescription =>
+      'You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.';
+
+  @override
+  String get firstCallSettingsEnableLabel => 'Enable';
+
+  @override
+  String get firstCallSettingsUpgradeSubtitle =>
+      'Unlock First Call and see the matches first.';
+
+  @override
+  String get firstCallSettingsUpgradeButton => 'Upgrade to Pro';
+
+  @override
+  String get firstCallSettingsVenueInfo =>
+      'Available when publishing to a venue';
+
+  @override
+  String get promptInteractionPauseButton => 'Pause';
+
+  @override
+  String get promptInteractionResumeButton => 'Resume';
 }

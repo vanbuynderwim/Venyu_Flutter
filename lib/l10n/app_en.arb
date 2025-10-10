@@ -868,5 +868,17 @@
 
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Something went wrong",
-  "errorStateRetryButton": "Retry"
+  "errorStateRetryButton": "Retry",
+
+  "@_FIRST_CALL_SETTINGS_WIDGET": {},
+  "firstCallSettingsTitle": "First Call",
+  "firstCallSettingsDescription": "You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.",
+  "firstCallSettingsEnableLabel": "Enable",
+  "firstCallSettingsUpgradeSubtitle": "Unlock First Call and see the matches first.",
+  "firstCallSettingsUpgradeButton": "Upgrade to Pro",
+  "firstCallSettingsVenueInfo": "Available when publishing to a venue",
+
+  "@_PROMPT_INTERACTION_ITEM_VIEW": {},
+  "promptInteractionPauseButton": "Pause",
+  "promptInteractionResumeButton": "Resume"
 }

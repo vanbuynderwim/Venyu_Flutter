@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../models/prompt_interaction.dart';
 import '../../models/enums/action_button_type.dart';
@@ -24,6 +25,8 @@ class PromptInteractionItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: AppLayoutStyles.cardDecoration(context),
@@ -43,7 +46,9 @@ class PromptInteractionItemView extends StatelessWidget {
 
           // Action button
           ActionButton(
-            label: interaction.matchingEnabled ? 'Pause' : 'Resume',
+            label: interaction.matchingEnabled
+                ? l10n.promptInteractionPauseButton
+                : l10n.promptInteractionResumeButton,
             type: interaction.matchingEnabled
                 ? ActionButtonType.destructive
                 : ActionButtonType.primary,

@@ -3141,6 +3141,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get errorStateRetryButton;
+
+  /// No description provided for @firstCallSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First Call'**
+  String get firstCallSettingsTitle;
+
+  /// No description provided for @firstCallSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.'**
+  String get firstCallSettingsDescription;
+
+  /// No description provided for @firstCallSettingsEnableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get firstCallSettingsEnableLabel;
+
+  /// No description provided for @firstCallSettingsUpgradeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock First Call and see the matches first.'**
+  String get firstCallSettingsUpgradeSubtitle;
+
+  /// No description provided for @firstCallSettingsUpgradeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get firstCallSettingsUpgradeButton;
+
+  /// No description provided for @firstCallSettingsVenueInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Available when publishing to a venue'**
+  String get firstCallSettingsVenueInfo;
+
+  /// No description provided for @promptInteractionPauseButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get promptInteractionPauseButton;
+
+  /// No description provided for @promptInteractionResumeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get promptInteractionResumeButton;
 }
 
 class _AppLocalizationsDelegate

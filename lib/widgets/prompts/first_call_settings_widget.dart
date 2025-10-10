@@ -2,6 +2,7 @@ import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -38,6 +39,7 @@ class FirstCallSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
     final venyuTheme = context.venyuTheme;
     // First Call is available if: user is Pro OR venue is selected
@@ -53,15 +55,15 @@ class FirstCallSettingsWidget extends StatelessWidget {
               children: [
                 // Conditionally show SubTitle
                 if (showTitle) ...[
-                  const SubTitle(
+                  SubTitle(
                     iconName: 'eye',
-                    title: 'First Call',
+                    title: l10n.firstCallSettingsTitle,
                   ),
                   const SizedBox(height: 16),
                 ],
 
                 Text(
-                  'You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.',
+                  l10n.firstCallSettingsDescription,
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
                   ),
@@ -73,7 +75,7 @@ class FirstCallSettingsWidget extends StatelessWidget {
                   children: [
                     if (canUseFirstCall)
                       Text(
-                        'Enable',
+                        l10n.firstCallSettingsEnableLabel,
                         style: AppTextStyles.headline.copyWith(
                           color: venyuTheme.primaryText,
                           fontWeight: FontWeight.w500
@@ -83,9 +85,9 @@ class FirstCallSettingsWidget extends StatelessWidget {
                       SizedBox(
                         width: 140,
                         child: UpgradePromptWidget(
-                          title: 'Enable',
-                          subtitle: 'Unlock First Call and see the matches first.',
-                          buttonText: 'Upgrade to Pro',
+                          title: l10n.firstCallSettingsEnableLabel,
+                          subtitle: l10n.firstCallSettingsUpgradeSubtitle,
+                          buttonText: l10n.firstCallSettingsUpgradeButton,
                           isCompact: true,
                           onSubscriptionCompleted: () {
                             // Trigger callback with true to enable after upgrade
@@ -113,8 +115,8 @@ class FirstCallSettingsWidget extends StatelessWidget {
                 // Info text about venue benefit
                 if (hasVenue && !isPro) ...[
                   const SizedBox(height: 12),
-                  const InfoBoxWidget(
-                    text: 'Available when publishing to a venue',
+                  InfoBoxWidget(
+                    text: l10n.firstCallSettingsVenueInfo,
                   ),
                 ],
               ],
