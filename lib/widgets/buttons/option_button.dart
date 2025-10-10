@@ -30,8 +30,8 @@ import '../common/tag_view.dart';
 /// ```
 abstract class OptionType {
   String get id;
-  String get title;
-  String get description;
+  String title(BuildContext context);
+  String description(BuildContext context);
   Color get color;
   String? get icon;
   String? get emoji;
