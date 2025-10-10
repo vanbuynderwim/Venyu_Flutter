@@ -14,6 +14,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/app_layout_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/dialog_utils.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/invite.dart';
 import '../../../services/toast_service.dart';
 import '../../../services/profile_service.dart';
@@ -54,6 +55,7 @@ class InvitesSection extends StatefulWidget {
 class _InvitesSectionState extends State<InvitesSection> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Building invites section. InviteCodes: ${widget.inviteCodes?.length ?? 'null'}, Loading: ${widget.inviteCodesLoading}', context: 'InvitesSection');
 
     if (widget.inviteCodesLoading) {
@@ -68,10 +70,10 @@ class _InvitesSectionState extends State<InvitesSection> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Center(
           child: EmptyStateWidget(
-            message: 'No invite codes yet',
-            description: 'Your invite codes will appear here. You can share them with friends to invite them to Venyu.',
+            message: l10n.invitesEmptyTitle,
+            description: l10n.invitesEmptyDescription,
             iconName: 'notickets',
-            actionText: 'Generate codes',
+            actionText: l10n.invitesEmptyAction,
             actionButtonIcon: context.themedIcon('plus'),
             onAction: () => _generateMoreCodes(context),
           ),
@@ -97,8 +99,8 @@ class _InvitesSectionState extends State<InvitesSection> {
                 // Section title and description - different based on availability
                 Text(
                   hasAvailableCodes
-                    ? 'You have ${availableInvites.length} invite ${availableInvites.length == 1 ? 'code' : 'codes'} ready to share. Each one unlocks Venyu for a new entrepreneur'
-                    : 'All your invite codes have been shared. Thank you for helping grow the Venyu community.',
+                    ? l10n.invitesAvailableDescription(availableInvites.length, availableInvites.length == 1 ? l10n.invitesCode : l10n.invitesCodes)
+                    : l10n.invitesAllSharedDescription,
                   style: AppTextStyles.subheadline.copyWith(
                     color: context.venyuTheme.primaryText,
                   ),
@@ -109,7 +111,7 @@ class _InvitesSectionState extends State<InvitesSection> {
                   const SizedBox(height: 16),
                   // Generate more codes button
                   ActionButton(
-                    label: 'Generate more codes',
+                    label: l10n.invitesGenerateMore,
                     icon: context.themedIcon('plus'),
                     onPressed: () => _generateMoreCodes(context),
                     isCompact: false,
@@ -139,11 +141,12 @@ class _InvitesSectionState extends State<InvitesSection> {
 
     // Add available invites with subtitle
     if (availableInvites.isNotEmpty) {
-      widgets.add(const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      final l10n = AppLocalizations.of(context)!;
+      widgets.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'ticket',
-          title: 'Available codes',
+          title: l10n.invitesSubtitleAvailable,
         ),
       ));
 
@@ -157,11 +160,12 @@ class _InvitesSectionState extends State<InvitesSection> {
 
     // Add sent invites with subtitle
     if (sentInvites.isNotEmpty) {
-      widgets.add(const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      final l10n = AppLocalizations.of(context)!;
+      widgets.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'email',
-          title: 'Shared codes',
+          title: l10n.invitesSubtitleShared,
         ),
       ));
 
@@ -178,11 +182,12 @@ class _InvitesSectionState extends State<InvitesSection> {
 
     // Add redeemed invites with subtitle
     if (redeemedInvites.isNotEmpty) {
-      widgets.add(const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      final l10n = AppLocalizations.of(context)!;
+      widgets.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: SubTitle(
           iconName: 'checkbox',
-          title: 'Redeemed codes',
+          title: l10n.invitesSubtitleRedeemed,
         ),
       ));
 
@@ -202,22 +207,23 @@ class _InvitesSectionState extends State<InvitesSection> {
 
   /// Shows the invite menu using centralized DialogUtils component
   Future<void> _showInviteMenu(BuildContext context, Invite invite) async {
+    final l10n = AppLocalizations.of(context)!;
     final menuOptions = [
       MenuOptionBuilder.create(
         context: context,
-        label: 'Share',
+        label: l10n.invitesMenuShare,
         iconName: 'share',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
       MenuOptionBuilder.create(
         context: context,
-        label: 'Copy',
+        label: l10n.invitesMenuCopy,
         iconName: 'copy',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
       MenuOptionBuilder.create(
         context: context,
-        label: 'Mark as shared',
+        label: l10n.invitesMenuMarkShared,
         iconName: 'email',
         onTap: (_) {},  // Dummy onTap, handled by DialogUtils
       ),
@@ -255,6 +261,7 @@ class _InvitesSectionState extends State<InvitesSection> {
 
   /// Share invite functionality
   Future<void> _shareInvite(BuildContext context, Invite invite) async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.info('Share invite code: ${invite.code}', context: 'InvitesSection');
 
     // Voor iPad: gebruik het centrum van het scherm als anchor point
@@ -265,40 +272,32 @@ class _InvitesSectionState extends State<InvitesSection> {
       height: 1,
     );
 
-    final text = '''
-Join me on Venyu ! 
-  
-The invite-only network for entrepreneurs, built on real introductions
-
-Download the app at 👉 www.getvenyu.com
-
-🔑 Your invite code: 
-
-${invite.code}
-''';
+    final text = l10n.invitesShareText(invite.code);
 
     await Share.share(
       text,
-      subject: 'Your personal Venyu invite',
+      subject: l10n.invitesShareSubject,
       sharePositionOrigin: origin, // belangrijk voor iPad
     );
   }
 
   /// Copy invite functionality
   Future<void> _copyInvite(BuildContext context, Invite invite) async {
+    final l10n = AppLocalizations.of(context)!;
     await Clipboard.setData(ClipboardData(text: invite.code));
     AppLogger.info('Copied invite code to clipboard: ${invite.code}', context: 'InvitesSection');
 
     if (context.mounted) {
       ToastService.success(
         context: context,
-        message: 'Invite code copied to clipboard',
+        message: l10n.invitesCopiedToast,
       );
     }
   }
 
   /// Mark as sent functionality
   Future<void> _markAsSent(BuildContext context, Invite invite) async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.info('Mark as sent: ${invite.code}', context: 'InvitesSection');
 
     try {
@@ -311,7 +310,7 @@ ${invite.code}
       if (context.mounted) {
         ToastService.success(
           context: context,
-          message: 'Invite code marked as sent',
+          message: l10n.invitesMarkedSentToast,
         );
       }
     } catch (error) {
@@ -320,7 +319,7 @@ ${invite.code}
       if (context.mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to mark invite as sent',
+          message: l10n.invitesMarkedSentError,
         );
       }
     }
@@ -328,6 +327,7 @@ ${invite.code}
 
   /// Generate more invite codes functionality
   Future<void> _generateMoreCodes(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.info('Generate more codes button tapped', context: 'InvitesSection');
 
     try {
@@ -336,10 +336,10 @@ ${invite.code}
       // Show confirmation dialog first
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
-        title: 'Generate more codes',
-        message: 'Generate 5 new invite codes? These will expire in 1 year.',
-        confirmText: 'Generate',
-        cancelText: 'Cancel',
+        title: l10n.invitesGenerateDialogTitle,
+        message: l10n.invitesGenerateDialogMessage,
+        confirmText: l10n.invitesGenerateDialogConfirm,
+        cancelText: l10n.invitesGenerateDialogCancel,
         isDestructive: false,
       );
 
@@ -354,7 +354,7 @@ ${invite.code}
       if (context.mounted) {
         ToastService.success(
           context: context,
-          message: '5 new invite codes generated successfully',
+          message: l10n.invitesGenerateSuccessToast,
         );
       }
     } catch (error) {
@@ -363,7 +363,7 @@ ${invite.code}
       if (context.mounted) {
         ToastService.error(
           context: context,
-          message: 'Failed to generate invite codes',
+          message: l10n.invitesGenerateErrorToast,
         );
       }
     }

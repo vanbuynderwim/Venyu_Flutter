@@ -6,6 +6,7 @@ import '../../../widgets/common/loading_state_widget.dart';
 import '../../../widgets/common/empty_state_widget.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/app_logger.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../venues/join_venue_view.dart';
 import '../../../services/supabase_managers/venue_manager.dart';
 import '../../../models/venue.dart';
@@ -80,6 +81,8 @@ class _VenuesSectionState extends State<VenuesSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_isLoading) {
       return const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -95,7 +98,7 @@ class _VenuesSectionState extends State<VenuesSection> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Error loading venues',
+                l10n.venuesErrorLoading,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
@@ -107,7 +110,7 @@ class _VenuesSectionState extends State<VenuesSection> {
               const SizedBox(height: 16),
               PlatformTextButton(
                 onPressed: _loadVenues,
-                child: const Text('Retry'),
+                child: Text(l10n.venuesRetry),
               ),
             ],
           ),
@@ -120,11 +123,11 @@ class _VenuesSectionState extends State<VenuesSection> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Center(
           child: EmptyStateWidget(
-            message: 'Your venues will appear here',
-            description: 'Got an invite code? Redeem it to join that venue and start getting introductions in the community.',
+            message: l10n.venuesEmptyTitle,
+            description: l10n.venuesEmptyDescription,
             iconName: 'novenues',
             onAction: () => _openJoinVenueModal(context),
-            actionText: 'Join a venue',
+            actionText: l10n.venuesEmptyAction,
             actionButtonIcon: context.themedIcon('plus')
           ),
         ),

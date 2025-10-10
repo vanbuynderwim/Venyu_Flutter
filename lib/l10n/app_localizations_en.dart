@@ -877,4 +877,113 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAvatarErrorButton => 'OK';
+
+  @override
+  String get profileInfoAddCompanyInfo => 'Add company info';
+
+  @override
+  String get venuesErrorLoading => 'Error loading venues';
+
+  @override
+  String get venuesRetry => 'Retry';
+
+  @override
+  String get venuesEmptyTitle => 'Your venues will appear here';
+
+  @override
+  String get venuesEmptyDescription =>
+      'Got an invite code? Redeem it to join that venue and start getting introductions in the community.';
+
+  @override
+  String get venuesEmptyAction => 'Join a venue';
+
+  @override
+  String invitesAvailableDescription(int count, String codes) {
+    return 'You have $count invite $codes ready to share. Each one unlocks Venyu for a new entrepreneur';
+  }
+
+  @override
+  String get invitesCode => 'code';
+
+  @override
+  String get invitesCodes => 'codes';
+
+  @override
+  String get invitesAllSharedDescription =>
+      'All your invite codes have been shared. Thank you for helping grow the Venyu community.';
+
+  @override
+  String get invitesGenerateMore => 'Generate more codes';
+
+  @override
+  String get invitesEmptyTitle => 'No invite codes yet';
+
+  @override
+  String get invitesEmptyDescription =>
+      'Your invite codes will appear here. You can share them with friends to invite them to Venyu.';
+
+  @override
+  String get invitesEmptyAction => 'Generate codes';
+
+  @override
+  String get invitesSubtitleAvailable => 'Available codes';
+
+  @override
+  String get invitesSubtitleShared => 'Shared codes';
+
+  @override
+  String get invitesSubtitleRedeemed => 'Redeemed codes';
+
+  @override
+  String get invitesMenuShare => 'Share';
+
+  @override
+  String get invitesMenuCopy => 'Copy';
+
+  @override
+  String get invitesMenuMarkShared => 'Mark as shared';
+
+  @override
+  String get invitesShareSubject => 'Your personal Venyu invite';
+
+  @override
+  String invitesShareText(String code) {
+    return 'Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
+  }
+
+  @override
+  String get invitesCopiedToast => 'Invite code copied to clipboard';
+
+  @override
+  String get invitesMarkedSentToast => 'Invite code marked as sent';
+
+  @override
+  String get invitesMarkedSentError => 'Failed to mark invite as sent';
+
+  @override
+  String get invitesGenerateDialogTitle => 'Generate more codes';
+
+  @override
+  String get invitesGenerateDialogMessage =>
+      'Generate 5 new invite codes? These will expire in 1 year.';
+
+  @override
+  String get invitesGenerateDialogConfirm => 'Generate';
+
+  @override
+  String get invitesGenerateDialogCancel => 'Cancel';
+
+  @override
+  String get invitesGenerateSuccessToast =>
+      '5 new invite codes generated successfully';
+
+  @override
+  String get invitesGenerateErrorToast => 'Failed to generate invite codes';
+
+  @override
+  String get companySectionEmptyTagGroups => 'No company tag groups available';
+
+  @override
+  String get personalSectionEmptyTagGroups =>
+      'No personal tag groups available';
 }

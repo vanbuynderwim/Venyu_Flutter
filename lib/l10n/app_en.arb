@@ -455,5 +455,63 @@
   "profileAvatarErrorUpload": "Failed to upload photo. Please try again.",
   "profileAvatarErrorRemove": "Failed to remove photo. Please try again.",
   "profileAvatarErrorTitle": "Error",
-  "profileAvatarErrorButton": "OK"
+  "profileAvatarErrorButton": "OK",
+
+  "@_PROFILE_INFO": {},
+  "profileInfoAddCompanyInfo": "Add company info",
+
+  "@_PROFILE_VENUES": {},
+  "venuesErrorLoading": "Error loading venues",
+  "venuesRetry": "Retry",
+  "venuesEmptyTitle": "Your venues will appear here",
+  "venuesEmptyDescription": "Got an invite code? Redeem it to join that venue and start getting introductions in the community.",
+  "venuesEmptyAction": "Join a venue",
+
+  "@_PROFILE_INVITES": {},
+  "invitesAvailableDescription": "You have {count} invite {codes} ready to share. Each one unlocks Venyu for a new entrepreneur",
+  "@invitesAvailableDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "codes": {
+        "type": "String"
+      }
+    }
+  },
+  "invitesCode": "code",
+  "invitesCodes": "codes",
+  "invitesAllSharedDescription": "All your invite codes have been shared. Thank you for helping grow the Venyu community.",
+  "invitesGenerateMore": "Generate more codes",
+  "invitesEmptyTitle": "No invite codes yet",
+  "invitesEmptyDescription": "Your invite codes will appear here. You can share them with friends to invite them to Venyu.",
+  "invitesEmptyAction": "Generate codes",
+  "invitesSubtitleAvailable": "Available codes",
+  "invitesSubtitleShared": "Shared codes",
+  "invitesSubtitleRedeemed": "Redeemed codes",
+  "invitesMenuShare": "Share",
+  "invitesMenuCopy": "Copy",
+  "invitesMenuMarkShared": "Mark as shared",
+  "invitesShareSubject": "Your personal Venyu invite",
+  "invitesShareText": "Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}",
+  "@invitesShareText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "invitesCopiedToast": "Invite code copied to clipboard",
+  "invitesMarkedSentToast": "Invite code marked as sent",
+  "invitesMarkedSentError": "Failed to mark invite as sent",
+  "invitesGenerateDialogTitle": "Generate more codes",
+  "invitesGenerateDialogMessage": "Generate 5 new invite codes? These will expire in 1 year.",
+  "invitesGenerateDialogConfirm": "Generate",
+  "invitesGenerateDialogCancel": "Cancel",
+  "invitesGenerateSuccessToast": "5 new invite codes generated successfully",
+  "invitesGenerateErrorToast": "Failed to generate invite codes",
+
+  "@_PROFILE_SECTIONS": {},
+  "companySectionEmptyTagGroups": "No company tag groups available",
+  "personalSectionEmptyTagGroups": "No personal tag groups available"
 }

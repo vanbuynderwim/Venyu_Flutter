@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_logger.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/enums/edit_company_info_type.dart';
 import '../../../models/tag_group.dart';
 import '../../../widgets/buttons/option_button.dart';
@@ -34,6 +35,7 @@ class CompanyInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Building company section. TagGroups: ${companyTagGroups?.length ?? 'null'}, Loading: $companyTagGroupsLoading', context: 'CompanyInfoSection');
     
     if (companyTagGroupsLoading) {
@@ -98,11 +100,11 @@ class CompanyInfoSection extends StatelessWidget {
     } else if (!companyTagGroupsLoading && (companyTagGroups?.isEmpty ?? false)) {
       // Show message if no tag groups are available
       children.add(
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
-            'No company tag groups available',
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            l10n.companySectionEmptyTagGroups,
+            style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
           ),
         ),
       );

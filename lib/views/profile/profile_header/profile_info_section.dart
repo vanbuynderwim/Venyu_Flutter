@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/profile.dart';
 
 /// ProfileInfoSection - Displays profile name, role, distance, and city
@@ -31,6 +32,7 @@ class ProfileInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
     
     return Column(
@@ -50,7 +52,7 @@ class ProfileInfoSection extends StatelessWidget {
         Text(
           profile.role.isNotEmpty
               ? profile.role
-              : 'Add company info',
+              : l10n.profileInfoAddCompanyInfo,
           style: AppTextStyles.subheadline.copyWith(
             color: venyuTheme.primaryText,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_logger.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/enums/edit_personal_info_type.dart';
 import '../../../models/tag_group.dart';
 import '../../../widgets/buttons/option_button.dart';
@@ -34,6 +35,7 @@ class PersonalInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Building personal section. TagGroups: ${personalTagGroups?.length ?? 'null'}, Loading: $personalTagGroupsLoading', context: 'PersonalInfoSection');
     
     if (personalTagGroupsLoading) {
@@ -98,11 +100,11 @@ class PersonalInfoSection extends StatelessWidget {
     } else if (!personalTagGroupsLoading && (personalTagGroups?.isEmpty ?? false)) {
       // Show message if no tag groups are available
       children.add(
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
-            'No personal tag groups available',
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            l10n.personalSectionEmptyTagGroups,
+            style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
           ),
         ),
       );

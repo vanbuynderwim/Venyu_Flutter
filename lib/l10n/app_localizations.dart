@@ -1659,6 +1659,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get profileAvatarErrorButton;
+
+  /// No description provided for @profileInfoAddCompanyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add company info'**
+  String get profileInfoAddCompanyInfo;
+
+  /// No description provided for @venuesErrorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading venues'**
+  String get venuesErrorLoading;
+
+  /// No description provided for @venuesRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get venuesRetry;
+
+  /// No description provided for @venuesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your venues will appear here'**
+  String get venuesEmptyTitle;
+
+  /// No description provided for @venuesEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Got an invite code? Redeem it to join that venue and start getting introductions in the community.'**
+  String get venuesEmptyDescription;
+
+  /// No description provided for @venuesEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Join a venue'**
+  String get venuesEmptyAction;
+
+  /// No description provided for @invitesAvailableDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} invite {codes} ready to share. Each one unlocks Venyu for a new entrepreneur'**
+  String invitesAvailableDescription(int count, String codes);
+
+  /// No description provided for @invitesCode.
+  ///
+  /// In en, this message translates to:
+  /// **'code'**
+  String get invitesCode;
+
+  /// No description provided for @invitesCodes.
+  ///
+  /// In en, this message translates to:
+  /// **'codes'**
+  String get invitesCodes;
+
+  /// No description provided for @invitesAllSharedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'All your invite codes have been shared. Thank you for helping grow the Venyu community.'**
+  String get invitesAllSharedDescription;
+
+  /// No description provided for @invitesGenerateMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate more codes'**
+  String get invitesGenerateMore;
+
+  /// No description provided for @invitesEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No invite codes yet'**
+  String get invitesEmptyTitle;
+
+  /// No description provided for @invitesEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your invite codes will appear here. You can share them with friends to invite them to Venyu.'**
+  String get invitesEmptyDescription;
+
+  /// No description provided for @invitesEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate codes'**
+  String get invitesEmptyAction;
+
+  /// No description provided for @invitesSubtitleAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available codes'**
+  String get invitesSubtitleAvailable;
+
+  /// No description provided for @invitesSubtitleShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared codes'**
+  String get invitesSubtitleShared;
+
+  /// No description provided for @invitesSubtitleRedeemed.
+  ///
+  /// In en, this message translates to:
+  /// **'Redeemed codes'**
+  String get invitesSubtitleRedeemed;
+
+  /// No description provided for @invitesMenuShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get invitesMenuShare;
+
+  /// No description provided for @invitesMenuCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get invitesMenuCopy;
+
+  /// No description provided for @invitesMenuMarkShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as shared'**
+  String get invitesMenuMarkShared;
+
+  /// No description provided for @invitesShareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal Venyu invite'**
+  String get invitesShareSubject;
+
+  /// No description provided for @invitesShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
+  String invitesShareText(String code);
+
+  /// No description provided for @invitesCopiedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code copied to clipboard'**
+  String get invitesCopiedToast;
+
+  /// No description provided for @invitesMarkedSentToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code marked as sent'**
+  String get invitesMarkedSentToast;
+
+  /// No description provided for @invitesMarkedSentError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to mark invite as sent'**
+  String get invitesMarkedSentError;
+
+  /// No description provided for @invitesGenerateDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate more codes'**
+  String get invitesGenerateDialogTitle;
+
+  /// No description provided for @invitesGenerateDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate 5 new invite codes? These will expire in 1 year.'**
+  String get invitesGenerateDialogMessage;
+
+  /// No description provided for @invitesGenerateDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get invitesGenerateDialogConfirm;
+
+  /// No description provided for @invitesGenerateDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get invitesGenerateDialogCancel;
+
+  /// No description provided for @invitesGenerateSuccessToast.
+  ///
+  /// In en, this message translates to:
+  /// **'5 new invite codes generated successfully'**
+  String get invitesGenerateSuccessToast;
+
+  /// No description provided for @invitesGenerateErrorToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to generate invite codes'**
+  String get invitesGenerateErrorToast;
+
+  /// No description provided for @companySectionEmptyTagGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'No company tag groups available'**
+  String get companySectionEmptyTagGroups;
+
+  /// No description provided for @personalSectionEmptyTagGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'No personal tag groups available'**
+  String get personalSectionEmptyTagGroups;
 }
 
 class _AppLocalizationsDelegate
