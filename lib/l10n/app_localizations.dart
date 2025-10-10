@@ -2607,6 +2607,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When people match with your card, their profiles will appear here.'**
   String get promptIntroEmptyDescription;
+
+  /// No description provided for @interactionTypeSelectionTitleFromPrompts.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you{name}'**
+  String interactionTypeSelectionTitleFromPrompts(String name);
+
+  /// No description provided for @interactionTypeSelectionTitleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the net work'**
+  String get interactionTypeSelectionTitleDefault;
+
+  /// No description provided for @interactionTypeSelectionSubtitleFromPrompts.
+  ///
+  /// In en, this message translates to:
+  /// **'Now, let\'s make the net work for you'**
+  String get interactionTypeSelectionSubtitleFromPrompts;
+
+  /// No description provided for @interactionTypeSelectionSubtitleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'For you'**
+  String get interactionTypeSelectionSubtitleDefault;
+
+  /// No description provided for @interactionTypeSelectionDisclaimerText.
+  ///
+  /// In en, this message translates to:
+  /// **'All cards are subject to review before going live'**
+  String get interactionTypeSelectionDisclaimerText;
+
+  /// No description provided for @interactionTypeSelectionShowGuidelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Show community guidelines'**
+  String get interactionTypeSelectionShowGuidelines;
+
+  /// No description provided for @interactionTypeSelectionHideGuidelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide community guidelines'**
+  String get interactionTypeSelectionHideGuidelines;
+
+  /// No description provided for @interactionTypeSelectionNotNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get interactionTypeSelectionNotNowButton;
 }
 
 class _AppLocalizationsDelegate

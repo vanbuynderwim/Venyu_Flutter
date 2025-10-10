@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_modifiers.dart';
@@ -86,7 +87,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
 
   @override
   Widget build(BuildContext context) {
-
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
     final firstName = _getFirstName(context);
 
@@ -120,8 +121,8 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 // Title text
                 Text(
                   widget.isFromPrompts
-                    ? 'Thank you${firstName.isNotEmpty ? ' $firstName!' : ''}'
-                    : 'Make the net work',
+                    ? l10n.interactionTypeSelectionTitleFromPrompts(firstName.isNotEmpty ? ' $firstName!' : '')
+                    : l10n.interactionTypeSelectionTitleDefault,
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 36,
@@ -129,14 +130,14 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 // Subtitle text
                 Text(
                   widget.isFromPrompts
-                    ? "Now, let's make the net work for you"
-                    : 'For you',
+                    ? l10n.interactionTypeSelectionSubtitleFromPrompts
+                    : l10n.interactionTypeSelectionSubtitleDefault,
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 16,
@@ -176,7 +177,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 
                 // Disclaimer text
                 InfoBoxWidget(
-                  text: 'All cards are subject to review before going live',
+                  text: l10n.interactionTypeSelectionDisclaimerText,
                 ),
 
                 const SizedBox(height: 8),
@@ -188,7 +189,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _showGuidelines ? 'Hide community guidelines' : 'Show community guidelines',
+                        _showGuidelines ? l10n.interactionTypeSelectionHideGuidelines : l10n.interactionTypeSelectionShowGuidelines,
                         style: TextStyle(
                           color: venyuTheme.darkText,
                           fontSize: 14,
@@ -220,7 +221,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 48),
                   child: ActionButton(
-                      label: 'Not now',
+                      label: l10n.interactionTypeSelectionNotNowButton,
                       type: ActionButtonType.secondary,
                       onInvertedBackground: true,
                       onPressed: () {

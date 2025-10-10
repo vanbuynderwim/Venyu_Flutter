@@ -1399,4 +1399,34 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get promptIntroEmptyDescription =>
       'When people match with your card, their profiles will appear here.';
+
+  @override
+  String interactionTypeSelectionTitleFromPrompts(String name) {
+    return 'Thank you$name';
+  }
+
+  @override
+  String get interactionTypeSelectionTitleDefault => 'Make the net work';
+
+  @override
+  String get interactionTypeSelectionSubtitleFromPrompts =>
+      'Now, let\'s make the net work for you';
+
+  @override
+  String get interactionTypeSelectionSubtitleDefault => 'For you';
+
+  @override
+  String get interactionTypeSelectionDisclaimerText =>
+      'All cards are subject to review before going live';
+
+  @override
+  String get interactionTypeSelectionShowGuidelines =>
+      'Show community guidelines';
+
+  @override
+  String get interactionTypeSelectionHideGuidelines =>
+      'Hide community guidelines';
+
+  @override
+  String get interactionTypeSelectionNotNowButton => 'Not now';
 }

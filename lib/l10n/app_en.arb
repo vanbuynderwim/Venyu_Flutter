@@ -676,5 +676,22 @@
   "promptIntroErrorMessage": "Failed to load matches",
   "promptIntroRetryButton": "Retry",
   "promptIntroEmptyTitle": "No matches yet",
-  "promptIntroEmptyDescription": "When people match with your card, their profiles will appear here."
+  "promptIntroEmptyDescription": "When people match with your card, their profiles will appear here.",
+
+  "@_INTERACTION_TYPE_SELECTION": {},
+  "interactionTypeSelectionTitleFromPrompts": "Thank you{name}",
+  "@interactionTypeSelectionTitleFromPrompts": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeSelectionTitleDefault": "Make the net work",
+  "interactionTypeSelectionSubtitleFromPrompts": "Now, let's make the net work for you",
+  "interactionTypeSelectionSubtitleDefault": "For you",
+  "interactionTypeSelectionDisclaimerText": "All cards are subject to review before going live",
+  "interactionTypeSelectionShowGuidelines": "Show community guidelines",
+  "interactionTypeSelectionHideGuidelines": "Hide community guidelines",
+  "interactionTypeSelectionNotNowButton": "Not now"
 }
