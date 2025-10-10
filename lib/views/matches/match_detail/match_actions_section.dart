@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/app_strings.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/dialog_utils.dart';
 import '../../../core/utils/app_logger.dart';
@@ -60,7 +60,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       context: context,
       title: 'Skip this match?',
       message: 'This match will be removed from your matches. The other person will not receive any notification and won\'t know you skipped them.',
-      confirmText: AppStrings.skip,
+      confirmText: AppLocalizations.of(context)!.actionSkip,
     );
     
     if (confirmed) {
@@ -139,7 +139,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
             Expanded(
               flex: 1,
               child: ActionButton(
-                label: AppStrings.skip,
+                label: AppLocalizations.of(context)!.actionSkip,
                 onPressed: _isProcessingInterested ? null : _showSkipAlert,
                 type: ActionButtonType.secondary,
                 isLoading: _isProcessingSkip,
@@ -153,7 +153,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
             Expanded(
               flex: 2,
               child: ActionButton(
-                label: AppStrings.interested,
+                label: AppLocalizations.of(context)!.actionInterested,
                 icon: context.themedIcon('like'),
                 onPressed: _isProcessingSkip ? null : _handleConnectMatch,
                 type: ActionButtonType.primary,

@@ -753,6 +753,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily generated cards by AI'**
   String get reviewTypeSystemDescription;
+
+  /// No description provided for @appName.
+  ///
+  /// In en, this message translates to:
+  /// **'Venyu'**
+  String get appName;
+
+  /// No description provided for @appTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'make the net work'**
+  String get appTagline;
+
+  /// No description provided for @navMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Intros'**
+  String get navMatches;
+
+  /// No description provided for @navCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get navCards;
+
+  /// No description provided for @navNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get navNotifications;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @actionSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get actionSave;
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get actionCancel;
+
+  /// No description provided for @actionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get actionDelete;
+
+  /// No description provided for @actionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get actionEdit;
+
+  /// No description provided for @actionNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get actionNext;
+
+  /// No description provided for @actionSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get actionSkip;
+
+  /// No description provided for @actionInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested'**
+  String get actionInterested;
+
+  /// No description provided for @successSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully'**
+  String get successSaved;
 }
 
 class _AppLocalizationsDelegate

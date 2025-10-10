@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/constants/app_strings.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/url_helper.dart';
@@ -137,20 +137,20 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    
+
                     // App name
                     Text(
-                      AppStrings.appName.toLowerCase(),
+                      AppLocalizations.of(context)!.appName.toLowerCase(),
                       style: AppTextStyles.appTitle.copyWith(
                         fontSize: 60,
                         color: venyuTheme.primary,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    
+
                     // Tagline
                     Text(
-                      AppStrings.appTagline,
+                      AppLocalizations.of(context)!.appTagline,
                       style: AppTextStyles.appSubtitle.copyWith(
                         fontSize: 20,
                         color: venyuTheme.secondaryText,

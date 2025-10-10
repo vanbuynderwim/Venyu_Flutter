@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../core/constants/app_strings.dart';
+import '../l10n/app_localizations.dart';
 import '../core/theme/venyu_theme.dart';
 import '../core/utils/app_logger.dart';
 import '../models/prompt.dart';
@@ -176,12 +176,12 @@ class _MainViewState extends State<MainView> {
                   child: context.themedIcon('handshake', selected: true),
                 )
               : context.themedIcon('handshake', selected: true),
-          label: AppStrings.matches,
+          label: AppLocalizations.of(context)!.navMatches,
         ),
         BottomNavigationBarItem(
           icon: context.themedIcon('card', selected: false),
           activeIcon: context.themedIcon('card', selected: true),
-          label: AppStrings.cards,
+          label: AppLocalizations.of(context)!.navCards,
         ),
         BottomNavigationBarItem(
           icon: _badgeData != null && _badgeData!.unreadNotifications > 0
@@ -196,7 +196,7 @@ class _MainViewState extends State<MainView> {
                   child: context.themedIcon('notification', selected: true),
                 )
               : context.themedIcon('notification', selected: true),
-          label: AppStrings.notifications,
+          label: AppLocalizations.of(context)!.navNotifications,
         ),
         BottomNavigationBarItem(
           icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
@@ -211,7 +211,7 @@ class _MainViewState extends State<MainView> {
                   child: context.themedIcon('profile', selected: true),
                 )
               : context.themedIcon('profile', selected: true),
-          label: AppStrings.profile,
+          label: AppLocalizations.of(context)!.navProfile,
         ),
       ],
       bodyBuilder: (context, index) => _pages[index],

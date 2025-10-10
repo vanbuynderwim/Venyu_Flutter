@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../constants/app_strings.dart';
+import '../../l10n/app_localizations.dart';
 import '../theme/app_text_styles.dart';
 
 /// Centralized utility for creating platform-aware dialogs
@@ -16,10 +16,13 @@ class DialogUtils {
     required BuildContext context,
     required String title,
     required String message,
-    String confirmText = AppStrings.delete,
-    String cancelText = AppStrings.cancel,
+    String? confirmText,
+    String? cancelText,
     bool isDestructive = true,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
+    confirmText ??= l10n.actionDelete;
+    cancelText ??= l10n.actionCancel;
     final result = await showPlatformDialog<bool>(
       context: context,
       builder: (context) => PlatformAlertDialog(
@@ -28,7 +31,7 @@ class DialogUtils {
         actions: [
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(confirmText),
+            child: Text(confirmText!),
             cupertino: (_, __) => CupertinoDialogActionData(
               isDestructiveAction: isDestructive,
             ),
@@ -40,7 +43,7 @@ class DialogUtils {
           ),
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(cancelText),
+            child: Text(cancelText!),
             cupertino: (_, __) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),

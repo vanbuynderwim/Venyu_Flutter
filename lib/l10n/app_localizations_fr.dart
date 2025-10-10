@@ -368,4 +368,46 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reviewTypeSystemDescription => 'Daily generated cards by AI';
+
+  @override
+  String get appName => 'Venyu';
+
+  @override
+  String get appTagline => 'make the net work';
+
+  @override
+  String get navMatches => 'Intros';
+
+  @override
+  String get navCards => 'Cards';
+
+  @override
+  String get navNotifications => 'Updates';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get actionSave => 'Save';
+
+  @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get actionDelete => 'Delete';
+
+  @override
+  String get actionEdit => 'Edit';
+
+  @override
+  String get actionNext => 'Next';
+
+  @override
+  String get actionSkip => 'Skip';
+
+  @override
+  String get actionInterested => 'Interested';
+
+  @override
+  String get successSaved => 'Saved successfully';
 }

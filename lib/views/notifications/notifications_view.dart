@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/constants/app_strings.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/app_logger.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -126,9 +126,10 @@ class _NotificationsViewState extends State<NotificationsView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(AppStrings.notifications),
+        title: Text(l10n.navNotifications),
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,

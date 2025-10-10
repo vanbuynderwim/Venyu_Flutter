@@ -147,5 +147,27 @@
   "reviewTypeUserTitle": "User generated",
   "reviewTypeUserDescription": "Cards submitted by users",
   "reviewTypeSystemTitle": "AI generated",
-  "reviewTypeSystemDescription": "Daily generated cards by AI"
+  "reviewTypeSystemDescription": "Daily generated cards by AI",
+
+  "@_APP_METADATA": {},
+  "appName": "Venyu",
+  "appTagline": "make the net work",
+
+  "@_NAVIGATION": {},
+  "navMatches": "Intros",
+  "navCards": "Cards",
+  "navNotifications": "Updates",
+  "navProfile": "Profile",
+
+  "@_COMMON_ACTIONS": {},
+  "actionSave": "Save",
+  "actionCancel": "Cancel",
+  "actionDelete": "Delete",
+  "actionEdit": "Edit",
+  "actionNext": "Next",
+  "actionSkip": "Skip",
+  "actionInterested": "Interested",
+
+  "@_SUCCESS_MESSAGES": {},
+  "successSaved": "Saved successfully"
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/constants/app_strings.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -114,7 +114,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
 
   /// Get the success message to display after successful save
   @protected
-  String getSuccessMessage() => AppStrings.saved;
+  String getSuccessMessage() => AppLocalizations.of(context)!.successSaved;
 
   /// Get the error message to display after failed save
   @protected
@@ -122,7 +122,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
 
   /// Get the form title
   @protected
-  String getFormTitle() => widget.title ?? AppStrings.edit;
+  String getFormTitle() => widget.title ?? AppLocalizations.of(context)!.actionEdit;
 
   /// Whether the save button should be enabled
   /// 
@@ -336,8 +336,9 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
     String? label,
     VoidCallback? onPressed,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     // Use "Next" for registration wizard, "Save" for regular forms
-    final defaultLabel = widget.registrationWizard ? AppStrings.next : AppStrings.save;
+    final defaultLabel = widget.registrationWizard ? l10n.actionNext : l10n.actionSave;
     
     // Check if keyboard is open and add extra bottom padding if so
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
