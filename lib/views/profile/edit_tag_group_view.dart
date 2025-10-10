@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/tag.dart';
 import '../../models/tag_group.dart';
@@ -90,6 +91,8 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(_currentTagGroup?.label ?? widget.tagGroup.label),
@@ -115,9 +118,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
             Container(
               padding: const EdgeInsets.only(bottom: 8),
               child: ActionButton(
-                label: _isSaving 
-                    ? 'Saving...' 
-                    : (widget.registrationWizard ? 'Next' : 'Save'),
+                label: _isSaving
+                    ? l10n.editTagGroupSavingButton
+                    : (widget.registrationWizard ? l10n.editTagGroupNextButton : l10n.editTagGroupSaveButton),
                 onPressed: _isSaving || _selectedTags.isEmpty ? null : _saveChanges,
                 type: ActionButtonType.primary,
                 isDisabled: _isSaving || _selectedTags.isEmpty,
@@ -129,8 +132,9 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
   }
 
   List<Widget> _buildContent() {
+    final l10n = AppLocalizations.of(context)!;
     final List<Widget> content = [];
-    
+
     if (_isLoading) {
       content.add(
         SizedBox(
@@ -158,7 +162,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Failed to load tags',
+                  l10n.editTagGroupLoadErrorTitle,
                   style: AppTextStyles.headline,
                 ),
                 const SizedBox(height: 8),
@@ -170,7 +174,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
                 const SizedBox(height: 16),
                 PlatformElevatedButton(
                   onPressed: _initializeView,
-                  child: const Text('Retry'),
+                  child: Text(l10n.editTagGroupRetryButton),
                 ),
               ],
             ),
@@ -182,10 +186,10 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
     if (_currentTagGroup?.tags == null || _currentTagGroup!.tags!.isEmpty) {
       content.add(
-        const SizedBox(
+        SizedBox(
           height: 200,
           child: Center(
-            child: Text('No tags available'),
+            child: Text(l10n.editTagGroupNoTagsMessage),
           ),
         ),
       );
@@ -302,17 +306,18 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       }
     } catch (error) {
       AppLogger.error('Error saving tag changes: $error', context: 'EditTagGroupView');
-      
+
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         // Show error dialog or snackbar
         showPlatformDialog(
           context: context,
           builder: (context) => PlatformAlertDialog(
-            title: const Text('Error'),
-            content: Text('Failed to save changes: ${error.toString()}'),
+            title: Text(l10n.editTagGroupSaveErrorTitle),
+            content: Text(l10n.editTagGroupSaveErrorMessage(error.toString())),
             actions: [
               PlatformDialogAction(
-                child: const Text('OK'),
+                child: Text(l10n.editTagGroupErrorDialogOk),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],

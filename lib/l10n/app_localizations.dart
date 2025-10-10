@@ -1857,6 +1857,696 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No personal tag groups available'**
   String get personalSectionEmptyTagGroups;
+
+  /// No description provided for @editAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account settings'**
+  String get editAccountTitle;
+
+  /// No description provided for @editAccountDataExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Export'**
+  String get editAccountDataExportTitle;
+
+  /// No description provided for @editAccountDataExportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.'**
+  String get editAccountDataExportDescription;
+
+  /// No description provided for @editAccountExportDataButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all your data'**
+  String get editAccountExportDataButton;
+
+  /// No description provided for @editAccountDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get editAccountDeleteTitle;
+
+  /// No description provided for @editAccountDeleteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.'**
+  String get editAccountDeleteDescription;
+
+  /// No description provided for @editAccountDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get editAccountDeleteButton;
+
+  /// No description provided for @editAccountLogoutButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get editAccountLogoutButton;
+
+  /// No description provided for @editAccountExportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get editAccountExportDialogTitle;
+
+  /// No description provided for @editAccountExportDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You will receive a data export link in your email as soon as your data is ready.'**
+  String get editAccountExportDialogMessage;
+
+  /// No description provided for @editAccountExportDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get editAccountExportDialogCancel;
+
+  /// No description provided for @editAccountExportDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get editAccountExportDialogConfirm;
+
+  /// No description provided for @editAccountExportSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'An email will be sent once the export is ready'**
+  String get editAccountExportSuccessMessage;
+
+  /// No description provided for @editAccountExportErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again later.'**
+  String get editAccountExportErrorMessage;
+
+  /// No description provided for @editAccountDeleteDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get editAccountDeleteDialogTitle;
+
+  /// No description provided for @editAccountDeleteDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account and all its data will be permanently deleted immediately. This action cannot be undone. Are you sure you want to continue?'**
+  String get editAccountDeleteDialogMessage;
+
+  /// No description provided for @editAccountDeleteDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get editAccountDeleteDialogCancel;
+
+  /// No description provided for @editAccountDeleteDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get editAccountDeleteDialogConfirm;
+
+  /// No description provided for @editAccountDeleteErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again later.'**
+  String get editAccountDeleteErrorMessage;
+
+  /// No description provided for @editAccountLogoutDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get editAccountLogoutDialogTitle;
+
+  /// No description provided for @editAccountLogoutDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get editAccountLogoutDialogMessage;
+
+  /// No description provided for @editAccountLogoutDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get editAccountLogoutDialogCancel;
+
+  /// No description provided for @editAccountLogoutDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get editAccountLogoutDialogConfirm;
+
+  /// No description provided for @editAccountLogoutErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again later.'**
+  String get editAccountLogoutErrorMessage;
+
+  /// No description provided for @editTagGroupSavingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get editTagGroupSavingButton;
+
+  /// No description provided for @editTagGroupNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get editTagGroupNextButton;
+
+  /// No description provided for @editTagGroupSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get editTagGroupSaveButton;
+
+  /// No description provided for @editTagGroupLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load tags'**
+  String get editTagGroupLoadErrorTitle;
+
+  /// No description provided for @editTagGroupRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get editTagGroupRetryButton;
+
+  /// No description provided for @editTagGroupNoTagsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags available'**
+  String get editTagGroupNoTagsMessage;
+
+  /// No description provided for @editTagGroupSaveErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get editTagGroupSaveErrorTitle;
+
+  /// No description provided for @editTagGroupSaveErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save changes: {error}'**
+  String editTagGroupSaveErrorMessage(String error);
+
+  /// No description provided for @editTagGroupErrorDialogOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get editTagGroupErrorDialogOk;
+
+  /// No description provided for @editNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get editNotificationsTitle;
+
+  /// No description provided for @editNotificationsSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications saved'**
+  String get editNotificationsSavedMessage;
+
+  /// No description provided for @editNotificationsSaveErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save notifications'**
+  String get editNotificationsSaveErrorMessage;
+
+  /// No description provided for @editNotificationsEnableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications to ...'**
+  String get editNotificationsEnableTitle;
+
+  /// No description provided for @editNotificationsNotNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get editNotificationsNotNowButton;
+
+  /// No description provided for @editNotificationsEnableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get editNotificationsEnableButton;
+
+  /// No description provided for @editNotificationsPermissionDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Permission Required'**
+  String get editNotificationsPermissionDialogTitle;
+
+  /// No description provided for @editNotificationsPermissionDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission has been denied. Please enable it in your device settings to receive updates.'**
+  String get editNotificationsPermissionDialogMessage;
+
+  /// No description provided for @editNotificationsPermissionDialogNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get editNotificationsPermissionDialogNotNow;
+
+  /// No description provided for @editNotificationsPermissionDialogOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get editNotificationsPermissionDialogOpenSettings;
+
+  /// No description provided for @editNotificationsLaterMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can enable notifications later in settings'**
+  String get editNotificationsLaterMessage;
+
+  /// No description provided for @editNotificationsEnableErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to enable notifications. You can try again in settings.'**
+  String get editNotificationsEnableErrorMessage;
+
+  /// No description provided for @editLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get editLocationTitle;
+
+  /// No description provided for @editLocationSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location saved'**
+  String get editLocationSavedMessage;
+
+  /// No description provided for @editLocationSaveErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save location'**
+  String get editLocationSaveErrorMessage;
+
+  /// No description provided for @editLocationEnableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable location to'**
+  String get editLocationEnableTitle;
+
+  /// No description provided for @editLocationNotNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get editLocationNotNowButton;
+
+  /// No description provided for @editLocationEnableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get editLocationEnableButton;
+
+  /// No description provided for @editLocationServicesDisabledMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled. Please enable them in settings.'**
+  String get editLocationServicesDisabledMessage;
+
+  /// No description provided for @editLocationPermissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied. You can enable it later in settings.'**
+  String get editLocationPermissionDeniedMessage;
+
+  /// No description provided for @editLocationPermissionDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Permission Required'**
+  String get editLocationPermissionDialogTitle;
+
+  /// No description provided for @editLocationPermissionDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission has been permanently denied. Please enable it in your device settings to use this feature.'**
+  String get editLocationPermissionDialogMessage;
+
+  /// No description provided for @editLocationPermissionDialogNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get editLocationPermissionDialogNotNow;
+
+  /// No description provided for @editLocationPermissionDialogOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get editLocationPermissionDialogOpenSettings;
+
+  /// No description provided for @editLocationCoordinatesErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get location coordinates'**
+  String get editLocationCoordinatesErrorMessage;
+
+  /// No description provided for @editLocationEnableErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to enable location. Please try again.'**
+  String get editLocationEnableErrorMessage;
+
+  /// No description provided for @editNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get editNameTitle;
+
+  /// No description provided for @editNameSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes successfully saved'**
+  String get editNameSuccessMessage;
+
+  /// No description provided for @editNameErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update, please try again'**
+  String get editNameErrorMessage;
+
+  /// No description provided for @editNameLinkedInFormatError.
+  ///
+  /// In en, this message translates to:
+  /// **'LinkedIn URL format is invalid'**
+  String get editNameLinkedInFormatError;
+
+  /// No description provided for @editNameLinkedInMismatchDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find your name in your LinkedIn URL'**
+  String get editNameLinkedInMismatchDialogTitle;
+
+  /// No description provided for @editNameLinkedInMismatchDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your LinkedIn URL doesn\'t seem to contain your first and last name. You can continue or double-check your URL.'**
+  String get editNameLinkedInMismatchDialogMessage;
+
+  /// No description provided for @editNameLinkedInMismatchDialogCheckUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Check URL'**
+  String get editNameLinkedInMismatchDialogCheckUrl;
+
+  /// No description provided for @editNameLinkedInMismatchDialogContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue anyway'**
+  String get editNameLinkedInMismatchDialogContinue;
+
+  /// No description provided for @editNameFirstNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FIRST NAME'**
+  String get editNameFirstNameLabel;
+
+  /// No description provided for @editNameFirstNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get editNameFirstNameHint;
+
+  /// No description provided for @editNameLastNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST NAME'**
+  String get editNameLastNameLabel;
+
+  /// No description provided for @editNameLastNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get editNameLastNameHint;
+
+  /// No description provided for @editNameLinkedInLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'LINKEDIN URL'**
+  String get editNameLinkedInLabel;
+
+  /// No description provided for @editNameLinkedInHint.
+  ///
+  /// In en, this message translates to:
+  /// **'linkedin.com/in/your-name'**
+  String get editNameLinkedInHint;
+
+  /// No description provided for @editNameLinkedInInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll only share your LinkedIn profile in the introduction email once there\'s mutual interest. It\'s never shared when you first get matched.'**
+  String get editNameLinkedInInfoMessage;
+
+  /// No description provided for @editEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address'**
+  String get editEmailTitle;
+
+  /// No description provided for @editEmailSendCodeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Send verification code'**
+  String get editEmailSendCodeButton;
+
+  /// No description provided for @editEmailAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'EMAIL ADDRESS'**
+  String get editEmailAddressLabel;
+
+  /// No description provided for @editEmailCodeSentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification code has been sent to {email}'**
+  String editEmailCodeSentMessage(String email);
+
+  /// No description provided for @editEmailSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact email address updated'**
+  String get editEmailSuccessMessage;
+
+  /// No description provided for @editEmailSendCodeErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send confirmation code, please try again'**
+  String get editEmailSendCodeErrorMessage;
+
+  /// No description provided for @editEmailVerifyCodeErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to verify code, please try again'**
+  String get editEmailVerifyCodeErrorMessage;
+
+  /// No description provided for @editEmailVerifyCodeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify code'**
+  String get editEmailVerifyCodeButton;
+
+  /// No description provided for @editEmailAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A valid email address'**
+  String get editEmailAddressHint;
+
+  /// No description provided for @editEmailInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll only use this email for app notifications like new matches, introductions and important updates'**
+  String get editEmailInfoMessage;
+
+  /// No description provided for @editEmailNewsletterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SUBSCRIBE FOR VENYU UPDATES'**
+  String get editEmailNewsletterLabel;
+
+  /// No description provided for @editEmailVerificationCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get editEmailVerificationCodeLabel;
+
+  /// No description provided for @editEmailVerificationCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 6-digit code'**
+  String get editEmailVerificationCodeHint;
+
+  /// No description provided for @editCityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get editCityTitle;
+
+  /// No description provided for @editCitySavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'City saved'**
+  String get editCitySavedMessage;
+
+  /// No description provided for @editCityErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update city, please try again'**
+  String get editCityErrorMessage;
+
+  /// No description provided for @editCityCityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CITY'**
+  String get editCityCityLabel;
+
+  /// No description provided for @editCityCityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get editCityCityHint;
+
+  /// No description provided for @editCityInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.'**
+  String get editCityInfoMessage;
+
+  /// No description provided for @editCompanyNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Company name'**
+  String get editCompanyNameTitle;
+
+  /// No description provided for @editCompanyNameSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Company info changes saved'**
+  String get editCompanyNameSuccessMessage;
+
+  /// No description provided for @editCompanyNameErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update company info, please try again'**
+  String get editCompanyNameErrorMessage;
+
+  /// No description provided for @editCompanyNameCompanyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPANY NAME'**
+  String get editCompanyNameCompanyLabel;
+
+  /// No description provided for @editCompanyNameCompanyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Company name'**
+  String get editCompanyNameCompanyHint;
+
+  /// No description provided for @editCompanyNameWebsiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WEBSITE'**
+  String get editCompanyNameWebsiteLabel;
+
+  /// No description provided for @editCompanyNameWebsiteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get editCompanyNameWebsiteHint;
+
+  /// No description provided for @editCompanyNameInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your company name and website are only shared with people you get introduced to, not with matches. They help make introductions more meaningful and relevant.'**
+  String get editCompanyNameInfoMessage;
+
+  /// No description provided for @editAvatarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Picture'**
+  String get editAvatarTitle;
+
+  /// No description provided for @editAvatarSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile picture saved'**
+  String get editAvatarSuccessMessage;
+
+  /// No description provided for @editAvatarErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save profile picture'**
+  String get editAvatarErrorMessage;
+
+  /// No description provided for @editAvatarRemoveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get editAvatarRemoveButton;
+
+  /// No description provided for @editAvatarAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a profile picture'**
+  String get editAvatarAddTitle;
+
+  /// No description provided for @editAvatarInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you\'re introduced.'**
+  String get editAvatarInfoMessage;
+
+  /// No description provided for @editAvatarCameraButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get editAvatarCameraButton;
+
+  /// No description provided for @editAvatarGalleryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get editAvatarGalleryButton;
+
+  /// No description provided for @editAvatarNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get editAvatarNextButton;
+
+  /// No description provided for @editBioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get editBioTitle;
+
+  /// No description provided for @editBioSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile bio saved'**
+  String get editBioSuccessMessage;
+
+  /// No description provided for @editBioErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update profile bio, please try again'**
+  String get editBioErrorMessage;
+
+  /// No description provided for @editBioInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.'**
+  String get editBioInfoMessage;
+
+  /// No description provided for @editBioPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your bio here...'**
+  String get editBioPlaceholder;
 }
 
 class _AppLocalizationsDelegate

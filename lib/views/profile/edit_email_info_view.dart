@@ -6,6 +6,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/profile_service.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -42,9 +43,15 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   bool _isEmailValid = false;
   bool _emailFieldDisabled = false;
   bool _isSubscribedToNewsletter = true;
-  String _buttonLabel = 'Send verification code';
+  String? _buttonLabel;
   bool _isSendingOTP = false;
   bool _isVerifyingOTP = false;
+
+  String get buttonLabel {
+    if (_buttonLabel != null) return _buttonLabel!;
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editEmailSendCodeButton;
+  }
 
   @override
   void initializeForm() {
@@ -78,8 +85,8 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
 
   /// Get appropriate form title based on current state
   String get _formTitle {
-    return 'EMAIL ADDRESS';
-    
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editEmailAddressLabel;
   }
 
   /// Check if we should show the email helper info box
@@ -99,19 +106,21 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   /// Get success message
   @override
   String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
     if (!_showOTPField) {
-      return 'A verification code has been sent to ${_emailController.text.trim()}';
+      return l10n.editEmailCodeSentMessage(_emailController.text.trim());
     }
-    return 'Contact email address updated';
+    return l10n.editEmailSuccessMessage;
   }
 
   /// Get error message
   @override
   String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
     if (!_showOTPField) {
-      return 'Failed to send confirmation code, please try again';
+      return l10n.editEmailSendCodeErrorMessage;
     }
-    return 'Failed to verify code, please try again';
+    return l10n.editEmailVerifyCodeErrorMessage;
   }
 
   /// Override navigation to avoid snackbar issues during OTP step
@@ -140,7 +149,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         bottom: isKeyboardOpen ? 16 : 0, // Extra padding when keyboard is open
       ),
       child: ActionButton(
-        label: _buttonLabel,
+        label: buttonLabel,
         onPressed: !canSave ? null : _handleCustomSave,
         isLoading: _isSendingOTP || _isVerifyingOTP,
       ),
@@ -216,17 +225,18 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
       
       if (mounted) {
         AppLogger.ui('Updating UI state after successful OTP send...', context: 'EditEmailInfoView');
-        
+
+        final l10n = AppLocalizations.of(context)!;
         // Show success toast BEFORE updating state
         ToastService.success(
           context: context,
-          message: 'A verification code has been sent to ${_emailController.text.trim()}',
+          message: l10n.editEmailCodeSentMessage(_emailController.text.trim()),
         );
-        
+
         setState(() {
           _isSendingOTP = false;
           _emailFieldDisabled = true;
-          _buttonLabel = 'Verify code';
+          _buttonLabel = l10n.editEmailVerifyCodeButton;
           _showOTPField = true;
         });
         
@@ -276,6 +286,8 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   Widget buildFormContent(BuildContext context) {
     AppLogger.ui('Building form content - _showOTPField: $_showOTPField, _isSendingOTP: $_isSendingOTP', context: 'EditEmailInfoView');
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -293,7 +305,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
           title: _formTitle,
           content: AppTextField(
             controller: _emailController,
-            hintText: 'A valid email address',
+            hintText: l10n.editEmailAddressHint,
             style: AppTextFieldStyle.large,
             state: _isEmailValid ? AppTextFieldState.normal : AppTextFieldState.normal,
             autofillHints: const [AutofillHints.email],
@@ -308,7 +320,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         // Email info box (shown before OTP)
         if (_showEmailHelperBox) ...[
           FormInfoBox(
-            content: 'We’ll only use this email for app notifications like new matches, introductions and important updates',
+            content: l10n.editEmailInfoMessage,
           ),
         ],
 
@@ -320,7 +332,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
               children: [
                 Expanded(
                   child: Text(
-                    'SUBSCRIBE FOR VENYU UPDATES',
+                    l10n.editEmailNewsletterLabel,
                     style: AppTextStyles.caption1.copyWith(
                       letterSpacing: 0.5,
                       color: context.venyuTheme.secondaryText,
@@ -354,10 +366,10 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         // OTP input section (shown after sending OTP)
         if (_showOTPField)
           buildFieldSection(
-            title: 'Verification code',
+            title: l10n.editEmailVerificationCodeLabel,
             content: AppTextField(
               controller: _otpController,
-              hintText: 'Enter 6-digit code',
+              hintText: l10n.editEmailVerificationCodeHint,
               style: AppTextFieldStyle.large,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,

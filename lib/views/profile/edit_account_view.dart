@@ -5,6 +5,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../services/auth_service.dart';
@@ -32,9 +33,11 @@ class _EditAccountViewState extends State<EditAccountView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return PlatformScaffold(
       appBar: PlatformAppBar(
-        title: const Text('Account settings'),
+        title: Text(l10n.editAccountTitle),
       ),
       body: SafeArea(
         child: Padding(
@@ -45,10 +48,10 @@ class _EditAccountViewState extends State<EditAccountView> {
               // Export section
               _buildSection(
                 context: context,
-                title: 'Data Export',
-                description: 'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.',
+                title: l10n.editAccountDataExportTitle,
+                description: l10n.editAccountDataExportDescription,
                 child: ActionButton(
-                  label: 'Export all your data',
+                  label: l10n.editAccountExportDataButton,
                   type: ActionButtonType.secondary,
                   onPressed: _handleExportData,
                   isLoading: _isExporting,
@@ -60,21 +63,21 @@ class _EditAccountViewState extends State<EditAccountView> {
               // Delete section
               _buildSection(
                 context: context,
-                title: 'Delete Account',
-                description: 'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.',
+                title: l10n.editAccountDeleteTitle,
+                description: l10n.editAccountDeleteDescription,
                 child: ActionButton(
-                  label: 'Delete account',
+                  label: l10n.editAccountDeleteButton,
                   type: ActionButtonType.destructive,
                   onPressed: _handleDeleteAccount,
                   isLoading: _isDeleting,
                 ),
               ),
-              
+
               const Spacer(),
-              
+
               // Logout button
               ActionButton(
-                label: 'Logout',
+                label: l10n.editAccountLogoutButton,
                 type: ActionButtonType.secondary,
                 onPressed: _handleLogout,
                 isLoading: _isLoggingOut,
@@ -125,19 +128,21 @@ class _EditAccountViewState extends State<EditAccountView> {
   Future<void> _handleExportData() async {
     if (_isExporting) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     // Show confirmation dialog first
     final bool? shouldExport = await DialogUtils.showChoiceDialog<bool>(
       context: context,
-      title: 'Export data',
-      message: 'You will receive a data export link in your email as soon as your data is ready.',
+      title: l10n.editAccountExportDialogTitle,
+      message: l10n.editAccountExportDialogMessage,
       choices: [
-        const DialogChoice<bool>(
-          label: 'Cancel',
+        DialogChoice<bool>(
+          label: l10n.editAccountExportDialogCancel,
           value: false,
           isDefault: true,
         ),
-        const DialogChoice<bool>(
-          label: 'Export',
+        DialogChoice<bool>(
+          label: l10n.editAccountExportDialogConfirm,
           value: true,
         ),
       ],
@@ -151,20 +156,20 @@ class _EditAccountViewState extends State<EditAccountView> {
 
     try {
       await ProfileManager.shared.exportData();
-      
+
       if (mounted) {
         ToastService.success(
           context: context,
-          message: 'An email will be sent once the export is ready',
+          message: l10n.editAccountExportSuccessMessage,
         );
       }
     } catch (error) {
       AppLogger.error('Export data failed', context: 'EditAccountView', error: error);
-      
+
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Something went wrong. Please try again later.',
+          message: l10n.editAccountExportErrorMessage,
         );
       }
     } finally {
@@ -180,19 +185,21 @@ class _EditAccountViewState extends State<EditAccountView> {
   Future<void> _handleDeleteAccount() async {
     if (_isDeleting) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     // Show confirmation dialog first
     final bool? shouldDelete = await DialogUtils.showChoiceDialog<bool>(
       context: context,
-      title: 'Delete account',
-      message: 'Your account and all its data will be permanently deleted immediately. This action cannot be undone. Are you sure you want to continue?',
+      title: l10n.editAccountDeleteDialogTitle,
+      message: l10n.editAccountDeleteDialogMessage,
       choices: [
-        const DialogChoice<bool>(
-          label: 'Cancel',
+        DialogChoice<bool>(
+          label: l10n.editAccountDeleteDialogCancel,
           value: false,
           isDefault: true,
         ),
-        const DialogChoice<bool>(
-          label: 'Delete',
+        DialogChoice<bool>(
+          label: l10n.editAccountDeleteDialogConfirm,
           value: true,
           isDestructive: true,
         ),
@@ -208,10 +215,10 @@ class _EditAccountViewState extends State<EditAccountView> {
     try {
       // Delete the account
       await ProfileManager.shared.deleteAccount();
-      
+
       // Sign out after deletion
       await AuthService.shared.signOut();
-      
+
       // Navigate back to AuthFlow which will show LoginView based on auth state
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
@@ -224,13 +231,13 @@ class _EditAccountViewState extends State<EditAccountView> {
       }
     } catch (error) {
       AppLogger.error('Delete account failed', context: 'EditAccountView', error: error);
-      
+
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Something went wrong. Please try again later.',
+          message: l10n.editAccountDeleteErrorMessage,
         );
-        
+
         setState(() {
           _isDeleting = false;
         });
@@ -242,19 +249,21 @@ class _EditAccountViewState extends State<EditAccountView> {
   Future<void> _handleLogout() async {
     if (_isLoggingOut) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     // Show confirmation dialog first
     final bool? shouldLogout = await DialogUtils.showChoiceDialog<bool>(
       context: context,
-      title: 'Logout',
-      message: 'Are you sure you want to logout?',
+      title: l10n.editAccountLogoutDialogTitle,
+      message: l10n.editAccountLogoutDialogMessage,
       choices: [
-        const DialogChoice<bool>(
-          label: 'Cancel',
+        DialogChoice<bool>(
+          label: l10n.editAccountLogoutDialogCancel,
           value: false,
           isDefault: true,
         ),
-        const DialogChoice<bool>(
-          label: 'Logout',
+        DialogChoice<bool>(
+          label: l10n.editAccountLogoutDialogConfirm,
           value: true,
           isDestructive: true,
         ),
@@ -269,7 +278,7 @@ class _EditAccountViewState extends State<EditAccountView> {
 
     try {
       await AuthService.shared.signOut();
-      
+
       // Navigate back to AuthFlow which will show LoginView based on auth state
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
@@ -282,13 +291,13 @@ class _EditAccountViewState extends State<EditAccountView> {
       }
     } catch (error) {
       AppLogger.error('Logout failed', context: 'EditAccountView', error: error);
-      
+
       if (mounted) {
         ToastService.error(
           context: context,
-          message: 'Something went wrong. Please try again later.',
+          message: l10n.editAccountLogoutErrorMessage,
         );
-        
+
         setState(() {
           _isLoggingOut = false;
         });

@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../services/avatar_upload_service.dart';
@@ -39,10 +40,16 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
   bool get canSave => !_isUploading;
 
   @override
-  String getSuccessMessage() => 'Profile picture saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editAvatarSuccessMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to save profile picture';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editAvatarErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -55,6 +62,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +120,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   child: Text(
-                    'Remove',
+                    l10n.editAvatarRemoveButton,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                       fontSize: 16,
@@ -128,7 +136,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
         // Title
         Center(
           child: Text(
-            'Add a profile picture',
+            l10n.editAvatarTitle,
             style: AppTextStyles.title2,
           ),
         ),
@@ -139,12 +147,12 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FormInfoBox(
-            content: 'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you’re introduced.',
+            content: l10n.editAvatarInfoMessage,
           ),
         ),
 
         const SizedBox(height: 16),
-        
+
         // Camera and Gallery buttons
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -155,20 +163,20 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
               Expanded(
                 child: ActionButton(
                   icon: context.themedIcon('camera'),
-                  label: 'Camera',
+                  label: l10n.editAvatarCameraButton,
                   type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleCameraUpload,
                   isLoading: false,
                 ),
               ),
-              
+
               const SizedBox(width: 16),
-              
+
               // Gallery button
               Expanded(
                 child: ActionButton(
                   icon: context.themedIcon('image'),
-                  label: 'Gallery',
+                  label: l10n.editAvatarGalleryButton,
                   type: ActionButtonType.secondary,
                   onPressed: _isUploading ? null : _handleGalleryUpload,
                   isLoading: false,
@@ -270,10 +278,12 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
 
   @override
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ActionButton(
-        label: 'Next',
+        label: l10n.editAvatarNextButton,
         type: ActionButtonType.primary,
         onPressed: _isUploading ? null : _navigateToNext,
         isLoading: false,

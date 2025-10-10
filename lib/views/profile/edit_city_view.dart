@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/edit_personal_info_type.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -56,10 +57,16 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
   bool get canSave => _cityController.text.trim().isNotEmpty;
 
   @override
-  String getSuccessMessage() => 'City saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editCitySavedMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to update city, please try again';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editCityErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -85,6 +92,7 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
   @override
   Widget buildFormContent(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,13 +107,13 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
             ),
           ),
 
-        
+
         // City field
         buildFieldSection(
-          title: 'CITY',
+          title: l10n.editCityCityLabel,
           content: AppTextField(
             controller: _cityController,
-            hintText: 'City',
+            hintText: l10n.editCityCityHint,
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
@@ -118,7 +126,7 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
         ),
 
          FormInfoBox(
-          content: 'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.',
+          content: l10n.editCityInfoMessage,
         ),
 
         const SizedBox(height: 16),

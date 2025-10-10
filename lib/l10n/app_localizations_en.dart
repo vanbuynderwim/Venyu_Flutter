@@ -986,4 +986,385 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get personalSectionEmptyTagGroups =>
       'No personal tag groups available';
+
+  @override
+  String get editAccountTitle => 'Account settings';
+
+  @override
+  String get editAccountDataExportTitle => 'Data Export';
+
+  @override
+  String get editAccountDataExportDescription =>
+      'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.';
+
+  @override
+  String get editAccountExportDataButton => 'Export all your data';
+
+  @override
+  String get editAccountDeleteTitle => 'Delete Account';
+
+  @override
+  String get editAccountDeleteDescription =>
+      'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.';
+
+  @override
+  String get editAccountDeleteButton => 'Delete account';
+
+  @override
+  String get editAccountLogoutButton => 'Logout';
+
+  @override
+  String get editAccountExportDialogTitle => 'Export data';
+
+  @override
+  String get editAccountExportDialogMessage =>
+      'You will receive a data export link in your email as soon as your data is ready.';
+
+  @override
+  String get editAccountExportDialogCancel => 'Cancel';
+
+  @override
+  String get editAccountExportDialogConfirm => 'Export';
+
+  @override
+  String get editAccountExportSuccessMessage =>
+      'An email will be sent once the export is ready';
+
+  @override
+  String get editAccountExportErrorMessage =>
+      'Something went wrong. Please try again later.';
+
+  @override
+  String get editAccountDeleteDialogTitle => 'Delete account';
+
+  @override
+  String get editAccountDeleteDialogMessage =>
+      'Your account and all its data will be permanently deleted immediately. This action cannot be undone. Are you sure you want to continue?';
+
+  @override
+  String get editAccountDeleteDialogCancel => 'Cancel';
+
+  @override
+  String get editAccountDeleteDialogConfirm => 'Delete';
+
+  @override
+  String get editAccountDeleteErrorMessage =>
+      'Something went wrong. Please try again later.';
+
+  @override
+  String get editAccountLogoutDialogTitle => 'Logout';
+
+  @override
+  String get editAccountLogoutDialogMessage =>
+      'Are you sure you want to logout?';
+
+  @override
+  String get editAccountLogoutDialogCancel => 'Cancel';
+
+  @override
+  String get editAccountLogoutDialogConfirm => 'Logout';
+
+  @override
+  String get editAccountLogoutErrorMessage =>
+      'Something went wrong. Please try again later.';
+
+  @override
+  String get editTagGroupSavingButton => 'Saving...';
+
+  @override
+  String get editTagGroupNextButton => 'Next';
+
+  @override
+  String get editTagGroupSaveButton => 'Save';
+
+  @override
+  String get editTagGroupLoadErrorTitle => 'Failed to load tags';
+
+  @override
+  String get editTagGroupRetryButton => 'Retry';
+
+  @override
+  String get editTagGroupNoTagsMessage => 'No tags available';
+
+  @override
+  String get editTagGroupSaveErrorTitle => 'Error';
+
+  @override
+  String editTagGroupSaveErrorMessage(String error) {
+    return 'Failed to save changes: $error';
+  }
+
+  @override
+  String get editTagGroupErrorDialogOk => 'OK';
+
+  @override
+  String get editNotificationsTitle => 'Notifications';
+
+  @override
+  String get editNotificationsSavedMessage => 'Notifications saved';
+
+  @override
+  String get editNotificationsSaveErrorMessage =>
+      'Failed to save notifications';
+
+  @override
+  String get editNotificationsEnableTitle => 'Enable notifications to ...';
+
+  @override
+  String get editNotificationsNotNowButton => 'Not now';
+
+  @override
+  String get editNotificationsEnableButton => 'Enable';
+
+  @override
+  String get editNotificationsPermissionDialogTitle =>
+      'Notification Permission Required';
+
+  @override
+  String get editNotificationsPermissionDialogMessage =>
+      'Notification permission has been denied. Please enable it in your device settings to receive updates.';
+
+  @override
+  String get editNotificationsPermissionDialogNotNow => 'Not now';
+
+  @override
+  String get editNotificationsPermissionDialogOpenSettings => 'Open Settings';
+
+  @override
+  String get editNotificationsLaterMessage =>
+      'You can enable notifications later in settings';
+
+  @override
+  String get editNotificationsEnableErrorMessage =>
+      'Failed to enable notifications. You can try again in settings.';
+
+  @override
+  String get editLocationTitle => 'Location';
+
+  @override
+  String get editLocationSavedMessage => 'Location saved';
+
+  @override
+  String get editLocationSaveErrorMessage => 'Failed to save location';
+
+  @override
+  String get editLocationEnableTitle => 'Enable location to';
+
+  @override
+  String get editLocationNotNowButton => 'Not now';
+
+  @override
+  String get editLocationEnableButton => 'Enable';
+
+  @override
+  String get editLocationServicesDisabledMessage =>
+      'Location services are disabled. Please enable them in settings.';
+
+  @override
+  String get editLocationPermissionDeniedMessage =>
+      'Location permission denied. You can enable it later in settings.';
+
+  @override
+  String get editLocationPermissionDialogTitle =>
+      'Location Permission Required';
+
+  @override
+  String get editLocationPermissionDialogMessage =>
+      'Location permission has been permanently denied. Please enable it in your device settings to use this feature.';
+
+  @override
+  String get editLocationPermissionDialogNotNow => 'Not now';
+
+  @override
+  String get editLocationPermissionDialogOpenSettings => 'Open Settings';
+
+  @override
+  String get editLocationCoordinatesErrorMessage =>
+      'Could not get location coordinates';
+
+  @override
+  String get editLocationEnableErrorMessage =>
+      'Failed to enable location. Please try again.';
+
+  @override
+  String get editNameTitle => 'You';
+
+  @override
+  String get editNameSuccessMessage => 'Changes successfully saved';
+
+  @override
+  String get editNameErrorMessage => 'Failed to update, please try again';
+
+  @override
+  String get editNameLinkedInFormatError => 'LinkedIn URL format is invalid';
+
+  @override
+  String get editNameLinkedInMismatchDialogTitle =>
+      'We couldn\'t find your name in your LinkedIn URL';
+
+  @override
+  String get editNameLinkedInMismatchDialogMessage =>
+      'Your LinkedIn URL doesn\'t seem to contain your first and last name. You can continue or double-check your URL.';
+
+  @override
+  String get editNameLinkedInMismatchDialogCheckUrl => 'Check URL';
+
+  @override
+  String get editNameLinkedInMismatchDialogContinue => 'Continue anyway';
+
+  @override
+  String get editNameFirstNameLabel => 'FIRST NAME';
+
+  @override
+  String get editNameFirstNameHint => 'First name';
+
+  @override
+  String get editNameLastNameLabel => 'LAST NAME';
+
+  @override
+  String get editNameLastNameHint => 'Last name';
+
+  @override
+  String get editNameLinkedInLabel => 'LINKEDIN URL';
+
+  @override
+  String get editNameLinkedInHint => 'linkedin.com/in/your-name';
+
+  @override
+  String get editNameLinkedInInfoMessage =>
+      'We\'ll only share your LinkedIn profile in the introduction email once there\'s mutual interest. It\'s never shared when you first get matched.';
+
+  @override
+  String get editEmailTitle => 'Email address';
+
+  @override
+  String get editEmailSendCodeButton => 'Send verification code';
+
+  @override
+  String get editEmailAddressLabel => 'EMAIL ADDRESS';
+
+  @override
+  String editEmailCodeSentMessage(String email) {
+    return 'A verification code has been sent to $email';
+  }
+
+  @override
+  String get editEmailSuccessMessage => 'Contact email address updated';
+
+  @override
+  String get editEmailSendCodeErrorMessage =>
+      'Failed to send confirmation code, please try again';
+
+  @override
+  String get editEmailVerifyCodeErrorMessage =>
+      'Failed to verify code, please try again';
+
+  @override
+  String get editEmailVerifyCodeButton => 'Verify code';
+
+  @override
+  String get editEmailAddressHint => 'A valid email address';
+
+  @override
+  String get editEmailInfoMessage =>
+      'We\'ll only use this email for app notifications like new matches, introductions and important updates';
+
+  @override
+  String get editEmailNewsletterLabel => 'SUBSCRIBE FOR VENYU UPDATES';
+
+  @override
+  String get editEmailVerificationCodeLabel => 'Verification code';
+
+  @override
+  String get editEmailVerificationCodeHint => 'Enter 6-digit code';
+
+  @override
+  String get editCityTitle => 'City';
+
+  @override
+  String get editCitySavedMessage => 'City saved';
+
+  @override
+  String get editCityErrorMessage => 'Failed to update city, please try again';
+
+  @override
+  String get editCityCityLabel => 'CITY';
+
+  @override
+  String get editCityCityHint => 'City';
+
+  @override
+  String get editCityInfoMessage =>
+      'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.';
+
+  @override
+  String get editCompanyNameTitle => 'Company name';
+
+  @override
+  String get editCompanyNameSuccessMessage => 'Company info changes saved';
+
+  @override
+  String get editCompanyNameErrorMessage =>
+      'Failed to update company info, please try again';
+
+  @override
+  String get editCompanyNameCompanyLabel => 'COMPANY NAME';
+
+  @override
+  String get editCompanyNameCompanyHint => 'Company name';
+
+  @override
+  String get editCompanyNameWebsiteLabel => 'WEBSITE';
+
+  @override
+  String get editCompanyNameWebsiteHint => 'Website';
+
+  @override
+  String get editCompanyNameInfoMessage =>
+      'Your company name and website are only shared with people you get introduced to, not with matches. They help make introductions more meaningful and relevant.';
+
+  @override
+  String get editAvatarTitle => 'Profile Picture';
+
+  @override
+  String get editAvatarSuccessMessage => 'Profile picture saved';
+
+  @override
+  String get editAvatarErrorMessage => 'Failed to save profile picture';
+
+  @override
+  String get editAvatarRemoveButton => 'Remove';
+
+  @override
+  String get editAvatarAddTitle => 'Add a profile picture';
+
+  @override
+  String get editAvatarInfoMessage =>
+      'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you\'re introduced.';
+
+  @override
+  String get editAvatarCameraButton => 'Camera';
+
+  @override
+  String get editAvatarGalleryButton => 'Gallery';
+
+  @override
+  String get editAvatarNextButton => 'Next';
+
+  @override
+  String get editBioTitle => 'About you';
+
+  @override
+  String get editBioSuccessMessage => 'Profile bio saved';
+
+  @override
+  String get editBioErrorMessage =>
+      'Failed to update profile bio, please try again';
+
+  @override
+  String get editBioInfoMessage =>
+      'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.';
+
+  @override
+  String get editBioPlaceholder => 'Write your bio here...';
 }

@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/onboarding_benefit.dart';
 import '../../core/utils/dialog_utils.dart';
@@ -40,10 +41,16 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
   bool get canSave => true;
 
   @override
-  String getSuccessMessage() => 'Notifications saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editNotificationsSavedMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to save notifications';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editNotificationsSaveErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -53,6 +60,8 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,19 +80,19 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         VisualIconWidget(
           iconName: 'notification',
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // Title
         Center(
           child: Text(
-            'Enable notifications to ...',
+            l10n.editNotificationsTitle,
             style: AppTextStyles.title2,
           ),
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // Notification benefits
         OnboardingBenefitsCard(
           benefits: [
@@ -98,6 +107,8 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
   @override
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -105,18 +116,18 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
           // Not now button (secondary)
           Expanded(
             child: ActionButton(
-              label: 'Not now',
+              label: l10n.editNotificationsNotNowButton,
               type: ActionButtonType.secondary,
               onPressed: _navigateToNext,
             ),
           ),
-          
+
           const SizedBox(width: 8),
-          
+
           // Enable button (primary)
           Expanded(
             child: ActionButton(
-              label: 'Enable',
+              label: l10n.editNotificationsEnableButton,
               type: ActionButtonType.primary,
               onPressed: _enableNotifications,
               isLoading: _isEnablingNotifications,
@@ -182,20 +193,20 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         AppLogger.debug('Permission denied, showing settings dialog...', context: 'EditNotificationsView');
         // Permission was previously denied, show dialog to go to settings
         if (!mounted) return;
-        
+
+        final l10n = AppLocalizations.of(context)!;
         final bool? shouldOpenSettings = await DialogUtils.showChoiceDialog<bool>(
           context: context,
-          title: 'Notification Permission Required',
-          message: 'Notification permission has been denied. '
-              'Please enable it in your device settings to receive updates.',
+          title: l10n.editNotificationsPermissionDialogTitle,
+          message: l10n.editNotificationsPermissionDialogMessage,
           choices: [
-            const DialogChoice<bool>(
-              label: 'Not now',
+            DialogChoice<bool>(
+              label: l10n.editNotificationsPermissionDialogNotNow,
               value: false,
               isDefault: true,
             ),
-            const DialogChoice<bool>(
-              label: 'Open Settings',
+            DialogChoice<bool>(
+              label: l10n.editNotificationsPermissionDialogOpenSettings,
               value: true,
             ),
           ],
@@ -232,26 +243,28 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         }
       } else {
         AppLogger.warning('Notification permission denied', context: 'EditNotificationsView');
-        
+
         if (mounted) {
+          final l10n = AppLocalizations.of(context)!;
           ToastService.info(
             context: context,
-            message: 'You can enable notifications later in settings',
+            message: l10n.editNotificationsLaterMessage,
           );
-          
+
           // Still navigate to next step even if permission denied
           _navigateToNext();
         }
       }
     } catch (error) {
       AppLogger.error('Error enabling notifications: $error', context: 'EditNotificationsView');
-      
+
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ToastService.error(
           context: context,
-          message: 'Failed to enable notifications. You can try again in settings.',
+          message: l10n.editNotificationsEnableErrorMessage,
         );
-        
+
         // Navigate anyway to not block the user
         _navigateToNext();
       }

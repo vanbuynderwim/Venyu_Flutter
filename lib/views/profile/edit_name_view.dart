@@ -5,6 +5,7 @@ import '../../utils/linked_in_validator.dart';
 import '../../services/supabase_managers/base_supabase_manager.dart';
 import '../../services/profile_service.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/common/form_info_box.dart';
@@ -107,10 +108,16 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     );
 
   @override
-  String getSuccessMessage() => 'Changes successfully saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editNameSuccessMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to update, please try again';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editNameErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -131,9 +138,10 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   /// Custom save handler that includes LinkedIn validation
   Future<void> _validateAndSave() async {
     _computeValidation();
-    
+
     if (!_linkedInFormatIsValid) {
-      throw Exception('LinkedIn URL format is invalid');
+      final l10n = AppLocalizations.of(context)!;
+      throw Exception(l10n.editNameLinkedInFormatError);
     }
     
     if (!_linkedInNameMatches) {
@@ -183,17 +191,19 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   /// Shows dialog when LinkedIn URL doesn't match name
   /// Returns true if user wants to continue anyway
   Future<bool> _showNameMismatchDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => PlatformAlertDialog(
-        title: const Text("We couldn't find your name in your LinkedIn URL"),
-        content: const Text("Your LinkedIn URL doesn't seem to contain your first and last name. You can continue or double-check your URL."),
+        title: Text(l10n.editNameLinkedInMismatchDialogTitle),
+        content: Text(l10n.editNameLinkedInMismatchDialogMessage),
         actions: [
           PlatformDialogAction(
             onPressed: () {
               Navigator.of(context).pop(false); // Don't continue
             },
-            child: const Text('Check URL'),
+            child: Text(l10n.editNameLinkedInMismatchDialogCheckUrl),
             cupertino: (_, __) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),
@@ -202,12 +212,12 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
             onPressed: () {
               Navigator.of(context).pop(true); // Continue anyway
             },
-            child: const Text('Continue anyway'),
+            child: Text(l10n.editNameLinkedInMismatchDialogContinue),
           ),
         ],
       ),
     );
-    
+
     return result ?? false; // Default to false if dialog was dismissed
   }
 
@@ -216,6 +226,8 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -231,10 +243,10 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
         // First Name field
         buildFieldSection(
-          title: 'FIRST NAME',
+          title: l10n.editNameFirstNameLabel,
           content: AppTextField(
             controller: _firstNameController,
-            hintText: 'First name',
+            hintText: l10n.editNameFirstNameHint,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
@@ -246,10 +258,10 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
         // Last Name field
         buildFieldSection(
-          title: 'LAST NAME',
+          title: l10n.editNameLastNameLabel,
           content: AppTextField(
             controller: _lastNameController,
-            hintText: 'Last name',
+            hintText: l10n.editNameLastNameHint,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
@@ -259,13 +271,13 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
           ),
         ),
 
-        
+
         // LinkedIn URL field
         buildFieldSection(
-          title: 'LINKEDIN URL',
+          title: l10n.editNameLinkedInLabel,
           content: AppTextField(
             controller: _linkedInController,
-            hintText: 'linkedin.com/in/your-name',
+            hintText: l10n.editNameLinkedInHint,
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.none,
@@ -278,9 +290,9 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
         // LinkedIn info box
         FormInfoBox(
-          content: 'We’ll only share your LinkedIn profile in the introduction email once there’s mutual interest. It’s never shared when you first get matched.',
+          content: l10n.editNameLinkedInInfoMessage,
         ),
-        
+
         const SizedBox(height: 16),
 
       ],

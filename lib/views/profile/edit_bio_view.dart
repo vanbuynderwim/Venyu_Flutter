@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/edit_personal_info_type.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/app_text_field.dart';
@@ -51,10 +52,16 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
   }
 
   @override
-  String getSuccessMessage() => 'Profile bio saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editBioSuccessMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to update profile bio, please try again';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editBioErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -87,7 +94,8 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
   @override
   Widget buildFormContent(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -103,7 +111,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
 
         // About your bio info box
         FormInfoBox(
-          content: 'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.',
+          content: l10n.editBioInfoMessage,
         ),
 
         const SizedBox(height: 16),
@@ -116,7 +124,7 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
               // Main text area
               AppTextField(
                 controller: _bioController,
-                hintText: 'Write your bio here...',
+                hintText: l10n.editBioPlaceholder,
                 style: AppTextFieldStyle.textarea,
                 maxLines: null, // Allow unlimited lines
                 minLines: 10,   // Minimum height

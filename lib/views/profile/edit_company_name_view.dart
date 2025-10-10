@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../utils/website_validator.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
@@ -62,10 +63,16 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     _websiteFormatIsValid;
 
   @override
-  String getSuccessMessage() => 'Company info changes saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editCompanyNameSuccessMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to update company info, please try again';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editCompanyNameErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -107,6 +114,8 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -122,10 +131,10 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
         // Company Name field
         buildFieldSection(
-          title: 'COMPANY NAME',
+          title: l10n.editCompanyNameCompanyLabel,
           content: AppTextField(
             controller: _companyNameController,
-            hintText: 'Company name',
+            hintText: l10n.editCompanyNameCompanyHint,
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
@@ -139,10 +148,10 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
         // Website URL field
         buildFieldSection(
-          title: 'WEBSITE',
+          title: l10n.editCompanyNameWebsiteLabel,
           content: AppTextField(
             controller: _websiteController,
-            hintText: 'Website',
+            hintText: l10n.editCompanyNameWebsiteHint,
             keyboardType: TextInputType.url,
             textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.none,
@@ -157,7 +166,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
         // Company info box
         FormInfoBox(
-          content: 'Your company name and website are only shared with people you get introduced to, not with matches. They help make introductions more meaningful and relevant.',
+          content: l10n.editCompanyNameInfoMessage,
         ),
       ],
     );

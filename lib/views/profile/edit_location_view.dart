@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../models/enums/registration_step.dart';
 import '../../models/enums/onboarding_benefit.dart';
@@ -40,10 +41,16 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
   bool get canSave => true;
 
   @override
-  String getSuccessMessage() => 'Location saved';
+  String getSuccessMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editLocationSavedMessage;
+  }
 
   @override
-  String getErrorMessage() => 'Failed to save location';
+  String getErrorMessage() {
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.editLocationSaveErrorMessage;
+  }
 
   @override
   Future<void> performSave() async {
@@ -53,6 +60,8 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,19 +80,19 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         VisualIconWidget(
           iconName: 'location',
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // Title
         Center(
           child: Text(
-            'Enable location to',
+            l10n.editLocationTitle,
             style: AppTextStyles.title2,
           ),
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // Location benefits
         OnboardingBenefitsCard(
           benefits: [
@@ -98,6 +107,8 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
   @override
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -105,18 +116,18 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           // Not now button (secondary)
           Expanded(
             child: ActionButton(
-              label: 'Not now',
+              label: l10n.editLocationNotNowButton,
               type: ActionButtonType.secondary,
               onPressed: _navigateToNext,
             ),
           ),
-          
+
           const SizedBox(width: 8),
-          
+
           // Enable button (primary)
           Expanded(
             child: ActionButton(
-              label: 'Enable',
+              label: l10n.editLocationEnableButton,
               type: ActionButtonType.primary,
               onPressed: _enableLocationService,
               isLoading: _isEnablingLocation,
@@ -157,9 +168,10 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         if (!serviceEnabled) {
           // Service not enabled, show error
           if (mounted) {
+            final l10n = AppLocalizations.of(context)!;
             ToastService.error(
               context: context,
-              message: 'Location services are disabled. Please enable them in settings.',
+              message: l10n.editLocationServicesDisabledMessage,
             );
             setState(() {
               _isEnablingLocation = false;
@@ -168,44 +180,45 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
           return;
         }
       }
-      
+
       // Check permission status
       PermissionStatus permissionGranted = await _location.hasPermission();
-      
+
       if (permissionGranted == PermissionStatus.denied) {
         // Request permission
         permissionGranted = await _location.requestPermission();
-        
+
         if (permissionGranted == PermissionStatus.denied) {
           // Permission denied, navigate without location
           if (mounted) {
+            final l10n = AppLocalizations.of(context)!;
             ToastService.info(
               context: context,
-              message: 'Location permission denied. You can enable it later in settings.',
+              message: l10n.editLocationPermissionDeniedMessage,
             );
             _navigateToNext();
           }
           return;
         }
       }
-      
+
       if (permissionGranted == PermissionStatus.deniedForever) {
         // Permission permanently denied, open settings
         if (!mounted) return;
-        
+
+        final l10n = AppLocalizations.of(context)!;
         final bool? shouldOpenSettings = await DialogUtils.showChoiceDialog<bool>(
           context: context,
-          title: 'Location Permission Required',
-          message: 'Location permission has been permanently denied. '
-              'Please enable it in your device settings to use this feature.',
+          title: l10n.editLocationPermissionDialogTitle,
+          message: l10n.editLocationPermissionDialogMessage,
           choices: [
-            const DialogChoice<bool>(
-              label: 'Not now',
+            DialogChoice<bool>(
+              label: l10n.editLocationPermissionDialogNotNow,
               value: false,
               isDefault: true,
             ),
-            const DialogChoice<bool>(
-              label: 'Open Settings',
+            DialogChoice<bool>(
+              label: l10n.editLocationPermissionDialogOpenSettings,
               value: true,
             ),
           ],
@@ -250,11 +263,12 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
       }
     } catch (error) {
       AppLogger.error('Error enabling location', context: 'EditLocationView', error: error);
-      
+
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ToastService.error(
           context: context,
-          message: 'Failed to enable location. Please try again.',
+          message: l10n.editLocationEnableErrorMessage,
         );
       }
     } finally {
