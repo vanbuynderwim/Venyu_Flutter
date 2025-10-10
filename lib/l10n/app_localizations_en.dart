@@ -140,4 +140,184 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorFailedToRefreshProfile =>
       'Failed to refresh profile. Please try again.';
+
+  @override
+  String get interactionTypeThisIsMeButton => 'I can help';
+
+  @override
+  String get interactionTypeLookingForThisButton => 'I need this';
+
+  @override
+  String get interactionTypeKnowSomeoneButton => 'I can refer';
+
+  @override
+  String get interactionTypeNotRelevantButton => 'I can\'t help';
+
+  @override
+  String get interactionTypeThisIsMeSelection => 'I can help';
+
+  @override
+  String get interactionTypeLookingForThisSelection => 'I need help';
+
+  @override
+  String get interactionTypeKnowSomeoneSelection => 'I can connect';
+
+  @override
+  String get interactionTypeNotRelevantSelection => 'Skip';
+
+  @override
+  String get interactionTypeThisIsMeSubtitle =>
+      'Share your skills or experience';
+
+  @override
+  String get interactionTypeLookingForThisSubtitle =>
+      'Ask for advice or support';
+
+  @override
+  String get interactionTypeKnowSomeoneSubtitle =>
+      'Introduce people who can help';
+
+  @override
+  String get interactionTypeNotRelevantSubtitle => 'Pass on this one';
+
+  @override
+  String get interactionTypeThisIsMeHint =>
+      'What skill or expertise can you offer?';
+
+  @override
+  String get interactionTypeLookingForThisHint =>
+      'What specific help do you need?';
+
+  @override
+  String get interactionTypeKnowSomeoneHint =>
+      'Who can you connect for this need?';
+
+  @override
+  String get interactionTypeNotRelevantHint => 'What would you like to share?';
+
+  @override
+  String get registrationStepNameTitle => 'Personal Information';
+
+  @override
+  String get registrationStepEmailTitle => 'Email Verification';
+
+  @override
+  String get registrationStepLocationTitle => 'Location';
+
+  @override
+  String get registrationStepCityTitle => 'City';
+
+  @override
+  String get registrationStepCompanyTitle => 'Company Information';
+
+  @override
+  String get registrationStepRolesTitle => 'Your Roles';
+
+  @override
+  String get registrationStepSectorsTitle => 'Your Sectors';
+
+  @override
+  String get registrationStepMeetingPreferencesTitle => 'Meeting Preferences';
+
+  @override
+  String get registrationStepNetworkingGoalsTitle => 'Networking Goals';
+
+  @override
+  String get registrationStepAvatarTitle => 'Profile Picture';
+
+  @override
+  String get registrationStepNotificationsTitle => 'Notifications';
+
+  @override
+  String get registrationStepCompleteTitle => 'Welcome to Venyu!';
+
+  @override
+  String get benefitNearbyMatchesTitle => 'Meet entrepreneurs nearby';
+
+  @override
+  String get benefitNearbyMatchesDescription => 'Discover people close to you';
+
+  @override
+  String get benefitDistanceAwarenessTitle => 'See who is within reach';
+
+  @override
+  String get benefitDistanceAwarenessDescription =>
+      'Know the distance to matches';
+
+  @override
+  String get benefitBetterMatchingTitle => 'Grow your network locally';
+
+  @override
+  String get benefitBetterMatchingDescription =>
+      'Get better results with local focus';
+
+  @override
+  String get benefitMatchNotificationsTitle => 'New match alerts';
+
+  @override
+  String get benefitMatchNotificationsDescription =>
+      'Get alerted as soon as a new match appears';
+
+  @override
+  String get benefitConnectionNotificationsTitle => 'Never miss an intro';
+
+  @override
+  String get benefitConnectionNotificationsDescription =>
+      'Know right away when you receive a new introduction';
+
+  @override
+  String get benefitDailyRemindersTitle => 'Stay in the game';
+
+  @override
+  String get benefitDailyRemindersDescription =>
+      'Get reminded every day to make the net work';
+
+  @override
+  String get benefitFocusedReachTitle => 'Smart targeting';
+
+  @override
+  String get benefitFocusedReachDescription =>
+      'Publish your questions to the right audience';
+
+  @override
+  String get benefitDiscreetPreviewTitle => 'First call';
+
+  @override
+  String get benefitDiscreetPreviewDescription =>
+      'On your cards, you get the first call. Matches are only shown to others if you\'re interested.';
+
+  @override
+  String get benefitUnlimitedIntroductionsTitle => 'Infinite intros';
+
+  @override
+  String get benefitUnlimitedIntroductionsDescription =>
+      'Keep growing your network with unlimited introductions and never miss an opportunity';
+
+  @override
+  String get benefitUnlockFullProfilesTitle => 'Full profiles';
+
+  @override
+  String get benefitUnlockFullProfilesDescription =>
+      'Discover who\'s behind the match by seeing their avatar and checking mutual interests';
+
+  @override
+  String get benefitViewsAndImpressionsTitle => 'Views and impressions';
+
+  @override
+  String get benefitViewsAndImpressionsDescription =>
+      'Understand your reach with simple stats';
+
+  @override
+  String get benefitDailyCardsBoostTitle => 'More daily cards';
+
+  @override
+  String get benefitDailyCardsBoostDescription =>
+      'More cards to grow your network faster.';
+
+  @override
+  String get benefitAiPoweredMatchesTitle => 'AI-powered matches (later)';
+
+  @override
+  String get benefitAiPoweredMatchesDescription =>
+      'Receive smart suggestions based on your profile.';
 }

@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
+
+import '../../l10n/app_localizations.dart';
+
 /// Registration wizard step enumeration.
-/// 
+///
 /// Defines the sequential steps in the user onboarding/registration process.
 /// Each step corresponds to a specific form view that collects user information.
-/// 
+///
 /// The order of these enum values determines the flow sequence.
 enum RegistrationStep {
   /// Step 1: Collect user's first name, last name, and LinkedIn URL
@@ -70,32 +74,33 @@ enum RegistrationStep {
   static int get totalSteps => RegistrationStep.values.length;
 
   /// Get user-friendly title for this step.
-  String get title {
+  String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case RegistrationStep.name:
-        return 'Personal Information';
+        return l10n.registrationStepNameTitle;
       case RegistrationStep.email:
-        return 'Email Verification';
+        return l10n.registrationStepEmailTitle;
       case RegistrationStep.location:
-        return 'Location';
+        return l10n.registrationStepLocationTitle;
       case RegistrationStep.city:
-        return 'City';
+        return l10n.registrationStepCityTitle;
       case RegistrationStep.company:
-        return 'Company Information';
+        return l10n.registrationStepCompanyTitle;
       case RegistrationStep.roles:
-        return 'Your Roles';
+        return l10n.registrationStepRolesTitle;
       case RegistrationStep.sectors:
-        return 'Your Sectors';
+        return l10n.registrationStepSectorsTitle;
       case RegistrationStep.meetingPreferences:
-        return 'Meeting Preferences';
+        return l10n.registrationStepMeetingPreferencesTitle;
       case RegistrationStep.networkingGoals:
-        return 'Networking Goals';
+        return l10n.registrationStepNetworkingGoalsTitle;
       case RegistrationStep.avatar:
-        return 'Profile Picture';
+        return l10n.registrationStepAvatarTitle;
       case RegistrationStep.notifications:
-        return 'Notifications';
+        return l10n.registrationStepNotificationsTitle;
       case RegistrationStep.complete:
-        return 'Welcome to Venyu!';
+        return l10n.registrationStepCompleteTitle;
     }
   }
 }

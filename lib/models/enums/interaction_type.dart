@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Defines the types of interactions users can have with prompts and content.
 /// 
@@ -66,16 +68,17 @@ enum InteractionType {
   }
 
   /// Returns the user-facing button text for this interaction type.
-  String get buttonTitle {
+  String buttonTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case InteractionType.thisIsMe:
-        return 'I can help';
+        return l10n.interactionTypeThisIsMeButton;
       case InteractionType.lookingForThis:
-        return 'I need this';
+        return l10n.interactionTypeLookingForThisButton;
       case InteractionType.knowSomeone:
-        return 'I can refer';
+        return l10n.interactionTypeKnowSomeoneButton;
       case InteractionType.notRelevant:
-        return 'I can\'t help';
+        return l10n.interactionTypeNotRelevantButton;
     }
   }
 
@@ -123,48 +126,51 @@ enum InteractionType {
   String get assetPath => 'assets/images/buttons/$buttonName.png';
   
   /// Returns the hint text to display in the content field based on interaction type.
-  /// 
+  ///
   /// Provides contextually appropriate prompts to guide users in creating
   /// their cards based on whether they're offering help or seeking help.
-  String get hintText {
+  String hintText(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case InteractionType.thisIsMe:
-        return 'What skill or expertise can you offer?';
+        return l10n.interactionTypeThisIsMeHint;
       case InteractionType.lookingForThis:
-        return 'What specific help do you need?';
+        return l10n.interactionTypeLookingForThisHint;
       case InteractionType.knowSomeone:
-        return 'Who can you connect for this need?';
+        return l10n.interactionTypeKnowSomeoneHint;
       case InteractionType.notRelevant:
-        return 'What would you like to share?';
+        return l10n.interactionTypeNotRelevantHint;
     }
   }
-  
-  /// Returns the selection title for the interaction type selection screen.
-  /// 
-  /// This is the main title displayed on the selection button.
-  String get selectionTitle {
-  switch (this) {
-    case InteractionType.thisIsMe:
-      return 'I can help';
-    case InteractionType.lookingForThis:
-      return 'I need help';
-    case InteractionType.knowSomeone:
-      return 'I can connect';
-    case InteractionType.notRelevant:
-      return 'Skip';
-  }
-}
 
-String get selectionSubtitle {
-  switch (this) {
-    case InteractionType.thisIsMe:
-      return 'Share your skills or experience';
-    case InteractionType.lookingForThis:
-      return 'Ask for advice or support';
-    case InteractionType.knowSomeone:
-      return 'Introduce people who can help';
-    case InteractionType.notRelevant:
-      return 'Pass on this one';
+  /// Returns the selection title for the interaction type selection screen.
+  ///
+  /// This is the main title displayed on the selection button.
+  String selectionTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeThisIsMeSelection;
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeLookingForThisSelection;
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeKnowSomeoneSelection;
+      case InteractionType.notRelevant:
+        return l10n.interactionTypeNotRelevantSelection;
+    }
   }
-}
+
+  String selectionSubtitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeThisIsMeSubtitle;
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeLookingForThisSubtitle;
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeKnowSomeoneSubtitle;
+      case InteractionType.notRelevant:
+        return l10n.interactionTypeNotRelevantSubtitle;
+    }
+  }
 }

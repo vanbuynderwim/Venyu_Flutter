@@ -333,6 +333,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to refresh profile. Please try again.'**
   String get errorFailedToRefreshProfile;
+
+  /// No description provided for @interactionTypeThisIsMeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I can help'**
+  String get interactionTypeThisIsMeButton;
+
+  /// No description provided for @interactionTypeLookingForThisButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I need this'**
+  String get interactionTypeLookingForThisButton;
+
+  /// No description provided for @interactionTypeKnowSomeoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I can refer'**
+  String get interactionTypeKnowSomeoneButton;
+
+  /// No description provided for @interactionTypeNotRelevantButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I can\'t help'**
+  String get interactionTypeNotRelevantButton;
+
+  /// No description provided for @interactionTypeThisIsMeSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'I can help'**
+  String get interactionTypeThisIsMeSelection;
+
+  /// No description provided for @interactionTypeLookingForThisSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'I need help'**
+  String get interactionTypeLookingForThisSelection;
+
+  /// No description provided for @interactionTypeKnowSomeoneSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'I can connect'**
+  String get interactionTypeKnowSomeoneSelection;
+
+  /// No description provided for @interactionTypeNotRelevantSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get interactionTypeNotRelevantSelection;
+
+  /// No description provided for @interactionTypeThisIsMeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your skills or experience'**
+  String get interactionTypeThisIsMeSubtitle;
+
+  /// No description provided for @interactionTypeLookingForThisSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for advice or support'**
+  String get interactionTypeLookingForThisSubtitle;
+
+  /// No description provided for @interactionTypeKnowSomeoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduce people who can help'**
+  String get interactionTypeKnowSomeoneSubtitle;
+
+  /// No description provided for @interactionTypeNotRelevantSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass on this one'**
+  String get interactionTypeNotRelevantSubtitle;
+
+  /// No description provided for @interactionTypeThisIsMeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What skill or expertise can you offer?'**
+  String get interactionTypeThisIsMeHint;
+
+  /// No description provided for @interactionTypeLookingForThisHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What specific help do you need?'**
+  String get interactionTypeLookingForThisHint;
+
+  /// No description provided for @interactionTypeKnowSomeoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can you connect for this need?'**
+  String get interactionTypeKnowSomeoneHint;
+
+  /// No description provided for @interactionTypeNotRelevantHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to share?'**
+  String get interactionTypeNotRelevantHint;
+
+  /// No description provided for @registrationStepNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get registrationStepNameTitle;
+
+  /// No description provided for @registrationStepEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Verification'**
+  String get registrationStepEmailTitle;
+
+  /// No description provided for @registrationStepLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get registrationStepLocationTitle;
+
+  /// No description provided for @registrationStepCityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get registrationStepCityTitle;
+
+  /// No description provided for @registrationStepCompanyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Information'**
+  String get registrationStepCompanyTitle;
+
+  /// No description provided for @registrationStepRolesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Roles'**
+  String get registrationStepRolesTitle;
+
+  /// No description provided for @registrationStepSectorsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Sectors'**
+  String get registrationStepSectorsTitle;
+
+  /// No description provided for @registrationStepMeetingPreferencesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting Preferences'**
+  String get registrationStepMeetingPreferencesTitle;
+
+  /// No description provided for @registrationStepNetworkingGoalsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Networking Goals'**
+  String get registrationStepNetworkingGoalsTitle;
+
+  /// No description provided for @registrationStepAvatarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Picture'**
+  String get registrationStepAvatarTitle;
+
+  /// No description provided for @registrationStepNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get registrationStepNotificationsTitle;
+
+  /// No description provided for @registrationStepCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Venyu!'**
+  String get registrationStepCompleteTitle;
+
+  /// No description provided for @benefitNearbyMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet entrepreneurs nearby'**
+  String get benefitNearbyMatchesTitle;
+
+  /// No description provided for @benefitNearbyMatchesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover people close to you'**
+  String get benefitNearbyMatchesDescription;
+
+  /// No description provided for @benefitDistanceAwarenessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See who is within reach'**
+  String get benefitDistanceAwarenessTitle;
+
+  /// No description provided for @benefitDistanceAwarenessDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Know the distance to matches'**
+  String get benefitDistanceAwarenessDescription;
+
+  /// No description provided for @benefitBetterMatchingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow your network locally'**
+  String get benefitBetterMatchingTitle;
+
+  /// No description provided for @benefitBetterMatchingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get better results with local focus'**
+  String get benefitBetterMatchingDescription;
+
+  /// No description provided for @benefitMatchNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New match alerts'**
+  String get benefitMatchNotificationsTitle;
+
+  /// No description provided for @benefitMatchNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get alerted as soon as a new match appears'**
+  String get benefitMatchNotificationsDescription;
+
+  /// No description provided for @benefitConnectionNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Never miss an intro'**
+  String get benefitConnectionNotificationsTitle;
+
+  /// No description provided for @benefitConnectionNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Know right away when you receive a new introduction'**
+  String get benefitConnectionNotificationsDescription;
+
+  /// No description provided for @benefitDailyRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay in the game'**
+  String get benefitDailyRemindersTitle;
+
+  /// No description provided for @benefitDailyRemindersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get reminded every day to make the net work'**
+  String get benefitDailyRemindersDescription;
+
+  /// No description provided for @benefitFocusedReachTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart targeting'**
+  String get benefitFocusedReachTitle;
+
+  /// No description provided for @benefitFocusedReachDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish your questions to the right audience'**
+  String get benefitFocusedReachDescription;
+
+  /// No description provided for @benefitDiscreetPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First call'**
+  String get benefitDiscreetPreviewTitle;
+
+  /// No description provided for @benefitDiscreetPreviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'On your cards, you get the first call. Matches are only shown to others if you\'re interested.'**
+  String get benefitDiscreetPreviewDescription;
+
+  /// No description provided for @benefitUnlimitedIntroductionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Infinite intros'**
+  String get benefitUnlimitedIntroductionsTitle;
+
+  /// No description provided for @benefitUnlimitedIntroductionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep growing your network with unlimited introductions and never miss an opportunity'**
+  String get benefitUnlimitedIntroductionsDescription;
+
+  /// No description provided for @benefitUnlockFullProfilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Full profiles'**
+  String get benefitUnlockFullProfilesTitle;
+
+  /// No description provided for @benefitUnlockFullProfilesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover who\'s behind the match by seeing their avatar and checking mutual interests'**
+  String get benefitUnlockFullProfilesDescription;
+
+  /// No description provided for @benefitViewsAndImpressionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Views and impressions'**
+  String get benefitViewsAndImpressionsTitle;
+
+  /// No description provided for @benefitViewsAndImpressionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand your reach with simple stats'**
+  String get benefitViewsAndImpressionsDescription;
+
+  /// No description provided for @benefitDailyCardsBoostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More daily cards'**
+  String get benefitDailyCardsBoostTitle;
+
+  /// No description provided for @benefitDailyCardsBoostDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'More cards to grow your network faster.'**
+  String get benefitDailyCardsBoostDescription;
+
+  /// No description provided for @benefitAiPoweredMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI-powered matches (later)'**
+  String get benefitAiPoweredMatchesTitle;
+
+  /// No description provided for @benefitAiPoweredMatchesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive smart suggestions based on your profile.'**
+  String get benefitAiPoweredMatchesDescription;
 }
 
 class _AppLocalizationsDelegate
