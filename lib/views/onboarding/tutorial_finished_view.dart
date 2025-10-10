@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
@@ -45,9 +46,10 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
 
       if (prompts.isEmpty) {
         // No prompts available - show message and return
+        final l10n = AppLocalizations.of(context)!;
         ToastService.info(
           context: context,
-          message: 'No cards available at the moment. Check back later!',
+          message: l10n.errorNoCardsAvailable,
         );
         setState(() {
           _isLoading = false;
@@ -79,9 +81,10 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
           _isLoading = false;
         });
 
+        final l10n = AppLocalizations.of(context)!;
         ToastService.error(
           context: context,
-          message: 'Failed to load cards. Please try again.',
+          message: l10n.errorFailedToLoadCards,
         );
       }
     }
@@ -90,6 +93,7 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Stack(
@@ -109,7 +113,7 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
                   Column(
                     children: [
                       Text(
-                        'You\'re all set! 🎉',
+                        l10n.tutorialFinishedTitle,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
@@ -118,7 +122,7 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
                       const SizedBox(height: 24),
 
                       Text(
-                        'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real cards to get matched with other entrepreneurs.',
+                        l10n.tutorialFinishedDescription,
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -131,7 +135,7 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
 
                   // Start button
                   ActionButton(
-                    label: 'Let\'s go!',
+                    label: l10n.tutorialFinishedButton,
                     width: 120,
                     onPressed: _isLoading ? null : _handleLetsGo,
                     isLoading: _isLoading,

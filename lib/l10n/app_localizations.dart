@@ -1,0 +1,372 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_nl.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('fr'),
+    Locale('nl'),
+  ];
+
+  /// No description provided for @onboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Venyu'**
+  String get onboardTitle;
+
+  /// No description provided for @onboardDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Venyu matches you with other entrepreneurs based on your shared goals, needs, and who you know. Answer 3 daily cards to help us find great matches for you.'**
+  String get onboardDescription;
+
+  /// No description provided for @onboardStartTutorial.
+  ///
+  /// In en, this message translates to:
+  /// **'Before we set up your profile, let\'s show you how Venyu works with a quick tutorial.'**
+  String get onboardStartTutorial;
+
+  /// No description provided for @onboardButtonStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get onboardButtonStart;
+
+  /// No description provided for @tutorialStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer 3 daily cards'**
+  String get tutorialStep1Title;
+
+  /// No description provided for @tutorialStep1Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.'**
+  String get tutorialStep1Description;
+
+  /// No description provided for @tutorialStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Get matched'**
+  String get tutorialStep2Title;
+
+  /// No description provided for @tutorialStep2Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.'**
+  String get tutorialStep2Description;
+
+  /// No description provided for @tutorialStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Show your interest'**
+  String get tutorialStep3Title;
+
+  /// No description provided for @tutorialStep3Description.
+  ///
+  /// In en, this message translates to:
+  /// **'When a match catches your eye, say you\'re interested. It\'s your way of telling us you\'d like to be introduced to that person.'**
+  String get tutorialStep3Description;
+
+  /// No description provided for @tutorialStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Get introduced'**
+  String get tutorialStep4Title;
+
+  /// No description provided for @tutorialStep4Description.
+  ///
+  /// In en, this message translates to:
+  /// **'If there\'s mutual interest, we\'ll send an introduction email so you can start the conversation naturally.'**
+  String get tutorialStep4Description;
+
+  /// No description provided for @tutorialStep5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'You got it!'**
+  String get tutorialStep5Title;
+
+  /// No description provided for @tutorialStep5Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Now let\'s set up your profile and join the community.'**
+  String get tutorialStep5Description;
+
+  /// No description provided for @tutorialButtonPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get tutorialButtonPrevious;
+
+  /// No description provided for @tutorialButtonNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get tutorialButtonNext;
+
+  /// No description provided for @registrationCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile is ready! 🎉'**
+  String get registrationCompleteTitle;
+
+  /// No description provided for @registrationCompleteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 cards each day helps you get matched with the right people.'**
+  String get registrationCompleteDescription;
+
+  /// No description provided for @registrationCompleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get registrationCompleteButton;
+
+  /// No description provided for @promptEntryTitleFirstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s try it out!'**
+  String get promptEntryTitleFirstTime;
+
+  /// No description provided for @promptEntryDescriptionFirstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Here are 3 example cards to help you understand how it works. Don\'t worry, these are just for practice.'**
+  String get promptEntryDescriptionFirstTime;
+
+  /// No description provided for @promptEntryButtonFirstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Start tutorial'**
+  String get promptEntryButtonFirstTime;
+
+  /// No description provided for @dailyPromptsHintSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select \"{buttonTitle}\" 👇'**
+  String dailyPromptsHintSelect(String buttonTitle);
+
+  /// No description provided for @dailyPromptsHintConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Select \"Next\" to confirm'**
+  String get dailyPromptsHintConfirm;
+
+  /// No description provided for @dailyPromptsButtonNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get dailyPromptsButtonNext;
+
+  /// No description provided for @tutorialFinishedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all set! 🎉'**
+  String get tutorialFinishedTitle;
+
+  /// No description provided for @tutorialFinishedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real cards to get matched with other entrepreneurs.'**
+  String get tutorialFinishedDescription;
+
+  /// No description provided for @tutorialFinishedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go!'**
+  String get tutorialFinishedButton;
+
+  /// No description provided for @registrationFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s it! 🎉'**
+  String get registrationFinishTitle;
+
+  /// No description provided for @registrationFinishDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is all set up and you\'ve answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.'**
+  String get registrationFinishDescription;
+
+  /// No description provided for @registrationFinishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exploring!'**
+  String get registrationFinishButton;
+
+  /// No description provided for @buttonContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get buttonContinue;
+
+  /// No description provided for @buttonNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get buttonNext;
+
+  /// No description provided for @buttonPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get buttonPrevious;
+
+  /// No description provided for @buttonStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get buttonStart;
+
+  /// No description provided for @buttonGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get buttonGotIt;
+
+  /// No description provided for @errorNoCardsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards available at the moment. Check back later!'**
+  String get errorNoCardsAvailable;
+
+  /// No description provided for @errorFailedToLoadCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load cards. Please try again.'**
+  String get errorFailedToLoadCards;
+
+  /// No description provided for @errorFailedToRefreshProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to refresh profile. Please try again.'**
+  String get errorFailedToRefreshProfile;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'fr', 'nl'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'fr':
+      return AppLocalizationsFr();
+    case 'nl':
+      return AppLocalizationsNl();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
@@ -102,13 +103,14 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Stack(
         children: [
           // Full-screen radar background image
           const RadarBackground(),
-          
+
           // Content overlay
           SafeArea(
             child: Padding(
@@ -116,12 +118,12 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
               child: Column(
                 children: [
                   const Spacer(),
-                  
+
                   // Main content
                   Column(
                     children: [
                       Text(
-                        'Your profile is ready! 🎉',
+                        l10n.registrationCompleteTitle,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
@@ -130,7 +132,7 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                       const SizedBox(height: 24),
 
                       Text(
-                        'Thanks for setting up your profile. Now let’s see how answering 3 cards each day helps you get matched with the right people.',
+                        l10n.registrationCompleteDescription,
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -138,12 +140,12 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 24),
 
                   // Continue button
                   ActionButton(
-                    label: 'Continue',
+                    label: l10n.registrationCompleteButton,
                     width: 120,
                     onPressed: _isCompleting ? null : _navigateToPromptEntry,
                   ),

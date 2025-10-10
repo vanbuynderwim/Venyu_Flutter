@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -31,38 +32,13 @@ class _TutorialViewState extends State<TutorialView> {
   int _currentStep = 0;
   static const int _totalSteps = 5;
 
-  // Tutorial content for each step
-  final List<_TutorialStep> _steps = const [
-    _TutorialStep(
-      imagePath: 'assets/images/visuals/onboarding_cards.png',
-      title: 'Answer 3 daily cards',
-      description:
-          'Each day, you answer three short cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.',
-    ),
-    _TutorialStep(
-      imagePath: 'assets/images/visuals/onboarding_match.png',
-      title: 'Get matched',
-      description:
-          'Our matching agent connects you with nearby entrepreneurs who share your goals and needs. Each match is meant to feel relevant and worthwhile.',
-    ),
-    _TutorialStep(
-      imagePath: 'assets/images/visuals/onboarding_interest.png',
-      title: 'Show your interest',
-      description:
-          'When someone catches your eye, say you\'re interested. It’s your way of telling us you’d like to be introduced to that person.',
-    ),
-    _TutorialStep(
-      imagePath: 'assets/images/visuals/onboarding_introduction.png',
-      title: 'Get introduced',
-      description:
-          'If there’s mutual interest, we’ll send an introduction email so you can start the conversation naturally.',
-    ),
-    _TutorialStep(
-      imagePath: 'assets/images/visuals/onboarding_done.png',
-      title: 'You got it!',
-      description:
-          'Now let’s set up your profile and join the community.',
-    ),
+  // Tutorial content for each step - images are static
+  final List<String> _stepImages = const [
+    'assets/images/visuals/onboarding_cards.png',
+    'assets/images/visuals/onboarding_match.png',
+    'assets/images/visuals/onboarding_interest.png',
+    'assets/images/visuals/onboarding_introduction.png',
+    'assets/images/visuals/onboarding_done.png',
   ];
 
   void _handleNext() {
@@ -100,10 +76,35 @@ class _TutorialViewState extends State<TutorialView> {
     }
   }
 
+  // Helper to get step content based on current index
+  String _getStepTitle(BuildContext context, int index) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (index) {
+      case 0: return l10n.tutorialStep1Title;
+      case 1: return l10n.tutorialStep2Title;
+      case 2: return l10n.tutorialStep3Title;
+      case 3: return l10n.tutorialStep4Title;
+      case 4: return l10n.tutorialStep5Title;
+      default: return '';
+    }
+  }
+
+  String _getStepDescription(BuildContext context, int index) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (index) {
+      case 0: return l10n.tutorialStep1Description;
+      case 1: return l10n.tutorialStep2Description;
+      case 2: return l10n.tutorialStep3Description;
+      case 3: return l10n.tutorialStep4Description;
+      case 4: return l10n.tutorialStep5Description;
+      default: return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    final currentStepData = _steps[_currentStep];
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       decoration: BoxDecoration(
@@ -149,7 +150,7 @@ class _TutorialViewState extends State<TutorialView> {
                             ),
                             child: Center(
                               child: Image.asset(
-                                currentStepData.imagePath,
+                                _stepImages[_currentStep],
                                 width: 80,
                                 height: 80,
                                 color: venyuTheme.darkText,
@@ -162,7 +163,7 @@ class _TutorialViewState extends State<TutorialView> {
 
                           // Title - fixed position
                           Text(
-                            currentStepData.title,
+                            _getStepTitle(context, _currentStep),
                             style: TextStyle(
                               color: venyuTheme.darkText,
                               fontSize: 28,
@@ -175,7 +176,7 @@ class _TutorialViewState extends State<TutorialView> {
 
                           // Description
                           Text(
-                            currentStepData.description,
+                            _getStepDescription(context, _currentStep),
                             style: AppTextStyles.body.copyWith(
                               color: venyuTheme.darkText,
                             ),
@@ -212,7 +213,7 @@ class _TutorialViewState extends State<TutorialView> {
                               Expanded(
                                 flex: 1,
                                 child: ActionButton(
-                                  label: 'Previous',
+                                  label: l10n.tutorialButtonPrevious,
                                   onPressed: _handlePrevious,
                                   type: ActionButtonType.secondary,
                                 ),
@@ -224,7 +225,7 @@ class _TutorialViewState extends State<TutorialView> {
                             Expanded(
                               flex: _currentStep > 0 ? 2 : 1,
                               child: ActionButton(
-                                label: 'Next',
+                                label: l10n.tutorialButtonNext,
                                 onInvertedBackground: true,
                                 onPressed: _handleNext,
                               ),
@@ -244,17 +245,4 @@ class _TutorialViewState extends State<TutorialView> {
       ),
     );
   }
-}
-
-/// Data class for tutorial step content
-class _TutorialStep {
-  final String imagePath;
-  final String title;
-  final String description;
-
-  const _TutorialStep({
-    required this.imagePath,
-    required this.title,
-    required this.description,
-  });
 }

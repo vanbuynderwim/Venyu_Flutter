@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
@@ -316,8 +317,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                           iconName: 'bulb',
                           textColor: context.venyuTheme.darkText,
                           title: _selectedInteractionType == null
-                              ? 'Select "${_currentPrompt.interactionType!.buttonTitle}" 👇'
-                              : 'Select "Next" to confirm',
+                              ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle)
+                              : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
                         ),
                       ),
                     ),
@@ -342,7 +343,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: ActionButton(
-                        label: 'Next',
+                        label: AppLocalizations.of(context)!.dailyPromptsButtonNext,
                         onPressed: (_selectedInteractionType != null && !isProcessing) ? _handleNext : null,
                         isLoading: isProcessing,
                         onInvertedBackground: true,

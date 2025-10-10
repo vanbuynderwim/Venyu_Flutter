@@ -7,6 +7,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'l10n/app_localizations.dart';
 import 'core/config/app_config.dart';
 import 'core/providers/app_providers.dart';
 import 'core/theme/app_theme.dart';
@@ -111,14 +112,15 @@ class VenyuApp extends StatelessWidget {
         title: 'Venyu',
         // Global localization settings
         localizationsDelegates: const [
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en', 'US'),
-          Locale('nl', 'NL'),
-          Locale('nl', 'BE'),
+          Locale('en'),
+          Locale('nl'),
+          Locale('fr'),
         ],
         material: (_, __) => MaterialAppData(
           theme: AppTheme.lightTheme,

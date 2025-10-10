@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
@@ -70,6 +71,7 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Stack(
@@ -89,7 +91,7 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
                   Column(
                     children: [
                       Text(
-                        'That\'s it! 🎉',
+                        l10n.registrationFinishTitle,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
@@ -98,7 +100,7 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
                       const SizedBox(height: 24),
 
                       Text(
-                        'Your account is all set up and you\'ve answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.',
+                        l10n.registrationFinishDescription,
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -111,7 +113,7 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
 
                   // Start exploring button
                   ActionButton(
-                    label: 'Start exploring!',
+                    label: l10n.registrationFinishButton,
                     width: 240,
                     onPressed: _isLoading ? null : _handleGotIt,
                     isLoading: _isLoading,

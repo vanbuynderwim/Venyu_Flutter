@@ -1,0 +1,67 @@
+{
+  "@@locale": "en",
+
+  "@_ONBOARDING": {},
+  "onboardTitle": "Welcome to Venyu",
+  "onboardDescription": "Venyu matches you with other entrepreneurs based on your shared goals, needs, and who you know. Answer 3 daily cards to help us find great matches for you.",
+  "onboardStartTutorial": "Before we set up your profile, let's show you how Venyu works with a quick tutorial.",
+  "onboardButtonStart": "Start",
+
+  "@_TUTORIAL": {},
+  "tutorialStep1Title": "Answer 3 daily cards",
+  "tutorialStep1Description": "Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.",
+  "tutorialStep2Title": "Get matched",
+  "tutorialStep2Description": "Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.",
+  "tutorialStep3Title": "Show your interest",
+  "tutorialStep3Description": "When a match catches your eye, say you're interested. It's your way of telling us you'd like to be introduced to that person.",
+  "tutorialStep4Title": "Get introduced",
+  "tutorialStep4Description": "If there's mutual interest, we'll send an introduction email so you can start the conversation naturally.",
+  "tutorialStep5Title": "You got it!",
+  "tutorialStep5Description": "Now let's set up your profile and join the community.",
+  "tutorialButtonPrevious": "Previous",
+  "tutorialButtonNext": "Next",
+
+  "@_REGISTRATION_COMPLETE": {},
+  "registrationCompleteTitle": "Your profile is ready! 🎉",
+  "registrationCompleteDescription": "Thanks for setting up your profile. Now let's see how answering 3 cards each day helps you get matched with the right people.",
+  "registrationCompleteButton": "Continue",
+
+  "@_PROMPT_ENTRY": {},
+  "promptEntryTitleFirstTime": "Let's try it out!",
+  "promptEntryDescriptionFirstTime": "Here are 3 example cards to help you understand how it works. Don't worry, these are just for practice.",
+  "promptEntryButtonFirstTime": "Start tutorial",
+
+  "@_DAILY_PROMPTS": {},
+  "dailyPromptsHintSelect": "Select \"{buttonTitle}\" 👇",
+  "@dailyPromptsHintSelect": {
+    "placeholders": {
+      "buttonTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyPromptsHintConfirm": "Select \"Next\" to confirm",
+  "dailyPromptsButtonNext": "Next",
+
+  "@_TUTORIAL_FINISHED": {},
+  "tutorialFinishedTitle": "You're all set! 🎉",
+  "tutorialFinishedDescription": "You've completed the quick tour. Now you're ready to start answering your first 3 real cards to get matched with other entrepreneurs.",
+  "tutorialFinishedButton": "Let's go!",
+
+  "@_REGISTRATION_FINISH": {},
+  "registrationFinishTitle": "That's it! 🎉",
+  "registrationFinishDescription": "Your account is all set up and you've answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.",
+  "registrationFinishButton": "Start exploring!",
+
+  "@_COMMON": {},
+  "buttonContinue": "Continue",
+  "buttonNext": "Next",
+  "buttonPrevious": "Previous",
+  "buttonStart": "Start",
+  "buttonGotIt": "Got it",
+
+  "@_ERRORS": {},
+  "errorNoCardsAvailable": "No cards available at the moment. Check back later!",
+  "errorFailedToLoadCards": "Failed to load cards. Please try again.",
+  "errorFailedToRefreshProfile": "Failed to refresh profile. Please try again."
+}
