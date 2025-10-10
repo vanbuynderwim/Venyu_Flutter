@@ -1386,4 +1386,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptCardUpgradeButton => 'Upgrade to Pro';
+
+  @override
+  String get promptIntroErrorMessage => 'Failed to load matches';
+
+  @override
+  String get promptIntroRetryButton => 'Retry';
+
+  @override
+  String get promptIntroEmptyTitle => 'No matches yet';
+
+  @override
+  String get promptIntroEmptyDescription =>
+      'When people match with your card, their profiles will appear here.';
 }

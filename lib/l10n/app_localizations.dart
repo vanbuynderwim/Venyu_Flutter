@@ -2583,6 +2583,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upgrade to Pro'**
   String get promptCardUpgradeButton;
+
+  /// No description provided for @promptIntroErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load matches'**
+  String get promptIntroErrorMessage;
+
+  /// No description provided for @promptIntroRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get promptIntroRetryButton;
+
+  /// No description provided for @promptIntroEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches yet'**
+  String get promptIntroEmptyTitle;
+
+  /// No description provided for @promptIntroEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When people match with your card, their profiles will appear here.'**
+  String get promptIntroEmptyDescription;
 }
 
 class _AppLocalizationsDelegate

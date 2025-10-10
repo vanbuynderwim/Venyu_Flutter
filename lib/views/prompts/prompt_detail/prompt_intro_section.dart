@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../core/utils/app_logger.dart';
@@ -107,6 +108,8 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     AppLogger.debug(
       'PromptIntroSection build: widget.isLoading=${widget.isLoading}, '
       'widget.prompt=${widget.prompt?.label}, '
@@ -132,7 +135,7 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
           children: [
             const SizedBox(height: 32),
             Text(
-              _error!,
+              l10n.promptIntroErrorMessage,
               style: AppTextStyles.body.copyWith(
                 color: context.venyuTheme.secondaryText,
               ),
@@ -146,7 +149,7 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
                 });
                 _loadMatches();
               },
-              child: const Text('Retry'),
+              child: Text(l10n.promptIntroRetryButton),
             ),
           ],
         ),
@@ -157,10 +160,12 @@ class _PromptIntroSectionState extends State<PromptIntroSection> with ErrorHandl
   }
 
   Widget _buildContent() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_matches.isEmpty) {
       return EmptyStateWidget(
-        message: 'No matches yet',
-        description: 'When people match with your card, their profiles will appear here.',
+        message: l10n.promptIntroEmptyTitle,
+        description: l10n.promptIntroEmptyDescription,
         iconName: 'match_regular',
       );
     }

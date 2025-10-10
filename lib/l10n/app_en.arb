@@ -670,5 +670,11 @@
   "promptCardStatusLabel": "Status",
   "promptCardUpgradeTitle": "Extend your card visibility",
   "promptCardUpgradeSubtitle": "Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.",
-  "promptCardUpgradeButton": "Upgrade to Pro"
+  "promptCardUpgradeButton": "Upgrade to Pro",
+
+  "@_PROMPT_INTRO_SECTION": {},
+  "promptIntroErrorMessage": "Failed to load matches",
+  "promptIntroRetryButton": "Retry",
+  "promptIntroEmptyTitle": "No matches yet",
+  "promptIntroEmptyDescription": "When people match with your card, their profiles will appear here."
 }
