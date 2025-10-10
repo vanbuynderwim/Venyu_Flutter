@@ -410,4 +410,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get successSaved => 'Saved successfully';
+
+  @override
+  String get dialogRemoveAvatarTitle => 'Remove Avatar';
+
+  @override
+  String get dialogRemoveAvatarMessage =>
+      'Are you sure you want to remove your avatar?';
+
+  @override
+  String get dialogRemoveButton => 'Remove';
+
+  @override
+  String get dialogOkButton => 'OK';
+
+  @override
+  String get dialogErrorTitle => 'Error';
+
+  @override
+  String get dialogLoadingMessage => 'Loading...';
+
+  @override
+  String get validationEmailRequired => 'Email is required';
+
+  @override
+  String get validationEmailInvalid => 'Please enter a valid email address';
+
+  @override
+  String get validationUrlInvalid =>
+      'Please enter a valid URL (starting with http:// or https://)';
+
+  @override
+  String get validationLinkedInUrlInvalid =>
+      'Please enter a valid LinkedIn profile URL\n(e.g., https://www.linkedin.com/in/yourname)';
+
+  @override
+  String validationFieldRequired(String fieldName) {
+    return '$fieldName is required';
+  }
+
+  @override
+  String get validationFieldRequiredDefault => 'This field is required';
+
+  @override
+  String validationMinLength(String fieldName, int minLength) {
+    return '$fieldName must be at least $minLength characters long';
+  }
+
+  @override
+  String validationMaxLength(String fieldName, int maxLength) {
+    return '$fieldName cannot exceed $maxLength characters';
+  }
+
+  @override
+  String get validationOtpRequired => 'Verification code is required';
+
+  @override
+  String get validationOtpLength => 'Verification code must be 6 digits';
+
+  @override
+  String get validationOtpNumeric =>
+      'Verification code must contain only numbers';
 }

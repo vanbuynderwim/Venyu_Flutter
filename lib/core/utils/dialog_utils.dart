@@ -58,12 +58,12 @@ class DialogUtils {
   /// Shows a confirmation dialog specifically for removing avatar
   /// Returns true if confirmed, false if cancelled or dismissed
   static Future<bool> showRemoveAvatarDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     return showConfirmationDialog(
       context: context,
-      title: 'Remove Avatar',
-      message: 'Are you sure you want to remove your avatar?',
-      confirmText: 'Remove',
-      cancelText: 'Cancel',
+      title: l10n.dialogRemoveAvatarTitle,
+      message: l10n.dialogRemoveAvatarMessage,
+      confirmText: l10n.dialogRemoveButton,
       isDestructive: true,
     );
   }
@@ -73,8 +73,10 @@ class DialogUtils {
     required BuildContext context,
     required String title,
     required String message,
-    String buttonText = 'OK',
+    String? buttonText,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
+    buttonText ??= l10n.dialogOkButton;
     await showPlatformDialog(
       context: context,
       builder: (context) => PlatformAlertDialog(
@@ -83,7 +85,7 @@ class DialogUtils {
         actions: [
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(buttonText),
+            child: Text(buttonText!),
             cupertino: (_, __) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),
@@ -96,10 +98,13 @@ class DialogUtils {
   /// Shows a platform-aware error dialog
   static Future<void> showErrorDialog({
     required BuildContext context,
-    String title = 'Error',
+    String? title,
     required String message,
-    String buttonText = 'OK',
+    String? buttonText,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
+    title ??= l10n.dialogErrorTitle;
+    buttonText ??= l10n.dialogOkButton;
     await showInfoDialog(
       context: context,
       title: title,
@@ -135,8 +140,10 @@ class DialogUtils {
   /// Shows a loading dialog that can be dismissed
   static void showLoadingDialog({
     required BuildContext context,
-    String message = 'Loading...',
+    String? message,
   }) {
+    final l10n = AppLocalizations.of(context)!;
+    message ??= l10n.dialogLoadingMessage;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -155,7 +162,7 @@ class DialogUtils {
                 PlatformCircularProgressIndicator(),
                 const SizedBox(height: 16),
                 Text(
-                  message,
+                  message!,
                   style: AppTextStyles.subheadline,
                 ),
               ],
@@ -180,8 +187,10 @@ class DialogUtils {
     required BuildContext context,
     required List<PopupMenuOption> menuOptions,
     required List<T> actions, // Must match the order of menuOptions
-    String cancelText = 'Cancel',
+    String? cancelText,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
+    cancelText ??= l10n.actionCancel;
     assert(menuOptions.length == actions.length,
       'menuOptions and actions must have the same length');
 
@@ -198,7 +207,7 @@ class DialogUtils {
           ),
           cancelButton: CupertinoActionSheetAction(
             onPressed: () => Navigator.pop(sheetContext),
-            child: Text(cancelText),
+            child: Text(cancelText!),
           ),
         ),
         material: (_, __) => Container(

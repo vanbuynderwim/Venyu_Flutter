@@ -169,5 +169,53 @@
   "actionInterested": "Interested",
 
   "@_SUCCESS_MESSAGES": {},
-  "successSaved": "Saved successfully"
+  "successSaved": "Saved successfully",
+
+  "@_DIALOG_MESSAGES": {},
+  "dialogRemoveAvatarTitle": "Remove Avatar",
+  "dialogRemoveAvatarMessage": "Are you sure you want to remove your avatar?",
+  "dialogRemoveButton": "Remove",
+  "dialogOkButton": "OK",
+  "dialogErrorTitle": "Error",
+  "dialogLoadingMessage": "Loading...",
+
+  "@_VALIDATION_MESSAGES": {},
+  "validationEmailRequired": "Email is required",
+  "validationEmailInvalid": "Please enter a valid email address",
+  "validationUrlInvalid": "Please enter a valid URL (starting with http:// or https://)",
+  "validationLinkedInUrlInvalid": "Please enter a valid LinkedIn profile URL\n(e.g., https://www.linkedin.com/in/yourname)",
+  "validationFieldRequired": "{fieldName} is required",
+  "@validationFieldRequired": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
+    }
+  },
+  "validationFieldRequiredDefault": "This field is required",
+  "validationMinLength": "{fieldName} must be at least {minLength} characters long",
+  "@validationMinLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "minLength": {
+        "type": "int"
+      }
+    }
+  },
+  "validationMaxLength": "{fieldName} cannot exceed {maxLength} characters",
+  "@validationMaxLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "validationOtpRequired": "Verification code is required",
+  "validationOtpLength": "Verification code must be 6 digits",
+  "validationOtpNumeric": "Verification code must contain only numbers"
 }

@@ -837,6 +837,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved successfully'**
   String get successSaved;
+
+  /// No description provided for @dialogRemoveAvatarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Avatar'**
+  String get dialogRemoveAvatarTitle;
+
+  /// No description provided for @dialogRemoveAvatarMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove your avatar?'**
+  String get dialogRemoveAvatarMessage;
+
+  /// No description provided for @dialogRemoveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get dialogRemoveButton;
+
+  /// No description provided for @dialogOkButton.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get dialogOkButton;
+
+  /// No description provided for @dialogErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get dialogErrorTitle;
+
+  /// No description provided for @dialogLoadingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get dialogLoadingMessage;
+
+  /// No description provided for @validationEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get validationEmailRequired;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationUrlInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid URL (starting with http:// or https://)'**
+  String get validationUrlInvalid;
+
+  /// No description provided for @validationLinkedInUrlInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid LinkedIn profile URL\n(e.g., https://www.linkedin.com/in/yourname)'**
+  String get validationLinkedInUrlInvalid;
+
+  /// No description provided for @validationFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} is required'**
+  String validationFieldRequired(String fieldName);
+
+  /// No description provided for @validationFieldRequiredDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationFieldRequiredDefault;
+
+  /// No description provided for @validationMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} must be at least {minLength} characters long'**
+  String validationMinLength(String fieldName, int minLength);
+
+  /// No description provided for @validationMaxLength.
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} cannot exceed {maxLength} characters'**
+  String validationMaxLength(String fieldName, int maxLength);
+
+  /// No description provided for @validationOtpRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code is required'**
+  String get validationOtpRequired;
+
+  /// No description provided for @validationOtpLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code must be 6 digits'**
+  String get validationOtpLength;
+
+  /// No description provided for @validationOtpNumeric.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code must contain only numbers'**
+  String get validationOtpNumeric;
 }
 
 class _AppLocalizationsDelegate
