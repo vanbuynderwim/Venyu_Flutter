@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_fonts.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../widgets/common/character_counter_overlay.dart';
@@ -36,8 +37,9 @@ class VenueCodeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
-    
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -76,7 +78,7 @@ class VenueCodeField extends StatelessWidget {
                 }
               },
               cupertino: (_, __) => CupertinoTextFieldData(
-                placeholder: 'Invite code',
+                placeholder: l10n.venueCodeFieldPlaceholder,
                 placeholderStyle: TextStyle(
                   color: venyuTheme.disabledText,
                   fontSize: 36,
@@ -87,7 +89,7 @@ class VenueCodeField extends StatelessWidget {
               ),
               material: (_, __) => MaterialTextFieldData(
                 decoration: InputDecoration(
-                  hintText: 'Invite code',
+                  hintText: l10n.venueCodeFieldPlaceholder,
                   hintStyle: TextStyle(
                     color: venyuTheme.disabledText,
                     fontSize: 36,

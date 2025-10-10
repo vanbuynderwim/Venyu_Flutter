@@ -787,5 +787,53 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Your cards",
-  "promptsViewEmptyActionButton": "Get matched"
+  "promptsViewEmptyActionButton": "Get matched",
+
+  "@_VENUE_CODE_FIELD": {},
+  "venueCodeFieldPlaceholder": "Invite code",
+
+  "@_VENUE_DETAIL_VIEW": {},
+  "venueDetailTitle": "Venue details",
+  "venueDetailErrorLoading": "Failed to load venue details",
+  "venueDetailRetryButton": "Retry",
+  "venueDetailNotFound": "Venue not found",
+  "venueDetailMemberSingular": "Member",
+  "venueDetailMembersPlural": "Members",
+  "venueDetailCardSingular": "Card",
+  "venueDetailCardsPlural": "Cards",
+  "venueDetailMatchSingular": "Match",
+  "venueDetailMatchesPlural": "Matches",
+  "venueDetailIntroductionSingular": "Introduction",
+  "venueDetailIntroductionsPlural": "Introductions",
+  "venueDetailMatchesAndIntrosTitle": "Matches & Introductions",
+  "venueDetailEmptyMatchesTitle": "No matches yet",
+  "venueDetailEmptyMatchesDescription": "When members match through this venue, their profiles will appear here.",
+  "venueDetailOpenForMatchmaking": "Open for matchmaking",
+  "venueDetailOpenFrom": "Open for matchmaking from {startDate}",
+  "@venueDetailOpenFrom": {
+    "placeholders": {
+      "startDate": {
+        "type": "String"
+      }
+    }
+  },
+  "venueDetailOpenUntil": "Open for matchmaking until {endDate}",
+  "@venueDetailOpenUntil": {
+    "placeholders": {
+      "endDate": {
+        "type": "String"
+      }
+    }
+  },
+  "venueDetailOpenFromUntil": "Open for matchmaking from {startDate} until {endDate}",
+  "@venueDetailOpenFromUntil": {
+    "placeholders": {
+      "startDate": {
+        "type": "String"
+      },
+      "endDate": {
+        "type": "String"
+      }
+    }
+  }
 }

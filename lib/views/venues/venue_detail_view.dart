@@ -7,6 +7,7 @@ import '../../core/theme/app_layout_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../core/utils/url_helper.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import '../../models/venue.dart';
@@ -66,17 +67,19 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   Future<void> _loadVenueDetail() async {
     if (!mounted) return;
     setState(() => _error = null);
-    
+
+    final l10n = AppLocalizations.of(context)!;
+
     final venue = await executeWithLoadingAndReturn<Venue>(
       operation: () => _venueManager.fetchVenue(widget.venueId),
       showErrorToast: false,  // We show custom error UI
       onError: (error) {
         if (mounted) {
-          setState(() => _error = 'Failed to load venue details');
+          setState(() => _error = l10n.venueDetailErrorLoading);
         }
       },
     );
-    
+
     if (venue != null && mounted) {
       setState(() => _venue = venue);
       // Load matches after venue is loaded
@@ -119,9 +122,11 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text("Venue details"),
+        title: Text(l10n.venueDetailTitle),
       ),
       usePadding: true,
       useSafeArea: true,
@@ -137,7 +142,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
           if (_venue != null) ...[
             // Fixed bottom action button
             _buildBottomSection(),
-            
+
             // Event dates section fixed at bottom (only for events)
             if (_venue!.isEvent) ...[
               Padding(
@@ -152,6 +157,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   }
 
   Widget _buildContent() {
+    final l10n = AppLocalizations.of(context)!;
+
     if (isLoading) {
       return const LoadingStateWidget();
     }
@@ -170,7 +177,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
             const SizedBox(height: 16),
             PlatformTextButton(
               onPressed: _loadVenueDetail,
-              child: const Text('Retry'),
+              child: Text(l10n.venueDetailRetryButton),
             ),
           ],
         ),
@@ -178,8 +185,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     }
 
     if (_venue == null) {
-      return const Center(
-        child: Text('Venue not found'),
+      return Center(
+        child: Text(l10n.venueDetailNotFound),
       );
     }
 
@@ -394,7 +401,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   /// Builds the stats section with all venue counters
   Widget _buildStatsSection(Venue venue) {
     final venyuTheme = context.venyuTheme;
-    
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -419,19 +427,19 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                   child: _buildStatItem(
                     context.themedIcon('venue', size: 24, selected: true),
                     '${venue.profileCount ?? 0}',
-                    venue.profileCount == 1 ? 'Member' : 'Members',
+                    venue.profileCount == 1 ? l10n.venueDetailMemberSingular : l10n.venueDetailMembersPlural,
                     onTap: venue.isUserAdmin ? () => _navigateToVenueProfiles(venue) : null,
                     isClickable: venue.isUserAdmin,
                   ),
                 ),
-                
+
                 // Separator
                 Container(
                   width: 1,
                   height: 40,
                   color: venyuTheme.borderColor.withValues(alpha: 0.5),
                 ),
-                
+
                 // Cards count
                 Expanded(
                   child: Padding(
@@ -439,7 +447,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                     child: _buildStatItem(
                       context.themedIcon('card', size: 24, selected: true),
                       '${venue.promptCount ?? 0}',
-                      venue.promptCount == 1 ? 'Card' : 'Cards',
+                      venue.promptCount == 1 ? l10n.venueDetailCardSingular : l10n.venueDetailCardsPlural,
                       onTap: venue.isUserAdmin ? () => _navigateToVenuePrompts(venue) : null,
                       isClickable: venue.isUserAdmin,
                     ),
@@ -447,9 +455,9 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Bottom row: Matches and Connections
             Row(
               children: [
@@ -458,17 +466,17 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                   child: _buildStatItem(
                     context.themedIcon('match', size: 24, selected: true),
                     '${venue.matchCount ?? 0}',
-                    venue.matchCount == 1 ? 'Match' : 'Matches',
+                    venue.matchCount == 1 ? l10n.venueDetailMatchSingular : l10n.venueDetailMatchesPlural,
                   ),
                 ),
-                
+
                 // Separator
                 Container(
                   width: 1,
                   height: 40,
                   color: venyuTheme.borderColor.withValues(alpha: 0.5),
                 ),
-                
+
                 // Connections count
                 Expanded(
                   child: Padding(
@@ -476,7 +484,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
                     child: _buildStatItem(
                       context.themedIcon('handshake', size: 24, selected: true),
                       '${venue.connectionCount ?? 0}',
-                      venue.connectionCount == 1 ? 'Introduction' : 'Introductions',
+                      venue.connectionCount == 1 ? l10n.venueDetailIntroductionSingular : l10n.venueDetailIntroductionsPlural,
                     ),
                   ),
                 ),
@@ -503,16 +511,16 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
               Text(
                 count,
                 style: AppTextStyles.headline.copyWith(
-                  color: isClickable 
-                      ? context.venyuTheme.primary 
+                  color: isClickable
+                      ? context.venyuTheme.primary
                       : context.venyuTheme.primaryText,
                 ),
               ),
               Text(
                 label,
                 style: AppTextStyles.caption1.copyWith(
-                  color: isClickable 
-                      ? context.venyuTheme.primary 
+                  color: isClickable
+                      ? context.venyuTheme.primary
                       : context.venyuTheme.secondaryText,
                 ),
               ),
@@ -557,15 +565,21 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   /// Builds the event dates section (only for events)
   Widget _buildEventDatesSection(Venue venue) {
     if (!venue.isEvent) return const SizedBox.shrink();
-    
-    String message = 'Open for matchmaking';
-    
+
+    final l10n = AppLocalizations.of(context)!;
+    String message;
+
     if (venue.startsAt != null && venue.expiresAt != null) {
-      message += ' from ${venue.startsAt!.formatDateShort(context)} until ${venue.expiresAt!.formatDateShort(context)}';
+      message = l10n.venueDetailOpenFromUntil(
+        venue.startsAt!.formatDateShort(context),
+        venue.expiresAt!.formatDateShort(context),
+      );
     } else if (venue.startsAt != null) {
-      message += ' from ${venue.startsAt!.formatDateShort(context)}';
+      message = l10n.venueDetailOpenFrom(venue.startsAt!.formatDateShort(context));
     } else if (venue.expiresAt != null) {
-      message += ' until ${venue.expiresAt!.formatDateShort(context)}';
+      message = l10n.venueDetailOpenUntil(venue.expiresAt!.formatDateShort(context));
+    } else {
+      message = l10n.venueDetailOpenForMatchmaking;
     }
 
     return Text(
@@ -577,6 +591,8 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
   /// Build venue matches section
   Widget _buildVenueMatches() {
+    final l10n = AppLocalizations.of(context)!;
+
     // Show loading while matches are being loaded
     if (!_matchesLoaded) {
       return const Padding(
@@ -587,11 +603,11 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
 
     // Show empty state if no matches
     if (_matches.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0),
         child: EmptyStateWidget(
-          message: 'No matches yet',
-          description: 'When members match through this venue, their profiles will appear here.',
+          message: l10n.venueDetailEmptyMatchesTitle,
+          description: l10n.venueDetailEmptyMatchesDescription,
           iconName: 'nomatches',
           height: 200,
         ),
@@ -602,9 +618,9 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Matches title
-        const SubTitle(
+        SubTitle(
           iconName: 'handshake',
-          title: 'Matches & Introductions',
+          title: l10n.venueDetailMatchesAndIntrosTitle,
         ),
         const SizedBox(height: 8),
 

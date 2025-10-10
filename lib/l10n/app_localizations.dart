@@ -2955,6 +2955,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get matched'**
   String get promptsViewEmptyActionButton;
+
+  /// No description provided for @venueCodeFieldPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get venueCodeFieldPlaceholder;
+
+  /// No description provided for @venueDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue details'**
+  String get venueDetailTitle;
+
+  /// No description provided for @venueDetailErrorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load venue details'**
+  String get venueDetailErrorLoading;
+
+  /// No description provided for @venueDetailRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get venueDetailRetryButton;
+
+  /// No description provided for @venueDetailNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue not found'**
+  String get venueDetailNotFound;
+
+  /// No description provided for @venueDetailMemberSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'Member'**
+  String get venueDetailMemberSingular;
+
+  /// No description provided for @venueDetailMembersPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get venueDetailMembersPlural;
+
+  /// No description provided for @venueDetailCardSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'Card'**
+  String get venueDetailCardSingular;
+
+  /// No description provided for @venueDetailCardsPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get venueDetailCardsPlural;
+
+  /// No description provided for @venueDetailMatchSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'Match'**
+  String get venueDetailMatchSingular;
+
+  /// No description provided for @venueDetailMatchesPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches'**
+  String get venueDetailMatchesPlural;
+
+  /// No description provided for @venueDetailIntroductionSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction'**
+  String get venueDetailIntroductionSingular;
+
+  /// No description provided for @venueDetailIntroductionsPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'Introductions'**
+  String get venueDetailIntroductionsPlural;
+
+  /// No description provided for @venueDetailMatchesAndIntrosTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches & Introductions'**
+  String get venueDetailMatchesAndIntrosTitle;
+
+  /// No description provided for @venueDetailEmptyMatchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches yet'**
+  String get venueDetailEmptyMatchesTitle;
+
+  /// No description provided for @venueDetailEmptyMatchesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When members match through this venue, their profiles will appear here.'**
+  String get venueDetailEmptyMatchesDescription;
+
+  /// No description provided for @venueDetailOpenForMatchmaking.
+  ///
+  /// In en, this message translates to:
+  /// **'Open for matchmaking'**
+  String get venueDetailOpenForMatchmaking;
+
+  /// No description provided for @venueDetailOpenFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Open for matchmaking from {startDate}'**
+  String venueDetailOpenFrom(String startDate);
+
+  /// No description provided for @venueDetailOpenUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Open for matchmaking until {endDate}'**
+  String venueDetailOpenUntil(String endDate);
+
+  /// No description provided for @venueDetailOpenFromUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Open for matchmaking from {startDate} until {endDate}'**
+  String venueDetailOpenFromUntil(String startDate, String endDate);
 }
 
 class _AppLocalizationsDelegate

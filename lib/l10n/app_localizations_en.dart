@@ -1591,4 +1591,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptsViewEmptyActionButton => 'Get matched';
+
+  @override
+  String get venueCodeFieldPlaceholder => 'Invite code';
+
+  @override
+  String get venueDetailTitle => 'Venue details';
+
+  @override
+  String get venueDetailErrorLoading => 'Failed to load venue details';
+
+  @override
+  String get venueDetailRetryButton => 'Retry';
+
+  @override
+  String get venueDetailNotFound => 'Venue not found';
+
+  @override
+  String get venueDetailMemberSingular => 'Member';
+
+  @override
+  String get venueDetailMembersPlural => 'Members';
+
+  @override
+  String get venueDetailCardSingular => 'Card';
+
+  @override
+  String get venueDetailCardsPlural => 'Cards';
+
+  @override
+  String get venueDetailMatchSingular => 'Match';
+
+  @override
+  String get venueDetailMatchesPlural => 'Matches';
+
+  @override
+  String get venueDetailIntroductionSingular => 'Introduction';
+
+  @override
+  String get venueDetailIntroductionsPlural => 'Introductions';
+
+  @override
+  String get venueDetailMatchesAndIntrosTitle => 'Matches & Introductions';
+
+  @override
+  String get venueDetailEmptyMatchesTitle => 'No matches yet';
+
+  @override
+  String get venueDetailEmptyMatchesDescription =>
+      'When members match through this venue, their profiles will appear here.';
+
+  @override
+  String get venueDetailOpenForMatchmaking => 'Open for matchmaking';
+
+  @override
+  String venueDetailOpenFrom(String startDate) {
+    return 'Open for matchmaking from $startDate';
+  }
+
+  @override
+  String venueDetailOpenUntil(String endDate) {
+    return 'Open for matchmaking until $endDate';
+  }
+
+  @override
+  String venueDetailOpenFromUntil(String startDate, String endDate) {
+    return 'Open for matchmaking from $startDate until $endDate';
+  }
 }
