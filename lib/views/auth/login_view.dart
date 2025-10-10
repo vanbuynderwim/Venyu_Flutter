@@ -228,7 +228,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                       );
                     },
                     child: Text(
-                      'By signing in, you agree to our Terms of Service and Privacy Policy',
+                      AppLocalizations.of(context)!.loginLegalText,
                       style: AppTextStyles.footnote.copyWith(
                         color: venyuTheme.secondaryText,
                         decoration: TextDecoration.underline,

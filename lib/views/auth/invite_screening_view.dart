@@ -2,6 +2,7 @@ import 'package:app/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
@@ -45,6 +46,7 @@ class InviteScreeningView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -90,7 +92,7 @@ class InviteScreeningView extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        'Welcome to venyu 🤝',
+                        l10n.inviteScreeningTitle,
                         style: AppTextStyles.title1.copyWith(
                           color: venyuTheme.darkText,
                           fontWeight: FontWeight.bold,
@@ -102,7 +104,7 @@ class InviteScreeningView extends StatelessWidget {
                       const SizedBox(height: 8),
 
                       Text(
-                         'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.',
+                        l10n.inviteScreeningDescription,
                         style: AppTextStyles.body.copyWith(
                           fontWeight: FontWeight.w400,
                           color: venyuTheme.darkText,
@@ -118,7 +120,7 @@ class InviteScreeningView extends StatelessWidget {
                   Column(
                     children: [
                       ActionButton(
-                        label: 'I have an invite code',
+                        label: l10n.inviteScreeningHasCode,
                         type: ActionButtonType.primary,
                         onPressed: () => _navigateToLogin(context, true),
                       ),
@@ -126,7 +128,7 @@ class InviteScreeningView extends StatelessWidget {
                       const SizedBox(height: 8),
 
                       ActionButton(
-                        label: "I don't have an invite code",
+                        label: l10n.inviteScreeningNoCode,
                         type: ActionButtonType.secondary,
                         onPressed: () => _navigateToWaitlist(context),
                       ),

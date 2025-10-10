@@ -64,17 +64,7 @@ class Invite {
   /// Whether this invite has been shared but not yet redeemed
   bool get isPendingRedemption => isSent && !isRedeemed;
 
-  /// Status description for UI display
-  String get statusDescription {
-    if (isRedeemed) {
-      return 'Redeemed';
-    } else if (isSent) {
-      return 'Sent (pending)';
-    } else {
-      return 'Available';
-    }
-  }
-
+  
   @override
   String toString() {
     return 'Invite(id: $id, code: $code, isRedeemed: $isRedeemed, isSent: $isSent)';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../base/base_code_entry_view.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import 'onboard_view.dart';
@@ -9,19 +10,32 @@ import 'onboard_view.dart';
 ///
 /// This view extends BaseCodeEntryView to provide invite code redemption
 /// functionality before starting the onboarding process.
-class RedeemInviteView extends BaseCodeEntryView {
-  const RedeemInviteView({super.key})
-    : super(
-        title: 'Enter your invite code',
-        subtitle: 'Please enter the 8-character invite code you received to continue.',
-        buttonLabel: 'Continue',
-      );
+class RedeemInviteView extends StatelessWidget {
+  const RedeemInviteView({super.key});
 
   @override
-  State<RedeemInviteView> createState() => _RedeemInviteViewState();
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return _RedeemInviteViewImpl(
+      title: l10n.redeemInviteTitle,
+      subtitle: l10n.redeemInviteSubtitle,
+      buttonLabel: l10n.redeemInviteContinue,
+    );
+  }
 }
 
-class _RedeemInviteViewState extends BaseCodeEntryViewState<RedeemInviteView> {
+class _RedeemInviteViewImpl extends BaseCodeEntryView {
+  const _RedeemInviteViewImpl({
+    required super.title,
+    required super.subtitle,
+    required super.buttonLabel,
+  });
+
+  @override
+  State<_RedeemInviteViewImpl> createState() => _RedeemInviteViewState();
+}
+
+class _RedeemInviteViewState extends BaseCodeEntryViewState<_RedeemInviteViewImpl> {
   @override
   String get logContext => 'RedeemInviteView';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -18,6 +19,7 @@ class WaitlistFinishView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return PopScope(
       canPop: false, // Prevent going back to submission
@@ -66,7 +68,7 @@ class WaitlistFinishView extends StatelessWidget {
 
                       // Success title
                       Text(
-                        'You\'re on the list!',
+                        l10n.waitlistFinishTitle,
                         style: TextStyle(
                           color: venyuTheme.darkText,
                           fontSize: 36,
@@ -79,19 +81,19 @@ class WaitlistFinishView extends StatelessWidget {
 
                       // Explanation text
                       Text(
-                        'Thanks for joining the Venyu waitlist. We\'ll notify you as soon as new spots open up.',
+                        l10n.waitlistFinishDescription,
                         style: AppTextStyles.body.copyWith(
                           color: venyuTheme.darkText,
                         ),
                         textAlign: TextAlign.center,
                       ),
 
-                    
+
                       const Spacer(flex: 3),
 
                       // Done button
                       ActionButton(
-                        label: 'Done',
+                        label: l10n.waitlistFinishButton,
                         onInvertedBackground: true,
                         onPressed: () {
                           // Navigate back to invite screening (root)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_fonts.dart';
@@ -67,6 +68,9 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
   /// Perform waitlist submission
   @override
   Future<void> performSave() async {
+    // Get l10n before async gap
+    final l10n = AppLocalizations.of(context)!;
+
     try {
       await PublicManager.shared.joinWaitlist(
         name: _nameController.text.trim(),
@@ -81,26 +85,28 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
         // Use the specific validation error message
         throw Exception(message);
       } else if (e.message.contains('duplicate key') || e.message.contains('already exists')) {
-        throw Exception('This email is already on the waitlist');
+        throw Exception(l10n.waitlistErrorDuplicate);
       } else {
-        throw Exception('Failed to join waitlist: $message');
+        throw Exception('${l10n.waitlistErrorFailed}: $message');
       }
     } catch (e) {
       // Handle any other errors
-      throw Exception('Failed to join waitlist. Please try again.');
+      throw Exception(l10n.waitlistErrorFailed);
     }
   }
 
   /// Get success message
   @override
   String getSuccessMessage() {
-    return 'You\'ve been added to the waitlist! We\'ll notify you when we\'re ready.';
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.waitlistSuccessMessage;
   }
 
   /// Get error message
   @override
   String getErrorMessage() {
-    return 'Failed to join waitlist. Please try again.';
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.waitlistErrorFailed;
   }
 
   /// Override navigation to show finish view
@@ -118,6 +124,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
   @override
   Widget buildFormContent(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +134,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
           child: Column(
             children: [
               Text(
-                'Join the waitlist',
+                l10n.waitlistTitle,
                 style: AppTextStyles.title1.copyWith(
                   color: venyuTheme.darkText,
                   fontWeight: FontWeight.bold,
@@ -137,7 +144,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Venyu is invite-only. Join the waitlist and get invited when new spots are open.',
+                l10n.waitlistDescription,
                 style: AppTextStyles.body.copyWith(
                   fontWeight: FontWeight.w400,
                   color: venyuTheme.darkText,
@@ -153,7 +160,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
         // Name field
         AppTextField(
           controller: _nameController,
-          hintText: 'Your full name',
+          hintText: l10n.waitlistNameHint,
           style: AppTextFieldStyle.large,
           state: AppTextFieldState.normal,
           autofillHints: const [AutofillHints.name],
@@ -167,7 +174,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
         // Company field
         AppTextField(
           controller: _companyController,
-          hintText: 'Your company name',
+          hintText: l10n.waitlistCompanyHint,
           style: AppTextFieldStyle.large,
           state: AppTextFieldState.normal,
           autofillHints: const [AutofillHints.organizationName],
@@ -180,7 +187,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
         // Role field
         AppTextField(
           controller: _roleController,
-          hintText: 'Your role / title',
+          hintText: l10n.waitlistRoleHint,
           style: AppTextFieldStyle.large,
           state: AppTextFieldState.normal,
           autofillHints: const [AutofillHints.jobTitle],
@@ -193,7 +200,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
         // Email field
         AppTextField(
           controller: _emailController,
-          hintText: 'Your email address',
+          hintText: l10n.waitlistEmailHint,
           style: AppTextFieldStyle.large,
           state: AppTextFieldState.normal,
           autofillHints: const [AutofillHints.email],
@@ -207,12 +214,13 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
 
   @override
   Widget buildSaveButton({String? label, VoidCallback? onPressed}) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: SafeArea(
         top: false,
         child: ActionButton(
-          label: label ?? 'Join waitlist',
+          label: label ?? l10n.waitlistButton,
           onPressed: !canSave ? null : (onPressed ?? handleSave),
           isLoading: isProcessing,
         ),

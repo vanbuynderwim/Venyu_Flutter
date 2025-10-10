@@ -13,7 +13,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardDescription =>
-      'Venyu matches you with other entrepreneurs based on your shared goals, needs, and who you know. Answer 3 daily cards to help us find great matches for you.';
+      'You\'re now part of a community built on real introductions.\n\nLet\'s start with a quick tour before setting up your profile.';
 
   @override
   String get onboardStartTutorial =>
@@ -597,4 +597,82 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Cards open the door to meaningful introductions. Add yours and match with the right people.';
+
+  @override
+  String get redeemInviteTitle => 'Enter your invite code';
+
+  @override
+  String get redeemInviteSubtitle =>
+      'Please enter the 8-character invite code you received to continue.';
+
+  @override
+  String get redeemInviteContinue => 'Continue';
+
+  @override
+  String get waitlistFinishTitle => 'You\'re on the list!';
+
+  @override
+  String get waitlistFinishDescription =>
+      'Thanks for joining the Venyu waitlist. We\'ll notify you as soon as new spots open up.';
+
+  @override
+  String get waitlistFinishButton => 'Done';
+
+  @override
+  String get waitlistTitle => 'Join the waitlist';
+
+  @override
+  String get waitlistDescription =>
+      'Venyu is invite-only. Join the waitlist and get invited when new spots are open.';
+
+  @override
+  String get waitlistNameHint => 'Your full name';
+
+  @override
+  String get waitlistCompanyHint => 'Your company name';
+
+  @override
+  String get waitlistRoleHint => 'Your role / title';
+
+  @override
+  String get waitlistEmailHint => 'Your email address';
+
+  @override
+  String get waitlistButton => 'Join waitlist';
+
+  @override
+  String get waitlistErrorDuplicate => 'This email is already on the waitlist';
+
+  @override
+  String get waitlistErrorFailed =>
+      'Failed to join waitlist. Please try again.';
+
+  @override
+  String get waitlistSuccessMessage =>
+      'You\'ve been added to the waitlist! We\'ll notify you when we\'re ready.';
+
+  @override
+  String get inviteScreeningTitle => 'Welcome to venyu 🤝';
+
+  @override
+  String get inviteScreeningDescription =>
+      'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.';
+
+  @override
+  String get inviteScreeningHasCode => 'I have an invite code';
+
+  @override
+  String get inviteScreeningNoCode => 'I don\'t have an invite code';
+
+  @override
+  String onboardWelcome(String name) {
+    return 'Welcome $name 👋';
+  }
+
+  @override
+  String get onboardStart => 'Start';
+
+  @override
+  String get loginLegalText =>
+      'By signing in, you agree to our Terms of Service and Privacy Policy';
 }

@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardDescription.
   ///
   /// In en, this message translates to:
-  /// **'Venyu matches you with other entrepreneurs based on your shared goals, needs, and who you know. Answer 3 daily cards to help us find great matches for you.'**
+  /// **'You\'re now part of a community built on real introductions.\n\nLet\'s start with a quick tour before setting up your profile.'**
   String get onboardDescription;
 
   /// No description provided for @onboardStartTutorial.
@@ -1167,6 +1167,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cards open the door to meaningful introductions. Add yours and match with the right people.'**
   String get emptyStatePromptsDescription;
+
+  /// No description provided for @redeemInviteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your invite code'**
+  String get redeemInviteTitle;
+
+  /// No description provided for @redeemInviteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 8-character invite code you received to continue.'**
+  String get redeemInviteSubtitle;
+
+  /// No description provided for @redeemInviteContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get redeemInviteContinue;
+
+  /// No description provided for @waitlistFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on the list!'**
+  String get waitlistFinishTitle;
+
+  /// No description provided for @waitlistFinishDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for joining the Venyu waitlist. We\'ll notify you as soon as new spots open up.'**
+  String get waitlistFinishDescription;
+
+  /// No description provided for @waitlistFinishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get waitlistFinishButton;
+
+  /// No description provided for @waitlistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the waitlist'**
+  String get waitlistTitle;
+
+  /// No description provided for @waitlistDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Venyu is invite-only. Join the waitlist and get invited when new spots are open.'**
+  String get waitlistDescription;
+
+  /// No description provided for @waitlistNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full name'**
+  String get waitlistNameHint;
+
+  /// No description provided for @waitlistCompanyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your company name'**
+  String get waitlistCompanyHint;
+
+  /// No description provided for @waitlistRoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your role / title'**
+  String get waitlistRoleHint;
+
+  /// No description provided for @waitlistEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email address'**
+  String get waitlistEmailHint;
+
+  /// No description provided for @waitlistButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Join waitlist'**
+  String get waitlistButton;
+
+  /// No description provided for @waitlistErrorDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already on the waitlist'**
+  String get waitlistErrorDuplicate;
+
+  /// No description provided for @waitlistErrorFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to join waitlist. Please try again.'**
+  String get waitlistErrorFailed;
+
+  /// No description provided for @waitlistSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve been added to the waitlist! We\'ll notify you when we\'re ready.'**
+  String get waitlistSuccessMessage;
+
+  /// No description provided for @inviteScreeningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to venyu 🤝'**
+  String get inviteScreeningTitle;
+
+  /// No description provided for @inviteScreeningDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.'**
+  String get inviteScreeningDescription;
+
+  /// No description provided for @inviteScreeningHasCode.
+  ///
+  /// In en, this message translates to:
+  /// **'I have an invite code'**
+  String get inviteScreeningHasCode;
+
+  /// No description provided for @inviteScreeningNoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t have an invite code'**
+  String get inviteScreeningNoCode;
+
+  /// No description provided for @onboardWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome {name} 👋'**
+  String onboardWelcome(String name);
+
+  /// No description provided for @onboardStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get onboardStart;
+
+  /// No description provided for @loginLegalText.
+  ///
+  /// In en, this message translates to:
+  /// **'By signing in, you agree to our Terms of Service and Privacy Policy'**
+  String get loginLegalText;
 }
 
 class _AppLocalizationsDelegate
