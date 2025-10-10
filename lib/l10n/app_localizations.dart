@@ -657,6 +657,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Receive smart suggestions based on your profile.'**
   String get benefitAiPoweredMatchesDescription;
+
+  /// No description provided for @editCompanyInfoNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Name & website'**
+  String get editCompanyInfoNameTitle;
+
+  /// No description provided for @editCompanyInfoNameDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The name of your company'**
+  String get editCompanyInfoNameDescription;
+
+  /// No description provided for @editPersonalInfoNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get editPersonalInfoNameTitle;
+
+  /// No description provided for @editPersonalInfoNameDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name and LinkedIn URL.'**
+  String get editPersonalInfoNameDescription;
+
+  /// No description provided for @editPersonalInfoBioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get editPersonalInfoBioTitle;
+
+  /// No description provided for @editPersonalInfoBioDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'A short intro about yourself.'**
+  String get editPersonalInfoBioDescription;
+
+  /// No description provided for @editPersonalInfoLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get editPersonalInfoLocationTitle;
+
+  /// No description provided for @editPersonalInfoLocationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The city you live in.'**
+  String get editPersonalInfoLocationDescription;
+
+  /// No description provided for @editPersonalInfoEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get editPersonalInfoEmailTitle;
+
+  /// No description provided for @editPersonalInfoEmailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact email address.'**
+  String get editPersonalInfoEmailDescription;
+
+  /// No description provided for @profileEditAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get profileEditAccountTitle;
+
+  /// No description provided for @profileEditAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your account'**
+  String get profileEditAccountDescription;
+
+  /// No description provided for @reviewTypeUserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'User generated'**
+  String get reviewTypeUserTitle;
+
+  /// No description provided for @reviewTypeUserDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards submitted by users'**
+  String get reviewTypeUserDescription;
+
+  /// No description provided for @reviewTypeSystemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI generated'**
+  String get reviewTypeSystemTitle;
+
+  /// No description provided for @reviewTypeSystemDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily generated cards by AI'**
+  String get reviewTypeSystemDescription;
 }
 
 class _AppLocalizationsDelegate

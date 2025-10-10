@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../tag.dart';
 
 /// EditPersonalInfoType enum - equivalent to iOS EditPersonalInfoType
@@ -15,29 +16,31 @@ enum EditPersonalInfoType implements OptionType {
 
   @override
   String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case EditPersonalInfoType.name:
-        return 'Name';
+        return l10n.editPersonalInfoNameTitle;
       case EditPersonalInfoType.bio:
-        return 'Bio';
+        return l10n.editPersonalInfoBioTitle;
       case EditPersonalInfoType.location:
-        return 'City';
+        return l10n.editPersonalInfoLocationTitle;
       case EditPersonalInfoType.email:
-        return 'Email';
+        return l10n.editPersonalInfoEmailTitle;
     }
   }
 
   @override
   String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case EditPersonalInfoType.name:
-        return 'Your name and LinkedIn URL.';
+        return l10n.editPersonalInfoNameDescription;
       case EditPersonalInfoType.bio:
-        return 'A short intro about yourself.';
+        return l10n.editPersonalInfoBioDescription;
       case EditPersonalInfoType.location:
-        return 'The city you live in.';
+        return l10n.editPersonalInfoLocationDescription;
       case EditPersonalInfoType.email:
-        return 'Your contact email address.';
+        return l10n.editPersonalInfoEmailDescription;
     }
   }
 

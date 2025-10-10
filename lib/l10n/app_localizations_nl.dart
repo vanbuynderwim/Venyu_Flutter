@@ -320,4 +320,52 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get benefitAiPoweredMatchesDescription =>
       'Receive smart suggestions based on your profile.';
+
+  @override
+  String get editCompanyInfoNameTitle => 'Name & website';
+
+  @override
+  String get editCompanyInfoNameDescription => 'The name of your company';
+
+  @override
+  String get editPersonalInfoNameTitle => 'Name';
+
+  @override
+  String get editPersonalInfoNameDescription => 'Your name and LinkedIn URL.';
+
+  @override
+  String get editPersonalInfoBioTitle => 'Bio';
+
+  @override
+  String get editPersonalInfoBioDescription => 'A short intro about yourself.';
+
+  @override
+  String get editPersonalInfoLocationTitle => 'City';
+
+  @override
+  String get editPersonalInfoLocationDescription => 'The city you live in.';
+
+  @override
+  String get editPersonalInfoEmailTitle => 'Email';
+
+  @override
+  String get editPersonalInfoEmailDescription => 'Your contact email address.';
+
+  @override
+  String get profileEditAccountTitle => 'Account';
+
+  @override
+  String get profileEditAccountDescription => 'Manage your account';
+
+  @override
+  String get reviewTypeUserTitle => 'User generated';
+
+  @override
+  String get reviewTypeUserDescription => 'Cards submitted by users';
+
+  @override
+  String get reviewTypeSystemTitle => 'AI generated';
+
+  @override
+  String get reviewTypeSystemDescription => 'Daily generated cards by AI';
 }

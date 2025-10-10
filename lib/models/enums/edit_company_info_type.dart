@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../tag.dart';
 
 /// EditCompanyInfoType enum - equivalent to iOS EditCompanyInfoType
@@ -12,17 +13,19 @@ enum EditCompanyInfoType implements OptionType {
 
   @override
   String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case EditCompanyInfoType.name:
-        return 'Name & website';
+        return l10n.editCompanyInfoNameTitle;
     }
   }
 
   @override
   String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case EditCompanyInfoType.name:
-        return 'The name of your company';
+        return l10n.editCompanyInfoNameDescription;
     }
   }
 

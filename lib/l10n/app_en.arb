@@ -123,5 +123,29 @@
   "benefitDailyCardsBoostTitle": "More daily cards",
   "benefitDailyCardsBoostDescription": "More cards to grow your network faster.",
   "benefitAiPoweredMatchesTitle": "AI-powered matches (later)",
-  "benefitAiPoweredMatchesDescription": "Receive smart suggestions based on your profile."
+  "benefitAiPoweredMatchesDescription": "Receive smart suggestions based on your profile.",
+
+  "@_EDIT_COMPANY_INFO_TYPE": {},
+  "editCompanyInfoNameTitle": "Name & website",
+  "editCompanyInfoNameDescription": "The name of your company",
+
+  "@_EDIT_PERSONAL_INFO_TYPE": {},
+  "editPersonalInfoNameTitle": "Name",
+  "editPersonalInfoNameDescription": "Your name and LinkedIn URL.",
+  "editPersonalInfoBioTitle": "Bio",
+  "editPersonalInfoBioDescription": "A short intro about yourself.",
+  "editPersonalInfoLocationTitle": "City",
+  "editPersonalInfoLocationDescription": "The city you live in.",
+  "editPersonalInfoEmailTitle": "Email",
+  "editPersonalInfoEmailDescription": "Your contact email address.",
+
+  "@_PROFILE_EDIT_TYPE": {},
+  "profileEditAccountTitle": "Account",
+  "profileEditAccountDescription": "Manage your account",
+
+  "@_REVIEW_TYPE": {},
+  "reviewTypeUserTitle": "User generated",
+  "reviewTypeUserDescription": "Cards submitted by users",
+  "reviewTypeSystemTitle": "AI generated",
+  "reviewTypeSystemDescription": "Daily generated cards by AI"
 }

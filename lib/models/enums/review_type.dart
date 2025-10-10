@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../tag.dart';
 
 /// ReviewType enum - equivalent to iOS ReviewType
@@ -13,21 +14,23 @@ enum ReviewType implements OptionType {
 
   @override
   String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ReviewType.user:
-        return 'User generated';
+        return l10n.reviewTypeUserTitle;
       case ReviewType.system:
-        return 'AI generated';
+        return l10n.reviewTypeSystemTitle;
     }
   }
 
   @override
   String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ReviewType.user:
-        return 'Cards submitted by users';
+        return l10n.reviewTypeUserDescription;
       case ReviewType.system:
-        return 'Daily generated cards by AI';
+        return l10n.reviewTypeSystemDescription;
     }
   }
 
