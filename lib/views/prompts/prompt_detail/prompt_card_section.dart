@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_modifiers.dart';
@@ -39,6 +40,7 @@ class PromptCardSection extends StatelessWidget {
       return const LoadingStateWidget();
     }
 
+    final l10n = AppLocalizations.of(context)!;
     final isPro = context.profileService.currentProfile?.isPro ?? false;
 
     return Padding(
@@ -58,7 +60,7 @@ class PromptCardSection extends StatelessWidget {
             // Created date
             _buildInfoRow(
               context,
-              label: 'Created',
+              label: l10n.promptCardCreatedLabel,
               value: prompt!.createdAt?.timeAgoFull() ?? '-',
             ),
 
@@ -67,7 +69,7 @@ class PromptCardSection extends StatelessWidget {
             // Reviewed date
             _buildInfoRow(
               context,
-              label: 'Reviewed',
+              label: l10n.promptCardReviewedLabel,
               value: prompt!.reviewedAt?.timeAgoFull() ?? '-',
             ),
 
@@ -80,9 +82,9 @@ class PromptCardSection extends StatelessWidget {
             if (AppConfig.showPro && !isPro && prompt!.status == PromptStatus.approved) ...[
               const SizedBox(height: 16),
               UpgradePromptWidget(
-                title: 'Extend your card visibility',
-                subtitle: 'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.',
-                buttonText: 'Upgrade to Pro',
+                title: l10n.promptCardUpgradeTitle,
+                subtitle: l10n.promptCardUpgradeSubtitle,
+                buttonText: l10n.promptCardUpgradeButton,
                 onSubscriptionCompleted: () {
                   // The parent view will handle the refresh
                 },
@@ -125,6 +127,8 @@ class PromptCardSection extends StatelessWidget {
   }
 
   Widget _buildStatusRow(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       children: [
         Container(
@@ -135,7 +139,7 @@ class PromptCardSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            'Status:',
+            '${l10n.promptCardStatusLabel}:',
             style: AppTextStyles.footnote.copyWith(
               color: context.venyuTheme.secondaryText,
               fontWeight: FontWeight.w500,

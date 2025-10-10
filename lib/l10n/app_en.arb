@@ -662,5 +662,13 @@
   "editBioSuccessMessage": "Profile bio saved",
   "editBioErrorMessage": "Failed to update profile bio, please try again",
   "editBioInfoMessage": "Your bio is visible to everyone you match with. Keep in mind: if you don't want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you're open to, without sharing sensitive details you'd rather keep private until after an introduction is made.",
-  "editBioPlaceholder": "Write your bio here..."
+  "editBioPlaceholder": "Write your bio here...",
+
+  "@_PROMPT_CARD_SECTION": {},
+  "promptCardCreatedLabel": "Created",
+  "promptCardReviewedLabel": "Reviewed",
+  "promptCardStatusLabel": "Status",
+  "promptCardUpgradeTitle": "Extend your card visibility",
+  "promptCardUpgradeSubtitle": "Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.",
+  "promptCardUpgradeButton": "Upgrade to Pro"
 }

@@ -1367,4 +1367,23 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editBioPlaceholder => 'Write your bio here...';
+
+  @override
+  String get promptCardCreatedLabel => 'Created';
+
+  @override
+  String get promptCardReviewedLabel => 'Reviewed';
+
+  @override
+  String get promptCardStatusLabel => 'Status';
+
+  @override
+  String get promptCardUpgradeTitle => 'Extend your card visibility';
+
+  @override
+  String get promptCardUpgradeSubtitle =>
+      'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.';
+
+  @override
+  String get promptCardUpgradeButton => 'Upgrade to Pro';
 }

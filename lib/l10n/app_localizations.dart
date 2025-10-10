@@ -2547,6 +2547,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Write your bio here...'**
   String get editBioPlaceholder;
+
+  /// No description provided for @promptCardCreatedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get promptCardCreatedLabel;
+
+  /// No description provided for @promptCardReviewedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed'**
+  String get promptCardReviewedLabel;
+
+  /// No description provided for @promptCardStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get promptCardStatusLabel;
+
+  /// No description provided for @promptCardUpgradeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend your card visibility'**
+  String get promptCardUpgradeTitle;
+
+  /// No description provided for @promptCardUpgradeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.'**
+  String get promptCardUpgradeSubtitle;
+
+  /// No description provided for @promptCardUpgradeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro'**
+  String get promptCardUpgradeButton;
 }
 
 class _AppLocalizationsDelegate
