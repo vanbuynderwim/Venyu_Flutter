@@ -1505,4 +1505,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptEditNextButton => 'Next';
+
+  @override
+  String promptEntryGreeting(String firstName) {
+    return 'Hi$firstName 👋';
+  }
+
+  @override
+  String promptEntryFirstTimeDescription(int count) {
+    return 'The next $count cards are practice examples to help you learn how to answer them.';
+  }
+
+  @override
+  String promptEntryDailyDescription(int count) {
+    return 'Your daily $count cards are waiting for you.';
+  }
+
+  @override
+  String get promptEntryButton => 'Show me';
+
+  @override
+  String get promptFinishTitle => 'Card submitted!';
+
+  @override
+  String get promptFinishDescription =>
+      'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.';
+
+  @override
+  String get promptFinishReviewInfo =>
+      'Reviews typically take less than 24 hours';
+
+  @override
+  String get promptFinishDoneButton => 'Done';
+
+  @override
+  String get promptPreviewTitle => 'Preview';
+
+  @override
+  String get promptPreviewNextButton => 'Next';
+
+  @override
+  String get promptPreviewSubmitButton => 'Submit';
+
+  @override
+  String get promptPreviewErrorUpdate => 'Failed to update prompt';
+
+  @override
+  String get promptPreviewErrorSubmit => 'Failed to submit prompt';
+
+  @override
+  String get promptSelectVenueTitle => 'Select audience';
+
+  @override
+  String get promptSelectVenueSubtitle => 'Where would you like to publish?';
+
+  @override
+  String get promptSelectVenuePublicTitle => 'Publish publicly';
+
+  @override
+  String get promptSelectVenuePublicDescription => 'Visible to all users';
+
+  @override
+  String get promptSelectVenueOrTitle => 'Or select a specific venue';
+
+  @override
+  String get promptSelectVenueNextButton => 'Next';
+
+  @override
+  String get promptSelectVenueSubmitButton => 'Submit';
+
+  @override
+  String get promptSelectVenueErrorSubmit => 'Failed to submit prompt';
 }

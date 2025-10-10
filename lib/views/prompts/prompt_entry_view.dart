@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/prompt.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -59,6 +60,7 @@ class PromptEntryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Always use light theme for prompt flow
     final venyuTheme = context.venyuTheme;
 
@@ -89,7 +91,7 @@ class PromptEntryView extends StatelessWidget {
                 
                 // Greeting text
                 Text(
-                  'Hi${_getFirstName(context)} 👋',
+                  l10n.promptEntryGreeting(_getFirstName(context)),
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 28,
@@ -97,7 +99,7 @@ class PromptEntryView extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const Spacer(flex: 1),
 
                 // Prompts icon in circle (like tutorial view)
@@ -136,22 +138,22 @@ class PromptEntryView extends StatelessWidget {
                 // Cards count text - different for first time users
                 Text(
                   isFirstTimeUser
-                    ? "The next ${prompts.length} cards are practice examples to help you learn how to answer them."
-                    : 'Your daily ${prompts.length} cards are waiting for you.',
+                    ? l10n.promptEntryFirstTimeDescription(prompts.length)
+                    : l10n.promptEntryDailyDescription(prompts.length),
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // "Show me!" button - wrapped in light theme
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ActionButton(
-                      label: "Show me",
+                      label: l10n.promptEntryButton,
                       type: ActionButtonType.primary,
                       onInvertedBackground: true,
                       onPressed: () => _handleLetsDoThis(context),

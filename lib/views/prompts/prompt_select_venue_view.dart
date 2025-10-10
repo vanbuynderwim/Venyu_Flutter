@@ -13,6 +13,7 @@ import '../../core/config/app_config.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/helpers/prompt_submission_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
+import '../../l10n/app_localizations.dart';
 import '../venues/venue_item_view.dart';
 import 'prompt_settings_view.dart';
 
@@ -93,13 +94,14 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
         useProcessingState: true,
         showSuccessToast: false, // Don't show toast as we're navigating
         showErrorToast: true,
-        errorMessage: 'Failed to submit prompt',
+        errorMessage: AppLocalizations.of(context)!.promptSelectVenueErrorSubmit,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
 
     return Container(
@@ -124,7 +126,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
             appBar: PlatformAppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                'Select audience',
+                l10n.promptSelectVenueTitle,
                 style: TextStyle(
                   color: venyuTheme.darkText,
                 ),
@@ -139,7 +141,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                     child: SubTitle(
-                      title: 'Where would you like to publish?',
+                      title: l10n.promptSelectVenueSubtitle,
                       iconName: 'target',
                     ),
                   ),
@@ -157,8 +159,8 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
                     // "Publish publicly" option using OptionButton
                     final publicOption = SimplePromptOption(
                       id: 'public',
-                      title: 'Publish publicly',
-                      description: 'Visible to all users',
+                      title: l10n.promptSelectVenuePublicTitle,
+                      description: l10n.promptSelectVenuePublicDescription,
                       icon: null,
                       color: venyuTheme.primary,
                     );
@@ -185,7 +187,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12, top: 8),
                       child: SubTitle(
-                        title: 'Or select a specific venue',
+                        title: l10n.promptSelectVenueOrTitle,
                         iconName: 'venue',
                       ),
                     );
@@ -216,7 +218,7 @@ class _PromptSelectVenueViewState extends State<PromptSelectVenueView> with Erro
                   Container(
                     padding: const EdgeInsets.all(16),
                     child: ActionButton(
-                      label: AppConfig.showPro ? 'Next' : 'Submit',
+                      label: AppConfig.showPro ? l10n.promptSelectVenueNextButton : l10n.promptSelectVenueSubmitButton,
                       onInvertedBackground: true,
                       onPressed: _handleNext,
                       isLoading: isProcessing,

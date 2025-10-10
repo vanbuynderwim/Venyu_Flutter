@@ -728,5 +728,55 @@
   "promptDetailRejectedMessage": "Card rejected",
 
   "@_PROMPT_EDIT_VIEW": {},
-  "promptEditNextButton": "Next"
+  "promptEditNextButton": "Next",
+
+  "@_PROMPT_ENTRY_VIEW": {},
+  "promptEntryGreeting": "Hi{firstName} 👋",
+  "@promptEntryGreeting": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "promptEntryFirstTimeDescription": "The next {count} cards are practice examples to help you learn how to answer them.",
+  "@promptEntryFirstTimeDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptEntryDailyDescription": "Your daily {count} cards are waiting for you.",
+  "@promptEntryDailyDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptEntryButton": "Show me",
+
+  "@_PROMPT_FINISH_VIEW": {},
+  "promptFinishTitle": "Card submitted!",
+  "promptFinishDescription": "Your card has been successfully submitted and is being reviewed. We'll notify you once it's live.",
+  "promptFinishReviewInfo": "Reviews typically take less than 24 hours",
+  "promptFinishDoneButton": "Done",
+
+  "@_PROMPT_PREVIEW_VIEW": {},
+  "promptPreviewTitle": "Preview",
+  "promptPreviewNextButton": "Next",
+  "promptPreviewSubmitButton": "Submit",
+  "promptPreviewErrorUpdate": "Failed to update prompt",
+  "promptPreviewErrorSubmit": "Failed to submit prompt",
+
+  "@_PROMPT_SELECT_VENUE_VIEW": {},
+  "promptSelectVenueTitle": "Select audience",
+  "promptSelectVenueSubtitle": "Where would you like to publish?",
+  "promptSelectVenuePublicTitle": "Publish publicly",
+  "promptSelectVenuePublicDescription": "Visible to all users",
+  "promptSelectVenueOrTitle": "Or select a specific venue",
+  "promptSelectVenueNextButton": "Next",
+  "promptSelectVenueSubmitButton": "Submit",
+  "promptSelectVenueErrorSubmit": "Failed to submit prompt"
 }

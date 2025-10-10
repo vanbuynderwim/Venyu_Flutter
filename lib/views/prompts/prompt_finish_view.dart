@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -25,6 +26,7 @@ class PromptFinishView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
 
     return PopScope(
@@ -74,7 +76,7 @@ class PromptFinishView extends StatelessWidget {
 
                       // Success title
                       Text(
-                        'Card submitted!',
+                        l10n.promptFinishTitle,
                         style: TextStyle(
                           color: venyuTheme.darkText,
                           fontSize: 36,
@@ -87,7 +89,7 @@ class PromptFinishView extends StatelessWidget {
 
                       // Explanation text
                       Text(
-                        'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.',
+                        l10n.promptFinishDescription,
                         style: AppTextStyles.body.copyWith(
                           color: venyuTheme.darkText,
                         ),
@@ -98,14 +100,14 @@ class PromptFinishView extends StatelessWidget {
 
                       // Review info box
                       InfoBoxWidget(
-                        text: 'Reviews typically take less than 24 hours',
+                        text: l10n.promptFinishReviewInfo,
                       ),
 
                       const Spacer(flex: 3),
 
                       // Done button
                       ActionButton(
-                        label: 'Done',
+                        label: l10n.promptFinishDoneButton,
                         onInvertedBackground: true,
                         onPressed: () {
                           // Close all prompt views and return to main screen

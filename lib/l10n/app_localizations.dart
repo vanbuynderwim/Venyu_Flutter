@@ -2799,6 +2799,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get promptEditNextButton;
+
+  /// No description provided for @promptEntryGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi{firstName} 👋'**
+  String promptEntryGreeting(String firstName);
+
+  /// No description provided for @promptEntryFirstTimeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The next {count} cards are practice examples to help you learn how to answer them.'**
+  String promptEntryFirstTimeDescription(int count);
+
+  /// No description provided for @promptEntryDailyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your daily {count} cards are waiting for you.'**
+  String promptEntryDailyDescription(int count);
+
+  /// No description provided for @promptEntryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me'**
+  String get promptEntryButton;
+
+  /// No description provided for @promptFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Card submitted!'**
+  String get promptFinishTitle;
+
+  /// No description provided for @promptFinishDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.'**
+  String get promptFinishDescription;
+
+  /// No description provided for @promptFinishReviewInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews typically take less than 24 hours'**
+  String get promptFinishReviewInfo;
+
+  /// No description provided for @promptFinishDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get promptFinishDoneButton;
+
+  /// No description provided for @promptPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get promptPreviewTitle;
+
+  /// No description provided for @promptPreviewNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get promptPreviewNextButton;
+
+  /// No description provided for @promptPreviewSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get promptPreviewSubmitButton;
+
+  /// No description provided for @promptPreviewErrorUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update prompt'**
+  String get promptPreviewErrorUpdate;
+
+  /// No description provided for @promptPreviewErrorSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit prompt'**
+  String get promptPreviewErrorSubmit;
+
+  /// No description provided for @promptSelectVenueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select audience'**
+  String get promptSelectVenueTitle;
+
+  /// No description provided for @promptSelectVenueSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where would you like to publish?'**
+  String get promptSelectVenueSubtitle;
+
+  /// No description provided for @promptSelectVenuePublicTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish publicly'**
+  String get promptSelectVenuePublicTitle;
+
+  /// No description provided for @promptSelectVenuePublicDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible to all users'**
+  String get promptSelectVenuePublicDescription;
+
+  /// No description provided for @promptSelectVenueOrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Or select a specific venue'**
+  String get promptSelectVenueOrTitle;
+
+  /// No description provided for @promptSelectVenueNextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get promptSelectVenueNextButton;
+
+  /// No description provided for @promptSelectVenueSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get promptSelectVenueSubmitButton;
+
+  /// No description provided for @promptSelectVenueErrorSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit prompt'**
+  String get promptSelectVenueErrorSubmit;
 }
 
 class _AppLocalizationsDelegate

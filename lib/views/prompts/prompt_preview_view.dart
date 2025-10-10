@@ -13,6 +13,7 @@ import '../../core/config/app_config.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/helpers/prompt_submission_helper.dart';
+import '../../l10n/app_localizations.dart';
 import 'prompt_select_venue_view.dart';
 import 'prompt_settings_view.dart';
 
@@ -99,12 +100,13 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
       useProcessingState: true,
       showSuccessToast: false, // Don't show success toast as we're navigating away
       showErrorToast: true,
-      errorMessage: 'Failed to update prompt',
+      errorMessage: AppLocalizations.of(context)!.promptPreviewErrorUpdate,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -126,7 +128,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
             appBar: PlatformAppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                'Preview',
+                l10n.promptPreviewTitle,
                 style: TextStyle(
                   color: context.venyuTheme.darkText,
                 ),
@@ -155,7 +157,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                           child: ActionButton(
-                            label: widget.existingPrompt != null ? 'Submit' : 'Next',
+                            label: widget.existingPrompt != null ? l10n.promptPreviewSubmitButton : l10n.promptPreviewNextButton,
                             onInvertedBackground: true,
                             isLoading: _isProcessing,
                             onPressed: _venuesLoaded && !_isProcessing ? () async {
@@ -218,7 +220,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                     useProcessingState: true,
                                     showSuccessToast: false,
                                     showErrorToast: true,
-                                    errorMessage: 'Failed to submit prompt',
+                                    errorMessage: l10n.promptPreviewErrorSubmit,
                                   );
                                 }
                               }
