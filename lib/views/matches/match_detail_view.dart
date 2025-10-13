@@ -474,28 +474,28 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 const SizedBox(height: 8),
                 MatchVenuesSection(match: _match!),
                 const SizedBox(height: 16),
-              ],
-              
-              // Company matches section
-              if (_match!.nrOfCompanyTags > 0) ...[
-                SubTitle(
-                  iconName: 'company',
-                  title: l10n.matchDetailCompanyFacts(_match!.nrOfCompanyTags, _match!.nrOfCompanyTags == 1 ? l10n.matchDetailFact : l10n.matchDetailFacts),
-                ),
-                const SizedBox(height: 16),
-                MatchTagsSection(tagGroups: _match!.companyTagGroups),
-                const SizedBox(height: 16),
-              ],
+              ],             
               
               // Personal matches section
               if (_match!.nrOfPersonalTags > 0) ...[
                 SubTitle(
-                  iconName: 'match',
-                  title: l10n.matchDetailPersonalInterests(_match!.nrOfPersonalTags, _match!.nrOfPersonalTags == 1 ? l10n.matchDetailInterest : l10n.matchDetailInterests),
+                  iconName: 'profile',
+                  title: l10n.matchDetailPersonalInterests(_match!.nrOfPersonalTags, _match!.nrOfPersonalTags == 1 ? l10n.matchDetailArea : l10n.matchDetailAreas),
                 ),
                 const SizedBox(height: 16),
                 _buildPersonalMatchesContent(),
                const SizedBox(height: 16),
+              ],
+
+              // Company matches section
+              if (_match!.nrOfCompanyTags > 0) ...[
+                SubTitle(
+                  iconName: 'company',
+                  title: l10n.matchDetailCompanyFacts(_match!.nrOfCompanyTags, _match!.nrOfCompanyTags == 1 ? l10n.matchDetailArea : l10n.matchDetailAreas),
+                ),
+                const SizedBox(height: 16),
+                MatchTagsSection(tagGroups: _match!.companyTagGroups),
+                const SizedBox(height: 16),
               ],
 
               // Match reasons section (only for connected status)

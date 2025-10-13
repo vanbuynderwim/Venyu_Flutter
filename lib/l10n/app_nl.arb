@@ -3,13 +3,13 @@
 
   "@_ONBOARDING": {},
   "onboardTitle": "Welkom bij Venyu",
-  "onboardDescription": "Venyu matcht je met andere ondernemers op basis van jullie gedeelde doelen, ambities en wie je kent. Beantwoord dagelijks 3 kaartjes om ons te helpen geweldige matches voor je te vinden.",
+  "onboardDescription": "Venyu matcht je met andere ondernemers op basis van jullie gedeelde doelen, ambities en wie je kent. Beantwoord dagelijks 3 prompts om ons te helpen geweldige matches voor je te vinden.",
   "onboardStartTutorial": "Voordat we je profiel aanmaken, laten we je tonen hoe Venyu werkt met een korte tutorial.",
   "onboardButtonStart": "Start",
 
   "@_TUTORIAL": {},
-  "tutorialStep1Title": "Beantwoord 3 dagelijkse kaartjes",
-  "tutorialStep1Description": "Elke dag beantwoord je drie kaartjes van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.",
+  "tutorialStep1Title": "Beantwoord dagelijkse 3 prompts",
+  "tutorialStep1Description": "Elke dag beantwoord je drie prompts van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.",
   "tutorialStep2Title": "Word gematcht",
   "tutorialStep2Description": "Onze matching agent verbindt je met ondernemers die jouw doelen en ambities delen.",
   "tutorialStep3Title": "Toon je interesse",
@@ -23,12 +23,12 @@
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteTitle": "Je profiel is klaar! 🎉",
-  "registrationCompleteDescription": "Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 kaartjes per dag je helpt om gematcht te worden met de juiste mensen.",
+  "registrationCompleteDescription": "Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag je helpt om gematcht te worden met de juiste mensen.",
   "registrationCompleteButton": "Doorgaan",
 
   "@_PROMPT_ENTRY": {},
   "promptEntryTitleFirstTime": "Laten we het uitproberen!",
-  "promptEntryDescriptionFirstTime": "Hier zijn 3 voorbeeldkaartjes om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!",
+  "promptEntryDescriptionFirstTime": "Hier zijn 3 voorbeeldprompts om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!",
   "promptEntryButtonFirstTime": "Start tutorial",
 
   "@_DAILY_PROMPTS": {},
@@ -42,18 +42,18 @@
   },
   "dailyPromptsHintConfirm": "Selecteer \"Volgende\" om te bevestigen",
   "dailyPromptsButtonNext": "Volgende",
-  "dailyPromptsReportSuccess": "Kaartje succesvol gerapporteerd",
+  "dailyPromptsReportSuccess": "Prompt succesvol gerapporteerd",
   "dailyPromptsReportError": "Rapporteren mislukt",
-  "dailyPromptsNoPromptsAvailable": "Geen kaartjes beschikbaar",
+  "dailyPromptsNoPromptsAvailable": "Geen prompts beschikbaar",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
-  "tutorialFinishedDescription": "Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte kaartjes te beantwoorden en gematcht te worden met andere ondernemers.",
+  "tutorialFinishedDescription": "Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte prompts te beantwoorden en gematcht te worden met andere ondernemers.",
   "tutorialFinishedButton": "Oké!",
 
   "@_REGISTRATION_FINISH": {},
   "registrationFinishTitle": "That's it! 🎉",
-  "registrationFinishDescription": "Je account is helemaal ingesteld en je hebt je eerste 3 kaartjes beantwoord. Kom morgen terug om meer kaartjes te beantwoorden en nieuwe matches te ontdekken.",
+  "registrationFinishDescription": "Je account is helemaal ingesteld en je hebt je eerste 3 prompts beantwoord. Kom morgen terug om meer prompts te beantwoorden en nieuwe matches te ontdekken.",
   "registrationFinishButton": "Begin met verkennen!",
 
   "@_COMMON": {},
@@ -64,8 +64,8 @@
   "buttonGotIt": "Begrepen",
 
   "@_ERRORS": {},
-  "errorNoCardsAvailable": "Momenteel geen kaartjes beschikbaar. Kom later terug!",
-  "errorFailedToLoadCards": "Kaartjes laden mislukt. Probeer het opnieuw.",
+  "errorNoCardsAvailable": "Momenteel geen prompts beschikbaar. Kom later terug!",
+  "errorFailedToLoadCards": "Prompts laden mislukt. Probeer het opnieuw.",
   "errorFailedToRefreshProfile": "Profiel vernieuwen mislukt. Probeer het opnieuw.",
   "errorNoInternetConnection": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
 
@@ -117,15 +117,15 @@
   "benefitFocusedReachTitle": "Slimme targeting",
   "benefitFocusedReachDescription": "Publiceer je vragen naar het juiste publiek",
   "benefitDiscreetPreviewTitle": "First call",
-  "benefitDiscreetPreviewDescription": "Op je kaartjes krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.",
+  "benefitDiscreetPreviewDescription": "Op je prompts krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.",
   "benefitUnlimitedIntroductionsTitle": "Oneindige introductions",
   "benefitUnlimitedIntroductionsDescription": "Blijf je netwerk uitbreiden met onbeperkte introducties en mis nooit een kans",
   "benefitUnlockFullProfilesTitle": "Volledige profielen",
   "benefitUnlockFullProfilesDescription": "Ontdek wie achter de match zit door hun avatar te zien en wederzijdse interesses te bekijken",
   "benefitViewsAndImpressionsTitle": "Weergaven en vertoningen",
   "benefitViewsAndImpressionsDescription": "Begrijp je bereik met eenvoudige statistieken",
-  "benefitDailyCardsBoostTitle": "Meer dagelijkse kaartjes",
-  "benefitDailyCardsBoostDescription": "Meer kaartjes om je netwerk sneller te laten groeien.",
+  "benefitDailyCardsBoostTitle": "Meer dagelijkse prompts",
+  "benefitDailyCardsBoostDescription": "Meer prompts om je netwerk sneller te laten groeien.",
   "benefitAiPoweredMatchesTitle": "AI-gedreven matches (later)",
   "benefitAiPoweredMatchesDescription": "Ontvang slimme suggesties op basis van je profiel.",
 
@@ -149,17 +149,17 @@
 
   "@_REVIEW_TYPE": {},
   "reviewTypeUserTitle": "Door gebruiker aangemaakt",
-  "reviewTypeUserDescription": "Kaartjes ingediend door gebruikers",
+  "reviewTypeUserDescription": "Prompts ingediend door gebruikers",
   "reviewTypeSystemTitle": "AI gegenereerd",
-  "reviewTypeSystemDescription": "Dagelijks gegenereerde kaartjes door AI",
+  "reviewTypeSystemDescription": "Dagelijks gegenereerde prompts door AI",
 
   "@_APP_METADATA": {},
   "appName": "Venyu",
   "appTagline": "make the net work",
 
   "@_NAVIGATION": {},
-  "navMatches": "Introductions",
-  "navCards": "Kaartjes",
+  "navMatches": "Matches",
+  "navCards": "Prompts",
   "navNotifications": "Updates",
   "navProfile": "Profiel",
 
@@ -169,7 +169,7 @@
   "actionDelete": "Verwijderen",
   "actionEdit": "Bewerken",
   "actionNext": "Volgende",
-  "actionSkip": "Overslaan",
+  "actionSkip": "Skip",
   "actionInterested": "Geïnteresseerd",
 
   "@_SUCCESS_MESSAGES": {},
@@ -237,7 +237,7 @@
 
   "@_PROMPT_SECTIONS": {},
   "promptSectionCardTitle": "Status",
-  "promptSectionCardDescription": "Bekijk je kaartdetails",
+  "promptSectionCardDescription": "Bekijk je prompt details",
   "promptSectionStatsTitle": "Statistieken",
   "promptSectionStatsDescription": "Prestaties en analyses",
   "promptSectionIntroTitle": "Introductions",
@@ -245,17 +245,17 @@
 
   "@_PROMPT_STATUS": {},
   "promptStatusDraftDisplay": "Concept",
-  "promptStatusDraftInfo": "Je kaartje is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.",
+  "promptStatusDraftInfo": "Je prompt is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.",
   "promptStatusPendingReviewDisplay": "In afwachting van beoordeling",
-  "promptStatusPendingReviewInfo": "Je kaartje wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.",
+  "promptStatusPendingReviewInfo": "Je prompt wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.",
   "promptStatusPendingTranslationDisplay": "Wordt vertaald",
-  "promptStatusPendingTranslationInfo": "Je kaartje wordt vertaald naar andere talen.",
+  "promptStatusPendingTranslationInfo": "Je prompt wordt vertaald naar andere talen.",
   "promptStatusApprovedDisplay": "Goedgekeurd",
-  "promptStatusApprovedInfo": "Je kaartje is goedgekeurd en staat live. Je kunt matches ontvangen.",
+  "promptStatusApprovedInfo": "Je prompt is goedgekeurd en staat live. Je kunt matches ontvangen.",
   "promptStatusRejectedDisplay": "Afgewezen",
-  "promptStatusRejectedInfo": "Je kaartje werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.",
+  "promptStatusRejectedInfo": "Je prompt werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.",
   "promptStatusArchivedDisplay": "Gearchiveerd",
-  "promptStatusArchivedInfo": "Je kaartje is gearchiveerd en niet meer zichtbaar voor andere gebruikers.",
+  "promptStatusArchivedInfo": "Je prompt is gearchiveerd en niet meer zichtbaar voor andere gebruikers.",
 
   "@_VENUE_TYPE": {},
   "venueTypeEventDisplayName": "Evenement",
@@ -267,11 +267,11 @@
   "emptyStateNotificationsTitle": "Helemaal up-to-date",
   "emptyStateNotificationsDescription": "Als er iets gebeurt waar je van moet weten, laten we het je hier weten",
   "emptyStateReviewsTitle": "Helemaal up-to-date",
-  "emptyStateReviewsDescription": "Wanneer kaartjes ter beoordeling worden ingediend, verschijnen ze hier",
+  "emptyStateReviewsDescription": "Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier",
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
   "emptyStateMatchesDescription": "Venyu is al op zoek naar geweldige matches. Zodra we de juiste match vinden, verschijnt deze hier en kan het leiden tot een introductie.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
-  "emptyStatePromptsDescription": "Vind de juiste mensen. Voeg je kaartje toe en match.",
+  "emptyStatePromptsDescription": "Vind de juiste mensen. Voeg je prompt toe en match.",
 
   "@_AUTH_VIEWS": {},
   "redeemInviteTitle": "Voer je uitnodigingscode in",
@@ -358,7 +358,7 @@
   "matchDetailLimitMessage": "Je hebt je limiet van 3 introducties per maand bereikt. Upgrade naar Venyu Pro voor onbeperkte introducties.",
   "matchDetailLimitButton": "Upgrade naar Pro",
   "matchDetailFirstCallTitle": "First Call actief",
-  "matchDetailMatchingCards": "{count} matchende {cards}",
+  "matchDetailMatchingCards": "{count} gedeelde {cards}",
   "@matchDetailMatchingCards": {
     "placeholders": {
       "count": {
@@ -369,8 +369,8 @@
       }
     }
   },
-  "matchDetailCard": "kaartje",
-  "matchDetailCards": "kaartjes",
+  "matchDetailCard": "prompt",
+  "matchDetailCards": "prompts",
   "matchDetailSharedIntros": "{count} gedeelde {intros}",
   "@matchDetailSharedIntros": {
     "placeholders": {
@@ -397,32 +397,30 @@
   },
   "matchDetailVenue": "venue",
   "matchDetailVenues": "venues",
-  "matchDetailCompanyFacts": "{count} wederzijdse bedrijfs {facts}",
+  "matchDetailCompanyFacts": "Professioneel: {count} {areas}",
   "@matchDetailCompanyFacts": {
     "placeholders": {
       "count": {
         "type": "int"
       },
-      "facts": {
+      "areas": {
         "type": "String"
       }
     }
   },
-  "matchDetailFact": "feit",
-  "matchDetailFacts": "feiten",
-  "matchDetailPersonalInterests": "{count} wederzijdse persoonlijke {interests}",
+  "matchDetailPersonalInterests": "Persoonlijk: {count} {areas}",
   "@matchDetailPersonalInterests": {
     "placeholders": {
       "count": {
         "type": "int"
       },
-      "interests": {
+      "areas": {
         "type": "String"
       }
     }
   },
-  "matchDetailInterest": "interesse",
-  "matchDetailInterests": "interesses",
+  "matchDetailArea": "raakvlak",
+  "matchDetailAreas": "raakvlakken",
   "matchDetailWhyMatch": "Waarom jij en {name} matchen",
   "@matchDetailWhyMatch": {
     "placeholders": {
@@ -518,14 +516,24 @@
   "@_PROFILE_SECTIONS": {},
   "companySectionEmptyTagGroups": "Geen bedrijfs tag groepen beschikbaar",
   "personalSectionEmptyTagGroups": "Geen persoonlijke tag groepen beschikbaar",
+  "profileSectionPersonalTitle": "Persoonlijk",
+  "profileSectionPersonalDescription": "Persoonlijke informatie",
+  "profileSectionCompanyTitle": "Professioneel",
+  "profileSectionCompanyDescription": "Professionele informatie",
+  "profileSectionVenuesTitle": "Venues",
+  "profileSectionVenuesDescription": "Evenementen en organisaties",
+  "profileSectionInvitesTitle": "Codes",
+  "profileSectionInvitesDescription": "Uitnodigingen en codes",
+  "profileSectionReviewsTitle": "Reviews",
+  "profileSectionReviewsDescription": "Gebruikersbeoordelingen en feedback",
 
   "@_EDIT_ACCOUNT": {},
   "editAccountTitle": "Accountinstellingen",
   "editAccountDataExportTitle": "Data Export",
-  "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, kaarten, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",
+  "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",
   "editAccountExportDataButton": "Exporteer al je gegevens",
   "editAccountDeleteTitle": "Account verwijderen",
-  "editAccountDeleteDescription": "Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, kaarten en matches worden verwijderd.",
+  "editAccountDeleteDescription": "Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, prompts en matches worden verwijderd.",
   "editAccountDeleteButton": "Account verwijderen",
   "editAccountLogoutButton": "Uitloggen",
   "editAccountExportDialogTitle": "Gegevens exporteren",
@@ -672,19 +680,19 @@
   "promptCardCreatedLabel": "Aangemaakt",
   "promptCardReviewedLabel": "Beoordeeld",
   "promptCardStatusLabel": "Status",
-  "promptCardUpgradeTitle": "Verleng je kaart zichtbaarheid",
-  "promptCardUpgradeSubtitle": "Upgrade naar Venyu Pro om je kaart 10 dagen in plaats van 3 online te houden.",
+  "promptCardUpgradeTitle": "Verleng je prompt zichtbaarheid",
+  "promptCardUpgradeSubtitle": "Upgrade naar Venyu Pro om je prompt 10 dagen in plaats van 3 online te houden.",
   "promptCardUpgradeButton": "Upgraden naar Pro",
 
   "@_PROMPT_INTRO_SECTION": {},
   "promptIntroErrorMessage": "Laden van matches mislukt",
   "promptIntroRetryButton": "Opnieuw proberen",
   "promptIntroEmptyTitle": "Nog geen matches",
-  "promptIntroEmptyDescription": "Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.",
+  "promptIntroEmptyDescription": "Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.",
 
   "@_PROMPT_STATS_SECTION": {},
   "promptStatsTitle": "Statistieken komen binnenkort",
-  "promptStatsDescription": "Volg de prestaties, weergaven en engagement metrics van je kaart.",
+  "promptStatsDescription": "Volg de prestaties, weergaven en engagement metrics van je prompt.",
 
   "@_INTERACTION_TYPE_SELECTION": {},
   "interactionTypeSelectionTitleFromPrompts": "Bedankt{name}",
@@ -698,29 +706,29 @@
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Make the net work for you",
   "interactionTypeSelectionSubtitleDefault": "For you",
-  "interactionTypeSelectionDisclaimerText": "Alle kaarten worden beoordeeld voordat ze live gaan",
+  "interactionTypeSelectionDisclaimerText": "Alle prompts worden beoordeeld voordat ze live gaan",
   "interactionTypeSelectionShowGuidelines": "Community richtlijnen tonen",
   "interactionTypeSelectionHideGuidelines": "Community richtlijnen verbergen",
   "interactionTypeSelectionNotNowButton": "Niet nu",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Kaart detail",
+  "promptDetailTitle": "Prompt detail",
   "promptDetailStatusTitle": "Status",
   "promptDetailHowYouMatchTitle": "Hoe je matcht",
   "promptDetailHowYouMatchDescription": "Pauzeer een matchingsoptie om tijdelijk te stoppen met matches ontvangen. Hervat om weer te matchen.",
   "promptDetailFirstCallTitle": "First Call",
   "promptDetailPublishedInTitle": "Gepubliceerd in",
-  "promptDetailMatchesTitle": "Matches & Introducties",
-  "promptDetailErrorMessage": "Laden van kaart mislukt",
-  "promptDetailErrorDataMessage": "Laden van kaartgegevens mislukt",
+  "promptDetailMatchesTitle": "Matches",
+  "promptDetailErrorMessage": "Laden van prompt mislukt",
+  "promptDetailErrorDataMessage": "Laden van prompt mislukt",
   "promptDetailRetryButton": "Opnieuw proberen",
   "promptDetailEmptyMatchesTitle": "Nog geen matches",
-  "promptDetailEmptyMatchesDescription": "Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.",
-  "promptDetailEditButton": "Kaart bewerken",
+  "promptDetailEmptyMatchesDescription": "Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.",
+  "promptDetailEditButton": "Prompt bewerken",
   "promptDetailPreviewUpdatedMessage": "Preview instelling bijgewerkt",
   "promptDetailMatchSettingUpdatedMessage": "Match instelling bijgewerkt",
   "promptDetailPauseMatchingTitle": "Matching pauzeren?",
-  "promptDetailPauseMatchingMessage": "Je ontvangt geen matches meer voor \"{interactionType}\" op deze kaart. Je kunt matching altijd hervatten.",
+  "promptDetailPauseMatchingMessage": "Je ontvangt geen matches meer voor \"{interactionType}\" op deze prompt. Je kunt matching altijd hervatten.",
   "@promptDetailPauseMatchingMessage": {
     "placeholders": {
       "interactionType": {
@@ -732,8 +740,8 @@
   "promptDetailPauseMatchingCancel": "Annuleren",
   "promptDetailRejectButton": "Afwijzen",
   "promptDetailApproveButton": "Goedkeuren",
-  "promptDetailApprovedMessage": "Kaart goedgekeurd",
-  "promptDetailRejectedMessage": "Kaart afgewezen",
+  "promptDetailApprovedMessage": "Prompt goedgekeurd",
+  "promptDetailRejectedMessage": "Prompt afgewezen",
 
   "@_PROMPT_EDIT_VIEW": {},
   "promptEditNextButton": "Volgende",
@@ -747,7 +755,7 @@
       }
     }
   },
-  "promptEntryFirstTimeDescription": "De volgende {count} kaarten zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.",
+  "promptEntryFirstTimeDescription": "De volgende {count} prompts zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.",
   "@promptEntryFirstTimeDescription": {
     "placeholders": {
       "count": {
@@ -755,7 +763,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Je dagelijkse {count} kaarten wachten op je.",
+  "promptEntryDailyDescription": "Je dagelijkse {count} prompts wachten op je.",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {
@@ -766,8 +774,8 @@
   "promptEntryButton": "Laat zien",
 
   "@_PROMPT_FINISH_VIEW": {},
-  "promptFinishTitle": "Kaart ingediend!",
-  "promptFinishDescription": "Je kaart is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.",
+  "promptFinishTitle": "Prompt ingediend!",
+  "promptFinishDescription": "Je prompt is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.",
   "promptFinishReviewInfo": "Beoordelingen duren meestal minder dan 24 uur",
   "promptFinishDoneButton": "Klaar",
 
@@ -775,8 +783,8 @@
   "promptPreviewTitle": "Voorbeeld",
   "promptPreviewNextButton": "Volgende",
   "promptPreviewSubmitButton": "Indienen",
-  "promptPreviewErrorUpdate": "Bijwerken van kaart mislukt",
-  "promptPreviewErrorSubmit": "Indienen van kaart mislukt",
+  "promptPreviewErrorUpdate": "Bijwerken van prompt mislukt",
+  "promptPreviewErrorSubmit": "Indienen van prompt mislukt",
 
   "@_PROMPT_SELECT_VENUE_VIEW": {},
   "promptSelectVenueTitle": "Selecteer publiek",
@@ -786,15 +794,15 @@
   "promptSelectVenueOrTitle": "Of selecteer een specifieke venue",
   "promptSelectVenueNextButton": "Volgende",
   "promptSelectVenueSubmitButton": "Indienen",
-  "promptSelectVenueErrorSubmit": "Indienen van kaart mislukt",
+  "promptSelectVenueErrorSubmit": "Indienen van prompt mislukt",
 
   "@_PROMPT_SETTINGS_VIEW": {},
   "promptSettingsTitle": "Instellingen",
   "promptSettingsSubmitButton": "Indienen",
-  "promptSettingsErrorSubmit": "Indienen van kaart mislukt",
+  "promptSettingsErrorSubmit": "Indienen van prompt mislukt",
 
   "@_PROMPTS_VIEW": {},
-  "promptsViewTitle": "Jouw kaarten",
+  "promptsViewTitle": "Jouw prompts",
   "promptsViewEmptyActionButton": "Word gematcht",
 
   "@_VENUE_CODE_FIELD": {},
@@ -807,13 +815,13 @@
   "venueDetailNotFound": "Venue niet gevonden",
   "venueDetailMemberSingular": "Lid",
   "venueDetailMembersPlural": "Leden",
-  "venueDetailCardSingular": "Kaart",
-  "venueDetailCardsPlural": "Kaarten",
+  "venueDetailCardSingular": "Prompt",
+  "venueDetailCardsPlural": "Prompts",
   "venueDetailMatchSingular": "Match",
   "venueDetailMatchesPlural": "Matches",
   "venueDetailIntroductionSingular": "Introductie",
   "venueDetailIntroductionsPlural": "Introducties",
-  "venueDetailMatchesAndIntrosTitle": "Matches & Introducties",
+  "venueDetailMatchesAndIntrosTitle": "Matches",
   "venueDetailEmptyMatchesTitle": "Nog geen matches",
   "venueDetailEmptyMatchesDescription": "Wanneer leden matchen via deze venue, verschijnen hun profielen hier.",
   "venueDetailOpenForMatchmaking": "Open voor matchmaking",
@@ -858,7 +866,7 @@
   "venueProfilesViewEmptyDescription": "Deze venue heeft nog geen leden.",
 
   "@_VENUE_PROMPTS_VIEW": {},
-  "venuePromptsViewTitle": "{venueName} Kaarten",
+  "venuePromptsViewTitle": "{venueName} prompts",
   "@venuePromptsViewTitle": {
     "placeholders": {
       "venueName": {
@@ -866,8 +874,8 @@
       }
     }
   },
-  "venuePromptsViewEmptyTitle": "Geen kaarten gevonden",
-  "venuePromptsViewEmptyDescription": "Deze venue heeft nog geen kaarten.",
+  "venuePromptsViewEmptyTitle": "Geen prompts gevonden",
+  "venuePromptsViewEmptyDescription": "Deze venue heeft nog geen prompts.",
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Richtlijnen",
@@ -926,7 +934,7 @@
   "paywallErrorRestoreFailed": "Herstellen van aankopen mislukt",
 
   "@_MATCHES_VIEW": {},
-  "matchesViewTitle": "Matches & Introducties",
+  "matchesViewTitle": "Matches",
   "matchesViewEmptyActionButton": "Word gematcht",
 
   "@_PROFILE_VIEW": {},
@@ -940,8 +948,8 @@
   "getMatchedButtonLabel": "Word gematcht",
 
   "@_REVIEW_PENDING_PROMPTS_VIEW": {},
-  "reviewPendingPromptsErrorUpdate": "Bijwerken van kaarten mislukt",
-  "reviewPendingPromptsErrorUpdateAll": "Bijwerken van alle kaarten mislukt",
+  "reviewPendingPromptsErrorUpdate": "Bijwerken van prompts mislukt",
+  "reviewPendingPromptsErrorUpdateAll": "Bijwerken van alle prompts mislukt",
   "reviewPendingPromptsRejectSelected": "{count} afwijzen",
   "@reviewPendingPromptsRejectSelected": {
     "placeholders": {
@@ -1020,6 +1028,6 @@
   "venueErrorCodeLength": "De code moet precies 8 karakters lang zijn.",
   "venueErrorAdminRequired": "Je hebt admin rechten nodig om venue leden te bekijken.",
   "venueErrorIdRequired": "Venue ID is vereist.",
-  "venueErrorAdminRequiredPrompts": "Je hebt admin rechten nodig om venue kaarten te bekijken.",
+  "venueErrorAdminRequiredPrompts": "Je hebt admin rechten nodig om venue prompts te bekijken.",
   "venueErrorPermissionDenied": "Je hebt geen toestemming om matches voor deze venue te bekijken."
 }

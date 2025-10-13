@@ -23,11 +23,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Answer 3 daily cards';
+  String get tutorialStep1Title => 'Answer 3 daily prompts';
 
   @override
   String get tutorialStep1Description =>
-      'Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.';
+      'Each day, you answer three prompts from other entrepreneurs. It takes less than a minute and helps us find great matches for you.';
 
   @override
   String get tutorialStep2Title => 'Get matched';
@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registrationCompleteDescription =>
-      'Thanks for setting up your profile. Now let\'s see how answering 3 cards each day helps you get matched with the right people.';
+      'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps you get matched with the right people.';
 
   @override
   String get registrationCompleteButton => 'Continue';
@@ -78,7 +78,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptEntryDescriptionFirstTime =>
-      'Here are 3 example cards to help you understand how it works. Don\'t worry, these are just for practice.';
+      'Here are 3 example prompts to help you understand how it works. Don\'t worry, these are just for practice.';
 
   @override
   String get promptEntryButtonFirstTime => 'Start tutorial';
@@ -95,10 +95,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyPromptsButtonNext => 'Next';
 
   @override
-  String get dailyPromptsReportSuccess => 'Card reported successfully';
+  String get dailyPromptsReportSuccess => 'Prompt reported successfully';
 
   @override
-  String get dailyPromptsReportError => 'Failed to report card';
+  String get dailyPromptsReportError => 'Failed to report prompt';
 
   @override
   String get dailyPromptsNoPromptsAvailable => 'No prompts available';
@@ -108,7 +108,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real cards to get matched with other entrepreneurs.';
+      'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real prompts to get matched with other entrepreneurs.';
 
   @override
   String get tutorialFinishedButton => 'Let\'s go!';
@@ -118,7 +118,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registrationFinishDescription =>
-      'Your account is all set up and you\'ve answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.';
+      'Your account is all set up and you\'ve answered your first 3 prompts. Come back tomorrow to answer more prompts and discover new matches.';
 
   @override
   String get registrationFinishButton => 'Start exploring!';
@@ -140,11 +140,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorNoCardsAvailable =>
-      'No cards available at the moment. Check back later!';
+      'No Prompts available at the moment. Check back later!';
 
   @override
   String get errorFailedToLoadCards =>
-      'Failed to load cards. Please try again.';
+      'Failed to load prompts. Please try again.';
 
   @override
   String get errorFailedToRefreshProfile =>
@@ -297,7 +297,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get benefitDiscreetPreviewDescription =>
-      'On your cards, you get the first call. Matches are only shown to others if you\'re interested.';
+      'On your prompts, you get the first call. Matches are only shown to others if you\'re interested.';
 
   @override
   String get benefitUnlimitedIntroductionsTitle => 'Infinite intros';
@@ -321,11 +321,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Understand your reach with simple stats';
 
   @override
-  String get benefitDailyCardsBoostTitle => 'More daily cards';
+  String get benefitDailyCardsBoostTitle => 'More daily prompts';
 
   @override
   String get benefitDailyCardsBoostDescription =>
-      'More cards to grow your network faster.';
+      'More prompts to grow your network faster.';
 
   @override
   String get benefitAiPoweredMatchesTitle => 'AI-powered matches (later)';
@@ -374,13 +374,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewTypeUserTitle => 'User generated';
 
   @override
-  String get reviewTypeUserDescription => 'Cards submitted by users';
+  String get reviewTypeUserDescription => 'Prompts submitted by users';
 
   @override
   String get reviewTypeSystemTitle => 'AI generated';
 
   @override
-  String get reviewTypeSystemDescription => 'Daily generated cards by AI';
+  String get reviewTypeSystemDescription => 'Daily generated prompts by AI';
 
   @override
   String get appName => 'Venyu';
@@ -389,10 +389,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTagline => 'make the net work';
 
   @override
-  String get navMatches => 'Intros';
+  String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Cards';
+  String get navCards => 'Prompts';
 
   @override
   String get navNotifications => 'Updates';
@@ -513,7 +513,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptSectionCardTitle => 'Status';
 
   @override
-  String get promptSectionCardDescription => 'View your card details';
+  String get promptSectionCardDescription => 'View your prompt details';
 
   @override
   String get promptSectionStatsTitle => 'Stats';
@@ -532,42 +532,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptStatusDraftInfo =>
-      'Your card is saved as a draft. Complete and submit it to start getting matches.';
+      'Your prompt is saved as a draft. Complete and submit it to start getting matches.';
 
   @override
   String get promptStatusPendingReviewDisplay => 'Pending Review';
 
   @override
   String get promptStatusPendingReviewInfo =>
-      'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
+      'Your prompt is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
 
   @override
   String get promptStatusPendingTranslationDisplay => 'Pending Translation';
 
   @override
   String get promptStatusPendingTranslationInfo =>
-      'Your card is being translated to other languages.';
+      'Your prompt is being translated to other languages.';
 
   @override
   String get promptStatusApprovedDisplay => 'Approved';
 
   @override
   String get promptStatusApprovedInfo =>
-      'Your card has been approved and is live. You can receive matches.';
+      'Your prompt has been approved and is live. You can receive matches.';
 
   @override
   String get promptStatusRejectedDisplay => 'Rejected';
 
   @override
   String get promptStatusRejectedInfo =>
-      'Your card was rejected for not following community guidelines. Please edit and resubmit.';
+      'Your prompt was rejected for not following community guidelines. Please edit and resubmit.';
 
   @override
   String get promptStatusArchivedDisplay => 'Archived';
 
   @override
   String get promptStatusArchivedInfo =>
-      'Your card has been archived and is no longer visible to other users.';
+      'Your prompt has been archived and is no longer visible to other users.';
 
   @override
   String get venueTypeEventDisplayName => 'Event';
@@ -595,7 +595,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStateReviewsDescription =>
-      'When cards are submitted for review, they will appear here';
+      'When prompts are submitted for review, they will appear here';
 
   @override
   String get emptyStateMatchesTitle => 'Waiting for your first match!';
@@ -609,7 +609,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Cards open the door to meaningful introductions. Add yours and match with the right people.';
+      'Prompts open the door to meaningful introductions. Add yours and match with the right people.';
 
   @override
   String get redeemInviteTitle => 'Enter your invite code';
@@ -788,14 +788,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String matchDetailMatchingCards(int count, String cards) {
-    return '$count matching $cards';
+    return '$count shared $cards';
   }
 
   @override
-  String get matchDetailCard => 'card';
+  String get matchDetailCard => 'prompt';
 
   @override
-  String get matchDetailCards => 'cards';
+  String get matchDetailCards => 'prompts';
 
   @override
   String matchDetailSharedIntros(int count, String intros) {
@@ -820,26 +820,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matchDetailVenues => 'venues';
 
   @override
-  String matchDetailCompanyFacts(int count, String facts) {
-    return '$count mutual company $facts';
+  String matchDetailCompanyFacts(int count, String areas) {
+    return 'Professional: $count shared $areas';
   }
 
   @override
-  String get matchDetailFact => 'fact';
-
-  @override
-  String get matchDetailFacts => 'facts';
-
-  @override
-  String matchDetailPersonalInterests(int count, String interests) {
-    return '$count mutual personal $interests';
+  String matchDetailPersonalInterests(int count, String areas) {
+    return 'Personal: $count shared $areas';
   }
 
   @override
-  String get matchDetailInterest => 'interest';
+  String get matchDetailArea => 'area';
 
   @override
-  String get matchDetailInterests => 'interests';
+  String get matchDetailAreas => 'areas';
 
   @override
   String matchDetailWhyMatch(String name) {
@@ -1001,6 +995,36 @@ class AppLocalizationsEn extends AppLocalizations {
       'No personal tag groups available';
 
   @override
+  String get profileSectionPersonalTitle => 'Personal';
+
+  @override
+  String get profileSectionPersonalDescription => 'Personal information';
+
+  @override
+  String get profileSectionCompanyTitle => 'Professional';
+
+  @override
+  String get profileSectionCompanyDescription => 'Professional information';
+
+  @override
+  String get profileSectionVenuesTitle => 'Venues';
+
+  @override
+  String get profileSectionVenuesDescription => 'Events and organizations';
+
+  @override
+  String get profileSectionInvitesTitle => 'Codes';
+
+  @override
+  String get profileSectionInvitesDescription => 'Invites and invitations';
+
+  @override
+  String get profileSectionReviewsTitle => 'Reviews';
+
+  @override
+  String get profileSectionReviewsDescription => 'User reviews and feedback';
+
+  @override
   String get editAccountTitle => 'Account settings';
 
   @override
@@ -1008,7 +1032,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editAccountDataExportDescription =>
-      'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.';
+      'You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.';
 
   @override
   String get editAccountExportDataButton => 'Export all your data';
@@ -1018,7 +1042,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editAccountDeleteDescription =>
-      'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.';
+      'Deleting your account is permanent. All your data, including your profile, prompts and matches will be removed.';
 
   @override
   String get editAccountDeleteButton => 'Delete account';
@@ -1391,11 +1415,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptCardStatusLabel => 'Status';
 
   @override
-  String get promptCardUpgradeTitle => 'Extend your card visibility';
+  String get promptCardUpgradeTitle => 'Extend your prompt visibility';
 
   @override
   String get promptCardUpgradeSubtitle =>
-      'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.';
+      'Upgrade to Venyu Pro to keep your prompt online for 10 days instead of 3.';
 
   @override
   String get promptCardUpgradeButton => 'Upgrade to Pro';
@@ -1411,14 +1435,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptIntroEmptyDescription =>
-      'When people match with your card, their profiles will appear here.';
+      'When people match with your prompt, their profiles will appear here.';
 
   @override
   String get promptStatsTitle => 'Stats coming soon';
 
   @override
   String get promptStatsDescription =>
-      'Track your card\'s performance, views, and engagement metrics.';
+      'Track your prompt\'s performance, views, and engagement metrics.';
 
   @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
@@ -1437,7 +1461,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'All cards are subject to review before going live';
+      'All prompts are subject to review before going live';
 
   @override
   String get interactionTypeSelectionShowGuidelines =>
@@ -1451,7 +1475,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interactionTypeSelectionNotNowButton => 'Not now';
 
   @override
-  String get promptDetailTitle => 'Card detail';
+  String get promptDetailTitle => 'Prompt detail';
 
   @override
   String get promptDetailStatusTitle => 'Status';
@@ -1470,7 +1494,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptDetailPublishedInTitle => 'Published in';
 
   @override
-  String get promptDetailMatchesTitle => 'Matches & Introductions';
+  String get promptDetailMatchesTitle => 'Matches';
 
   @override
   String get promptDetailErrorMessage => 'Failed to load prompt';
@@ -1486,10 +1510,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptDetailEmptyMatchesDescription =>
-      'When people match with your card, their profiles will appear here.';
+      'When people match with your prompt, their profiles will appear here.';
 
   @override
-  String get promptDetailEditButton => 'Edit Card';
+  String get promptDetailEditButton => 'Edit prompt';
 
   @override
   String get promptDetailPreviewUpdatedMessage => 'Preview setting updated';
@@ -1502,7 +1526,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String promptDetailPauseMatchingMessage(String interactionType) {
-    return 'You will no longer receive matches for \"$interactionType\" on this card. You can resume matching anytime.';
+    return 'You will no longer receive matches for \"$interactionType\" on this prompt. You can resume matching anytime.';
   }
 
   @override
@@ -1518,10 +1542,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptDetailApproveButton => 'Approve';
 
   @override
-  String get promptDetailApprovedMessage => 'Card approved';
+  String get promptDetailApprovedMessage => 'Prompt approved';
 
   @override
-  String get promptDetailRejectedMessage => 'Card rejected';
+  String get promptDetailRejectedMessage => 'Prompt rejected';
 
   @override
   String get promptEditNextButton => 'Next';
@@ -1533,23 +1557,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String promptEntryFirstTimeDescription(int count) {
-    return 'The next $count cards are practice examples to help you learn how to answer them.';
+    return 'The next $count prompts are practice examples to help you learn how to answer them.';
   }
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Your daily $count cards are waiting for you.';
+    return 'Your daily $count prompts are waiting for you.';
   }
 
   @override
   String get promptEntryButton => 'Show me';
 
   @override
-  String get promptFinishTitle => 'Card submitted!';
+  String get promptFinishTitle => 'Prompt submitted!';
 
   @override
   String get promptFinishDescription =>
-      'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.';
+      'Your prompt has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.';
 
   @override
   String get promptFinishReviewInfo =>
@@ -1607,7 +1631,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptSettingsErrorSubmit => 'Failed to submit prompt';
 
   @override
-  String get promptsViewTitle => 'Your cards';
+  String get promptsViewTitle => 'Your prompts';
 
   @override
   String get promptsViewEmptyActionButton => 'Get matched';
@@ -1634,10 +1658,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get venueDetailMembersPlural => 'Members';
 
   @override
-  String get venueDetailCardSingular => 'Card';
+  String get venueDetailCardSingular => 'Prompt';
 
   @override
-  String get venueDetailCardsPlural => 'Cards';
+  String get venueDetailCardsPlural => 'Prompts';
 
   @override
   String get venueDetailMatchSingular => 'Match';
@@ -1652,7 +1676,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get venueDetailIntroductionsPlural => 'Introductions';
 
   @override
-  String get venueDetailMatchesAndIntrosTitle => 'Matches & Introductions';
+  String get venueDetailMatchesAndIntrosTitle => 'Matches';
 
   @override
   String get venueDetailEmptyMatchesTitle => 'No matches yet';
@@ -1693,15 +1717,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String venuePromptsViewTitle(String venueName) {
-    return '$venueName Cards';
+    return '$venueName prompts';
   }
 
   @override
-  String get venuePromptsViewEmptyTitle => 'No cards found';
+  String get venuePromptsViewEmptyTitle => 'No prompts found';
 
   @override
   String get venuePromptsViewEmptyDescription =>
-      'This venue doesn\'t have any cards yet.';
+      'This venue doesn\'t have any prompts yet.';
 
   @override
   String get communityGuidelinesTitle => 'Guidelines';
@@ -1800,7 +1824,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywallErrorRestoreFailed => 'Failed to restore purchases';
 
   @override
-  String get matchesViewTitle => 'Matches & Introductions';
+  String get matchesViewTitle => 'Matches';
 
   @override
   String get matchesViewEmptyActionButton => 'Get matched';

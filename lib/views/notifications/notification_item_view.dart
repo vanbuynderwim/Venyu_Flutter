@@ -9,6 +9,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/date_extensions.dart';
 import '../../models/notification.dart' as venyu;
 import '../../widgets/common/role_view.dart';
+import '../../widgets/common/sub_title.dart';
 
 /// NotificationItemView - Flutter equivalent of Swift NotificationItemView
 /// 
@@ -55,81 +56,51 @@ class _NotificationItemViewState extends State<NotificationItemView> {
           : null,
       child: Padding(
         padding: AppModifiers.cardContentPadding,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Notification icon
-            _buildIcon(context),
-            
-            const SizedBox(width: 16),
-            
-            // Content
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title row with timestamp
-                  _buildTitleRow(context),
-                  
-                  AppModifiers.verticalSpaceSmall,
-                  
-                  // Body text
-                  _buildBody(context),
-                  
-                  // Optional prompt section
-                  if (widget.notification.prompt != null) ...[
-                    AppModifiers.verticalSpaceSmall,
-                    _buildPromptSection(context),
-                  ],
-                  
-                  // Optional match section
-                  if (widget.notification.match != null) ...[
-                    AppModifiers.verticalSpaceSmall,
-                    _buildMatchSection(context),
-                  ],
-                ],
-              ),
+            // Icon + Title as SubTitle
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: SubTitle(
+                    iconName: widget.notification.type.icon,
+                    title: widget.notification.title,
+                    textColor: widget.notification.isUnread
+                        ? context.venyuTheme.primary
+                        : context.venyuTheme.primaryText,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  widget.notification.createdAt.timeAgo(),
+                  style: AppTextStyles.footnote.copyWith(
+                    color: context.venyuTheme.secondaryText,
+                  ),
+                ),
+              ],
             ),
+
+            AppModifiers.verticalSpaceMedium,
+
+            // Body text
+            _buildBody(context),
+
+            // Optional prompt section
+            if (widget.notification.prompt != null) ...[
+              AppModifiers.verticalSpaceMedium,
+              _buildPromptSection(context),
+            ],
+
+            // Optional match section
+            if (widget.notification.match != null) ...[
+              AppModifiers.verticalSpaceMedium,
+              _buildMatchSection(context),
+            ],
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildIcon(BuildContext context) {
-    // Get the icon name from notification type
-    final iconName = widget.notification.type.icon;
-    
-    // Use selected (primary color) for unread, regular (secondary) for read
-    return context.themedIcon(
-      iconName,
-      selected: widget.notification.isUnread,
-      size: 24,
-    );
-  }
-
-  Widget _buildTitleRow(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
-    
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Text(
-            widget.notification.title,
-            style: AppTextStyles.headline.copyWith(
-              color: venyuTheme.primaryText,
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          widget.notification.createdAt.timeAgo(),
-          style: AppTextStyles.footnote.copyWith(
-            color: venyuTheme.secondaryText,
-          ),
-        ),
-      ],
     );
   }
 
@@ -152,7 +123,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
    
     
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -179,7 +150,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
     final match = widget.notification.match!;
     
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -193,8 +164,9 @@ class _NotificationItemViewState extends State<NotificationItemView> {
       ),
       child: RoleView(
         profile: match.profile,
-        avatarSize: 32,
+        avatarSize: 40,
         showChevron: false,
+        shouldBlur: !match.isConnected,
         buttonDisabled: true,
       ),
     );

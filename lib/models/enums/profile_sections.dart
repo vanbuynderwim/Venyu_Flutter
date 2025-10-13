@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/section_type.dart';
 
 /// Defines the different sections available in user profile views.
-/// 
+///
 /// Each section represents a distinct area of user-generated content
 /// that can be displayed in profile interfaces. Implements [SectionType]
 /// to provide consistent section behavior across the app.
-/// 
+///
 /// Example usage:
 /// ```dart
 /// // Display section title
-/// Text(ProfileSections.personal.title); // "Personal"
-/// 
+/// Text(ProfileSections.personal.title(context)); // "Personal" (localized)
+///
 /// // Access section description
-/// final description = ProfileSections.reviews.description;
-/// 
+/// final description = ProfileSections.reviews.description(context);
+///
 /// // Get section icon
 /// Icon(ProfileSections.company.icon);
 /// ```
@@ -40,34 +41,36 @@ enum ProfileSections implements SectionType {
   /// Returns the display title for this profile section.
   @override
   String title(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ProfileSections.personal:
-        return 'Personal';
+        return l10n.profileSectionPersonalTitle;
       case ProfileSections.company:
-        return 'Company';
+        return l10n.profileSectionCompanyTitle;
       case ProfileSections.venues:
-        return 'Venues';
+        return l10n.profileSectionVenuesTitle;
       case ProfileSections.invites:
-        return 'Invites';
+        return l10n.profileSectionInvitesTitle;
       case ProfileSections.reviews:
-        return 'Reviews';
+        return l10n.profileSectionReviewsTitle;
     }
   }
 
   /// Returns a brief description of this profile section's content.
   @override
   String description(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     switch (this) {
       case ProfileSections.personal:
-        return 'Personal information';
+        return l10n.profileSectionPersonalDescription;
       case ProfileSections.company:
-        return 'Company information';
+        return l10n.profileSectionCompanyDescription;
       case ProfileSections.venues:
-        return 'Events and organizations';
+        return l10n.profileSectionVenuesDescription;
       case ProfileSections.invites:
-        return 'Invites and invitations';
+        return l10n.profileSectionInvitesDescription;
       case ProfileSections.reviews:
-        return 'User reviews and feedback';
+        return l10n.profileSectionReviewsDescription;
     }
   }
 

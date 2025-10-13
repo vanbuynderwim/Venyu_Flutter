@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_fr.dart';
 import 'app_localizations_nl.dart';
 
 // ignore_for_file: type=lint
@@ -96,7 +95,6 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('fr'),
     Locale('nl'),
   ];
 
@@ -127,13 +125,13 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialStep1Title.
   ///
   /// In en, this message translates to:
-  /// **'Answer 3 daily cards'**
+  /// **'Answer 3 daily prompts'**
   String get tutorialStep1Title;
 
   /// No description provided for @tutorialStep1Description.
   ///
   /// In en, this message translates to:
-  /// **'Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.'**
+  /// **'Each day, you answer three prompts from other entrepreneurs. It takes less than a minute and helps us find great matches for you.'**
   String get tutorialStep1Description;
 
   /// No description provided for @tutorialStep2Title.
@@ -205,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationCompleteDescription.
   ///
   /// In en, this message translates to:
-  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 cards each day helps you get matched with the right people.'**
+  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps you get matched with the right people.'**
   String get registrationCompleteDescription;
 
   /// No description provided for @registrationCompleteButton.
@@ -223,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptEntryDescriptionFirstTime.
   ///
   /// In en, this message translates to:
-  /// **'Here are 3 example cards to help you understand how it works. Don\'t worry, these are just for practice.'**
+  /// **'Here are 3 example prompts to help you understand how it works. Don\'t worry, these are just for practice.'**
   String get promptEntryDescriptionFirstTime;
 
   /// No description provided for @promptEntryButtonFirstTime.
@@ -253,13 +251,13 @@ abstract class AppLocalizations {
   /// No description provided for @dailyPromptsReportSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Card reported successfully'**
+  /// **'Prompt reported successfully'**
   String get dailyPromptsReportSuccess;
 
   /// No description provided for @dailyPromptsReportError.
   ///
   /// In en, this message translates to:
-  /// **'Failed to report card'**
+  /// **'Failed to report prompt'**
   String get dailyPromptsReportError;
 
   /// No description provided for @dailyPromptsNoPromptsAvailable.
@@ -277,7 +275,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialFinishedDescription.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real cards to get matched with other entrepreneurs.'**
+  /// **'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real prompts to get matched with other entrepreneurs.'**
   String get tutorialFinishedDescription;
 
   /// No description provided for @tutorialFinishedButton.
@@ -295,7 +293,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationFinishDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your account is all set up and you\'ve answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.'**
+  /// **'Your account is all set up and you\'ve answered your first 3 prompts. Come back tomorrow to answer more prompts and discover new matches.'**
   String get registrationFinishDescription;
 
   /// No description provided for @registrationFinishButton.
@@ -337,13 +335,13 @@ abstract class AppLocalizations {
   /// No description provided for @errorNoCardsAvailable.
   ///
   /// In en, this message translates to:
-  /// **'No cards available at the moment. Check back later!'**
+  /// **'No Prompts available at the moment. Check back later!'**
   String get errorNoCardsAvailable;
 
   /// No description provided for @errorFailedToLoadCards.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load cards. Please try again.'**
+  /// **'Failed to load prompts. Please try again.'**
   String get errorFailedToLoadCards;
 
   /// No description provided for @errorFailedToRefreshProfile.
@@ -619,7 +617,7 @@ abstract class AppLocalizations {
   /// No description provided for @benefitDiscreetPreviewDescription.
   ///
   /// In en, this message translates to:
-  /// **'On your cards, you get the first call. Matches are only shown to others if you\'re interested.'**
+  /// **'On your prompts, you get the first call. Matches are only shown to others if you\'re interested.'**
   String get benefitDiscreetPreviewDescription;
 
   /// No description provided for @benefitUnlimitedIntroductionsTitle.
@@ -661,13 +659,13 @@ abstract class AppLocalizations {
   /// No description provided for @benefitDailyCardsBoostTitle.
   ///
   /// In en, this message translates to:
-  /// **'More daily cards'**
+  /// **'More daily prompts'**
   String get benefitDailyCardsBoostTitle;
 
   /// No description provided for @benefitDailyCardsBoostDescription.
   ///
   /// In en, this message translates to:
-  /// **'More cards to grow your network faster.'**
+  /// **'More prompts to grow your network faster.'**
   String get benefitDailyCardsBoostDescription;
 
   /// No description provided for @benefitAiPoweredMatchesTitle.
@@ -763,7 +761,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewTypeUserDescription.
   ///
   /// In en, this message translates to:
-  /// **'Cards submitted by users'**
+  /// **'Prompts submitted by users'**
   String get reviewTypeUserDescription;
 
   /// No description provided for @reviewTypeSystemTitle.
@@ -775,7 +773,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewTypeSystemDescription.
   ///
   /// In en, this message translates to:
-  /// **'Daily generated cards by AI'**
+  /// **'Daily generated prompts by AI'**
   String get reviewTypeSystemDescription;
 
   /// No description provided for @appName.
@@ -793,13 +791,13 @@ abstract class AppLocalizations {
   /// No description provided for @navMatches.
   ///
   /// In en, this message translates to:
-  /// **'Intros'**
+  /// **'Matches'**
   String get navMatches;
 
   /// No description provided for @navCards.
   ///
   /// In en, this message translates to:
-  /// **'Cards'**
+  /// **'Prompts'**
   String get navCards;
 
   /// No description provided for @navNotifications.
@@ -1021,7 +1019,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptSectionCardDescription.
   ///
   /// In en, this message translates to:
-  /// **'View your card details'**
+  /// **'View your prompt details'**
   String get promptSectionCardDescription;
 
   /// No description provided for @promptSectionStatsTitle.
@@ -1057,7 +1055,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusDraftInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card is saved as a draft. Complete and submit it to start getting matches.'**
+  /// **'Your prompt is saved as a draft. Complete and submit it to start getting matches.'**
   String get promptStatusDraftInfo;
 
   /// No description provided for @promptStatusPendingReviewDisplay.
@@ -1069,7 +1067,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusPendingReviewInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.'**
+  /// **'Your prompt is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.'**
   String get promptStatusPendingReviewInfo;
 
   /// No description provided for @promptStatusPendingTranslationDisplay.
@@ -1081,7 +1079,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusPendingTranslationInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card is being translated to other languages.'**
+  /// **'Your prompt is being translated to other languages.'**
   String get promptStatusPendingTranslationInfo;
 
   /// No description provided for @promptStatusApprovedDisplay.
@@ -1093,7 +1091,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusApprovedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card has been approved and is live. You can receive matches.'**
+  /// **'Your prompt has been approved and is live. You can receive matches.'**
   String get promptStatusApprovedInfo;
 
   /// No description provided for @promptStatusRejectedDisplay.
@@ -1105,7 +1103,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusRejectedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card was rejected for not following community guidelines. Please edit and resubmit.'**
+  /// **'Your prompt was rejected for not following community guidelines. Please edit and resubmit.'**
   String get promptStatusRejectedInfo;
 
   /// No description provided for @promptStatusArchivedDisplay.
@@ -1117,7 +1115,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusArchivedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your card has been archived and is no longer visible to other users.'**
+  /// **'Your prompt has been archived and is no longer visible to other users.'**
   String get promptStatusArchivedInfo;
 
   /// No description provided for @venueTypeEventDisplayName.
@@ -1165,7 +1163,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateReviewsDescription.
   ///
   /// In en, this message translates to:
-  /// **'When cards are submitted for review, they will appear here'**
+  /// **'When prompts are submitted for review, they will appear here'**
   String get emptyStateReviewsDescription;
 
   /// No description provided for @emptyStateMatchesTitle.
@@ -1189,7 +1187,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Cards open the door to meaningful introductions. Add yours and match with the right people.'**
+  /// **'Prompts open the door to meaningful introductions. Add yours and match with the right people.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @redeemInviteTitle.
@@ -1513,19 +1511,19 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailMatchingCards.
   ///
   /// In en, this message translates to:
-  /// **'{count} matching {cards}'**
+  /// **'{count} shared {cards}'**
   String matchDetailMatchingCards(int count, String cards);
 
   /// No description provided for @matchDetailCard.
   ///
   /// In en, this message translates to:
-  /// **'card'**
+  /// **'prompt'**
   String get matchDetailCard;
 
   /// No description provided for @matchDetailCards.
   ///
   /// In en, this message translates to:
-  /// **'cards'**
+  /// **'prompts'**
   String get matchDetailCards;
 
   /// No description provided for @matchDetailSharedIntros.
@@ -1567,38 +1565,26 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailCompanyFacts.
   ///
   /// In en, this message translates to:
-  /// **'{count} mutual company {facts}'**
-  String matchDetailCompanyFacts(int count, String facts);
-
-  /// No description provided for @matchDetailFact.
-  ///
-  /// In en, this message translates to:
-  /// **'fact'**
-  String get matchDetailFact;
-
-  /// No description provided for @matchDetailFacts.
-  ///
-  /// In en, this message translates to:
-  /// **'facts'**
-  String get matchDetailFacts;
+  /// **'Professional: {count} shared {areas}'**
+  String matchDetailCompanyFacts(int count, String areas);
 
   /// No description provided for @matchDetailPersonalInterests.
   ///
   /// In en, this message translates to:
-  /// **'{count} mutual personal {interests}'**
-  String matchDetailPersonalInterests(int count, String interests);
+  /// **'Personal: {count} shared {areas}'**
+  String matchDetailPersonalInterests(int count, String areas);
 
-  /// No description provided for @matchDetailInterest.
+  /// No description provided for @matchDetailArea.
   ///
   /// In en, this message translates to:
-  /// **'interest'**
-  String get matchDetailInterest;
+  /// **'area'**
+  String get matchDetailArea;
 
-  /// No description provided for @matchDetailInterests.
+  /// No description provided for @matchDetailAreas.
   ///
   /// In en, this message translates to:
-  /// **'interests'**
-  String get matchDetailInterests;
+  /// **'areas'**
+  String get matchDetailAreas;
 
   /// No description provided for @matchDetailWhyMatch.
   ///
@@ -1882,6 +1868,66 @@ abstract class AppLocalizations {
   /// **'No personal tag groups available'**
   String get personalSectionEmptyTagGroups;
 
+  /// No description provided for @profileSectionPersonalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get profileSectionPersonalTitle;
+
+  /// No description provided for @profileSectionPersonalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get profileSectionPersonalDescription;
+
+  /// No description provided for @profileSectionCompanyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional'**
+  String get profileSectionCompanyTitle;
+
+  /// No description provided for @profileSectionCompanyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional information'**
+  String get profileSectionCompanyDescription;
+
+  /// No description provided for @profileSectionVenuesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Venues'**
+  String get profileSectionVenuesTitle;
+
+  /// No description provided for @profileSectionVenuesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Events and organizations'**
+  String get profileSectionVenuesDescription;
+
+  /// No description provided for @profileSectionInvitesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Codes'**
+  String get profileSectionInvitesTitle;
+
+  /// No description provided for @profileSectionInvitesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites and invitations'**
+  String get profileSectionInvitesDescription;
+
+  /// No description provided for @profileSectionReviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get profileSectionReviewsTitle;
+
+  /// No description provided for @profileSectionReviewsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'User reviews and feedback'**
+  String get profileSectionReviewsDescription;
+
   /// No description provided for @editAccountTitle.
   ///
   /// In en, this message translates to:
@@ -1897,7 +1943,7 @@ abstract class AppLocalizations {
   /// No description provided for @editAccountDataExportDescription.
   ///
   /// In en, this message translates to:
-  /// **'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.'**
+  /// **'You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.'**
   String get editAccountDataExportDescription;
 
   /// No description provided for @editAccountExportDataButton.
@@ -1915,7 +1961,7 @@ abstract class AppLocalizations {
   /// No description provided for @editAccountDeleteDescription.
   ///
   /// In en, this message translates to:
-  /// **'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.'**
+  /// **'Deleting your account is permanent. All your data, including your profile, prompts and matches will be removed.'**
   String get editAccountDeleteDescription;
 
   /// No description provided for @editAccountDeleteButton.
@@ -2593,13 +2639,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptCardUpgradeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Extend your card visibility'**
+  /// **'Extend your prompt visibility'**
   String get promptCardUpgradeTitle;
 
   /// No description provided for @promptCardUpgradeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.'**
+  /// **'Upgrade to Venyu Pro to keep your prompt online for 10 days instead of 3.'**
   String get promptCardUpgradeSubtitle;
 
   /// No description provided for @promptCardUpgradeButton.
@@ -2629,7 +2675,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptIntroEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'When people match with your card, their profiles will appear here.'**
+  /// **'When people match with your prompt, their profiles will appear here.'**
   String get promptIntroEmptyDescription;
 
   /// No description provided for @promptStatsTitle.
@@ -2641,7 +2687,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Track your card\'s performance, views, and engagement metrics.'**
+  /// **'Track your prompt\'s performance, views, and engagement metrics.'**
   String get promptStatsDescription;
 
   /// No description provided for @interactionTypeSelectionTitleFromPrompts.
@@ -2671,7 +2717,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionDisclaimerText.
   ///
   /// In en, this message translates to:
-  /// **'All cards are subject to review before going live'**
+  /// **'All prompts are subject to review before going live'**
   String get interactionTypeSelectionDisclaimerText;
 
   /// No description provided for @interactionTypeSelectionShowGuidelines.
@@ -2695,7 +2741,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailTitle.
   ///
   /// In en, this message translates to:
-  /// **'Card detail'**
+  /// **'Prompt detail'**
   String get promptDetailTitle;
 
   /// No description provided for @promptDetailStatusTitle.
@@ -2731,7 +2777,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailMatchesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Matches & Introductions'**
+  /// **'Matches'**
   String get promptDetailMatchesTitle;
 
   /// No description provided for @promptDetailErrorMessage.
@@ -2761,13 +2807,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailEmptyMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'When people match with your card, their profiles will appear here.'**
+  /// **'When people match with your prompt, their profiles will appear here.'**
   String get promptDetailEmptyMatchesDescription;
 
   /// No description provided for @promptDetailEditButton.
   ///
   /// In en, this message translates to:
-  /// **'Edit Card'**
+  /// **'Edit prompt'**
   String get promptDetailEditButton;
 
   /// No description provided for @promptDetailPreviewUpdatedMessage.
@@ -2791,7 +2837,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailPauseMatchingMessage.
   ///
   /// In en, this message translates to:
-  /// **'You will no longer receive matches for \"{interactionType}\" on this card. You can resume matching anytime.'**
+  /// **'You will no longer receive matches for \"{interactionType}\" on this prompt. You can resume matching anytime.'**
   String promptDetailPauseMatchingMessage(String interactionType);
 
   /// No description provided for @promptDetailPauseMatchingConfirm.
@@ -2821,13 +2867,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailApprovedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Card approved'**
+  /// **'Prompt approved'**
   String get promptDetailApprovedMessage;
 
   /// No description provided for @promptDetailRejectedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Card rejected'**
+  /// **'Prompt rejected'**
   String get promptDetailRejectedMessage;
 
   /// No description provided for @promptEditNextButton.
@@ -2845,13 +2891,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptEntryFirstTimeDescription.
   ///
   /// In en, this message translates to:
-  /// **'The next {count} cards are practice examples to help you learn how to answer them.'**
+  /// **'The next {count} prompts are practice examples to help you learn how to answer them.'**
   String promptEntryFirstTimeDescription(int count);
 
   /// No description provided for @promptEntryDailyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your daily {count} cards are waiting for you.'**
+  /// **'Your daily {count} prompts are waiting for you.'**
   String promptEntryDailyDescription(int count);
 
   /// No description provided for @promptEntryButton.
@@ -2863,13 +2909,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptFinishTitle.
   ///
   /// In en, this message translates to:
-  /// **'Card submitted!'**
+  /// **'Prompt submitted!'**
   String get promptFinishTitle;
 
   /// No description provided for @promptFinishDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.'**
+  /// **'Your prompt has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.'**
   String get promptFinishDescription;
 
   /// No description provided for @promptFinishReviewInfo.
@@ -2983,7 +3029,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your cards'**
+  /// **'Your prompts'**
   String get promptsViewTitle;
 
   /// No description provided for @promptsViewEmptyActionButton.
@@ -3037,13 +3083,13 @@ abstract class AppLocalizations {
   /// No description provided for @venueDetailCardSingular.
   ///
   /// In en, this message translates to:
-  /// **'Card'**
+  /// **'Prompt'**
   String get venueDetailCardSingular;
 
   /// No description provided for @venueDetailCardsPlural.
   ///
   /// In en, this message translates to:
-  /// **'Cards'**
+  /// **'Prompts'**
   String get venueDetailCardsPlural;
 
   /// No description provided for @venueDetailMatchSingular.
@@ -3073,7 +3119,7 @@ abstract class AppLocalizations {
   /// No description provided for @venueDetailMatchesAndIntrosTitle.
   ///
   /// In en, this message translates to:
-  /// **'Matches & Introductions'**
+  /// **'Matches'**
   String get venueDetailMatchesAndIntrosTitle;
 
   /// No description provided for @venueDetailEmptyMatchesTitle.
@@ -3133,19 +3179,19 @@ abstract class AppLocalizations {
   /// No description provided for @venuePromptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'{venueName} Cards'**
+  /// **'{venueName} prompts'**
   String venuePromptsViewTitle(String venueName);
 
   /// No description provided for @venuePromptsViewEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No cards found'**
+  /// **'No prompts found'**
   String get venuePromptsViewEmptyTitle;
 
   /// No description provided for @venuePromptsViewEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'This venue doesn\'t have any cards yet.'**
+  /// **'This venue doesn\'t have any prompts yet.'**
   String get venuePromptsViewEmptyDescription;
 
   /// No description provided for @communityGuidelinesTitle.
@@ -3325,7 +3371,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchesViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'Matches & Introductions'**
+  /// **'Matches'**
   String get matchesViewTitle;
 
   /// No description provided for @matchesViewEmptyActionButton.
@@ -3604,7 +3650,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'fr', 'nl'].contains(locale.languageCode);
+      <String>['en', 'nl'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3615,8 +3661,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'fr':
-      return AppLocalizationsFr();
     case 'nl':
       return AppLocalizationsNl();
   }

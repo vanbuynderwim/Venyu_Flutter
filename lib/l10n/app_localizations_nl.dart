@@ -23,11 +23,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Beantwoord 3 dagelijkse kaartjes';
+  String get tutorialStep1Title => 'Beantwoord dagelijkse 3 prompts';
 
   @override
   String get tutorialStep1Description =>
-      'Elke dag beantwoord je drie kaartjes van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.';
+      'Elke dag beantwoord je drie prompts van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.';
 
   @override
   String get tutorialStep2Title => 'Word gematcht';
@@ -68,7 +68,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationCompleteDescription =>
-      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 kaartjes per dag je helpt om gematcht te worden met de juiste mensen.';
+      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag je helpt om gematcht te worden met de juiste mensen.';
 
   @override
   String get registrationCompleteButton => 'Doorgaan';
@@ -78,7 +78,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptEntryDescriptionFirstTime =>
-      'Hier zijn 3 voorbeeldkaartjes om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!';
+      'Hier zijn 3 voorbeeldprompts om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!';
 
   @override
   String get promptEntryButtonFirstTime => 'Start tutorial';
@@ -96,20 +96,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dailyPromptsButtonNext => 'Volgende';
 
   @override
-  String get dailyPromptsReportSuccess => 'Kaartje succesvol gerapporteerd';
+  String get dailyPromptsReportSuccess => 'Prompt succesvol gerapporteerd';
 
   @override
   String get dailyPromptsReportError => 'Rapporteren mislukt';
 
   @override
-  String get dailyPromptsNoPromptsAvailable => 'Geen kaartjes beschikbaar';
+  String get dailyPromptsNoPromptsAvailable => 'Geen prompts beschikbaar';
 
   @override
   String get tutorialFinishedTitle => 'Je bent helemaal klaar! 🎉';
 
   @override
   String get tutorialFinishedDescription =>
-      'Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte kaartjes te beantwoorden en gematcht te worden met andere ondernemers.';
+      'Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte prompts te beantwoorden en gematcht te worden met andere ondernemers.';
 
   @override
   String get tutorialFinishedButton => 'Oké!';
@@ -119,7 +119,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationFinishDescription =>
-      'Je account is helemaal ingesteld en je hebt je eerste 3 kaartjes beantwoord. Kom morgen terug om meer kaartjes te beantwoorden en nieuwe matches te ontdekken.';
+      'Je account is helemaal ingesteld en je hebt je eerste 3 prompts beantwoord. Kom morgen terug om meer prompts te beantwoorden en nieuwe matches te ontdekken.';
 
   @override
   String get registrationFinishButton => 'Begin met verkennen!';
@@ -141,11 +141,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get errorNoCardsAvailable =>
-      'Momenteel geen kaartjes beschikbaar. Kom later terug!';
+      'Momenteel geen prompts beschikbaar. Kom later terug!';
 
   @override
   String get errorFailedToLoadCards =>
-      'Kaartjes laden mislukt. Probeer het opnieuw.';
+      'Prompts laden mislukt. Probeer het opnieuw.';
 
   @override
   String get errorFailedToRefreshProfile =>
@@ -297,7 +297,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get benefitDiscreetPreviewDescription =>
-      'Op je kaartjes krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.';
+      'Op je prompts krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.';
 
   @override
   String get benefitUnlimitedIntroductionsTitle => 'Oneindige introductions';
@@ -321,11 +321,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Begrijp je bereik met eenvoudige statistieken';
 
   @override
-  String get benefitDailyCardsBoostTitle => 'Meer dagelijkse kaartjes';
+  String get benefitDailyCardsBoostTitle => 'Meer dagelijkse prompts';
 
   @override
   String get benefitDailyCardsBoostDescription =>
-      'Meer kaartjes om je netwerk sneller te laten groeien.';
+      'Meer prompts om je netwerk sneller te laten groeien.';
 
   @override
   String get benefitAiPoweredMatchesTitle => 'AI-gedreven matches (later)';
@@ -375,14 +375,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get reviewTypeUserTitle => 'Door gebruiker aangemaakt';
 
   @override
-  String get reviewTypeUserDescription => 'Kaartjes ingediend door gebruikers';
+  String get reviewTypeUserDescription => 'Prompts ingediend door gebruikers';
 
   @override
   String get reviewTypeSystemTitle => 'AI gegenereerd';
 
   @override
   String get reviewTypeSystemDescription =>
-      'Dagelijks gegenereerde kaartjes door AI';
+      'Dagelijks gegenereerde prompts door AI';
 
   @override
   String get appName => 'Venyu';
@@ -391,10 +391,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get appTagline => 'make the net work';
 
   @override
-  String get navMatches => 'Introductions';
+  String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Kaartjes';
+  String get navCards => 'Prompts';
 
   @override
   String get navNotifications => 'Updates';
@@ -418,7 +418,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get actionNext => 'Volgende';
 
   @override
-  String get actionSkip => 'Overslaan';
+  String get actionSkip => 'Skip';
 
   @override
   String get actionInterested => 'Geïnteresseerd';
@@ -515,7 +515,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSectionCardTitle => 'Status';
 
   @override
-  String get promptSectionCardDescription => 'Bekijk je kaartdetails';
+  String get promptSectionCardDescription => 'Bekijk je prompt details';
 
   @override
   String get promptSectionStatsTitle => 'Statistieken';
@@ -534,7 +534,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptStatusDraftInfo =>
-      'Je kaartje is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.';
+      'Je prompt is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.';
 
   @override
   String get promptStatusPendingReviewDisplay =>
@@ -542,35 +542,35 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptStatusPendingReviewInfo =>
-      'Je kaartje wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.';
+      'Je prompt wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.';
 
   @override
   String get promptStatusPendingTranslationDisplay => 'Wordt vertaald';
 
   @override
   String get promptStatusPendingTranslationInfo =>
-      'Je kaartje wordt vertaald naar andere talen.';
+      'Je prompt wordt vertaald naar andere talen.';
 
   @override
   String get promptStatusApprovedDisplay => 'Goedgekeurd';
 
   @override
   String get promptStatusApprovedInfo =>
-      'Je kaartje is goedgekeurd en staat live. Je kunt matches ontvangen.';
+      'Je prompt is goedgekeurd en staat live. Je kunt matches ontvangen.';
 
   @override
   String get promptStatusRejectedDisplay => 'Afgewezen';
 
   @override
   String get promptStatusRejectedInfo =>
-      'Je kaartje werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.';
+      'Je prompt werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.';
 
   @override
   String get promptStatusArchivedDisplay => 'Gearchiveerd';
 
   @override
   String get promptStatusArchivedInfo =>
-      'Je kaartje is gearchiveerd en niet meer zichtbaar voor andere gebruikers.';
+      'Je prompt is gearchiveerd en niet meer zichtbaar voor andere gebruikers.';
 
   @override
   String get venueTypeEventDisplayName => 'Evenement';
@@ -598,7 +598,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateReviewsDescription =>
-      'Wanneer kaartjes ter beoordeling worden ingediend, verschijnen ze hier';
+      'Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier';
 
   @override
   String get emptyStateMatchesTitle => 'Wachten op je eerste match!';
@@ -612,7 +612,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Vind de juiste mensen. Voeg je kaartje toe en match.';
+      'Vind de juiste mensen. Voeg je prompt toe en match.';
 
   @override
   String get redeemInviteTitle => 'Voer je uitnodigingscode in';
@@ -793,14 +793,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String matchDetailMatchingCards(int count, String cards) {
-    return '$count matchende $cards';
+    return '$count gedeelde $cards';
   }
 
   @override
-  String get matchDetailCard => 'kaartje';
+  String get matchDetailCard => 'prompt';
 
   @override
-  String get matchDetailCards => 'kaartjes';
+  String get matchDetailCards => 'prompts';
 
   @override
   String matchDetailSharedIntros(int count, String intros) {
@@ -825,26 +825,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchDetailVenues => 'venues';
 
   @override
-  String matchDetailCompanyFacts(int count, String facts) {
-    return '$count wederzijdse bedrijfs $facts';
+  String matchDetailCompanyFacts(int count, String areas) {
+    return 'Professioneel: $count $areas';
   }
 
   @override
-  String get matchDetailFact => 'feit';
-
-  @override
-  String get matchDetailFacts => 'feiten';
-
-  @override
-  String matchDetailPersonalInterests(int count, String interests) {
-    return '$count wederzijdse persoonlijke $interests';
+  String matchDetailPersonalInterests(int count, String areas) {
+    return 'Persoonlijk: $count $areas';
   }
 
   @override
-  String get matchDetailInterest => 'interesse';
+  String get matchDetailArea => 'raakvlak';
 
   @override
-  String get matchDetailInterests => 'interesses';
+  String get matchDetailAreas => 'raakvlakken';
 
   @override
   String matchDetailWhyMatch(String name) {
@@ -1009,6 +1003,37 @@ class AppLocalizationsNl extends AppLocalizations {
       'Geen persoonlijke tag groepen beschikbaar';
 
   @override
+  String get profileSectionPersonalTitle => 'Persoonlijk';
+
+  @override
+  String get profileSectionPersonalDescription => 'Persoonlijke informatie';
+
+  @override
+  String get profileSectionCompanyTitle => 'Professioneel';
+
+  @override
+  String get profileSectionCompanyDescription => 'Professionele informatie';
+
+  @override
+  String get profileSectionVenuesTitle => 'Venues';
+
+  @override
+  String get profileSectionVenuesDescription => 'Evenementen en organisaties';
+
+  @override
+  String get profileSectionInvitesTitle => 'Codes';
+
+  @override
+  String get profileSectionInvitesDescription => 'Uitnodigingen en codes';
+
+  @override
+  String get profileSectionReviewsTitle => 'Reviews';
+
+  @override
+  String get profileSectionReviewsDescription =>
+      'Gebruikersbeoordelingen en feedback';
+
+  @override
   String get editAccountTitle => 'Accountinstellingen';
 
   @override
@@ -1016,7 +1041,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountDataExportDescription =>
-      'Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, kaarten, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.';
+      'Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.';
 
   @override
   String get editAccountExportDataButton => 'Exporteer al je gegevens';
@@ -1026,7 +1051,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountDeleteDescription =>
-      'Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, kaarten en matches worden verwijderd.';
+      'Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, prompts en matches worden verwijderd.';
 
   @override
   String get editAccountDeleteButton => 'Account verwijderen';
@@ -1401,11 +1426,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptCardStatusLabel => 'Status';
 
   @override
-  String get promptCardUpgradeTitle => 'Verleng je kaart zichtbaarheid';
+  String get promptCardUpgradeTitle => 'Verleng je prompt zichtbaarheid';
 
   @override
   String get promptCardUpgradeSubtitle =>
-      'Upgrade naar Venyu Pro om je kaart 10 dagen in plaats van 3 online te houden.';
+      'Upgrade naar Venyu Pro om je prompt 10 dagen in plaats van 3 online te houden.';
 
   @override
   String get promptCardUpgradeButton => 'Upgraden naar Pro';
@@ -1421,14 +1446,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptIntroEmptyDescription =>
-      'Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.';
+      'Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.';
 
   @override
   String get promptStatsTitle => 'Statistieken komen binnenkort';
 
   @override
   String get promptStatsDescription =>
-      'Volg de prestaties, weergaven en engagement metrics van je kaart.';
+      'Volg de prestaties, weergaven en engagement metrics van je prompt.';
 
   @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
@@ -1447,7 +1472,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'Alle kaarten worden beoordeeld voordat ze live gaan';
+      'Alle prompts worden beoordeeld voordat ze live gaan';
 
   @override
   String get interactionTypeSelectionShowGuidelines =>
@@ -1461,7 +1486,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeSelectionNotNowButton => 'Niet nu';
 
   @override
-  String get promptDetailTitle => 'Kaart detail';
+  String get promptDetailTitle => 'Prompt detail';
 
   @override
   String get promptDetailStatusTitle => 'Status';
@@ -1480,13 +1505,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailPublishedInTitle => 'Gepubliceerd in';
 
   @override
-  String get promptDetailMatchesTitle => 'Matches & Introducties';
+  String get promptDetailMatchesTitle => 'Matches';
 
   @override
-  String get promptDetailErrorMessage => 'Laden van kaart mislukt';
+  String get promptDetailErrorMessage => 'Laden van prompt mislukt';
 
   @override
-  String get promptDetailErrorDataMessage => 'Laden van kaartgegevens mislukt';
+  String get promptDetailErrorDataMessage => 'Laden van prompt mislukt';
 
   @override
   String get promptDetailRetryButton => 'Opnieuw proberen';
@@ -1496,10 +1521,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptDetailEmptyMatchesDescription =>
-      'Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.';
+      'Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.';
 
   @override
-  String get promptDetailEditButton => 'Kaart bewerken';
+  String get promptDetailEditButton => 'Prompt bewerken';
 
   @override
   String get promptDetailPreviewUpdatedMessage =>
@@ -1514,7 +1539,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String promptDetailPauseMatchingMessage(String interactionType) {
-    return 'Je ontvangt geen matches meer voor \"$interactionType\" op deze kaart. Je kunt matching altijd hervatten.';
+    return 'Je ontvangt geen matches meer voor \"$interactionType\" op deze prompt. Je kunt matching altijd hervatten.';
   }
 
   @override
@@ -1530,10 +1555,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailApproveButton => 'Goedkeuren';
 
   @override
-  String get promptDetailApprovedMessage => 'Kaart goedgekeurd';
+  String get promptDetailApprovedMessage => 'Prompt goedgekeurd';
 
   @override
-  String get promptDetailRejectedMessage => 'Kaart afgewezen';
+  String get promptDetailRejectedMessage => 'Prompt afgewezen';
 
   @override
   String get promptEditNextButton => 'Volgende';
@@ -1545,23 +1570,23 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String promptEntryFirstTimeDescription(int count) {
-    return 'De volgende $count kaarten zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.';
+    return 'De volgende $count prompts zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.';
   }
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Je dagelijkse $count kaarten wachten op je.';
+    return 'Je dagelijkse $count prompts wachten op je.';
   }
 
   @override
   String get promptEntryButton => 'Laat zien';
 
   @override
-  String get promptFinishTitle => 'Kaart ingediend!';
+  String get promptFinishTitle => 'Prompt ingediend!';
 
   @override
   String get promptFinishDescription =>
-      'Je kaart is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.';
+      'Je prompt is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.';
 
   @override
   String get promptFinishReviewInfo =>
@@ -1580,10 +1605,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptPreviewSubmitButton => 'Indienen';
 
   @override
-  String get promptPreviewErrorUpdate => 'Bijwerken van kaart mislukt';
+  String get promptPreviewErrorUpdate => 'Bijwerken van prompt mislukt';
 
   @override
-  String get promptPreviewErrorSubmit => 'Indienen van kaart mislukt';
+  String get promptPreviewErrorSubmit => 'Indienen van prompt mislukt';
 
   @override
   String get promptSelectVenueTitle => 'Selecteer publiek';
@@ -1608,7 +1633,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSelectVenueSubmitButton => 'Indienen';
 
   @override
-  String get promptSelectVenueErrorSubmit => 'Indienen van kaart mislukt';
+  String get promptSelectVenueErrorSubmit => 'Indienen van prompt mislukt';
 
   @override
   String get promptSettingsTitle => 'Instellingen';
@@ -1617,10 +1642,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSettingsSubmitButton => 'Indienen';
 
   @override
-  String get promptSettingsErrorSubmit => 'Indienen van kaart mislukt';
+  String get promptSettingsErrorSubmit => 'Indienen van prompt mislukt';
 
   @override
-  String get promptsViewTitle => 'Jouw kaarten';
+  String get promptsViewTitle => 'Jouw prompts';
 
   @override
   String get promptsViewEmptyActionButton => 'Word gematcht';
@@ -1647,10 +1672,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get venueDetailMembersPlural => 'Leden';
 
   @override
-  String get venueDetailCardSingular => 'Kaart';
+  String get venueDetailCardSingular => 'Prompt';
 
   @override
-  String get venueDetailCardsPlural => 'Kaarten';
+  String get venueDetailCardsPlural => 'Prompts';
 
   @override
   String get venueDetailMatchSingular => 'Match';
@@ -1665,7 +1690,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get venueDetailIntroductionsPlural => 'Introducties';
 
   @override
-  String get venueDetailMatchesAndIntrosTitle => 'Matches & Introducties';
+  String get venueDetailMatchesAndIntrosTitle => 'Matches';
 
   @override
   String get venueDetailEmptyMatchesTitle => 'Nog geen matches';
@@ -1706,15 +1731,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String venuePromptsViewTitle(String venueName) {
-    return '$venueName Kaarten';
+    return '$venueName prompts';
   }
 
   @override
-  String get venuePromptsViewEmptyTitle => 'Geen kaarten gevonden';
+  String get venuePromptsViewEmptyTitle => 'Geen prompts gevonden';
 
   @override
   String get venuePromptsViewEmptyDescription =>
-      'Deze venue heeft nog geen kaarten.';
+      'Deze venue heeft nog geen prompts.';
 
   @override
   String get communityGuidelinesTitle => 'Richtlijnen';
@@ -1814,7 +1839,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get paywallErrorRestoreFailed => 'Herstellen van aankopen mislukt';
 
   @override
-  String get matchesViewTitle => 'Matches & Introducties';
+  String get matchesViewTitle => 'Matches';
 
   @override
   String get matchesViewEmptyActionButton => 'Word gematcht';
@@ -1832,11 +1857,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get getMatchedButtonLabel => 'Word gematcht';
 
   @override
-  String get reviewPendingPromptsErrorUpdate => 'Bijwerken van kaarten mislukt';
+  String get reviewPendingPromptsErrorUpdate => 'Bijwerken van prompts mislukt';
 
   @override
   String get reviewPendingPromptsErrorUpdateAll =>
-      'Bijwerken van alle kaarten mislukt';
+      'Bijwerken van alle prompts mislukt';
 
   @override
   String reviewPendingPromptsRejectSelected(int count) {
@@ -1967,7 +1992,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get venueErrorAdminRequiredPrompts =>
-      'Je hebt admin rechten nodig om venue kaarten te bekijken.';
+      'Je hebt admin rechten nodig om venue prompts te bekijken.';
 
   @override
   String get venueErrorPermissionDenied =>
