@@ -152,6 +152,10 @@ class AppLocalizationsNl extends AppLocalizations {
       'Profiel vernieuwen mislukt. Probeer het opnieuw.';
 
   @override
+  String get errorNoInternetConnection =>
+      'Geen internetverbinding. Controleer je verbinding en probeer opnieuw.';
+
+  @override
   String get interactionTypeThisIsMeButton => 'Kan helpen';
 
   @override
@@ -1902,6 +1906,10 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get avatarRemoveError =>
       'Verwijderen van foto mislukt. Probeer het opnieuw.';
+
+  @override
+  String get versionCheckUpdateAvailable =>
+      'Een nieuwe versie van Venyu is beschikbaar. Update nu voor de nieuwste functies!';
 
   @override
   String get baseListViewLoading => 'Laden...';

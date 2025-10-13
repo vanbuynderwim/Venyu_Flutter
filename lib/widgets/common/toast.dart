@@ -4,17 +4,18 @@ import '../../core/theme/app_modifiers.dart';
 import '../../models/enums/toast_type.dart';
 
 /// A toast notification widget that displays temporary messages.
-/// 
+///
 /// This widget provides a consistent way to show feedback messages
 /// across the app with different types (success, error, warning, info).
-/// 
-/// The toast automatically dismisses after a duration and can be
-/// manually dismissed by tapping.
+///
+/// The toast automatically dismisses after a duration unless [persistent]
+/// is true, in which case it must be manually dismissed by tapping.
 class Toast extends StatefulWidget {
   final String message;
   final ToastType type;
   final Duration duration;
   final VoidCallback? onDismiss;
+  final bool persistent;
 
   const Toast({
     super.key,
@@ -22,6 +23,7 @@ class Toast extends StatefulWidget {
     required this.type,
     this.duration = const Duration(seconds: 3),
     this.onDismiss,
+    this.persistent = false,
   });
 
   @override
@@ -57,12 +59,14 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
     // Start the entrance animation
     _animationController.forward();
 
-    // Auto dismiss after duration
-    Future.delayed(widget.duration, () {
-      if (mounted) {
-        _dismiss();
-      }
-    });
+    // Auto dismiss after duration only if not persistent
+    if (!widget.persistent) {
+      Future.delayed(widget.duration, () {
+        if (mounted) {
+          _dismiss();
+        }
+      });
+    }
   }
 
   @override
@@ -126,6 +130,18 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
                       softWrap: true, // Enable text wrapping
                     ),
                   ),
+                  // Show close button for persistent toasts
+                  if (widget.persistent) ...[
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: _dismiss,
+                      child: Icon(
+                        Icons.close,
+                        color: widget.type.textColor(context),
+                        size: 20,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

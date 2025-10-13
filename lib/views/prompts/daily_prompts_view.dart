@@ -307,10 +307,10 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                   // Info box for first time users showing which button to press
                   if (widget.isFirstTimeUser && _currentPrompt.interactionType != null) ...[
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 24),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: context.venyuTheme.primary.withValues(alpha: 0.2),
@@ -346,7 +346,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     ),
                   ),
 
-                  const SizedBox(height: AppModifiers.largeSpacing),
+                  const SizedBox(height: AppModifiers.mediumSpacing),
 
                   // Next button - enabled when interaction is selected, wrapped in light theme
                   Container(
@@ -359,7 +359,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       ),
                   ),
 
-                  const SizedBox(height: AppModifiers.smallSpacing),
+                  const SizedBox(height: AppModifiers.largeSpacing),
                 ],
               ),
             ),

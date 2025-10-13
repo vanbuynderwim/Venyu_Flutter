@@ -151,6 +151,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to refresh profile. Please try again.';
 
   @override
+  String get errorNoInternetConnection =>
+      'No internet connection. Please check your connection and try again.';
+
+  @override
   String get interactionTypeThisIsMeButton => 'I can help';
 
   @override
@@ -1886,6 +1890,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avatarRemoveError => 'Failed to remove photo. Please try again.';
+
+  @override
+  String get versionCheckUpdateAvailable =>
+      'A new version of Venyu is available. Update now for the latest features!';
 
   @override
   String get baseListViewLoading => 'Loading...';

@@ -67,6 +67,7 @@
   "errorNoCardsAvailable": "Momenteel geen kaartjes beschikbaar. Kom later terug!",
   "errorFailedToLoadCards": "Kaartjes laden mislukt. Probeer het opnieuw.",
   "errorFailedToRefreshProfile": "Profiel vernieuwen mislukt. Probeer het opnieuw.",
+  "errorNoInternetConnection": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
 
   "@_INTERACTION_TYPE": {},
   "interactionTypeThisIsMeButton": "Kan helpen",
@@ -982,6 +983,9 @@
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Uploaden van foto mislukt. Probeer het opnieuw.",
   "avatarRemoveError": "Verwijderen van foto mislukt. Probeer het opnieuw.",
+
+  "@_VERSION_CHECK": {},
+  "versionCheckUpdateAvailable": "Een nieuwe versie van Venyu is beschikbaar. Update nu voor de nieuwste functies!",
 
   "@_BASE_LIST_VIEW": {},
   "baseListViewLoading": "Laden...",

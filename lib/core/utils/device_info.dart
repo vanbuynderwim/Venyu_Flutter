@@ -71,8 +71,15 @@ class DeviceInfo {
     }
   }
 
+  /// Get device OS as string ('ios' or 'android')
+  ///
+  /// Returns the device operating system identifier used by the backend.
+  static String getDeviceOS() {
+    return Platform.isIOS ? 'ios' : 'android';
+  }
+
   /// Detect app version - equivalent to iOS detectAppVersion()
-  /// 
+  ///
   /// Returns the app's current version string (e.g., "1.0.0").
   /// This is an async method as it requires package info lookup.
   static Future<String> detectAppVersion() async {
@@ -81,7 +88,7 @@ class DeviceInfo {
       final version = packageInfo.version;
       AppLogger.info('Detected app version: $version', context: 'DeviceInfo');
       return version;
-      
+
     } catch (error) {
       AppLogger.error('Error detecting app version, using fallback 1.0.0', error: error, context: 'DeviceInfo');
       return '1.0.0'; // Default fallback

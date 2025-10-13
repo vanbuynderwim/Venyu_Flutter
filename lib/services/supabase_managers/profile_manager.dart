@@ -189,10 +189,35 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<void> completeRegistration() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Completing registration', context: 'ProfileManager');
-      
+
       await client.rpc('complete_registration');
-      
+
       AppLogger.success('Registration completed successfully', context: 'ProfileManager');
+    });
+  }
+
+  /// Check app version from server
+  Future<AppVersion?> checkVersion() async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Checking app version', context: 'ProfileManager');
+
+      final deviceOS = DeviceInfo.getDeviceOS();
+
+      final response = await client.rpc('get_version', params: {
+        'p_device_os': deviceOS,
+      });
+
+      if (response == null || response.isEmpty) {
+        AppLogger.warning('No version data returned from server', context: 'ProfileManager');
+        return null;
+      }
+
+      // Response is a list with one item
+      final versionData = response[0] as Map<String, dynamic>;
+      final appVersion = AppVersion.fromJson(versionData);
+
+      AppLogger.success('App version checked: ${appVersion.toString()}', context: 'ProfileManager');
+      return appVersion;
     });
   }
 

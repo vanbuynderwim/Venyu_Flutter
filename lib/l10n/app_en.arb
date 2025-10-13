@@ -67,6 +67,7 @@
   "errorNoCardsAvailable": "No cards available at the moment. Check back later!",
   "errorFailedToLoadCards": "Failed to load cards. Please try again.",
   "errorFailedToRefreshProfile": "Failed to refresh profile. Please try again.",
+  "errorNoInternetConnection": "No internet connection. Please check your connection and try again.",
 
   "@_INTERACTION_TYPE": {},
   "interactionTypeThisIsMeButton": "I can help",
@@ -982,6 +983,9 @@
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Failed to upload photo. Please try again.",
   "avatarRemoveError": "Failed to remove photo. Please try again.",
+
+  "@_VERSION_CHECK": {},
+  "versionCheckUpdateAvailable": "A new version of Venyu is available. Update now for the latest features!",
 
   "@_BASE_LIST_VIEW": {},
   "baseListViewLoading": "Loading...",

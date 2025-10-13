@@ -42,7 +42,8 @@
       "Bash(git rm:*)",
       "Bash(tree:*)",
       "Bash(/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/keytool -genkey -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload -storepass venyu2024 -keypass venyu2024 -dname \"CN=Venyu App, OU=Development, O=Venyu, L=Brussels, S=Brussels, C=BE\")",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git log:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

@@ -15,6 +15,8 @@ PODS:
   - bugsnag_flutter (0.0.1):
     - Bugsnag (= 6.32.2)
     - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
   - Firebase/CoreOnly (11.15.0):
     - FirebaseCore (~> 11.15.0)
   - Firebase/Messaging (11.15.0):
@@ -135,6 +137,7 @@ PODS:
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - bugsnag_flutter (from `.symlinks/plugins/bugsnag_flutter/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
@@ -177,6 +180,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/app_links/ios"
   bugsnag_flutter:
     :path: ".symlinks/plugins/bugsnag_flutter/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
@@ -216,6 +221,7 @@ SPEC CHECKSUMS:
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   Bugsnag: 4f9b8e6beab17d7903b67959915d707ad9d96911
   bugsnag_flutter: 76cece0aa346fac201b9ac857bc3f70001efaa66
+  connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   Firebase: d99ac19b909cd2c548339c2241ecd0d1599ab02e
   firebase_core: 99a37263b3c27536063a7b601d9e2a49400a433c
   firebase_messaging: bf6697c61f31c7cc0f654131212ff04c0115c2c7

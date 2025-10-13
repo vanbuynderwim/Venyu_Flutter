@@ -352,6 +352,12 @@ abstract class AppLocalizations {
   /// **'Failed to refresh profile. Please try again.'**
   String get errorFailedToRefreshProfile;
 
+  /// No description provided for @errorNoInternetConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Please check your connection and try again.'**
+  String get errorNoInternetConnection;
+
   /// No description provided for @interactionTypeThisIsMeButton.
   ///
   /// In en, this message translates to:
@@ -3477,6 +3483,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to remove photo. Please try again.'**
   String get avatarRemoveError;
+
+  /// No description provided for @versionCheckUpdateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of Venyu is available. Update now for the latest features!'**
+  String get versionCheckUpdateAvailable;
 
   /// No description provided for @baseListViewLoading.
   ///

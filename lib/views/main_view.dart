@@ -8,6 +8,8 @@ import '../models/prompt.dart';
 import '../services/supabase_managers/content_manager.dart';
 import '../core/providers/app_providers.dart';
 import '../services/notification_service.dart';
+import '../services/version_service.dart';
+import '../services/connectivity_service.dart';
 import '../models/badge_data.dart';
 import 'matches/matches_view.dart';
 import 'prompts/prompts_view.dart';
@@ -61,10 +63,12 @@ class _MainViewState extends State<MainView> {
       }
     });
 
-    // Check for prompts and badges on app startup
+    // Check for prompts, badges, version, and connectivity on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPrompts();
       _fetchBadges();
+      _checkVersion();
+      ConnectivityService.shared.initialize(context);
     });
   }
 
@@ -152,9 +156,21 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  /// Check for app version updates
+  Future<void> _checkVersion() async {
+    try {
+      if (mounted) {
+        await VersionService.shared.checkVersion(context);
+      }
+    } catch (error) {
+      AppLogger.error('Failed to check version', error: error, context: 'MainView');
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
+    ConnectivityService.shared.dispose();
     super.dispose();
   }
 

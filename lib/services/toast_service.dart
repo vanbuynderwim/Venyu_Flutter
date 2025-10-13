@@ -25,6 +25,7 @@ class ToastService {
     required String message,
     required ToastType type,
     Duration duration = const Duration(seconds: 3),
+    bool persistent = false,
   }) {
     // Remove any existing toast
     _currentToast?.remove();
@@ -37,12 +38,12 @@ class ToastService {
         final mediaQuery = MediaQuery.of(context);
         final keyboardHeight = mediaQuery.viewInsets.bottom;
         final bottomPadding = mediaQuery.padding.bottom;
-        
+
         // Always position above ActionButton area
         // ActionButton is positioned at: keyboardHeight + bottomPadding + 16px margin
         // Toast should be 16px above the ActionButton
         final bottomOffset = keyboardHeight + bottomPadding + 72 + 16;
-            
+
         return Positioned(
           bottom: bottomOffset,
           left: 0,
@@ -51,6 +52,7 @@ class ToastService {
             message: message,
             type: type,
             duration: duration,
+            persistent: persistent,
             onDismiss: () {
               overlayEntry.remove();
               if (_currentToast == overlayEntry) {
@@ -87,12 +89,14 @@ class ToastService {
     required BuildContext context,
     required String message,
     Duration duration = const Duration(seconds: 4),
+    bool persistent = false,
   }) {
     show(
       context: context,
       message: message,
       type: ToastType.error,
       duration: duration,
+      persistent: persistent,
     );
   }
 
@@ -115,12 +119,14 @@ class ToastService {
     required BuildContext context,
     required String message,
     Duration duration = const Duration(seconds: 3),
+    bool persistent = false,
   }) {
     show(
       context: context,
       message: message,
       type: ToastType.info,
       duration: duration,
+      persistent: persistent,
     );
   }
 
