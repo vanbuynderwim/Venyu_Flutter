@@ -135,13 +135,13 @@
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Naam",
-  "editPersonalInfoNameDescription": "Je naam en LinkedIn URL.",
+  "editPersonalInfoNameDescription": "Je naam en LinkedIn URL",
   "editPersonalInfoBioTitle": "Bio",
-  "editPersonalInfoBioDescription": "Een korte introductie over jezelf.",
+  "editPersonalInfoBioDescription": "Een korte introductie over jezelf",
   "editPersonalInfoLocationTitle": "Stad",
-  "editPersonalInfoLocationDescription": "De stad waarin je woont.",
+  "editPersonalInfoLocationDescription": "De stad waarin je woont",
   "editPersonalInfoEmailTitle": "E-mail",
-  "editPersonalInfoEmailDescription": "Je contact e-mailadres.",
+  "editPersonalInfoEmailDescription": "Je contact e-mailadres",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",
@@ -950,7 +950,7 @@
       }
     }
   },
-  "reviewPendingPromptsApproveSelected": "{count} goedkeuren",
+  "reviewPendingPromptsApproveSelected": "{count} toestaan",
   "@reviewPendingPromptsApproveSelected": {
     "placeholders": {
       "count": {
@@ -959,7 +959,7 @@
     }
   },
   "reviewPendingPromptsRejectAll": "Alles afwijzen",
-  "reviewPendingPromptsApproveAll": "Alles goedkeuren",
+  "reviewPendingPromptsApproveAll": "Alles toestaan",
 
   "@_MATCH_SECTIONS": {},
   "matchSectionNoSharedConnections": "Geen gedeelde connecties",

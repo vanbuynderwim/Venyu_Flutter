@@ -20,6 +20,7 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
+import '../../widgets/common/loading_state_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import '../venues/join_venue_view.dart';
 import 'profile_header.dart';
@@ -29,7 +30,6 @@ import 'profile_view/company_info_section.dart';
 import 'profile_view/venues_section.dart';
 import 'profile_view/invites_section.dart';
 import 'profile_view/reviews_section.dart';
-import 'profile_view/profile_loading_header.dart';
 import 'edit_tag_group_view.dart';
 import 'edit_name_view.dart';
 import 'edit_bio_view.dart';
@@ -144,7 +144,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                 if (!_isProfileLoading && profile != null)
                   _buildProfileHeader(profile)
                 else
-                  const ProfileLoadingHeader(),
+                  const LoadingStateWidget(),
                 
                 const SizedBox(height: 16),
                 

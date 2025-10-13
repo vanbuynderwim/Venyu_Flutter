@@ -135,13 +135,13 @@
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Name",
-  "editPersonalInfoNameDescription": "Your name and LinkedIn URL.",
+  "editPersonalInfoNameDescription": "Your name and LinkedIn URL",
   "editPersonalInfoBioTitle": "Bio",
-  "editPersonalInfoBioDescription": "A short intro about yourself.",
+  "editPersonalInfoBioDescription": "A short intro about yourself",
   "editPersonalInfoLocationTitle": "City",
-  "editPersonalInfoLocationDescription": "The city you live in.",
+  "editPersonalInfoLocationDescription": "The city you live in",
   "editPersonalInfoEmailTitle": "Email",
-  "editPersonalInfoEmailDescription": "Your contact email address.",
+  "editPersonalInfoEmailDescription": "Your contact email address",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",

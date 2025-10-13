@@ -46,6 +46,7 @@ app.*.map.json
 
 # Environment configuration
 .env.local
+.env.prod
 
 # Firebase configuration files
 ios/Runner/GoogleService-Info.plist
@@ -58,3 +59,5 @@ lib/firebase_options.dart
 # Android signing
 android/app/upload-keystore.jks
 android/key.properties
+
+sentry.properties

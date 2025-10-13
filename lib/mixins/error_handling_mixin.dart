@@ -108,10 +108,8 @@ mixin ErrorHandlingMixin<T extends StatefulWidget> on State<T> {
       // Handle error
       if (mounted) {
         if (showErrorToast) {
-          final message = errorMessage != null 
-              ? '$errorMessage: ${_extractErrorMessage(error)}'
-              : _extractErrorMessage(error);
-          
+          final message = errorMessage ?? _extractErrorMessage(error);
+
           ToastService.error(
             context: context,
             message: message,
@@ -170,16 +168,14 @@ mixin ErrorHandlingMixin<T extends StatefulWidget> on State<T> {
     } catch (error) {
       // Handle error
       if (mounted && showErrorToast) {
-        final message = errorMessage != null 
-            ? '$errorMessage: ${_extractErrorMessage(error)}'
-            : _extractErrorMessage(error);
-        
+        final message = errorMessage ?? _extractErrorMessage(error);
+
         ToastService.error(
           context: context,
           message: message,
         );
       }
-      
+
       onError?.call(error);
       AppLogger.error('Error in ${widget.runtimeType}', error: error, context: 'ErrorHandlingMixin');
       return defaultValue;
@@ -365,9 +361,7 @@ mixin FormErrorHandlingMixin<T extends StatefulWidget> on State<T> implements Er
       // Handle error
       if (mounted) {
         if (showErrorToast) {
-          final message = errorMessage != null
-              ? '$errorMessage: ${_extractErrorMessage(error)}'
-              : _extractErrorMessage(error);
+          final message = errorMessage ?? _extractErrorMessage(error);
 
           ToastService.error(
             context: context,
@@ -419,9 +413,7 @@ mixin FormErrorHandlingMixin<T extends StatefulWidget> on State<T> implements Er
     } catch (error) {
       // Handle error
       if (mounted && showErrorToast) {
-        final message = errorMessage != null
-            ? '$errorMessage: ${_extractErrorMessage(error)}'
-            : _extractErrorMessage(error);
+        final message = errorMessage ?? _extractErrorMessage(error);
 
         ToastService.error(
           context: context,

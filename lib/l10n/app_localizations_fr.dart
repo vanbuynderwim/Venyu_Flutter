@@ -344,25 +344,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editPersonalInfoNameTitle => 'Name';
 
   @override
-  String get editPersonalInfoNameDescription => 'Your name and LinkedIn URL.';
+  String get editPersonalInfoNameDescription => 'Your name and LinkedIn URL';
 
   @override
   String get editPersonalInfoBioTitle => 'Bio';
 
   @override
-  String get editPersonalInfoBioDescription => 'A short intro about yourself.';
+  String get editPersonalInfoBioDescription => 'A short intro about yourself';
 
   @override
   String get editPersonalInfoLocationTitle => 'City';
 
   @override
-  String get editPersonalInfoLocationDescription => 'The city you live in.';
+  String get editPersonalInfoLocationDescription => 'The city you live in';
 
   @override
   String get editPersonalInfoEmailTitle => 'Email';
 
   @override
-  String get editPersonalInfoEmailDescription => 'Your contact email address.';
+  String get editPersonalInfoEmailDescription => 'Your contact email address';
 
   @override
   String get profileEditAccountTitle => 'Account';

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// Centralized logging utility for the Venyu Flutter app.
 /// 
@@ -59,17 +60,43 @@ class AppLogger {
   
   /// Error level logging - shown in both debug and release modes
   /// Use for exceptions, critical failures, etc.
+  /// In debug mode: prints to console
+  /// In release mode: sends to Sentry
   static void error(String message, {Object? error, StackTrace? stackTrace, String? context}) {
     if (_enabled) {
-      final prefix = context != null ? '[$context] ' : '';
-      debugPrint('❌ ERROR: $prefix$message');
-      
-      if (error != null) {
-        debugPrint('   Exception: $error');
-      }
-      
-      if (stackTrace != null && kDebugMode) {
-        debugPrint('   Stack trace: $stackTrace');
+      if (kDebugMode) {
+        // Debug mode: print to console
+        final prefix = context != null ? '[$context] ' : '';
+        debugPrint('❌ ERROR: $prefix$message');
+
+        if (error != null) {
+          debugPrint('   Exception: $error');
+        }
+
+        if (stackTrace != null) {
+          debugPrint('   Stack trace: $stackTrace');
+        }
+      } else {
+        // Release mode: send to Sentry
+        if (error != null) {
+          Sentry.captureException(
+            error,
+            stackTrace: stackTrace,
+            hint: Hint.withMap({
+              'message': message,
+              if (context != null) 'context': context,
+            }),
+          );
+        } else {
+          // If no error object, capture as message
+          Sentry.captureMessage(
+            message,
+            level: SentryLevel.error,
+            hint: Hint.withMap({
+              if (context != null) 'context': context,
+            }),
+          );
+        }
       }
     }
   }

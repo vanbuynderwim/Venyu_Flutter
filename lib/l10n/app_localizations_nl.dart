@@ -344,26 +344,26 @@ class AppLocalizationsNl extends AppLocalizations {
   String get editPersonalInfoNameTitle => 'Naam';
 
   @override
-  String get editPersonalInfoNameDescription => 'Je naam en LinkedIn URL.';
+  String get editPersonalInfoNameDescription => 'Je naam en LinkedIn URL';
 
   @override
   String get editPersonalInfoBioTitle => 'Bio';
 
   @override
   String get editPersonalInfoBioDescription =>
-      'Een korte introductie over jezelf.';
+      'Een korte introductie over jezelf';
 
   @override
   String get editPersonalInfoLocationTitle => 'Stad';
 
   @override
-  String get editPersonalInfoLocationDescription => 'De stad waarin je woont.';
+  String get editPersonalInfoLocationDescription => 'De stad waarin je woont';
 
   @override
   String get editPersonalInfoEmailTitle => 'E-mail';
 
   @override
-  String get editPersonalInfoEmailDescription => 'Je contact e-mailadres.';
+  String get editPersonalInfoEmailDescription => 'Je contact e-mailadres';
 
   @override
   String get profileEditAccountTitle => 'Account';
@@ -1845,14 +1845,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String reviewPendingPromptsApproveSelected(int count) {
-    return '$count goedkeuren';
+    return '$count toestaan';
   }
 
   @override
   String get reviewPendingPromptsRejectAll => 'Alles afwijzen';
 
   @override
-  String get reviewPendingPromptsApproveAll => 'Alles goedkeuren';
+  String get reviewPendingPromptsApproveAll => 'Alles toestaan';
 
   @override
   String get matchSectionNoSharedConnections => 'Geen gedeelde connecties';

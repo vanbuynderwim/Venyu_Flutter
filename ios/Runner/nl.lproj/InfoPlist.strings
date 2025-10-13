@@ -1,0 +1,7 @@
+/* Locatie permissies */
+"NSLocationWhenInUseUsageDescription" = "Venyu gebruikt je locatie om ondernemers in de buurt te vinden en matchresultaten te verbeteren.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Venyu gebruikt je locatie om ondernemers in de buurt te vinden en matchresultaten te verbeteren.";
+
+/* Foto & Camera permissies */
+"NSPhotoLibraryUsageDescription" = "Venyu heeft toegang tot je fotobibliotheek nodig om profielfoto's te selecteren en uploaden.";
+"NSCameraUsageDescription" = "Venyu heeft toegang tot je camera nodig om profielfoto's te maken en uploaden.";

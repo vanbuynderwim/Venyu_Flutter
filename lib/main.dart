@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -20,16 +21,14 @@ import 'services/revenuecat_service.dart';
 import 'views/index.dart';
 import 'views/auth/invite_screening_view.dart';
 import 'views/auth/redeem_invite_view.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   // Critical: Preserve splash screen immediately to prevent white screen
   // This must be the FIRST thing after ensureInitialized()
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
-  // Temporarily disable Bugsnag for debugging
-  // await bugsnag.start(apiKey: '4dce9ee1ef30e5a80aa57cc4413ef460');
-  
+
   // Initialize date formatting for all supported locales
   try {
     await initializeDateFormatting();
@@ -41,10 +40,14 @@ void main() async {
   }
   
   // Load environment variables
+  // Debug mode: use .env.local (development)
+  // Release mode: use .env.prod (production)
+  final envFileName = kDebugMode ? '.env.local' : '.env.prod';
   try {
-    await dotenv.load(fileName: '.env.local');
+    await dotenv.load(fileName: envFileName);
+    AppLogger.info('Loaded environment: $envFileName', context: 'main');
   } catch (e) {
-    AppLogger.warning('Could not load .env.local file', error: e, context: 'main');
+    AppLogger.warning('Could not load $envFileName file', error: e, context: 'main');
     AppLogger.info('Using fallback configuration', context: 'main');
   }
   
@@ -87,7 +90,25 @@ void main() async {
     AppLogger.info('RevenueCat initialization skipped - Pro features disabled in config', context: 'main');
   }
   
-  runApp(const VenyuApp());
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = 'https://551ad30b7555c2fdc9f9a65e56ce1a07@o4510182183534592.ingest.de.sentry.io/4510182184976464';
+      // Adds request headers and IP for users, for more info visit:
+      // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
+      options.sendDefaultPii = true;
+      options.enableLogs = true;
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+      // Configure Session Replay
+      options.replay.sessionSampleRate = 0.1;
+      options.replay.onErrorSampleRate = 1.0;
+    },
+    appRunner: () => runApp(SentryWidget(child: const VenyuApp())),
+  );
 }
 
 /// Initialize RevenueCat using the dedicated service

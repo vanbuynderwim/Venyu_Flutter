@@ -1,0 +1,7 @@
+/* Location permissions */
+"NSLocationWhenInUseUsageDescription" = "Venyu uses your location to find enterpreneurs nearby and improve match results.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Venyu uses your location to find enterpreneurs nearby and improve match results.";
+
+/* Photo & Camera permissions */
+"NSPhotoLibraryUsageDescription" = "Venyu needs access to your photo library to let you select and upload profile photos.";
+"NSCameraUsageDescription" = "Venyu needs access to your camera to let you take and upload profile photos.";

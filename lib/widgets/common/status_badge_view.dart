@@ -25,7 +25,7 @@ class StatusBadgeView extends StatelessWidget {
             status.emoji
           )
         : Text(
-            '${status.emoji} ${status.displayText}',
+            '${status.emoji} ${status.displayText(context)}',
             style: AppTextStyles.footnote.copyWith(
               color: status.textColor,
               fontSize: fontSize,

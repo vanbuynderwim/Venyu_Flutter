@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../core/config/app_config.dart';
 import '../core/utils/app_logger.dart';
@@ -8,6 +9,7 @@ import 'supabase_managers/media_manager.dart';
 import 'supabase_managers/profile_manager.dart';
 import 'tag_group_service.dart';
 import 'revenuecat_service.dart';
+import 'notification_service.dart';
 
 /// Focused profile service handling user profile management.
 /// 
@@ -118,16 +120,19 @@ class ProfileService extends ChangeNotifier {
   
   void _fetchProfileIfNeeded() {
     if (_disposed || _isLoading) return;
-    
+
     // Fetch profile in background
     _fetchUserProfile().then((_) {
       // Update auth service about registration state
       if (_currentProfile?.registeredAt != null) {
         _authService.updateAuthState(AuthenticationState.registered);
       }
-      
+
       // Initialize TagGroup cache after profile is loaded
       _initializeTagGroups();
+
+      // Register pending notification token if exists
+      NotificationService.shared.registerPendingToken();
     }).catchError((error) {
       AppLogger.error('Failed to fetch profile: $error', context: 'ProfileService');
     });
@@ -148,8 +153,17 @@ class ProfileService extends ChangeNotifier {
       
       if (!_disposed) {
         _currentProfile = fetchedProfile;
+
+        // Set Sentry user context
+        if (_currentProfile?.id != null) {
+          Sentry.configureScope((scope) {
+            scope.setUser(SentryUser(id: _currentProfile!.id));
+          });
+          AppLogger.debug('Sentry user context set with profile_id: ${_currentProfile!.id}', context: 'ProfileService');
+        }
+
         notifyListeners();
-        
+
         AppLogger.success('Profile loaded: ${_currentProfile?.displayName}', context: 'ProfileService');
       }
       
@@ -323,10 +337,17 @@ class ProfileService extends ChangeNotifier {
   
   void _clearProfile() {
     if (_disposed) return;
-    
+
     if (_currentProfile != null) {
       AppLogger.debug('Clearing profile data', context: 'ProfileService');
       _currentProfile = null;
+
+      // Clear Sentry user context
+      Sentry.configureScope((scope) {
+        scope.setUser(null);
+      });
+      AppLogger.debug('Sentry user context cleared', context: 'ProfileService');
+
       notifyListeners();
     }
   }

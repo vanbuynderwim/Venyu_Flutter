@@ -10,6 +10,7 @@ import '../models/badge_data.dart';
 import '../firebase_options.dart';
 import 'supabase_managers/profile_manager.dart';
 import 'supabase_managers/base_supabase_manager.dart';
+import 'auth_service.dart';
 
 /// Service for managing Firebase Cloud Messaging and push notifications
 /// 
@@ -192,18 +193,25 @@ class NotificationService {
   }
   
   /// Register device token with backend
+  /// Only registers if user is authenticated
   Future<void> _registerDevice(String token) async {
     AppLogger.debug('_registerDevice called with token: $token', context: 'NotificationService');
-    
+
+    // Check if user is authenticated
+    if (!AuthService.shared.isAuthenticated) {
+      AppLogger.debug('User not authenticated, skipping device registration', context: 'NotificationService');
+      return;
+    }
+
     try {
       // Get device info
       final String deviceOS = Platform.isIOS ? 'ios' : 'android';
       final String deviceInterface = _getDeviceInterface();
       final String deviceType = await _getDeviceType();
       final String systemVersion = await _getSystemVersion();
-      
+
       AppLogger.debug('Device info: OS=$deviceOS, Interface=$deviceInterface, Type=$deviceType, Version=$systemVersion', context: 'NotificationService');
-      
+
       // Create device object
       final device = Device(
         fcmToken: token,
@@ -212,15 +220,23 @@ class NotificationService {
         deviceType: deviceType,
         systemVersion: systemVersion,
       );
-      
-      AppLogger.debug('Calling SupabaseManager.insertDeviceToken...', context: 'NotificationService');
+
+      AppLogger.debug('Calling ProfileManager.insertDeviceToken...', context: 'NotificationService');
       // Send to backend
       await ProfileManager.shared.insertDeviceToken(device);
-      
+
       AppLogger.success('Device registered with backend', context: 'NotificationService');
     } catch (error, stackTrace) {
-      AppLogger.error('Error registering device: $error', context: 'NotificationService');
-      AppLogger.error('Stack trace: $stackTrace', context: 'NotificationService');
+      AppLogger.error('Error registering device', error: error, stackTrace: stackTrace, context: 'NotificationService');
+    }
+  }
+
+  /// Register pending device token if user just logged in
+  /// Call this after successful authentication
+  Future<void> registerPendingToken() async {
+    if (_fcmToken != null && AuthService.shared.isAuthenticated) {
+      AppLogger.debug('Registering pending device token after authentication', context: 'NotificationService');
+      await _registerDevice(_fcmToken!);
     }
   }
   

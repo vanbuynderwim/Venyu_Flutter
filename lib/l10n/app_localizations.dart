@@ -703,7 +703,7 @@ abstract class AppLocalizations {
   /// No description provided for @editPersonalInfoNameDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your name and LinkedIn URL.'**
+  /// **'Your name and LinkedIn URL'**
   String get editPersonalInfoNameDescription;
 
   /// No description provided for @editPersonalInfoBioTitle.
@@ -715,7 +715,7 @@ abstract class AppLocalizations {
   /// No description provided for @editPersonalInfoBioDescription.
   ///
   /// In en, this message translates to:
-  /// **'A short intro about yourself.'**
+  /// **'A short intro about yourself'**
   String get editPersonalInfoBioDescription;
 
   /// No description provided for @editPersonalInfoLocationTitle.
@@ -727,7 +727,7 @@ abstract class AppLocalizations {
   /// No description provided for @editPersonalInfoLocationDescription.
   ///
   /// In en, this message translates to:
-  /// **'The city you live in.'**
+  /// **'The city you live in'**
   String get editPersonalInfoLocationDescription;
 
   /// No description provided for @editPersonalInfoEmailTitle.
@@ -739,7 +739,7 @@ abstract class AppLocalizations {
   /// No description provided for @editPersonalInfoEmailDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your contact email address.'**
+  /// **'Your contact email address'**
   String get editPersonalInfoEmailDescription;
 
   /// No description provided for @profileEditAccountTitle.
