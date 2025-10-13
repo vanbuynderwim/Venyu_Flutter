@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/utils/app_logger.dart';
+import '../../core/utils/device_info.dart';
 import 'base_supabase_manager.dart';
 
 /// PublicManager - Handles all public/anonymous operations
@@ -98,6 +99,7 @@ class PublicManager extends BaseSupabaseManager {
               'company': company.trim(),
               'role': role.trim(),
               'email': email.trim().toLowerCase(),
+              'language_code': DeviceInfo.detectLanguage(),
             },
           },
         );

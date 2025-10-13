@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
+
 import '../../models/venue.dart';
 import '../../models/profile.dart';
 import '../../models/prompt.dart';
 import '../../models/match.dart';
 import '../../models/requests/paginated_request.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import 'base_supabase_manager.dart';
 import '../../mixins/disposable_manager_mixin.dart';
 
@@ -80,43 +83,46 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
   }
 
   /// Fetch detailed venue information by ID.
-  /// 
+  ///
   /// Returns a [Venue] object with complete venue information including
   /// member count and prompt count. User must be an active member of the venue
   /// to fetch its details.
-  /// 
+  ///
   /// Throws an exception if:
   /// - The venue doesn't exist
   /// - The user is not an active member of the venue
-  Future<Venue> fetchVenue(String venueId) async {
+  Future<Venue> fetchVenue(String venueId, BuildContext context) async {
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching venue details for ID: $venueId', context: 'VenueManager');
-      
+
       try {
         // Call the get_venue RPC function
         final result = await client
             .rpc('get_venue', params: {'p_venue_id': venueId})
             .select()
             .single();
-        
+
         AppLogger.success('Venue details fetched successfully', context: 'VenueManager');
-        
+
         // Convert response to Venue object
         final venue = Venue.fromJson(result);
-        AppLogger.info('Venue loaded: ${venue.name} (${venue.profileCount ?? 0} members, ${venue.promptCount ?? 0} prompts)', 
+        AppLogger.info('Venue loaded: ${venue.name} (${venue.profileCount ?? 0} members, ${venue.promptCount ?? 0} prompts)',
                       context: 'VenueManager');
-        
+
         return venue;
       } catch (error) {
         AppLogger.error('Failed to fetch venue details', error: error, context: 'VenueManager');
-        
+
         // Parse the error message to provide user-friendly feedback
         final errorMessage = error.toString();
-        
+
         if (errorMessage.contains('single') || errorMessage.contains('no rows')) {
-          throw Exception('You are not a member of this venue or it does not exist.');
+          throw Exception(l10n.venueErrorNotMember);
         }
-        
+
         // Re-throw the original error if we can't provide a better message
         rethrow;
       }
@@ -137,10 +143,13 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// Throws:
   /// - Exception if code is invalid, expired, or already used
   /// - Exception if user is already an active member
-  Future<String> joinVenue(String code) async {
+  Future<String> joinVenue(String code, BuildContext context) async {
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Attempting to join venue with code: ${code.substring(0, 3)}***', context: 'VenueManager');
-      
+
       try {
         // Call the join_venue RPC function
         final result = await client.rpc(
@@ -150,28 +159,28 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
 
         // result is direct de UUID string
         final venueId = result as String;
-        
+
         AppLogger.success('Successfully joined venue', context: 'VenueManager');
-              
+
         AppLogger.info('Joined venue with ID: $venueId', context: 'VenueManager');
-        
+
         return venueId;
       } catch (error) {
         AppLogger.error('Failed to join venue', error: error, context: 'VenueManager');
-        
+
         // Parse the error message to provide user-friendly feedback
         final errorMessage = error.toString();
-        
+
         if (errorMessage.contains('Invalid or expired code')) {
-          throw Exception('This code is invalid or has expired. Please request a new code.');
+          throw Exception(l10n.venueErrorCodeInvalidOrExpired);
         } else if (errorMessage.contains('already an active member')) {
-          throw Exception('You are already a member of this venue.');
+          throw Exception(l10n.venueErrorAlreadyMember);
         } else if (errorMessage.contains('Code is required')) {
-          throw Exception('Please enter a venue code.');
+          throw Exception(l10n.venueErrorCodeRequired);
         } else if (errorMessage.contains('exactly 8 characters')) {
-          throw Exception('The code must be exactly 8 characters long.');
+          throw Exception(l10n.venueErrorCodeLength);
         }
-        
+
         // Re-throw the original error if we can't provide a better message
         rethrow;
       }
@@ -193,17 +202,20 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// - User is not an admin of the venue
   /// - The venue doesn't exist
   /// - Invalid request parameters
-  Future<List<Profile>> fetchVenueProfiles(String venueId, PaginatedRequest request) async {
+  Future<List<Profile>> fetchVenueProfiles(String venueId, PaginatedRequest request, BuildContext context) async {
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching venue profiles for venue: $venueId', context: 'VenueManager');
-      
+
       try {
         // Build payload for the RPC function
         final payload = <String, dynamic>{
           'venue_id': venueId,
           'limit': request.limit,
         };
-        
+
         // Add cursor parameters if provided
         if (request.cursorTime != null) {
           payload['cursor_time'] = request.cursorTime!.toIso8601String();
@@ -211,7 +223,7 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
         if (request.cursorId != null) {
           payload['cursor_id'] = request.cursorId;
         }
-        
+
         // Call the get_venue_profiles RPC function
         final result = await client
             .rpc('get_venue_profiles', params: {'payload': payload})
@@ -225,20 +237,20 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
             .toList();
         
         AppLogger.info('Fetched ${profiles.length} venue profiles', context: 'VenueManager');
-        
+
         return profiles;
       } catch (error) {
         AppLogger.error('Failed to fetch venue profiles', error: error, context: 'VenueManager');
-        
+
         // Parse the error message to provide user-friendly feedback
         final errorMessage = error.toString();
-        
+
         if (errorMessage.contains('Only venue admins can view venue profiles')) {
-          throw Exception('You need admin privileges to view venue members.');
+          throw Exception(l10n.venueErrorAdminRequired);
         } else if (errorMessage.contains('venue_id is required')) {
-          throw Exception('Venue ID is required.');
+          throw Exception(l10n.venueErrorIdRequired);
         }
-        
+
         // Re-throw the original error if we can't provide a better message
         rethrow;
       }
@@ -260,17 +272,20 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// - User is not an admin of the venue
   /// - The venue doesn't exist
   /// - Invalid request parameters
-  Future<List<Prompt>> fetchVenuePrompts(String venueId, PaginatedRequest request) async {
+  Future<List<Prompt>> fetchVenuePrompts(String venueId, PaginatedRequest request, BuildContext context) async {
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching venue prompts for venue: $venueId', context: 'VenueManager');
-      
+
       try {
         // Build payload for the RPC function
         final payload = <String, dynamic>{
           'venue_id': venueId,
           'limit': request.limit,
         };
-        
+
         // Add cursor parameters if provided
         if (request.cursorTime != null) {
           payload['cursor_time'] = request.cursorTime!.toIso8601String();
@@ -278,7 +293,7 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
         if (request.cursorId != null) {
           payload['cursor_id'] = request.cursorId;
         }
-        
+
         // Call the get_venue_prompts RPC function
         final result = await client
             .rpc('get_venue_prompts', params: {'payload': payload})
@@ -292,20 +307,20 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
             .toList();
         
         AppLogger.info('Fetched ${prompts.length} venue prompts', context: 'VenueManager');
-        
+
         return prompts;
       } catch (error) {
         AppLogger.error('Failed to fetch venue prompts', error: error, context: 'VenueManager');
-        
+
         // Parse the error message to provide user-friendly feedback
         final errorMessage = error.toString();
-        
+
         if (errorMessage.contains('Only venue admins can view venue prompts')) {
-          throw Exception('You need admin privileges to view venue prompts.');
+          throw Exception(l10n.venueErrorAdminRequiredPrompts);
         } else if (errorMessage.contains('venue_id is required')) {
-          throw Exception('Venue ID is required.');
+          throw Exception(l10n.venueErrorIdRequired);
         }
-        
+
         // Re-throw the original error if we can't provide a better message
         rethrow;
       }
@@ -326,7 +341,10 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// - The venue doesn't exist
   /// - User doesn't have permission to view venue matches
   /// - Invalid venue ID
-  Future<List<Match>> fetchVenueMatches(String venueId) async {
+  Future<List<Match>> fetchVenueMatches(String venueId, BuildContext context) async {
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching venue matches for venue: $venueId', context: 'VenueManager');
 
@@ -353,9 +371,9 @@ class VenueManager extends BaseSupabaseManager with DisposableManagerMixin {
         final errorMessage = error.toString();
 
         if (errorMessage.contains('venue_id is required')) {
-          throw Exception('Venue ID is required.');
+          throw Exception(l10n.venueErrorIdRequired);
         } else if (errorMessage.contains('permission')) {
-          throw Exception('You don\'t have permission to view matches for this venue.');
+          throw Exception(l10n.venueErrorPermissionDenied);
         }
 
         // Re-throw the original error if we can't provide a better message

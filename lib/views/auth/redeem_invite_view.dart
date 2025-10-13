@@ -44,7 +44,7 @@ class _RedeemInviteViewState extends BaseCodeEntryViewState<_RedeemInviteViewImp
   @override
   Future<void> handleCodeSubmission(String code) async {
     // Call ProfileManager to redeem the invite code
-    await ProfileManager.shared.redeemInviteCode(code);
+    await ProfileManager.shared.redeemInviteCode(code, context);
   }
 
   @override

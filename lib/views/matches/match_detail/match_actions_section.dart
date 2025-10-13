@@ -56,13 +56,14 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
 
   /// Show skip match confirmation alert
   Future<void> _showSkipAlert() async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      title: 'Skip this match?',
-      message: 'This match will be removed from your matches. The other person will not receive any notification and won\'t know you skipped them.',
-      confirmText: AppLocalizations.of(context)!.actionSkip,
+      title: l10n.matchActionsSkipDialogTitle,
+      message: l10n.matchActionsSkipDialogMessage,
+      confirmText: l10n.actionSkip,
     );
-    
+
     if (confirmed) {
       await _handleSkipMatch();
     }

@@ -18,20 +18,23 @@ class _UserCancelledForUrlCheckException implements Exception {
 }
 
 /// A form screen for editing user name and LinkedIn profile information.
-/// 
+///
 /// Refactored to use BaseFormView - reduced from 423 to ~180 lines
 class EditNameView extends BaseFormView {
   const EditNameView({
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'You');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditNameViewState();
 }
 
 class _EditNameViewState extends BaseFormViewState<EditNameView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editNameTitle;
+
   // Form controllers
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -59,16 +62,18 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
 
   void _preloadValues() async {
     final profile = ProfileService.shared.currentProfile;
-    
-    _firstNameController.text = profile?.firstName.isNotEmpty == true 
-        ? profile!.firstName 
+
+    _firstNameController.text = profile?.firstName.isNotEmpty == true
+        ? profile!.firstName
         : '';
-    
-    _lastNameController.text = profile?.lastName?.isNotEmpty == true 
-        ? profile!.lastName! 
+
+    _lastNameController.text = profile?.lastName?.isNotEmpty == true
+        ? profile!.lastName!
         : '';
-    
-    _linkedInController.text = profile?.linkedInURL ?? '';
+
+    // Pre-fill LinkedIn URL with 'linkedin.com/in/' if empty
+    final linkedInURL = profile?.linkedInURL ?? '';
+    _linkedInController.text = linkedInURL.isEmpty ? 'linkedin.com/in/' : linkedInURL;
 
     _firstNameIsEmpty = _firstNameController.text.isEmpty;
     _lastNameIsEmpty = _lastNameController.text.isEmpty;

@@ -25,6 +25,7 @@ class AppConfig {
 
   /// Feature flags
   static const bool showPro = false;
+  static const bool showVenues = false;
   
   /// Validate all configuration on app startup
   static bool validateConfiguration() {

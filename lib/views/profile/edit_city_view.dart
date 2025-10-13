@@ -18,13 +18,16 @@ class EditCityView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'City');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditCityViewState();
 }
 
 class _EditCityViewState extends BaseFormViewState<EditCityView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editCityTitle;
+
   // Form controllers
   final _cityController = TextEditingController();
 

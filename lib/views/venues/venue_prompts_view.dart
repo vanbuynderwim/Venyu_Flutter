@@ -81,7 +81,7 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
           list: ServerListType.matches,
         );
 
-        final prompts = await _venueManager.fetchVenuePrompts(widget.venueId, request);
+        final prompts = await _venueManager.fetchVenuePrompts(widget.venueId, request, context);
         if (mounted) {
           setState(() {
             _prompts.addAll(prompts);
@@ -118,7 +118,7 @@ class _VenuePromptsViewState extends State<VenuePromptsView>
         list: ServerListType.matches,
       );
 
-      final prompts = await _venueManager.fetchVenuePrompts(widget.venueId, request);
+      final prompts = await _venueManager.fetchVenuePrompts(widget.venueId, request, context);
       if (mounted) {
         setState(() {
           _prompts.addAll(prompts);

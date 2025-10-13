@@ -41,7 +41,7 @@ class _JoinVenueViewState extends BaseCodeEntryViewState<_JoinVenueViewImpl> {
   @override
   Future<void> handleCodeSubmission(String code) async {
     // Call VenueManager to join the venue
-    await VenueManager.shared.joinVenue(code);
+    await VenueManager.shared.joinVenue(code, context);
   }
 
   @override

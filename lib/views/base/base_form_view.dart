@@ -340,15 +340,11 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
     // Use "Next" for registration wizard, "Save" for regular forms
     final defaultLabel = widget.registrationWizard ? l10n.actionNext : l10n.actionSave;
     
-    // Check if keyboard is open and add extra bottom padding if so
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    final isKeyboardOpen = keyboardHeight > 0;
-    
     return Container(
       margin: EdgeInsets.only(
         left: 16,
         right: 16,
-        bottom: isKeyboardOpen ? 16 : 16, // Extra padding when keyboard is open
+        bottom: 8, // Extra padding when keyboard is open
       ),
       child: ActionButton(
         label: label ?? defaultLabel,

@@ -3,7 +3,7 @@
 
   "@_ONBOARDING": {},
   "onboardTitle": "Welcome to Venyu",
-  "onboardDescription": "Venyu matches you with other entrepreneurs based on your shared goals, needs, and who you know. Answer 3 daily cards to help us find great matches for you.",
+  "onboardDescription": "Venyu matches you with other entrepreneurs based on your shared goals, ambitions, and who you know. Answer 3 daily cards to help us find great matches for you.",
   "onboardStartTutorial": "Before we set up your profile, let's show you how Venyu works with a quick tutorial.",
   "onboardButtonStart": "Start",
 
@@ -11,7 +11,7 @@
   "tutorialStep1Title": "Answer 3 daily cards",
   "tutorialStep1Description": "Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.",
   "tutorialStep2Title": "Get matched",
-  "tutorialStep2Description": "Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.",
+  "tutorialStep2Description": "Our matching agent connects you with entrepreneurs who share your goals and ambitions.",
   "tutorialStep3Title": "Show your interest",
   "tutorialStep3Description": "When a match catches your eye, say you're interested. It's your way of telling us you'd like to be introduced to that person.",
   "tutorialStep4Title": "Get introduced",
@@ -32,7 +32,7 @@
   "promptEntryButtonFirstTime": "Start tutorial",
 
   "@_DAILY_PROMPTS": {},
-  "dailyPromptsHintSelect": "Select \"{buttonTitle}\" 👇",
+  "dailyPromptsHintSelect": "Select \"{buttonTitle}\"",
   "@dailyPromptsHintSelect": {
     "placeholders": {
       "buttonTitle": {
@@ -306,7 +306,7 @@
       }
     }
   },
-  "onboardDescription": "You're now part of a community built on real introductions.\n\nLet's start with a quick tour before setting up your profile.",
+  "onboardDescription": "You're now part of a community built on real introductions!\n\nLet's start with a quick tour before setting up your profile.",
   "onboardStart": "Start",
 
   "loginLegalText": "By signing in, you agree to our Terms of Service and Privacy Policy",
@@ -932,6 +932,9 @@
   "profileViewTitle": "Profile",
   "profileViewFabJoinVenue": "Join a venue",
 
+  "@_PROFILE_HEADER": {},
+  "profileHeaderBioPlaceholder": "Write something about yourself...",
+
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "Get matched",
 
@@ -964,11 +967,17 @@
   "matchSectionUnknownTagGroup": "Unknown",
 
   "@_MATCH_ACTIONS": {},
+  "matchActionsSkipDialogTitle": "Skip this match?",
+  "matchActionsSkipDialogMessage": "This match will be removed from your matches. The other person will not receive any notification and won't know you skipped them.",
   "matchActionsSkipError": "Failed to skip match",
   "matchActionsConnectError": "Failed to connect",
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Failed to complete registration. Please try again.",
+  "registrationCompleteTutorialPrompt1": "Looking to connect with entrepreneurs growing beyond Belgium.",
+  "registrationCompleteTutorialPrompt2": "Looking for someone who's raised investment before.",
+  "registrationCompleteTutorialPrompt3": "A friend is launching a coworking space. I'd like to introduce her to others who've done it.",
+  "registrationCompleteTutorialPrompt4": "Looking for an expert in animal nutrition for a new pet food concept.",
 
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Failed to upload photo. Please try again.",
@@ -992,5 +1001,21 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "@_INVITE_CODE_ERRORS": {},
+  "inviteCodeErrorInvalidOrExpired": "This code is invalid or has expired. Please check your code and try again.",
+  "inviteCodeErrorRequired": "Please enter an invite code.",
+  "inviteCodeErrorLength": "The code must be exactly 8 characters long.",
+
+  "@_VENUE_ERRORS": {},
+  "venueErrorNotMember": "You are not a member of this venue or it does not exist.",
+  "venueErrorCodeInvalidOrExpired": "This code is invalid or has expired. Please request a new code.",
+  "venueErrorAlreadyMember": "You are already a member of this venue.",
+  "venueErrorCodeRequired": "Please enter a venue code.",
+  "venueErrorCodeLength": "The code must be exactly 8 characters long.",
+  "venueErrorAdminRequired": "You need admin privileges to view venue members.",
+  "venueErrorIdRequired": "Venue ID is required.",
+  "venueErrorAdminRequiredPrompts": "You need admin privileges to view venue prompts.",
+  "venueErrorPermissionDenied": "You don't have permission to view matches for this venue."
 }

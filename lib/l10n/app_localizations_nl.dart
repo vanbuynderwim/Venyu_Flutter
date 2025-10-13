@@ -9,374 +9,376 @@ class AppLocalizationsNl extends AppLocalizations {
   AppLocalizationsNl([String locale = 'nl']) : super(locale);
 
   @override
-  String get onboardTitle => 'Welcome to Venyu';
+  String get onboardTitle => 'Welkom bij Venyu';
 
   @override
   String get onboardDescription =>
-      'You\'re now part of a community built on real introductions.\n\nLet\'s start with a quick tour before setting up your profile.';
+      'Je maakt nu deel uit van een community gebouwd op echte introducties!\n\nLaten we beginnen met een korte rondleiding voordat we je profiel instellen.';
 
   @override
   String get onboardStartTutorial =>
-      'Before we set up your profile, let\'s show you how Venyu works with a quick tutorial.';
+      'Voordat we je profiel aanmaken, laten we je tonen hoe Venyu werkt met een korte tutorial.';
 
   @override
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Answer 3 daily cards';
+  String get tutorialStep1Title => 'Beantwoord 3 dagelijkse kaartjes';
 
   @override
   String get tutorialStep1Description =>
-      'Each day, you answer three cards from other entrepreneurs. It takes less than a minute and helps us find great matches for you.';
+      'Elke dag beantwoord je drie kaartjes van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.';
 
   @override
-  String get tutorialStep2Title => 'Get matched';
+  String get tutorialStep2Title => 'Word gematcht';
 
   @override
   String get tutorialStep2Description =>
-      'Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.';
+      'Onze matching agent verbindt je met ondernemers die jouw doelen en ambities delen.';
 
   @override
-  String get tutorialStep3Title => 'Show your interest';
+  String get tutorialStep3Title => 'Toon je interesse';
 
   @override
   String get tutorialStep3Description =>
-      'When a match catches your eye, say you\'re interested. It\'s your way of telling us you\'d like to be introduced to that person.';
+      'Als een match je aandacht trekt, geef dan aan dat je geïnteresseerd bent. Op die manier weten we dat je graag aan deze persoon voorgesteld wilt worden.';
 
   @override
-  String get tutorialStep4Title => 'Get introduced';
+  String get tutorialStep4Title => 'Word voorgesteld';
 
   @override
   String get tutorialStep4Description =>
-      'If there\'s mutual interest, we\'ll send an introduction email so you can start the conversation naturally.';
+      'Als er wederzijdse interesse is, sturen we een introductie-mail zodat jullie het gesprek kunnen opstarten op jullie eigen tempo.';
 
   @override
-  String get tutorialStep5Title => 'You got it!';
+  String get tutorialStep5Title => 'Meer is het niet!';
 
   @override
   String get tutorialStep5Description =>
-      'Now let\'s set up your profile and join the community.';
+      'Laten we nu je profiel opstellen en lid worden van de community!';
 
   @override
-  String get tutorialButtonPrevious => 'Previous';
+  String get tutorialButtonPrevious => 'Vorige';
 
   @override
-  String get tutorialButtonNext => 'Next';
+  String get tutorialButtonNext => 'Volgende';
 
   @override
-  String get registrationCompleteTitle => 'Your profile is ready! 🎉';
+  String get registrationCompleteTitle => 'Je profiel is klaar! 🎉';
 
   @override
   String get registrationCompleteDescription =>
-      'Thanks for setting up your profile. Now let\'s see how answering 3 cards each day helps you get matched with the right people.';
+      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 kaartjes per dag je helpt om gematcht te worden met de juiste mensen.';
 
   @override
-  String get registrationCompleteButton => 'Continue';
+  String get registrationCompleteButton => 'Doorgaan';
 
   @override
-  String get promptEntryTitleFirstTime => 'Let\'s try it out!';
+  String get promptEntryTitleFirstTime => 'Laten we het uitproberen!';
 
   @override
   String get promptEntryDescriptionFirstTime =>
-      'Here are 3 example cards to help you understand how it works. Don\'t worry, these are just for practice.';
+      'Hier zijn 3 voorbeeldkaartjes om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!';
 
   @override
   String get promptEntryButtonFirstTime => 'Start tutorial';
 
   @override
   String dailyPromptsHintSelect(String buttonTitle) {
-    return 'Select \"$buttonTitle\" 👇';
+    return 'Selecteer \"$buttonTitle\"';
   }
 
   @override
-  String get dailyPromptsHintConfirm => 'Select \"Next\" to confirm';
+  String get dailyPromptsHintConfirm =>
+      'Selecteer \"Volgende\" om te bevestigen';
 
   @override
-  String get dailyPromptsButtonNext => 'Next';
+  String get dailyPromptsButtonNext => 'Volgende';
 
   @override
-  String get dailyPromptsReportSuccess => 'Card reported successfully';
+  String get dailyPromptsReportSuccess => 'Kaartje succesvol gerapporteerd';
 
   @override
-  String get dailyPromptsReportError => 'Failed to report card';
+  String get dailyPromptsReportError => 'Rapporteren mislukt';
 
   @override
-  String get dailyPromptsNoPromptsAvailable => 'No prompts available';
+  String get dailyPromptsNoPromptsAvailable => 'Geen kaartjes beschikbaar';
 
   @override
-  String get tutorialFinishedTitle => 'You\'re all set! 🎉';
+  String get tutorialFinishedTitle => 'Je bent helemaal klaar! 🎉';
 
   @override
   String get tutorialFinishedDescription =>
-      'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real cards to get matched with other entrepreneurs.';
+      'Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte kaartjes te beantwoorden en gematcht te worden met andere ondernemers.';
 
   @override
-  String get tutorialFinishedButton => 'Let\'s go!';
+  String get tutorialFinishedButton => 'Oké!';
 
   @override
   String get registrationFinishTitle => 'That\'s it! 🎉';
 
   @override
   String get registrationFinishDescription =>
-      'Your account is all set up and you\'ve answered your first 3 cards. Come back tomorrow to answer more cards and discover new matches.';
+      'Je account is helemaal ingesteld en je hebt je eerste 3 kaartjes beantwoord. Kom morgen terug om meer kaartjes te beantwoorden en nieuwe matches te ontdekken.';
 
   @override
-  String get registrationFinishButton => 'Start exploring!';
+  String get registrationFinishButton => 'Begin met verkennen!';
 
   @override
-  String get buttonContinue => 'Continue';
+  String get buttonContinue => 'Doorgaan';
 
   @override
-  String get buttonNext => 'Next';
+  String get buttonNext => 'Volgende';
 
   @override
-  String get buttonPrevious => 'Previous';
+  String get buttonPrevious => 'Vorige';
 
   @override
   String get buttonStart => 'Start';
 
   @override
-  String get buttonGotIt => 'Got it';
+  String get buttonGotIt => 'Begrepen';
 
   @override
   String get errorNoCardsAvailable =>
-      'No cards available at the moment. Check back later!';
+      'Momenteel geen kaartjes beschikbaar. Kom later terug!';
 
   @override
   String get errorFailedToLoadCards =>
-      'Failed to load cards. Please try again.';
+      'Kaartjes laden mislukt. Probeer het opnieuw.';
 
   @override
   String get errorFailedToRefreshProfile =>
-      'Failed to refresh profile. Please try again.';
+      'Profiel vernieuwen mislukt. Probeer het opnieuw.';
 
   @override
-  String get interactionTypeThisIsMeButton => 'I can help';
+  String get interactionTypeThisIsMeButton => 'Kan helpen';
 
   @override
-  String get interactionTypeLookingForThisButton => 'I need this';
+  String get interactionTypeLookingForThisButton => 'Heb dit nodig';
 
   @override
-  String get interactionTypeKnowSomeoneButton => 'I can refer';
+  String get interactionTypeKnowSomeoneButton => 'Kan doorverwijzen';
 
   @override
-  String get interactionTypeNotRelevantButton => 'I can\'t help';
+  String get interactionTypeNotRelevantButton => 'Kan niet helpen';
 
   @override
-  String get interactionTypeThisIsMeSelection => 'I can help';
+  String get interactionTypeThisIsMeSelection => 'Ik kan helpen';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'I need help';
+  String get interactionTypeLookingForThisSelection => 'Ik heb hulp nodig';
 
   @override
-  String get interactionTypeKnowSomeoneSelection => 'I can connect';
+  String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
 
   @override
-  String get interactionTypeNotRelevantSelection => 'Skip';
+  String get interactionTypeNotRelevantSelection => 'Overslaan';
 
   @override
   String get interactionTypeThisIsMeSubtitle =>
-      'Share your skills or experience';
+      'Deel je vaardigheden of ervaring';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Ask for advice or support';
+      'Vraag om advies of ondersteuning';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
-      'Introduce people who can help';
+      'Stel mensen voor die kunnen helpen';
 
   @override
-  String get interactionTypeNotRelevantSubtitle => 'Pass on this one';
+  String get interactionTypeNotRelevantSubtitle => 'Deze sla ik over';
 
   @override
   String get interactionTypeThisIsMeHint =>
-      'What skill or expertise can you offer?';
+      'Welke vaardigheid of expertise kun je aanbieden?';
 
   @override
   String get interactionTypeLookingForThisHint =>
-      'What specific help do you need?';
+      'Welke specifieke hulp heb je nodig?';
 
   @override
-  String get interactionTypeKnowSomeoneHint =>
-      'Who can you connect for this need?';
+  String get interactionTypeKnowSomeoneHint => 'Wie kun je aanraden?';
 
   @override
-  String get interactionTypeNotRelevantHint => 'What would you like to share?';
+  String get interactionTypeNotRelevantHint => 'Wat wil je delen?';
 
   @override
-  String get registrationStepNameTitle => 'Personal Information';
+  String get registrationStepNameTitle => 'Persoonlijke informatie';
 
   @override
-  String get registrationStepEmailTitle => 'Email Verification';
+  String get registrationStepEmailTitle => 'E-mailverificatie';
 
   @override
-  String get registrationStepLocationTitle => 'Location';
+  String get registrationStepLocationTitle => 'Locatie';
 
   @override
-  String get registrationStepCityTitle => 'City';
+  String get registrationStepCityTitle => 'Stad';
 
   @override
-  String get registrationStepCompanyTitle => 'Company Information';
+  String get registrationStepCompanyTitle => 'Bedrijfsinformatie';
 
   @override
-  String get registrationStepRolesTitle => 'Your Roles';
+  String get registrationStepRolesTitle => 'Je rollen';
 
   @override
-  String get registrationStepSectorsTitle => 'Your Sectors';
+  String get registrationStepSectorsTitle => 'Je sectoren';
 
   @override
-  String get registrationStepMeetingPreferencesTitle => 'Meeting Preferences';
+  String get registrationStepMeetingPreferencesTitle => 'Ontmoetingsvoorkeuren';
 
   @override
-  String get registrationStepNetworkingGoalsTitle => 'Networking Goals';
+  String get registrationStepNetworkingGoalsTitle => 'Netwerkdoelen';
 
   @override
-  String get registrationStepAvatarTitle => 'Profile Picture';
+  String get registrationStepAvatarTitle => 'Profielfoto';
 
   @override
-  String get registrationStepNotificationsTitle => 'Notifications';
+  String get registrationStepNotificationsTitle => 'Meldingen';
 
   @override
-  String get registrationStepCompleteTitle => 'Welcome to Venyu!';
+  String get registrationStepCompleteTitle => 'Welkom bij Venyu!';
 
   @override
-  String get benefitNearbyMatchesTitle => 'Meet entrepreneurs nearby';
+  String get benefitNearbyMatchesTitle => 'Ontmoet ondernemers in de buurt';
 
   @override
-  String get benefitNearbyMatchesDescription => 'Discover people close to you';
+  String get benefitNearbyMatchesDescription => 'Ontdek mensen dicht bij jou';
 
   @override
-  String get benefitDistanceAwarenessTitle => 'See who is within reach';
+  String get benefitDistanceAwarenessTitle => 'Zie wie binnen bereik is';
 
   @override
   String get benefitDistanceAwarenessDescription =>
-      'Know the distance to matches';
+      'Weet de afstand tot matches';
 
   @override
-  String get benefitBetterMatchingTitle => 'Grow your network locally';
+  String get benefitBetterMatchingTitle => 'Groei je netwerk lokaal';
 
   @override
   String get benefitBetterMatchingDescription =>
-      'Get better results with local focus';
+      'Krijg betere resultaten met lokale focus';
 
   @override
-  String get benefitMatchNotificationsTitle => 'New match alerts';
+  String get benefitMatchNotificationsTitle => 'Nieuwe match meldingen';
 
   @override
   String get benefitMatchNotificationsDescription =>
-      'Get alerted as soon as a new match appears';
+      'Word gewaarschuwd zodra een nieuwe match verschijnt';
 
   @override
-  String get benefitConnectionNotificationsTitle => 'Never miss an intro';
+  String get benefitConnectionNotificationsTitle => 'Mis geen introductie';
 
   @override
   String get benefitConnectionNotificationsDescription =>
-      'Know right away when you receive a new introduction';
+      'Weet meteen wanneer je een nieuwe introductie ontvangt';
 
   @override
-  String get benefitDailyRemindersTitle => 'Stay in the game';
+  String get benefitDailyRemindersTitle => 'Blijf actief';
 
   @override
   String get benefitDailyRemindersDescription =>
-      'Get reminded every day to make the net work';
+      'Word elke dag herinnerd je netwerk uit te breiden';
 
   @override
-  String get benefitFocusedReachTitle => 'Smart targeting';
+  String get benefitFocusedReachTitle => 'Slimme targeting';
 
   @override
   String get benefitFocusedReachDescription =>
-      'Publish your questions to the right audience';
+      'Publiceer je vragen naar het juiste publiek';
 
   @override
   String get benefitDiscreetPreviewTitle => 'First call';
 
   @override
   String get benefitDiscreetPreviewDescription =>
-      'On your cards, you get the first call. Matches are only shown to others if you\'re interested.';
+      'Op je kaartjes krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.';
 
   @override
-  String get benefitUnlimitedIntroductionsTitle => 'Infinite intros';
+  String get benefitUnlimitedIntroductionsTitle => 'Oneindige introductions';
 
   @override
   String get benefitUnlimitedIntroductionsDescription =>
-      'Keep growing your network with unlimited introductions and never miss an opportunity';
+      'Blijf je netwerk uitbreiden met onbeperkte introducties en mis nooit een kans';
 
   @override
-  String get benefitUnlockFullProfilesTitle => 'Full profiles';
+  String get benefitUnlockFullProfilesTitle => 'Volledige profielen';
 
   @override
   String get benefitUnlockFullProfilesDescription =>
-      'Discover who\'s behind the match by seeing their avatar and checking mutual interests';
+      'Ontdek wie achter de match zit door hun avatar te zien en wederzijdse interesses te bekijken';
 
   @override
-  String get benefitViewsAndImpressionsTitle => 'Views and impressions';
+  String get benefitViewsAndImpressionsTitle => 'Weergaven en vertoningen';
 
   @override
   String get benefitViewsAndImpressionsDescription =>
-      'Understand your reach with simple stats';
+      'Begrijp je bereik met eenvoudige statistieken';
 
   @override
-  String get benefitDailyCardsBoostTitle => 'More daily cards';
+  String get benefitDailyCardsBoostTitle => 'Meer dagelijkse kaartjes';
 
   @override
   String get benefitDailyCardsBoostDescription =>
-      'More cards to grow your network faster.';
+      'Meer kaartjes om je netwerk sneller te laten groeien.';
 
   @override
-  String get benefitAiPoweredMatchesTitle => 'AI-powered matches (later)';
+  String get benefitAiPoweredMatchesTitle => 'AI-gedreven matches (later)';
 
   @override
   String get benefitAiPoweredMatchesDescription =>
-      'Receive smart suggestions based on your profile.';
+      'Ontvang slimme suggesties op basis van je profiel.';
 
   @override
-  String get editCompanyInfoNameTitle => 'Name & website';
+  String get editCompanyInfoNameTitle => 'Naam & website';
 
   @override
-  String get editCompanyInfoNameDescription => 'The name of your company';
+  String get editCompanyInfoNameDescription => 'De naam van je bedrijf';
 
   @override
-  String get editPersonalInfoNameTitle => 'Name';
+  String get editPersonalInfoNameTitle => 'Naam';
 
   @override
-  String get editPersonalInfoNameDescription => 'Your name and LinkedIn URL.';
+  String get editPersonalInfoNameDescription => 'Je naam en LinkedIn URL.';
 
   @override
   String get editPersonalInfoBioTitle => 'Bio';
 
   @override
-  String get editPersonalInfoBioDescription => 'A short intro about yourself.';
+  String get editPersonalInfoBioDescription =>
+      'Een korte introductie over jezelf.';
 
   @override
-  String get editPersonalInfoLocationTitle => 'City';
+  String get editPersonalInfoLocationTitle => 'Stad';
 
   @override
-  String get editPersonalInfoLocationDescription => 'The city you live in.';
+  String get editPersonalInfoLocationDescription => 'De stad waarin je woont.';
 
   @override
-  String get editPersonalInfoEmailTitle => 'Email';
+  String get editPersonalInfoEmailTitle => 'E-mail';
 
   @override
-  String get editPersonalInfoEmailDescription => 'Your contact email address.';
+  String get editPersonalInfoEmailDescription => 'Je contact e-mailadres.';
 
   @override
   String get profileEditAccountTitle => 'Account';
 
   @override
-  String get profileEditAccountDescription => 'Manage your account';
+  String get profileEditAccountDescription => 'Beheer je account';
 
   @override
-  String get reviewTypeUserTitle => 'User generated';
+  String get reviewTypeUserTitle => 'Door gebruiker aangemaakt';
 
   @override
-  String get reviewTypeUserDescription => 'Cards submitted by users';
+  String get reviewTypeUserDescription => 'Kaartjes ingediend door gebruikers';
 
   @override
-  String get reviewTypeSystemTitle => 'AI generated';
+  String get reviewTypeSystemTitle => 'AI gegenereerd';
 
   @override
-  String get reviewTypeSystemDescription => 'Daily generated cards by AI';
+  String get reviewTypeSystemDescription =>
+      'Dagelijks gegenereerde kaartjes door AI';
 
   @override
   String get appName => 'Venyu';
@@ -385,300 +387,302 @@ class AppLocalizationsNl extends AppLocalizations {
   String get appTagline => 'make the net work';
 
   @override
-  String get navMatches => 'Intros';
+  String get navMatches => 'Introductions';
 
   @override
-  String get navCards => 'Cards';
+  String get navCards => 'Kaartjes';
 
   @override
   String get navNotifications => 'Updates';
 
   @override
-  String get navProfile => 'Profile';
+  String get navProfile => 'Profiel';
 
   @override
-  String get actionSave => 'Save';
+  String get actionSave => 'Opslaan';
 
   @override
-  String get actionCancel => 'Cancel';
+  String get actionCancel => 'Annuleren';
 
   @override
-  String get actionDelete => 'Delete';
+  String get actionDelete => 'Verwijderen';
 
   @override
-  String get actionEdit => 'Edit';
+  String get actionEdit => 'Bewerken';
 
   @override
-  String get actionNext => 'Next';
+  String get actionNext => 'Volgende';
 
   @override
-  String get actionSkip => 'Skip';
+  String get actionSkip => 'Overslaan';
 
   @override
-  String get actionInterested => 'Interested';
+  String get actionInterested => 'Geïnteresseerd';
 
   @override
-  String get successSaved => 'Saved successfully';
+  String get successSaved => 'Succesvol opgeslagen';
 
   @override
-  String get dialogRemoveAvatarTitle => 'Remove Avatar';
+  String get dialogRemoveAvatarTitle => 'Avatar verwijderen';
 
   @override
   String get dialogRemoveAvatarMessage =>
-      'Are you sure you want to remove your avatar?';
+      'Weet je zeker dat je je avatar wilt verwijderen?';
 
   @override
-  String get dialogRemoveButton => 'Remove';
+  String get dialogRemoveButton => 'Verwijderen';
 
   @override
   String get dialogOkButton => 'OK';
 
   @override
-  String get dialogErrorTitle => 'Error';
+  String get dialogErrorTitle => 'Fout';
 
   @override
-  String get dialogLoadingMessage => 'Loading...';
+  String get dialogLoadingMessage => 'Laden...';
 
   @override
-  String get validationEmailRequired => 'Email is required';
+  String get validationEmailRequired => 'E-mail is verplicht';
 
   @override
-  String get validationEmailInvalid => 'Please enter a valid email address';
+  String get validationEmailInvalid => 'Voer een geldig e-mailadres in';
 
   @override
   String get validationUrlInvalid =>
-      'Please enter a valid URL (starting with http:// or https://)';
+      'Voer een geldige URL in (beginnend met http:// of https://)';
 
   @override
   String get validationLinkedInUrlInvalid =>
-      'Please enter a valid LinkedIn profile URL\n(e.g., https://www.linkedin.com/in/yourname)';
+      'Voer een geldige LinkedIn profiel URL in\n(bijv. https://www.linkedin.com/in/jouwnaam)';
 
   @override
   String validationFieldRequired(String fieldName) {
-    return '$fieldName is required';
+    return '$fieldName is verplicht';
   }
 
   @override
-  String get validationFieldRequiredDefault => 'This field is required';
+  String get validationFieldRequiredDefault => 'Dit veld is verplicht';
 
   @override
   String validationMinLength(String fieldName, int minLength) {
-    return '$fieldName must be at least $minLength characters long';
+    return '$fieldName moet minimaal $minLength karakters lang zijn';
   }
 
   @override
   String validationMaxLength(String fieldName, int maxLength) {
-    return '$fieldName cannot exceed $maxLength characters';
+    return '$fieldName mag maximaal $maxLength karakters bevatten';
   }
 
   @override
-  String get validationOtpRequired => 'Verification code is required';
+  String get validationOtpRequired => 'Verificatiecode is verplicht';
 
   @override
-  String get validationOtpLength => 'Verification code must be 6 digits';
+  String get validationOtpLength => 'Verificatiecode moet 6 cijfers zijn';
 
   @override
   String get validationOtpNumeric =>
-      'Verification code must contain only numbers';
+      'Verificatiecode mag alleen nummers bevatten';
 
   @override
   String get imageSourceCameraTitle => 'Camera';
 
   @override
-  String get imageSourceCameraDescription => 'Take a new photo';
+  String get imageSourceCameraDescription => 'Neem een nieuwe foto';
 
   @override
-  String get imageSourcePhotoLibraryTitle => 'Photo Library';
+  String get imageSourcePhotoLibraryTitle => 'Fotobibliotheek';
 
   @override
-  String get imageSourcePhotoLibraryDescription => 'Choose from library';
+  String get imageSourcePhotoLibraryDescription => 'Kies uit bibliotheek';
 
   @override
-  String get pagesProfileEditTitle => 'Profile Edit';
+  String get pagesProfileEditTitle => 'Profiel bewerken';
 
   @override
-  String get pagesProfileEditDescription => 'Edit profile information';
+  String get pagesProfileEditDescription => 'Bewerk profielinformatie';
 
   @override
-  String get pagesLocationTitle => 'Location';
+  String get pagesLocationTitle => 'Locatie';
 
   @override
-  String get pagesLocationDescription => 'Location settings';
+  String get pagesLocationDescription => 'Locatie-instellingen';
 
   @override
   String get promptSectionCardTitle => 'Status';
 
   @override
-  String get promptSectionCardDescription => 'View your card details';
+  String get promptSectionCardDescription => 'Bekijk je kaartdetails';
 
   @override
-  String get promptSectionStatsTitle => 'Stats';
+  String get promptSectionStatsTitle => 'Statistieken';
 
   @override
-  String get promptSectionStatsDescription => 'Performance and analytics';
+  String get promptSectionStatsDescription => 'Prestaties en analyses';
 
   @override
-  String get promptSectionIntroTitle => 'Intros';
+  String get promptSectionIntroTitle => 'Introductions';
 
   @override
-  String get promptSectionIntroDescription => 'Matches and introductions';
+  String get promptSectionIntroDescription => 'Matches en introducties';
 
   @override
-  String get promptStatusDraftDisplay => 'Draft';
+  String get promptStatusDraftDisplay => 'Concept';
 
   @override
   String get promptStatusDraftInfo =>
-      'Your card is saved as a draft. Complete and submit it to start getting matches.';
+      'Je kaartje is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.';
 
   @override
-  String get promptStatusPendingReviewDisplay => 'Pending Review';
+  String get promptStatusPendingReviewDisplay =>
+      'In afwachting van beoordeling';
 
   @override
   String get promptStatusPendingReviewInfo =>
-      'Your card is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.';
+      'Je kaartje wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.';
 
   @override
-  String get promptStatusPendingTranslationDisplay => 'Pending Translation';
+  String get promptStatusPendingTranslationDisplay => 'Wordt vertaald';
 
   @override
   String get promptStatusPendingTranslationInfo =>
-      'Your card is being translated to other languages.';
+      'Je kaartje wordt vertaald naar andere talen.';
 
   @override
-  String get promptStatusApprovedDisplay => 'Approved';
+  String get promptStatusApprovedDisplay => 'Goedgekeurd';
 
   @override
   String get promptStatusApprovedInfo =>
-      'Your card has been approved and is live. You can receive matches.';
+      'Je kaartje is goedgekeurd en staat live. Je kunt matches ontvangen.';
 
   @override
-  String get promptStatusRejectedDisplay => 'Rejected';
+  String get promptStatusRejectedDisplay => 'Afgewezen';
 
   @override
   String get promptStatusRejectedInfo =>
-      'Your card was rejected for not following community guidelines. Please edit and resubmit.';
+      'Je kaartje werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.';
 
   @override
-  String get promptStatusArchivedDisplay => 'Archived';
+  String get promptStatusArchivedDisplay => 'Gearchiveerd';
 
   @override
   String get promptStatusArchivedInfo =>
-      'Your card has been archived and is no longer visible to other users.';
+      'Je kaartje is gearchiveerd en niet meer zichtbaar voor andere gebruikers.';
 
   @override
-  String get venueTypeEventDisplayName => 'Event';
+  String get venueTypeEventDisplayName => 'Evenement';
 
   @override
   String get venueTypeEventDescription =>
-      'Temporary venue for events, conferences, or meetups';
+      'Tijdelijke venue voor evenementen, conferenties of meetups';
 
   @override
-  String get venueTypeOrganisationDisplayName => 'Community';
+  String get venueTypeOrganisationDisplayName => 'Gemeenschap';
 
   @override
   String get venueTypeOrganisationDescription =>
-      'Permanent venue for companies or organizations';
+      'Permanente venue voor bedrijven of organisaties';
 
   @override
-  String get emptyStateNotificationsTitle => 'All caught up!';
+  String get emptyStateNotificationsTitle => 'Helemaal up-to-date';
 
   @override
   String get emptyStateNotificationsDescription =>
-      'When something happens that you should know about, we\'ll update you here';
+      'Als er iets gebeurt waar je van moet weten, laten we het je hier weten';
 
   @override
-  String get emptyStateReviewsTitle => 'All caught up!';
+  String get emptyStateReviewsTitle => 'Helemaal up-to-date';
 
   @override
   String get emptyStateReviewsDescription =>
-      'When cards are submitted for review, they will appear here';
+      'Wanneer kaartjes ter beoordeling worden ingediend, verschijnen ze hier';
 
   @override
-  String get emptyStateMatchesTitle => 'Waiting for your first match!';
+  String get emptyStateMatchesTitle => 'Wachten op je eerste match!';
 
   @override
   String get emptyStateMatchesDescription =>
-      'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
+      'Venyu is al op zoek naar geweldige matches. Zodra we de juiste match vinden, verschijnt deze hier en kan het leiden tot een introductie.';
 
   @override
-  String get emptyStatePromptsTitle => 'Ready to get matched?';
+  String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Cards open the door to meaningful introductions. Add yours and match with the right people.';
+      'Vind de juiste mensen. Voeg je kaartje toe en match.';
 
   @override
-  String get redeemInviteTitle => 'Enter your invite code';
+  String get redeemInviteTitle => 'Voer je uitnodigingscode in';
 
   @override
   String get redeemInviteSubtitle =>
-      'Please enter the 8-character invite code you received to continue.';
+      'Voer de 8-karakters uitnodigingscode in die je hebt ontvangen om door te gaan.';
 
   @override
-  String get redeemInviteContinue => 'Continue';
+  String get redeemInviteContinue => 'Doorgaan';
 
   @override
-  String get redeemInvitePlaceholder => 'Enter invite code';
+  String get redeemInvitePlaceholder => 'Voer uitnodigingscode in';
 
   @override
-  String get waitlistFinishTitle => 'You\'re on the list!';
+  String get waitlistFinishTitle => 'Je staat op de lijst!';
 
   @override
   String get waitlistFinishDescription =>
-      'Thanks for joining the Venyu waitlist. We\'ll notify you as soon as new spots open up.';
+      'Bedankt voor je aanmelding op de Venyu wachtlijst. We laten je weten zodra er nieuwe plaatsen beschikbaar zijn.';
 
   @override
-  String get waitlistFinishButton => 'Done';
+  String get waitlistFinishButton => 'Klaar';
 
   @override
-  String get waitlistTitle => 'Join the waitlist';
+  String get waitlistTitle => 'Meld je aan voor de wachtlijst';
 
   @override
   String get waitlistDescription =>
-      'Venyu is invite-only. Join the waitlist and get invited when new spots are open.';
+      'Venyu is alleen op uitnodiging. Meld je aan voor de wachtlijst en ontvang een uitnodiging wanneer er nieuwe plaatsen beschikbaar zijn.';
 
   @override
-  String get waitlistNameHint => 'Your full name';
+  String get waitlistNameHint => 'Je volledige naam';
 
   @override
-  String get waitlistCompanyHint => 'Your company name';
+  String get waitlistCompanyHint => 'Je bedrijfsnaam';
 
   @override
-  String get waitlistRoleHint => 'Your role / title';
+  String get waitlistRoleHint => 'Je functie / titel';
 
   @override
-  String get waitlistEmailHint => 'Your email address';
+  String get waitlistEmailHint => 'Je e-mailadres';
 
   @override
-  String get waitlistButton => 'Join waitlist';
+  String get waitlistButton => 'Aanmelden voor wachtlijst';
 
   @override
-  String get waitlistErrorDuplicate => 'This email is already on the waitlist';
+  String get waitlistErrorDuplicate =>
+      'Dit e-mailadres staat al op de wachtlijst';
 
   @override
   String get waitlistErrorFailed =>
-      'Failed to join waitlist. Please try again.';
+      'Aanmelden voor wachtlijst mislukt. Probeer het opnieuw.';
 
   @override
   String get waitlistSuccessMessage =>
-      'You\'ve been added to the waitlist! We\'ll notify you when we\'re ready.';
+      'Je bent toegevoegd aan de wachtlijst! We laten je weten wanneer we klaar zijn.';
 
   @override
-  String get inviteScreeningTitle => 'Welcome to venyu 🤝';
+  String get inviteScreeningTitle => 'Welkom bij venyu 🤝';
 
   @override
   String get inviteScreeningDescription =>
-      'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.';
+      'De invite-only matchmaking community voor ondernemers. Echte introducties. Eén minuut per dag.';
 
   @override
-  String get inviteScreeningHasCode => 'I have an invite code';
+  String get inviteScreeningHasCode => 'Ik heb een uitnodigingscode';
 
   @override
-  String get inviteScreeningNoCode => 'I don\'t have an invite code';
+  String get inviteScreeningNoCode => 'Ik heb geen uitnodigingscode';
 
   @override
   String onboardWelcome(String name) {
-    return 'Welcome $name 👋';
+    return 'Welkom $name 👋';
   }
 
   @override
@@ -686,127 +690,128 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get loginLegalText =>
-      'By signing in, you agree to our Terms of Service and Privacy Policy';
+      'Door in te loggen ga je akkoord met onze Servicevoorwaarden en Privacybeleid';
 
   @override
-  String get joinVenueTitle => 'Join venue';
+  String get joinVenueTitle => 'Venue toevoegen';
 
   @override
-  String get joinVenueSubtitle => 'Enter the 8-character invite code to join.';
+  String get joinVenueSubtitle =>
+      'Voer de 8-karakters uitnodigingscode in om deel te nemen.';
 
   @override
-  String get joinVenueButton => 'Join';
+  String get joinVenueButton => 'Deelnemen';
 
   @override
-  String get joinVenuePlaceholder => 'Enter venue code';
+  String get joinVenuePlaceholder => 'Voer venue code in';
 
   @override
-  String get matchDetailLoading => 'Loading...';
+  String get matchDetailLoading => 'Laden...';
 
   @override
-  String get matchDetailTitleIntroduction => 'Introduction';
+  String get matchDetailTitleIntroduction => 'Introductie';
 
   @override
   String get matchDetailTitleMatch => 'Match';
 
   @override
-  String get matchDetailMenuReport => 'Report';
+  String get matchDetailMenuReport => 'Rapporteren';
 
   @override
-  String get matchDetailMenuRemove => 'Remove';
+  String get matchDetailMenuRemove => 'Verwijderen';
 
   @override
-  String get matchDetailMenuBlock => 'Block';
+  String get matchDetailMenuBlock => 'Blokkeren';
 
   @override
-  String get matchDetailReportSuccess => 'Profile reported successfully';
+  String get matchDetailReportSuccess => 'Profiel succesvol gerapporteerd';
 
   @override
-  String get matchDetailBlockTitle => 'Block User?';
+  String get matchDetailBlockTitle => 'Gebruiker blokkeren?';
 
   @override
   String get matchDetailBlockMessage =>
-      'Blocking this user will remove the match and prevent future matching. This action cannot be undone.';
+      'Deze gebruiker blokkeren verwijdert de match en voorkomt toekomstige matches. Deze actie kan niet ongedaan gemaakt worden.';
 
   @override
-  String get matchDetailBlockButton => 'Block';
+  String get matchDetailBlockButton => 'Blokkeren';
 
   @override
-  String get matchDetailBlockSuccess => 'User blocked successfully';
+  String get matchDetailBlockSuccess => 'Gebruiker succesvol geblokkeerd';
 
   @override
   String matchDetailRemoveTitle(String type) {
-    return 'Remove $type?';
+    return '$type verwijderen?';
   }
 
   @override
   String matchDetailRemoveMessage(String type) {
-    return 'Are you sure you want to remove this $type? This action cannot be undone.';
+    return 'Weet je zeker dat je deze $type wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden.';
   }
 
   @override
-  String get matchDetailRemoveButton => 'Remove';
+  String get matchDetailRemoveButton => 'Verwijderen';
 
   @override
   String get matchDetailRemoveSuccessIntroduction =>
-      'Introduction removed successfully';
+      'Introductie succesvol verwijderd';
 
   @override
-  String get matchDetailRemoveSuccessMatch => 'Match removed successfully';
+  String get matchDetailRemoveSuccessMatch => 'Match succesvol verwijderd';
 
   @override
-  String get matchDetailTypeIntroduction => 'introduction';
+  String get matchDetailTypeIntroduction => 'introductie';
 
   @override
   String get matchDetailTypeMatch => 'match';
 
   @override
-  String get matchDetailErrorLoad => 'Failed to load match details';
+  String get matchDetailErrorLoad => 'Match details laden mislukt';
 
   @override
-  String get matchDetailRetry => 'Retry';
+  String get matchDetailRetry => 'Opnieuw proberen';
 
   @override
-  String get matchDetailNotFound => 'Match not found';
+  String get matchDetailNotFound => 'Match niet gevonden';
 
   @override
-  String get matchDetailLimitTitle => 'Monthly limit reached';
+  String get matchDetailLimitTitle => 'Maandelijkse limiet bereikt';
 
   @override
   String get matchDetailLimitMessage =>
-      'You\'ve reached your limit of 3 intros per month. Upgrade to Venyu Pro for unlimited introductions.';
+      'Je hebt je limiet van 3 introducties per maand bereikt. Upgrade naar Venyu Pro voor onbeperkte introducties.';
 
   @override
-  String get matchDetailLimitButton => 'Upgrade to Pro';
+  String get matchDetailLimitButton => 'Upgrade naar Pro';
 
   @override
-  String get matchDetailFirstCallTitle => 'First Call active';
+  String get matchDetailFirstCallTitle => 'First Call actief';
 
   @override
   String matchDetailMatchingCards(int count, String cards) {
-    return '$count matching $cards';
+    return '$count matchende $cards';
   }
 
   @override
-  String get matchDetailCard => 'card';
+  String get matchDetailCard => 'kaartje';
 
   @override
-  String get matchDetailCards => 'cards';
+  String get matchDetailCards => 'kaartjes';
 
   @override
   String matchDetailSharedIntros(int count, String intros) {
-    return '$count shared $intros';
+    return '$count gedeelde $intros';
   }
 
   @override
-  String get matchDetailIntroduction => 'introduction';
+  String get matchDetailIntroduction => 'introductie';
 
   @override
   String get matchDetailIntroductions => 'introductions';
 
   @override
   String matchDetailSharedVenues(int count, String venues) {
-    return '$count shared $venues';
+    return '$count gedeelde $venues';
   }
 
   @override
@@ -817,98 +822,98 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String matchDetailCompanyFacts(int count, String facts) {
-    return '$count mutual company $facts';
+    return '$count wederzijdse bedrijfs $facts';
   }
 
   @override
-  String get matchDetailFact => 'fact';
+  String get matchDetailFact => 'feit';
 
   @override
-  String get matchDetailFacts => 'facts';
+  String get matchDetailFacts => 'feiten';
 
   @override
   String matchDetailPersonalInterests(int count, String interests) {
-    return '$count mutual personal $interests';
+    return '$count wederzijdse persoonlijke $interests';
   }
 
   @override
-  String get matchDetailInterest => 'interest';
+  String get matchDetailInterest => 'interesse';
 
   @override
-  String get matchDetailInterests => 'interests';
+  String get matchDetailInterests => 'interesses';
 
   @override
   String matchDetailWhyMatch(String name) {
-    return 'Why you and $name match';
+    return 'Waarom jij en $name matchen';
   }
 
   @override
-  String get matchDetailUnlockTitle => 'Unlock mutual interests';
+  String get matchDetailUnlockTitle => 'Ontgrendel wederzijdse interesses';
 
   @override
   String matchDetailUnlockMessage(String name) {
-    return 'See what you share on a personal level with $name';
+    return 'Zie wat je op persoonlijk niveau met $name deelt';
   }
 
   @override
-  String get matchDetailUnlockButton => 'Upgrade now';
+  String get matchDetailUnlockButton => 'Nu upgraden';
 
   @override
-  String get matchOverviewYou => 'You';
+  String get matchOverviewYou => 'Jij';
 
   @override
   String get profileAvatarMenuCamera => 'Camera';
 
   @override
-  String get profileAvatarMenuGallery => 'Gallery';
+  String get profileAvatarMenuGallery => 'Galerij';
 
   @override
-  String get profileAvatarMenuView => 'View';
+  String get profileAvatarMenuView => 'Bekijken';
 
   @override
-  String get profileAvatarMenuRemove => 'Remove';
+  String get profileAvatarMenuRemove => 'Verwijderen';
 
   @override
   String profileAvatarErrorAction(String error) {
-    return 'Avatar action failed: $error';
+    return 'Avatar actie mislukt: $error';
   }
 
   @override
   String get profileAvatarErrorUpload =>
-      'Failed to upload photo. Please try again.';
+      'Foto uploaden mislukt. Probeer het opnieuw.';
 
   @override
   String get profileAvatarErrorRemove =>
-      'Failed to remove photo. Please try again.';
+      'Foto verwijderen mislukt. Probeer het opnieuw.';
 
   @override
-  String get profileAvatarErrorTitle => 'Error';
+  String get profileAvatarErrorTitle => 'Fout';
 
   @override
   String get profileAvatarErrorButton => 'OK';
 
   @override
-  String get profileInfoAddCompanyInfo => 'Add company info';
+  String get profileInfoAddCompanyInfo => 'Bedrijfsinfo toevoegen';
 
   @override
-  String get venuesErrorLoading => 'Error loading venues';
+  String get venuesErrorLoading => 'Fout bij laden van venues';
 
   @override
-  String get venuesRetry => 'Retry';
+  String get venuesRetry => 'Opnieuw proberen';
 
   @override
-  String get venuesEmptyTitle => 'Your venues will appear here';
+  String get venuesEmptyTitle => 'Je venues verschijnen hier';
 
   @override
   String get venuesEmptyDescription =>
-      'Got an invite code? Redeem it to join that venue and start getting introductions in the community.';
+      'Heb je een uitnodigingscode? Verzilver deze om deel te nemen aan die venue en introducties te krijgen in de community.';
 
   @override
-  String get venuesEmptyAction => 'Join a venue';
+  String get venuesEmptyAction => 'Venue toevoegen';
 
   @override
   String invitesAvailableDescription(int count, String codes) {
-    return 'You have $count invite $codes ready to share. Each one unlocks Venyu for a new entrepreneur';
+    return 'Je hebt $count uitnodigings$codes klaar om te delen. Elk van hen ontgrendelt Venyu voor een nieuwe ondernemer';
   }
 
   @override
@@ -919,408 +924,413 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get invitesAllSharedDescription =>
-      'All your invite codes have been shared. Thank you for helping grow the Venyu community.';
+      'Al je uitnodigingscodes zijn gedeeld. Bedankt voor het helpen groeien van de Venyu community!';
 
   @override
-  String get invitesGenerateMore => 'Generate more codes';
+  String get invitesGenerateMore => 'Meer codes genereren';
 
   @override
-  String get invitesEmptyTitle => 'No invite codes yet';
+  String get invitesEmptyTitle => 'Nog geen uitnodigingscodes';
 
   @override
   String get invitesEmptyDescription =>
-      'Your invite codes will appear here. You can share them with friends to invite them to Venyu.';
+      'Je uitnodigingscodes verschijnen hier. Je kunt ze delen met vrienden om hen uit te nodigen voor Venyu.';
 
   @override
-  String get invitesEmptyAction => 'Generate codes';
+  String get invitesEmptyAction => 'Codes genereren';
 
   @override
-  String get invitesSubtitleAvailable => 'Available codes';
+  String get invitesSubtitleAvailable => 'Beschikbare codes';
 
   @override
-  String get invitesSubtitleShared => 'Shared codes';
+  String get invitesSubtitleShared => 'Gedeelde codes';
 
   @override
-  String get invitesSubtitleRedeemed => 'Redeemed codes';
+  String get invitesSubtitleRedeemed => 'Verzilverde codes';
 
   @override
-  String get invitesMenuShare => 'Share';
+  String get invitesMenuShare => 'Delen';
 
   @override
-  String get invitesMenuCopy => 'Copy';
+  String get invitesMenuCopy => 'Kopiëren';
 
   @override
-  String get invitesMenuMarkShared => 'Mark as shared';
+  String get invitesMenuMarkShared => 'Markeren als gedeeld';
 
   @override
-  String get invitesShareSubject => 'Your personal Venyu invite';
+  String get invitesShareSubject => 'Je persoonlijke Venyu uitnodiging';
 
   @override
   String invitesShareText(String code) {
-    return 'Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
+    return 'Joine me at Venyu!\n\nHet invite-only netwerk voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
   }
 
   @override
-  String get invitesCopiedToast => 'Invite code copied to clipboard';
+  String get invitesCopiedToast => 'Uitnodigingscode gekopieerd naar klembord';
 
   @override
-  String get invitesMarkedSentToast => 'Invite code marked as sent';
+  String get invitesMarkedSentToast =>
+      'Uitnodigingscode gemarkeerd als verzonden';
 
   @override
-  String get invitesMarkedSentError => 'Failed to mark invite as sent';
+  String get invitesMarkedSentError => 'Markeren als verzonden mislukt';
 
   @override
-  String get invitesGenerateDialogTitle => 'Generate more codes';
+  String get invitesGenerateDialogTitle => 'Meer codes genereren';
 
   @override
   String get invitesGenerateDialogMessage =>
-      'Generate 5 new invite codes? These will expire in 1 year.';
+      '5 nieuwe uitnodigingscodes genereren? Deze verlopen over 1 jaar.';
 
   @override
-  String get invitesGenerateDialogConfirm => 'Generate';
+  String get invitesGenerateDialogConfirm => 'Genereren';
 
   @override
-  String get invitesGenerateDialogCancel => 'Cancel';
+  String get invitesGenerateDialogCancel => 'Annuleren';
 
   @override
   String get invitesGenerateSuccessToast =>
-      '5 new invite codes generated successfully';
+      '5 nieuwe uitnodigingscodes succesvol gegenereerd';
 
   @override
-  String get invitesGenerateErrorToast => 'Failed to generate invite codes';
+  String get invitesGenerateErrorToast =>
+      'Genereren van uitnodigingscodes mislukt';
 
   @override
-  String get companySectionEmptyTagGroups => 'No company tag groups available';
+  String get companySectionEmptyTagGroups =>
+      'Geen bedrijfs tag groepen beschikbaar';
 
   @override
   String get personalSectionEmptyTagGroups =>
-      'No personal tag groups available';
+      'Geen persoonlijke tag groepen beschikbaar';
 
   @override
-  String get editAccountTitle => 'Account settings';
+  String get editAccountTitle => 'Accountinstellingen';
 
   @override
   String get editAccountDataExportTitle => 'Data Export';
 
   @override
   String get editAccountDataExportDescription =>
-      'You can request a copy of all your personal data. This includes your profile information, cards, matches, and activity history. The export will be sent to your registered email address.';
+      'Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, kaarten, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.';
 
   @override
-  String get editAccountExportDataButton => 'Export all your data';
+  String get editAccountExportDataButton => 'Exporteer al je gegevens';
 
   @override
-  String get editAccountDeleteTitle => 'Delete Account';
+  String get editAccountDeleteTitle => 'Account verwijderen';
 
   @override
   String get editAccountDeleteDescription =>
-      'Deleting your account is permanent. All your data, including your profile, cards and matches will be removed.';
+      'Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, kaarten en matches worden verwijderd.';
 
   @override
-  String get editAccountDeleteButton => 'Delete account';
+  String get editAccountDeleteButton => 'Account verwijderen';
 
   @override
-  String get editAccountLogoutButton => 'Logout';
+  String get editAccountLogoutButton => 'Uitloggen';
 
   @override
-  String get editAccountExportDialogTitle => 'Export data';
+  String get editAccountExportDialogTitle => 'Gegevens exporteren';
 
   @override
   String get editAccountExportDialogMessage =>
-      'You will receive a data export link in your email as soon as your data is ready.';
+      'Je ontvangt een data export link in je e-mail zodra je gegevens klaar zijn.';
 
   @override
-  String get editAccountExportDialogCancel => 'Cancel';
+  String get editAccountExportDialogCancel => 'Annuleren';
 
   @override
-  String get editAccountExportDialogConfirm => 'Export';
+  String get editAccountExportDialogConfirm => 'Exporteren';
 
   @override
   String get editAccountExportSuccessMessage =>
-      'An email will be sent once the export is ready';
+      'Een e-mail wordt verzonden zodra de export klaar is';
 
   @override
   String get editAccountExportErrorMessage =>
-      'Something went wrong. Please try again later.';
+      'Er ging iets mis. Probeer het later opnieuw.';
 
   @override
-  String get editAccountDeleteDialogTitle => 'Delete account';
+  String get editAccountDeleteDialogTitle => 'Account verwijderen';
 
   @override
   String get editAccountDeleteDialogMessage =>
-      'Your account and all its data will be permanently deleted immediately. This action cannot be undone. Are you sure you want to continue?';
+      'Je account en alle bijbehorende gegevens worden direct en permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt. Weet je zeker dat je wilt doorgaan?';
 
   @override
-  String get editAccountDeleteDialogCancel => 'Cancel';
+  String get editAccountDeleteDialogCancel => 'Annuleren';
 
   @override
-  String get editAccountDeleteDialogConfirm => 'Delete';
+  String get editAccountDeleteDialogConfirm => 'Verwijderen';
 
   @override
   String get editAccountDeleteErrorMessage =>
-      'Something went wrong. Please try again later.';
+      'Er ging iets mis. Probeer het later opnieuw.';
 
   @override
-  String get editAccountLogoutDialogTitle => 'Logout';
+  String get editAccountLogoutDialogTitle => 'Uitloggen';
 
   @override
   String get editAccountLogoutDialogMessage =>
-      'Are you sure you want to logout?';
+      'Weet je zeker dat je wilt uitloggen?';
 
   @override
-  String get editAccountLogoutDialogCancel => 'Cancel';
+  String get editAccountLogoutDialogCancel => 'Annuleren';
 
   @override
-  String get editAccountLogoutDialogConfirm => 'Logout';
+  String get editAccountLogoutDialogConfirm => 'Uitloggen';
 
   @override
   String get editAccountLogoutErrorMessage =>
-      'Something went wrong. Please try again later.';
+      'Er ging iets mis. Probeer het later opnieuw.';
 
   @override
-  String get editTagGroupSavingButton => 'Saving...';
+  String get editTagGroupSavingButton => 'Opslaan...';
 
   @override
-  String get editTagGroupNextButton => 'Next';
+  String get editTagGroupNextButton => 'Volgende';
 
   @override
-  String get editTagGroupSaveButton => 'Save';
+  String get editTagGroupSaveButton => 'Opslaan';
 
   @override
-  String get editTagGroupLoadErrorTitle => 'Failed to load tags';
+  String get editTagGroupLoadErrorTitle => 'Laden van tags mislukt';
 
   @override
-  String get editTagGroupRetryButton => 'Retry';
+  String get editTagGroupRetryButton => 'Opnieuw proberen';
 
   @override
-  String get editTagGroupNoTagsMessage => 'No tags available';
+  String get editTagGroupNoTagsMessage => 'Geen tags beschikbaar';
 
   @override
-  String get editTagGroupSaveErrorTitle => 'Error';
+  String get editTagGroupSaveErrorTitle => 'Fout';
 
   @override
   String editTagGroupSaveErrorMessage(String error) {
-    return 'Failed to save changes: $error';
+    return 'Wijzigingen opslaan mislukt: $error';
   }
 
   @override
   String get editTagGroupErrorDialogOk => 'OK';
 
   @override
-  String get editNotificationsTitle => 'Notifications';
+  String get editNotificationsTitle => 'Notificaties';
 
   @override
-  String get editNotificationsSavedMessage => 'Notifications saved';
+  String get editNotificationsSavedMessage => 'Notificaties opgeslagen';
 
   @override
   String get editNotificationsSaveErrorMessage =>
-      'Failed to save notifications';
+      'Opslaan van notificaties mislukt';
 
   @override
-  String get editNotificationsEnableTitle => 'Enable notifications to ...';
+  String get editNotificationsEnableTitle => 'Schakel notificaties in om ...';
 
   @override
-  String get editNotificationsNotNowButton => 'Not now';
+  String get editNotificationsNotNowButton => 'Niet nu';
 
   @override
-  String get editNotificationsEnableButton => 'Enable';
+  String get editNotificationsEnableButton => 'Inschakelen';
 
   @override
   String get editNotificationsPermissionDialogTitle =>
-      'Notification Permission Required';
+      'Notificatietoestemming vereist';
 
   @override
   String get editNotificationsPermissionDialogMessage =>
-      'Notification permission has been denied. Please enable it in your device settings to receive updates.';
+      'Notificatietoestemming is geweigerd. Schakel dit in bij je apparaatinstellingen om updates te ontvangen.';
 
   @override
-  String get editNotificationsPermissionDialogNotNow => 'Not now';
+  String get editNotificationsPermissionDialogNotNow => 'Niet nu';
 
   @override
-  String get editNotificationsPermissionDialogOpenSettings => 'Open Settings';
+  String get editNotificationsPermissionDialogOpenSettings =>
+      'Instellingen openen';
 
   @override
   String get editNotificationsLaterMessage =>
-      'You can enable notifications later in settings';
+      'Je kunt notificaties later inschakelen in de instellingen';
 
   @override
   String get editNotificationsEnableErrorMessage =>
-      'Failed to enable notifications. You can try again in settings.';
+      'Inschakelen van notificaties mislukt. Je kunt het opnieuw proberen in de instellingen.';
 
   @override
-  String get editLocationTitle => 'Location';
+  String get editLocationTitle => 'Locatie';
 
   @override
-  String get editLocationSavedMessage => 'Location saved';
+  String get editLocationSavedMessage => 'Locatie opgeslagen';
 
   @override
-  String get editLocationSaveErrorMessage => 'Failed to save location';
+  String get editLocationSaveErrorMessage => 'Opslaan van locatie mislukt';
 
   @override
-  String get editLocationEnableTitle => 'Enable location to';
+  String get editLocationEnableTitle => 'Schakel locatie in om';
 
   @override
-  String get editLocationNotNowButton => 'Not now';
+  String get editLocationNotNowButton => 'Niet nu';
 
   @override
-  String get editLocationEnableButton => 'Enable';
+  String get editLocationEnableButton => 'Inschakelen';
 
   @override
   String get editLocationServicesDisabledMessage =>
-      'Location services are disabled. Please enable them in settings.';
+      'Locatieservices zijn uitgeschakeld. Schakel ze in bij de instellingen.';
 
   @override
   String get editLocationPermissionDeniedMessage =>
-      'Location permission denied. You can enable it later in settings.';
+      'Locatietoestemming geweigerd. Je kunt dit later inschakelen in de instellingen.';
 
   @override
-  String get editLocationPermissionDialogTitle =>
-      'Location Permission Required';
+  String get editLocationPermissionDialogTitle => 'Locatietoestemming vereist';
 
   @override
   String get editLocationPermissionDialogMessage =>
-      'Location permission has been permanently denied. Please enable it in your device settings to use this feature.';
+      'Locatietoestemming is permanent geweigerd. Schakel dit in bij je apparaatinstellingen om deze functie te gebruiken.';
 
   @override
-  String get editLocationPermissionDialogNotNow => 'Not now';
+  String get editLocationPermissionDialogNotNow => 'Niet nu';
 
   @override
-  String get editLocationPermissionDialogOpenSettings => 'Open Settings';
+  String get editLocationPermissionDialogOpenSettings => 'Instellingen openen';
 
   @override
   String get editLocationCoordinatesErrorMessage =>
-      'Could not get location coordinates';
+      'Kan locatiecoördinaten niet ophalen';
 
   @override
   String get editLocationEnableErrorMessage =>
-      'Failed to enable location. Please try again.';
+      'Inschakelen van locatie mislukt. Probeer het opnieuw.';
 
   @override
-  String get editNameTitle => 'You';
+  String get editNameTitle => 'Jij';
 
   @override
-  String get editNameSuccessMessage => 'Changes successfully saved';
+  String get editNameSuccessMessage => 'Wijzigingen succesvol opgeslagen';
 
   @override
-  String get editNameErrorMessage => 'Failed to update, please try again';
+  String get editNameErrorMessage => 'Bijwerken mislukt, probeer het opnieuw';
 
   @override
-  String get editNameLinkedInFormatError => 'LinkedIn URL format is invalid';
+  String get editNameLinkedInFormatError => 'LinkedIn URL formaat is ongeldig';
 
   @override
   String get editNameLinkedInMismatchDialogTitle =>
-      'We couldn\'t find your name in your LinkedIn URL';
+      'We konden je naam niet vinden in je LinkedIn URL';
 
   @override
   String get editNameLinkedInMismatchDialogMessage =>
-      'Your LinkedIn URL doesn\'t seem to contain your first and last name. You can continue or double-check your URL.';
+      'Je LinkedIn URL lijkt je voor- en achternaam niet te bevatten. Je kunt doorgaan of je URL nogmaals controleren.';
 
   @override
-  String get editNameLinkedInMismatchDialogCheckUrl => 'Check URL';
+  String get editNameLinkedInMismatchDialogCheckUrl => 'URL controleren';
 
   @override
-  String get editNameLinkedInMismatchDialogContinue => 'Continue anyway';
+  String get editNameLinkedInMismatchDialogContinue => 'Toch doorgaan';
 
   @override
-  String get editNameFirstNameLabel => 'FIRST NAME';
+  String get editNameFirstNameLabel => 'VOORNAAM';
 
   @override
-  String get editNameFirstNameHint => 'First name';
+  String get editNameFirstNameHint => 'Voornaam';
 
   @override
-  String get editNameLastNameLabel => 'LAST NAME';
+  String get editNameLastNameLabel => 'ACHTERNAAM';
 
   @override
-  String get editNameLastNameHint => 'Last name';
+  String get editNameLastNameHint => 'Achternaam';
 
   @override
   String get editNameLinkedInLabel => 'LINKEDIN URL';
 
   @override
-  String get editNameLinkedInHint => 'linkedin.com/in/your-name';
+  String get editNameLinkedInHint => 'linkedin.com/in/jouw-naam';
 
   @override
   String get editNameLinkedInInfoMessage =>
-      'We\'ll only share your LinkedIn profile in the introduction email once there\'s mutual interest. It\'s never shared when you first get matched.';
+      'We delen je LinkedIn profiel alleen in de introductie-e-mail zodra er wederzijdse interesse is. Het wordt nooit gedeeld wanneer je voor het eerst gematcht wordt.';
 
   @override
-  String get editEmailTitle => 'Email address';
+  String get editEmailTitle => 'E-mailadres';
 
   @override
-  String get editEmailSendCodeButton => 'Send verification code';
+  String get editEmailSendCodeButton => 'Verificatiecode verzenden';
 
   @override
-  String get editEmailAddressLabel => 'EMAIL ADDRESS';
+  String get editEmailAddressLabel => 'E-MAILADRES';
 
   @override
   String editEmailCodeSentMessage(String email) {
-    return 'A verification code has been sent to $email';
+    return 'Een verificatiecode is verzonden naar $email';
   }
 
   @override
-  String get editEmailSuccessMessage => 'Contact email address updated';
+  String get editEmailSuccessMessage => 'Contact e-mailadres bijgewerkt';
 
   @override
   String get editEmailSendCodeErrorMessage =>
-      'Failed to send confirmation code, please try again';
+      'Verzenden van bevestigingscode mislukt, probeer het opnieuw';
 
   @override
   String get editEmailVerifyCodeErrorMessage =>
-      'Failed to verify code, please try again';
+      'Verifiëren van code mislukt, probeer het opnieuw';
 
   @override
-  String get editEmailVerifyCodeButton => 'Verify code';
+  String get editEmailVerifyCodeButton => 'Code verifiëren';
 
   @override
-  String get editEmailAddressHint => 'A valid email address';
+  String get editEmailAddressHint => 'Een geldig e-mailadres';
 
   @override
   String get editEmailInfoMessage =>
-      'We\'ll only use this email for app notifications like new matches, introductions and important updates';
+      'We gebruiken dit e-mailadres alleen voor app notificaties zoals nieuwe matches, introducties en belangrijke updates';
 
   @override
-  String get editEmailNewsletterLabel => 'SUBSCRIBE FOR VENYU UPDATES';
+  String get editEmailNewsletterLabel => 'INSCHRIJVEN VOOR VENYU UPDATES';
 
   @override
-  String get editEmailVerificationCodeLabel => 'Verification code';
+  String get editEmailVerificationCodeLabel => 'Verificatiecode';
 
   @override
-  String get editEmailVerificationCodeHint => 'Enter 6-digit code';
+  String get editEmailVerificationCodeHint => 'Voer 6-cijferige code in';
 
   @override
-  String get editCityTitle => 'City';
+  String get editCityTitle => 'Stad';
 
   @override
-  String get editCitySavedMessage => 'City saved';
+  String get editCitySavedMessage => 'Stad opgeslagen';
 
   @override
-  String get editCityErrorMessage => 'Failed to update city, please try again';
+  String get editCityErrorMessage =>
+      'Bijwerken van stad mislukt, probeer het opnieuw';
 
   @override
-  String get editCityCityLabel => 'CITY';
+  String get editCityCityLabel => 'STAD';
 
   @override
-  String get editCityCityHint => 'City';
+  String get editCityCityHint => 'Stad';
 
   @override
   String get editCityInfoMessage =>
-      'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.';
+      'Je stad wordt alleen gedeeld met mensen aan wie je geïntroduceerd wordt, niet met matches. Dit helpt om betere persoonlijke ontmoetingen te faciliteren zodra een connectie is gemaakt.';
 
   @override
-  String get editCompanyNameTitle => 'Company name';
+  String get editCompanyNameTitle => 'Bedrijfsnaam';
 
   @override
-  String get editCompanyNameSuccessMessage => 'Company info changes saved';
+  String get editCompanyNameSuccessMessage =>
+      'Bedrijfsinfo wijzigingen opgeslagen';
 
   @override
   String get editCompanyNameErrorMessage =>
-      'Failed to update company info, please try again';
+      'Bijwerken van bedrijfsinfo mislukt, probeer het opnieuw';
 
   @override
-  String get editCompanyNameCompanyLabel => 'COMPANY NAME';
+  String get editCompanyNameCompanyLabel => 'BEDRIJFSNAAM';
 
   @override
-  String get editCompanyNameCompanyHint => 'Company name';
+  String get editCompanyNameCompanyHint => 'Bedrijfsnaam';
 
   @override
   String get editCompanyNameWebsiteLabel => 'WEBSITE';
@@ -1330,95 +1340,95 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editCompanyNameInfoMessage =>
-      'Your company name and website are only shared with people you get introduced to, not with matches. They help make introductions more meaningful and relevant.';
+      'Je bedrijfsnaam en website worden alleen gedeeld met mensen aan wie je geïntroduceerd wordt, niet met matches. Ze helpen introducties zinvoller en relevanter te maken.';
 
   @override
-  String get editAvatarTitle => 'Profile Picture';
+  String get editAvatarTitle => 'Profielfoto';
 
   @override
-  String get editAvatarSuccessMessage => 'Profile picture saved';
+  String get editAvatarSuccessMessage => 'Profielfoto opgeslagen';
 
   @override
-  String get editAvatarErrorMessage => 'Failed to save profile picture';
+  String get editAvatarErrorMessage => 'Opslaan van profielfoto mislukt';
 
   @override
-  String get editAvatarRemoveButton => 'Remove';
+  String get editAvatarRemoveButton => 'Verwijderen';
 
   @override
-  String get editAvatarAddTitle => 'Add a profile picture';
+  String get editAvatarAddTitle => 'Voeg een profielfoto toe';
 
   @override
   String get editAvatarInfoMessage =>
-      'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you\'re introduced.';
+      'Je foto is vaak je eerste indruk. Kies een duidelijke, vriendelijke headshot. Deze verschijnt wazig in matches, maar zichtbaar zodra je geïntroduceerd bent.';
 
   @override
   String get editAvatarCameraButton => 'Camera';
 
   @override
-  String get editAvatarGalleryButton => 'Gallery';
+  String get editAvatarGalleryButton => 'Galerij';
 
   @override
-  String get editAvatarNextButton => 'Next';
+  String get editAvatarNextButton => 'Volgende';
 
   @override
-  String get editBioTitle => 'About you';
+  String get editBioTitle => 'Over jou';
 
   @override
-  String get editBioSuccessMessage => 'Profile bio saved';
+  String get editBioSuccessMessage => 'Profiel bio opgeslagen';
 
   @override
   String get editBioErrorMessage =>
-      'Failed to update profile bio, please try again';
+      'Bijwerken van profiel bio mislukt, probeer het opnieuw';
 
   @override
   String get editBioInfoMessage =>
-      'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.';
+      'Je bio is zichtbaar voor iedereen waarmee je matcht. Houd in gedachten: als je niet wilt dat bepaalde persoonlijke details bekend zijn vóór een introductie (zoals je bedrijfsnaam, LinkedIn profiel, of andere identificerende informatie), laat die dan weg.\n\nGebruik deze ruimte om je ervaring, interesses en waar je voor openstaat te benadrukken, zonder gevoelige details te delen die je liever privé houdt tot na een introductie.';
 
   @override
-  String get editBioPlaceholder => 'Write your bio here...';
+  String get editBioPlaceholder => 'Schrijf hier je bio...';
 
   @override
-  String get promptCardCreatedLabel => 'Created';
+  String get promptCardCreatedLabel => 'Aangemaakt';
 
   @override
-  String get promptCardReviewedLabel => 'Reviewed';
+  String get promptCardReviewedLabel => 'Beoordeeld';
 
   @override
   String get promptCardStatusLabel => 'Status';
 
   @override
-  String get promptCardUpgradeTitle => 'Extend your card visibility';
+  String get promptCardUpgradeTitle => 'Verleng je kaart zichtbaarheid';
 
   @override
   String get promptCardUpgradeSubtitle =>
-      'Upgrade to Venyu Pro to keep your card online for 10 days instead of 3.';
+      'Upgrade naar Venyu Pro om je kaart 10 dagen in plaats van 3 online te houden.';
 
   @override
-  String get promptCardUpgradeButton => 'Upgrade to Pro';
+  String get promptCardUpgradeButton => 'Upgraden naar Pro';
 
   @override
-  String get promptIntroErrorMessage => 'Failed to load matches';
+  String get promptIntroErrorMessage => 'Laden van matches mislukt';
 
   @override
-  String get promptIntroRetryButton => 'Retry';
+  String get promptIntroRetryButton => 'Opnieuw proberen';
 
   @override
-  String get promptIntroEmptyTitle => 'No matches yet';
+  String get promptIntroEmptyTitle => 'Nog geen matches';
 
   @override
   String get promptIntroEmptyDescription =>
-      'When people match with your card, their profiles will appear here.';
+      'Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.';
 
   @override
-  String get promptStatsTitle => 'Stats coming soon';
+  String get promptStatsTitle => 'Statistieken komen binnenkort';
 
   @override
   String get promptStatsDescription =>
-      'Track your card\'s performance, views, and engagement metrics.';
+      'Volg de prestaties, weergaven en engagement metrics van je kaart.';
 
   @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
-    return 'Thank you$name';
+    return 'Bedankt$name';
   }
 
   @override
@@ -1426,214 +1436,217 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionSubtitleFromPrompts =>
-      'Now, let\'s make the net work for you';
+      'Make the net work for you';
 
   @override
   String get interactionTypeSelectionSubtitleDefault => 'For you';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'All cards are subject to review before going live';
+      'Alle kaarten worden beoordeeld voordat ze live gaan';
 
   @override
   String get interactionTypeSelectionShowGuidelines =>
-      'Show community guidelines';
+      'Community richtlijnen tonen';
 
   @override
   String get interactionTypeSelectionHideGuidelines =>
-      'Hide community guidelines';
+      'Community richtlijnen verbergen';
 
   @override
-  String get interactionTypeSelectionNotNowButton => 'Not now';
+  String get interactionTypeSelectionNotNowButton => 'Niet nu';
 
   @override
-  String get promptDetailTitle => 'Card detail';
+  String get promptDetailTitle => 'Kaart detail';
 
   @override
   String get promptDetailStatusTitle => 'Status';
 
   @override
-  String get promptDetailHowYouMatchTitle => 'How you match';
+  String get promptDetailHowYouMatchTitle => 'Hoe je matcht';
 
   @override
   String get promptDetailHowYouMatchDescription =>
-      'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.';
+      'Pauzeer een matchingsoptie om tijdelijk te stoppen met matches ontvangen. Hervat om weer te matchen.';
 
   @override
   String get promptDetailFirstCallTitle => 'First Call';
 
   @override
-  String get promptDetailPublishedInTitle => 'Published in';
+  String get promptDetailPublishedInTitle => 'Gepubliceerd in';
 
   @override
-  String get promptDetailMatchesTitle => 'Matches & Introductions';
+  String get promptDetailMatchesTitle => 'Matches & Introducties';
 
   @override
-  String get promptDetailErrorMessage => 'Failed to load prompt';
+  String get promptDetailErrorMessage => 'Laden van kaart mislukt';
 
   @override
-  String get promptDetailErrorDataMessage => 'Failed to load prompt data';
+  String get promptDetailErrorDataMessage => 'Laden van kaartgegevens mislukt';
 
   @override
-  String get promptDetailRetryButton => 'Retry';
+  String get promptDetailRetryButton => 'Opnieuw proberen';
 
   @override
-  String get promptDetailEmptyMatchesTitle => 'No matches yet';
+  String get promptDetailEmptyMatchesTitle => 'Nog geen matches';
 
   @override
   String get promptDetailEmptyMatchesDescription =>
-      'When people match with your card, their profiles will appear here.';
+      'Wanneer mensen matchen met je kaart, verschijnen hun profielen hier.';
 
   @override
-  String get promptDetailEditButton => 'Edit Card';
+  String get promptDetailEditButton => 'Kaart bewerken';
 
   @override
-  String get promptDetailPreviewUpdatedMessage => 'Preview setting updated';
+  String get promptDetailPreviewUpdatedMessage =>
+      'Preview instelling bijgewerkt';
 
   @override
-  String get promptDetailMatchSettingUpdatedMessage => 'Match setting updated';
+  String get promptDetailMatchSettingUpdatedMessage =>
+      'Match instelling bijgewerkt';
 
   @override
-  String get promptDetailPauseMatchingTitle => 'Pause matching?';
+  String get promptDetailPauseMatchingTitle => 'Matching pauzeren?';
 
   @override
   String promptDetailPauseMatchingMessage(String interactionType) {
-    return 'You will no longer receive matches for \"$interactionType\" on this card. You can resume matching anytime.';
+    return 'Je ontvangt geen matches meer voor \"$interactionType\" op deze kaart. Je kunt matching altijd hervatten.';
   }
 
   @override
-  String get promptDetailPauseMatchingConfirm => 'Pause';
+  String get promptDetailPauseMatchingConfirm => 'Pauzeren';
 
   @override
-  String get promptDetailPauseMatchingCancel => 'Cancel';
+  String get promptDetailPauseMatchingCancel => 'Annuleren';
 
   @override
-  String get promptDetailRejectButton => 'Reject';
+  String get promptDetailRejectButton => 'Afwijzen';
 
   @override
-  String get promptDetailApproveButton => 'Approve';
+  String get promptDetailApproveButton => 'Goedkeuren';
 
   @override
-  String get promptDetailApprovedMessage => 'Card approved';
+  String get promptDetailApprovedMessage => 'Kaart goedgekeurd';
 
   @override
-  String get promptDetailRejectedMessage => 'Card rejected';
+  String get promptDetailRejectedMessage => 'Kaart afgewezen';
 
   @override
-  String get promptEditNextButton => 'Next';
+  String get promptEditNextButton => 'Volgende';
 
   @override
   String promptEntryGreeting(String firstName) {
-    return 'Hi$firstName 👋';
+    return 'Hoi$firstName 👋';
   }
 
   @override
   String promptEntryFirstTimeDescription(int count) {
-    return 'The next $count cards are practice examples to help you learn how to answer them.';
+    return 'De volgende $count kaarten zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.';
   }
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Your daily $count cards are waiting for you.';
+    return 'Je dagelijkse $count kaarten wachten op je.';
   }
 
   @override
-  String get promptEntryButton => 'Show me';
+  String get promptEntryButton => 'Laat zien';
 
   @override
-  String get promptFinishTitle => 'Card submitted!';
+  String get promptFinishTitle => 'Kaart ingediend!';
 
   @override
   String get promptFinishDescription =>
-      'Your card has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.';
+      'Je kaart is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.';
 
   @override
   String get promptFinishReviewInfo =>
-      'Reviews typically take less than 24 hours';
+      'Beoordelingen duren meestal minder dan 24 uur';
 
   @override
-  String get promptFinishDoneButton => 'Done';
+  String get promptFinishDoneButton => 'Klaar';
 
   @override
-  String get promptPreviewTitle => 'Preview';
+  String get promptPreviewTitle => 'Voorbeeld';
 
   @override
-  String get promptPreviewNextButton => 'Next';
+  String get promptPreviewNextButton => 'Volgende';
 
   @override
-  String get promptPreviewSubmitButton => 'Submit';
+  String get promptPreviewSubmitButton => 'Indienen';
 
   @override
-  String get promptPreviewErrorUpdate => 'Failed to update prompt';
+  String get promptPreviewErrorUpdate => 'Bijwerken van kaart mislukt';
 
   @override
-  String get promptPreviewErrorSubmit => 'Failed to submit prompt';
+  String get promptPreviewErrorSubmit => 'Indienen van kaart mislukt';
 
   @override
-  String get promptSelectVenueTitle => 'Select audience';
+  String get promptSelectVenueTitle => 'Selecteer publiek';
 
   @override
-  String get promptSelectVenueSubtitle => 'Where would you like to publish?';
+  String get promptSelectVenueSubtitle => 'Waar wil je publiceren?';
 
   @override
-  String get promptSelectVenuePublicTitle => 'Publish publicly';
+  String get promptSelectVenuePublicTitle => 'Publiek publiceren';
 
   @override
-  String get promptSelectVenuePublicDescription => 'Visible to all users';
+  String get promptSelectVenuePublicDescription =>
+      'Zichtbaar voor alle gebruikers';
 
   @override
-  String get promptSelectVenueOrTitle => 'Or select a specific venue';
+  String get promptSelectVenueOrTitle => 'Of selecteer een specifieke venue';
 
   @override
-  String get promptSelectVenueNextButton => 'Next';
+  String get promptSelectVenueNextButton => 'Volgende';
 
   @override
-  String get promptSelectVenueSubmitButton => 'Submit';
+  String get promptSelectVenueSubmitButton => 'Indienen';
 
   @override
-  String get promptSelectVenueErrorSubmit => 'Failed to submit prompt';
+  String get promptSelectVenueErrorSubmit => 'Indienen van kaart mislukt';
 
   @override
-  String get promptSettingsTitle => 'Settings';
+  String get promptSettingsTitle => 'Instellingen';
 
   @override
-  String get promptSettingsSubmitButton => 'Submit';
+  String get promptSettingsSubmitButton => 'Indienen';
 
   @override
-  String get promptSettingsErrorSubmit => 'Failed to submit prompt';
+  String get promptSettingsErrorSubmit => 'Indienen van kaart mislukt';
 
   @override
-  String get promptsViewTitle => 'Your cards';
+  String get promptsViewTitle => 'Jouw kaarten';
 
   @override
-  String get promptsViewEmptyActionButton => 'Get matched';
+  String get promptsViewEmptyActionButton => 'Word gematcht';
 
   @override
-  String get venueCodeFieldPlaceholder => 'Invite code';
+  String get venueCodeFieldPlaceholder => 'Uitnodigingscode';
 
   @override
   String get venueDetailTitle => 'Venue details';
 
   @override
-  String get venueDetailErrorLoading => 'Failed to load venue details';
+  String get venueDetailErrorLoading => 'Laden van venue details mislukt';
 
   @override
-  String get venueDetailRetryButton => 'Retry';
+  String get venueDetailRetryButton => 'Opnieuw proberen';
 
   @override
-  String get venueDetailNotFound => 'Venue not found';
+  String get venueDetailNotFound => 'Venue niet gevonden';
 
   @override
-  String get venueDetailMemberSingular => 'Member';
+  String get venueDetailMemberSingular => 'Lid';
 
   @override
-  String get venueDetailMembersPlural => 'Members';
+  String get venueDetailMembersPlural => 'Leden';
 
   @override
-  String get venueDetailCardSingular => 'Card';
+  String get venueDetailCardSingular => 'Kaart';
 
   @override
-  String get venueDetailCardsPlural => 'Cards';
+  String get venueDetailCardsPlural => 'Kaarten';
 
   @override
   String get venueDetailMatchSingular => 'Match';
@@ -1642,239 +1655,313 @@ class AppLocalizationsNl extends AppLocalizations {
   String get venueDetailMatchesPlural => 'Matches';
 
   @override
-  String get venueDetailIntroductionSingular => 'Introduction';
+  String get venueDetailIntroductionSingular => 'Introductie';
 
   @override
-  String get venueDetailIntroductionsPlural => 'Introductions';
+  String get venueDetailIntroductionsPlural => 'Introducties';
 
   @override
-  String get venueDetailMatchesAndIntrosTitle => 'Matches & Introductions';
+  String get venueDetailMatchesAndIntrosTitle => 'Matches & Introducties';
 
   @override
-  String get venueDetailEmptyMatchesTitle => 'No matches yet';
+  String get venueDetailEmptyMatchesTitle => 'Nog geen matches';
 
   @override
   String get venueDetailEmptyMatchesDescription =>
-      'When members match through this venue, their profiles will appear here.';
+      'Wanneer leden matchen via deze venue, verschijnen hun profielen hier.';
 
   @override
-  String get venueDetailOpenForMatchmaking => 'Open for matchmaking';
+  String get venueDetailOpenForMatchmaking => 'Open voor matchmaking';
 
   @override
   String venueDetailOpenFrom(String startDate) {
-    return 'Open for matchmaking from $startDate';
+    return 'Open voor matchmaking vanaf $startDate';
   }
 
   @override
   String venueDetailOpenUntil(String endDate) {
-    return 'Open for matchmaking until $endDate';
+    return 'Open voor matchmaking tot $endDate';
   }
 
   @override
   String venueDetailOpenFromUntil(String startDate, String endDate) {
-    return 'Open for matchmaking from $startDate until $endDate';
+    return 'Open voor matchmaking vanaf $startDate tot $endDate';
   }
 
   @override
   String venueProfilesViewTitle(String venueName) {
-    return '$venueName Members';
+    return '$venueName Leden';
   }
 
   @override
-  String get venueProfilesViewEmptyTitle => 'No members found';
+  String get venueProfilesViewEmptyTitle => 'Geen leden gevonden';
 
   @override
   String get venueProfilesViewEmptyDescription =>
-      'This venue doesn\'t have any members yet.';
+      'Deze venue heeft nog geen leden.';
 
   @override
   String venuePromptsViewTitle(String venueName) {
-    return '$venueName Cards';
+    return '$venueName Kaarten';
   }
 
   @override
-  String get venuePromptsViewEmptyTitle => 'No cards found';
+  String get venuePromptsViewEmptyTitle => 'Geen kaarten gevonden';
 
   @override
   String get venuePromptsViewEmptyDescription =>
-      'This venue doesn\'t have any cards yet.';
+      'Deze venue heeft nog geen kaarten.';
 
   @override
-  String get communityGuidelinesTitle => 'Guidelines';
+  String get communityGuidelinesTitle => 'Richtlijnen';
 
   @override
   String get communityGuidelinesAllowed =>
-      'networking, sharing knowledge or resources, asking for help, reach out for genuine connections';
+      'netwerken, kennis of bronnen delen, hulp vragen, contacten leggen voor echte connecties';
 
   @override
   String get communityGuidelinesProhibited =>
-      'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches';
+      'politieke posts, oplichting, spam, misleidende, aanstootgevende of expliciete inhoud, reclame of commerciële boodschappen.';
 
   @override
-  String get errorStateDefaultTitle => 'Something went wrong';
+  String get errorStateDefaultTitle => 'Er ging iets mis';
 
   @override
-  String get errorStateRetryButton => 'Retry';
+  String get errorStateRetryButton => 'Opnieuw proberen';
 
   @override
   String get firstCallSettingsTitle => 'First Call';
 
   @override
   String get firstCallSettingsDescription =>
-      'You see matches first, others only find out when you show interest. Screen potential introductions discreetly before revealing the match.';
+      'Jij ziet matches eerst, anderen ontdekken het pas wanneer jij interesse toont. Screen potentiële introducties discreet voordat je de match onthult.';
 
   @override
-  String get firstCallSettingsEnableLabel => 'Enable';
+  String get firstCallSettingsEnableLabel => 'Inschakelen';
 
   @override
   String get firstCallSettingsUpgradeSubtitle =>
-      'Unlock First Call and see the matches first.';
+      'Ontgrendel First Call en zie de matches als eerste.';
 
   @override
-  String get firstCallSettingsUpgradeButton => 'Upgrade to Pro';
+  String get firstCallSettingsUpgradeButton => 'Upgraden naar Pro';
 
   @override
   String get firstCallSettingsVenueInfo =>
-      'Available when publishing to a venue';
+      'Beschikbaar bij publiceren naar een venue';
 
   @override
-  String get promptInteractionPauseButton => 'Pause';
+  String get promptInteractionPauseButton => 'Pauzeren';
 
   @override
-  String get promptInteractionResumeButton => 'Resume';
+  String get promptInteractionResumeButton => 'Hervatten';
 
   @override
-  String get paywallTitle => 'Join Venyu Pro';
+  String get paywallTitle => 'Word lid van Venyu Pro';
 
   @override
-  String get paywallSubtitle => 'Make the net work. Better 💪';
+  String get paywallSubtitle => 'Laat het netwerk werken. Beter 💪';
 
   @override
-  String get paywallButtonNotNow => 'Not now';
+  String get paywallButtonNotNow => 'Niet nu';
 
   @override
-  String get paywallButtonSubscribe => 'Subscribe';
+  String get paywallButtonSubscribe => 'Abonneren';
 
   @override
-  String get paywallButtonContinue => 'Continue';
+  String get paywallButtonContinue => 'Doorgaan';
 
   @override
-  String get paywallButtonSubscribeContinue => 'Subscribe & Continue';
+  String get paywallButtonSubscribeContinue => 'Abonneren & Doorgaan';
 
   @override
-  String get paywallButtonContinueToVenyu => 'Continue to Venyu';
+  String get paywallButtonContinueToVenyu => 'Doorgaan naar Venyu';
 
   @override
-  String get paywallButtonRestorePurchases => 'Restore Purchases';
+  String get paywallButtonRestorePurchases => 'Aankopen herstellen';
 
   @override
   String paywallDailyCost(String currency, String price) {
-    return '$currency$price per day';
+    return '$currency$price per dag';
   }
 
   @override
   String paywallDiscountBadge(int percentage) {
-    return '$percentage% OFF';
+    return '$percentage% KORTING';
   }
 
   @override
-  String get paywallErrorLoadOptions => 'Failed to load subscription options';
+  String get paywallErrorLoadOptions => 'Laden van abonnementsopties mislukt';
 
   @override
-  String get paywallSuccessActivated => 'Subscription activated successfully!';
+  String get paywallSuccessActivated => 'Abonnement succesvol geactiveerd!';
 
   @override
-  String get paywallErrorPurchaseFailed => 'Purchase failed. Please try again.';
+  String get paywallErrorPurchaseFailed =>
+      'Aankoop mislukt. Probeer het opnieuw.';
 
   @override
-  String get paywallSuccessRestored => 'Purchases restored successfully!';
+  String get paywallSuccessRestored => 'Aankopen succesvol hersteld!';
 
   @override
-  String get paywallInfoNoSubscriptions => 'No active subscriptions found';
+  String get paywallInfoNoSubscriptions => 'Geen actieve abonnementen gevonden';
 
   @override
-  String get paywallErrorRestoreFailed => 'Failed to restore purchases';
+  String get paywallErrorRestoreFailed => 'Herstellen van aankopen mislukt';
 
   @override
-  String get matchesViewTitle => 'Matches & Introductions';
+  String get matchesViewTitle => 'Matches & Introducties';
 
   @override
-  String get matchesViewEmptyActionButton => 'Get matched';
+  String get matchesViewEmptyActionButton => 'Word gematcht';
 
   @override
-  String get profileViewTitle => 'Profile';
+  String get profileViewTitle => 'Profiel';
 
   @override
-  String get profileViewFabJoinVenue => 'Join a venue';
+  String get profileViewFabJoinVenue => 'Venue toevoegen';
 
   @override
-  String get getMatchedButtonLabel => 'Get matched';
+  String get profileHeaderBioPlaceholder => 'Schrijf iets over jezelf...';
 
   @override
-  String get reviewPendingPromptsErrorUpdate => 'Failed to update prompts';
+  String get getMatchedButtonLabel => 'Word gematcht';
+
+  @override
+  String get reviewPendingPromptsErrorUpdate => 'Bijwerken van kaarten mislukt';
 
   @override
   String get reviewPendingPromptsErrorUpdateAll =>
-      'Failed to update all prompts';
+      'Bijwerken van alle kaarten mislukt';
 
   @override
   String reviewPendingPromptsRejectSelected(int count) {
-    return 'Reject $count';
+    return '$count afwijzen';
   }
 
   @override
   String reviewPendingPromptsApproveSelected(int count) {
-    return 'Approve $count';
+    return '$count goedkeuren';
   }
 
   @override
-  String get reviewPendingPromptsRejectAll => 'Reject all';
+  String get reviewPendingPromptsRejectAll => 'Alles afwijzen';
 
   @override
-  String get reviewPendingPromptsApproveAll => 'Approve all';
+  String get reviewPendingPromptsApproveAll => 'Alles goedkeuren';
 
   @override
-  String get matchSectionNoSharedConnections => 'No shared connections';
+  String get matchSectionNoSharedConnections => 'Geen gedeelde connecties';
 
   @override
-  String get matchSectionNoSharedTags => 'No shared tags';
+  String get matchSectionNoSharedTags => 'Geen gedeelde tags';
 
   @override
-  String get matchSectionNoSharedVenues => 'No shared venues';
+  String get matchSectionNoSharedVenues => 'Geen gedeelde venues';
 
   @override
-  String get matchSectionUnknownTagGroup => 'Unknown';
+  String get matchSectionUnknownTagGroup => 'Onbekend';
 
   @override
-  String get matchActionsSkipError => 'Failed to skip match';
+  String get matchActionsSkipDialogTitle => 'Deze match overslaan?';
 
   @override
-  String get matchActionsConnectError => 'Failed to connect';
+  String get matchActionsSkipDialogMessage =>
+      'Deze match wordt verwijderd uit je matches. De andere persoon ontvangt geen melding en zal niet weten dat je hem/haar hebt overgeslagen.';
+
+  @override
+  String get matchActionsSkipError => 'Overslaan van match mislukt';
+
+  @override
+  String get matchActionsConnectError => 'Verbinden mislukt';
 
   @override
   String get registrationCompleteError =>
-      'Failed to complete registration. Please try again.';
+      'Voltooien van registratie mislukt. Probeer het opnieuw.';
 
   @override
-  String get avatarUploadError => 'Failed to upload photo. Please try again.';
+  String get registrationCompleteTutorialPrompt1 =>
+      'Op zoek naar ondernemers die internationaal groeien.';
 
   @override
-  String get avatarRemoveError => 'Failed to remove photo. Please try again.';
+  String get registrationCompleteTutorialPrompt2 =>
+      'Op zoek naar iemand die al investering heeft opgehaald.';
 
   @override
-  String get baseListViewLoading => 'Loading...';
+  String get registrationCompleteTutorialPrompt3 =>
+      'Een vriendin lanceert een coworking space. Ik wil haar graag in contact brengen met anderen die dit gedaan hebben.';
 
   @override
-  String get baseListViewErrorTitle => 'Failed to load data';
+  String get registrationCompleteTutorialPrompt4 =>
+      'Op zoek naar een expert in diervoeding voor een nieuw petfood concept.';
 
   @override
-  String get baseFormViewErrorUpdate => 'Failed to update, please try again';
+  String get avatarUploadError =>
+      'Uploaden van foto mislukt. Probeer het opnieuw.';
 
   @override
-  String get errorPrefix => 'Error:';
+  String get avatarRemoveError =>
+      'Verwijderen van foto mislukt. Probeer het opnieuw.';
+
+  @override
+  String get baseListViewLoading => 'Laden...';
+
+  @override
+  String get baseListViewErrorTitle => 'Laden van gegevens mislukt';
+
+  @override
+  String get baseFormViewErrorUpdate =>
+      'Bijwerken mislukt, probeer het opnieuw';
+
+  @override
+  String get errorPrefix => 'Fout:';
 
   @override
   String reviewPendingPromptsAppBarTitle(String type) {
-    return 'Pending $type';
+    return 'In behandeling $type';
   }
+
+  @override
+  String get inviteCodeErrorInvalidOrExpired =>
+      'Deze code is ongeldig of verlopen. Controleer je code en probeer het opnieuw.';
+
+  @override
+  String get inviteCodeErrorRequired => 'Voer een uitnodigingscode in.';
+
+  @override
+  String get inviteCodeErrorLength =>
+      'De code moet precies 8 karakters lang zijn.';
+
+  @override
+  String get venueErrorNotMember =>
+      'Je bent geen lid van deze venue of deze bestaat niet.';
+
+  @override
+  String get venueErrorCodeInvalidOrExpired =>
+      'Deze code is ongeldig of verlopen. Vraag een nieuwe code aan.';
+
+  @override
+  String get venueErrorAlreadyMember => 'Je bent al lid van deze venue.';
+
+  @override
+  String get venueErrorCodeRequired => 'Voer een venue code in.';
+
+  @override
+  String get venueErrorCodeLength =>
+      'De code moet precies 8 karakters lang zijn.';
+
+  @override
+  String get venueErrorAdminRequired =>
+      'Je hebt admin rechten nodig om venue leden te bekijken.';
+
+  @override
+  String get venueErrorIdRequired => 'Venue ID is vereist.';
+
+  @override
+  String get venueErrorAdminRequiredPrompts =>
+      'Je hebt admin rechten nodig om venue kaarten te bekijken.';
+
+  @override
+  String get venueErrorPermissionDenied =>
+      'Je hebt geen toestemming om matches voor deze venue te bekijken.';
 }

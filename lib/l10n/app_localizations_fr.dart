@@ -13,7 +13,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardDescription =>
-      'You\'re now part of a community built on real introductions.\n\nLet\'s start with a quick tour before setting up your profile.';
+      'You\'re now part of a community built on real introductions!\n\nLet\'s start with a quick tour before setting up your profile.';
 
   @override
   String get onboardStartTutorial =>
@@ -34,7 +34,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tutorialStep2Description =>
-      'Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.';
+      'Our matching agent connects you with entrepreneurs who share your goals and ambitions.';
 
   @override
   String get tutorialStep3Title => 'Show your interest';
@@ -85,7 +85,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String dailyPromptsHintSelect(String buttonTitle) {
-    return 'Select \"$buttonTitle\" 👇';
+    return 'Select \"$buttonTitle\"';
   }
 
   @override
@@ -1808,6 +1808,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileViewFabJoinVenue => 'Join a venue';
 
   @override
+  String get profileHeaderBioPlaceholder => 'Write something about yourself...';
+
+  @override
   String get getMatchedButtonLabel => 'Get matched';
 
   @override
@@ -1846,6 +1849,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get matchSectionUnknownTagGroup => 'Unknown';
 
   @override
+  String get matchActionsSkipDialogTitle => 'Skip this match?';
+
+  @override
+  String get matchActionsSkipDialogMessage =>
+      'This match will be removed from your matches. The other person will not receive any notification and won\'t know you skipped them.';
+
+  @override
   String get matchActionsSkipError => 'Failed to skip match';
 
   @override
@@ -1854,6 +1864,22 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get registrationCompleteError =>
       'Failed to complete registration. Please try again.';
+
+  @override
+  String get registrationCompleteTutorialPrompt1 =>
+      'Looking to connect with entrepreneurs growing beyond Belgium.';
+
+  @override
+  String get registrationCompleteTutorialPrompt2 =>
+      'Looking for someone who\'s raised investment before.';
+
+  @override
+  String get registrationCompleteTutorialPrompt3 =>
+      'A friend is launching a coworking space. I\'d like to introduce her to others who\'ve done it.';
+
+  @override
+  String get registrationCompleteTutorialPrompt4 =>
+      'Looking for an expert in animal nutrition for a new pet food concept.';
 
   @override
   String get avatarUploadError => 'Failed to upload photo. Please try again.';
@@ -1877,4 +1903,49 @@ class AppLocalizationsFr extends AppLocalizations {
   String reviewPendingPromptsAppBarTitle(String type) {
     return 'Pending $type';
   }
+
+  @override
+  String get inviteCodeErrorInvalidOrExpired =>
+      'This code is invalid or has expired. Please check your code and try again.';
+
+  @override
+  String get inviteCodeErrorRequired => 'Please enter an invite code.';
+
+  @override
+  String get inviteCodeErrorLength =>
+      'The code must be exactly 8 characters long.';
+
+  @override
+  String get venueErrorNotMember =>
+      'You are not a member of this venue or it does not exist.';
+
+  @override
+  String get venueErrorCodeInvalidOrExpired =>
+      'This code is invalid or has expired. Please request a new code.';
+
+  @override
+  String get venueErrorAlreadyMember =>
+      'You are already a member of this venue.';
+
+  @override
+  String get venueErrorCodeRequired => 'Please enter a venue code.';
+
+  @override
+  String get venueErrorCodeLength =>
+      'The code must be exactly 8 characters long.';
+
+  @override
+  String get venueErrorAdminRequired =>
+      'You need admin privileges to view venue members.';
+
+  @override
+  String get venueErrorIdRequired => 'Venue ID is required.';
+
+  @override
+  String get venueErrorAdminRequiredPrompts =>
+      'You need admin privileges to view venue prompts.';
+
+  @override
+  String get venueErrorPermissionDenied =>
+      'You don\'t have permission to view matches for this venue.';
 }

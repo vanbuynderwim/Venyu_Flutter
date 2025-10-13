@@ -136,7 +136,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
               Text(
                 l10n.waitlistTitle,
                 style: AppTextStyles.title1.copyWith(
-                  color: venyuTheme.darkText,
+                  color: venyuTheme.primaryText,
                   fontWeight: FontWeight.bold,
                   fontFamily: AppFonts.graphie,
                 ),
@@ -147,7 +147,7 @@ class _WaitlistViewState extends BaseFormViewState<WaitlistView> {
                 l10n.waitlistDescription,
                 style: AppTextStyles.body.copyWith(
                   fontWeight: FontWeight.w400,
-                  color: venyuTheme.darkText,
+                  color: venyuTheme.secondaryText,
                 ),
                 textAlign: TextAlign.center,
               ),

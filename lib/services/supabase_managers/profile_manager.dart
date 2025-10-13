@@ -1,8 +1,11 @@
 
+import 'package:flutter/material.dart';
+
 import '../../core/utils/device_info.dart';
 import '../../models/models.dart';
 import '../../models/device.dart';
 import '../../core/utils/app_logger.dart';
+import '../../l10n/app_localizations.dart';
 import 'base_supabase_manager.dart';
 import '../../mixins/disposable_manager_mixin.dart';
 
@@ -327,19 +330,6 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
         AppLogger.success('Successfully marked invite code as sent', context: 'ProfileManager');
       } catch (error) {
         AppLogger.error('Failed to mark invite code as sent', error: error, context: 'ProfileManager');
-
-        // Parse the error message to provide user-friendly feedback
-        final errorMessage = error.toString();
-        if (errorMessage.contains('not found')) {
-          throw Exception('Invite code not found or you do not have permission to modify it.');
-        } else if (errorMessage.contains('already sent')) {
-          throw Exception('This invite code has already been marked as sent.');
-        } else if (errorMessage.contains('already redeemed')) {
-          throw Exception('This invite code has already been redeemed.');
-        }
-
-        // Re-throw the original error if we can't provide a better message
-        rethrow;
       }
     });
   }
@@ -370,15 +360,7 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
         AppLogger.success('Successfully issued $count invite codes', context: 'ProfileManager');
       } catch (error) {
         AppLogger.error('Failed to issue invite codes', error: error, context: 'ProfileManager');
-
-        // Parse the error message to provide user-friendly feedback
-        final errorMessage = error.toString();
-        if (errorMessage.contains('Count must be between 1 and 100')) {
-          throw Exception('You can only generate between 1 and 100 invite codes at a time.');
-        }
-
-        // Re-throw the original error if we can't provide a better message
-        rethrow;
+        
       }
     });
   }
@@ -392,8 +374,11 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// Throws:
   /// - Exception if code is invalid, expired, or already used
   /// - Exception if code format is incorrect (not 8 characters)
-  Future<void> redeemInviteCode(String code) async {
+  Future<void> redeemInviteCode(String code, BuildContext context) async {
     checkNotDisposed('ProfileManager');
+    // Get l10n before async gap to avoid BuildContext issues
+    final l10n = AppLocalizations.of(context)!;
+
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Attempting to redeem invite code: ${code.substring(0, 3)}***', context: 'ProfileManager');
 
@@ -412,11 +397,11 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
         final errorMessage = error.toString();
 
         if (errorMessage.contains('Invalid or expired code')) {
-          throw Exception('This code is invalid or has expired. Please check your code and try again.');
+          throw Exception(l10n.inviteCodeErrorInvalidOrExpired);
         } else if (errorMessage.contains('Code is required')) {
-          throw Exception('Please enter an invite code.');
+          throw Exception(l10n.inviteCodeErrorRequired);
         } else if (errorMessage.contains('exactly 8 characters')) {
-          throw Exception('The code must be exactly 8 characters long.');
+          throw Exception(l10n.inviteCodeErrorLength);
         }
 
         // Re-throw the original error if we can't provide a better message

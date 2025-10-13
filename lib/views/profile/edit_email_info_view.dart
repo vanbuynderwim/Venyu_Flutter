@@ -27,13 +27,16 @@ class EditEmailInfoView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Email address');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditEmailInfoViewState();
 }
 
 class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editEmailTitle;
+
   // Form controllers
   final _emailController = TextEditingController();
   final _otpController = TextEditingController();

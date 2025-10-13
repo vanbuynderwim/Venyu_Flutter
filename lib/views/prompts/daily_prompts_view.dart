@@ -13,7 +13,6 @@ import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/prompts/prompt_display_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
-import '../../widgets/common/sub_title.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import 'interaction_type_selection_view.dart';
@@ -116,6 +115,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
     await executeWithLoading(
       operation: () async {
         HapticFeedback.heavyImpact();
+
+        SystemSound.play(SystemSoundType.click);
 
         final promptFeedID = _currentPrompt.feedID ?? 0;
         final promptID = _currentPrompt.promptID;
@@ -273,7 +274,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
               appBar: PlatformAppBar(
                 backgroundColor: Colors.transparent,
                 automaticallyImplyLeading: false,
-                trailingActions: [
+                trailingActions: widget.isFirstTimeUser ? [] : [
                   GestureDetector(
                     onTap: _handleReportPrompt,
                     child: Padding(
@@ -305,20 +306,28 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
                   // Info box for first time users showing which button to press
                   if (widget.isFirstTimeUser && _currentPrompt.interactionType != null) ...[
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: context.venyuTheme.primary.withValues(alpha: 0.2),
+                          width: 1,
                         ),
-                        child: SubTitle(
-                          iconName: 'bulb',
-                          textColor: context.venyuTheme.darkText,
-                          title: _selectedInteractionType == null
+                      ),
+                      child: Center(
+                        child: Text(
+                          _selectedInteractionType == null
                               ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
                               : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
+                          style: TextStyle(
+                            color: context.venyuTheme.primary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -350,7 +359,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       ),
                   ),
 
-                  const SizedBox(height: AppModifiers.extraLargeSpacing),
+                  const SizedBox(height: AppModifiers.smallSpacing),
                 ],
               ),
             ),

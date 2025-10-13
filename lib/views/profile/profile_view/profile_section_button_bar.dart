@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/config/app_config.dart';
 import '../../../models/enums/profile_sections.dart';
 import '../../../models/profile.dart';
 import '../../../models/badge_data.dart';
@@ -34,7 +35,8 @@ class ProfileSectionButtonBar extends StatelessWidget {
     final availableSections = <ProfileSections>[
       ProfileSections.personal,
       ProfileSections.company,
-      ProfileSections.venues,
+      // Only show venues if feature is enabled
+      if (AppConfig.showVenues) ProfileSections.venues,
       ProfileSections.invites,
       // Only show reviews for super admins
       if (profile?.isSuperAdmin == true) ProfileSections.reviews,

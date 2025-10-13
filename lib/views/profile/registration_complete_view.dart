@@ -46,30 +46,29 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
 
       if (!mounted) return;
 
-      // Create 3 dummy tutorial prompts - one for each main interaction type
+      // Get localized strings before creating prompts
+      final l10n = AppLocalizations.of(context)!;
+
+      // Create 4 dummy tutorial prompts - one for each main interaction type
       final dummyPrompts = [
         Prompt(
           promptID: 'tutorial_1',
-          label:
-              'Looking to connect with entrepreneurs growing beyond Belgium.',
+          label: l10n.registrationCompleteTutorialPrompt1,
           interactionType: InteractionType.thisIsMe,
         ),
         Prompt(
           promptID: 'tutorial_2',
-          label:
-              'Looking for someone who’s raised investment before.',
+          label: l10n.registrationCompleteTutorialPrompt2,
           interactionType: InteractionType.lookingForThis,
         ),
         Prompt(
           promptID: 'tutorial_3',
-          label:
-              'A friend is launching a coworking space. I’d like to introduce her to others who’ve done it.',
+          label: l10n.registrationCompleteTutorialPrompt3,
           interactionType: InteractionType.knowSomeone,
         ),
         Prompt(
           promptID: 'tutorial_4',
-          label:
-              'Looking for an expert in animal nutrition for a new pet food concept.',
+          label: l10n.registrationCompleteTutorialPrompt4,
           interactionType: InteractionType.notRelevant,
         ),
       ];

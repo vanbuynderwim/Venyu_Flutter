@@ -38,7 +38,7 @@ class ProfileTagsSection extends StatelessWidget {
     if (profile.sectors.isNotEmpty) {
       // Sort sectors by title like in Swift
       final sortedSectors = List.from(profile.sectors);
-      sortedSectors.sort((a, b) => a.title.compareTo(b.title));
+      sortedSectors.sort((a, b) => a.label.compareTo(b.label));
       
       return Wrap(
         spacing: 4,

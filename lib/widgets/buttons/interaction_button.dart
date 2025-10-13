@@ -55,25 +55,25 @@ class InteractionButton extends StatelessWidget {
                   // Icon
                   Image.asset(
                     interactionType.assetPath,
-                    width: 28,
-                    height: 28,
+                    width: 20,
+                    height: 20,
                     color: isSelected ? Colors.white : interactionType.color,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(
                         interactionType.fallbackIcon,
-                        size: 28,
+                        size: 20,
                         color: isSelected ? Colors.white : theme.unselectedText,
                       );
                     },
                   ),
 
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
 
                   // Title
                   Flexible(
                     child: Text(
                       interactionType.buttonTitle(context),
-                      style: AppTextStyles.headline.copyWith(
+                      style: AppTextStyles.subheadline2.copyWith(
                         color: isSelected ? Colors.white : interactionType.color,
                         fontWeight: FontWeight.w600,
                       ),
@@ -159,7 +159,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.thisIsMe)
                     ? () => _handleSelection(InteractionType.thisIsMe)
                     : null,
-                height: widget.buttonHeight ?? 48,
+                height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.thisIsMe),
               ),
             ),
@@ -171,7 +171,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.notRelevant)
                     ? () => _handleSelection(InteractionType.notRelevant)
                     : null,
-                height: widget.buttonHeight ?? 48,
+                height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.notRelevant),
               ),
             ),
@@ -188,7 +188,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.lookingForThis)
                     ? () => _handleSelection(InteractionType.lookingForThis)
                     : null,
-                height: widget.buttonHeight ?? 48,
+                height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.lookingForThis),
               ),
             ),
@@ -199,7 +199,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.knowSomeone)
                     ? () => _handleSelection(InteractionType.knowSomeone)
                     : null,
-                height: widget.buttonHeight ?? 48,
+                height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.knowSomeone),
               ),
             ),

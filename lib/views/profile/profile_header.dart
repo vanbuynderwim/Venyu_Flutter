@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/profile.dart';
 import 'edit_bio_view.dart';
 import 'profile_header/profile_avatar_section.dart';
@@ -134,7 +135,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           child: Text(
             hasBio
                 ? widget.profile.bio!
-                : 'Write something about yourself...',
+                : AppLocalizations.of(context)!.profileHeaderBioPlaceholder,
             style: AppTextStyles.subheadline.copyWith(
               color: hasBio
                   ? venyuTheme.primaryText

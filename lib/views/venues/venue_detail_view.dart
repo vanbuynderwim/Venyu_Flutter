@@ -71,7 +71,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     final l10n = AppLocalizations.of(context)!;
 
     final venue = await executeWithLoadingAndReturn<Venue>(
-      operation: () => _venueManager.fetchVenue(widget.venueId),
+      operation: () => _venueManager.fetchVenue(widget.venueId, context),
       showErrorToast: false,  // We show custom error UI
       onError: (error) {
         if (mounted) {
@@ -93,7 +93,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
     try {
       AppLogger.debug('Loading matches for venue: ${_venue!.id}', context: 'VenueDetailView');
 
-      final matches = await _venueManager.fetchVenueMatches(_venue!.id).timeout(
+      final matches = await _venueManager.fetchVenueMatches(_venue!.id, context).timeout(
         const Duration(seconds: 10),
         onTimeout: () {
           AppLogger.warning('fetchVenueMatches timed out', context: 'VenueDetailView');

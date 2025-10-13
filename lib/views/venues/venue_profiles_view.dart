@@ -80,7 +80,7 @@ class _VenueProfilesViewState extends State<VenueProfilesView>
           list: ServerListType.matches,
         );
 
-        final profiles = await _venueManager.fetchVenueProfiles(widget.venueId, request);
+        final profiles = await _venueManager.fetchVenueProfiles(widget.venueId, request, context);
         if (mounted) {
           setState(() {
             _profiles.addAll(profiles);
@@ -117,7 +117,7 @@ class _VenueProfilesViewState extends State<VenueProfilesView>
         list: ServerListType.matches,
       );
 
-      final profiles = await _venueManager.fetchVenueProfiles(widget.venueId, request);
+      final profiles = await _venueManager.fetchVenueProfiles(widget.venueId, request, context);
       if (mounted) {
         setState(() {
           _profiles.addAll(profiles);

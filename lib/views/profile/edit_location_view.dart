@@ -27,16 +27,19 @@ class EditLocationView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Location');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditLocationViewState();
 }
 
 class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editLocationTitle;
+
   final Location _location = Location();
   bool _isEnablingLocation = false;
-  
+
   @override
   bool get canSave => true;
 
@@ -110,7 +113,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Row(
         children: [
           // Not now button (secondary)

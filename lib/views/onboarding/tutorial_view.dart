@@ -10,17 +10,15 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../models/enums/registration_step.dart';
-import '../profile/edit_name_view.dart';
+import 'tutorial_done_view.dart';
 
 /// Tutorial view that shows onboarding steps after registration
 ///
-/// Shows 5 onboarding screens with images explaining how Venyu works:
+/// Shows 4 onboarding screens with images explaining how Venyu works:
 /// 1. Cards - Create and publish your cards
 /// 2. Match - Get matched with relevant people
 /// 3. Interest - Express interest in matches
 /// 4. Introduction - Get introduced to connections
-/// 5. Done - Ready to start
 class TutorialView extends StatefulWidget {
   const TutorialView({super.key});
 
@@ -30,7 +28,7 @@ class TutorialView extends StatefulWidget {
 
 class _TutorialViewState extends State<TutorialView> {
   int _currentStep = 0;
-  static const int _totalSteps = 5;
+  static const int _totalSteps = 4;
 
   // Tutorial content for each step - images are static
   final List<String> _stepImages = const [
@@ -38,7 +36,6 @@ class _TutorialViewState extends State<TutorialView> {
     'assets/images/visuals/onboarding_match.png',
     'assets/images/visuals/onboarding_interest.png',
     'assets/images/visuals/onboarding_introduction.png',
-    'assets/images/visuals/onboarding_done.png',
   ];
 
   void _handleNext() {
@@ -49,19 +46,16 @@ class _TutorialViewState extends State<TutorialView> {
         _currentStep++;
       });
     } else {
-      // Last step - navigate to registration
-      _navigateToRegistration();
+      // Last step - navigate to done view
+      _navigateToDoneView();
     }
   }
 
-  void _navigateToRegistration() {
+  void _navigateToDoneView() {
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => const EditNameView(
-          registrationWizard: true,
-          currentStep: RegistrationStep.name,
-        ),
+        builder: (context) => const TutorialDoneView(),
       ),
     );
   }
@@ -84,7 +78,6 @@ class _TutorialViewState extends State<TutorialView> {
       case 1: return l10n.tutorialStep2Title;
       case 2: return l10n.tutorialStep3Title;
       case 3: return l10n.tutorialStep4Title;
-      case 4: return l10n.tutorialStep5Title;
       default: return '';
     }
   }
@@ -96,7 +89,6 @@ class _TutorialViewState extends State<TutorialView> {
       case 1: return l10n.tutorialStep2Description;
       case 2: return l10n.tutorialStep3Description;
       case 3: return l10n.tutorialStep4Description;
-      case 4: return l10n.tutorialStep5Description;
       default: return '';
     }
   }
@@ -205,7 +197,7 @@ class _TutorialViewState extends State<TutorialView> {
 
                       // Navigation buttons
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 8),
                         child: Row(
                           children: [
                             // Previous button (1/3 width) - only show if not on first step
@@ -234,7 +226,7 @@ class _TutorialViewState extends State<TutorialView> {
                         ),
                       ),
 
-                      
+
                     ],
                   ),
                 ],

@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardDescription.
   ///
   /// In en, this message translates to:
-  /// **'You\'re now part of a community built on real introductions.\n\nLet\'s start with a quick tour before setting up your profile.'**
+  /// **'You\'re now part of a community built on real introductions!\n\nLet\'s start with a quick tour before setting up your profile.'**
   String get onboardDescription;
 
   /// No description provided for @onboardStartTutorial.
@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialStep2Description.
   ///
   /// In en, this message translates to:
-  /// **'Our matching agent connects you with entrepreneurs who share your goals and needs. Each match will be relevant and worthwhile.'**
+  /// **'Our matching agent connects you with entrepreneurs who share your goals and ambitions.'**
   String get tutorialStep2Description;
 
   /// No description provided for @tutorialStep3Title.
@@ -235,7 +235,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailyPromptsHintSelect.
   ///
   /// In en, this message translates to:
-  /// **'Select \"{buttonTitle}\" 👇'**
+  /// **'Select \"{buttonTitle}\"'**
   String dailyPromptsHintSelect(String buttonTitle);
 
   /// No description provided for @dailyPromptsHintConfirm.
@@ -3340,6 +3340,12 @@ abstract class AppLocalizations {
   /// **'Join a venue'**
   String get profileViewFabJoinVenue;
 
+  /// No description provided for @profileHeaderBioPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write something about yourself...'**
+  String get profileHeaderBioPlaceholder;
+
   /// No description provided for @getMatchedButtonLabel.
   ///
   /// In en, this message translates to:
@@ -3406,6 +3412,18 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get matchSectionUnknownTagGroup;
 
+  /// No description provided for @matchActionsSkipDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip this match?'**
+  String get matchActionsSkipDialogTitle;
+
+  /// No description provided for @matchActionsSkipDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This match will be removed from your matches. The other person will not receive any notification and won\'t know you skipped them.'**
+  String get matchActionsSkipDialogMessage;
+
   /// No description provided for @matchActionsSkipError.
   ///
   /// In en, this message translates to:
@@ -3423,6 +3441,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to complete registration. Please try again.'**
   String get registrationCompleteError;
+
+  /// No description provided for @registrationCompleteTutorialPrompt1.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking to connect with entrepreneurs growing beyond Belgium.'**
+  String get registrationCompleteTutorialPrompt1;
+
+  /// No description provided for @registrationCompleteTutorialPrompt2.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for someone who\'s raised investment before.'**
+  String get registrationCompleteTutorialPrompt2;
+
+  /// No description provided for @registrationCompleteTutorialPrompt3.
+  ///
+  /// In en, this message translates to:
+  /// **'A friend is launching a coworking space. I\'d like to introduce her to others who\'ve done it.'**
+  String get registrationCompleteTutorialPrompt3;
+
+  /// No description provided for @registrationCompleteTutorialPrompt4.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for an expert in animal nutrition for a new pet food concept.'**
+  String get registrationCompleteTutorialPrompt4;
 
   /// No description provided for @avatarUploadError.
   ///
@@ -3465,6 +3507,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pending {type}'**
   String reviewPendingPromptsAppBarTitle(String type);
+
+  /// No description provided for @inviteCodeErrorInvalidOrExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is invalid or has expired. Please check your code and try again.'**
+  String get inviteCodeErrorInvalidOrExpired;
+
+  /// No description provided for @inviteCodeErrorRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter an invite code.'**
+  String get inviteCodeErrorRequired;
+
+  /// No description provided for @inviteCodeErrorLength.
+  ///
+  /// In en, this message translates to:
+  /// **'The code must be exactly 8 characters long.'**
+  String get inviteCodeErrorLength;
+
+  /// No description provided for @venueErrorNotMember.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not a member of this venue or it does not exist.'**
+  String get venueErrorNotMember;
+
+  /// No description provided for @venueErrorCodeInvalidOrExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This code is invalid or has expired. Please request a new code.'**
+  String get venueErrorCodeInvalidOrExpired;
+
+  /// No description provided for @venueErrorAlreadyMember.
+  ///
+  /// In en, this message translates to:
+  /// **'You are already a member of this venue.'**
+  String get venueErrorAlreadyMember;
+
+  /// No description provided for @venueErrorCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a venue code.'**
+  String get venueErrorCodeRequired;
+
+  /// No description provided for @venueErrorCodeLength.
+  ///
+  /// In en, this message translates to:
+  /// **'The code must be exactly 8 characters long.'**
+  String get venueErrorCodeLength;
+
+  /// No description provided for @venueErrorAdminRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You need admin privileges to view venue members.'**
+  String get venueErrorAdminRequired;
+
+  /// No description provided for @venueErrorIdRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue ID is required.'**
+  String get venueErrorIdRequired;
+
+  /// No description provided for @venueErrorAdminRequiredPrompts.
+  ///
+  /// In en, this message translates to:
+  /// **'You need admin privileges to view venue prompts.'**
+  String get venueErrorAdminRequiredPrompts;
+
+  /// No description provided for @venueErrorPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to view matches for this venue.'**
+  String get venueErrorPermissionDenied;
 }
 
 class _AppLocalizationsDelegate

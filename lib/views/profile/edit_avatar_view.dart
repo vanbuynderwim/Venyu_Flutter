@@ -26,13 +26,16 @@ class EditAvatarView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Profile Picture');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditAvatarViewState();
 }
 
 class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editAvatarTitle;
+
   bool _isUploading = false;
   String? _forceNoAvatar; // Force showing no avatar for specific ID
   
@@ -281,7 +284,7 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: ActionButton(
         label: l10n.editAvatarNextButton,
         type: ActionButtonType.primary,

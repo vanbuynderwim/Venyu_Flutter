@@ -2,6 +2,7 @@ import 'package:app/views/profile/edit_city_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
@@ -236,7 +237,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   /// Determines if the FAB should be shown
   bool _shouldShowFAB() {
-    return _selectedSection == ProfileSections.venues && _hasVenues;
+    return AppConfig.showVenues && _selectedSection == ProfileSections.venues && _hasVenues;
   }
 
   /// Opens the join venue modal

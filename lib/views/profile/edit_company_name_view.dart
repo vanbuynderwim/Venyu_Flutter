@@ -16,13 +16,16 @@ class EditCompanyNameView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Company name');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditCompanyNameViewState();
 }
 
 class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editCompanyNameTitle;
+
   // Form controllers
   final _companyNameController = TextEditingController();
   final _websiteController = TextEditingController();

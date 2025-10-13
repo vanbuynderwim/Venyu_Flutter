@@ -19,7 +19,7 @@ import 'registration_complete_view.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 /// A form screen for enabling notification permissions during registration.
-/// 
+///
 /// This view allows users to enable notifications for matches, connections,
 /// and daily reminders during the registration wizard or when editing
 /// their notification preferences later.
@@ -28,15 +28,18 @@ class EditNotificationsView extends BaseFormView {
     super.key,
     super.registrationWizard = false,
     super.currentStep,
-  }) : super(title: 'Notifications');
+  });
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditNotificationsViewState();
 }
 
 class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editNotificationsTitle;
+
   bool _isEnablingNotifications = false;
-  
+
   @override
   bool get canSave => true;
 
@@ -110,7 +113,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Row(
         children: [
           // Not now button (secondary)

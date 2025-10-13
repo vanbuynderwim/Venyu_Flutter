@@ -23,13 +23,16 @@ import '../base/base_form_view.dart';
 /// 
 /// Refactored to use BaseFormView - reduced from 257 to ~100 lines
 class EditBioView extends BaseFormView {
-  const EditBioView({super.key}) : super(title: 'About you');
+  const EditBioView({super.key});
 
   @override
   BaseFormViewState<BaseFormView> createState() => _EditBioViewState();
 }
 
 class _EditBioViewState extends BaseFormViewState<EditBioView> {
+  @override
+  String getFormTitle() => AppLocalizations.of(context)!.editBioTitle;
+
   final TextEditingController _bioController = TextEditingController();
   
   static const int _textLimit = 200;
