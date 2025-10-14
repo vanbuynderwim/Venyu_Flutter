@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'No prompts available'**
   String get dailyPromptsNoPromptsAvailable;
 
+  /// No description provided for @dailyPromptsExampleTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Example prompt'**
+  String get dailyPromptsExampleTag;
+
   /// No description provided for @tutorialFinishedTitle.
   ///
   /// In en, this message translates to:
@@ -377,7 +383,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeNotRelevantButton.
   ///
   /// In en, this message translates to:
-  /// **'I can\'t help'**
+  /// **'Not for me'**
   String get interactionTypeNotRelevantButton;
 
   /// No description provided for @interactionTypeThisIsMeSelection.
@@ -1799,7 +1805,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitesShareText.
   ///
   /// In en, this message translates to:
-  /// **'Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
+  /// **'Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
   String invitesShareText(String code);
 
   /// No description provided for @invitesCopiedToast.
@@ -2372,6 +2378,12 @@ abstract class AppLocalizations {
   /// **'We\'ll only share your LinkedIn profile in the introduction email once there\'s mutual interest. It\'s never shared when you first get matched.'**
   String get editNameLinkedInInfoMessage;
 
+  /// No description provided for @editNameLinkedInMobileTip.
+  ///
+  /// In en, this message translates to:
+  /// **'On the LinkedIn mobile app: Go to your profile → tap the three dots (•••) → select \'Share profile\' → tap \'Copy link\''**
+  String get editNameLinkedInMobileTip;
+
   /// No description provided for @editEmailTitle.
   ///
   /// In en, this message translates to:
@@ -2393,7 +2405,7 @@ abstract class AppLocalizations {
   /// No description provided for @editEmailCodeSentMessage.
   ///
   /// In en, this message translates to:
-  /// **'A verification code has been sent to {email}'**
+  /// **'A verification code has been sent to {email}. Please also check the spam folder.'**
   String editEmailCodeSentMessage(String email);
 
   /// No description provided for @editEmailSuccessMessage.
@@ -2449,6 +2461,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter 6-digit code'**
   String get editEmailVerificationCodeHint;
+
+  /// No description provided for @editEmailOtpInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your spam folder if you don\'t see the verification code.'**
+  String get editEmailOtpInfoMessage;
 
   /// No description provided for @editCityTitle.
   ///

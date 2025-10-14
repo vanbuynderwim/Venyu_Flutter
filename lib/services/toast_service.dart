@@ -24,7 +24,7 @@ class ToastService {
     required BuildContext context,
     required String message,
     required ToastType type,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 5),
     bool persistent = false,
   }) {
     // Remove any existing toast
@@ -74,7 +74,7 @@ class ToastService {
   static void success({
     required BuildContext context,
     required String message,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 5),
   }) {
     show(
       context: context,
@@ -88,7 +88,7 @@ class ToastService {
   static void error({
     required BuildContext context,
     required String message,
-    Duration duration = const Duration(seconds: 4),
+    Duration duration = const Duration(seconds: 5),
     bool persistent = false,
   }) {
     show(
@@ -104,7 +104,7 @@ class ToastService {
   static void warning({
     required BuildContext context,
     required String message,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 5),
   }) {
     show(
       context: context,
@@ -118,7 +118,7 @@ class ToastService {
   static void info({
     required BuildContext context,
     required String message,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 5),
     bool persistent = false,
   }) {
     show(

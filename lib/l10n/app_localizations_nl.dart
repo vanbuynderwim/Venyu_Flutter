@@ -105,6 +105,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dailyPromptsNoPromptsAvailable => 'Geen prompts beschikbaar';
 
   @override
+  String get dailyPromptsExampleTag => 'Voorbeeld prompt';
+
+  @override
   String get tutorialFinishedTitle => 'Je bent helemaal klaar! 🎉';
 
   @override
@@ -156,16 +159,16 @@ class AppLocalizationsNl extends AppLocalizations {
       'Geen internetverbinding. Controleer je verbinding en probeer opnieuw.';
 
   @override
-  String get interactionTypeThisIsMeButton => 'Kan helpen';
+  String get interactionTypeThisIsMeButton => 'Ik kan helpen';
 
   @override
-  String get interactionTypeLookingForThisButton => 'Heb dit nodig';
+  String get interactionTypeLookingForThisButton => ' Ik zoek dit';
 
   @override
-  String get interactionTypeKnowSomeoneButton => 'Kan doorverwijzen';
+  String get interactionTypeKnowSomeoneButton => 'Ik ken iemand';
 
   @override
-  String get interactionTypeNotRelevantButton => 'Kan niet helpen';
+  String get interactionTypeNotRelevantButton => 'Niet voor mij';
 
   @override
   String get interactionTypeThisIsMeSelection => 'Ik kan helpen';
@@ -960,7 +963,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Joine me at Venyu!\n\nHet invite-only netwerk voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
+    return 'Join me at Venyu!\n\nDe invite-only community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
   }
 
   @override
@@ -1281,6 +1284,10 @@ class AppLocalizationsNl extends AppLocalizations {
       'We delen je LinkedIn profiel alleen in de introductie-e-mail zodra er wederzijdse interesse is. Het wordt nooit gedeeld wanneer je voor het eerst gematcht wordt.';
 
   @override
+  String get editNameLinkedInMobileTip =>
+      'In de LinkedIn mobiele app: Ga naar je profiel → tik op de drie puntjes (•••) → selecteer \'Profiel delen\' → tik op \'Link kopiëren\'';
+
+  @override
   String get editEmailTitle => 'E-mailadres';
 
   @override
@@ -1291,7 +1298,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String editEmailCodeSentMessage(String email) {
-    return 'Een verificatiecode is verzonden naar $email';
+    return 'Een verificatiecode is verzonden naar $email. Controleer ook de spam.';
   }
 
   @override
@@ -1323,6 +1330,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editEmailVerificationCodeHint => 'Voer 6-cijferige code in';
+
+  @override
+  String get editEmailOtpInfoMessage =>
+      'Controleer ook je spam folder als je de verificatiecode niet ziet.';
 
   @override
   String get editCityTitle => 'Stad';

@@ -104,6 +104,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyPromptsNoPromptsAvailable => 'No prompts available';
 
   @override
+  String get dailyPromptsExampleTag => 'Example prompt';
+
+  @override
   String get tutorialFinishedTitle => 'You\'re all set! 🎉';
 
   @override
@@ -164,7 +167,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interactionTypeKnowSomeoneButton => 'I can refer';
 
   @override
-  String get interactionTypeNotRelevantButton => 'I can\'t help';
+  String get interactionTypeNotRelevantButton => 'Not for me';
 
   @override
   String get interactionTypeThisIsMeSelection => 'I can help';
@@ -955,7 +958,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
+    return 'Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
   }
 
   @override
@@ -1272,6 +1275,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'We\'ll only share your LinkedIn profile in the introduction email once there\'s mutual interest. It\'s never shared when you first get matched.';
 
   @override
+  String get editNameLinkedInMobileTip =>
+      'On the LinkedIn mobile app: Go to your profile → tap the three dots (•••) → select \'Share profile\' → tap \'Copy link\'';
+
+  @override
   String get editEmailTitle => 'Email address';
 
   @override
@@ -1282,7 +1289,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String editEmailCodeSentMessage(String email) {
-    return 'A verification code has been sent to $email';
+    return 'A verification code has been sent to $email. Please also check the spam folder.';
   }
 
   @override
@@ -1314,6 +1321,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editEmailVerificationCodeHint => 'Enter 6-digit code';
+
+  @override
+  String get editEmailOtpInfoMessage =>
+      'Please check your spam folder if you don\'t see the verification code.';
 
   @override
   String get editCityTitle => 'City';

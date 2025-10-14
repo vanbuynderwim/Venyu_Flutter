@@ -293,6 +293,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     child: PromptDisplayWidget(
                       promptLabel: _currentPrompt.label,
                       venue: _currentPrompt.venue,
+                      isFirstTimeUser: widget.isFirstTimeUser,
                     ),
                   ),
 
@@ -323,7 +324,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                               ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
                               : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
                           style: TextStyle(
-                            color: context.venyuTheme.primary,
+                            color: context.venyuTheme.darkText,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -346,7 +347,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     ),
                   ),
 
-                  const SizedBox(height: AppModifiers.mediumSpacing),
+                  const SizedBox(height: AppModifiers.largeSpacing),
 
                   // Next button - enabled when interaction is selected, wrapped in light theme
                   Container(
@@ -359,7 +360,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       ),
                   ),
 
-                  const SizedBox(height: AppModifiers.largeSpacing),
+                  const SizedBox(height: AppModifiers.extraLargeSpacing),
                 ],
               ),
             ),

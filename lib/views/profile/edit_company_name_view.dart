@@ -50,6 +50,9 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     if (profile != null) {
       _companyNameController.text = profile.companyName ?? '';
       _websiteController.text = profile.websiteURL ?? '';
+
+      // Validate preloaded values without marking as touched
+      _validateWebsite();
     }
   }
 
@@ -61,8 +64,9 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
   }
 
   @override
-  bool get canSave => 
+  bool get canSave =>
     _companyNameController.text.trim().isNotEmpty &&
+    _websiteController.text.trim().isNotEmpty &&
     _websiteFormatIsValid;
 
   @override
@@ -100,16 +104,22 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     });
   }
 
-  void _onWebsiteChanged() {
-    final isValid = _websiteController.text.isEmpty || 
+  void _validateWebsite() {
+    final isValid = _websiteController.text.trim().isNotEmpty &&
         WebsiteValidator.isValidFormat(_websiteController.text);
-    
+
+    setState(() {
+      _websiteFormatIsValid = isValid;
+    });
+  }
+
+  void _onWebsiteChanged() {
     setState(() {
       if (!_websiteTouched) {
         _websiteTouched = true;
       }
-      _websiteFormatIsValid = isValid;
     });
+    _validateWebsite();
   }
 
   @override

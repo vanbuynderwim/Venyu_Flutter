@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../models/venue.dart';
 import '../common/interaction_tag.dart';
 import '../common/venue_tag.dart';
+import '../common/tag_view.dart';
 
 /// Reusable widget for displaying a prompt
 ///
@@ -16,6 +18,7 @@ class PromptDisplayWidget extends StatelessWidget {
   final InteractionType? interactionType;
   final bool showInteractionType;
   final Venue? venue;
+  final bool isFirstTimeUser;
 
   const PromptDisplayWidget({
     super.key,
@@ -23,11 +26,13 @@ class PromptDisplayWidget extends StatelessWidget {
     this.interactionType,
     this.showInteractionType = false,
     this.venue,
+    this.isFirstTimeUser = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -47,6 +52,15 @@ class PromptDisplayWidget extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
+
+              // Example tag (for first time users)
+              if (isFirstTimeUser) ...[
+                const SizedBox(height: 16),
+                TagView(
+                  id: 'example',
+                  label: l10n.dailyPromptsExampleTag
+                ),
+              ],
 
               // Venue tag (if provided)
               if (venue != null) ...[

@@ -45,6 +45,7 @@
   "dailyPromptsReportSuccess": "Prompt succesvol gerapporteerd",
   "dailyPromptsReportError": "Rapporteren mislukt",
   "dailyPromptsNoPromptsAvailable": "Geen prompts beschikbaar",
+  "dailyPromptsExampleTag": "Voorbeeld prompt",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
@@ -70,10 +71,10 @@
   "errorNoInternetConnection": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
 
   "@_INTERACTION_TYPE": {},
-  "interactionTypeThisIsMeButton": "Kan helpen",
-  "interactionTypeLookingForThisButton": "Heb dit nodig",
-  "interactionTypeKnowSomeoneButton": "Kan doorverwijzen",
-  "interactionTypeNotRelevantButton": "Kan niet helpen",
+  "interactionTypeThisIsMeButton": "Ik kan helpen",
+  "interactionTypeLookingForThisButton": " Ik zoek dit",
+  "interactionTypeKnowSomeoneButton": "Ik ken iemand",
+  "interactionTypeNotRelevantButton": "Niet voor mij",
   "interactionTypeThisIsMeSelection": "Ik kan helpen",
   "interactionTypeLookingForThisSelection": "Ik heb hulp nodig",
   "interactionTypeKnowSomeoneSelection": "Ik kan verbinden",
@@ -495,7 +496,7 @@
   "invitesMenuCopy": "Kopiëren",
   "invitesMenuMarkShared": "Markeren als gedeeld",
   "invitesShareSubject": "Je persoonlijke Venyu uitnodiging",
-  "invitesShareText": "Joine me at Venyu!\n\nHet invite-only netwerk voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n{code}",
+  "invitesShareText": "Join me at Venyu!\n\nDe invite-only community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n{code}",
   "@invitesShareText": {
     "placeholders": {
       "code": {
@@ -617,12 +618,13 @@
   "editNameLinkedInLabel": "LINKEDIN URL",
   "editNameLinkedInHint": "linkedin.com/in/jouw-naam",
   "editNameLinkedInInfoMessage": "We delen je LinkedIn profiel alleen in de introductie-e-mail zodra er wederzijdse interesse is. Het wordt nooit gedeeld wanneer je voor het eerst gematcht wordt.",
+  "editNameLinkedInMobileTip": "In de LinkedIn mobiele app: Ga naar je profiel → tik op de drie puntjes (•••) → selecteer 'Profiel delen' → tik op 'Link kopiëren'",
 
   "@_EDIT_EMAIL": {},
   "editEmailTitle": "E-mailadres",
   "editEmailSendCodeButton": "Verificatiecode verzenden",
   "editEmailAddressLabel": "E-MAILADRES",
-  "editEmailCodeSentMessage": "Een verificatiecode is verzonden naar {email}",
+  "editEmailCodeSentMessage": "Een verificatiecode is verzonden naar {email}. Controleer ook de spam.",
   "@editEmailCodeSentMessage": {
     "placeholders": {
       "email": {
@@ -639,6 +641,7 @@
   "editEmailNewsletterLabel": "INSCHRIJVEN VOOR VENYU UPDATES",
   "editEmailVerificationCodeLabel": "Verificatiecode",
   "editEmailVerificationCodeHint": "Voer 6-cijferige code in",
+  "editEmailOtpInfoMessage": "Controleer ook je spam folder als je de verificatiecode niet ziet.",
 
   "@_EDIT_CITY": {},
   "editCityTitle": "Stad",

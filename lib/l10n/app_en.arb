@@ -45,6 +45,7 @@
   "dailyPromptsReportSuccess": "Prompt reported successfully",
   "dailyPromptsReportError": "Failed to report prompt",
   "dailyPromptsNoPromptsAvailable": "No prompts available",
+  "dailyPromptsExampleTag": "Example prompt",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
@@ -73,7 +74,7 @@
   "interactionTypeThisIsMeButton": "I can help",
   "interactionTypeLookingForThisButton": "I need this",
   "interactionTypeKnowSomeoneButton": "I can refer",
-  "interactionTypeNotRelevantButton": "I can't help",
+  "interactionTypeNotRelevantButton": "Not for me",
   "interactionTypeThisIsMeSelection": "I can help",
   "interactionTypeLookingForThisSelection": "I need help",
   "interactionTypeKnowSomeoneSelection": "I can connect",
@@ -495,7 +496,7 @@
   "invitesMenuCopy": "Copy",
   "invitesMenuMarkShared": "Mark as shared",
   "invitesShareSubject": "Your personal Venyu invite",
-  "invitesShareText": "Join me on Venyu ! \n  \nThe invite-only network for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}",
+  "invitesShareText": "Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}",
   "@invitesShareText": {
     "placeholders": {
       "code": {
@@ -617,12 +618,13 @@
   "editNameLinkedInLabel": "LINKEDIN URL",
   "editNameLinkedInHint": "linkedin.com/in/your-name",
   "editNameLinkedInInfoMessage": "We'll only share your LinkedIn profile in the introduction email once there's mutual interest. It's never shared when you first get matched.",
+  "editNameLinkedInMobileTip": "On the LinkedIn mobile app: Go to your profile → tap the three dots (•••) → select 'Share profile' → tap 'Copy link'",
 
   "@_EDIT_EMAIL": {},
   "editEmailTitle": "Email address",
   "editEmailSendCodeButton": "Send verification code",
   "editEmailAddressLabel": "EMAIL ADDRESS",
-  "editEmailCodeSentMessage": "A verification code has been sent to {email}",
+  "editEmailCodeSentMessage": "A verification code has been sent to {email}. Please also check the spam folder.",
   "@editEmailCodeSentMessage": {
     "placeholders": {
       "email": {
@@ -639,6 +641,7 @@
   "editEmailNewsletterLabel": "SUBSCRIBE FOR VENYU UPDATES",
   "editEmailVerificationCodeLabel": "Verification code",
   "editEmailVerificationCodeHint": "Enter 6-digit code",
+  "editEmailOtpInfoMessage": "Please check your spam folder if you don't see the verification code.",
 
   "@_EDIT_CITY": {},
   "editCityTitle": "City",

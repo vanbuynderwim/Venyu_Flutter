@@ -4,11 +4,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../utils/linked_in_validator.dart';
 import '../../services/supabase_managers/base_supabase_manager.dart';
 import '../../services/profile_service.dart';
+import '../../services/toast_service.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/common/form_info_box.dart';
+import '../../widgets/common/info_box_widget.dart';
 import '../base/base_form_view.dart';
 
 /// Special exception for when user chooses to check LinkedIn URL
@@ -130,14 +132,27 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
   }
 
   @override
-  void onSaveError(dynamic error) {
-    // Don't show error toast for user-cancelled URL check
-    if (error is _UserCancelledForUrlCheckException) {
-      // User chose to check URL - don't show error or navigate
-      return;
-    }
-    // For other errors, the base class already shows the error toast
-    super.onSaveError(error);
+  Future<void> handleSave() async {
+    if (!canSave || isProcessing) return;
+
+    await executeWithLoading(
+      operation: performSave,
+      successMessage: null,
+      showSuccessToast: false,
+      showErrorToast: false,  // We'll handle error toasts ourselves
+      useProcessingState: true,
+      onSuccess: navigateAfterSave,
+      onError: (error) {
+        // Only show error toast if it's not the user-cancelled exception
+        if (error is! _UserCancelledForUrlCheckException) {
+          ToastService.error(
+            context: context,
+            message: getErrorMessage(),
+          );
+        }
+        // else: User chose to check URL - don't show error
+      },
+    );
   }
 
   /// Custom save handler that includes LinkedIn validation
@@ -296,6 +311,14 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
         // LinkedIn info box
         FormInfoBox(
           content: l10n.editNameLinkedInInfoMessage,
+        ),
+
+        const SizedBox(height: 12),
+
+        // LinkedIn mobile tip
+        InfoBoxWidget(
+          text: l10n.editNameLinkedInMobileTip,
+          iconName: 'bulb',
         ),
 
         const SizedBox(height: 16),

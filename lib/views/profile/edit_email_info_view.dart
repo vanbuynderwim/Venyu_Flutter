@@ -13,6 +13,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
 import '../../widgets/common/form_info_box.dart';
+import '../../widgets/common/info_box_widget.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user email address with OTP verification.
@@ -367,7 +368,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         ],
 
         // OTP input section (shown after sending OTP)
-        if (_showOTPField)
+        if (_showOTPField) ...[
           buildFieldSection(
             title: l10n.editEmailVerificationCodeLabel,
             content: AppTextField(
@@ -399,6 +400,13 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
               },
             ),
           ),
+          
+          // OTP info box
+          InfoBoxWidget(
+            text: l10n.editEmailOtpInfoMessage,
+            iconName: 'bulb',
+          ),
+        ],
       ],
     );
   }

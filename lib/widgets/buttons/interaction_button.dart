@@ -55,13 +55,13 @@ class InteractionButton extends StatelessWidget {
                   // Icon
                   Image.asset(
                     interactionType.assetPath,
-                    width: 20,
-                    height: 20,
+                    width: 24,
+                    height: 24,
                     color: isSelected ? Colors.white : interactionType.color,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(
                         interactionType.fallbackIcon,
-                        size: 20,
+                        size: 24,
                         color: isSelected ? Colors.white : theme.unselectedText,
                       );
                     },
@@ -73,7 +73,7 @@ class InteractionButton extends StatelessWidget {
                   Flexible(
                     child: Text(
                       interactionType.buttonTitle(context),
-                      style: AppTextStyles.subheadline2.copyWith(
+                      style: AppTextStyles.headline.copyWith(
                         color: isSelected ? Colors.white : interactionType.color,
                         fontWeight: FontWeight.w600,
                       ),
