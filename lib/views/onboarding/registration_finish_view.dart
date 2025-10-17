@@ -74,27 +74,27 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Full-screen radar background image
-          const RadarBackground(),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            // Full-screen radar background image
+            const RadarBackground(),
 
-          // Content overlay
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36),
-              child: Column(
-                children: [
-                  const Spacer(),
-
-                  // Main content
-                  Column(
+            // Content overlay
+            SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 36),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      // Main content
                       Text(
                         l10n.registrationFinishTitle,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
+                        textAlign: TextAlign.center,
                       ),
 
                       const SizedBox(height: 24),
@@ -106,25 +106,23 @@ class _RegistrationFinishViewState extends State<RegistrationFinishView> {
                         ),
                         textAlign: TextAlign.center,
                       ),
+
+                      const SizedBox(height: 24),
+
+                      // Start exploring button
+                      ActionButton(
+                        label: l10n.registrationFinishButton,
+                        width: 240,
+                        onPressed: _isLoading ? null : _handleGotIt,
+                        isLoading: _isLoading,
+                      ),
                     ],
                   ),
-
-                  const SizedBox(height: 24),
-
-                  // Start exploring button
-                  ActionButton(
-                    label: l10n.registrationFinishButton,
-                    width: 240,
-                    onPressed: _isLoading ? null : _handleGotIt,
-                    isLoading: _isLoading,
-                  ),
-
-                  const Spacer(),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

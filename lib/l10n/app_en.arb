@@ -16,8 +16,8 @@
   "tutorialStep3Description": "When a match catches your eye, say you're interested. It's your way of telling us you'd like to be introduced to that person.",
   "tutorialStep4Title": "Get introduced",
   "tutorialStep4Description": "If there's mutual interest, we'll send an introduction email so you can start the conversation naturally.",
-  "tutorialStep5Title": "You got it!",
-  "tutorialStep5Description": "Now let's set up your profile and join the community.",
+  "tutorialStep5Title": "It's that simple!",
+  "tutorialStep5Description": "Now let's set up your profile!",
   "tutorialButtonPrevious": "Previous",
   "tutorialButtonNext": "Next",
 
@@ -46,6 +46,7 @@
   "dailyPromptsReportError": "Failed to report prompt",
   "dailyPromptsNoPromptsAvailable": "No prompts available",
   "dailyPromptsExampleTag": "Example prompt",
+  "dailyPromptsReferralCodeSent": "Check your email for an invite code to share with your referral",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
@@ -69,6 +70,7 @@
   "errorFailedToLoadCards": "Failed to load prompts. Please try again.",
   "errorFailedToRefreshProfile": "Failed to refresh profile. Please try again.",
   "errorNoInternetConnection": "No internet connection. Please check your connection and try again.",
+  "errorAuthenticationFailed": "Sign in failed. Please try again.",
 
   "@_INTERACTION_TYPE": {},
   "interactionTypeThisIsMeButton": "I can help",
@@ -76,15 +78,15 @@
   "interactionTypeKnowSomeoneButton": "I can refer",
   "interactionTypeNotRelevantButton": "Not for me",
   "interactionTypeThisIsMeSelection": "I can help",
-  "interactionTypeLookingForThisSelection": "I need help",
+  "interactionTypeLookingForThisSelection": "I’m looking for advice",
   "interactionTypeKnowSomeoneSelection": "I can connect",
   "interactionTypeNotRelevantSelection": "Skip",
-  "interactionTypeThisIsMeSubtitle": "Share your skills or experience",
-  "interactionTypeLookingForThisSubtitle": "Ask for advice or support",
+  "interactionTypeThisIsMeSubtitle": "Share how you can add value",
+  "interactionTypeLookingForThisSubtitle": "Ask for the expertise or advice you need",
   "interactionTypeKnowSomeoneSubtitle": "Introduce people who can help",
   "interactionTypeNotRelevantSubtitle": "Pass on this one",
   "interactionTypeThisIsMeHint": "What skill or expertise can you offer?",
-  "interactionTypeLookingForThisHint": "What specific help do you need?",
+  "interactionTypeLookingForThisHint": "What specific expertise or advice do you need?",
   "interactionTypeKnowSomeoneHint": "Who can you connect for this need?",
   "interactionTypeNotRelevantHint": "What would you like to share?",
 
@@ -270,7 +272,7 @@
   "emptyStateReviewsTitle": "All caught up!",
   "emptyStateReviewsDescription": "When prompts are submitted for review, they will appear here",
   "emptyStateMatchesTitle": "Waiting for your first match!",
-  "emptyStateMatchesDescription": "Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.",
+  "emptyStateMatchesDescription": "Once you have a match, it will appear here and could lead to an introduction.",
   "emptyStatePromptsTitle": "Ready to get matched?",
   "emptyStatePromptsDescription": "Prompts open the door to meaningful introductions. Add yours and match with the right people.",
 
@@ -440,6 +442,14 @@
     }
   },
   "matchDetailUnlockButton": "Upgrade now",
+  "matchDetailInterestedInfoMessage": "Think this could be an interesting match and want to be introduced to {name}?\nTap 'Interested'. When you both show interest, Venyu makes the introduction.",
+  "@matchDetailInterestedInfoMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "matchOverviewYou": "You",
 
   "@_PROFILE_AVATAR": {},
@@ -496,7 +506,7 @@
   "invitesMenuCopy": "Copy",
   "invitesMenuMarkShared": "Mark as shared",
   "invitesShareSubject": "Your personal Venyu invite",
-  "invitesShareText": "Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}",
+  "invitesShareText": "Join me on Venyu! \n\nThe invite-only matchmaking community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}",
   "@invitesShareText": {
     "placeholders": {
       "code": {
@@ -708,7 +718,7 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Now, let's make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "For you",
+  "interactionTypeSelectionSubtitleDefault": "Write a prompt",
   "interactionTypeSelectionDisclaimerText": "All prompts are subject to review before going live",
   "interactionTypeSelectionShowGuidelines": "Show community guidelines",
   "interactionTypeSelectionHideGuidelines": "Hide community guidelines",
@@ -1032,5 +1042,8 @@
   "venueErrorAdminRequired": "You need admin privileges to view venue members.",
   "venueErrorIdRequired": "Venue ID is required.",
   "venueErrorAdminRequiredPrompts": "You need admin privileges to view venue prompts.",
-  "venueErrorPermissionDenied": "You don't have permission to view matches for this venue."
+  "venueErrorPermissionDenied": "You don't have permission to view matches for this venue.",
+
+  "@_OPTION_BUTTON": {},
+  "optionButtonCompleteProfile": "Complete profile"
 }

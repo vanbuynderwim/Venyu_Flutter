@@ -131,6 +131,18 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Update notification as opened
+  Future<void> updateNotification(String notificationId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating notification with ID: $notificationId', context: 'MatchingManager');
+
+      // Call the update_notification RPC function
+      await client.rpc('update_notification', params: {'p_notification_id': notificationId});
+
+      AppLogger.success('Notification updated successfully', context: 'MatchingManager');
+    });
+  }
+
   /// Remove a match
   Future<void> removeMatch(String matchId) async {
     return executeAuthenticatedRequest(() async {

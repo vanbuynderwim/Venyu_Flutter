@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.11+11
+version: 1.0.13+13
 
 environment:
   sdk: ^3.8.1
@@ -39,32 +39,32 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   
-  # Supabase Flutter integration
-  supabase_flutter: ^2.9.1
+  # Supabase Flutter integration - upgraded for OAuth flow_state fix
+  supabase_flutter: ^2.10.3
   
   # Cached network image voor remote icons
   cached_network_image: ^3.3.1
-  flutter_dotenv: ^5.2.1
+  flutter_dotenv: ^6.0.0
   sign_in_with_apple: ^7.0.1
-  google_sign_in: ^6.2.2
+  google_sign_in: ^7.2.0
   crypto: ^3.0.6
   flutter_secure_storage: ^9.2.4
   url_launcher: ^6.3.2
   
   # RevenueCat for in-app purchases and subscriptions
-  purchases_flutter: ^8.0.0
+  purchases_flutter: ^9.8.0
   provider: ^6.1.5
-  package_info_plus: ^8.1.2
-  flutter_platform_widgets: ^7.0.1
+  package_info_plus: ^9.0.0
+  flutter_platform_widgets: ^9.0.0
   image_picker: ^1.1.2
   uuid: ^4.5.1
-  connectivity_plus: ^6.1.1
-  location: ^6.0.2
-  share_plus: ^10.1.2
+  connectivity_plus: ^7.0.0
+  location: ^8.0.1
+  share_plus: ^12.0.0
 
   # Firebase push notifications
-  firebase_messaging: ^15.1.6
-  firebase_core: ^3.10.1
+  firebase_messaging: ^16.0.3
+  firebase_core: ^4.2.0
 
 dev_dependencies:
   sentry_dart_plugin: ^3.1.1
@@ -76,7 +76,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   
   # Native splash screen generator
   flutter_native_splash: ^2.4.1

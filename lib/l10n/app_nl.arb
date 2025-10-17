@@ -16,8 +16,8 @@
   "tutorialStep3Description": "Als een match je aandacht trekt, geef dan aan dat je geïnteresseerd bent. Op die manier weten we dat je graag aan deze persoon voorgesteld wilt worden.",
   "tutorialStep4Title": "Word voorgesteld",
   "tutorialStep4Description": "Als er wederzijdse interesse is, sturen we een introductie-mail zodat jullie het gesprek kunnen opstarten op jullie eigen tempo.",
-  "tutorialStep5Title": "Meer is het niet!",
-  "tutorialStep5Description": "Laten we nu je profiel opstellen en lid worden van de community!",
+  "tutorialStep5Title": "Zo eenvoudig is het!",
+  "tutorialStep5Description": "Laten we nu je profiel vervolledigen!",
   "tutorialButtonPrevious": "Vorige",
   "tutorialButtonNext": "Volgende",
 
@@ -46,6 +46,7 @@
   "dailyPromptsReportError": "Rapporteren mislukt",
   "dailyPromptsNoPromptsAvailable": "Geen prompts beschikbaar",
   "dailyPromptsExampleTag": "Voorbeeld prompt",
+  "dailyPromptsReferralCodeSent": "Check je mail voor een uitnodigingscode om te delen met je referral",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
@@ -69,6 +70,7 @@
   "errorFailedToLoadCards": "Prompts laden mislukt. Probeer het opnieuw.",
   "errorFailedToRefreshProfile": "Profiel vernieuwen mislukt. Probeer het opnieuw.",
   "errorNoInternetConnection": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
+  "errorAuthenticationFailed": "Aanmelden mislukt. Probeer het opnieuw.",
 
   "@_INTERACTION_TYPE": {},
   "interactionTypeThisIsMeButton": "Ik kan helpen",
@@ -76,15 +78,15 @@
   "interactionTypeKnowSomeoneButton": "Ik ken iemand",
   "interactionTypeNotRelevantButton": "Niet voor mij",
   "interactionTypeThisIsMeSelection": "Ik kan helpen",
-  "interactionTypeLookingForThisSelection": "Ik heb hulp nodig",
+  "interactionTypeLookingForThisSelection": "Op zoek naar advies",
   "interactionTypeKnowSomeoneSelection": "Ik kan verbinden",
   "interactionTypeNotRelevantSelection": "Overslaan",
-  "interactionTypeThisIsMeSubtitle": "Deel je vaardigheden of ervaring",
-  "interactionTypeLookingForThisSubtitle": "Vraag om advies of ondersteuning",
+  "interactionTypeThisIsMeSubtitle": "Deel hoe jij waarde kunt toevoegen",
+  "interactionTypeLookingForThisSubtitle": "Vraag naar de expertise of het advies dat je nodig hebt",
   "interactionTypeKnowSomeoneSubtitle": "Stel mensen voor die kunnen helpen",
   "interactionTypeNotRelevantSubtitle": "Deze sla ik over",
   "interactionTypeThisIsMeHint": "Welke vaardigheid of expertise kun je aanbieden?",
-  "interactionTypeLookingForThisHint": "Welke specifieke hulp heb je nodig?",
+  "interactionTypeLookingForThisHint": "Welke specifieke expertise of advies heb je nodig?",
   "interactionTypeKnowSomeoneHint": "Wie kun je aanraden?",
   "interactionTypeNotRelevantHint": "Wat wil je delen?",
 
@@ -270,7 +272,7 @@
   "emptyStateReviewsTitle": "Helemaal up-to-date",
   "emptyStateReviewsDescription": "Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier",
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
-  "emptyStateMatchesDescription": "Venyu is al op zoek naar geweldige matches. Zodra we de juiste match vinden, verschijnt deze hier en kan het leiden tot een introductie.",
+  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een introductie.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
   "emptyStatePromptsDescription": "Vind de juiste mensen. Voeg je prompt toe en match.",
 
@@ -440,6 +442,14 @@
     }
   },
   "matchDetailUnlockButton": "Nu upgraden",
+  "matchDetailInterestedInfoMessage": "Vind je dit een interessante match en wil je graag worden voorgesteld aan {name}?\nTik dan op 'Geïnteresseerd'. Als jullie beiden interesse tonen, maakt Venyu de introductie.",
+  "@matchDetailInterestedInfoMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "matchOverviewYou": "Jij",
 
   "@_PROFILE_AVATAR": {},
@@ -496,7 +506,7 @@
   "invitesMenuCopy": "Kopiëren",
   "invitesMenuMarkShared": "Markeren als gedeeld",
   "invitesShareSubject": "Je persoonlijke Venyu uitnodiging",
-  "invitesShareText": "Join me at Venyu!\n\nDe invite-only community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n{code}",
+  "invitesShareText": "Join me on Venyu!\n\nDe invite-only matchmaking community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n{code}",
   "@invitesShareText": {
     "placeholders": {
       "code": {
@@ -708,7 +718,7 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "For you",
+  "interactionTypeSelectionSubtitleDefault": "Schrijf een prompt",
   "interactionTypeSelectionDisclaimerText": "Alle prompts worden beoordeeld voordat ze live gaan",
   "interactionTypeSelectionShowGuidelines": "Community richtlijnen tonen",
   "interactionTypeSelectionHideGuidelines": "Community richtlijnen verbergen",
@@ -1032,5 +1042,8 @@
   "venueErrorAdminRequired": "Je hebt admin rechten nodig om venue leden te bekijken.",
   "venueErrorIdRequired": "Venue ID is vereist.",
   "venueErrorAdminRequiredPrompts": "Je hebt admin rechten nodig om venue prompts te bekijken.",
-  "venueErrorPermissionDenied": "Je hebt geen toestemming om matches voor deze venue te bekijken."
+  "venueErrorPermissionDenied": "Je hebt geen toestemming om matches voor deze venue te bekijken.",
+
+  "@_OPTION_BUTTON": {},
+  "optionButtonCompleteProfile": "Profiel voltooien"
 }

@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../core/theme/app_input_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/profile_service.dart';
@@ -46,7 +45,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   bool _showOTPField = false;
   bool _isEmailValid = false;
   bool _emailFieldDisabled = false;
-  bool _isSubscribedToNewsletter = true;
+  bool _isSubscribedToNewsletter = false;
   String? _buttonLabel;
   bool _isSendingOTP = false;
   bool _isVerifyingOTP = false;
@@ -71,12 +70,22 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     super.dispose();
   }
 
-  /// Preload current email if exists
+  /// Preload current email and newsletter subscription if exists
   void _preloadEmail() {
-    final currentEmail = ProfileService.shared.currentProfile?.contactEmail;
+    final profile = ProfileService.shared.currentProfile;
+
+    // Load email
+    final currentEmail = profile?.contactEmail;
     if (currentEmail != null && currentEmail.isNotEmpty) {
       _emailController.text = currentEmail;
       _isEmailValid = true;
+    }
+
+    // Load newsletter subscription status (only outside registration wizard)
+    if (!widget.registrationWizard && profile?.newsletterSubscribed != null) {
+      setState(() {
+        _isSubscribedToNewsletter = profile!.newsletterSubscribed!;
+      });
     }
   }
 
@@ -350,14 +359,12 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
                       _isSubscribedToNewsletter = value;
                     });
                   },
-                  material: (_, __) => MaterialSwitchData(
-                    activeColor: AppColors.primair4Lilac,
+                  material: (_, _) => MaterialSwitchData(
                     // For Material Design, the thumb color is automatically handled
                   ),
-                  cupertino: (_, __) => CupertinoSwitchData(
-                    activeColor: AppColors.primair4Lilac,
+                  cupertino: (_, _) => CupertinoSwitchData(
                     // For iOS, we can set thumbColor for better contrast in dark mode
-                    thumbColor: Theme.of(context).brightness == Brightness.dark 
+                    thumbColor: Theme.of(context).brightness == Brightness.dark
                         ? context.venyuTheme.adaptiveBackground  // Dark thumb on light track
                         : null,  // Default white thumb
                   ),

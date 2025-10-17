@@ -34,27 +34,27 @@ class TutorialDoneView extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Full-screen radar background image
-          const RadarBackground(),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            // Full-screen radar background image
+            const RadarBackground(),
 
-          // Content overlay
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36),
-              child: Column(
-                children: [
-                  const Spacer(),
-
-                  // Main content
-                  Column(
+            // Content overlay
+            SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 36),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      // Main content
                       Text(
                         l10n.tutorialStep5Title,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
+                        textAlign: TextAlign.center,
                       ),
 
                       const SizedBox(height: 24),
@@ -66,24 +66,22 @@ class TutorialDoneView extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
+
+                      const SizedBox(height: 24),
+
+                      // Start button
+                      ActionButton(
+                        label: l10n.tutorialButtonNext,
+                        width: 120,
+                        onPressed: () => _navigateToRegistration(context),
+                      ),
                     ],
                   ),
-
-                  const SizedBox(height: 24),
-
-                  // Start button
-                  ActionButton(
-                    label: l10n.tutorialButtonNext,
-                    width: 120,
-                    onPressed: () => _navigateToRegistration(context),
-                  ),
-
-                  const Spacer(),
-                ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

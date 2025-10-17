@@ -163,7 +163,14 @@ class _NotificationsViewState extends State<NotificationsView>
                         notification: notification,
                         onNotificationSelected: (selectedNotification) {
                           AppLogger.debug('Notification tapped: ${selectedNotification.title}', context: 'NotificationsView');
-                          
+
+                          // Update notification as opened (fire-and-forget)
+                          _matchingManager.updateNotification(selectedNotification.id).then((_) {
+                            AppLogger.debug('Notification marked as opened', context: 'NotificationsView');
+                          }).catchError((error) {
+                            AppLogger.error('Failed to update notification', context: 'NotificationsView', error: error);
+                          });
+
                           // If notification has a match, navigate to match detail view
                           if (selectedNotification.match != null) {
                             Navigator.push(

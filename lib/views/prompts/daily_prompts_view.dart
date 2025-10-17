@@ -13,8 +13,10 @@ import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/prompts/prompt_display_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
+import '../../widgets/common/tag_view.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
+import '../../services/toast_service.dart';
 import 'interaction_type_selection_view.dart';
 import '../onboarding/tutorial_finished_view.dart';
 import '../onboarding/registration_finish_view.dart';
@@ -131,6 +133,15 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
       showErrorToast: false, // Handle navigation in callbacks
       useProcessingState: true,
       onSuccess: () async {
+        // Show toast if knowSomeone was selected
+        if (_selectedInteractionType == InteractionType.knowSomeone) {
+          final l10n = AppLocalizations.of(context)!;
+          ToastService.info(
+            context: context,
+            message: l10n.dailyPromptsReferralCodeSent,
+          );
+        }
+
         // Check if there are more prompts
         if (_currentPromptIndex < widget.prompts.length - 1) {
           // Move to next prompt and reset interaction selection
@@ -305,32 +316,14 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
                   const SizedBox(height: AppModifiers.largeSpacing),
 
-                  // Info box for first time users showing which button to press
+                  // Tutorial hint tag for first time users showing which button to press
                   if (widget.isFirstTimeUser && _currentPrompt.interactionType != null) ...[
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: context.venyuTheme.primary.withValues(alpha: 0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _selectedInteractionType == null
-                              ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
-                              : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
-                          style: TextStyle(
-                            color: context.venyuTheme.darkText,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                    TagView(
+                      id: 'tutorial-hint',
+                      emoji: '👇',
+                      label: _selectedInteractionType == null
+                          ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
+                          : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
                     ),
                     const SizedBox(height: AppModifiers.mediumSpacing),
                   ],

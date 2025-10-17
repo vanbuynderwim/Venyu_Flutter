@@ -173,13 +173,13 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialStep5Title.
   ///
   /// In en, this message translates to:
-  /// **'You got it!'**
+  /// **'It\'s that simple!'**
   String get tutorialStep5Title;
 
   /// No description provided for @tutorialStep5Description.
   ///
   /// In en, this message translates to:
-  /// **'Now let\'s set up your profile and join the community.'**
+  /// **'Now let\'s set up your profile!'**
   String get tutorialStep5Description;
 
   /// No description provided for @tutorialButtonPrevious.
@@ -272,6 +272,12 @@ abstract class AppLocalizations {
   /// **'Example prompt'**
   String get dailyPromptsExampleTag;
 
+  /// No description provided for @dailyPromptsReferralCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email for an invite code to share with your referral'**
+  String get dailyPromptsReferralCodeSent;
+
   /// No description provided for @tutorialFinishedTitle.
   ///
   /// In en, this message translates to:
@@ -362,6 +368,12 @@ abstract class AppLocalizations {
   /// **'No internet connection. Please check your connection and try again.'**
   String get errorNoInternetConnection;
 
+  /// No description provided for @errorAuthenticationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed. Please try again.'**
+  String get errorAuthenticationFailed;
+
   /// No description provided for @interactionTypeThisIsMeButton.
   ///
   /// In en, this message translates to:
@@ -395,7 +407,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeLookingForThisSelection.
   ///
   /// In en, this message translates to:
-  /// **'I need help'**
+  /// **'I’m looking for advice'**
   String get interactionTypeLookingForThisSelection;
 
   /// No description provided for @interactionTypeKnowSomeoneSelection.
@@ -413,13 +425,13 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeThisIsMeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Share your skills or experience'**
+  /// **'Share how you can add value'**
   String get interactionTypeThisIsMeSubtitle;
 
   /// No description provided for @interactionTypeLookingForThisSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Ask for advice or support'**
+  /// **'Ask for the expertise or advice you need'**
   String get interactionTypeLookingForThisSubtitle;
 
   /// No description provided for @interactionTypeKnowSomeoneSubtitle.
@@ -443,7 +455,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeLookingForThisHint.
   ///
   /// In en, this message translates to:
-  /// **'What specific help do you need?'**
+  /// **'What specific expertise or advice do you need?'**
   String get interactionTypeLookingForThisHint;
 
   /// No description provided for @interactionTypeKnowSomeoneHint.
@@ -1181,7 +1193,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.'**
+  /// **'Once you have a match, it will appear here and could lead to an introduction.'**
   String get emptyStateMatchesDescription;
 
   /// No description provided for @emptyStatePromptsTitle.
@@ -1616,6 +1628,12 @@ abstract class AppLocalizations {
   /// **'Upgrade now'**
   String get matchDetailUnlockButton;
 
+  /// No description provided for @matchDetailInterestedInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Think this could be an interesting match and want to be introduced to {name}?\nTap \'Interested\'. When you both show interest, Venyu makes the introduction.'**
+  String matchDetailInterestedInfoMessage(String name);
+
   /// No description provided for @matchOverviewYou.
   ///
   /// In en, this message translates to:
@@ -1805,7 +1823,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitesShareText.
   ///
   /// In en, this message translates to:
-  /// **'Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
+  /// **'Join me on Venyu! \n\nThe invite-only matchmaking community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
   String invitesShareText(String code);
 
   /// No description provided for @invitesCopiedToast.
@@ -2729,7 +2747,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionSubtitleDefault.
   ///
   /// In en, this message translates to:
-  /// **'For you'**
+  /// **'Write a prompt'**
   String get interactionTypeSelectionSubtitleDefault;
 
   /// No description provided for @interactionTypeSelectionDisclaimerText.
@@ -3655,6 +3673,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You don\'t have permission to view matches for this venue.'**
   String get venueErrorPermissionDenied;
+
+  /// No description provided for @optionButtonCompleteProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete profile'**
+  String get optionButtonCompleteProfile;
 }
 
 class _AppLocalizationsDelegate

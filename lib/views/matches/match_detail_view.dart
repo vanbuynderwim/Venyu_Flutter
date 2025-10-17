@@ -17,6 +17,7 @@ import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../../widgets/menus/menu_option_builder.dart';
 import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
@@ -508,6 +509,14 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchReasonsView(match: _match!),
+                const SizedBox(height: 16),
+              ],
+
+              // Interested button info section (only for matched status)
+              if (_match!.status == MatchStatus.matched) ...[
+                FormInfoBox(
+                  content: l10n.matchDetailInterestedInfoMessage(_match!.profile.firstName),
+                ),
               ],
             ],
             

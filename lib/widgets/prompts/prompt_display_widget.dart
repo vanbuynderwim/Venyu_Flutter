@@ -58,6 +58,7 @@ class PromptDisplayWidget extends StatelessWidget {
                 const SizedBox(height: 16),
                 TagView(
                   id: 'example',
+                  emoji: '👆',
                   label: l10n.dailyPromptsExampleTag
                 ),
               ],

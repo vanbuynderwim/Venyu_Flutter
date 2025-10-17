@@ -155,7 +155,6 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
               flex: 2,
               child: ActionButton(
                 label: AppLocalizations.of(context)!.actionInterested,
-                icon: context.themedIcon('like'),
                 onPressed: _isProcessingSkip ? null : _handleConnectMatch,
                 type: ActionButtonType.primary,
                 isLoading: _isProcessingInterested,

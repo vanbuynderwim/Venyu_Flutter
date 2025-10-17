@@ -118,11 +118,12 @@ class _NotificationItemViewState extends State<NotificationItemView> {
   Widget _buildPromptSection(BuildContext context) {
     final prompt = widget.notification.prompt!;
     final venyuTheme = context.venyuTheme;
-    
+
     // Get interaction type color, default to primary if null
-   
-    
+
+
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -140,7 +141,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
         style: AppTextStyles.subheadline.copyWith(
           color: context.venyuTheme.darkText,
           fontSize: 16,
-          fontFamily: AppFonts.graphie, 
+          fontFamily: AppFonts.graphie,
         ),
       ),
     );

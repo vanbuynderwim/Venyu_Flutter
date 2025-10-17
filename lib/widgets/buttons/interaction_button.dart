@@ -29,13 +29,21 @@ class InteractionButton extends StatelessWidget {
     final theme = context.venyuTheme;
     final bool isDisabled = onPressed == null;
 
+    // Use gray color when disabled, otherwise use interaction type color
+    final Color buttonColor = isDisabled
+        ? theme.disabledText
+        : interactionType.color;
+    final Color backgroundColor = isSelected
+        ? (isDisabled ? theme.disabledText : interactionType.color)
+        : Colors.transparent;
+
     return Opacity(
-      opacity: isDisabled ? 0.3 : 1.0,
+      opacity: isDisabled ? 0.6 : 1.0,
       child: SizedBox(
         width: width,
         height: height ?? 56,
         child: Material(
-          color: isSelected ? interactionType.color : Colors.transparent,
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
           child: InkWell(
             onTap: isUpdating ? null : () {
@@ -45,8 +53,8 @@ class InteractionButton extends StatelessWidget {
               onPressed?.call();
             },
             borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
-            highlightColor: interactionType.color.withValues(alpha: 0.2),
-            splashColor: interactionType.color.withValues(alpha: 0.3),
+            highlightColor: buttonColor.withValues(alpha: 0.2),
+            splashColor: buttonColor.withValues(alpha: 0.3),
             child: SizedBox(
               height: height ?? 56,
               child: Row(
@@ -57,12 +65,12 @@ class InteractionButton extends StatelessWidget {
                     interactionType.assetPath,
                     width: 24,
                     height: 24,
-                    color: isSelected ? Colors.white : interactionType.color,
+                    color: isSelected ? Colors.white : buttonColor,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(
                         interactionType.fallbackIcon,
                         size: 24,
-                        color: isSelected ? Colors.white : theme.unselectedText,
+                        color: isSelected ? Colors.white : buttonColor,
                       );
                     },
                   ),
@@ -74,7 +82,7 @@ class InteractionButton extends StatelessWidget {
                     child: Text(
                       interactionType.buttonTitle(context),
                       style: AppTextStyles.headline.copyWith(
-                        color: isSelected ? Colors.white : interactionType.color,
+                        color: isSelected ? Colors.white : buttonColor,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,

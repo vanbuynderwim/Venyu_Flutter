@@ -51,11 +51,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'If there\'s mutual interest, we\'ll send an introduction email so you can start the conversation naturally.';
 
   @override
-  String get tutorialStep5Title => 'You got it!';
+  String get tutorialStep5Title => 'It\'s that simple!';
 
   @override
-  String get tutorialStep5Description =>
-      'Now let\'s set up your profile and join the community.';
+  String get tutorialStep5Description => 'Now let\'s set up your profile!';
 
   @override
   String get tutorialButtonPrevious => 'Previous';
@@ -105,6 +104,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyPromptsExampleTag => 'Example prompt';
+
+  @override
+  String get dailyPromptsReferralCodeSent =>
+      'Check your email for an invite code to share with your referral';
 
   @override
   String get tutorialFinishedTitle => 'You\'re all set! 🎉';
@@ -158,6 +161,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'No internet connection. Please check your connection and try again.';
 
   @override
+  String get errorAuthenticationFailed => 'Sign in failed. Please try again.';
+
+  @override
   String get interactionTypeThisIsMeButton => 'I can help';
 
   @override
@@ -173,7 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interactionTypeThisIsMeSelection => 'I can help';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'I need help';
+  String get interactionTypeLookingForThisSelection => 'I’m looking for advice';
 
   @override
   String get interactionTypeKnowSomeoneSelection => 'I can connect';
@@ -182,12 +188,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get interactionTypeNotRelevantSelection => 'Skip';
 
   @override
-  String get interactionTypeThisIsMeSubtitle =>
-      'Share your skills or experience';
+  String get interactionTypeThisIsMeSubtitle => 'Share how you can add value';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Ask for advice or support';
+      'Ask for the expertise or advice you need';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
@@ -202,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeLookingForThisHint =>
-      'What specific help do you need?';
+      'What specific expertise or advice do you need?';
 
   @override
   String get interactionTypeKnowSomeoneHint =>
@@ -605,7 +610,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Venyu is already on the lookout for great matches. As soon as we find the right fit, it will show up here and may lead to an introduction.';
+      'Once you have a match, it will appear here and could lead to an introduction.';
 
   @override
   String get emptyStatePromptsTitle => 'Ready to get matched?';
@@ -855,6 +860,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matchDetailUnlockButton => 'Upgrade now';
 
   @override
+  String matchDetailInterestedInfoMessage(String name) {
+    return 'Think this could be an interesting match and want to be introduced to $name?\nTap \'Interested\'. When you both show interest, Venyu makes the introduction.';
+  }
+
+  @override
   String get matchOverviewYou => 'You';
 
   @override
@@ -958,7 +968,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Join me on Venyu ! \n  \nThe invite-only community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
+    return 'Join me on Venyu! \n\nThe invite-only matchmaking community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
   }
 
   @override
@@ -1468,7 +1478,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Now, let\'s make the net work for you';
 
   @override
-  String get interactionTypeSelectionSubtitleDefault => 'For you';
+  String get interactionTypeSelectionSubtitleDefault => 'Write a prompt';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
@@ -1991,4 +2001,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get venueErrorPermissionDenied =>
       'You don\'t have permission to view matches for this venue.';
+
+  @override
+  String get optionButtonCompleteProfile => 'Complete profile';
 }

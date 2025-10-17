@@ -73,9 +73,9 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
         ? profile!.lastName!
         : '';
 
-    // Pre-fill LinkedIn URL with 'linkedin.com/in/' if empty
+    // Keep LinkedIn URL empty if not set
     final linkedInURL = profile?.linkedInURL ?? '';
-    _linkedInController.text = linkedInURL.isEmpty ? 'linkedin.com/in/' : linkedInURL;
+    _linkedInController.text = linkedInURL;
 
     _firstNameIsEmpty = _firstNameController.text.isEmpty;
     _lastNameIsEmpty = _lastNameController.text.isEmpty;
@@ -201,8 +201,9 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
     final linkedInURL = _linkedInController.text;
     final firstName = _firstNameController.text;
     final lastName = _lastNameController.text;
-    
+
     setState(() {
+      // LinkedIn field is required and must have valid format
       _linkedInFormatIsValid = linkedInURL.isNotEmpty && LinkedInValidator.isValidFormat(linkedInURL);
       _linkedInNameMatches = linkedInURL.isEmpty || LinkedInValidator.nameMatches(linkedInURL, firstName, lastName);
     });
@@ -224,7 +225,7 @@ class _EditNameViewState extends BaseFormViewState<EditNameView> {
               Navigator.of(context).pop(false); // Don't continue
             },
             child: Text(l10n.editNameLinkedInMismatchDialogCheckUrl),
-            cupertino: (_, __) => CupertinoDialogActionData(
+            cupertino: (_, _) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),
           ),

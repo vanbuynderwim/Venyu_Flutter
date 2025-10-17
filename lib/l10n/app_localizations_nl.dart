@@ -51,11 +51,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Als er wederzijdse interesse is, sturen we een introductie-mail zodat jullie het gesprek kunnen opstarten op jullie eigen tempo.';
 
   @override
-  String get tutorialStep5Title => 'Meer is het niet!';
+  String get tutorialStep5Title => 'Zo eenvoudig is het!';
 
   @override
   String get tutorialStep5Description =>
-      'Laten we nu je profiel opstellen en lid worden van de community!';
+      'Laten we nu je profiel vervolledigen!';
 
   @override
   String get tutorialButtonPrevious => 'Vorige';
@@ -106,6 +106,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get dailyPromptsExampleTag => 'Voorbeeld prompt';
+
+  @override
+  String get dailyPromptsReferralCodeSent =>
+      'Check je mail voor een uitnodigingscode om te delen met je referral';
 
   @override
   String get tutorialFinishedTitle => 'Je bent helemaal klaar! 🎉';
@@ -159,6 +163,10 @@ class AppLocalizationsNl extends AppLocalizations {
       'Geen internetverbinding. Controleer je verbinding en probeer opnieuw.';
 
   @override
+  String get errorAuthenticationFailed =>
+      'Aanmelden mislukt. Probeer het opnieuw.';
+
+  @override
   String get interactionTypeThisIsMeButton => 'Ik kan helpen';
 
   @override
@@ -174,7 +182,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeThisIsMeSelection => 'Ik kan helpen';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'Ik heb hulp nodig';
+  String get interactionTypeLookingForThisSelection => 'Op zoek naar advies';
 
   @override
   String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
@@ -184,11 +192,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeThisIsMeSubtitle =>
-      'Deel je vaardigheden of ervaring';
+      'Deel hoe jij waarde kunt toevoegen';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Vraag om advies of ondersteuning';
+      'Vraag naar de expertise of het advies dat je nodig hebt';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
@@ -203,7 +211,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeLookingForThisHint =>
-      'Welke specifieke hulp heb je nodig?';
+      'Welke specifieke expertise of advies heb je nodig?';
 
   @override
   String get interactionTypeKnowSomeoneHint => 'Wie kun je aanraden?';
@@ -608,7 +616,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Venyu is al op zoek naar geweldige matches. Zodra we de juiste match vinden, verschijnt deze hier en kan het leiden tot een introductie.';
+      'Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een introductie.';
 
   @override
   String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
@@ -860,6 +868,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchDetailUnlockButton => 'Nu upgraden';
 
   @override
+  String matchDetailInterestedInfoMessage(String name) {
+    return 'Vind je dit een interessante match en wil je graag worden voorgesteld aan $name?\nTik dan op \'Geïnteresseerd\'. Als jullie beiden interesse tonen, maakt Venyu de introductie.';
+  }
+
+  @override
   String get matchOverviewYou => 'Jij';
 
   @override
@@ -963,7 +976,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Join me at Venyu!\n\nDe invite-only community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
+    return 'Join me on Venyu!\n\nDe invite-only matchmaking community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
   }
 
   @override
@@ -1479,7 +1492,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Make the net work for you';
 
   @override
-  String get interactionTypeSelectionSubtitleDefault => 'For you';
+  String get interactionTypeSelectionSubtitleDefault => 'Schrijf een prompt';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
@@ -2008,4 +2021,7 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get venueErrorPermissionDenied =>
       'Je hebt geen toestemming om matches voor deze venue te bekijken.';
+
+  @override
+  String get optionButtonCompleteProfile => 'Profiel voltooien';
 }
