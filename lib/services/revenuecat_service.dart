@@ -73,7 +73,8 @@ class RevenueCatService {
     if (!_isInitialized) {
       throw Exception('RevenueCat not initialized');
     }
-    return await Purchases.purchasePackage(package);
+    final result = await Purchases.purchaseStoreProduct(package.storeProduct);
+    return result.customerInfo;
   }
 
   /// Restore purchases

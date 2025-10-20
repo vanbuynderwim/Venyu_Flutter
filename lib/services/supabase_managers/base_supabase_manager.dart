@@ -68,6 +68,7 @@ abstract class BaseSupabaseManager {
         postgrestOptions: const PostgrestClientOptions(
           schema: 'venyu_api_v1',
         ),
+        debug: kDebugMode, // Enable debug logging in development
       );
       
       // Set the client reference

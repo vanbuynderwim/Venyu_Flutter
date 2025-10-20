@@ -48,10 +48,10 @@ class AppColors {
 //static const Color know = Color(0xFFffca3a);
 //static const Color na = Color(0xFFff595e);
 
-static const Color me = Color(0xFF7fb800);
-static const Color need = Color(0xFF00a6ed);
-static const Color know = Color(0xFFffb400);
-static const Color na = Color(0xFFf6511d);
+static const Color me = Color(0xFF7fb800); //this_is_me
+static const Color need = Color(0xFF00a6ed); //looking_for_this
+static const Color know = Color(0xFFffb400); //know_someone
+static const Color na = Color(0xFFf6511d); //not_available
 
   // Brand colors
   static const Color linkedIn = Color(0xFF0A66C2);

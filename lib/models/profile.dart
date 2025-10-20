@@ -86,6 +86,10 @@ class Profile {
   /// Public key for secure communications.
   final String? publicKey;
 
+  /// Language code for the user's preferred language (e.g., 'en', 'nl').
+  /// Determined by the server based on device language and app support.
+  final String? languageCode;
+
   /// List of tag groups associated with this profile.
   /// Contains categorized tags like roles, sectors, etc.
   final List<TagGroup>? taggroups;
@@ -115,6 +119,7 @@ class Profile {
     required this.isPro,
     required this.connectionsLimitReached,
     this.publicKey,
+    this.languageCode,
     this.taggroups,
   });
 
@@ -144,7 +149,8 @@ class Profile {
       isPro: json['is_pro'] as bool? ?? false,
       connectionsLimitReached: json['connections_limit_reached'] as bool? ?? false,
       publicKey: json['public_key'] as String?,
-      taggroups: json['taggroups'] != null 
+      languageCode: json['language_code'] as String?,
+      taggroups: json['taggroups'] != null
           ? (json['taggroups'] as List).map((tagGroup) => TagGroup.fromJson(tagGroup)).toList()
           : null,
     );
@@ -176,6 +182,7 @@ class Profile {
       'is_pro': isPro,
       'connections_limit_reached': connectionsLimitReached,
       'public_key': publicKey,
+      'language_code': languageCode,
       'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
     };
   }
@@ -328,6 +335,7 @@ class Profile {
     bool? isPro,
     bool? connectionsLimitReached,
     String? publicKey,
+    String? languageCode,
     List<TagGroup>? taggroups,
   }) {
     return Profile(
@@ -351,6 +359,7 @@ class Profile {
       isPro: isPro ?? this.isPro,
       connectionsLimitReached: connectionsLimitReached ?? this.connectionsLimitReached,
       publicKey: publicKey ?? this.publicKey,
+      languageCode: languageCode ?? this.languageCode,
       taggroups: taggroups ?? this.taggroups,
     );
   }

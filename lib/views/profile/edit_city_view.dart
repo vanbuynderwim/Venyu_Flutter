@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/venyu_theme.dart';
 import '../../l10n/app_localizations.dart';
-import '../../models/enums/edit_personal_info_type.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
@@ -94,7 +91,6 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
 
   @override
   Widget buildFormContent(BuildContext context) {
-    final venyuTheme = context.venyuTheme;
     final l10n = AppLocalizations.of(context)!;
 
     return Column(

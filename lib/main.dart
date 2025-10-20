@@ -26,7 +26,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 void main() async {
   // Critical: Preserve splash screen immediately to prevent white screen
   // This must be the FIRST thing after ensureInitialized()
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // Use SentryWidgetsFlutterBinding for proper Sentry integration
+  WidgetsBinding widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // Initialize date formatting for all supported locales

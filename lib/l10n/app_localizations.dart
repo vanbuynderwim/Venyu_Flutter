@@ -125,62 +125,50 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialStep1Title.
   ///
   /// In en, this message translates to:
-  /// **'Answer 3 daily prompts'**
+  /// **'Prompts'**
   String get tutorialStep1Title;
 
   /// No description provided for @tutorialStep1Description.
   ///
   /// In en, this message translates to:
-  /// **'Each day, you answer three prompts from other entrepreneurs. It takes less than a minute and helps us find great matches for you.'**
+  /// **'Every day, you can answer 3 prompts. It takes less than a minute and helps us find the right matches for you.'**
   String get tutorialStep1Description;
 
   /// No description provided for @tutorialStep2Title.
   ///
   /// In en, this message translates to:
-  /// **'Get matched'**
+  /// **'Matches'**
   String get tutorialStep2Title;
 
   /// No description provided for @tutorialStep2Description.
   ///
   /// In en, this message translates to:
-  /// **'Our matching agent connects you with entrepreneurs who share your goals and ambitions.'**
+  /// **'Once we’ve found the right match, we’ll let you know so you can decide if you’d like an introduction.'**
   String get tutorialStep2Description;
 
   /// No description provided for @tutorialStep3Title.
   ///
   /// In en, this message translates to:
-  /// **'Show your interest'**
+  /// **'Introductions'**
   String get tutorialStep3Title;
 
   /// No description provided for @tutorialStep3Description.
   ///
   /// In en, this message translates to:
-  /// **'When a match catches your eye, say you\'re interested. It\'s your way of telling us you\'d like to be introduced to that person.'**
+  /// **'When the interest is mutual, we\'ll make the introduction via email so you can connect directly.'**
   String get tutorialStep3Description;
 
   /// No description provided for @tutorialStep4Title.
   ///
   /// In en, this message translates to:
-  /// **'Get introduced'**
+  /// **'You\'re all set!'**
   String get tutorialStep4Title;
 
   /// No description provided for @tutorialStep4Description.
   ///
   /// In en, this message translates to:
-  /// **'If there\'s mutual interest, we\'ll send an introduction email so you can start the conversation naturally.'**
+  /// **'Let’s complete your profile and start finding the right matches.'**
   String get tutorialStep4Description;
-
-  /// No description provided for @tutorialStep5Title.
-  ///
-  /// In en, this message translates to:
-  /// **'It\'s that simple!'**
-  String get tutorialStep5Title;
-
-  /// No description provided for @tutorialStep5Description.
-  ///
-  /// In en, this message translates to:
-  /// **'Now let\'s set up your profile!'**
-  String get tutorialStep5Description;
 
   /// No description provided for @tutorialButtonPrevious.
   ///
@@ -203,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationCompleteDescription.
   ///
   /// In en, this message translates to:
-  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps you get matched with the right people.'**
+  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps us finding the right match for you.'**
   String get registrationCompleteDescription;
 
   /// No description provided for @registrationCompleteButton.
@@ -311,7 +299,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationFinishButton.
   ///
   /// In en, this message translates to:
-  /// **'Start exploring!'**
+  /// **'Done!'**
   String get registrationFinishButton;
 
   /// No description provided for @buttonContinue.
@@ -485,7 +473,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationStepLocationTitle.
   ///
   /// In en, this message translates to:
-  /// **'Location'**
+  /// **'Share location'**
   String get registrationStepLocationTitle;
 
   /// No description provided for @registrationStepCityTitle.
@@ -863,13 +851,13 @@ abstract class AppLocalizations {
   /// No description provided for @actionSkip.
   ///
   /// In en, this message translates to:
-  /// **'Skip'**
+  /// **'Not now'**
   String get actionSkip;
 
   /// No description provided for @actionInterested.
   ///
   /// In en, this message translates to:
-  /// **'Interested'**
+  /// **'Introduce me'**
   String get actionInterested;
 
   /// No description provided for @successSaved.
@@ -1193,7 +1181,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Once you have a match, it will appear here and could lead to an introduction.'**
+  /// **'Once you have a match, it will appear here and could lead to a real introduction.'**
   String get emptyStateMatchesDescription;
 
   /// No description provided for @emptyStatePromptsTitle.
@@ -1205,7 +1193,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Prompts open the door to meaningful introductions. Add yours and match with the right people.'**
+  /// **'Prompts help us find the right matches that lead to real introductions. Write yours to get started.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @redeemInviteTitle.
@@ -1319,7 +1307,7 @@ abstract class AppLocalizations {
   /// No description provided for @inviteScreeningDescription.
   ///
   /// In en, this message translates to:
-  /// **'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.'**
+  /// **'The invite-only community for entrepreneurs where the right matches lead to real introductions.'**
   String get inviteScreeningDescription;
 
   /// No description provided for @inviteScreeningHasCode.
@@ -1529,7 +1517,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailMatchingCards.
   ///
   /// In en, this message translates to:
-  /// **'{count} shared {cards}'**
+  /// **'{count} matched {cards}'**
   String matchDetailMatchingCards(int count, String cards);
 
   /// No description provided for @matchDetailCard.
@@ -1631,8 +1619,14 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailInterestedInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'Think this could be an interesting match and want to be introduced to {name}?\nTap \'Interested\'. When you both show interest, Venyu makes the introduction.'**
+  /// **'Would you like an introduction to {name}?'**
   String matchDetailInterestedInfoMessage(String name);
+
+  /// No description provided for @matchDetailEmailSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'We are connected on Venyu!'**
+  String get matchDetailEmailSubject;
 
   /// No description provided for @matchOverviewYou.
   ///
@@ -1721,7 +1715,7 @@ abstract class AppLocalizations {
   /// No description provided for @venuesEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Got an invite code? Redeem it to join that venue and start getting introductions in the community.'**
+  /// **'Got an invite code? Redeem it to join that venue and start getting real introductions in the community.'**
   String get venuesEmptyDescription;
 
   /// No description provided for @venuesEmptyAction.
@@ -1823,7 +1817,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitesShareText.
   ///
   /// In en, this message translates to:
-  /// **'Join me on Venyu! \n\nThe invite-only matchmaking community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
+  /// **'Join me on Venyu! \n\nThe invite-only community for entrepreneurs where the right matches lead to real introduction.\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n{code}'**
   String invitesShareText(String code);
 
   /// No description provided for @invitesCopiedToast.

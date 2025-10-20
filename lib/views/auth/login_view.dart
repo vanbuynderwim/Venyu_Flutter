@@ -11,6 +11,7 @@ import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/login_button_type.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../services/auth_service.dart';
+import '../../services/toast_service.dart';
 import '../../widgets/index.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -33,6 +34,17 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   // _isSigningIn removed - using mixin's isProcessing
+  AuthenticationState? _previousAuthState;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to auth state changes to show error toasts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authService = context.read<AuthService>();
+      _previousAuthState = authService.authState;
+    });
+  }
 
   void _handleSuccessfulAuth(AuthenticationState authState) {
     // If user successfully authenticated, pop this view to return to AuthFlow
@@ -106,6 +118,20 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
       builder: (context, authService, child) {
         // Check if authentication was successful and close this view
         _handleSuccessfulAuth(authService.authState);
+
+        // Show error toast when auth state changes to error
+        if (authService.authState == AuthenticationState.error &&
+            _previousAuthState != AuthenticationState.error) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              ToastService.error(
+                context: context,
+                message: AppLocalizations.of(context)!.errorAuthenticationFailed,
+              );
+            }
+          });
+        }
+        _previousAuthState = authService.authState;
 
         return AppScaffold(
       usePadding: false,
@@ -186,35 +212,6 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
-                
-                // Error message from AuthService
-                Consumer<AuthService>(
-                  builder: (context, authService, _) {
-                    if (authService.authState == AuthenticationState.error && 
-                        authService.lastError != null) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: venyuTheme.error.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(AppModifiers.smallRadius),
-                        ),
-                        child: Text(
-                          authService.lastError!,
-                          style: AppTextStyles.callout.copyWith(
-                            color: venyuTheme.error,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                
                 const Spacer(flex: 1),
                 
                 // Legal text - clickable
@@ -247,10 +244,10 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
               color: context.venyuTheme.pageBackground.withValues(alpha: 0.5),
               child: Center(
                 child: PlatformCircularProgressIndicator(
-                  material: (_, __) => MaterialProgressIndicatorData(
+                  material: (_, _) => MaterialProgressIndicatorData(
                     valueColor: AlwaysStoppedAnimation<Color>(context.venyuTheme.primaryText),
                   ),
-                  cupertino: (_, __) => CupertinoProgressIndicatorData(
+                  cupertino: (_, _) => CupertinoProgressIndicatorData(
                     color: context.venyuTheme.primaryText,
                   ),
                 ),

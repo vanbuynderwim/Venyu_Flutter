@@ -28,13 +28,12 @@ class TutorialView extends StatefulWidget {
 
 class _TutorialViewState extends State<TutorialView> {
   int _currentStep = 0;
-  static const int _totalSteps = 4;
+  static const int _totalSteps = 3;
 
   // Tutorial content for each step - images are static
   final List<String> _stepImages = const [
     'assets/images/visuals/onboarding_cards.png',
     'assets/images/visuals/onboarding_match.png',
-    'assets/images/visuals/onboarding_interest.png',
     'assets/images/visuals/onboarding_introduction.png',
   ];
 
@@ -77,7 +76,6 @@ class _TutorialViewState extends State<TutorialView> {
       case 0: return l10n.tutorialStep1Title;
       case 1: return l10n.tutorialStep2Title;
       case 2: return l10n.tutorialStep3Title;
-      case 3: return l10n.tutorialStep4Title;
       default: return '';
     }
   }
@@ -88,7 +86,6 @@ class _TutorialViewState extends State<TutorialView> {
       case 0: return l10n.tutorialStep1Description;
       case 1: return l10n.tutorialStep2Description;
       case 2: return l10n.tutorialStep3Description;
-      case 3: return l10n.tutorialStep4Description;
       default: return '';
     }
   }
@@ -225,8 +222,6 @@ class _TutorialViewState extends State<TutorialView> {
                           ],
                         ),
                       ),
-
-
                     ],
                   ),
                 ],

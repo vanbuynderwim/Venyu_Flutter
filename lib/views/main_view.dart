@@ -183,15 +183,15 @@ class _MainViewState extends State<MainView> {
           icon: _badgeData != null && _badgeData!.matchesCount > 0
               ? Badge.count(
                   count: _badgeData!.matchesCount,
-                  child: context.themedIcon('handshake', selected: false),
+                  child: context.themedIcon('match', selected: false),
                 )
-              : context.themedIcon('handshake', selected: false),
+              : context.themedIcon('match', selected: false),
           activeIcon: _badgeData != null && _badgeData!.matchesCount > 0
               ? Badge.count(
                   count: _badgeData!.matchesCount,
-                  child: context.themedIcon('handshake', selected: true),
+                  child: context.themedIcon('match', selected: true),
                 )
-              : context.themedIcon('handshake', selected: true),
+              : context.themedIcon('match', selected: true),
           label: AppLocalizations.of(context)!.navMatches,
         ),
         BottomNavigationBarItem(

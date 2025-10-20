@@ -118,6 +118,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         children: [
           // Not now button (secondary)
           Expanded(
+            flex: 1,
             child: ActionButton(
               label: l10n.editLocationNotNowButton,
               type: ActionButtonType.secondary,
@@ -129,6 +130,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
           // Enable button (primary)
           Expanded(
+            flex: 2,
             child: ActionButton(
               label: l10n.editLocationEnableButton,
               type: ActionButtonType.primary,

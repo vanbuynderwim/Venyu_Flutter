@@ -5,12 +5,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../core/utils/app_logger.dart';
+import '../core/utils/device_info.dart';
 import '../models/device.dart';
 import '../models/badge_data.dart';
 import '../firebase_options.dart';
 import 'supabase_managers/profile_manager.dart';
 import 'supabase_managers/base_supabase_manager.dart';
 import 'auth_service.dart';
+import 'profile_service.dart';
 
 /// Service for managing Firebase Cloud Messaging and push notifications
 /// 
@@ -226,8 +228,39 @@ class NotificationService {
       await ProfileManager.shared.insertDeviceToken(device);
 
       AppLogger.success('Device registered with backend', context: 'NotificationService');
+
+      // Subscribe to daily reminder topic based on device language
+      await _subscribeToTopics();
     } catch (error, stackTrace) {
       AppLogger.error('Error registering device', error: error, stackTrace: stackTrace, context: 'NotificationService');
+    }
+  }
+
+  /// Subscribe to Firebase Cloud Messaging topics based on user's language
+  Future<void> _subscribeToTopics() async {
+    if (_messaging == null) return;
+
+    try {
+      // Get language code from profile (server ensures it's 'en' or 'nl')
+      // Fallback to device language if profile not available yet
+      String languageCode = ProfileService.shared.currentProfile?.languageCode ?? DeviceInfo.detectLanguage();
+
+      // Ensure language code is 'en' or 'nl' (app only supports these)
+      if (languageCode != 'en' && languageCode != 'nl') {
+        AppLogger.debug('Language code "$languageCode" not supported, defaulting to "en"', context: 'NotificationService');
+        languageCode = 'en';
+      }
+
+      final topicName = 'daily_reminder_$languageCode';
+
+      AppLogger.debug('Subscribing to topic: $topicName (from profile: ${ProfileService.shared.currentProfile?.languageCode})', context: 'NotificationService');
+
+      // Subscribe to the daily reminder topic for this language
+      await _messaging!.subscribeToTopic(topicName);
+
+      AppLogger.success('Successfully subscribed to topic: $topicName', context: 'NotificationService');
+    } catch (error, stackTrace) {
+      AppLogger.error('Error subscribing to topics', error: error, stackTrace: stackTrace, context: 'NotificationService');
     }
   }
 

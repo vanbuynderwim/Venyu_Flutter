@@ -17,7 +17,6 @@ import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
-import '../../widgets/common/form_info_box.dart';
 import '../../widgets/menus/menu_option_builder.dart';
 import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
@@ -267,7 +266,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Build the bottom section - either action buttons or upgrade prompt
   Widget _buildBottomSection() {
-   
     // Show regular action buttons if user is Pro or hasn't reached limit
     return MatchActionsSection(
       match: _match!,
@@ -303,20 +301,26 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             ]
           : null,
       ),
-      usePadding: true,
-      useSafeArea: true,
-      body: Column(
-        children: [
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _loadMatchDetail,
-              child: _buildContent(),
+      usePadding: false,
+      useSafeArea: false,
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: RefreshIndicator(
+                  onRefresh: _loadMatchDetail,
+                  child: _buildContent(),
+                ),
+              ),
             ),
-          ),
-          // Fixed bottom action buttons only if not connected, no response, and limit not reached
-          if (_match != null && !_match!.isConnected && _match!.response == null && !shouldHideBottomSection)
-            _buildBottomSection(),
-        ],
+            // Fixed bottom action buttons only if not connected, no response, and limit not reached
+            if (_match != null && !_match!.isConnected && _match!.response == null && !shouldHideBottomSection)
+              _buildBottomSection(),
+          ],
+        ),
       ),
     );
   }
@@ -390,7 +394,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   ? () => UrlHelper.composeEmail(
                       context,
                       _match!.profile.contactEmail!,
-                      subject: 'We are connected on Venyu!',
+                      subject: l10n.matchDetailEmailSubject,
                     )
                   : null,
               onWebsiteTap: _match!.isConnected && _match!.profile.websiteURL != null
@@ -510,13 +514,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 const SizedBox(height: 16),
                 MatchReasonsView(match: _match!),
                 const SizedBox(height: 16),
-              ],
-
-              // Interested button info section (only for matched status)
-              if (_match!.status == MatchStatus.matched) ...[
-                FormInfoBox(
-                  content: l10n.matchDetailInterestedInfoMessage(_match!.profile.firstName),
-                ),
               ],
             ],
             

@@ -265,6 +265,7 @@ class ProfileService extends ChangeNotifier {
     bool? isSuperAdmin,
     bool? newsletterSubscribed,
     String? publicKey,
+    String? languageCode,
     List<TagGroup>? taggroups,
   }) {
     if (_disposed) return;
@@ -294,6 +295,7 @@ class ProfileService extends ChangeNotifier {
       isSuperAdmin: isSuperAdmin,
       newsletterSubscribed: newsletterSubscribed,
       publicKey: publicKey,
+      languageCode: languageCode,
       taggroups: taggroups,
     );
     

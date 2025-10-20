@@ -23,39 +23,32 @@ class AppLocalizationsNl extends AppLocalizations {
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Beantwoord dagelijkse 3 prompts';
+  String get tutorialStep1Title => 'Prompts';
 
   @override
   String get tutorialStep1Description =>
-      'Elke dag beantwoord je drie prompts van andere ondernemers. Het duurt minder dan een minuut en helpt ons om geweldige matches voor je te vinden.';
+      'Elke dag kan je 3 prompts beantwoorden. Het duurt nog geen minuut en helpt ons om de juiste matches te vinden.';
 
   @override
-  String get tutorialStep2Title => 'Word gematcht';
+  String get tutorialStep2Title => 'Matches';
 
   @override
   String get tutorialStep2Description =>
-      'Onze matching agent verbindt je met ondernemers die jouw doelen en ambities delen.';
+      'Zodra we de juiste match hebben gevonden, laten we het je weten zodat jij kunt kiezen of je een introductie wil.';
 
   @override
-  String get tutorialStep3Title => 'Toon je interesse';
+  String get tutorialStep3Title => 'Introducties';
 
   @override
   String get tutorialStep3Description =>
-      'Als een match je aandacht trekt, geef dan aan dat je geïnteresseerd bent. Op die manier weten we dat je graag aan deze persoon voorgesteld wilt worden.';
+      'Is de interesse wederzijds, dan maken we de introductie via e-mail en kan je rechtstreeks kennismaken.';
 
   @override
-  String get tutorialStep4Title => 'Word voorgesteld';
+  String get tutorialStep4Title => 'Je bent er klaar voor!';
 
   @override
   String get tutorialStep4Description =>
-      'Als er wederzijdse interesse is, sturen we een introductie-mail zodat jullie het gesprek kunnen opstarten op jullie eigen tempo.';
-
-  @override
-  String get tutorialStep5Title => 'Zo eenvoudig is het!';
-
-  @override
-  String get tutorialStep5Description =>
-      'Laten we nu je profiel vervolledigen!';
+      'Laten we je profiel aanvullen en beginnen met het vinden van de juiste matches.';
 
   @override
   String get tutorialButtonPrevious => 'Vorige';
@@ -68,7 +61,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationCompleteDescription =>
-      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag je helpt om gematcht te worden met de juiste mensen.';
+      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag ons helpt om de juiste match te vinden voor jou.';
 
   @override
   String get registrationCompleteButton => 'Doorgaan';
@@ -129,7 +122,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je account is helemaal ingesteld en je hebt je eerste 3 prompts beantwoord. Kom morgen terug om meer prompts te beantwoorden en nieuwe matches te ontdekken.';
 
   @override
-  String get registrationFinishButton => 'Begin met verkennen!';
+  String get registrationFinishButton => 'Klaar!';
 
   @override
   String get buttonContinue => 'Doorgaan';
@@ -226,7 +219,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get registrationStepEmailTitle => 'E-mailverificatie';
 
   @override
-  String get registrationStepLocationTitle => 'Locatie';
+  String get registrationStepLocationTitle => 'Locatie delen';
 
   @override
   String get registrationStepCityTitle => 'Stad';
@@ -250,7 +243,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get registrationStepAvatarTitle => 'Profielfoto';
 
   @override
-  String get registrationStepNotificationsTitle => 'Meldingen';
+  String get registrationStepNotificationsTitle => 'Activeer meldingen';
 
   @override
   String get registrationStepCompleteTitle => 'Welkom bij Venyu!';
@@ -429,10 +422,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get actionNext => 'Volgende';
 
   @override
-  String get actionSkip => 'Skip';
+  String get actionSkip => 'Niet nu';
 
   @override
-  String get actionInterested => 'Geïnteresseerd';
+  String get actionInterested => 'Stel me voor';
 
   @override
   String get successSaved => 'Succesvol opgeslagen';
@@ -616,14 +609,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een introductie.';
+      'Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een echte introductie.';
 
   @override
   String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Vind de juiste mensen. Voeg je prompt toe en match.';
+      'Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
 
   @override
   String get redeemInviteTitle => 'Voer je uitnodigingscode in';
@@ -687,7 +680,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get inviteScreeningDescription =>
-      'De invite-only matchmaking community voor ondernemers. Echte introducties. Eén minuut per dag.';
+      'De invite-only community voor ondernemers waar de juiste matches leiden tot echte introducties.';
 
   @override
   String get inviteScreeningHasCode => 'Ik heb een uitnodigingscode';
@@ -869,8 +862,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String matchDetailInterestedInfoMessage(String name) {
-    return 'Vind je dit een interessante match en wil je graag worden voorgesteld aan $name?\nTik dan op \'Geïnteresseerd\'. Als jullie beiden interesse tonen, maakt Venyu de introductie.';
+    return 'Wil je een introductie met $name?';
   }
+
+  @override
+  String get matchDetailEmailSubject => 'We zijn verbonden op Venyu!';
 
   @override
   String get matchOverviewYou => 'Jij';
@@ -920,7 +916,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get venuesEmptyDescription =>
-      'Heb je een uitnodigingscode? Verzilver deze om deel te nemen aan die venue en introducties te krijgen in de community.';
+      'Heb je een uitnodigingscode? Verzilver deze om deel te nemen aan die venue en echte introducties te krijgen in de community.';
 
   @override
   String get venuesEmptyAction => 'Venue toevoegen';
@@ -976,7 +972,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Join me on Venyu!\n\nDe invite-only matchmaking community voor ondernemers, gebouwd op echte introducties\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
+    return 'Join me on Venyu!\n\nDe invite-only community voor ondernemers waar de juiste matches leiden tot echte introducties.\n\nDownload de app op 👉 www.getvenyu.com\n\n🔑 Jouw uitnodigingscode:\n\n$code';
   }
 
   @override

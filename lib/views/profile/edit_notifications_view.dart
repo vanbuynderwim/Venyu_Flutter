@@ -118,6 +118,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         children: [
           // Not now button (secondary)
           Expanded(
+            flex: 1,
             child: ActionButton(
               label: l10n.editNotificationsNotNowButton,
               type: ActionButtonType.secondary,
@@ -129,6 +130,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
           // Enable button (primary)
           Expanded(
+            flex: 2,
             child: ActionButton(
               label: l10n.editNotificationsEnableButton,
               type: ActionButtonType.primary,

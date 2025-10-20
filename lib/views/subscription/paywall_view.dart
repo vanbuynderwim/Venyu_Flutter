@@ -71,9 +71,9 @@ class _PaywallViewState extends State<PaywallView> {
       AppLogger.info('Paywall loaded with ${offerings.all.length} offerings', context: 'PaywallView');
     } catch (e) {
       AppLogger.error('Failed to load paywall offerings', error: e, context: 'PaywallView');
-      setState(() => _isLoading = false);
-      
+
       if (mounted) {
+        setState(() => _isLoading = false);
         ToastService.error(
           context: context,
           message: AppLocalizations.of(context)!.paywallErrorLoadOptions,

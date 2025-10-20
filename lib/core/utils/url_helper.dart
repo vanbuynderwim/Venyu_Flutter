@@ -71,25 +71,37 @@ class UrlHelper {
   }
 
   /// Composes an email with optional subject and body
-  /// 
+  ///
   /// Opens the default email client with pre-filled fields.
   /// Shows error toast if email client cannot be opened.
   static Future<void> composeEmail(
-    BuildContext context, 
+    BuildContext context,
     String emailAddress, {
     String? subject,
     String? body,
   }) async {
     try {
-      final emailUri = Uri(
-        scheme: 'mailto',
-        path: emailAddress,
-        queryParameters: {
-          if (subject != null) 'subject': subject,
-          if (body != null) 'body': body,
-        },
-      );
-      
+      // Build mailto URL manually to avoid + encoding issues
+      // Uri.queryParameters encodes spaces as +, but for mailto we want %20
+      String mailtoUrl = 'mailto:$emailAddress';
+
+      final queryParams = <String>[];
+      if (subject != null) {
+        queryParams.add('subject=${Uri.encodeComponent(subject)}');
+      }
+      if (body != null) {
+        queryParams.add('body=${Uri.encodeComponent(body)}');
+      }
+
+      if (queryParams.isNotEmpty) {
+        mailtoUrl += '?${queryParams.join('&')}';
+      }
+
+      // Replace + with %20 for proper space encoding in mailto URLs
+      mailtoUrl = mailtoUrl.replaceAll('+', '%20');
+
+      final emailUri = Uri.parse(mailtoUrl);
+
       if (await canLaunchUrl(emailUri)) {
         await launchUrl(emailUri);
       } else {

@@ -1,4 +1,3 @@
-import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -100,10 +99,8 @@ class FirstCallSettingsWidget extends StatelessWidget {
                       value: withPreview,
                       onChanged: canUseFirstCall ? onChanged : null,
                       material: (_, __) => MaterialSwitchData(
-                        activeColor: AppColors.primair4Lilac,
                       ),
                       cupertino: (_, __) => CupertinoSwitchData(
-                        activeColor: AppColors.primair4Lilac,
                         thumbColor: Theme.of(context).brightness == Brightness.dark
                             ? venyuTheme.adaptiveBackground
                             : null,

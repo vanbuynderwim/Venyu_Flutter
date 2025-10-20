@@ -281,8 +281,8 @@ class _InteractionTypeButton extends StatelessWidget {
               // Icon asset image
               Image.asset(
                 interactionType.assetPath,
-                width: 36,
-                height: 36,
+                width: 30,
+                height: 30,
                 color: Colors.white,
                 errorBuilder: (context, error, stackTrace) {
                   // Fallback to icon if asset fails
@@ -305,7 +305,8 @@ class _InteractionTypeButton extends StatelessWidget {
                       interactionType.selectionTitle(context),
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
                       ),
                     ),
                     const SizedBox(height: 4),

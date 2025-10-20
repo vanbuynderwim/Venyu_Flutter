@@ -11,12 +11,13 @@ import '../../../models/match.dart';
 import '../../../services/supabase_managers/matching_manager.dart';
 import '../../../services/notification_service.dart';
 import '../../../widgets/buttons/action_button.dart';
+import '../../../widgets/common/sub_title.dart';
 
 /// MatchActionsSection - Action buttons for match interactions
-/// 
+///
 /// This widget displays the skip/interested buttons for non-connected matches
 /// and handles the match response logic including confirmations.
-/// 
+///
 /// Features:
 /// - Skip match with confirmation dialog
 /// - Connect/interested action
@@ -131,37 +132,68 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: context.venyuTheme.cardBackground,
+        border: Border(
+          top: BorderSide(
+            color: context.venyuTheme.borderColor,
+            width: 1,
+          ),
+        ),
+      ),
       child: SafeArea(
-        child: Row(
-          children: [
-            // Skip button (1/3 width)
-            Expanded(
-              flex: 1,
-              child: ActionButton(
-                label: AppLocalizations.of(context)!.actionSkip,
-                onPressed: _isProcessingInterested ? null : _showSkipAlert,
-                type: ActionButtonType.secondary,
-                isLoading: _isProcessingSkip,
-                isDisabled: _isProcessingInterested,
-              ),
-            ),
+        top: false,
+        child: Padding(
+          // Internal padding for content
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Subtitle with handshake icon
 
-            const SizedBox(width: 8),
+              const SizedBox(height: 16),
 
-            // Interested button (2/3 width)
-            Expanded(
-              flex: 2,
-              child: ActionButton(
-                label: AppLocalizations.of(context)!.actionInterested,
-                onPressed: _isProcessingSkip ? null : _handleConnectMatch,
-                type: ActionButtonType.primary,
-                isLoading: _isProcessingInterested,
-                isDisabled: _isProcessingSkip,
+              SubTitle(
+                iconName: 'handshake',
+                title: l10n.matchDetailInterestedInfoMessage(widget.match.profile.firstName),
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+
+              // Action buttons row
+              Row(
+                children: [
+                  // Skip button (1/3 width)
+                  Expanded(
+                    flex: 1,
+                    child: ActionButton(
+                      label: l10n.actionSkip,
+                      onPressed: _isProcessingInterested ? null : _showSkipAlert,
+                      type: ActionButtonType.secondary,
+                      isLoading: _isProcessingSkip,
+                      isDisabled: _isProcessingInterested,
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // Interested button (2/3 width)
+                  Expanded(
+                    flex: 2,
+                    child: ActionButton(
+                      label: l10n.actionInterested,
+                      onPressed: _isProcessingSkip ? null : _handleConnectMatch,
+                      type: ActionButtonType.primary,
+                      isLoading: _isProcessingInterested,
+                      isDisabled: _isProcessingSkip,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

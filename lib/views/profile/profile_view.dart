@@ -269,7 +269,9 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   Future<void> _refreshProfile({bool forceRefresh = false}) async {
     final authService = context.authService;
     if (!authService.isAuthenticated) return;
-    
+
+    if (!mounted) return;
+
     setState(() {
       _isProfileLoading = true;
     });
@@ -312,20 +314,25 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         _fetchBadges();
       }
 
-      setState(() {
-        _isProfileLoading = false;
-      });
-      
+      if (mounted) {
+        setState(() {
+          _isProfileLoading = false;
+        });
+      }
+
     } catch (error) {
       AppLogger.error('Error refreshing profile data', error: error, context: 'ProfileView');
-      setState(() {
-        _isProfileLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isProfileLoading = false;
+        });
+      }
     }
   }
   
   /// Loads personal tag groups
   void _loadPersonalTagGroups() async {
+    if (!mounted) return;
     setState(() => _personalTagGroupsLoading = true);
     
     await executeSilently(
@@ -349,6 +356,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   
   /// Loads company tag groups
   void _loadCompanyTagGroups() async {
+    if (!mounted) return;
     setState(() => _companyTagGroupsLoading = true);
 
     await executeSilently(
@@ -395,6 +403,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     // Always reload if forceRefresh is true, or if we don't have data yet
     if (!forceRefresh && _inviteCodes != null) return;
 
+    if (!mounted) return;
     setState(() => _inviteCodesLoading = true);
 
     await executeSilently(

@@ -73,10 +73,12 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
       });
     } catch (e) {
       // If venues fail to load, just proceed without them
-      setState(() {
-        _venues = [];
-        _venuesLoaded = true;
-      });
+      if (mounted) {
+        setState(() {
+          _venues = [];
+          _venuesLoaded = true;
+        });
+      }
     }
   }
 

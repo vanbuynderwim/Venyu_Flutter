@@ -76,10 +76,12 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       });
     } catch (error) {
       AppLogger.error('Error fetching tag group: $error', context: 'EditTagGroupView');
-      setState(() {
-        _error = error.toString();
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _error = error.toString();
+          _isLoading = false;
+        });
+      }
     }
   }
 

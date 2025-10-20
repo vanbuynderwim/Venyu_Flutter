@@ -23,38 +23,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Answer 3 daily prompts';
+  String get tutorialStep1Title => 'Prompts';
 
   @override
   String get tutorialStep1Description =>
-      'Each day, you answer three prompts from other entrepreneurs. It takes less than a minute and helps us find great matches for you.';
+      'Every day, you can answer 3 prompts. It takes less than a minute and helps us find the right matches for you.';
 
   @override
-  String get tutorialStep2Title => 'Get matched';
+  String get tutorialStep2Title => 'Matches';
 
   @override
   String get tutorialStep2Description =>
-      'Our matching agent connects you with entrepreneurs who share your goals and ambitions.';
+      'Once we’ve found the right match, we’ll let you know so you can decide if you’d like an introduction.';
 
   @override
-  String get tutorialStep3Title => 'Show your interest';
+  String get tutorialStep3Title => 'Introductions';
 
   @override
   String get tutorialStep3Description =>
-      'When a match catches your eye, say you\'re interested. It\'s your way of telling us you\'d like to be introduced to that person.';
+      'When the interest is mutual, we\'ll make the introduction via email so you can connect directly.';
 
   @override
-  String get tutorialStep4Title => 'Get introduced';
+  String get tutorialStep4Title => 'You\'re all set!';
 
   @override
   String get tutorialStep4Description =>
-      'If there\'s mutual interest, we\'ll send an introduction email so you can start the conversation naturally.';
-
-  @override
-  String get tutorialStep5Title => 'It\'s that simple!';
-
-  @override
-  String get tutorialStep5Description => 'Now let\'s set up your profile!';
+      'Let’s complete your profile and start finding the right matches.';
 
   @override
   String get tutorialButtonPrevious => 'Previous';
@@ -67,7 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registrationCompleteDescription =>
-      'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps you get matched with the right people.';
+      'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps us finding the right match for you.';
 
   @override
   String get registrationCompleteButton => 'Continue';
@@ -127,7 +121,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your account is all set up and you\'ve answered your first 3 prompts. Come back tomorrow to answer more prompts and discover new matches.';
 
   @override
-  String get registrationFinishButton => 'Start exploring!';
+  String get registrationFinishButton => 'Done!';
 
   @override
   String get buttonContinue => 'Continue';
@@ -223,7 +217,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registrationStepEmailTitle => 'Email Verification';
 
   @override
-  String get registrationStepLocationTitle => 'Location';
+  String get registrationStepLocationTitle => 'Share location';
 
   @override
   String get registrationStepCityTitle => 'City';
@@ -424,10 +418,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionNext => 'Next';
 
   @override
-  String get actionSkip => 'Skip';
+  String get actionSkip => 'Not now';
 
   @override
-  String get actionInterested => 'Interested';
+  String get actionInterested => 'Introduce me';
 
   @override
   String get successSaved => 'Saved successfully';
@@ -610,14 +604,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Once you have a match, it will appear here and could lead to an introduction.';
+      'Once you have a match, it will appear here and could lead to a real introduction.';
 
   @override
   String get emptyStatePromptsTitle => 'Ready to get matched?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Prompts open the door to meaningful introductions. Add yours and match with the right people.';
+      'Prompts help us find the right matches that lead to real introductions. Write yours to get started.';
 
   @override
   String get redeemInviteTitle => 'Enter your invite code';
@@ -680,7 +674,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inviteScreeningDescription =>
-      'The invite-only match-making community for entrepreneurs. Real introductions. One minute a day.';
+      'The invite-only community for entrepreneurs where the right matches lead to real introductions.';
 
   @override
   String get inviteScreeningHasCode => 'I have an invite code';
@@ -796,7 +790,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String matchDetailMatchingCards(int count, String cards) {
-    return '$count shared $cards';
+    return '$count matched $cards';
   }
 
   @override
@@ -861,8 +855,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String matchDetailInterestedInfoMessage(String name) {
-    return 'Think this could be an interesting match and want to be introduced to $name?\nTap \'Interested\'. When you both show interest, Venyu makes the introduction.';
+    return 'Would you like an introduction to $name?';
   }
+
+  @override
+  String get matchDetailEmailSubject => 'We are connected on Venyu!';
 
   @override
   String get matchOverviewYou => 'You';
@@ -912,7 +909,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get venuesEmptyDescription =>
-      'Got an invite code? Redeem it to join that venue and start getting introductions in the community.';
+      'Got an invite code? Redeem it to join that venue and start getting real introductions in the community.';
 
   @override
   String get venuesEmptyAction => 'Join a venue';
@@ -968,7 +965,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String invitesShareText(String code) {
-    return 'Join me on Venyu! \n\nThe invite-only matchmaking community for entrepreneurs, built on real introductions\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
+    return 'Join me on Venyu! \n\nThe invite-only community for entrepreneurs where the right matches lead to real introduction.\n\nDownload the app at 👉 www.getvenyu.com\n\n🔑 Your invite code: \n\n$code';
   }
 
   @override

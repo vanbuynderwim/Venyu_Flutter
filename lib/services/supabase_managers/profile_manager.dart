@@ -75,16 +75,19 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   }
 
   /// Enhance profile with stored OAuth data from secure storage
+  ///
+  /// This method fills in MISSING profile fields with cached OAuth data.
+  /// It does NOT override existing database values - database is the source of truth.
   Future<Profile> _enhanceProfileWithStoredData(Profile profile) async {
     try {
       final storedData = await BaseSupabaseManager.getStoredUserInfo();
-      
-      // Create enhanced profile with stored OAuth data
+
+      // Only use stored OAuth data to fill in empty fields, never override database values
       return profile.copyWith(
-        firstName: storedData['firstName'] ?? profile.firstName,
-        lastName: storedData['lastName'] ?? profile.lastName,
-        contactEmail: storedData['email'] ?? profile.contactEmail,
-        linkedInURL: storedData['linkedInProfileUrl'] ?? profile.linkedInURL,
+        firstName: profile.firstName.isNotEmpty ? profile.firstName : storedData['firstName'],
+        lastName: profile.lastName?.isNotEmpty == true ? profile.lastName : storedData['lastName'],
+        contactEmail: profile.contactEmail?.isNotEmpty == true ? profile.contactEmail : storedData['email'],
+        linkedInURL: profile.linkedInURL?.isNotEmpty == true ? profile.linkedInURL : storedData['linkedInProfileUrl'],
       );
     } catch (error) {
       AppLogger.warning('Failed to enhance profile with stored data: $error', context: 'ProfileManager');

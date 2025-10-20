@@ -40,7 +40,8 @@ enum ToastType {
 
   /// Get the text color for this toast type.
   Color textColor(BuildContext context) {
+    final theme = context.venyuTheme;
     // All toast types use white text for good contrast
-    return Colors.white;
+    return theme.cardBackground;
   }
 }

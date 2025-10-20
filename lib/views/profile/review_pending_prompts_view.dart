@@ -97,9 +97,11 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       });
     } catch (error) {
       AppLogger.error('Error loading pending reviews', error: error, context: 'ReviewPendingPromptsView');
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -137,9 +139,11 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
       });
     } catch (error) {
       AppLogger.error('Error loading more pending reviews', error: error, context: 'ReviewPendingPromptsView');
-      setState(() {
-        isLoadingMore = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingMore = false;
+        });
+      }
     }
   }
 

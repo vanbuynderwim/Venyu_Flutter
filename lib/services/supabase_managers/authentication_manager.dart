@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -53,8 +54,9 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
       // Step 1: Start OAuth flow with LinkedIn OIDC (equivalent to iOS implementation)
       await client.auth.signInWithOAuth(
         OAuthProvider.linkedinOidc,
-        redirectTo: 'com.getvenyu.app://callback', // Same redirect as iOS
-        authScreenLaunchMode: LaunchMode.externalApplication, // Launch in external browser
+        // Using custom scheme with external browser - upgraded SDK should persist flow_state
+        redirectTo: 'com.getvenyu.app://callback',
+        authScreenLaunchMode: LaunchMode.externalApplication,
         scopes: 'openid profile email', // Same scopes as iOS
       );
       
@@ -167,62 +169,169 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
 
   // MARK: - Apple Authentication
   
-  /// Performs Apple sign in - equivalent to iOS signinWithApple
-  /// 
-  /// This method follows the same pattern as the iOS implementation:
-  /// 1. Generate secure nonce
-  /// 2. Get Apple ID credential with nonce
-  /// 3. Store user information securely
-  /// 4. Sign in with Supabase using ID token
-  /// 5. Return session for further processing
+  /// Performs Apple sign in
+  ///
+  /// Uses platform-specific implementation:
+  /// - iOS: Native sign-in using sign_in_with_apple package
+  /// - Android: Web-based OAuth flow using Supabase signInWithOAuth
   Future<AuthResponse> signInWithApple() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.auth('Starting Apple sign-in process', context: 'AuthenticationManager');
-      
-      // Step 1: Generate secure nonce (equivalent to iOS implementation)
-      final rawNonce = client.auth.generateRawNonce();
-      final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
-      
-      AppLogger.auth('Nonce generated for Apple sign-in', context: 'AuthenticationManager');
-      
-      // Step 2: Get Apple ID credential with nonce
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        nonce: hashedNonce,
-      );
-      
-      AppLogger.info('Apple credential obtained', context: 'AuthenticationManager');
-      AppLogger.debug('User ID: ${credential.userIdentifier}', context: 'AuthenticationManager');
-      AppLogger.debug('Email: ${credential.email ?? 'Not provided'}', context: 'AuthenticationManager');
-      AppLogger.debug('Given Name: ${credential.givenName ?? 'Not provided'}', context: 'AuthenticationManager');
-      AppLogger.debug('Family Name: ${credential.familyName ?? 'Not provided'}', context: 'AuthenticationManager');
-      
-      // Step 3: Store user information securely (equivalent to iOS Keychain storage)
-      await _storeAppleUserInfo(credential);
-      
-      // Step 4: Validate ID token
-      final idToken = credential.identityToken;
-      if (idToken == null) {
-        throw const AuthException('Could not find ID Token from generated credential.');
+
+      if (Platform.isIOS || Platform.isMacOS) {
+        // Native Apple sign-in for iOS/macOS
+        return _signInWithAppleNative();
+      } else {
+        // Web-based OAuth flow for Android and other platforms
+        return _signInWithAppleOAuth();
       }
-      
-      // Step 5: Sign in with Supabase using Apple ID token
-      AppLogger.info('Signing in with Supabase', context: 'AuthenticationManager');
-      final response = await client.auth.signInWithIdToken(
-        provider: OAuthProvider.apple,
-        idToken: idToken,
-        nonce: rawNonce,
-      );
-      
-      AppLogger.success('Supabase Apple sign-in successful', context: 'AuthenticationManager');
-      AppLogger.debug('User: ${response.user?.email ?? 'No email'}', context: 'AuthenticationManager');
-      AppLogger.debug('Session: ${response.session != null ? 'Active' : 'None'}', context: 'AuthenticationManager');
-      
-      return response;
     });
+  }
+
+  /// Native Apple sign-in for iOS/macOS using sign_in_with_apple package
+  Future<AuthResponse> _signInWithAppleNative() async {
+    AppLogger.auth('Using native Apple sign-in', context: 'AuthenticationManager');
+
+    // Step 1: Generate secure nonce
+    final rawNonce = client.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    AppLogger.auth('Nonce generated for Apple sign-in', context: 'AuthenticationManager');
+
+    // Step 2: Get Apple ID credential with nonce
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    AppLogger.info('Apple credential obtained', context: 'AuthenticationManager');
+    AppLogger.debug('User ID: ${credential.userIdentifier}', context: 'AuthenticationManager');
+    AppLogger.debug('Email: ${credential.email ?? 'Not provided'}', context: 'AuthenticationManager');
+    AppLogger.debug('Given Name: ${credential.givenName ?? 'Not provided'}', context: 'AuthenticationManager');
+    AppLogger.debug('Family Name: ${credential.familyName ?? 'Not provided'}', context: 'AuthenticationManager');
+
+    // Step 3: Store user information securely
+    await _storeAppleUserInfo(credential);
+
+    // Step 4: Validate ID token
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw const AuthException('Could not find ID Token from generated credential.');
+    }
+
+    // Step 5: Sign in with Supabase using Apple ID token
+    AppLogger.info('Signing in with Supabase', context: 'AuthenticationManager');
+    final response = await client.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
+
+    AppLogger.success('Supabase Apple sign-in successful', context: 'AuthenticationManager');
+    AppLogger.debug('User: ${response.user?.email ?? 'No email'}', context: 'AuthenticationManager');
+    AppLogger.debug('Session: ${response.session != null ? 'Active' : 'None'}', context: 'AuthenticationManager');
+
+    return response;
+  }
+
+  /// Web-based Apple OAuth sign-in for Android and other non-Apple platforms
+  Future<AuthResponse> _signInWithAppleOAuth() async {
+    AppLogger.auth('Using web-based Apple OAuth sign-in', context: 'AuthenticationManager');
+
+    // Step 1: Start OAuth flow with Apple
+    await client.auth.signInWithOAuth(
+      OAuthProvider.apple,
+      redirectTo: 'com.getvenyu.app://callback', // Deep link to bring user back to app
+      authScreenLaunchMode: LaunchMode.externalApplication, // Launch in external browser
+    );
+
+    AppLogger.success('Apple OAuth initiated successfully', context: 'AuthenticationManager');
+
+    // For OAuth flows, we need to return a placeholder response
+    // The actual authentication completion will happen via deep link callback
+    return AuthResponse(
+      user: null,
+      session: null,
+    );
+  }
+
+  /// Process Apple authentication callback - handles OAuth callback from deep link
+  ///
+  /// This method handles the deep link callback and extracts user data.
+  /// Only needed for OAuth flow (Android), not for native iOS flow.
+  Future<void> processAppleCallback() async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.auth('Processing Apple OAuth callback', context: 'AuthenticationManager');
+
+      final user = client.auth.currentUser;
+      if (user == null) {
+        throw const AuthException('No authenticated user found after Apple callback');
+      }
+
+      // Extract Apple identity from user metadata
+      final appleIdentity = user.userMetadata;
+      if (appleIdentity == null || appleIdentity.isEmpty) {
+        throw const AuthException('No Apple identity found in user metadata');
+      }
+
+      AppLogger.info('Apple identity found, extracting user data', context: 'AuthenticationManager');
+
+      // Extract and store Apple user data
+      await _extractAndStoreAppleUserData(appleIdentity);
+
+      AppLogger.success('Apple authentication and data storage completed', context: 'AuthenticationManager');
+    });
+  }
+
+  /// Extract Apple user data from OAuth identity
+  Future<void> _extractAndStoreAppleUserData(Map<String, dynamic> identityData) async {
+    try {
+      AppLogger.debug('Extracting Apple user data from OAuth', context: 'AuthenticationManager');
+
+      // Extract Apple user information
+      final email = identityData['email'] as String?;
+      final firstName = identityData['given_name'] as String?;
+      final lastName = identityData['family_name'] as String?;
+
+      AppLogger.debug('Apple OAuth data extracted:', context: 'AuthenticationManager');
+      AppLogger.debug('  - Email: ${email ?? 'Not provided'}', context: 'AuthenticationManager');
+      AppLogger.debug('  - First Name: ${firstName ?? 'Not provided'}', context: 'AuthenticationManager');
+      AppLogger.debug('  - Last Name: ${lastName ?? 'Not provided'}', context: 'AuthenticationManager');
+
+      // Store user information securely
+      if (firstName != null && firstName.isNotEmpty) {
+        await storage.write(key: 'firstName', value: firstName);
+        AppLogger.storage('Stored Apple first name securely', context: 'AuthenticationManager');
+      }
+
+      if (lastName != null && lastName.isNotEmpty) {
+        await storage.write(key: 'lastName', value: lastName);
+        AppLogger.storage('Stored Apple last name securely', context: 'AuthenticationManager');
+      }
+
+      if (email != null && email.isNotEmpty) {
+        await storage.write(key: 'email', value: email);
+        AppLogger.storage('Stored Apple email securely', context: 'AuthenticationManager');
+      }
+
+      // Store Apple user identifier
+      final appleUserId = identityData['sub'] as String?;
+      if (appleUserId != null && appleUserId.isNotEmpty) {
+        await storage.write(key: 'appleUserIdentifier', value: appleUserId);
+        AppLogger.storage('Stored Apple user identifier securely', context: 'AuthenticationManager');
+      }
+
+      // Store provider information
+      await storage.write(key: 'auth_provider', value: 'apple');
+      AppLogger.storage('Stored authentication provider securely', context: 'AuthenticationManager');
+
+    } catch (error) {
+      AppLogger.warning('Failed to store Apple user data: $error', context: 'AuthenticationManager');
+      // Continue with authentication even if storage fails
+    }
   }
   
   /// Store Apple user information securely - equivalent to iOS Keychain storage
@@ -267,54 +376,62 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
   // MARK: - Google Authentication
   
   /// Performs Google sign in - equivalent to iOS Google OAuth implementation
-  /// 
+  ///
   /// This method follows the native Google Sign-In flow:
-  /// 1. Initialize GoogleSignIn with client IDs
-  /// 2. Get Google user credentials and tokens
-  /// 3. Sign in with Supabase using ID token and access token
-  /// 4. Store user information securely
-  /// 5. Return session for further processing
+  /// 1. Initialize GoogleSignIn singleton with client IDs
+  /// 2. Authenticate user and get Google account
+  /// 3. Get ID token from authentication
+  /// 4. Get access token from authorization client
+  /// 5. Store user information securely
+  /// 6. Sign in with Supabase using ID token and access token
+  /// 7. Return session for further processing
   Future<AuthResponse> signInWithGoogle() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.auth('Starting Google sign-in process', context: 'AuthenticationManager');
-      
-      // Step 1: Initialize GoogleSignIn with proper configuration
-      final GoogleSignIn googleSignIn = GoogleSignIn(
+
+      // Step 1: Initialize GoogleSignIn singleton with proper configuration
+      await GoogleSignIn.instance.initialize(
         clientId: EnvironmentConfig.googleIosClientId,
         serverClientId: EnvironmentConfig.googleWebClientId,
       );
-      
+
       AppLogger.info('GoogleSignIn configured', context: 'AuthenticationManager');
       AppLogger.debug('Client ID: ${EnvironmentConfig.googleIosClientId}', context: 'AuthenticationManager');
       AppLogger.debug('Server Client ID: ${EnvironmentConfig.googleWebClientId}', context: 'AuthenticationManager');
-      
-      // Step 2: Initiate Google sign-in flow
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      
-      if (googleUser == null) {
-        AppLogger.warning('Google sign-in cancelled by user', context: 'AuthenticationManager');
-        throw const AuthException('Google sign-in was cancelled by the user');
-      }
-      
+
+      // Step 2: Initiate Google sign-in flow using new authenticate() method
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+
       AppLogger.info('Google user signed in: ${googleUser.email}', context: 'AuthenticationManager');
-      
+
       // Step 3: Get Google authentication tokens
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      
+      // In v7, authentication only contains idToken
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       final String? idToken = googleAuth.idToken;
-      final String? accessToken = googleAuth.accessToken;
-      
-      if (idToken == null || accessToken == null) {
-        AppLogger.error('Missing Google authentication tokens', context: 'AuthenticationManager');
-        throw const AuthException('Missing Google authentication tokens');
+
+      if (idToken == null) {
+        AppLogger.error('Missing Google ID token', context: 'AuthenticationManager');
+        throw const AuthException('Missing Google ID token');
       }
-      
+
+      // Step 4: Get access token via authorization client
+      // Request authorization with basic email and profile scopes
+      final GoogleSignInClientAuthorization? clientAuth =
+          await googleUser.authorizationClient.authorizationForScopes(['email', 'profile']);
+
+      if (clientAuth == null) {
+        AppLogger.error('Failed to obtain Google access token', context: 'AuthenticationManager');
+        throw const AuthException('Failed to obtain Google access token');
+      }
+
+      final String accessToken = clientAuth.accessToken;
+
       AppLogger.success('Google tokens obtained', context: 'AuthenticationManager');
-      
-      // Step 4: Store Google user information before Supabase sign-in
+
+      // Step 5: Store Google user information before Supabase sign-in
       await _storeGoogleUserInfo(googleUser);
-      
-      // Step 5: Sign in with Supabase using Google tokens
+
+      // Step 6: Sign in with Supabase using Google tokens
       AppLogger.info('Signing in with Supabase using Google tokens', context: 'AuthenticationManager');
       final response = await client.auth.signInWithIdToken(
         provider: OAuthProvider.google,
@@ -414,12 +531,15 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
       
       try {
         // Step 3: Sign out from Google (if applicable)
-        final GoogleSignIn googleSignIn = GoogleSignIn();
-        final isSignedIn = await googleSignIn.isSignedIn();
-        if (isSignedIn) {
-          await googleSignIn.signOut();
-          AppLogger.success('Google sign-out successful', context: 'AuthenticationManager');
-        }
+        // Initialize GoogleSignIn first (required in v7)
+        await GoogleSignIn.instance.initialize(
+          clientId: EnvironmentConfig.googleIosClientId,
+          serverClientId: EnvironmentConfig.googleWebClientId,
+        );
+
+        // Check if user is currently signed in and sign out
+        await GoogleSignIn.instance.signOut();
+        AppLogger.success('Google sign-out successful', context: 'AuthenticationManager');
       } catch (googleError) {
         AppLogger.warning('Google sign-out error (continuing): $googleError', context: 'AuthenticationManager');
         // Continue even if Google sign-out fails

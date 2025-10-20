@@ -67,7 +67,7 @@ class EnvironmentConfig {
         return dotenv.env['GOOGLE_WEB_CLIENT_ID_PROD'] ?? '';
     }
   }
-  
+
   static String get googleIosClientId {
     switch (_environment) {
       case Environment.development:
@@ -76,6 +76,29 @@ class EnvironmentConfig {
         return dotenv.env['GOOGLE_IOS_CLIENT_ID_STAGING'] ?? '';
       case Environment.production:
         return dotenv.env['GOOGLE_IOS_CLIENT_ID_PROD'] ?? '';
+    }
+  }
+
+  /// Apple Sign-In configuration (required for Android)
+  static String get appleClientId {
+    switch (_environment) {
+      case Environment.development:
+        return dotenv.env['APPLE_CLIENT_ID_DEV'] ?? '';
+      case Environment.staging:
+        return dotenv.env['APPLE_CLIENT_ID_STAGING'] ?? '';
+      case Environment.production:
+        return dotenv.env['APPLE_CLIENT_ID_PROD'] ?? '';
+    }
+  }
+
+  static String get appleRedirectUri {
+    switch (_environment) {
+      case Environment.development:
+        return dotenv.env['APPLE_REDIRECT_URI_DEV'] ?? '';
+      case Environment.staging:
+        return dotenv.env['APPLE_REDIRECT_URI_STAGING'] ?? '';
+      case Environment.production:
+        return dotenv.env['APPLE_REDIRECT_URI_PROD'] ?? '';
     }
   }
   
@@ -90,24 +113,35 @@ class EnvironmentConfig {
     final key = supabaseAnonKey;
     final googleWebId = googleWebClientId;
     final googleIosId = googleIosClientId;
-    
+    final appleClientIdValue = appleClientId;
+    final appleRedirectUriValue = appleRedirectUri;
+
     if (url.isEmpty) {
       throw Exception('Supabase URL is not configured for environment: $_environment');
     }
-    
+
     if (key.isEmpty) {
       throw Exception('Supabase anonymous key is not configured for environment: $_environment');
     }
-    
+
     // Google OAuth configuration is optional for now
     if (googleWebId.isEmpty) {
       debugPrint('⚠️ Google Web Client ID is not configured for environment: $_environment');
     }
-    
+
     if (googleIosId.isEmpty) {
       debugPrint('⚠️ Google iOS Client ID is not configured for environment: $_environment');
     }
-    
+
+    // Apple Sign-In configuration is optional for now
+    if (appleClientIdValue.isEmpty) {
+      debugPrint('⚠️ Apple Client ID is not configured for environment: $_environment');
+    }
+
+    if (appleRedirectUriValue.isEmpty) {
+      debugPrint('⚠️ Apple Redirect URI is not configured for environment: $_environment');
+    }
+
     return true;
   }
 }

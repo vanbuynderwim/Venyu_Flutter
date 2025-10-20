@@ -274,10 +274,12 @@ class _InvitesSectionState extends State<InvitesSection> {
 
     final text = l10n.invitesShareText(invite.code);
 
-    await Share.share(
-      text,
-      subject: l10n.invitesShareSubject,
-      sharePositionOrigin: origin, // belangrijk voor iPad
+    await SharePlus.instance.share(
+      ShareParams(
+        text: text,
+        subject: l10n.invitesShareSubject,
+        sharePositionOrigin: origin, // belangrijk voor iPad
+      ),
     );
   }
 

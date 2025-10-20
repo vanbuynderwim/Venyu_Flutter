@@ -120,9 +120,16 @@ class AuthService extends ChangeNotifier {
     _authStateSubscription = BaseSupabaseManager.getClient().auth.onAuthStateChange.listen(
       (AuthState authState) async {
         if (_disposed) return;
-        
-        AppLogger.debug('Auth state changed: ${authState.event}', context: 'AuthService');
-        
+
+        // DETAILED DEBUG LOGGING FOR LINKEDIN OAUTH ISSUE
+        AppLogger.debug('🔔 Auth event: ${authState.event}', context: 'AuthService');
+        AppLogger.debug('   Session exists: ${authState.session != null}', context: 'AuthService');
+        if (authState.session != null) {
+          AppLogger.debug('   User ID: ${authState.session!.user.id}', context: 'AuthService');
+          AppLogger.debug('   User email: ${authState.session!.user.email}', context: 'AuthService');
+          AppLogger.debug('   Access token length: ${authState.session!.accessToken.length}', context: 'AuthService');
+        }
+
         switch (authState.event) {
           case AuthChangeEvent.initialSession:
             await _handleInitialSession(authState.session);

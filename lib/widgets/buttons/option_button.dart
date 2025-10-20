@@ -1,4 +1,3 @@
-import 'package:app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -6,6 +5,7 @@ import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../common/option_icon_view.dart';
 import '../common/tag_view.dart';
@@ -279,8 +279,8 @@ class _OptionButtonState extends State<OptionButton> {
                     padding: const EdgeInsets.only(top: 8),
                     child: TagView(
                       id: 'motivation',
-                      label: 'Complete profile',
-                      emoji: '✨',
+                      label: AppLocalizations.of(context)!.optionButtonCompleteProfile,
+                      icon: 'edit',
                       fontSize: AppTextStyles.caption1,
                       backgroundColor: venyuTheme.tagBackground,
                       textColor: venyuTheme.primary,
@@ -316,13 +316,11 @@ class _OptionButtonState extends State<OptionButton> {
               value: widget.toggleIsOn ?? false,
               onChanged: widget.disabled ? null : widget.onToggle,
               material: (_, __) => MaterialSwitchData(
-                activeColor: AppColors.primair4Lilac,
               ),
               cupertino: (_, __) => CupertinoSwitchData(
                 thumbColor: Theme.of(context).brightness == Brightness.dark
                             ? venyuTheme.adaptiveBackground
                             : null,
-                activeColor: AppColors.primair4Lilac,
               ),
             ),
           

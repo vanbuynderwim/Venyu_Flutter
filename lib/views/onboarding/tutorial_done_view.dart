@@ -50,7 +50,7 @@ class TutorialDoneView extends StatelessWidget {
                     children: [
                       // Main content
                       Text(
-                        l10n.tutorialStep5Title,
+                        l10n.tutorialStep4Title,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
@@ -60,7 +60,7 @@ class TutorialDoneView extends StatelessWidget {
                       const SizedBox(height: 24),
 
                       Text(
-                        l10n.tutorialStep5Description,
+                        l10n.tutorialStep4Description,
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
