@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
+import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/helpers/get_matched_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
@@ -14,9 +15,13 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/common/sub_title.dart';
 import '../../widgets/buttons/get_matched_button.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/action_button_type.dart';
 import 'prompt_item.dart';
 import 'prompt_detail_view.dart';
+import 'prompt_entry_view.dart';
 
 /// PromptsView - Dedicated view for user's prompts
 /// 
@@ -39,9 +44,11 @@ class _PromptsViewState extends State<PromptsView>
     with PaginatedListViewMixin<PromptsView>, ErrorHandlingMixin<PromptsView> {
   // Services
   late final ContentManager _contentManager;
-  
+
   // State
   final List<Prompt> _prompts = [];
+  List<Prompt>? _availablePrompts; // Available daily prompts to answer
+  bool _isCheckingPrompts = false;
 
   @override
   void initState() {
@@ -50,11 +57,72 @@ class _PromptsViewState extends State<PromptsView>
     _contentManager = ContentManager.shared;
     initializePagination();
     _loadPrompts();
+    _checkForPrompts();
   }
 
   @override
   Future<void> loadMoreItems() async {
     await _loadMorePrompts();
+  }
+
+  /// Check for available daily prompts
+  Future<void> _checkForPrompts() async {
+    if (_isCheckingPrompts) return;
+
+    _isCheckingPrompts = true;
+
+    try {
+      final authService = context.authService;
+      if (!authService.isAuthenticated) return;
+
+      AppLogger.debug('Checking for available daily prompts', context: 'PromptsView');
+      final prompts = await _contentManager.fetchPrompts();
+
+      if (mounted) {
+        setState(() {
+          _availablePrompts = prompts;
+        });
+        AppLogger.debug('Found ${prompts.length} available daily prompts', context: 'PromptsView');
+      }
+    } catch (error) {
+      AppLogger.error('Error fetching available prompts', error: error, context: 'PromptsView');
+    } finally {
+      _isCheckingPrompts = false;
+    }
+  }
+
+  /// Show the PromptEntryView as a fullscreen modal
+  Future<void> _showPromptsModal() async {
+    if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
+
+    void closeModalCallback() {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+
+    final result = await showPlatformModalSheet<bool>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: true,
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: false,
+        barrierDismissible: true,
+      ),
+      builder: (sheetCtx) => PromptEntryView(
+        prompts: _availablePrompts!,
+        isModal: true,
+        onCloseModal: closeModalCallback,
+      ),
+    );
+
+    // Refresh available prompts and list after modal closes
+    if (result == true) {
+      await _checkForPrompts();
+      await _handleRefresh();
+    }
   }
 
   @override
@@ -76,14 +144,14 @@ class _PromptsViewState extends State<PromptsView>
               },
             )
           : null,
-      usePadding: true,
+      usePadding: false,
       useSafeArea: true,
-      body: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: isLoading
-            ? const LoadingStateWidget()
-            : _prompts.isEmpty
-                ? CustomScrollView(
+      body: isLoading
+          ? const LoadingStateWidget()
+          : _prompts.isEmpty
+              ? RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: CustomScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverFillRemaining(
@@ -97,26 +165,66 @@ class _PromptsViewState extends State<PromptsView>
                         ),
                       ),
                     ],
-                  )
-                : ListView.builder(
-                    controller: scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index == _prompts.length) {
-                        return buildLoadingIndicator();
-                      }
-
-                      final prompt = _prompts[index];
-                      return PromptItem(
-                        prompt: prompt,
-                        showChevron: true,
-                        showCounters: true,
-                        onPromptSelected: _openPromptDetail,
-                      );
-                    },
                   ),
-      ),
+                )
+              : Column(
+                  children: [
+                    // Fixed sticky header with action button or message
+                    Container(
+                      color: context.venyuTheme.pageBackground,
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      child: _availablePrompts != null && _availablePrompts!.isNotEmpty
+                          ? ActionButton(
+                              label: l10n.promptsViewAnswerPromptsButton,
+                              onPressed: _showPromptsModal,
+                              type: ActionButtonType.primary,
+                            )
+                          : Center(
+                              child: Text(
+                                l10n.promptsViewAllAnsweredMessage,
+                                style: AppTextStyles.body.copyWith(
+                                  color: context.venyuTheme.secondaryText,
+                                ),
+                              ),
+                            ),
+                    ),
+
+                    // Section title
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      child: SubTitle(
+                        iconName: 'card',
+                        title: l10n.promptsViewMyPromptsTitle,
+                      ),
+                    ),
+
+                    // Scrollable prompts list
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: ListView.builder(
+                          controller: scrollController,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(16),
+                          itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            if (index == _prompts.length) {
+                              return buildLoadingIndicator();
+                            }
+
+                            final prompt = _prompts[index];
+                            return PromptItem(
+                              prompt: prompt,
+                              showChevron: true,
+                              showCounters: true,
+                              onPromptSelected: _openPromptDetail,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
     );
   }
 

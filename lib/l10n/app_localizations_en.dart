@@ -1649,10 +1649,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptSettingsErrorSubmit => 'Failed to submit prompt';
 
   @override
-  String get promptsViewTitle => 'Your prompts';
+  String get promptsViewTitle => 'Pprompts';
 
   @override
   String get promptsViewEmptyActionButton => 'Get matched';
+
+  @override
+  String get promptsViewAnswerPromptsButton => 'Answer daily prompts';
+
+  @override
+  String get promptsViewAllAnsweredMessage => 'All prompts answered for today';
+
+  @override
+  String get promptsViewMyPromptsTitle => 'My prompts';
 
   @override
   String get venueCodeFieldPlaceholder => 'Invite code';

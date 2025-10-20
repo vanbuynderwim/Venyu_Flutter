@@ -3059,7 +3059,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your prompts'**
+  /// **'Pprompts'**
   String get promptsViewTitle;
 
   /// No description provided for @promptsViewEmptyActionButton.
@@ -3067,6 +3067,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get matched'**
   String get promptsViewEmptyActionButton;
+
+  /// No description provided for @promptsViewAnswerPromptsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer daily prompts'**
+  String get promptsViewAnswerPromptsButton;
+
+  /// No description provided for @promptsViewAllAnsweredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'All prompts answered for today'**
+  String get promptsViewAllAnsweredMessage;
+
+  /// No description provided for @promptsViewMyPromptsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My prompts'**
+  String get promptsViewMyPromptsTitle;
 
   /// No description provided for @venueCodeFieldPlaceholder.
   ///

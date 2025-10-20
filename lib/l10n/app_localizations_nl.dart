@@ -1665,10 +1665,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSettingsErrorSubmit => 'Indienen van prompt mislukt';
 
   @override
-  String get promptsViewTitle => 'Jouw prompts';
+  String get promptsViewTitle => 'Prompts';
 
   @override
   String get promptsViewEmptyActionButton => 'Word gematcht';
+
+  @override
+  String get promptsViewAnswerPromptsButton => 'Beantwoord dagelijkse prompts';
+
+  @override
+  String get promptsViewAllAnsweredMessage =>
+      'Alle prompts beantwoord voor vandaag';
+
+  @override
+  String get promptsViewMyPromptsTitle => 'Mijn prompts';
 
   @override
   String get venueCodeFieldPlaceholder => 'Uitnodigingscode';

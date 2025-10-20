@@ -818,8 +818,11 @@
   "promptSettingsErrorSubmit": "Indienen van prompt mislukt",
 
   "@_PROMPTS_VIEW": {},
-  "promptsViewTitle": "Jouw prompts",
+  "promptsViewTitle": "Prompts",
   "promptsViewEmptyActionButton": "Word gematcht",
+  "promptsViewAnswerPromptsButton": "Beantwoord dagelijkse prompts",
+  "promptsViewAllAnsweredMessage": "Alle prompts beantwoord voor vandaag",
+  "promptsViewMyPromptsTitle": "Mijn prompts",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Uitnodigingscode",

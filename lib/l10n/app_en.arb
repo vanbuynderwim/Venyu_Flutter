@@ -818,8 +818,11 @@
   "promptSettingsErrorSubmit": "Failed to submit prompt",
 
   "@_PROMPTS_VIEW": {},
-  "promptsViewTitle": "Your prompts",
+  "promptsViewTitle": "Pprompts",
   "promptsViewEmptyActionButton": "Get matched",
+  "promptsViewAnswerPromptsButton": "Answer daily prompts",
+  "promptsViewAllAnsweredMessage": "All prompts answered for today",
+  "promptsViewMyPromptsTitle": "My prompts",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Invite code",
