@@ -142,99 +142,113 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
           const RadarBackground(),
           
           // Content
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                // Spacer to center content
-                const Spacer(flex: 3),
-                // Logo and branding
-                Column(
-                  children: [
-                    SizedBox(
-                      width: 140,
-                      height: 140,
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/visuals/logo.png',
-                          color: venyuTheme.primary,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 48,
                     ),
-                    const SizedBox(height: 20),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          // Spacer to center content
+                          const Spacer(flex: 3),
 
-                    // App name
-                    Text(
-                      AppLocalizations.of(context)!.appName.toLowerCase(),
-                      style: AppTextStyles.appTitle.copyWith(
-                        fontSize: 60,
-                        color: venyuTheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
+                          // Logo and branding
+                          Column(
+                            children: [
+                              SizedBox(
+                                width: 140,
+                                height: 140,
+                                child: Center(
+                                  child: Image.asset(
+                                    'assets/images/visuals/logo.png',
+                                    color: venyuTheme.primary,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
 
-                    // Tagline
-                    Text(
-                      AppLocalizations.of(context)!.appTagline,
-                      style: AppTextStyles.appSubtitle.copyWith(
-                        fontSize: 20,
-                        color: venyuTheme.secondaryText,
+                              // App name
+                              Text(
+                                AppLocalizations.of(context)!.appName.toLowerCase(),
+                                style: AppTextStyles.appTitle.copyWith(
+                                  fontSize: 60,
+                                  color: venyuTheme.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+
+                              // Tagline
+                              Text(
+                                AppLocalizations.of(context)!.appTagline,
+                                style: AppTextStyles.appSubtitle.copyWith(
+                                  fontSize: 20,
+                                  color: venyuTheme.secondaryText,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const Spacer(flex: 1),
+
+                          // Sign-in buttons
+                          Column(
+                            children: [
+                              // LinkedIn sign-in
+                              LoginButton(
+                                type: LoginButtonType.linkedIn,
+                                onPressed: isProcessing ? null : _signInWithLinkedIn,
+                              ),
+                              const SizedBox(height: 8),
+
+                              // Google sign-in
+                              LoginButton(
+                                type: LoginButtonType.google,
+                                onPressed: isProcessing ? null : _signInWithGoogle,
+                              ),
+                              const SizedBox(height: 8),
+
+                              // Apple sign-in
+                              LoginButton(
+                                type: LoginButtonType.apple,
+                                onPressed: isProcessing ? null : _signInWithApple,
+                              ),
+                            ],
+                          ),
+
+                          const Spacer(flex: 1),
+
+                          // Legal text - clickable
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 24),
+                            child: GestureDetector(
+                              onTap: () {
+                                UrlHelper.openWebsite(
+                                  context,
+                                  'https://app.getvenyu.com/functions/v1/terms',
+                                );
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.loginLegalText,
+                                style: AppTextStyles.footnote.copyWith(
+                                  color: venyuTheme.secondaryText,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                
-                const Spacer(flex: 1),
-                
-                // Sign-in buttons
-                Column(
-                  children: [
-                    // LinkedIn sign-in
-                    LoginButton(
-                      type: LoginButtonType.linkedIn,
-                      onPressed: isProcessing ? null : _signInWithLinkedIn,
-                    ),
-                    const SizedBox(height: 8),
-                    
-                    // Google sign-in
-                    LoginButton(
-                      type: LoginButtonType.google,
-                      onPressed: isProcessing ? null : _signInWithGoogle,
-                    ),
-                    const SizedBox(height: 8),
-                    
-                    // Apple sign-in
-                    LoginButton(
-                      type: LoginButtonType.apple,
-                      onPressed: isProcessing ? null : _signInWithApple,
-                    ),
-                  ],
-                ),
-                
-                const Spacer(flex: 1),
-                
-                // Legal text - clickable
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      UrlHelper.openWebsite(
-                        context,
-                        'https://app.getvenyu.com/functions/v1/terms',
-                      );
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.loginLegalText,
-                      style: AppTextStyles.footnote.copyWith(
-                        color: venyuTheme.secondaryText,
-                        decoration: TextDecoration.underline,
-                      ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
           

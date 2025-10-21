@@ -72,52 +72,73 @@ class InviteScreeningView extends StatelessWidget {
             ),
           ),
           child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 60),
+            child: Column(
+              children: [
+                // Scrollable content area
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 60),
 
-                  // Venyu Logo
-                  Image.asset(
-                    'assets/images/visuals/logo.png',
-                    height: 140,
-                    color: venyuTheme.gradientPrimary,
-                    fit: BoxFit.contain,
-                  ),
+                                // Venyu Logo
+                                Image.asset(
+                                  'assets/images/visuals/logo.png',
+                                  height: 140,
+                                  color: venyuTheme.gradientPrimary,
+                                  fit: BoxFit.contain,
+                                ),
 
-                  const Spacer(),
+                                const Spacer(),
 
-                  // Main content
-                  Column(
-                    children: [
-                      Text(
-                        l10n.inviteScreeningTitle,
-                        style: AppTextStyles.title1.copyWith(
-                          color: venyuTheme.darkText,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: AppFonts.graphie,
+                                // Main content
+                                Column(
+                                  children: [
+                                    Text(
+                                      l10n.inviteScreeningTitle,
+                                      style: AppTextStyles.title1.copyWith(
+                                        color: venyuTheme.darkText,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: AppFonts.graphie,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    Text(
+                                      l10n.inviteScreeningDescription,
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: venyuTheme.darkText,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+
+                                const Spacer(),
+                              ],
+                            ),
+                          ),
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      Text(
-                        l10n.inviteScreeningDescription,
-                        style: AppTextStyles.body.copyWith(
-                          fontWeight: FontWeight.w400,
-                          color: venyuTheme.darkText,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                      );
+                    },
                   ),
+                ),
 
-                  const Spacer(),
-
-                  // Action buttons
-                  Column(
+                // Fixed action buttons at bottom
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
                     children: [
                       ActionButton(
                         label: l10n.inviteScreeningHasCode,
@@ -134,10 +155,10 @@ class InviteScreeningView extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
 
-                  const SizedBox(height: 16),
-                ],
-              ),
+                const SizedBox(height: 16),
+              ],
             ),
           ),
         ),

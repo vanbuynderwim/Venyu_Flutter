@@ -315,46 +315,57 @@ abstract class BaseCodeEntryViewState<T extends BaseCodeEntryView> extends State
                     ),
                   ),
 
-                // Main content area (expanded)
+                // Main content area (scrollable)
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Column(
-                      children: [
-                        const Spacer(),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              children: [
+                                const Spacer(),
 
-                        // Title and description
-                        Column(
-                          children: [
-                            Text(
-                              widget.title,
-                              style: AppTextStyles.title1.copyWith(
-                                color: venyuTheme.primaryText,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: AppFonts.graphie,
-                              ),
-                              textAlign: TextAlign.center,
+                                // Title and description
+                                Column(
+                                  children: [
+                                    Text(
+                                      widget.title,
+                                      style: AppTextStyles.title1.copyWith(
+                                        color: venyuTheme.primaryText,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: AppFonts.graphie,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      widget.subtitle,
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: venyuTheme.secondaryText,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 32),
+
+                                // Platform-aware code input field
+                                _buildCodeField(context),
+
+                                const Spacer(),
+                              ],
                             ),
-                            const SizedBox(height: 12),
-                            Text(
-                              widget.subtitle,
-                              style: AppTextStyles.body.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: venyuTheme.secondaryText,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                          ),
                         ),
-
-                        const SizedBox(height: 32),
-
-                        // Platform-aware code input field
-                        _buildCodeField(context),
-
-                        const Spacer(),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
 

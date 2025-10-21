@@ -357,7 +357,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       ),
                   ),
 
-                  const SizedBox(height: AppModifiers.extraLargeSpacing),
+                  SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
                 ],
               ),
             ),
