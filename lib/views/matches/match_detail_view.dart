@@ -366,7 +366,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom + 8,
+      ),
       children: [
             // Profile Header
             ProfileHeader(
@@ -374,8 +376,8 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               avatarSize: 105.0,
               isEditable: false,
               isConnection: _match!.isConnected,
-              // Blur avatar if Pro feature is enabled AND user is not Pro AND not a connection
-              shouldBlur: AppConfig.showPro && !(ProfileService.shared.currentProfile?.isPro ?? false) && !_match!.isConnected,
+              // Blur avatar when user is not Pro AND not connected (same logic as matches_view)
+              shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected),
               onAvatarTap: _match!.profile.avatarID != null && _match!.isConnected
                   // Only allow avatar tap for connections
                   // This prevents non-Pro users from viewing unblurred photos of matched profiles

@@ -90,7 +90,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
             key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
             avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
             size: widget.avatarSize,
-            shouldBlur: widget.shouldBlur == false,
+            shouldBlur: widget.shouldBlur ?? false,
           );
           
           return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
@@ -104,7 +104,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       final avatarContent = AvatarView(
         avatarId: currentProfile.avatarID,
         size: widget.avatarSize,
-        shouldBlur: widget.shouldBlur == false,
+        shouldBlur: widget.shouldBlur ?? false,
       );
 
       return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
