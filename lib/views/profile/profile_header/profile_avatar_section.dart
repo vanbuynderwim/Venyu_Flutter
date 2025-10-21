@@ -100,13 +100,13 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
       // For non-editable profiles (viewing other profiles), use the provided profile directly
       final currentProfile = widget.profile;
       _currentProfile = currentProfile;
-      
+
       final avatarContent = AvatarView(
         avatarId: currentProfile.avatarID,
         size: widget.avatarSize,
         shouldBlur: widget.shouldBlur == false,
       );
-      
+
       return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
     }
   }

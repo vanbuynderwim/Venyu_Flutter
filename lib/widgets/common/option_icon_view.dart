@@ -33,13 +33,17 @@ class OptionIconView extends StatelessWidget {
     // Emoji heeft prioriteit
     if (emoji != null) {
       return SizedBox(
-        width: size,
-        height: size,
-        child: Text(
-          emoji!,
-          style: TextStyle(
-            fontSize: size, // Slightly smaller to match text baseline better
-            height: 1.1, // Control line height for better alignment
+        width: size * 1.2, // Give extra width to prevent right clipping
+        height: size * 1.2, // Give extra height to prevent bottom clipping
+        child: Center(
+          child: Text(
+            emoji!,
+            style: TextStyle(
+              fontSize: size * 0.9, // Slightly smaller font to fit within expanded bounds
+              height: 1.0, // Tighter line height to prevent clipping
+              leadingDistribution: TextLeadingDistribution.even, // Better emoji vertical centering
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       );

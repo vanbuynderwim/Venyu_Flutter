@@ -82,8 +82,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get dailyPromptsHintConfirm =>
-      'Selecteer \"Volgende\" om te bevestigen';
+  String get dailyPromptsHintConfirm => 'Selecteer \"Volgende\"';
 
   @override
   String get dailyPromptsButtonNext => 'Volgende';
@@ -425,6 +424,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get actionSkip => 'Niet nu';
 
   @override
+  String get actionConfirm => 'Bevestigen';
+
+  @override
   String get actionInterested => 'Stel me voor';
 
   @override
@@ -609,7 +611,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een echte introductie.';
+      'Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe prompt om sneller gematcht te worden.';
 
   @override
   String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
@@ -1581,6 +1583,28 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailRejectedMessage => 'Prompt afgewezen';
 
   @override
+  String get promptDetailDeleteButton => 'Prompt verwijderen';
+
+  @override
+  String get promptDetailDeleteConfirmTitle => 'Prompt verwijderen?';
+
+  @override
+  String get promptDetailDeleteConfirmMessage =>
+      'Dit zal je prompt permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.';
+
+  @override
+  String get promptDetailDeleteConfirmButton => 'Verwijderen';
+
+  @override
+  String get promptDetailDeleteCancelButton => 'Annuleren';
+
+  @override
+  String get promptDetailDeletedMessage => 'Prompt verwijderd';
+
+  @override
+  String get promptDetailDeleteErrorMessage => 'Verwijderen mislukt';
+
+  @override
   String get promptEditNextButton => 'Volgende';
 
   @override
@@ -1668,10 +1692,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptsViewTitle => 'Prompts';
 
   @override
-  String get promptsViewEmptyActionButton => 'Word gematcht';
+  String get promptsViewEmptyActionButton => 'Nieuwe prompt';
 
   @override
-  String get promptsViewAnswerPromptsButton => 'Beantwoord dagelijkse prompts';
+  String get promptsViewAnswerPromptsButton => 'Onbeantwoorde prompts';
 
   @override
   String get promptsViewAllAnsweredMessage =>
@@ -1872,7 +1896,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Word gematcht';
+  String get matchesViewEmptyActionButton => 'Nieuwe prompt';
 
   @override
   String get profileViewTitle => 'Profiel';
@@ -1933,6 +1957,20 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get matchActionsConnectError => 'Verbinden mislukt';
+
+  @override
+  String get matchFinishTitle => 'Gelukt!';
+
+  @override
+  String get matchFinishDescription => 'Je verzoek is ingediend.';
+
+  @override
+  String matchFinishInfoMessage(String firstName) {
+    return 'Nu is het wachten op $firstName. Als $firstName ook een introductie wil, ontvangen jullie automatisch een mail om kennis te maken.';
+  }
+
+  @override
+  String get matchFinishDoneButton => 'Klaar';
 
   @override
   String get registrationCompleteError =>

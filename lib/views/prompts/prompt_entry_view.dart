@@ -160,25 +160,26 @@ class PromptEntryView extends StatelessWidget {
                     ),
                 ),
 
-                const SizedBox(height: 16),
-
-                // "Not now" button
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
-                  child: ActionButton(
-                      label: l10n.interactionTypeSelectionNotNowButton,
-                      type: ActionButtonType.secondary,
-                      onInvertedBackground: true,
-                      onPressed: () {
-                        if (onCloseModal != null) {
-                          // Use the callback to close the modal
-                          onCloseModal!();
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    ),
-                ),
+                // "Not now" button - only show for non-first-time users
+                if (!isFirstTimeUser) ...[
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ActionButton(
+                        label: l10n.interactionTypeSelectionNotNowButton,
+                        type: ActionButtonType.secondary,
+                        onInvertedBackground: true,
+                        onPressed: () {
+                          if (onCloseModal != null) {
+                            // Use the callback to close the modal
+                            onCloseModal!();
+                          } else {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                  ),
+                ],
 
                 const Spacer(flex: 1),
               ],

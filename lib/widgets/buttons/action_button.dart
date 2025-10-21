@@ -90,8 +90,11 @@ class ActionButton extends StatefulWidget {
   /// button is placed on a white or light background in dark mode.
   final bool onInvertedBackground;
 
+  /// Optional badge count to display on the icon.
+  final int? badgeCount;
+
   /// Creates an [ActionButton] widget.
-  /// 
+  ///
   /// Either [label] must be provided, or [icon] must be provided with [isIconOnly] set to true.
   const ActionButton({
     super.key,
@@ -106,6 +109,7 @@ class ActionButton extends StatefulWidget {
     this.isLoading = false,
     this.isCompact = false,
     this.onInvertedBackground = false,
+    this.badgeCount,
   }) : assert(label != null || (icon != null && isIconOnly),
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
@@ -159,13 +163,7 @@ class _ActionButtonState extends State<ActionButton> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (widget.icon != null) ...[
-                        ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
-                            BlendMode.srcIn,
-                          ),
-                          child: widget.icon!,
-                        ),
+                        _buildIconWithBadge(context),
                         if (!isIconOnlyButton && widget.label != null) const SizedBox(width: 8),
                       ],
                       if (widget.label != null && !isIconOnlyButton)
@@ -182,5 +180,25 @@ class _ActionButtonState extends State<ActionButton> {
         ),
       ),
     );
+  }
+
+  /// Builds the icon with optional badge
+  Widget _buildIconWithBadge(BuildContext context) {
+    final coloredIcon = ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
+        BlendMode.srcIn,
+      ),
+      child: widget.icon!,
+    );
+
+    if (widget.badgeCount != null && widget.badgeCount! > 0) {
+      return Badge.count(
+        count: widget.badgeCount!,
+        child: coloredIcon,
+      );
+    }
+
+    return coloredIcon;
   }
 }

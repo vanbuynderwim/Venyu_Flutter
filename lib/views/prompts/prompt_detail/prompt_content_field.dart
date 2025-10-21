@@ -52,7 +52,7 @@ class PromptContentField extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               style: TextStyle(
                 color: venyuTheme.darkText,
-                fontSize: 36,
+                fontSize: 24,
                 fontFamily: AppFonts.graphie,
               ),
               textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class PromptContentField extends StatelessWidget {
                 placeholder: interactionType.hintText(context),
                 placeholderStyle: TextStyle(
                   color: venyuTheme.darkText.withValues(alpha: 0.5),
-                  fontSize: 36,
+                  fontSize: 24,
                   fontFamily: AppFonts.graphie,
                 ),
                 decoration: const BoxDecoration(), // No borders
@@ -73,7 +73,7 @@ class PromptContentField extends StatelessWidget {
                   hintText: interactionType.hintText(context),
                   hintStyle: TextStyle(
                     color: venyuTheme.darkText.withValues(alpha: 0.5),
-                    fontSize: 36,
+                    fontSize: 24,
                     fontFamily: AppFonts.graphie,
                   ),
                   border: InputBorder.none, // No borders

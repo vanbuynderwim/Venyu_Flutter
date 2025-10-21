@@ -40,50 +40,61 @@ class _EditAccountViewState extends State<EditAccountView> {
         title: Text(l10n.editAccountTitle),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Export section
-              _buildSection(
-                context: context,
-                title: l10n.editAccountDataExportTitle,
-                description: l10n.editAccountDataExportDescription,
-                child: ActionButton(
-                  label: l10n.editAccountExportDataButton,
-                  type: ActionButtonType.secondary,
-                  onPressed: _handleExportData,
-                  isLoading: _isExporting,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - 32, // Account for padding
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Export section
+                      _buildSection(
+                        context: context,
+                        title: l10n.editAccountDataExportTitle,
+                        description: l10n.editAccountDataExportDescription,
+                        child: ActionButton(
+                          label: l10n.editAccountExportDataButton,
+                          type: ActionButtonType.secondary,
+                          onPressed: _handleExportData,
+                          isLoading: _isExporting,
+                        ),
+                      ),
+
+                      const SizedBox(height: 24),
+
+                      // Delete section
+                      _buildSection(
+                        context: context,
+                        title: l10n.editAccountDeleteTitle,
+                        description: l10n.editAccountDeleteDescription,
+                        child: ActionButton(
+                          label: l10n.editAccountDeleteButton,
+                          type: ActionButtonType.destructive,
+                          onPressed: _handleDeleteAccount,
+                          isLoading: _isDeleting,
+                        ),
+                      ),
+
+                      const Spacer(),
+
+                      // Logout button
+                      ActionButton(
+                        label: l10n.editAccountLogoutButton,
+                        type: ActionButtonType.secondary,
+                        onPressed: _handleLogout,
+                        isLoading: _isLoggingOut,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              
-              const SizedBox(height: 24),
-              
-              // Delete section
-              _buildSection(
-                context: context,
-                title: l10n.editAccountDeleteTitle,
-                description: l10n.editAccountDeleteDescription,
-                child: ActionButton(
-                  label: l10n.editAccountDeleteButton,
-                  type: ActionButtonType.destructive,
-                  onPressed: _handleDeleteAccount,
-                  isLoading: _isDeleting,
-                ),
-              ),
-
-              const Spacer(),
-
-              // Logout button
-              ActionButton(
-                label: l10n.editAccountLogoutButton,
-                type: ActionButtonType.secondary,
-                onPressed: _handleLogout,
-                isLoading: _isLoggingOut,
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

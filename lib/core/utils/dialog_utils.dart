@@ -196,6 +196,10 @@ class DialogUtils {
 
     return await showPlatformModalSheet<T>(
       context: context,
+      material: MaterialModalSheetData(
+        isScrollControlled: true,
+        useRootNavigator: false,
+      ),
       builder: (sheetContext) => PlatformWidget(
         cupertino: (_, __) => CupertinoActionSheet(
           actions: List.generate(
@@ -210,17 +214,21 @@ class DialogUtils {
             child: Text(cancelText!),
           ),
         ),
-        material: (_, __) => Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(
-              menuOptions.length,
-              (index) => InkWell(
-                onTap: () => Navigator.pop(sheetContext, actions[index]),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: menuOptions[index].material?.call(context, PlatformTarget.android).child ?? Container(),
+        material: (_, __) => SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(
+                  menuOptions.length,
+                  (index) => InkWell(
+                    onTap: () => Navigator.pop(sheetContext, actions[index]),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: menuOptions[index].material?.call(context, PlatformTarget.android).child ?? Container(),
+                    ),
+                  ),
                 ),
               ),
             ),

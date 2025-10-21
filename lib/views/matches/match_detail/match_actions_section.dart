@@ -12,6 +12,7 @@ import '../../../services/supabase_managers/matching_manager.dart';
 import '../../../services/notification_service.dart';
 import '../../../widgets/buttons/action_button.dart';
 import '../../../widgets/common/sub_title.dart';
+import '../match_finish_view.dart';
 
 /// MatchActionsSection - Action buttons for match interactions
 ///
@@ -62,7 +63,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       context: context,
       title: l10n.matchActionsSkipDialogTitle,
       message: l10n.matchActionsSkipDialogMessage,
-      confirmText: l10n.actionSkip,
+      confirmText: l10n.actionConfirm,
     );
 
     if (confirmed) {
@@ -103,7 +104,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       operation: () async {
         await _matchingManager.insertMatchResponse(widget.match.id, MatchResponse.interested);
       },
-      successMessage: null,  // No toast - we navigate immediately
+      successMessage: null,  // No toast - we navigate to finish screen
       errorMessage: AppLocalizations.of(context)!.matchActionsConnectError,
       showSuccessToast: false,
       onSuccess: () {
@@ -111,8 +112,14 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         _fetchBadges();
         // Notify parent that match was removed
         widget.onMatchRemoved?.call();
-        // Then navigate back to matches list
-        Navigator.of(context).pop();
+        // Navigate to match finish view (replaces current route)
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => MatchFinishView(
+              otherProfileFirstName: widget.match.profile.firstName,
+            ),
+          ),
+        );
         AppLogger.success('Connection request sent successfully', context: 'MatchActionsSection');
       },
     );
@@ -148,7 +155,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
         top: false,
         child: Padding(
           // Internal padding for content
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

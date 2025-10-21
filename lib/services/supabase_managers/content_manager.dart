@@ -21,15 +21,38 @@ import '../../mixins/disposable_manager_mixin.dart';
 /// - Interaction tracking
 class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   static ContentManager? _instance;
-  
+
   /// The singleton instance of [ContentManager].
   static ContentManager get shared {
     _instance ??= ContentManager._internal();
     return _instance!;
   }
-  
+
   /// Private constructor for singleton pattern.
   ContentManager._internal();
+
+  // Available prompts update callbacks (multiple listeners)
+  final List<Function(List<Prompt>)> _availablePromptsCallbacks = [];
+
+  /// Add callback for available prompts updates
+  void addAvailablePromptsCallback(Function(List<Prompt>) callback) {
+    if (!_availablePromptsCallbacks.contains(callback)) {
+      _availablePromptsCallbacks.add(callback);
+    }
+  }
+
+  /// Remove callback for available prompts updates
+  void removeAvailablePromptsCallback(Function(List<Prompt>) callback) {
+    _availablePromptsCallbacks.remove(callback);
+  }
+
+  /// Manually trigger available prompts update
+  /// This is useful when prompts are answered and we want to notify all listeners
+  void notifyAvailablePromptsUpdate(List<Prompt> prompts) {
+    for (final callback in _availablePromptsCallbacks) {
+      callback(prompts);
+    }
+  }
 
   /// Fetch tag groups by category type
   Future<List<TagGroup>> fetchTagGroups(CategoryType type) async {
@@ -187,12 +210,29 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<List<Prompt>> fetchPrompts() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching prompts for user interaction', context: 'ContentManager');
-      
+
       final List<dynamic> data = await client.rpc('get_prompts');
       final prompts = data.map((json) => Prompt.fromJson(json as Map<String, dynamic>)).toList();
-      
+
       AppLogger.success('Fetched ${prompts.length} prompts', context: 'ContentManager');
+
+      // Notify all callbacks
+      notifyAvailablePromptsUpdate(prompts);
+
       return prompts;
+    });
+  }
+
+  /// Delete a prompt (only if status is pending_review or rejected)
+  Future<void> deletePrompt(String promptId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Deleting prompt: $promptId', context: 'ContentManager');
+
+      await client.rpc('delete_prompt', params: {
+        'p_prompt_id': promptId,
+      });
+
+      AppLogger.success('Prompt deleted successfully', context: 'ContentManager');
     });
   }
 

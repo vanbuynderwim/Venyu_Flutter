@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import '../core/config/environment.dart';
 import '../core/utils/app_logger.dart';
 
 /// Service for managing RevenueCat integration
@@ -21,11 +21,11 @@ class RevenueCatService {
       // Set log level for debugging (use LogLevel.info for production)
       await Purchases.setLogLevel(LogLevel.debug);
       
-      // Get API keys from environment variables
-      final appleApiKey = dotenv.env['REVENUECAT_APPLE_API_KEY'];
-      final googleApiKey = dotenv.env['REVENUECAT_GOOGLE_API_KEY'];
-      
-      if (appleApiKey == null || googleApiKey == null) {
+      // Get API keys from environment configuration
+      final appleApiKey = EnvironmentConfig.revenueCatAppleApiKey;
+      final googleApiKey = EnvironmentConfig.revenueCatGoogleApiKey;
+
+      if (appleApiKey.isEmpty || googleApiKey.isEmpty) {
         throw Exception('RevenueCat API keys not found in environment variables');
       }
       

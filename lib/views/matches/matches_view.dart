@@ -175,7 +175,7 @@ class _MatchesViewState extends State<MatchesView>
                           message: ServerListType.matches.emptyStateTitle(context),
                           description: ServerListType.matches.emptyStateDescription(context),
                           iconName: "nomatches",
-                          height: MediaQuery.of(context).size.height * 0.6,
+                          fullHeight: true,
                           onAction: () => _handleGetMatchedPressed(),
                           actionText: l10n.matchesViewEmptyActionButton,
                           actionButtonIcon: context.themedIcon('edit'),

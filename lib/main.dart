@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -30,6 +30,19 @@ void main() async {
   WidgetsBinding widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  // Configure transparent system UI for edge-to-edge display (Android 15+ compatibility)
+  // This prevents Flutter from calling deprecated APIs like setStatusBarColor
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+    ),
+  );
+
+  // Enable edge-to-edge mode
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   // Initialize date formatting for all supported locales
   try {
     await initializeDateFormatting();
@@ -40,15 +53,13 @@ void main() async {
     AppLogger.warning('Date formatting initialization failed', error: e, context: 'main');
   }
   
-  // Load environment variables
-  // Debug mode: use .env.local (development)
-  // Release mode: use .env.prod (production)
-  final envFileName = kDebugMode ? '.env.local' : '.env.prod';
+  // Load environment variables from .env file
+  // In CI/CD, this file is generated with environment-specific values
   try {
-    await dotenv.load(fileName: envFileName);
-    AppLogger.info('Loaded environment: $envFileName', context: 'main');
+    await dotenv.load(fileName: '.env');
+    AppLogger.info('Loaded environment from .env', context: 'main');
   } catch (e) {
-    AppLogger.warning('Could not load $envFileName file', error: e, context: 'main');
+    AppLogger.warning('Could not load .env file', error: e, context: 'main');
     AppLogger.info('Using fallback configuration', context: 'main');
   }
   

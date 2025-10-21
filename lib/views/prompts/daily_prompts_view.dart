@@ -151,7 +151,10 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             _isPromptReported = false; // Reset report state for new prompt
           });
         } else {
-          // Last prompt completed
+          // Last prompt completed - notify all listeners immediately
+          // This ensures badges/buttons are removed even if user doesn't create a new prompt
+          AppLogger.debug('All daily prompts answered, notifying listeners', context: 'DailyPromptsView');
+          _contentManager.notifyAvailablePromptsUpdate([]);
 
           // If these were real prompts after tutorial, navigate to RegistrationFinishView
           if (widget.isPostTutorialRealPrompts) {
@@ -321,6 +324,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     TagView(
                       id: 'tutorial-hint',
                       emoji: '👇',
+                      iconSize: 18, // Slightly larger for better emoji visibility
                       label: _selectedInteractionType == null
                           ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
                           : AppLocalizations.of(context)!.dailyPromptsHintConfirm,

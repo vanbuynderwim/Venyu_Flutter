@@ -13,6 +13,7 @@ import '../../models/enums/category_type.dart';
 import '../../models/tag_group.dart';
 import '../../models/invite.dart';
 import '../../models/badge_data.dart';
+import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/profile_service.dart';
 import '../../services/notification_service.dart';
@@ -20,6 +21,8 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import '../venues/join_venue_view.dart';
@@ -36,6 +39,7 @@ import 'edit_bio_view.dart';
 import 'edit_account_view.dart';
 import 'edit_email_info_view.dart';
 import 'edit_company_name_view.dart';
+import '../prompts/prompt_entry_view.dart';
 import '../../l10n/app_localizations.dart';
 
 /// ProfileView - Current user's profile page
@@ -72,6 +76,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   List<Invite>? _inviteCodes;
   bool _inviteCodesLoading = false;
   BadgeData? _badgeData;
+  List<Prompt>? _availablePrompts; // Available daily prompts to answer
+  bool _isCheckingPrompts = false;
 
   @override
   void initState() {
@@ -80,18 +86,33 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     _profileManager = ProfileManager.shared;
     _notificationService = NotificationService.shared;
 
+    // Set up available prompts update callback
+    _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshProfile();
       // Load personal tag groups since it's the default selected section
       _loadPersonalTagGroups();
       // Load badge data
       _fetchBadges();
+      // Check for available daily prompts
+      _checkForPrompts();
     });
   }
 
   @override
   void dispose() {
+    _contentManager.removeAvailablePromptsCallback(_onAvailablePromptsUpdate);
     super.dispose();
+  }
+
+  /// Callback for available prompts updates
+  void _onAvailablePromptsUpdate(List<Prompt> prompts) {
+    if (mounted) {
+      setState(() {
+        _availablePrompts = prompts;
+      });
+    }
   }
 
   @override
@@ -147,6 +168,19 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                   const LoadingStateWidget(),
                 
                 const SizedBox(height: 16),
+
+                // Daily Prompts Action Button (if prompts available)
+                if (_availablePrompts != null && _availablePrompts!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                    child: ActionButton(
+                      label: l10n.promptsViewAnswerPromptsButton,
+                      onPressed: _showPromptsModal,
+                      type: ActionButtonType.secondary,
+                      icon: context.themedIcon('prompts'),
+                      badgeCount: _availablePrompts!.length,
+                    ),
+                  ),
                 
                 // Section Button Bar
                 if (!_isProfileLoading && profile != null)
@@ -169,9 +203,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                       }
                     },
                   ),
-                
+
                 const SizedBox(height: 16),
+
                 
+
                 // Section Content
                 if (!_isProfileLoading && profile != null)
                   _buildSectionContent(),
@@ -185,7 +221,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   }
 
   /// Builds the profile header with avatar, role, sectors, and bio
-  Widget _buildProfileHeader(profile) {
+  Widget _buildProfileHeader(dynamic profile) {
     return ProfileHeader(
       profile: profile,
       isEditable: true,
@@ -438,7 +474,57 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       AppLogger.error('Failed to fetch badges in ProfileView', error: error, context: 'ProfileView');
     }
   }
-  
+
+  /// Check for available daily prompts
+  /// The callback will automatically update _availablePrompts state
+  Future<void> _checkForPrompts() async {
+    if (_isCheckingPrompts) return;
+
+    _isCheckingPrompts = true;
+
+    try {
+      final authService = context.authService;
+      if (!authService.isAuthenticated) return;
+
+      AppLogger.debug('Checking for available daily prompts', context: 'ProfileView');
+      await _contentManager.fetchPrompts(); // Callback will update state
+    } catch (error) {
+      AppLogger.error('Error fetching available prompts', error: error, context: 'ProfileView');
+    } finally {
+      _isCheckingPrompts = false;
+    }
+  }
+
+  /// Show the PromptEntryView as a fullscreen modal
+  Future<void> _showPromptsModal() async {
+    if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
+
+    void closeModalCallback() {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+
+    await showPlatformModalSheet<bool>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: true,
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: false,
+        barrierDismissible: true,
+      ),
+      builder: (sheetCtx) => PromptEntryView(
+        prompts: _availablePrompts!,
+        isModal: true,
+        onCloseModal: closeModalCallback,
+      ),
+    );
+
+    // The available prompts will be updated via callback when PromptEntryView notifies
+  }
+
   /// Handles personal info option tap
   void _handlePersonalInfoTap(EditPersonalInfoType type) async {
     AppLogger.ui('Tapped on personal info type: ${type.title}', context: 'ProfileView');

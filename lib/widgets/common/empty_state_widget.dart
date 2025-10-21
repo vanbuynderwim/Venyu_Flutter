@@ -81,19 +81,20 @@ class EmptyStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: fullHeight ? MainAxisSize.min : MainAxisSize.max,
       children: [
         // Icon with safe fallback
         _buildIcon(context),
-        
+
         AppModifiers.verticalSpaceMedium,
-        
+
         // Primary message
         Text(
           message,
           style: AppTextStyles.headline.primaryText(context),
           textAlign: TextAlign.center,
         ),
-        
+
         // Description
         if (description != null) ...[
           AppModifiers.verticalSpaceSmall,
@@ -106,7 +107,7 @@ class EmptyStateWidget extends StatelessWidget {
             ),
           ),
         ],
-        
+
         // Action button
         if (onAction != null && actionText != null) ...[
           const SizedBox(height: 24),
@@ -121,7 +122,12 @@ class EmptyStateWidget extends StatelessWidget {
     );
 
     if (fullHeight) {
-      return Center(child: content);
+      // Make scrollable to prevent overflow in landscape
+      return Center(
+        child: SingleChildScrollView(
+          child: content,
+        ),
+      );
     }
 
     return SizedBox(

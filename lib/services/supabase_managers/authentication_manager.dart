@@ -50,24 +50,34 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
   Future<AuthResponse> signInWithLinkedIn() async {
     return executeAuthenticatedRequest(() async {
       AppLogger.auth('Starting LinkedIn sign-in process', context: 'AuthenticationManager');
-      
-      // Step 1: Start OAuth flow with LinkedIn OIDC (equivalent to iOS implementation)
-      await client.auth.signInWithOAuth(
-        OAuthProvider.linkedinOidc,
-        // Using custom scheme with external browser - upgraded SDK should persist flow_state
-        redirectTo: 'com.getvenyu.app://callback',
-        authScreenLaunchMode: LaunchMode.externalApplication,
-        scopes: 'openid profile email', // Same scopes as iOS
-      );
-      
-      AppLogger.success('LinkedIn OAuth initiated successfully', context: 'AuthenticationManager');
-      
-      // For OAuth flows, we need to return a placeholder response
-      // The actual authentication completion will happen via deep link callback
-      return AuthResponse(
-        user: null,
-        session: null,
-      );
+
+      try {
+        // Step 1: Start OAuth flow with LinkedIn OIDC (equivalent to iOS implementation)
+        final bool launched = await client.auth.signInWithOAuth(
+          OAuthProvider.linkedinOidc,
+          // Using custom scheme with external browser - upgraded SDK should persist flow_state
+          redirectTo: 'com.getvenyu.app://callback',
+          authScreenLaunchMode: LaunchMode.externalApplication,
+          scopes: 'openid profile email', // Same scopes as iOS
+        );
+
+        if (launched) {
+          AppLogger.success('LinkedIn OAuth browser launched successfully', context: 'AuthenticationManager');
+        } else {
+          AppLogger.error('Failed to launch LinkedIn OAuth browser', context: 'AuthenticationManager');
+          throw const AuthException('Failed to launch LinkedIn OAuth browser');
+        }
+
+        // For OAuth flows, we need to return a placeholder response
+        // The actual authentication completion will happen via deep link callback
+        return AuthResponse(
+          user: null,
+          session: null,
+        );
+      } catch (e) {
+        AppLogger.error('LinkedIn OAuth error: $e', context: 'AuthenticationManager');
+        rethrow;
+      }
     });
   }
   

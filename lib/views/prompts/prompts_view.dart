@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/helpers/get_matched_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
@@ -15,10 +14,7 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/empty_state_widget.dart';
-import '../../widgets/common/sub_title.dart';
 import '../../widgets/buttons/get_matched_button.dart';
-import '../../widgets/buttons/action_button.dart';
-import '../../models/enums/action_button_type.dart';
 import 'prompt_item.dart';
 import 'prompt_detail_view.dart';
 import 'prompt_entry_view.dart';
@@ -57,7 +53,14 @@ class _PromptsViewState extends State<PromptsView>
     _contentManager = ContentManager.shared;
     initializePagination();
     _loadPrompts();
-    _checkForPrompts();
+
+    // Set up available prompts update callback
+    _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
+
+    // Check for available prompts to answer
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForPrompts();
+    });
   }
 
   @override
@@ -65,63 +68,18 @@ class _PromptsViewState extends State<PromptsView>
     await _loadMorePrompts();
   }
 
-  /// Check for available daily prompts
-  Future<void> _checkForPrompts() async {
-    if (_isCheckingPrompts) return;
-
-    _isCheckingPrompts = true;
-
-    try {
-      final authService = context.authService;
-      if (!authService.isAuthenticated) return;
-
-      AppLogger.debug('Checking for available daily prompts', context: 'PromptsView');
-      final prompts = await _contentManager.fetchPrompts();
-
-      if (mounted) {
-        setState(() {
-          _availablePrompts = prompts;
-        });
-        AppLogger.debug('Found ${prompts.length} available daily prompts', context: 'PromptsView');
-      }
-    } catch (error) {
-      AppLogger.error('Error fetching available prompts', error: error, context: 'PromptsView');
-    } finally {
-      _isCheckingPrompts = false;
-    }
+  @override
+  void dispose() {
+    _contentManager.removeAvailablePromptsCallback(_onAvailablePromptsUpdate);
+    super.dispose();
   }
 
-  /// Show the PromptEntryView as a fullscreen modal
-  Future<void> _showPromptsModal() async {
-    if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
-
-    void closeModalCallback() {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-    }
-
-    final result = await showPlatformModalSheet<bool>(
-      context: context,
-      material: MaterialModalSheetData(
-        useRootNavigator: false,
-        isScrollControlled: true,
-        useSafeArea: true,
-        isDismissible: true,
-      ),
-      cupertino: CupertinoModalSheetData(
-        useRootNavigator: false,
-        barrierDismissible: true,
-      ),
-      builder: (sheetCtx) => PromptEntryView(
-        prompts: _availablePrompts!,
-        isModal: true,
-        onCloseModal: closeModalCallback,
-      ),
-    );
-
-    // Refresh available prompts and list after modal closes
-    if (result == true) {
-      await _checkForPrompts();
-      await _handleRefresh();
+  /// Callback for available prompts updates
+  void _onAvailablePromptsUpdate(List<Prompt> prompts) {
+    if (mounted) {
+      setState(() {
+        _availablePrompts = prompts;
+      });
     }
   }
 
@@ -131,16 +89,28 @@ class _PromptsViewState extends State<PromptsView>
 
     return AppScaffold(
       appBar: PlatformAppBar(
-        title: Text(l10n.promptsViewTitle),
+        title: Text(l10n.promptsViewMyPromptsTitle),
+        trailingActions: _availablePrompts != null && _availablePrompts!.isNotEmpty
+            ? [
+                PlatformIconButton(
+                  padding: EdgeInsets.zero,
+                  icon: Badge.count(
+                    count: _availablePrompts!.length,
+                    child: context.themedIcon('prompts'),
+                  ),
+                  onPressed: _showPromptsModal,
+                ),
+              ]
+            : null,
       ),
       floatingActionButton: _prompts.isNotEmpty
           ? GetMatchedButton(
               buttonType: GetMatchedButtonType.fab,
-              onModalClosed: (result) {
-                if (result == true) {
-                  AppLogger.debug('Prompt creation completed, refreshing list', context: 'PromptsView');
-                  _handleRefresh();
-                }
+              isFromPrompts: true,
+              onModalClosed: (_) {
+                // Always refresh when modal closes (user might have created a prompt)
+                AppLogger.debug('Modal closed, refreshing prompts list', context: 'PromptsView');
+                _handleRefresh();
               },
             )
           : null,
@@ -159,6 +129,7 @@ class _PromptsViewState extends State<PromptsView>
                           message: ServerListType.profilePrompts.emptyStateTitle(context),
                           description: ServerListType.profilePrompts.emptyStateDescription(context),
                           iconName: ServerListType.profilePrompts.emptyStateIcon,
+                          fullHeight: true,
                           onAction: () => _handleGetMatchedPressed(),
                           actionText: l10n.promptsViewEmptyActionButton,
                           actionButtonIcon: context.themedIcon('edit'),
@@ -167,63 +138,27 @@ class _PromptsViewState extends State<PromptsView>
                     ],
                   ),
                 )
-              : Column(
-                  children: [
-                    // Fixed sticky header with action button or message
-                    Container(
-                      color: context.venyuTheme.pageBackground,
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                      child: _availablePrompts != null && _availablePrompts!.isNotEmpty
-                          ? ActionButton(
-                              label: l10n.promptsViewAnswerPromptsButton,
-                              onPressed: _showPromptsModal,
-                              type: ActionButtonType.primary,
-                            )
-                          : Center(
-                              child: Text(
-                                l10n.promptsViewAllAnsweredMessage,
-                                style: AppTextStyles.body.copyWith(
-                                  color: context.venyuTheme.secondaryText,
-                                ),
-                              ),
-                            ),
-                    ),
+              : RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: ListView.builder(
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _prompts.length) {
+                        return buildLoadingIndicator();
+                      }
 
-                    // Section title
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                      child: SubTitle(
-                        iconName: 'card',
-                        title: l10n.promptsViewMyPromptsTitle,
-                      ),
-                    ),
-
-                    // Scrollable prompts list
-                    Expanded(
-                      child: RefreshIndicator(
-                        onRefresh: _handleRefresh,
-                        child: ListView.builder(
-                          controller: scrollController,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16),
-                          itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index == _prompts.length) {
-                              return buildLoadingIndicator();
-                            }
-
-                            final prompt = _prompts[index];
-                            return PromptItem(
-                              prompt: prompt,
-                              showChevron: true,
-                              showCounters: true,
-                              onPromptSelected: _openPromptDetail,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                      final prompt = _prompts[index];
+                      return PromptItem(
+                        prompt: prompt,
+                        showChevron: true,
+                        showCounters: true,
+                        onPromptSelected: _openPromptDetail,
+                      );
+                    },
+                  ),
                 ),
     );
   }
@@ -231,15 +166,15 @@ class _PromptsViewState extends State<PromptsView>
 
   /// Handles the Get Matched button press (both FAB and EmptyState button)
   Future<void> _handleGetMatchedPressed() async {
-    final result = await GetMatchedHelper.openGetMatchedModal(
+    await GetMatchedHelper.openGetMatchedModal(
       context: context,
+      isFromPrompts: true,
       callerContext: 'PromptsView',
     );
 
-    // If prompt was successfully added, refresh the list
-    if (result == true) {
-      await _handleRefresh();
-    }
+    // Always refresh the list after modal closes
+    // (user might have created a new prompt)
+    await _handleRefresh();
   }
 
   
@@ -248,13 +183,21 @@ class _PromptsViewState extends State<PromptsView>
   Future<void> _openPromptDetail(Prompt prompt) async {
     AppLogger.debug('Opening prompt detail view for prompt: ${prompt.label}', context: 'PromptsView');
     try {
-      await Navigator.push(
+      final result = await Navigator.push<bool>(
         context,
         platformPageRoute(
           context: context,
           builder: (context) => PromptDetailView(promptId: prompt.promptID),
         ),
       );
+
+      // If prompt was deleted (result == true), remove it from the list locally
+      if (result == true && mounted) {
+        AppLogger.debug('Prompt was deleted, removing from list', context: 'PromptsView');
+        setState(() {
+          _prompts.removeWhere((p) => p.promptID == prompt.promptID);
+        });
+      }
 
       AppLogger.debug('Prompt detail view closed', context: 'PromptsView');
     } catch (error) {
@@ -328,5 +271,59 @@ class _PromptsViewState extends State<PromptsView>
 
   Future<void> _handleRefresh() async {
     await _loadPrompts(forceRefresh: true);
+    // Also refresh available prompts - callback will update state automatically
+    _checkForPrompts();
+  }
+
+  /// Check for available daily prompts
+  /// The callback will automatically update _availablePrompts state
+  Future<void> _checkForPrompts() async {
+    if (_isCheckingPrompts) return;
+
+    _isCheckingPrompts = true;
+
+    try {
+      final authService = context.authService;
+      if (!authService.isAuthenticated) return;
+
+      AppLogger.debug('Checking for available daily prompts', context: 'PromptsView');
+      await _contentManager.fetchPrompts(); // Callback will update state
+    } catch (error) {
+      AppLogger.error('Error fetching available prompts', error: error, context: 'PromptsView');
+    } finally {
+      _isCheckingPrompts = false;
+    }
+  }
+
+  /// Show the PromptEntryView as a fullscreen modal
+  Future<void> _showPromptsModal() async {
+    if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
+
+    void closeModalCallback() {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+
+    await showPlatformModalSheet<bool>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: true,
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: false,
+        barrierDismissible: true,
+      ),
+      builder: (sheetCtx) => PromptEntryView(
+        prompts: _availablePrompts!,
+        isModal: true,
+        onCloseModal: closeModalCallback,
+      ),
+    );
+
+    // After modal closes, refresh user prompts list
+    // The available prompts will be updated via callback when PromptEntryView notifies
+    await _handleRefresh();
   }
 }

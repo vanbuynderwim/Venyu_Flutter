@@ -47,7 +47,7 @@ class PromptDisplayWidget extends StatelessWidget {
                 promptLabel,
                 style: TextStyle(
                   color: venyuTheme.darkText,
-                  fontSize: 36,
+                  fontSize: 24,
                   fontFamily: AppFonts.graphie,
                 ),
                 textAlign: TextAlign.center,

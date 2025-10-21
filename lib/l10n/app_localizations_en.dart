@@ -82,7 +82,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dailyPromptsHintConfirm => 'Select \"Next\" to confirm';
+  String get dailyPromptsHintConfirm => 'Select \"Next\"';
 
   @override
   String get dailyPromptsButtonNext => 'Next';
@@ -421,6 +421,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionSkip => 'Not now';
 
   @override
+  String get actionConfirm => 'Confirm';
+
+  @override
   String get actionInterested => 'Introduce me';
 
   @override
@@ -604,7 +607,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Once you have a match, it will appear here and could lead to a real introduction.';
+      'Once you have a match, it will appear here. Write a new prompt to get matched faster.';
 
   @override
   String get emptyStatePromptsTitle => 'Ready to get matched?';
@@ -1566,6 +1569,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptDetailRejectedMessage => 'Prompt rejected';
 
   @override
+  String get promptDetailDeleteButton => 'Delete prompt';
+
+  @override
+  String get promptDetailDeleteConfirmTitle => 'Delete prompt?';
+
+  @override
+  String get promptDetailDeleteConfirmMessage =>
+      'This will permanently delete your prompt. This action cannot be undone.';
+
+  @override
+  String get promptDetailDeleteConfirmButton => 'Delete';
+
+  @override
+  String get promptDetailDeleteCancelButton => 'Cancel';
+
+  @override
+  String get promptDetailDeletedMessage => 'Prompt deleted';
+
+  @override
+  String get promptDetailDeleteErrorMessage => 'Failed to delete prompt';
+
+  @override
   String get promptEditNextButton => 'Next';
 
   @override
@@ -1652,10 +1677,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptsViewTitle => 'Pprompts';
 
   @override
-  String get promptsViewEmptyActionButton => 'Get matched';
+  String get promptsViewEmptyActionButton => 'New prompt';
 
   @override
-  String get promptsViewAnswerPromptsButton => 'Answer daily prompts';
+  String get promptsViewAnswerPromptsButton => 'Unanswered prompts';
 
   @override
   String get promptsViewAllAnsweredMessage => 'All prompts answered for today';
@@ -1854,7 +1879,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Get matched';
+  String get matchesViewEmptyActionButton => 'New prompt';
 
   @override
   String get profileViewTitle => 'Profile';
@@ -1915,6 +1940,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matchActionsConnectError => 'Failed to connect';
+
+  @override
+  String get matchFinishTitle => 'Great!';
+
+  @override
+  String get matchFinishDescription => 'Your request has been submitted.';
+
+  @override
+  String matchFinishInfoMessage(String firstName) {
+    return 'Now it’s waiting for $firstName. If $firstName also requests an introduction, you’ll both receive an email to get in touch.';
+  }
+
+  @override
+  String get matchFinishDoneButton => 'Done';
 
   @override
   String get registrationCompleteError =>

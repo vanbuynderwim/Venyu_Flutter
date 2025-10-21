@@ -139,7 +139,6 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
             body: !_venuesLoaded || _isProcessing
                 ? const LoadingStateWidget()
                 : SafeArea(
-                    bottom: false, // Allow content to go under bottom safe area for button
                     child: Column(
                       children: [
                         // Scrollable prompt content
@@ -156,8 +155,8 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                         ),
 
                         // Next/Submit button at bottom
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
                           child: ActionButton(
                             label: widget.existingPrompt != null ? l10n.promptPreviewSubmitButton : l10n.promptPreviewNextButton,
                             onInvertedBackground: true,

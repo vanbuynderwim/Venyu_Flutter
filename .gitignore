@@ -45,8 +45,7 @@ app.*.map.json
 /android/app/release
 
 # Environment configuration
-.env.local
-.env.prod
+.env
 
 # Firebase configuration files
 ios/Runner/GoogleService-Info.plist

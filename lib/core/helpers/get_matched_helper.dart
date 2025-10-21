@@ -12,6 +12,7 @@ class GetMatchedHelper {
   static Future<bool?> openGetMatchedModal({
     required BuildContext context,
     String? venueId,
+    bool isFromPrompts = false,
     String? callerContext = 'GetMatchedHelper',
   }) async {
     HapticFeedback.selectionClick();
@@ -31,6 +32,7 @@ class GetMatchedHelper {
           AppLogger.debug('Building InteractionTypeSelectionView...', context: callerContext);
           return InteractionTypeSelectionView(
             venueId: venueId,
+            isFromPrompts: isFromPrompts,
           );
         },
       );

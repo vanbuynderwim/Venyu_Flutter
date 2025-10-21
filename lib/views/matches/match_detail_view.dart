@@ -18,7 +18,6 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/menus/menu_option_builder.dart';
-import '../subscription/paywall_view.dart';
 import '../profile/profile_header.dart';
 import 'match_detail/match_actions_section.dart';
 import 'match_detail/match_connections_section.dart';
@@ -375,17 +374,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               avatarSize: 105.0,
               isEditable: false,
               isConnection: _match!.isConnected,
-              shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
-              onAvatarTap: _match!.profile.avatarID != null
-                  ? () {
-                      final isPro = ProfileService.shared.currentProfile?.isPro ?? false;
-                      final isConnection = _match!.isConnected;
-                      if (!AppConfig.showPro || isPro || isConnection) {
-                        _viewMatchAvatar(context);
-                      } else {
-                        _showPaywallForAvatar(context);
-                      }
-                    }
+              // Blur avatar if Pro feature is enabled AND user is not Pro AND not a connection
+              shouldBlur: AppConfig.showPro && !(ProfileService.shared.currentProfile?.isPro ?? false) && !_match!.isConnected,
+              onAvatarTap: _match!.profile.avatarID != null && _match!.isConnected
+                  // Only allow avatar tap for connections
+                  // This prevents non-Pro users from viewing unblurred photos of matched profiles
+                  ? () => _viewMatchAvatar(context)
                   : null,
               onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
                   ? () => UrlHelper.openLinkedIn(context, _match!.profile.linkedInURL!)
@@ -558,33 +552,5 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       showBorder: false,
       preserveAspectRatio: true,
     );
-  }
-  
-  /// Shows the paywall when non-Pro user tries to view avatar
-  void _showPaywallForAvatar(BuildContext context) async {
-    final result = await showPlatformModalSheet<bool>(
-      context: context,
-      material: MaterialModalSheetData(
-        useRootNavigator: false,
-        isScrollControlled: true,
-        useSafeArea: true,
-        isDismissible: true,
-      ),
-      cupertino: CupertinoModalSheetData(
-        useRootNavigator: false,
-        barrierDismissible: true,
-      ),
-      builder: (sheetContext) => const PaywallView(),
-    );
-    
-    // If subscription was completed, refresh the view
-    if (result == true) {
-      setState(() {
-        // This will trigger a rebuild and check isPro status again
-        final currentProfile = ProfileService.shared.currentProfile;
-        final isPro = currentProfile?.isPro ?? false;
-        AppLogger.debug('Subscription completed from avatar tap - isPro status: $isPro', context: 'MatchDetailView');
-      });
-    }
   }
 }

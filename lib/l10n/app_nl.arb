@@ -42,7 +42,7 @@
       }
     }
   },
-  "dailyPromptsHintConfirm": "Selecteer \"Volgende\" om te bevestigen",
+  "dailyPromptsHintConfirm": "Selecteer \"Volgende\"",
   "dailyPromptsButtonNext": "Volgende",
   "dailyPromptsReportSuccess": "Prompt succesvol gerapporteerd",
   "dailyPromptsReportError": "Rapporteren mislukt",
@@ -175,6 +175,7 @@
   "actionEdit": "Bewerken",
   "actionNext": "Volgende",
   "actionSkip": "Niet nu",
+  "actionConfirm": "Bevestigen",
   "actionInterested": "Stel me voor",
 
   "@_SUCCESS_MESSAGES": {},
@@ -274,7 +275,7 @@
   "emptyStateReviewsTitle": "Helemaal up-to-date",
   "emptyStateReviewsDescription": "Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier",
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
-  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier en kan het leiden tot een echte introductie.",
+  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe prompt om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
   "emptyStatePromptsDescription": "Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
 
@@ -758,6 +759,13 @@
   "promptDetailApproveButton": "Goedkeuren",
   "promptDetailApprovedMessage": "Prompt goedgekeurd",
   "promptDetailRejectedMessage": "Prompt afgewezen",
+  "promptDetailDeleteButton": "Prompt verwijderen",
+  "promptDetailDeleteConfirmTitle": "Prompt verwijderen?",
+  "promptDetailDeleteConfirmMessage": "Dit zal je prompt permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.",
+  "promptDetailDeleteConfirmButton": "Verwijderen",
+  "promptDetailDeleteCancelButton": "Annuleren",
+  "promptDetailDeletedMessage": "Prompt verwijderd",
+  "promptDetailDeleteErrorMessage": "Verwijderen mislukt",
 
   "@_PROMPT_EDIT_VIEW": {},
   "promptEditNextButton": "Volgende",
@@ -819,8 +827,8 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Prompts",
-  "promptsViewEmptyActionButton": "Word gematcht",
-  "promptsViewAnswerPromptsButton": "Beantwoord dagelijkse prompts",
+  "promptsViewEmptyActionButton": "Nieuwe prompt",
+  "promptsViewAnswerPromptsButton": "Onbeantwoorde prompts",
   "promptsViewAllAnsweredMessage": "Alle prompts beantwoord voor vandaag",
   "promptsViewMyPromptsTitle": "Mijn prompts",
 
@@ -954,7 +962,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "Word gematcht",
+  "matchesViewEmptyActionButton": "Nieuwe prompt",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profiel",
@@ -999,6 +1007,17 @@
   "matchActionsSkipDialogMessage": "Deze match wordt verwijderd uit je matches. De andere persoon ontvangt geen melding en zal niet weten dat je hem/haar hebt overgeslagen.",
   "matchActionsSkipError": "Overslaan van match mislukt",
   "matchActionsConnectError": "Verbinden mislukt",
+
+  "@_MATCH_FINISH": {},
+  "matchFinishTitle": "Gelukt!",
+  "matchFinishDescription": "Je verzoek is ingediend.",
+  "matchFinishInfoMessage": "Nu is het wachten op {firstName}. Als {firstName} ook een introductie wil, ontvangen jullie automatisch een mail om kennis te maken.",
+  "@matchFinishInfoMessage": {
+    "placeholders": {
+      "firstName": { "type": "String" }
+    }
+  },
+  "matchFinishDoneButton": "Klaar",
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Voltooien van registratie mislukt. Probeer het opnieuw.",

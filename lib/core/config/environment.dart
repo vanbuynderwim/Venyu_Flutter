@@ -1,112 +1,39 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Environment configuration for different build targets
-/// 
-/// This enum defines the available environments for the app.
-/// Use build-time configuration to set the appropriate environment.
-enum Environment { 
-  development, 
-  staging, 
-  production 
-}
-
 /// Environment-based configuration management
-/// 
+///
 /// This class provides secure access to environment-specific configuration
-/// values loaded from .env.local file at runtime.
+/// values loaded from .env files at runtime.
+///
+/// The environment is determined by which .env file is loaded:
+/// - Debug mode: .env.local (development)
+/// - Release mode: .env.prod (production)
+///
+/// Each .env file contains only the configuration for that specific environment,
+/// without environment suffixes (e.g., SUPABASE_URL instead of SUPABASE_URL_DEV).
 class EnvironmentConfig {
-  // Environment is loaded from .env.local file
-  static Environment get _environment {
-    final envName = dotenv.env['ENVIRONMENT'] ?? 'development';
-    switch (envName) {
-      case 'production':
-        return Environment.production;
-      case 'staging':
-        return Environment.staging;
-      case 'development':
-      default:
-        return Environment.development;
-    }
-  }
-  
-  /// Current environment
-  static Environment get environment => _environment;
-  
   /// Supabase configuration
-  static String get supabaseUrl {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['SUPABASE_URL_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['SUPABASE_URL_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['SUPABASE_URL_PROD'] ?? '';
-    }
-  }
-  
-  static String get supabaseAnonKey {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['SUPABASE_KEY_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['SUPABASE_KEY_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['SUPABASE_KEY_PROD'] ?? '';
-    }
-  }
-  
-  /// Google OAuth configuration
-  static String get googleWebClientId {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['GOOGLE_WEB_CLIENT_ID_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['GOOGLE_WEB_CLIENT_ID_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['GOOGLE_WEB_CLIENT_ID_PROD'] ?? '';
-    }
-  }
+  static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
+  static String get supabaseAnonKey => dotenv.env['SUPABASE_KEY'] ?? '';
 
-  static String get googleIosClientId {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['GOOGLE_IOS_CLIENT_ID_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['GOOGLE_IOS_CLIENT_ID_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['GOOGLE_IOS_CLIENT_ID_PROD'] ?? '';
-    }
-  }
+  /// Google OAuth configuration
+  static String get googleWebClientId => dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
+  static String get googleIosClientId => dotenv.env['GOOGLE_IOS_CLIENT_ID'] ?? '';
 
   /// Apple Sign-In configuration (required for Android)
-  static String get appleClientId {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['APPLE_CLIENT_ID_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['APPLE_CLIENT_ID_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['APPLE_CLIENT_ID_PROD'] ?? '';
-    }
-  }
+  static String get appleClientId => dotenv.env['APPLE_CLIENT_ID'] ?? '';
+  static String get appleRedirectUri => dotenv.env['APPLE_REDIRECT_URI'] ?? '';
 
-  static String get appleRedirectUri {
-    switch (_environment) {
-      case Environment.development:
-        return dotenv.env['APPLE_REDIRECT_URI_DEV'] ?? '';
-      case Environment.staging:
-        return dotenv.env['APPLE_REDIRECT_URI_STAGING'] ?? '';
-      case Environment.production:
-        return dotenv.env['APPLE_REDIRECT_URI_PROD'] ?? '';
-    }
-  }
-  
+  /// RevenueCat configuration
+  static String get revenueCatAppleApiKey => dotenv.env['REVENUECAT_APPLE_API_KEY'] ?? '';
+  static String get revenueCatGoogleApiKey => dotenv.env['REVENUECAT_GOOGLE_API_KEY'] ?? '';
+
   /// Debug and environment helpers
-  static bool get isDebug => _environment == Environment.development;
-  static bool get isProduction => _environment == Environment.production;
-  static bool get isStaging => _environment == Environment.staging;
-  
+  /// These are based on Flutter's kDebugMode and kReleaseMode constants
+  static bool get isDebug => kDebugMode;
+  static bool get isProduction => kReleaseMode;
+
   /// Validate configuration on app startup
   static bool validateConfig() {
     final url = supabaseUrl;
@@ -117,29 +44,41 @@ class EnvironmentConfig {
     final appleRedirectUriValue = appleRedirectUri;
 
     if (url.isEmpty) {
-      throw Exception('Supabase URL is not configured for environment: $_environment');
+      throw Exception('SUPABASE_URL is not configured');
     }
 
     if (key.isEmpty) {
-      throw Exception('Supabase anonymous key is not configured for environment: $_environment');
+      throw Exception('SUPABASE_KEY is not configured');
     }
 
     // Google OAuth configuration is optional for now
     if (googleWebId.isEmpty) {
-      debugPrint('⚠️ Google Web Client ID is not configured for environment: $_environment');
+      debugPrint('⚠️ GOOGLE_WEB_CLIENT_ID is not configured');
     }
 
     if (googleIosId.isEmpty) {
-      debugPrint('⚠️ Google iOS Client ID is not configured for environment: $_environment');
+      debugPrint('⚠️ GOOGLE_IOS_CLIENT_ID is not configured');
     }
 
     // Apple Sign-In configuration is optional for now
     if (appleClientIdValue.isEmpty) {
-      debugPrint('⚠️ Apple Client ID is not configured for environment: $_environment');
+      debugPrint('⚠️ APPLE_CLIENT_ID is not configured');
     }
 
     if (appleRedirectUriValue.isEmpty) {
-      debugPrint('⚠️ Apple Redirect URI is not configured for environment: $_environment');
+      debugPrint('⚠️ APPLE_REDIRECT_URI is not configured');
+    }
+
+    // RevenueCat configuration is optional for now
+    final revenueCatApple = revenueCatAppleApiKey;
+    final revenueCatGoogle = revenueCatGoogleApiKey;
+
+    if (revenueCatApple.isEmpty) {
+      debugPrint('⚠️ REVENUECAT_APPLE_API_KEY is not configured');
+    }
+
+    if (revenueCatGoogle.isEmpty) {
+      debugPrint('⚠️ REVENUECAT_GOOGLE_API_KEY is not configured');
     }
 
     return true;

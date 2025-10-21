@@ -42,7 +42,7 @@
       }
     }
   },
-  "dailyPromptsHintConfirm": "Select \"Next\" to confirm",
+  "dailyPromptsHintConfirm": "Select \"Next\"",
   "dailyPromptsButtonNext": "Next",
   "dailyPromptsReportSuccess": "Prompt reported successfully",
   "dailyPromptsReportError": "Failed to report prompt",
@@ -175,6 +175,7 @@
   "actionEdit": "Edit",
   "actionNext": "Next",
   "actionSkip": "Not now",
+  "actionConfirm": "Confirm",
   "actionInterested": "Introduce me",
 
   "@_SUCCESS_MESSAGES": {},
@@ -274,7 +275,7 @@
   "emptyStateReviewsTitle": "All caught up!",
   "emptyStateReviewsDescription": "When prompts are submitted for review, they will appear here",
   "emptyStateMatchesTitle": "Waiting for your first match!",
-  "emptyStateMatchesDescription": "Once you have a match, it will appear here and could lead to a real introduction.",
+  "emptyStateMatchesDescription": "Once you have a match, it will appear here. Write a new prompt to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
   "emptyStatePromptsDescription": "Prompts help us find the right matches that lead to real introductions. Write yours to get started.",
 
@@ -758,6 +759,13 @@
   "promptDetailApproveButton": "Approve",
   "promptDetailApprovedMessage": "Prompt approved",
   "promptDetailRejectedMessage": "Prompt rejected",
+  "promptDetailDeleteButton": "Delete prompt",
+  "promptDetailDeleteConfirmTitle": "Delete prompt?",
+  "promptDetailDeleteConfirmMessage": "This will permanently delete your prompt. This action cannot be undone.",
+  "promptDetailDeleteConfirmButton": "Delete",
+  "promptDetailDeleteCancelButton": "Cancel",
+  "promptDetailDeletedMessage": "Prompt deleted",
+  "promptDetailDeleteErrorMessage": "Failed to delete prompt",
 
   "@_PROMPT_EDIT_VIEW": {},
   "promptEditNextButton": "Next",
@@ -819,8 +827,8 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Pprompts",
-  "promptsViewEmptyActionButton": "Get matched",
-  "promptsViewAnswerPromptsButton": "Answer daily prompts",
+  "promptsViewEmptyActionButton": "New prompt",
+  "promptsViewAnswerPromptsButton": "Unanswered prompts",
   "promptsViewAllAnsweredMessage": "All prompts answered for today",
   "promptsViewMyPromptsTitle": "My prompts",
 
@@ -954,7 +962,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "Get matched",
+  "matchesViewEmptyActionButton": "New prompt",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profile",
@@ -999,6 +1007,17 @@
   "matchActionsSkipDialogMessage": "This match will be removed from your matches. The other person will not receive any notification and won't know you skipped them.",
   "matchActionsSkipError": "Failed to skip match",
   "matchActionsConnectError": "Failed to connect",
+
+  "@_MATCH_FINISH": {},
+  "matchFinishTitle": "Great!",
+  "matchFinishDescription": "Your request has been submitted.",
+  "matchFinishInfoMessage": "Now it’s waiting for {firstName}. If {firstName} also requests an introduction, you’ll both receive an email to get in touch.",
+  "@matchFinishInfoMessage": {
+    "placeholders": {
+      "firstName": { "type": "String" }
+    }
+  },
+  "matchFinishDoneButton": "Done",
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Failed to complete registration. Please try again.",

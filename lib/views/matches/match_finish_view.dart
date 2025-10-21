@@ -10,18 +10,16 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/info_box_widget.dart';
 
-/// Prompt finish view - final confirmation screen
+/// Match finish view - confirmation screen after expressing interest
 ///
-/// This view displays a success message after the prompt has been submitted.
-/// It confirms that the card has been sent for review.
-class PromptFinishView extends StatelessWidget {
-  final bool isFromPrompts;
-  final VoidCallback? onCloseModal;
+/// This view displays a success message after the user has indicated interest in a match.
+/// It explains that an introduction will be sent when both parties are interested.
+class MatchFinishView extends StatelessWidget {
+  final String otherProfileFirstName;
 
-  const PromptFinishView({
+  const MatchFinishView({
     super.key,
-    this.isFromPrompts = false,
-    this.onCloseModal,
+    required this.otherProfileFirstName,
   });
 
   @override
@@ -30,14 +28,14 @@ class PromptFinishView extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
 
     return PopScope(
-      canPop: false, // Prevent going back to submission
+      canPop: true, // Allow going back
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.me, // Success green color
+              AppColors.me, // Blue "looking for this" color
               venyuTheme.adaptiveBackground,
             ],
           ),
@@ -86,7 +84,7 @@ class PromptFinishView extends StatelessWidget {
 
                                     // Success title
                                     Text(
-                                      l10n.promptFinishTitle,
+                                      l10n.matchFinishTitle,
                                       style: TextStyle(
                                         color: venyuTheme.darkText,
                                         fontSize: 36,
@@ -99,7 +97,7 @@ class PromptFinishView extends StatelessWidget {
 
                                     // Explanation text
                                     Text(
-                                      l10n.promptFinishDescription,
+                                      l10n.matchFinishDescription,
                                       style: AppTextStyles.body.copyWith(
                                         color: venyuTheme.darkText,
                                       ),
@@ -108,9 +106,9 @@ class PromptFinishView extends StatelessWidget {
 
                                     const SizedBox(height: 24),
 
-                                    // Review info box
+                                    // Info box with next steps
                                     InfoBoxWidget(
-                                      text: l10n.promptFinishReviewInfo,
+                                      text: l10n.matchFinishInfoMessage(otherProfileFirstName),
                                     ),
 
                                     const Spacer(flex: 3),
@@ -125,17 +123,11 @@ class PromptFinishView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(16),
                           child: ActionButton(
-                            label: l10n.promptFinishDoneButton,
+                            label: l10n.matchFinishDoneButton,
                             onInvertedBackground: true,
                             onPressed: () {
-                              // Close all prompt views and return to main screen
-                              if (isFromPrompts && onCloseModal != null) {
-                                // If from prompts flow, use the callback
-                                onCloseModal!();
-                              } else {
-                                // Navigate back to root
-                                Navigator.of(context).popUntil((route) => route.isFirst);
-                              }
+                              // Pop back to matches list
+                              Navigator.of(context).pop();
                             },
                           ),
                         ),

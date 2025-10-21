@@ -28,12 +28,16 @@ class GetMatchedButton extends StatelessWidget {
   /// Whether the button should be visible (for FAB button type)
   final bool isVisible;
 
+  /// Whether this button is used in PromptsView (affects modal behavior)
+  final bool isFromPrompts;
+
   const GetMatchedButton({
     super.key,
     required this.buttonType,
     this.venueId,
     this.onModalClosed,
     this.isVisible = true,
+    this.isFromPrompts = false,
   });
 
   /// Opens the interaction type selection modal
@@ -41,6 +45,7 @@ class GetMatchedButton extends StatelessWidget {
     final result = await GetMatchedHelper.openGetMatchedModal(
       context: context,
       venueId: venueId,
+      isFromPrompts: isFromPrompts,
       callerContext: 'GetMatchedButton',
     );
 

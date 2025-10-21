@@ -112,10 +112,17 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
             PlatformScaffold(
               backgroundColor: Colors.transparent,
               body: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(24),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight - 48, // Account for padding
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            children: [
                 const Spacer(flex: 1),
                 
                 // Title text
@@ -236,8 +243,12 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 ),
                 
                 //const SizedBox(height: 16),
-                    ],
-                  ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

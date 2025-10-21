@@ -67,6 +67,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   String? _error;
   bool _isProcessingApprove = false;
   bool _isProcessingReject = false;
+  bool _isProcessingDelete = false;
 
   @override
   void initState() {
@@ -143,6 +144,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     final currentProfile = ProfileService.shared.currentProfile;
     final showAdminButtons = _prompt?.status == PromptStatus.pendingReview &&
                              (currentProfile?.isSuperAdmin ?? false);
+    final showDeleteButton = _prompt != null &&
+                             _prompt!.fromAuthor == true &&
+                             (_prompt!.status == PromptStatus.pendingReview ||
+                              _prompt!.status == PromptStatus.rejected);
 
     return AppScaffold(
       appBar: PlatformAppBar(
@@ -275,6 +280,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
           // Admin review buttons - only show for super admins when status is pending_review
           if (showAdminButtons) _buildAdminButtons(),
+
+          // Delete button - only show for rejected or pending_review prompts by the author
+          if (showDeleteButton) _buildDeleteButton(),
         ],
       ),
     );
@@ -657,6 +665,64 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       showErrorToast: true,
       onError: (_) {
         setState(() => _isProcessingReject = false);
+      },
+    );
+  }
+
+  /// Build delete button
+  Widget _buildDeleteButton() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      child: SafeArea(
+        child: ActionButton(
+          label: l10n.promptDetailDeleteButton,
+          onPressed: _isProcessingDelete ? null : _handleDelete,
+          type: ActionButtonType.destructive,
+          isLoading: _isProcessingDelete,
+        ),
+      ),
+    );
+  }
+
+  /// Handle delete action
+  Future<void> _handleDelete() async {
+    if (_prompt == null || _isProcessingDelete) return;
+
+    final l10n = AppLocalizations.of(context)!;
+
+    // Show confirmation dialog
+    final confirmed = await DialogUtils.showConfirmationDialog(
+      context: context,
+      title: l10n.promptDetailDeleteConfirmTitle,
+      message: l10n.promptDetailDeleteConfirmMessage,
+      confirmText: l10n.promptDetailDeleteConfirmButton,
+      cancelText: l10n.promptDetailDeleteCancelButton,
+      isDestructive: true,
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    setState(() => _isProcessingDelete = true);
+
+    await executeWithLoading(
+      operation: () async {
+        await _contentManager.deletePrompt(_prompt!.promptID);
+
+        AppLogger.success('Prompt deleted', context: 'PromptDetailView');
+
+        // Navigate back after deletion
+        if (mounted) {
+          Navigator.of(context).pop(true); // Return true to indicate deletion
+        }
+      },
+      showSuccessToast: true,
+      successMessage: l10n.promptDetailDeletedMessage,
+      showErrorToast: true,
+      errorMessage: l10n.promptDetailDeleteErrorMessage,
+      onError: (_) {
+        setState(() => _isProcessingDelete = false);
       },
     );
   }

@@ -227,7 +227,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailyPromptsHintConfirm.
   ///
   /// In en, this message translates to:
-  /// **'Select \"Next\" to confirm'**
+  /// **'Select \"Next\"'**
   String get dailyPromptsHintConfirm;
 
   /// No description provided for @dailyPromptsButtonNext.
@@ -854,6 +854,12 @@ abstract class AppLocalizations {
   /// **'Not now'**
   String get actionSkip;
 
+  /// No description provided for @actionConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get actionConfirm;
+
   /// No description provided for @actionInterested.
   ///
   /// In en, this message translates to:
@@ -1181,7 +1187,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Once you have a match, it will appear here and could lead to a real introduction.'**
+  /// **'Once you have a match, it will appear here. Write a new prompt to get matched faster.'**
   String get emptyStateMatchesDescription;
 
   /// No description provided for @emptyStatePromptsTitle.
@@ -2906,6 +2912,48 @@ abstract class AppLocalizations {
   /// **'Prompt rejected'**
   String get promptDetailRejectedMessage;
 
+  /// No description provided for @promptDetailDeleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete prompt'**
+  String get promptDetailDeleteButton;
+
+  /// No description provided for @promptDetailDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete prompt?'**
+  String get promptDetailDeleteConfirmTitle;
+
+  /// No description provided for @promptDetailDeleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete your prompt. This action cannot be undone.'**
+  String get promptDetailDeleteConfirmMessage;
+
+  /// No description provided for @promptDetailDeleteConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get promptDetailDeleteConfirmButton;
+
+  /// No description provided for @promptDetailDeleteCancelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get promptDetailDeleteCancelButton;
+
+  /// No description provided for @promptDetailDeletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt deleted'**
+  String get promptDetailDeletedMessage;
+
+  /// No description provided for @promptDetailDeleteErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete prompt'**
+  String get promptDetailDeleteErrorMessage;
+
   /// No description provided for @promptEditNextButton.
   ///
   /// In en, this message translates to:
@@ -3065,13 +3113,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'Get matched'**
+  /// **'New prompt'**
   String get promptsViewEmptyActionButton;
 
   /// No description provided for @promptsViewAnswerPromptsButton.
   ///
   /// In en, this message translates to:
-  /// **'Answer daily prompts'**
+  /// **'Unanswered prompts'**
   String get promptsViewAnswerPromptsButton;
 
   /// No description provided for @promptsViewAllAnsweredMessage.
@@ -3425,7 +3473,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchesViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'Get matched'**
+  /// **'New prompt'**
   String get matchesViewEmptyActionButton;
 
   /// No description provided for @profileViewTitle.
@@ -3535,6 +3583,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to connect'**
   String get matchActionsConnectError;
+
+  /// No description provided for @matchFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Great!'**
+  String get matchFinishTitle;
+
+  /// No description provided for @matchFinishDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your request has been submitted.'**
+  String get matchFinishDescription;
+
+  /// No description provided for @matchFinishInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Now it’s waiting for {firstName}. If {firstName} also requests an introduction, you’ll both receive an email to get in touch.'**
+  String matchFinishInfoMessage(String firstName);
+
+  /// No description provided for @matchFinishDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get matchFinishDoneButton;
 
   /// No description provided for @registrationCompleteError.
   ///

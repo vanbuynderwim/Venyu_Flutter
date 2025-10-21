@@ -42,15 +42,15 @@ class AvatarView extends StatefulWidget {
   /// Whether to show a border around the avatar.
   /// Defaults to true.
   final bool showBorder;
-  
+
   /// Whether to preserve the original aspect ratio of the image.
   /// When true, doesn't resize the cached image, preserving quality and ratio.
   /// Defaults to false for backward compatibility.
   final bool preserveAspectRatio;
-  
+
   /// Whether the avatar should be blurred with optional lock overlay.
   final bool shouldBlur;
-  
+
   const AvatarView({
     super.key,
     this.avatarId,
@@ -216,8 +216,11 @@ class _AvatarViewState extends State<AvatarView> {
         ),
         child: ClipOval(
           child: Stack(
+            fit: StackFit.expand,
             children: [
-              avatarImage,
+              Positioned.fill(
+                child: avatarImage,
+              ),
               // Add overlay if blurred (only when there's an actual avatar)
               if (widget.shouldBlur && widget.avatarId != null && widget.avatarId!.isNotEmpty)
                 Positioned.fill(

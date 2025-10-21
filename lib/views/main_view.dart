@@ -32,6 +32,7 @@ class _MainViewState extends State<MainView> {
 
   // Badge counts
   BadgeData? _badgeData;
+  int _availablePromptsCount = 0;
 
   // Tab controller
   late final PlatformTabController _tabController;
@@ -63,6 +64,9 @@ class _MainViewState extends State<MainView> {
       }
     });
 
+    // Set up available prompts update callback
+    _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
+
     // Check for prompts, badges, version, and connectivity on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForPrompts();
@@ -70,6 +74,15 @@ class _MainViewState extends State<MainView> {
       _checkVersion();
       ConnectivityService.shared.initialize(context);
     });
+  }
+
+  /// Callback for available prompts updates
+  void _onAvailablePromptsUpdate(List<Prompt> prompts) {
+    if (mounted) {
+      setState(() {
+        _availablePromptsCount = prompts.length;
+      });
+    }
   }
 
   /// Check for available prompts and show PromptsView if any are found
@@ -99,7 +112,9 @@ class _MainViewState extends State<MainView> {
 
       AppLogger.info('Checking for available prompts...', context: 'MainView');
       final prompts = await _contentManager.fetchPrompts();
-      
+
+      // The badge count is automatically updated via callback
+      // Only show modal if there are prompts
       if (prompts.isNotEmpty && mounted) {
         AppLogger.info('Found ${prompts.length} prompts, showing PromptsView', context: 'MainView');
         await _showPromptsModal(prompts);
@@ -169,6 +184,7 @@ class _MainViewState extends State<MainView> {
 
   @override
   void dispose() {
+    _contentManager.removeAvailablePromptsCallback(_onAvailablePromptsUpdate);
     _tabController.dispose();
     ConnectivityService.shared.dispose();
     super.dispose();
@@ -195,9 +211,19 @@ class _MainViewState extends State<MainView> {
           label: AppLocalizations.of(context)!.navMatches,
         ),
         BottomNavigationBarItem(
-          icon: context.themedIcon('card', selected: false),
-          activeIcon: context.themedIcon('card', selected: true),
-          label: AppLocalizations.of(context)!.navCards,
+          icon: _availablePromptsCount > 0
+              ? Badge.count(
+                  count: _availablePromptsCount,
+                  child: context.themedIcon('card', selected: false),
+                )
+              : context.themedIcon('card', selected: false),
+          activeIcon: _availablePromptsCount > 0
+              ? Badge.count(
+                  count: _availablePromptsCount,
+                  child: context.themedIcon('card', selected: true),
+                )
+              : context.themedIcon('card', selected: true),
+          label: AppLocalizations.of(context)!.promptsViewMyPromptsTitle,
         ),
         BottomNavigationBarItem(
           icon: _badgeData != null && _badgeData!.unreadNotifications > 0
