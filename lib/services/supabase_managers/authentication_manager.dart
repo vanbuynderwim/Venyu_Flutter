@@ -409,13 +409,17 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
       AppLogger.debug('Client ID: ${EnvironmentConfig.googleIosClientId}', context: 'AuthenticationManager');
       AppLogger.debug('Server Client ID: ${EnvironmentConfig.googleWebClientId}', context: 'AuthenticationManager');
 
-      // Step 2: Initiate Google sign-in flow using new authenticate() method
-      final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+      // Step 2: Initiate Google sign-in flow using authenticate() method
+      // This is the correct method for google_sign_in v7 with Credential Manager
+      // scopeHint allows combined authentication+authorization in one step
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate(
+        scopeHint: ['email', 'profile'],
+      );
 
-      AppLogger.info('Google user signed in: ${googleUser.email}', context: 'AuthenticationManager');
+      AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
 
-      // Step 3: Get Google authentication tokens
-      // In v7, authentication only contains idToken
+      // Step 3: Get Google ID token from authentication property
+      // In v7, only idToken is available here
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       final String? idToken = googleAuth.idToken;
 
@@ -425,7 +429,7 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
       }
 
       // Step 4: Get access token via authorization client
-      // Request authorization with basic email and profile scopes
+      // In v7, accessToken must be obtained via authorizationClient
       final GoogleSignInClientAuthorization? clientAuth =
           await googleUser.authorizationClient.authorizationForScopes(['email', 'profile']);
 

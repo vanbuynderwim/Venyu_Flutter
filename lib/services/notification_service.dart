@@ -48,20 +48,37 @@ class NotificationService {
   /// Initialize Firebase and set up messaging
   Future<void> initialize() async {
     if (_isInitialized) return;
-    
+
     try {
-      // Check if Firebase is already initialized
+      // Check if Firebase is already initialized with multiple safety checks
       try {
-        Firebase.app();
-        AppLogger.info('Firebase already initialized', context: 'NotificationService');
-      } on FirebaseException catch (_) {
-        // Firebase not initialized, initialize it
-        await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        );
-        AppLogger.info('Firebase initialized', context: 'NotificationService');
+        // Try to get the default app
+        final app = Firebase.app();
+        AppLogger.info('Firebase already initialized: ${app.name}', context: 'NotificationService');
+      } catch (e) {
+        // Firebase not initialized or error occurred
+        try {
+          // Double-check by looking at all apps
+          if (Firebase.apps.isNotEmpty) {
+            AppLogger.info('Firebase already has ${Firebase.apps.length} app(s) initialized', context: 'NotificationService');
+          } else {
+            // Really not initialized, initialize it now
+            await Firebase.initializeApp(
+              options: DefaultFirebaseOptions.currentPlatform,
+            );
+            AppLogger.info('Firebase initialized', context: 'NotificationService');
+          }
+        } catch (initError) {
+          // If initialization fails, check if it's because it's already initialized
+          if (initError.toString().contains('duplicate-app') ||
+              initError.toString().contains('already exists')) {
+            AppLogger.warning('Firebase was already initialized by another instance', context: 'NotificationService');
+          } else {
+            rethrow;
+          }
+        }
       }
-      
+
       // Initialize Firebase Messaging after Firebase is initialized
       _messaging = FirebaseMessaging.instance;
       
