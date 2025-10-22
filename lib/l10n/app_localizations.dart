@@ -2306,6 +2306,18 @@ abstract class AppLocalizations {
   /// **'Failed to enable location. Please try again.'**
   String get editLocationEnableErrorMessage;
 
+  /// No description provided for @editLocationUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not retrieve your location. You can add it later in settings.'**
+  String get editLocationUnavailableMessage;
+
+  /// No description provided for @editLocationApproximateInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Using approximate location. Enable \'Precise Location\' in settings for better matching.'**
+  String get editLocationApproximateInfo;
+
   /// No description provided for @editNameTitle.
   ///
   /// In en, this message translates to:
@@ -2747,7 +2759,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionSubtitleDefault.
   ///
   /// In en, this message translates to:
-  /// **'Write a prompt'**
+  /// **'Write your own prompt'**
   String get interactionTypeSelectionSubtitleDefault;
 
   /// No description provided for @interactionTypeSelectionDisclaimerText.

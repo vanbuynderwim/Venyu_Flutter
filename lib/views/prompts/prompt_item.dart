@@ -21,6 +21,7 @@ class PromptItem extends StatefulWidget {
   final bool showChevron;
   final bool shouldShowStatus;
   final bool showCounters;
+  final bool limitPromptLines;
   final Function(Prompt)? onPromptSelected;
 
   const PromptItem({
@@ -34,6 +35,7 @@ class PromptItem extends StatefulWidget {
     this.showChevron = false,
     this.shouldShowStatus = true,
     this.showCounters = false,
+    this.limitPromptLines = false,
     this.onPromptSelected,
   });
 
@@ -132,9 +134,10 @@ class _PromptItemState extends State<PromptItem> {
                       style: AppTextStyles.body.copyWith(
                         color: context.venyuTheme.darkText,
                         fontSize: 18,
-                        fontFamily: AppFonts.graphie, 
+                        fontFamily: AppFonts.graphie,
                       ),
-                      maxLines: null,
+                      maxLines: widget.limitPromptLines ? 4 : null,
+                      overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
                     ),
                     
                     // Interaction tags and counters row - below the label

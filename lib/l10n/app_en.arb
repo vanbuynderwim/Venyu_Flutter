@@ -615,6 +615,8 @@
   "editLocationPermissionDialogOpenSettings": "Open Settings",
   "editLocationCoordinatesErrorMessage": "Could not get location coordinates",
   "editLocationEnableErrorMessage": "Failed to enable location. Please try again.",
+  "editLocationUnavailableMessage": "Could not retrieve your location. You can add it later in settings.",
+  "editLocationApproximateInfo": "Using approximate location. Enable 'Precise Location' in settings for better matching.",
 
   "@_EDIT_NAME": {},
   "editNameTitle": "You",
@@ -722,7 +724,7 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Now, let's make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "Write a prompt",
+  "interactionTypeSelectionSubtitleDefault": "Write your own prompt",
   "interactionTypeSelectionDisclaimerText": "All prompts are subject to review before going live",
   "interactionTypeSelectionShowGuidelines": "Show community guidelines",
   "interactionTypeSelectionHideGuidelines": "Hide community guidelines",

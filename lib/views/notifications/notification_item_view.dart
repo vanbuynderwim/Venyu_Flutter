@@ -143,6 +143,8 @@ class _NotificationItemViewState extends State<NotificationItemView> {
           fontSize: 16,
           fontFamily: AppFonts.graphie,
         ),
+        maxLines: 4,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

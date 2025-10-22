@@ -71,6 +71,7 @@ class MatchPromptsSection extends StatelessWidget {
             showMatchInteraction: true,
             isFirst: isFirst,
             isLast: isLast,
+            limitPromptLines: true,
             onPromptSelected: (selectedPrompt) => _navigateToPromptDetail(context, selectedPrompt.promptID),
           );
         }),

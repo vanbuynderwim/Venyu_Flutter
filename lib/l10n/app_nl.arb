@@ -615,6 +615,8 @@
   "editLocationPermissionDialogOpenSettings": "Instellingen openen",
   "editLocationCoordinatesErrorMessage": "Kan locatiecoördinaten niet ophalen",
   "editLocationEnableErrorMessage": "Inschakelen van locatie mislukt. Probeer het opnieuw.",
+  "editLocationUnavailableMessage": "Kan je locatie niet ophalen. Je kan dit later toevoegen in de instellingen.",
+  "editLocationApproximateInfo": "Gebruikt geschatte locatie. Schakel 'Precieze locatie' in bij instellingen voor betere matches.",
 
   "@_EDIT_NAME": {},
   "editNameTitle": "Jij",
@@ -722,7 +724,7 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "Schrijf een prompt",
+  "interactionTypeSelectionSubtitleDefault": "Schrijf zelf een prompt",
   "interactionTypeSelectionDisclaimerText": "Alle prompts worden beoordeeld voordat ze live gaan",
   "interactionTypeSelectionShowGuidelines": "Community richtlijnen tonen",
   "interactionTypeSelectionHideGuidelines": "Community richtlijnen verbergen",

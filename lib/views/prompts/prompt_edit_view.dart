@@ -50,9 +50,6 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
   bool _contentIsEmpty = true;
   String _originalContent = '';
   InteractionType _originalInteractionType = InteractionType.lookingForThis;
-  
-  // Constants
-  static const int _maxLength = 200;
 
   @override
   void initState() {
@@ -71,9 +68,8 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
       _originalInteractionType = widget.initialInteractionType!;
     }
 
-    // Add listener for validation and character limiting
+    // Add listener for validation
     _contentController.addListener(() {
-      _limitText();
       setState(() {
         _contentIsEmpty = _contentController.text.trim().isEmpty;
       });
@@ -90,19 +86,6 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
     _contentController.dispose();
     _contentFocusNode.dispose();
     super.dispose();
-  }
-  
-
-  /// Enforces character limit on prompt content.
-  void _limitText() {
-    final text = _contentController.text;
-    if (text.length > _maxLength) {
-      final truncated = text.substring(0, _maxLength);
-      _contentController.value = _contentController.value.copyWith(
-        text: truncated,
-        selection: TextSelection.collapsed(offset: truncated.length),
-      );
-    }
   }
 
 
@@ -154,11 +137,11 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
             backgroundColor: Colors.transparent,
             appBar: PlatformAppBar(
               backgroundColor: Colors.transparent,
-              cupertino: (_, __) => CupertinoNavigationBarData(
+              cupertino: (_, _) => CupertinoNavigationBarData(
                 backgroundColor: Colors.transparent,
                 border: null, // Remove border
               ),
-              material: (_, __) => MaterialAppBarData(
+              material: (_, _) => MaterialAppBarData(
                 backgroundColor: Colors.transparent,
                 elevation: 0, // Remove shadow
                 surfaceTintColor: Colors.transparent,
@@ -168,14 +151,13 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
               bottom: false, // Allow keyboard to overlay the bottom safe area
               child: Column(
                 children: [
-                  // Main content field with character counter
+                  // Main content field
                   Expanded(
                     child: PromptContentField(
                       controller: _contentController,
                       focusNode: _contentFocusNode,
                       interactionType: _selectedInteractionType,
                       isEnabled: !isProcessing,
-                      maxLength: _maxLength,
                     ),
                   ),
 

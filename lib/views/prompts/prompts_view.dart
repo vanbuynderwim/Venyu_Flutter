@@ -155,6 +155,7 @@ class _PromptsViewState extends State<PromptsView>
                         prompt: prompt,
                         showChevron: true,
                         showCounters: true,
+                        limitPromptLines: true,
                         onPromptSelected: _openPromptDetail,
                       );
                     },

@@ -127,12 +127,10 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 
                 // Title text
                 Text(
-                  widget.isFromPrompts
-                    ? l10n.interactionTypeSelectionTitleFromPrompts(firstName.isNotEmpty ? ' $firstName!' : '')
-                    : l10n.interactionTypeSelectionTitleDefault,
+                  l10n.interactionTypeSelectionTitleDefault,
                   style: TextStyle(
                     color: venyuTheme.darkText,
-                    fontSize: 36,
+                    fontSize: 32,
                     fontFamily: AppFonts.graphie,
                   ),
                   textAlign: TextAlign.center,
@@ -142,9 +140,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
 
                 // Subtitle text
                 Text(
-                  widget.isFromPrompts
-                    ? l10n.interactionTypeSelectionSubtitleFromPrompts
-                    : l10n.interactionTypeSelectionSubtitleDefault,
+                  l10n.interactionTypeSelectionSubtitleDefault,
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 16,
@@ -226,7 +222,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 
                 // "Not now" button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 48),
+                  padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: ActionButton(
                       label: l10n.interactionTypeSelectionNotNowButton,
                       type: ActionButtonType.secondary,

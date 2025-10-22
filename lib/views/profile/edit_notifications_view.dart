@@ -114,31 +114,11 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
 
     return Container(
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-      child: Row(
-        children: [
-          // Not now button (secondary)
-          Expanded(
-            flex: 1,
-            child: ActionButton(
-              label: l10n.editNotificationsNotNowButton,
-              type: ActionButtonType.secondary,
-              onPressed: _navigateToNext,
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // Enable button (primary)
-          Expanded(
-            flex: 2,
-            child: ActionButton(
-              label: l10n.editNotificationsEnableButton,
-              type: ActionButtonType.primary,
-              onPressed: _enableNotifications,
-              isLoading: _isEnablingNotifications,
-            ),
-          ),
-        ],
+      child: ActionButton(
+        label: l10n.actionNext,
+        type: ActionButtonType.primary,
+        onPressed: _enableNotifications,
+        isLoading: _isEnablingNotifications,
       ),
     );
   }
@@ -161,7 +141,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         );
       } else {
         // Skip paywall and go directly to registration complete if Pro features are disabled
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           platformPageRoute(
             context: context,
             builder: (context) => const RegistrationCompleteView(),
@@ -220,12 +200,20 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         if (shouldOpenSettings == true && mounted) {
           // Open app settings
           await DialogUtils.openAppSettings(context);
-        }
-        
-        if (mounted) {
-          setState(() {
-            _isEnablingNotifications = false;
-          });
+
+          if (mounted) {
+            setState(() {
+              _isEnablingNotifications = false;
+            });
+          }
+        } else {
+          // User chose "Not now" - continue to next step without notifications
+          if (mounted) {
+            setState(() {
+              _isEnablingNotifications = false;
+            });
+            _navigateToNext();
+          }
         }
         return;
       }

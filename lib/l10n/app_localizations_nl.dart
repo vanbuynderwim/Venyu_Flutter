@@ -1247,6 +1247,14 @@ class AppLocalizationsNl extends AppLocalizations {
       'Inschakelen van locatie mislukt. Probeer het opnieuw.';
 
   @override
+  String get editLocationUnavailableMessage =>
+      'Kan je locatie niet ophalen. Je kan dit later toevoegen in de instellingen.';
+
+  @override
+  String get editLocationApproximateInfo =>
+      'Gebruikt geschatte locatie. Schakel \'Precieze locatie\' in bij instellingen voor betere matches.';
+
+  @override
   String get editNameTitle => 'Jij';
 
   @override
@@ -1490,7 +1498,8 @@ class AppLocalizationsNl extends AppLocalizations {
       'Make the net work for you';
 
   @override
-  String get interactionTypeSelectionSubtitleDefault => 'Schrijf een prompt';
+  String get interactionTypeSelectionSubtitleDefault =>
+      'Schrijf zelf een prompt';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>

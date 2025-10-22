@@ -1237,6 +1237,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to enable location. Please try again.';
 
   @override
+  String get editLocationUnavailableMessage =>
+      'Could not retrieve your location. You can add it later in settings.';
+
+  @override
+  String get editLocationApproximateInfo =>
+      'Using approximate location. Enable \'Precise Location\' in settings for better matching.';
+
+  @override
   String get editNameTitle => 'You';
 
   @override
@@ -1478,7 +1486,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Now, let\'s make the net work for you';
 
   @override
-  String get interactionTypeSelectionSubtitleDefault => 'Write a prompt';
+  String get interactionTypeSelectionSubtitleDefault => 'Write your own prompt';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>

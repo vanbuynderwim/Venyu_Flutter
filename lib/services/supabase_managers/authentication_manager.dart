@@ -412,11 +412,43 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
       // Step 2: Initiate Google sign-in flow using authenticate() method
       // This is the correct method for google_sign_in v7 with Credential Manager
       // scopeHint allows combined authentication+authorization in one step
-      final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate(
-        scopeHint: ['email', 'profile'],
-      );
+      late GoogleSignInAccount googleUser;
 
-      AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
+      try {
+        googleUser = await GoogleSignIn.instance.authenticate(
+          scopeHint: ['email', 'profile'],
+        );
+        AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
+      } on GoogleSignInException catch (e) {
+        // Handle Android Credential Manager reauth error for newly added accounts
+        // This is a known issue where newly added accounts need a moment to sync
+        if (e.code == GoogleSignInExceptionCode.canceled &&
+            e.toString().contains('[16]') &&
+            e.toString().toLowerCase().contains('reauth')) {
+
+          AppLogger.warning(
+            'Account reauth failed (error 16) - likely newly added account. '
+            'Waiting briefly and retrying...',
+            context: 'AuthenticationManager',
+          );
+
+          // Wait a moment for the account to fully sync with Credential Manager
+          await Future.delayed(const Duration(milliseconds: 500));
+
+          // Retry authentication
+          googleUser = await GoogleSignIn.instance.authenticate(
+            scopeHint: ['email', 'profile'],
+          );
+          AppLogger.success(
+            'Google user authenticated after retry: ${googleUser.email}',
+            context: 'AuthenticationManager',
+          );
+        } else {
+          // Other authentication errors
+          AppLogger.error('Google sign-in error: $e', context: 'AuthenticationManager');
+          rethrow;
+        }
+      }
 
       // Step 3: Get Google ID token from authentication property
       // In v7, only idToken is available here

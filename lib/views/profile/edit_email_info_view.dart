@@ -74,18 +74,21 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   void _preloadEmail() {
     final profile = ProfileService.shared.currentProfile;
 
-    // Load email
-    final currentEmail = profile?.contactEmail;
-    if (currentEmail != null && currentEmail.isNotEmpty) {
-      _emailController.text = currentEmail;
-      _isEmailValid = true;
-    }
+    // Only preload email outside registration wizard
+    // During registration, start with empty field to avoid Apple private relay addresses
+    if (!widget.registrationWizard) {
+      final currentEmail = profile?.contactEmail;
+      if (currentEmail != null && currentEmail.isNotEmpty) {
+        _emailController.text = currentEmail;
+        _isEmailValid = true;
+      }
 
-    // Load newsletter subscription status (only outside registration wizard)
-    if (!widget.registrationWizard && profile?.newsletterSubscribed != null) {
-      setState(() {
-        _isSubscribedToNewsletter = profile!.newsletterSubscribed!;
-      });
+      // Load newsletter subscription status
+      if (profile?.newsletterSubscribed != null) {
+        setState(() {
+          _isSubscribedToNewsletter = profile!.newsletterSubscribed!;
+        });
+      }
     }
   }
 

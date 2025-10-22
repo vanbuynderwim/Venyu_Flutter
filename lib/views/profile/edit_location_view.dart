@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/views/profile/edit_city_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -114,31 +116,11 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
 
     return Container(
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
-      child: Row(
-        children: [
-          // Not now button (secondary)
-          Expanded(
-            flex: 1,
-            child: ActionButton(
-              label: l10n.editLocationNotNowButton,
-              type: ActionButtonType.secondary,
-              onPressed: _navigateToNext,
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          // Enable button (primary)
-          Expanded(
-            flex: 2,
-            child: ActionButton(
-              label: l10n.editLocationEnableButton,
-              type: ActionButtonType.primary,
-              onPressed: _enableLocationService,
-              isLoading: _isEnablingLocation,
-            ),
-          ),
-        ],
+      child: ActionButton(
+        label: l10n.actionNext,
+        type: ActionButtonType.primary,
+        onPressed: _enableLocationService,
+        isLoading: _isEnablingLocation,
       ),
     );
   }
@@ -196,6 +178,9 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         if (permissionGranted == PermissionStatus.denied) {
           // Permission denied, navigate without location
           if (mounted) {
+            setState(() {
+              _isEnablingLocation = false;
+            });
             final l10n = AppLocalizations.of(context)!;
             ToastService.info(
               context: context,
@@ -232,39 +217,119 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         if (shouldOpenSettings == true && mounted) {
           // Open app settings
           await DialogUtils.openAppSettings(context);
-        }
-        
-        if (mounted) {
-          setState(() {
-            _isEnablingLocation = false;
-          });
+
+          if (mounted) {
+            setState(() {
+              _isEnablingLocation = false;
+            });
+          }
+        } else {
+          // User chose "Not now" - continue to next step without location
+          if (mounted) {
+            setState(() {
+              _isEnablingLocation = false;
+            });
+            _navigateToNext();
+          }
         }
         return;
       }
-      
-      // Permission granted, get location
-      final LocationData locationData = await _location.getLocation();
-      
-      if (locationData.latitude != null && locationData.longitude != null) {
-        AppLogger.success('Location obtained: ${locationData.latitude}, ${locationData.longitude}', context: 'EditLocationView');
-        
-        // Save location to database
+
+      // Configure location settings to accept approximate/reduced accuracy location
+      // This is mapped to kCLLocationAccuracyReduced on iOS 14+
+      await _location.changeSettings(
+        accuracy: LocationAccuracy.reduced,
+        interval: 0,
+        distanceFilter: 0,
+      );
+
+      // Small delay to let settings apply (iOS workaround)
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      AppLogger.debug('Attempting to get location with reduced accuracy...', context: 'EditLocationView');
+
+      // Try both methods in parallel and take the fastest response
+      // This works around iOS issues with getLocation() hanging on approximate location
+      LocationData? locationData;
+
+      try {
+        locationData = await Future.any<LocationData?>([
+          // Method 1: Try stream (works better on iOS with approximate location)
+          _location.onLocationChanged.first
+              .timeout(const Duration(seconds: 8))
+              .then<LocationData?>((value) {
+                AppLogger.debug('Stream method returned location', context: 'EditLocationView');
+                return value;
+              })
+              .onError<Object>((error, _) {
+                AppLogger.debug('Stream method failed: $error', context: 'EditLocationView');
+                return null;
+              }),
+
+          // Method 2: Try getLocation (sometimes faster with cached location)
+          _location.getLocation()
+              .timeout(const Duration(seconds: 5))
+              .then<LocationData?>((value) {
+                AppLogger.debug('getLocation method returned location', context: 'EditLocationView');
+                return value;
+              })
+              .onError<Object>((error, _) {
+                AppLogger.debug('getLocation method failed: $error', context: 'EditLocationView');
+                return null;
+              }),
+        ]);
+      } catch (error) {
+        AppLogger.warning('Location request failed: $error', context: 'EditLocationView');
+        locationData = null;
+      }
+
+      // Check if we got valid coordinates
+      if (locationData != null &&
+          locationData.latitude != null &&
+          locationData.longitude != null &&
+          locationData.latitude != 0.0 &&
+          locationData.longitude != 0.0) {
+
+        final accuracy = locationData.accuracy ?? 0.0;
+        AppLogger.success(
+          'Location obtained: ${locationData.latitude}, ${locationData.longitude} (accuracy: ${accuracy}m)',
+          context: 'EditLocationView',
+        );
+
+        // Save location to database (whether precise or approximate)
         await ProfileManager.shared.updateProfileLocation(
           latitude: locationData.latitude,
           longitude: locationData.longitude,
         );
-        
+
         if (mounted) {
-          //ToastService.success(
-          //  context: context,
-          //  message: 'Location enabled successfully',
-          //);
-          
+          setState(() {
+            _isEnablingLocation = false;
+          });
+
+          // Show hint if approximate location (accuracy > 500m)
+          if (accuracy > 500) {
+            final l10n = AppLocalizations.of(context)!;
+            ToastService.info(
+              context: context,
+              message: l10n.editLocationApproximateInfo,
+            );
+          }
+
           // Navigate to next step
           _navigateToNext();
         }
       } else {
-        throw Exception('Could not get location coordinates');
+        // Could not get location coordinates - continue without it
+        AppLogger.warning('Could not get location coordinates, continuing without location', context: 'EditLocationView');
+
+        if (mounted) {
+          setState(() {
+            _isEnablingLocation = false;
+          });
+          // Navigate to next step without location data
+          _navigateToNext();
+        }
       }
     } catch (error) {
       AppLogger.error('Error enabling location', context: 'EditLocationView', error: error);

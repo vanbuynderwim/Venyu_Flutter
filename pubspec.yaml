@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.17+17
+version: 1.0.18+18
 
 environment:
   sdk: ^3.8.1
@@ -169,7 +169,10 @@ flutter_native_splash:
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
   image: assets/images/visuals/splash_logo.png
-  
+
+  # Android-specific image (larger to prevent pixelation)
+  image_android: assets/images/visuals/splash_logo_android.png
+
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
   # see the Android 12 section below.
@@ -253,11 +256,11 @@ flutter_native_splash:
     # Please note that the splash screen will be clipped to a circle on the center of the screen.
     # App icon with an icon background: This should be 240×240dp with a maximum radius of 108dp.
     # App icon without an icon background: This should be 288×288dp, or 144dp radius.
-    image: assets/images/visuals/splash_logo.png
-    
+    image: assets/images/visuals/splash_logo_android.png
+
     # The image_dark parameter sets the splash screen icon image for dark mode.
     # Using same white transparent logo for both modes.
-    image_dark: assets/images/visuals/splash_logo.png
+    image_dark: assets/images/visuals/splash_logo_android.png
     
     # Splash screen background color.
     color: "#7171FF"  # primair4Lilac - primary color
