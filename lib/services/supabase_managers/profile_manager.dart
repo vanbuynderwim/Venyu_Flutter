@@ -1,5 +1,8 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 import '../../core/utils/device_info.dart';
 import '../../models/models.dart';
@@ -25,15 +28,18 @@ import '../../mixins/disposable_manager_mixin.dart';
 /// - Company information management
 class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   static ProfileManager? _instance;
-  
+
   /// The singleton instance of [ProfileManager].
   static ProfileManager get shared {
     _instance ??= ProfileManager._internal();
     return _instance!;
   }
-  
+
   /// Private constructor for singleton pattern.
   ProfileManager._internal();
+
+  /// Background location listener subscription
+  StreamSubscription<LocationData>? _backgroundLocationSubscription;
 
   /// Fetch the current user's profile with enhanced data
   /// 
@@ -178,14 +184,153 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   }) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Updating profile location', context: 'ProfileManager');
-      
+
       await client.rpc('update_profile_location', params: {
         'latitude': latitude,
         'longitude': longitude,
       });
-      
+
       AppLogger.success('Profile location updated successfully', context: 'ProfileManager');
     });
+  }
+
+  /// Start background location listener that persists across views
+  ///
+  /// This method starts a background listener that continues to run even after
+  /// the location permission view is closed. The location will be automatically
+  /// saved when GPS gets a fix.
+  ///
+  /// The listener will automatically stop after:
+  /// - First valid location is received and saved
+  /// - 60 seconds timeout
+  /// - Manual cancellation via stopBackgroundLocationListener()
+  void startBackgroundLocationListener(Location location) {
+    // Cancel any existing subscription first
+    _backgroundLocationSubscription?.cancel();
+
+    AppLogger.debug('Starting persistent background location listener...', context: 'ProfileManager');
+
+    _backgroundLocationSubscription = location.onLocationChanged.listen(
+      (LocationData locationData) {
+        // Check if we got valid coordinates
+        if (locationData.latitude != null &&
+            locationData.longitude != null &&
+            locationData.latitude != 0.0 &&
+            locationData.longitude != 0.0) {
+
+          final accuracy = locationData.accuracy ?? 0.0;
+          AppLogger.success(
+            'Background location obtained: ${locationData.latitude}, ${locationData.longitude} (accuracy: ${accuracy}m)',
+            context: 'ProfileManager',
+          );
+
+          // Save location to database
+          updateProfileLocation(
+            latitude: locationData.latitude!,
+            longitude: locationData.longitude!,
+          ).then((_) {
+            AppLogger.success('Background location saved to database', context: 'ProfileManager');
+          }).catchError((error) {
+            AppLogger.error('Failed to save background location: $error', context: 'ProfileManager');
+          });
+
+          // Cancel subscription after first valid location
+          _backgroundLocationSubscription?.cancel();
+          _backgroundLocationSubscription = null;
+        }
+      },
+      onError: (error) {
+        AppLogger.warning('Background location listener error: $error', context: 'ProfileManager');
+      },
+    );
+
+    // Set a timeout to cancel the subscription if no location after 60 seconds
+    Future.delayed(const Duration(seconds: 60), () {
+      if (_backgroundLocationSubscription != null) {
+        AppLogger.debug('Background location listener timeout - cancelling', context: 'ProfileManager');
+        _backgroundLocationSubscription?.cancel();
+        _backgroundLocationSubscription = null;
+      }
+    });
+  }
+
+  /// Manually stop the background location listener
+  void stopBackgroundLocationListener() {
+    if (_backgroundLocationSubscription != null) {
+      AppLogger.debug('Manually stopping background location listener', context: 'ProfileManager');
+      _backgroundLocationSubscription?.cancel();
+      _backgroundLocationSubscription = null;
+    }
+  }
+
+  /// Update location at app start - gets cached location quickly without waiting for GPS
+  ///
+  /// This method is called automatically when the user opens the app.
+  /// It tries to get the last known location and update the profile.
+  /// If no cached location is available, it starts a background listener.
+  Future<void> refreshLocationAtStartup() async {
+    try {
+      final location = Location();
+
+      // Check if we have location permission
+      final hasPermission = await location.hasPermission();
+      if (hasPermission != PermissionStatus.granted &&
+          hasPermission != PermissionStatus.grantedLimited) {
+        AppLogger.debug('No location permission, skipping startup location refresh', context: 'ProfileManager');
+        return;
+      }
+
+      // Check if location service is enabled
+      final serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        AppLogger.debug('Location service disabled, skipping startup location refresh', context: 'ProfileManager');
+        return;
+      }
+
+      AppLogger.debug('Attempting to get cached location at startup...', context: 'ProfileManager');
+
+      // Configure settings for reduced accuracy (battery friendly)
+      await location.changeSettings(
+        accuracy: LocationAccuracy.reduced,
+        interval: 1000,
+        distanceFilter: 0,
+      );
+
+      // Try to get cached/last-known location quickly (2 second timeout)
+      try {
+        final locationData = await location.getLocation().timeout(const Duration(seconds: 2));
+
+        if (locationData.latitude != null &&
+            locationData.longitude != null &&
+            locationData.latitude != 0.0 &&
+            locationData.longitude != 0.0) {
+
+          AppLogger.success(
+            'Cached location obtained at startup: ${locationData.latitude}, ${locationData.longitude}',
+            context: 'ProfileManager',
+          );
+
+          // Update profile with cached location
+          await updateProfileLocation(
+            latitude: locationData.latitude!,
+            longitude: locationData.longitude!,
+          );
+
+          return; // Success - no need for background listener
+        }
+      } catch (e) {
+        AppLogger.debug('No cached location available: $e', context: 'ProfileManager');
+      }
+
+      // No cached location - start background listener for fresh GPS fix
+      // This will save automatically when GPS gets a fix (can take 10-30 seconds)
+      AppLogger.debug('Starting background listener for fresh location at startup...', context: 'ProfileManager');
+      startBackgroundLocationListener(location);
+
+    } catch (error) {
+      AppLogger.warning('Error during startup location refresh: $error', context: 'ProfileManager');
+      // Don't throw - this is a background operation that shouldn't block app startup
+    }
   }
 
   /// Complete the user registration process

@@ -133,6 +133,10 @@ class ProfileService extends ChangeNotifier {
 
       // Register pending notification token if exists
       NotificationService.shared.registerPendingToken();
+
+      // Refresh location at startup (cached or background)
+      // This happens silently in the background and doesn't block the UI
+      _profileManager.refreshLocationAtStartup();
     }).catchError((error) {
       AppLogger.error('Failed to fetch profile: $error', context: 'ProfileService');
     });

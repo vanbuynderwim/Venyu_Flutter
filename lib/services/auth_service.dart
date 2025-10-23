@@ -93,7 +93,10 @@ class AuthService extends ChangeNotifier {
   
   /// Whether this service has been disposed.
   bool get disposed => _disposed;
-  
+
+  /// Access to the underlying AuthenticationManager for advanced operations
+  AuthenticationManager get authenticationManager => _authManager;
+
   // MARK: - Initialization
   
   void _initialize() {

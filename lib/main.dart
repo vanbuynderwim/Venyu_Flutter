@@ -108,7 +108,8 @@ void main() async {
       // Adds request headers and IP for users, for more info visit:
       // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
       options.sendDefaultPii = true;
-      options.enableLogs = true;
+      // Disable debug logs to reduce console noise during development
+      options.debug = false;
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
@@ -155,7 +156,7 @@ class VenyuApp extends StatelessWidget {
           Locale('nl'),
           Locale('fr'),
         ],
-        material: (_, __) => MaterialAppData(
+        material: (_, _) => MaterialAppData(
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.system, // Follow system dark mode setting

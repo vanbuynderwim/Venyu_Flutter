@@ -81,17 +81,37 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   
   Future<void> _signInWithGoogle() async {
     final authService = context.read<AuthService>();
-    
-    await executeWithLoading(
-      operation: () async {
-        AppLogger.auth('Starting Google sign-in', context: 'LoginView');
-        await authService.signInWithGoogle();
-        AppLogger.auth('Google sign-in initiated successfully', context: 'LoginView');
-      },
-      showSuccessToast: false,
-      showErrorToast: false,
-      useProcessingState: true,
-    );
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      // Set up retry callback to notify user when retrying after reauth failure
+      // This keeps the UI disabled (via isProcessing) while showing a helpful message
+      authService.authenticationManager.notifyRetryingGoogleSignIn = () {
+        if (mounted) {
+          ToastService.info(
+            context: context,
+            message: l10n.authGoogleRetryingMessage,
+          );
+        }
+      };
+
+      await executeWithLoading(
+        operation: () async {
+          AppLogger.auth('Starting Google sign-in', context: 'LoginView');
+          await authService.signInWithGoogle();
+          AppLogger.auth('Google sign-in initiated successfully', context: 'LoginView');
+        },
+        showSuccessToast: false,
+        showErrorToast: false,
+        useProcessingState: true, // This disables all login buttons during the entire flow
+      );
+    } finally {
+      // Always clear callback, even if sign-in fails
+      // This ensures the disabled state is properly reset
+      if (mounted) {
+        authService.authenticationManager.notifyRetryingGoogleSignIn = null;
+      }
+    }
   }
   
   Future<void> _signInWithLinkedIn() async {

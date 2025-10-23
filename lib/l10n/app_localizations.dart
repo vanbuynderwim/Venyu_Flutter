@@ -1202,6 +1202,12 @@ abstract class AppLocalizations {
   /// **'Prompts help us find the right matches that lead to real introductions. Write yours to get started.'**
   String get emptyStatePromptsDescription;
 
+  /// No description provided for @authGoogleRetryingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait...'**
+  String get authGoogleRetryingMessage;
+
   /// No description provided for @redeemInviteTitle.
   ///
   /// In en, this message translates to:
@@ -2987,7 +2993,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptEntryDailyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your daily {count} prompts are waiting for you.'**
+  /// **'Your daily {count} prompts are waiting for you'**
   String promptEntryDailyDescription(int count);
 
   /// No description provided for @promptEntryButton.

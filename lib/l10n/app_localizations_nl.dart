@@ -621,6 +621,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
 
   @override
+  String get authGoogleRetryingMessage => 'Even geduld...';
+
+  @override
   String get redeemInviteTitle => 'Voer je uitnodigingscode in';
 
   @override
@@ -1628,7 +1631,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Je dagelijkse $count prompts wachten op je.';
+    return 'Je dagelijkse $count prompts wachten op je';
   }
 
   @override

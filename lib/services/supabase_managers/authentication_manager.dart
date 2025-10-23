@@ -27,15 +27,19 @@ import '../../mixins/disposable_manager_mixin.dart';
 /// - Deep link callback processing for OAuth flows
 class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMixin {
   static AuthenticationManager? _instance;
-  
+
   /// The singleton instance of [AuthenticationManager].
   static AuthenticationManager get shared {
     _instance ??= AuthenticationManager._internal();
     return _instance!;
   }
-  
+
   /// Private constructor for singleton pattern.
   AuthenticationManager._internal();
+
+  /// Callback to notify UI when retrying Google sign-in after reauth failure
+  /// This helps prevent user confusion during the 2-second retry delay
+  Function()? notifyRetryingGoogleSignIn;
 
   // MARK: - LinkedIn Authentication
 
@@ -421,19 +425,31 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
         AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
       } on GoogleSignInException catch (e) {
         // Handle Android Credential Manager reauth error for newly added accounts
-        // This is a known issue where newly added accounts need a moment to sync
+        // This is a known bug in google_sign_in v7 SDK in combination with Android's
+        // Credential Manager (Google Identity Services). When a user adds a new account
+        // for the first time, the account configuration is not fully synchronized yet.
+        // The SDK tries to reauthenticate immediately, but the token exchange fails
+        // because the account doesn't have a valid "reauth" session yet.
         if (e.code == GoogleSignInExceptionCode.canceled &&
             e.toString().contains('[16]') &&
             e.toString().toLowerCase().contains('reauth')) {
 
-          AppLogger.warning(
-            'Account reauth failed (error 16) - likely newly added account. '
-            'Waiting briefly and retrying...',
-            context: 'AuthenticationManager',
-          );
+          AppLogger.warning('Retrying Google sign-in after reauth failure...', context: 'AuthenticationManager');
 
-          // Wait a moment for the account to fully sync with Credential Manager
-          await Future.delayed(const Duration(milliseconds: 500));
+          // Notify user that we're retrying (helps prevent confusion during the 2-second wait)
+          notifyRetryingGoogleSignIn?.call();
+
+          // Wait for the account to fully sync with Credential Manager
+          await Future.delayed(const Duration(seconds: 2));
+
+          // Force rebuild the GoogleSignIn instance to clear any cached state
+          // This prevents caching issues in the Credential Manager token
+          await GoogleSignIn.instance.signOut();
+          await GoogleSignIn.instance.disconnect();
+          await GoogleSignIn.instance.initialize(
+            clientId: EnvironmentConfig.googleIosClientId,
+            serverClientId: EnvironmentConfig.googleWebClientId,
+          );
 
           // Retry authentication
           googleUser = await GoogleSignIn.instance.authenticate(

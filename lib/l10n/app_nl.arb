@@ -280,6 +280,7 @@
   "emptyStatePromptsDescription": "Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
 
   "@_AUTH_VIEWS": {},
+  "authGoogleRetryingMessage": "Even geduld...",
   "redeemInviteTitle": "Voer je uitnodigingscode in",
   "redeemInviteSubtitle": "Voer de 8-karakters uitnodigingscode in die je hebt ontvangen om door te gaan.",
   "redeemInviteContinue": "Doorgaan",
@@ -789,7 +790,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Je dagelijkse {count} prompts wachten op je.",
+  "promptEntryDailyDescription": "Je dagelijkse {count} prompts wachten op je",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {

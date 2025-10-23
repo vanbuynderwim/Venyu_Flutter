@@ -139,6 +139,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
     );
   }
 
+
   /// Enable location service and save coordinates
   Future<void> _enableLocationService() async {
     if (_isEnablingLocation) return;
@@ -213,7 +214,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
             ),
           ],
         );
-        
+
         if (shouldOpenSettings == true && mounted) {
           // Open app settings
           await DialogUtils.openAppSettings(context);
@@ -239,97 +240,25 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
       // This is mapped to kCLLocationAccuracyReduced on iOS 14+
       await _location.changeSettings(
         accuracy: LocationAccuracy.reduced,
-        interval: 0,
+        interval: 1000, // Update every second if available
         distanceFilter: 0,
       );
 
-      // Small delay to let settings apply (iOS workaround)
-      await Future.delayed(const Duration(milliseconds: 500));
+      AppLogger.debug('Starting background location listener - user can continue immediately', context: 'EditLocationView');
 
-      AppLogger.debug('Attempting to get location with reduced accuracy...', context: 'EditLocationView');
+      // Start listening for location updates in the background via ProfileManager
+      // This persists even after this view is disposed
+      // The location will be saved automatically when GPS gets a fix
+      // User doesn't have to wait!
+      ProfileManager.shared.startBackgroundLocationListener(_location);
 
-      // Try both methods in parallel and take the fastest response
-      // This works around iOS issues with getLocation() hanging on approximate location
-      LocationData? locationData;
+      if (mounted) {
+        setState(() {
+          _isEnablingLocation = false;
+        });
 
-      try {
-        locationData = await Future.any<LocationData?>([
-          // Method 1: Try stream (works better on iOS with approximate location)
-          _location.onLocationChanged.first
-              .timeout(const Duration(seconds: 8))
-              .then<LocationData?>((value) {
-                AppLogger.debug('Stream method returned location', context: 'EditLocationView');
-                return value;
-              })
-              .onError<Object>((error, _) {
-                AppLogger.debug('Stream method failed: $error', context: 'EditLocationView');
-                return null;
-              }),
-
-          // Method 2: Try getLocation (sometimes faster with cached location)
-          _location.getLocation()
-              .timeout(const Duration(seconds: 5))
-              .then<LocationData?>((value) {
-                AppLogger.debug('getLocation method returned location', context: 'EditLocationView');
-                return value;
-              })
-              .onError<Object>((error, _) {
-                AppLogger.debug('getLocation method failed: $error', context: 'EditLocationView');
-                return null;
-              }),
-        ]);
-      } catch (error) {
-        AppLogger.warning('Location request failed: $error', context: 'EditLocationView');
-        locationData = null;
-      }
-
-      // Check if we got valid coordinates
-      if (locationData != null &&
-          locationData.latitude != null &&
-          locationData.longitude != null &&
-          locationData.latitude != 0.0 &&
-          locationData.longitude != 0.0) {
-
-        final accuracy = locationData.accuracy ?? 0.0;
-        AppLogger.success(
-          'Location obtained: ${locationData.latitude}, ${locationData.longitude} (accuracy: ${accuracy}m)',
-          context: 'EditLocationView',
-        );
-
-        // Save location to database (whether precise or approximate)
-        await ProfileManager.shared.updateProfileLocation(
-          latitude: locationData.latitude,
-          longitude: locationData.longitude,
-        );
-
-        if (mounted) {
-          setState(() {
-            _isEnablingLocation = false;
-          });
-
-          // Show hint if approximate location (accuracy > 500m)
-          if (accuracy > 500) {
-            final l10n = AppLocalizations.of(context)!;
-            ToastService.info(
-              context: context,
-              message: l10n.editLocationApproximateInfo,
-            );
-          }
-
-          // Navigate to next step
-          _navigateToNext();
-        }
-      } else {
-        // Could not get location coordinates - continue without it
-        AppLogger.warning('Could not get location coordinates, continuing without location', context: 'EditLocationView');
-
-        if (mounted) {
-          setState(() {
-            _isEnablingLocation = false;
-          });
-          // Navigate to next step without location data
-          _navigateToNext();
-        }
+        // Navigate to next step immediately - location will be saved in background
+        _navigateToNext();
       }
     } catch (error) {
       AppLogger.error('Error enabling location', context: 'EditLocationView', error: error);

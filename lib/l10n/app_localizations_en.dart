@@ -617,6 +617,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Prompts help us find the right matches that lead to real introductions. Write yours to get started.';
 
   @override
+  String get authGoogleRetryingMessage => 'Please wait...';
+
+  @override
   String get redeemInviteTitle => 'Enter your invite code';
 
   @override
@@ -1613,7 +1616,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Your daily $count prompts are waiting for you.';
+    return 'Your daily $count prompts are waiting for you';
   }
 
   @override
