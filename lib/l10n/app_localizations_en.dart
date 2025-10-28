@@ -158,54 +158,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorAuthenticationFailed => 'Sign in failed. Please try again.';
 
   @override
-  String get interactionTypeThisIsMeButton => 'I can help';
+  String get interactionTypeThisIsMeButton => 'This is me';
 
   @override
   String get interactionTypeLookingForThisButton => 'I need this';
 
   @override
-  String get interactionTypeKnowSomeoneButton => 'I can refer';
+  String get interactionTypeKnowSomeoneButton => 'I know someone';
 
   @override
   String get interactionTypeNotRelevantButton => 'Not for me';
 
   @override
-  String get interactionTypeThisIsMeSelection => 'I can help';
+  String get interactionTypeThisIsMeButtonToo => 'This is me too';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'I’m looking for advice';
+  String get interactionTypeLookingForThisButtonToo => 'I need this too';
 
   @override
-  String get interactionTypeKnowSomeoneSelection => 'I can connect';
+  String get interactionTypeKnowSomeoneButtonToo => 'I know someone too';
 
   @override
-  String get interactionTypeNotRelevantSelection => 'Skip';
+  String get interactionTypeNotRelevantButtonToo => 'Not for me';
 
   @override
-  String get interactionTypeThisIsMeSubtitle => 'Share how you can add value';
+  String get interactionTypeLookingForThisSelection =>
+      'I’m looking for someone who';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Ask for the expertise or advice you need';
+      'Who are you looking for right now? Think support, experience or an introduction.';
+
+  @override
+  String get interactionTypeLookingForThisHint => '... continue the sentence';
+
+  @override
+  String get interactionTypeThisIsMeSelection => 'I\'m someone who';
+
+  @override
+  String get interactionTypeThisIsMeSubtitle =>
+      'How can you help someone else? Think experience, insight, or network.';
+
+  @override
+  String get interactionTypeThisIsMeHint => '... continue the sentence';
+
+  @override
+  String get interactionTypeKnowSomeoneSelection => 'I can connect';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
       'Introduce people who can help';
 
   @override
-  String get interactionTypeNotRelevantSubtitle => 'Pass on this one';
-
-  @override
-  String get interactionTypeThisIsMeHint =>
-      'What skill or expertise can you offer?';
-
-  @override
-  String get interactionTypeLookingForThisHint =>
-      'What specific expertise or advice do you need?';
-
-  @override
   String get interactionTypeKnowSomeoneHint =>
       'Who can you connect for this need?';
+
+  @override
+  String get interactionTypeNotRelevantSelection => 'Skip';
+
+  @override
+  String get interactionTypeNotRelevantSubtitle => 'Pass on this one';
 
   @override
   String get interactionTypeNotRelevantHint => 'What would you like to share?';
@@ -747,9 +759,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matchDetailBlockSuccess => 'User blocked successfully';
 
   @override
-  String matchDetailRemoveTitle(String type) {
-    return 'Remove $type?';
-  }
+  String get matchDetailRemoveTitle => 'Remove introduction?';
 
   @override
   String matchDetailRemoveMessage(String type) {

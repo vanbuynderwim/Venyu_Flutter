@@ -75,21 +75,30 @@
   "errorAuthenticationFailed": "Aanmelden mislukt. Probeer het opnieuw.",
 
   "@_INTERACTION_TYPE": {},
-  "interactionTypeThisIsMeButton": "Ik kan helpen",
-  "interactionTypeLookingForThisButton": " Ik zoek dit",
-  "interactionTypeKnowSomeoneButton": "Ik ken iemand",
+  "interactionTypeThisIsMeButton": "Dit ben ik",
+  "interactionTypeLookingForThisButton": "Die zoek ik",
+  "interactionTypeKnowSomeoneButton": "Die ken ik",
   "interactionTypeNotRelevantButton": "Niet voor mij",
-  "interactionTypeThisIsMeSelection": "Ik kan helpen",
-  "interactionTypeLookingForThisSelection": "Op zoek naar advies",
+
+  "interactionTypeThisIsMeButtonToo": "Dit ben ik ook",
+  "interactionTypeLookingForThisButtonToo": "Die zoek ik ook",
+  "interactionTypeKnowSomeoneButtonToo": "Die ken ik ook",
+  "interactionTypeNotRelevantButtonToo": "Niet voor mij",
+
+  "interactionTypeLookingForThisSelection": "Ik zoek iemand die",
+  "interactionTypeLookingForThisSubtitle": "Waar heb jij iemand voor nodig? Denk aan advies, expertise of een introductie.",
+  "interactionTypeLookingForThisHint": "...vul verder aan",
+
+  "interactionTypeThisIsMeSelection": "Ik ben iemand die",
+  "interactionTypeThisIsMeSubtitle": "Waar kan jij iemand mee helpen? Denk aan ervaring, inzichten of netwerk.",
+  "interactionTypeThisIsMeHint": "... vul verder aan",
+
   "interactionTypeKnowSomeoneSelection": "Ik kan verbinden",
-  "interactionTypeNotRelevantSelection": "Overslaan",
-  "interactionTypeThisIsMeSubtitle": "Deel hoe jij waarde kunt toevoegen",
-  "interactionTypeLookingForThisSubtitle": "Vraag naar de expertise of het advies dat je nodig hebt",
   "interactionTypeKnowSomeoneSubtitle": "Stel mensen voor die kunnen helpen",
-  "interactionTypeNotRelevantSubtitle": "Deze sla ik over",
-  "interactionTypeThisIsMeHint": "Welke vaardigheid of expertise kun je aanbieden?",
-  "interactionTypeLookingForThisHint": "Welke specifieke expertise of advies heb je nodig?",
   "interactionTypeKnowSomeoneHint": "Wie kun je aanraden?",
+
+  "interactionTypeNotRelevantSelection": "Overslaan",
+  "interactionTypeNotRelevantSubtitle": "Deze sla ik over",
   "interactionTypeNotRelevantHint": "Wat wil je delen?",
 
   "@_REGISTRATION_STEP": {},
@@ -337,14 +346,7 @@
   "matchDetailBlockMessage": "Deze gebruiker blokkeren verwijdert de match en voorkomt toekomstige matches. Deze actie kan niet ongedaan gemaakt worden.",
   "matchDetailBlockButton": "Blokkeren",
   "matchDetailBlockSuccess": "Gebruiker succesvol geblokkeerd",
-  "matchDetailRemoveTitle": "{type} verwijderen?",
-  "@matchDetailRemoveTitle": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      }
-    }
-  },
+  "matchDetailRemoveTitle": "Introductie verwijderen?",
   "matchDetailRemoveMessage": "Weet je zeker dat je deze {type} wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden.",
   "@matchDetailRemoveMessage": {
     "placeholders": {

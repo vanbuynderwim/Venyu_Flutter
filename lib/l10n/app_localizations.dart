@@ -365,7 +365,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeThisIsMeButton.
   ///
   /// In en, this message translates to:
-  /// **'I can help'**
+  /// **'This is me'**
   String get interactionTypeThisIsMeButton;
 
   /// No description provided for @interactionTypeLookingForThisButton.
@@ -377,7 +377,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeKnowSomeoneButton.
   ///
   /// In en, this message translates to:
-  /// **'I can refer'**
+  /// **'I know someone'**
   String get interactionTypeKnowSomeoneButton;
 
   /// No description provided for @interactionTypeNotRelevantButton.
@@ -386,17 +386,65 @@ abstract class AppLocalizations {
   /// **'Not for me'**
   String get interactionTypeNotRelevantButton;
 
-  /// No description provided for @interactionTypeThisIsMeSelection.
+  /// No description provided for @interactionTypeThisIsMeButtonToo.
   ///
   /// In en, this message translates to:
-  /// **'I can help'**
-  String get interactionTypeThisIsMeSelection;
+  /// **'This is me too'**
+  String get interactionTypeThisIsMeButtonToo;
+
+  /// No description provided for @interactionTypeLookingForThisButtonToo.
+  ///
+  /// In en, this message translates to:
+  /// **'I need this too'**
+  String get interactionTypeLookingForThisButtonToo;
+
+  /// No description provided for @interactionTypeKnowSomeoneButtonToo.
+  ///
+  /// In en, this message translates to:
+  /// **'I know someone too'**
+  String get interactionTypeKnowSomeoneButtonToo;
+
+  /// No description provided for @interactionTypeNotRelevantButtonToo.
+  ///
+  /// In en, this message translates to:
+  /// **'Not for me'**
+  String get interactionTypeNotRelevantButtonToo;
 
   /// No description provided for @interactionTypeLookingForThisSelection.
   ///
   /// In en, this message translates to:
-  /// **'I’m looking for advice'**
+  /// **'I’m looking for someone who'**
   String get interactionTypeLookingForThisSelection;
+
+  /// No description provided for @interactionTypeLookingForThisSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who are you looking for right now? Think support, experience or an introduction.'**
+  String get interactionTypeLookingForThisSubtitle;
+
+  /// No description provided for @interactionTypeLookingForThisHint.
+  ///
+  /// In en, this message translates to:
+  /// **'... continue the sentence'**
+  String get interactionTypeLookingForThisHint;
+
+  /// No description provided for @interactionTypeThisIsMeSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m someone who'**
+  String get interactionTypeThisIsMeSelection;
+
+  /// No description provided for @interactionTypeThisIsMeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How can you help someone else? Think experience, insight, or network.'**
+  String get interactionTypeThisIsMeSubtitle;
+
+  /// No description provided for @interactionTypeThisIsMeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'... continue the sentence'**
+  String get interactionTypeThisIsMeHint;
 
   /// No description provided for @interactionTypeKnowSomeoneSelection.
   ///
@@ -404,53 +452,29 @@ abstract class AppLocalizations {
   /// **'I can connect'**
   String get interactionTypeKnowSomeoneSelection;
 
-  /// No description provided for @interactionTypeNotRelevantSelection.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get interactionTypeNotRelevantSelection;
-
-  /// No description provided for @interactionTypeThisIsMeSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share how you can add value'**
-  String get interactionTypeThisIsMeSubtitle;
-
-  /// No description provided for @interactionTypeLookingForThisSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Ask for the expertise or advice you need'**
-  String get interactionTypeLookingForThisSubtitle;
-
   /// No description provided for @interactionTypeKnowSomeoneSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Introduce people who can help'**
   String get interactionTypeKnowSomeoneSubtitle;
 
-  /// No description provided for @interactionTypeNotRelevantSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Pass on this one'**
-  String get interactionTypeNotRelevantSubtitle;
-
-  /// No description provided for @interactionTypeThisIsMeHint.
-  ///
-  /// In en, this message translates to:
-  /// **'What skill or expertise can you offer?'**
-  String get interactionTypeThisIsMeHint;
-
-  /// No description provided for @interactionTypeLookingForThisHint.
-  ///
-  /// In en, this message translates to:
-  /// **'What specific expertise or advice do you need?'**
-  String get interactionTypeLookingForThisHint;
-
   /// No description provided for @interactionTypeKnowSomeoneHint.
   ///
   /// In en, this message translates to:
   /// **'Who can you connect for this need?'**
   String get interactionTypeKnowSomeoneHint;
+
+  /// No description provided for @interactionTypeNotRelevantSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get interactionTypeNotRelevantSelection;
+
+  /// No description provided for @interactionTypeNotRelevantSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass on this one'**
+  String get interactionTypeNotRelevantSubtitle;
 
   /// No description provided for @interactionTypeNotRelevantHint.
   ///
@@ -1445,8 +1469,8 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailRemoveTitle.
   ///
   /// In en, this message translates to:
-  /// **'Remove {type}?'**
-  String matchDetailRemoveTitle(String type);
+  /// **'Remove introduction?'**
+  String get matchDetailRemoveTitle;
 
   /// No description provided for @matchDetailRemoveMessage.
   ///

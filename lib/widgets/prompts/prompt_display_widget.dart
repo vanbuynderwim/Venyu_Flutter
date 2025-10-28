@@ -8,6 +8,7 @@ import '../../models/venue.dart';
 import '../common/interaction_tag.dart';
 import '../common/venue_tag.dart';
 import '../common/tag_view.dart';
+import 'selection_title_with_icon.dart';
 
 /// Reusable widget for displaying a prompt
 ///
@@ -19,6 +20,7 @@ class PromptDisplayWidget extends StatelessWidget {
   final bool showInteractionType;
   final Venue? venue;
   final bool isFirstTimeUser;
+  final bool showSelectionTitle;
 
   const PromptDisplayWidget({
     super.key,
@@ -27,6 +29,7 @@ class PromptDisplayWidget extends StatelessWidget {
     this.showInteractionType = false,
     this.venue,
     this.isFirstTimeUser = false,
+    this.showSelectionTitle = false,
   });
 
   @override
@@ -42,6 +45,18 @@ class PromptDisplayWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Selection title (if enabled)
+              if (showSelectionTitle && interactionType != null) ...[
+                Center(
+                  child: SelectionTitleWithIcon(
+                    interactionType: interactionType!,
+                    size: 24,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 2),
+              ],
+
               // Main prompt text
               Text(
                 promptLabel,

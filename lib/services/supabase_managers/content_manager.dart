@@ -376,6 +376,22 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Mark daily prompts as completed
+  ///
+  /// This function notifies the server that the user has completed all required
+  /// daily prompts. The server validates that the prompts were actually answered
+  /// before updating the profile. This function returns nothing and can be called
+  /// without waiting for the result.
+  Future<void> markDailyPromptsCompleted() async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Marking daily prompts as completed', context: 'ContentManager');
+
+      await client.rpc('mark_daily_prompts_completed');
+
+      AppLogger.success('Daily prompts marked as completed', context: 'ContentManager');
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('ContentManager');

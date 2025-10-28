@@ -4,11 +4,12 @@ import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/utils/date_extensions.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/interaction_tag.dart';
 import '../../widgets/common/venue_tag.dart';
 import '../../widgets/common/prompt_counters.dart';
+import '../../widgets/common/status_badge_view.dart';
+import '../../widgets/prompts/selection_title_with_icon.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
 class PromptItem extends StatefulWidget {
@@ -46,22 +47,15 @@ class PromptItem extends StatefulWidget {
 class _PromptItemState extends State<PromptItem> {
   bool isSelected = false;
 
-  /// Builds the date text with status emoji (no venue info)
-  String _buildDateText() {
-    final dateText = widget.prompt.createdAt?.timeAgo() ?? '';
-    final statusEmoji = widget.shouldShowStatus && !widget.showMatchInteraction
-        ? '${widget.prompt.displayStatus.emoji} '
-        : '';
-
-    if (dateText.isEmpty) {
-      return statusEmoji.isEmpty ? '' : statusEmoji.trim();
-    }
-
-    return '$statusEmoji$dateText';
-  }
-
   @override
   Widget build(BuildContext context) {
+    // Helper variables for cleaner conditions
+    final hasInteractionTag = widget.showMatchInteraction && widget.prompt.interactionType != null;
+    final hasVenueTag = widget.prompt.venue != null;
+    final hasMatchInteractionTag = widget.showMatchInteraction && widget.prompt.matchInteractionType != null;
+    final hasTags = hasInteractionTag || hasVenueTag || hasMatchInteractionTag;
+    final showTagsRow = hasTags || widget.showCounters;
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       child: Material(
@@ -108,44 +102,42 @@ class _PromptItemState extends State<PromptItem> {
                             ),
                             AppModifiers.verticalSpaceMedium,
                           ],
-                    
-                    // Status badge and created date column - above prompt label
-                    if (widget.prompt.createdAt != null ||
-                        (widget.shouldShowStatus && !widget.showMatchInteraction)) ...[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Date with status emoji (no venue)
-                          Text(
-                            _buildDateText(),
-                            style: AppTextStyles.subheadline2.copyWith(
-                              color: context.venyuTheme.secondaryText,
-                            ),
-                          ),
-                        ],
+
+                    // Selection title and timeAgo row - above prompt label
+                    if (widget.prompt.interactionType != null) ...[
+                      SelectionTitleWithIcon(
+                        interactionType: widget.prompt.interactionType!,
+                        size: 18,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                     ],
-                    
+
                     // Prompt label - takes full width
                     Text(
                       widget.prompt.label,
                       style: AppTextStyles.body.copyWith(
-                        color: context.venyuTheme.darkText,
+                        color: context.venyuTheme.primaryText,
                         fontSize: 18,
                         fontFamily: AppFonts.graphie,
                       ),
                       maxLines: widget.limitPromptLines ? 4 : null,
                       overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
                     ),
+
+                    // Status badge - below prompt label
+                    if (widget.shouldShowStatus && !widget.showMatchInteraction) ...[
+                      const SizedBox(height: 16),
+                      StatusBadgeView(
+                        status: widget.prompt.displayStatus,
+                        compact: false,
+                      ),
+                    ],
                     
                     // Interaction tags and counters row - below the label
-                    if (widget.prompt.interactionType != null ||
-                        widget.prompt.venue != null ||
-                        (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) ||
-                        widget.showCounters) ...[
-                      SizedBox(height: 8),
+                    if (showTagsRow) ...[
+                      // Only show spacing if there are actual tags
+                      if (hasTags)
+                        SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -153,14 +145,14 @@ class _PromptItemState extends State<PromptItem> {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (widget.prompt.interactionType != null) ...[
+                              if (hasInteractionTag) ...[
                                 InteractionTag(
                                   interactionType: widget.prompt.interactionType!,
                                   compact: true,
                                 ),
-                                if (widget.prompt.venue != null) const SizedBox(width: 8),
+                                if (hasVenueTag) const SizedBox(width: 8),
                               ],
-                              if (widget.prompt.venue != null)
+                              if (hasVenueTag)
                                 VenueTag(
                                   venue: widget.prompt.venue!,
                                   compact: true,
@@ -176,7 +168,7 @@ class _PromptItemState extends State<PromptItem> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               // Match interaction tag (for match views)
-                              if (widget.showMatchInteraction && widget.prompt.matchInteractionType != null) ...[
+                              if (hasMatchInteractionTag) ...[
                                 InteractionTag(
                                   interactionType: widget.prompt.matchInteractionType!,
                                   compact: true,

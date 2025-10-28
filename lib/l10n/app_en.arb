@@ -75,21 +75,30 @@
   "errorAuthenticationFailed": "Sign in failed. Please try again.",
 
   "@_INTERACTION_TYPE": {},
-  "interactionTypeThisIsMeButton": "I can help",
+  "interactionTypeThisIsMeButton": "This is me",
   "interactionTypeLookingForThisButton": "I need this",
-  "interactionTypeKnowSomeoneButton": "I can refer",
+  "interactionTypeKnowSomeoneButton": "I know someone",
   "interactionTypeNotRelevantButton": "Not for me",
-  "interactionTypeThisIsMeSelection": "I can help",
-  "interactionTypeLookingForThisSelection": "I’m looking for advice",
+
+  "interactionTypeThisIsMeButtonToo": "This is me too",
+  "interactionTypeLookingForThisButtonToo": "I need this too",
+  "interactionTypeKnowSomeoneButtonToo": "I know someone too",
+  "interactionTypeNotRelevantButtonToo": "Not for me",
+
+  "interactionTypeLookingForThisSelection": "I’m looking for someone who",
+  "interactionTypeLookingForThisSubtitle": "Who are you looking for right now? Think support, experience or an introduction.",
+  "interactionTypeLookingForThisHint": "... continue the sentence",
+
+  "interactionTypeThisIsMeSelection": "I'm someone who",
+  "interactionTypeThisIsMeSubtitle": "How can you help someone else? Think experience, insight, or network.",
+  "interactionTypeThisIsMeHint": "... continue the sentence",
+
   "interactionTypeKnowSomeoneSelection": "I can connect",
-  "interactionTypeNotRelevantSelection": "Skip",
-  "interactionTypeThisIsMeSubtitle": "Share how you can add value",
-  "interactionTypeLookingForThisSubtitle": "Ask for the expertise or advice you need",
   "interactionTypeKnowSomeoneSubtitle": "Introduce people who can help",
-  "interactionTypeNotRelevantSubtitle": "Pass on this one",
-  "interactionTypeThisIsMeHint": "What skill or expertise can you offer?",
-  "interactionTypeLookingForThisHint": "What specific expertise or advice do you need?",
   "interactionTypeKnowSomeoneHint": "Who can you connect for this need?",
+  
+  "interactionTypeNotRelevantSelection": "Skip",
+  "interactionTypeNotRelevantSubtitle": "Pass on this one",
   "interactionTypeNotRelevantHint": "What would you like to share?",
 
   "@_REGISTRATION_STEP": {},
@@ -337,14 +346,7 @@
   "matchDetailBlockMessage": "Blocking this user will remove the match and prevent future matching. This action cannot be undone.",
   "matchDetailBlockButton": "Block",
   "matchDetailBlockSuccess": "User blocked successfully",
-  "matchDetailRemoveTitle": "Remove {type}?",
-  "@matchDetailRemoveTitle": {
-    "placeholders": {
-      "type": {
-        "type": "String"
-      }
-    }
-  },
+  "matchDetailRemoveTitle": "Remove introduction?",
   "matchDetailRemoveMessage": "Are you sure you want to remove this {type}? This action cannot be undone.",
   "@matchDetailRemoveMessage": {
     "placeholders": {

@@ -142,24 +142,15 @@ class _EditAccountViewState extends State<EditAccountView> {
     final l10n = AppLocalizations.of(context)!;
 
     // Show confirmation dialog first
-    final bool? shouldExport = await DialogUtils.showChoiceDialog<bool>(
+    final bool shouldExport = await DialogUtils.showConfirmationDialog(
       context: context,
       title: l10n.editAccountExportDialogTitle,
       message: l10n.editAccountExportDialogMessage,
-      choices: [
-        DialogChoice<bool>(
-          label: l10n.editAccountExportDialogCancel,
-          value: false,
-          isDefault: true,
-        ),
-        DialogChoice<bool>(
-          label: l10n.editAccountExportDialogConfirm,
-          value: true,
-        ),
-      ],
+      confirmText: l10n.editAccountExportDialogConfirm,
+      isDestructive: false
     );
 
-    if (shouldExport != true || !mounted) return;
+    if (!shouldExport || !mounted) return;
 
     setState(() {
       _isExporting = true;
@@ -199,25 +190,15 @@ class _EditAccountViewState extends State<EditAccountView> {
     final l10n = AppLocalizations.of(context)!;
 
     // Show confirmation dialog first
-    final bool? shouldDelete = await DialogUtils.showChoiceDialog<bool>(
+    final bool shouldDelete = await DialogUtils.showConfirmationDialog(
       context: context,
       title: l10n.editAccountDeleteDialogTitle,
       message: l10n.editAccountDeleteDialogMessage,
-      choices: [
-        DialogChoice<bool>(
-          label: l10n.editAccountDeleteDialogCancel,
-          value: false,
-          isDefault: true,
-        ),
-        DialogChoice<bool>(
-          label: l10n.editAccountDeleteDialogConfirm,
-          value: true,
-          isDestructive: true,
-        ),
-      ],
+      confirmText: l10n.editAccountDeleteDialogConfirm,
+      isDestructive: true,
     );
 
-    if (shouldDelete != true || !mounted) return;
+    if (!shouldDelete || !mounted) return;
 
     setState(() {
       _isDeleting = true;
@@ -263,25 +244,15 @@ class _EditAccountViewState extends State<EditAccountView> {
     final l10n = AppLocalizations.of(context)!;
 
     // Show confirmation dialog first
-    final bool? shouldLogout = await DialogUtils.showChoiceDialog<bool>(
+    final bool shouldLogout = await DialogUtils.showConfirmationDialog(
       context: context,
       title: l10n.editAccountLogoutDialogTitle,
       message: l10n.editAccountLogoutDialogMessage,
-      choices: [
-        DialogChoice<bool>(
-          label: l10n.editAccountLogoutDialogCancel,
-          value: false,
-          isDefault: true,
-        ),
-        DialogChoice<bool>(
-          label: l10n.editAccountLogoutDialogConfirm,
-          value: true,
-          isDestructive: true,
-        ),
-      ],
+      confirmText: l10n.editAccountLogoutDialogConfirm,
+      isDestructive: true,
     );
 
-    if (shouldLogout != true || !mounted) return;
+    if (!shouldLogout || !mounted) return;
 
     setState(() {
       _isLoggingOut = true;

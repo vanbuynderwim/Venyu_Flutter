@@ -84,6 +84,13 @@ class AppTextStyles {
     fontFamily: AppFonts.defaultFontFamily,
   );
 
+  static final TextStyle headline2 = TextStyle(
+    fontSize: 18.0,
+    fontWeight: AppFonts.toFontWeight(AppFonts.semiBold),
+    fontFamily: AppFonts.defaultFontFamily,
+  );
+
+
   /// Headline - 17.0pt Semibold
   static final TextStyle headline = TextStyle(
     fontSize: 17.0,

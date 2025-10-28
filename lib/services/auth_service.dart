@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/config/app_config.dart';
@@ -324,15 +325,27 @@ class AuthService extends ChangeNotifier {
   /// Initiates Google OAuth authentication flow.
   Future<void> signInWithGoogle() async {
     if (_disposed) throw StateError('AuthService has been disposed');
-    
+
     try {
       AppLogger.info('Starting Google sign in', context: 'AuthService');
       _clearError();
-      
+
       await _authManager.signInWithGoogle();
-      
+
       AppLogger.success('Google sign in completed', context: 'AuthService');
-      
+
+    } on GoogleSignInException catch (e) {
+      // User canceled the sign-in - this is not an error, just log it
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        AppLogger.info('Google sign in canceled by user', context: 'AuthService');
+        // Don't change auth state or show error - user can try again
+        return;
+      }
+
+      // Other Google sign-in errors are real errors
+      AppLogger.error('Google sign in error: $e', context: 'AuthService');
+      _handleAuthError(e);
+      rethrow;
     } catch (error) {
       AppLogger.error('Google sign in error: $error', context: 'AuthService');
       _handleAuthError(error);

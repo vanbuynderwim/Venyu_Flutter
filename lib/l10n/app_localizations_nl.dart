@@ -159,54 +159,64 @@ class AppLocalizationsNl extends AppLocalizations {
       'Aanmelden mislukt. Probeer het opnieuw.';
 
   @override
-  String get interactionTypeThisIsMeButton => 'Ik kan helpen';
+  String get interactionTypeThisIsMeButton => 'Dit ben ik';
 
   @override
-  String get interactionTypeLookingForThisButton => ' Ik zoek dit';
+  String get interactionTypeLookingForThisButton => 'Die zoek ik';
 
   @override
-  String get interactionTypeKnowSomeoneButton => 'Ik ken iemand';
+  String get interactionTypeKnowSomeoneButton => 'Die ken ik';
 
   @override
   String get interactionTypeNotRelevantButton => 'Niet voor mij';
 
   @override
-  String get interactionTypeThisIsMeSelection => 'Ik kan helpen';
+  String get interactionTypeThisIsMeButtonToo => 'Dit ben ik ook';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'Op zoek naar advies';
+  String get interactionTypeLookingForThisButtonToo => 'Die zoek ik ook';
 
   @override
-  String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
+  String get interactionTypeKnowSomeoneButtonToo => 'Die ken ik ook';
 
   @override
-  String get interactionTypeNotRelevantSelection => 'Overslaan';
+  String get interactionTypeNotRelevantButtonToo => 'Niet voor mij';
 
   @override
-  String get interactionTypeThisIsMeSubtitle =>
-      'Deel hoe jij waarde kunt toevoegen';
+  String get interactionTypeLookingForThisSelection => 'Ik zoek iemand die';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Vraag naar de expertise of het advies dat je nodig hebt';
+      'Waar heb jij iemand voor nodig? Denk aan advies, expertise of een introductie.';
+
+  @override
+  String get interactionTypeLookingForThisHint => '...vul verder aan';
+
+  @override
+  String get interactionTypeThisIsMeSelection => 'Ik ben iemand die';
+
+  @override
+  String get interactionTypeThisIsMeSubtitle =>
+      'Waar kan jij iemand mee helpen? Denk aan ervaring, inzichten of netwerk.';
+
+  @override
+  String get interactionTypeThisIsMeHint => '... vul verder aan';
+
+  @override
+  String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
       'Stel mensen voor die kunnen helpen';
 
   @override
-  String get interactionTypeNotRelevantSubtitle => 'Deze sla ik over';
-
-  @override
-  String get interactionTypeThisIsMeHint =>
-      'Welke vaardigheid of expertise kun je aanbieden?';
-
-  @override
-  String get interactionTypeLookingForThisHint =>
-      'Welke specifieke expertise of advies heb je nodig?';
-
-  @override
   String get interactionTypeKnowSomeoneHint => 'Wie kun je aanraden?';
+
+  @override
+  String get interactionTypeNotRelevantSelection => 'Overslaan';
+
+  @override
+  String get interactionTypeNotRelevantSubtitle => 'Deze sla ik over';
 
   @override
   String get interactionTypeNotRelevantHint => 'Wat wil je delen?';
@@ -753,9 +763,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchDetailBlockSuccess => 'Gebruiker succesvol geblokkeerd';
 
   @override
-  String matchDetailRemoveTitle(String type) {
-    return '$type verwijderen?';
-  }
+  String get matchDetailRemoveTitle => 'Introductie verwijderen?';
 
   @override
   String matchDetailRemoveMessage(String type) {

@@ -149,6 +149,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                 promptLabel: widget.promptLabel,
                                 interactionType: widget.interactionType,
                                 showInteractionType: false,
+                                showSelectionTitle: true,
                               ),
                             ),
                           ),

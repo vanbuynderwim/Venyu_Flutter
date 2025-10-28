@@ -424,6 +424,14 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
         );
         AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
       } on GoogleSignInException catch (e) {
+        // User canceled the sign-in by clicking back or outside the popup
+        // This is not an error - just silently return without authentication
+        if (e.code == GoogleSignInExceptionCode.canceled &&
+            !e.toString().contains('[16]')) {
+          AppLogger.info('Google sign-in canceled by user', context: 'AuthenticationManager');
+          rethrow; // Let AuthService handle the cancellation gracefully
+        }
+
         // Handle Android Credential Manager reauth error for newly added accounts
         // This is a known bug in google_sign_in v7 SDK in combination with Android's
         // Credential Manager (Google Identity Services). When a user adds a new account

@@ -74,23 +74,11 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
     });
   }
 
-  /// Get user's first name from profile service
-  String _getFirstName(BuildContext context) {
-    final profileService = context.profileService;
-    final profile = profileService.currentProfile;
-    final firstName = profile?.firstName;
-    if (firstName != null && firstName.isNotEmpty) {
-      return firstName;
-    }
-    return '';
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final venyuTheme = context.venyuTheme;
-    final firstName = _getFirstName(context);
-
+    
     return PopScope(
       canPop: !widget.isFromPrompts, // Prevent back swipe if from prompts
       child: Container(

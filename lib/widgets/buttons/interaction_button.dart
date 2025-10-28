@@ -13,6 +13,7 @@ class InteractionButton extends StatelessWidget {
   final double? width;
   final double? height;
   final bool isUpdating;
+  final String? customTitle;
 
   const InteractionButton({
     super.key,
@@ -22,6 +23,7 @@ class InteractionButton extends StatelessWidget {
     this.width,
     this.height,
     this.isUpdating = false,
+    this.customTitle,
   });
 
   @override
@@ -61,29 +63,14 @@ class InteractionButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Icon
-                  Image.asset(
-                    interactionType.assetPath,
-                    width: 24,
-                    height: 24,
-                    color: isSelected ? Colors.white : buttonColor,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        interactionType.fallbackIcon,
-                        size: 24,
-                        color: isSelected ? Colors.white : buttonColor,
-                      );
-                    },
-                  ),
-
-                  const SizedBox(width: 4),
-
+                  
                   // Title
                   Flexible(
                     child: Text(
-                      interactionType.buttonTitle(context),
-                      style: AppTextStyles.headline.copyWith(
+                      customTitle ?? interactionType.buttonTitle(context),
+                      style: AppTextStyles.headline2.copyWith(
                         color: isSelected ? Colors.white : buttonColor,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -107,6 +94,7 @@ class InteractionButtonRow extends StatefulWidget {
   final double? buttonHeight;
   final bool isUpdating;
   final InteractionType? enabledInteractionType; // Only this button will be enabled in tutorial mode
+  final InteractionType? promptInteractionType; // The prompt's interaction type for matching button titles
 
   const InteractionButtonRow({
     super.key,
@@ -116,6 +104,7 @@ class InteractionButtonRow extends StatefulWidget {
     this.buttonHeight,
     this.isUpdating = false,
     this.enabledInteractionType,
+    this.promptInteractionType,
   });
 
   @override
@@ -153,6 +142,20 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
     return widget.enabledInteractionType == type;
   }
 
+  /// Get the appropriate button title based on whether it matches the prompt's interaction type
+  String? _getButtonTitle(BuildContext context, InteractionType buttonType) {
+    // If no prompt interaction type is provided, use default title
+    if (widget.promptInteractionType == null) return null;
+
+    // If button type matches prompt type, use the "too" variant
+    if (buttonType == widget.promptInteractionType) {
+      return buttonType.buttonTitleWhenMatchingPrompt(context);
+    }
+
+    // Otherwise use default title
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -169,26 +172,10 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                     : null,
                 height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.thisIsMe),
+                customTitle: _getButtonTitle(context, InteractionType.thisIsMe),
               ),
             ),
             SizedBox(width: widget.spacing),
-            Expanded(
-              child: InteractionButton(
-                interactionType: InteractionType.notRelevant,
-                isSelected: _selectedType == InteractionType.notRelevant,
-                onPressed: _isButtonEnabled(InteractionType.notRelevant)
-                    ? () => _handleSelection(InteractionType.notRelevant)
-                    : null,
-                height: widget.buttonHeight ?? 40,
-                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.notRelevant),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: widget.spacing),
-        // Second row - "I need this" and "I can refer"
-        Row(
-          children: [
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.lookingForThis,
@@ -198,8 +185,16 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                     : null,
                 height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.lookingForThis),
+                customTitle: _getButtonTitle(context, InteractionType.lookingForThis),
               ),
             ),
+          ],
+        ),
+        SizedBox(height: widget.spacing),
+        // Second row - "I need this" and "I can refer"
+        Row(
+          children: [
+            
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.knowSomeone,
@@ -209,6 +204,20 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                     : null,
                 height: widget.buttonHeight ?? 40,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.knowSomeone),
+                customTitle: _getButtonTitle(context, InteractionType.knowSomeone),
+              ),
+            ),
+
+            Expanded(
+              child: InteractionButton(
+                interactionType: InteractionType.notRelevant,
+                isSelected: _selectedType == InteractionType.notRelevant,
+                onPressed: _isButtonEnabled(InteractionType.notRelevant)
+                    ? () => _handleSelection(InteractionType.notRelevant)
+                    : null,
+                height: widget.buttonHeight ?? 40,
+                isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.notRelevant),
+                customTitle: _getButtonTitle(context, InteractionType.notRelevant),
               ),
             ),
           ],

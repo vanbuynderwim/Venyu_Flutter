@@ -236,7 +236,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      title: l10n.matchDetailRemoveTitle(matchType),
+      title: l10n.matchDetailRemoveTitle,
       message: l10n.matchDetailRemoveMessage(matchType),
       confirmText: l10n.matchDetailRemoveButton,
       isDestructive: true,

@@ -1,3 +1,4 @@
+import 'package:app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -27,9 +28,9 @@ class StatusBadgeView extends StatelessWidget {
         : Text(
             '${status.emoji} ${status.displayText(context)}',
             style: AppTextStyles.footnote.copyWith(
-              color: status.textColor,
+              color: context.venyuTheme.primaryText,
               fontSize: fontSize,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w600,
             ),
           );
 
@@ -44,7 +45,7 @@ class StatusBadgeView extends StatelessWidget {
         vertical: 4.0,
       ),
       decoration: BoxDecoration(
-        color: status.backgroundColor(context),
+        color: status.backgroundColor(context).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
         border: Border.all(
           color: status.borderColor,

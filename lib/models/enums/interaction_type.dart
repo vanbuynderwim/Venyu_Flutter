@@ -82,6 +82,24 @@ enum InteractionType {
     }
   }
 
+  /// Returns the user-facing button text when matching the same interaction type as the prompt.
+  ///
+  /// Used in daily prompts to show "This is me too" instead of "This is me" when
+  /// the button's interaction type matches the prompt's interaction type.
+  String buttonTitleWhenMatchingPrompt(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeThisIsMeButtonToo;
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeLookingForThisButtonToo;
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeKnowSomeoneButtonToo;
+      case InteractionType.notRelevant:
+        return l10n.interactionTypeNotRelevantButtonToo;
+    }
+  }
+
   /// Returns the asset filename for this interaction type's button icon.
   String get buttonName {
     switch (this) {

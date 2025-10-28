@@ -156,6 +156,13 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
           AppLogger.debug('All daily prompts answered, notifying listeners', context: 'DailyPromptsView');
           _contentManager.notifyAvailablePromptsUpdate([]);
 
+          // Mark daily prompts as completed on server
+          // This runs in background without blocking navigation
+          _contentManager.markDailyPromptsCompleted().catchError((error) {
+            AppLogger.warning('Failed to mark daily prompts as completed: $error', context: 'DailyPromptsView');
+            // Silent failure - don't show error to user
+          });
+
           // If these were real prompts after tutorial, navigate to RegistrationFinishView
           if (widget.isPostTutorialRealPrompts) {
             AppLogger.debug('Completed onboarding prompts, navigating to RegistrationFinishView', context: 'DailyPromptsView');
@@ -308,6 +315,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       promptLabel: _currentPrompt.label,
                       venue: _currentPrompt.venue,
                       isFirstTimeUser: widget.isFirstTimeUser,
+                      interactionType: _currentPrompt.interactionType,
+                      showSelectionTitle: true,
                     ),
                   ),
 
@@ -341,6 +350,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       isUpdating: isProcessing,
                       spacing: AppModifiers.smallSpacing,
                       enabledInteractionType: widget.isFirstTimeUser ? _currentPrompt.interactionType : null,
+                      promptInteractionType: _currentPrompt.interactionType,
                     ),
                   ),
 

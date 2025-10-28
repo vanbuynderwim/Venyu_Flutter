@@ -35,35 +35,18 @@ class InteractionTag extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: compact ? 4.0 : 6.0,
+          horizontal: 12,
+          vertical: 4,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Icon
-            Image.asset(
-              interactionType.assetPath,
-              width: compact ? 16 : 20,
-              height: compact ? 16 : 20,
-              color: Colors.white,
-              errorBuilder: (context, error, stackTrace) {
-                return Icon(
-                  interactionType.fallbackIcon,
-                  size: compact ? 16 : 20,
-                  color: Colors.white,
-                );
-              },
-            ),
-
-            const SizedBox(width: 6),
-
             // Label
             Flexible(
               child: Text(
                 interactionType.buttonTitle(context),
-                style: (compact ? AppTextStyles.caption1 : AppTextStyles.callout).copyWith(
+                style: (compact ? AppTextStyles.footnote : AppTextStyles.callout).copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),

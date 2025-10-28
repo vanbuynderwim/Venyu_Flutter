@@ -10,6 +10,7 @@ import '../../core/utils/date_extensions.dart';
 import '../../models/notification.dart' as venyu;
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/sub_title.dart';
+import '../../widgets/prompts/selection_title_with_icon.dart';
 
 /// NotificationItemView - Flutter equivalent of Swift NotificationItemView
 /// 
@@ -65,14 +66,13 @@ class _NotificationItemViewState extends State<NotificationItemView> {
               children: [
                 Expanded(
                   child: SubTitle(
-                    iconName: widget.notification.type.icon,
                     title: widget.notification.title,
                     textColor: widget.notification.isUnread
                         ? context.venyuTheme.primary
                         : context.venyuTheme.primaryText,
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
                 Text(
                   widget.notification.createdAt.timeAgo(),
                   style: AppTextStyles.footnote.copyWith(
@@ -82,20 +82,20 @@ class _NotificationItemViewState extends State<NotificationItemView> {
               ],
             ),
 
-            AppModifiers.verticalSpaceMedium,
+            AppModifiers.verticalSpaceSmall,
 
             // Body text
             _buildBody(context),
 
             // Optional prompt section
             if (widget.notification.prompt != null) ...[
-              AppModifiers.verticalSpaceMedium,
+              AppModifiers.verticalSpaceSmall,
               _buildPromptSection(context),
             ],
 
             // Optional match section
             if (widget.notification.match != null) ...[
-              AppModifiers.verticalSpaceMedium,
+              AppModifiers.verticalSpaceSmall,
               _buildMatchSection(context),
             ],
           ],
@@ -136,15 +136,30 @@ class _NotificationItemViewState extends State<NotificationItemView> {
         ),
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
-      child: Text(
-        prompt.label,
-        style: AppTextStyles.subheadline.copyWith(
-          color: context.venyuTheme.darkText,
-          fontSize: 16,
-          fontFamily: AppFonts.graphie,
-        ),
-        maxLines: 4,
-        overflow: TextOverflow.ellipsis,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Selection title (if interaction type exists)
+          if (prompt.interactionType != null) ...[
+            SelectionTitleWithIcon(
+              interactionType: prompt.interactionType!,
+              size: 16,
+            ),
+            const SizedBox(height: 4),
+          ],
+          // Prompt label
+          Text(
+            prompt.label,
+            style: AppTextStyles.subheadline.copyWith(
+              color: context.venyuTheme.primaryText,
+              fontSize: 16,
+              fontFamily: AppFonts.graphie,
+            ),
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
