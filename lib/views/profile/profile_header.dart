@@ -5,6 +5,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/profile.dart';
+import '../../widgets/common/matching_score_widget.dart';
 import 'edit_bio_view.dart';
 import 'profile_header/profile_avatar_section.dart';
 import 'profile_header/profile_info_section.dart';
@@ -12,7 +13,7 @@ import 'profile_header/profile_tags_section.dart';
 import 'profile_header/profile_actions_section.dart';
 
 /// Reusable profile header widget used in both ProfileView and MatchDetailView
-/// 
+///
 /// Displays avatar, role, sectors, and bio with optional edit functionality.
 /// Supports both editable mode (for own profile) and read-only mode (for matches).
 class ProfileHeader extends StatefulWidget {
@@ -26,6 +27,7 @@ class ProfileHeader extends StatefulWidget {
   final VoidCallback? onWebsiteTap;
   final VoidCallback? onSectorsEditTap;
   final bool? shouldBlur;
+  final double? matchingScore;
 
   const ProfileHeader({
     super.key,
@@ -39,6 +41,7 @@ class ProfileHeader extends StatefulWidget {
     this.onWebsiteTap,
     this.onSectorsEditTap,
     this.shouldBlur,
+    this.matchingScore,
   });
 
   @override
@@ -58,19 +61,31 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Avatar with optional edit overlay
-            ProfileAvatarSection(
-              profile: widget.profile,
-              isEditable: widget.isEditable,
-              avatarSize: widget.avatarSize,
-              onAvatarTap: widget.onAvatarTap,
-              shouldBlur: widget.shouldBlur,
-              onAvatarChanged: () {
-                // Refresh parent widget when avatar changes
-                setState(() {});
-              },
+            // Avatar with optional matching score below it
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Avatar with optional edit overlay
+                ProfileAvatarSection(
+                  profile: widget.profile,
+                  isEditable: widget.isEditable,
+                  avatarSize: widget.avatarSize,
+                  onAvatarTap: widget.onAvatarTap,
+                  shouldBlur: widget.shouldBlur,
+                  onAvatarChanged: () {
+                    // Refresh parent widget when avatar changes
+                    setState(() {});
+                  },
+                ),
+
+                // Matching score if available
+                if (widget.matchingScore != null) ...[
+                  const SizedBox(height: 10),
+                  MatchingScoreWidget(score: widget.matchingScore!),
+                ],
+              ],
             ),
-            
+
             const SizedBox(width: 16),
             
             // Profile info and tags
@@ -99,7 +114,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           ],
         ),
         
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         
         // Bio section
         _buildBioSection(context, venyuTheme),

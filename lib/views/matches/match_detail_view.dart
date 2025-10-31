@@ -373,9 +373,10 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
             // Profile Header
             ProfileHeader(
               profile: _match!.profile,
-              avatarSize: 105.0,
+              avatarSize: 85,
               isEditable: false,
               isConnection: _match!.isConnected,
+              matchingScore: _match!.score,
               // Blur avatar when user is not Pro AND not connected (same logic as matches_view)
               shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected),
               onAvatarTap: _match!.profile.avatarID != null && _match!.isConnected

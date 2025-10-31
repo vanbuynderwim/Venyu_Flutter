@@ -34,7 +34,7 @@ class SelectionTitleWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = color ?? context.venyuTheme.darkText;
+    final textColor = color ?? context.venyuTheme.primaryText;
 
     return Row(
       mainAxisSize: MainAxisSize.min,

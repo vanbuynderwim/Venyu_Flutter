@@ -101,7 +101,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyPromptsReferralCodeSent =>
-      'Check your email for an invite code to share with your referral';
+      'Check your email for an invite code to share with the person you know';
 
   @override
   String get tutorialFinishedTitle => 'You\'re all set! 🎉';
@@ -431,6 +431,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionSkip => 'Not now';
+
+  @override
+  String get buttonSkip => 'Skip';
 
   @override
   String get actionConfirm => 'Confirm';
@@ -1982,19 +1985,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registrationCompleteTutorialPrompt1 =>
-      'Looking to connect with entrepreneurs growing beyond Belgium.';
+      'has experience scaling internationally.';
 
   @override
   String get registrationCompleteTutorialPrompt2 =>
-      'Looking for someone who\'s raised investment before.';
+      'has secured an EU grant before and is open to share lessons learned.';
 
   @override
   String get registrationCompleteTutorialPrompt3 =>
-      'A friend is launching a coworking space. I\'d like to introduce her to others who\'ve done it.';
+      'has experience starting or running a coworking space.';
 
   @override
   String get registrationCompleteTutorialPrompt4 =>
-      'Looking for an expert in animal nutrition for a new pet food concept.';
+      'has expertise in animal nutrition for a new pet food concept.';
 
   @override
   String get avatarUploadError => 'Failed to upload photo. Please try again.';

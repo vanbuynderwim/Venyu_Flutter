@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailyPromptsReferralCodeSent.
   ///
   /// In en, this message translates to:
-  /// **'Check your email for an invite code to share with your referral'**
+  /// **'Check your email for an invite code to share with the person you know'**
   String get dailyPromptsReferralCodeSent;
 
   /// No description provided for @tutorialFinishedTitle.
@@ -877,6 +877,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get actionSkip;
+
+  /// No description provided for @buttonSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get buttonSkip;
 
   /// No description provided for @actionConfirm.
   ///
@@ -3659,25 +3665,25 @@ abstract class AppLocalizations {
   /// No description provided for @registrationCompleteTutorialPrompt1.
   ///
   /// In en, this message translates to:
-  /// **'Looking to connect with entrepreneurs growing beyond Belgium.'**
+  /// **'has experience scaling internationally.'**
   String get registrationCompleteTutorialPrompt1;
 
   /// No description provided for @registrationCompleteTutorialPrompt2.
   ///
   /// In en, this message translates to:
-  /// **'Looking for someone who\'s raised investment before.'**
+  /// **'has secured an EU grant before and is open to share lessons learned.'**
   String get registrationCompleteTutorialPrompt2;
 
   /// No description provided for @registrationCompleteTutorialPrompt3.
   ///
   /// In en, this message translates to:
-  /// **'A friend is launching a coworking space. I\'d like to introduce her to others who\'ve done it.'**
+  /// **'has experience starting or running a coworking space.'**
   String get registrationCompleteTutorialPrompt3;
 
   /// No description provided for @registrationCompleteTutorialPrompt4.
   ///
   /// In en, this message translates to:
-  /// **'Looking for an expert in animal nutrition for a new pet food concept.'**
+  /// **'has expertise in animal nutrition for a new pet food concept.'**
   String get registrationCompleteTutorialPrompt4;
 
   /// No description provided for @avatarUploadError.

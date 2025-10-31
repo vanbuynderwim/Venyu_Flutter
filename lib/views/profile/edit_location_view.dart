@@ -37,7 +37,7 @@ class EditLocationView extends BaseFormView {
 
 class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
   @override
-  String getFormTitle() => AppLocalizations.of(context)!.editLocationTitle;
+  String getFormTitle() => AppLocalizations.of(context)!.registrationStepLocationTitle;
 
   final Location _location = Location();
   bool _isEnablingLocation = false;
@@ -91,7 +91,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         // Title
         Center(
           child: Text(
-            l10n.editLocationTitle,
+            l10n.registrationStepLocationTitle,
             style: AppTextStyles.title2,
           ),
         ),

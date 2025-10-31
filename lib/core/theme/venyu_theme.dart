@@ -177,7 +177,7 @@ class VenyuTheme extends ThemeExtension<VenyuTheme> {
     warning: AppColors.know,                         // Warning/Know color
     info: AppColors.need,                            // Info/Need color
     linkedIn: AppColors.linkedIn,                    // LinkedIn brand color
-    accent: Colors.white,                  // White color for unlock buttons in dark mode
+    accent: AppColors.secundair5Pinball,                  // White color for unlock buttons in dark mode
     accentBackground: AppColors.secundair2Offblack,  // Dark background for accent elements in dark mode
     unselectedText: Colors.white,                    // White for unselected elements in dark mode
     unselectedBackground: AppColors.secundair3Slategray, // Pinball gray background for unselected elements

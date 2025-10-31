@@ -51,6 +51,7 @@ class PromptDisplayWidget extends StatelessWidget {
                   child: SelectionTitleWithIcon(
                     interactionType: interactionType!,
                     size: 24,
+                    color: venyuTheme.darkText,
                     textAlign: TextAlign.center,
                   ),
                 ),

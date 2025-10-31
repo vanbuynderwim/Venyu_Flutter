@@ -54,22 +54,26 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
         Prompt(
           promptID: 'tutorial_1',
           label: l10n.registrationCompleteTutorialPrompt1,
-          interactionType: InteractionType.thisIsMe,
+          interactionType: InteractionType.lookingForThis,
+          matchInteractionType: InteractionType.thisIsMe
         ),
         Prompt(
           promptID: 'tutorial_2',
           label: l10n.registrationCompleteTutorialPrompt2,
-          interactionType: InteractionType.lookingForThis,
+          interactionType: InteractionType.thisIsMe,
+          matchInteractionType: InteractionType.lookingForThis
         ),
         Prompt(
           promptID: 'tutorial_3',
           label: l10n.registrationCompleteTutorialPrompt3,
-          interactionType: InteractionType.knowSomeone,
+          interactionType: InteractionType.lookingForThis,
+          matchInteractionType: InteractionType.knowSomeone
         ),
         Prompt(
           promptID: 'tutorial_4',
           label: l10n.registrationCompleteTutorialPrompt4,
-          interactionType: InteractionType.notRelevant,
+          interactionType: InteractionType.thisIsMe,
+          matchInteractionType: InteractionType.notRelevant
         ),
       ];
 

@@ -101,7 +101,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get dailyPromptsReferralCodeSent =>
-      'Check je mail voor een uitnodigingscode om te delen met je referral';
+      'Check je mail voor een uitnodigingscode om te delen met de persoon die je kent';
 
   @override
   String get tutorialFinishedTitle => 'Je bent helemaal klaar! 🎉';
@@ -432,6 +432,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get actionSkip => 'Niet nu';
+
+  @override
+  String get buttonSkip => 'Overslaan';
 
   @override
   String get actionConfirm => 'Bevestigen';
@@ -1998,19 +2001,19 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationCompleteTutorialPrompt1 =>
-      'Op zoek naar ondernemers die internationaal groeien.';
+      'ervaring heeft met internationaal opschalen.';
 
   @override
   String get registrationCompleteTutorialPrompt2 =>
-      'Op zoek naar iemand die al investering heeft opgehaald.';
+      'al eens een Europese subsidie heeft binnengehaald en zijn learnings wil delen.';
 
   @override
   String get registrationCompleteTutorialPrompt3 =>
-      'Een vriendin lanceert een coworking space. Ik wil haar graag in contact brengen met anderen die dit gedaan hebben.';
+      'ervaring heeft met het opstarten of runnen van een coworking space.';
 
   @override
   String get registrationCompleteTutorialPrompt4 =>
-      'Op zoek naar een expert in diervoeding voor een nieuw petfood concept.';
+      'expertise heeft in diervoeding voor een nieuw petfood concept.';
 
   @override
   String get avatarUploadError =>

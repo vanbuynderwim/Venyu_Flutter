@@ -154,7 +154,6 @@ class VenyuApp extends StatelessWidget {
         supportedLocales: const [
           Locale('en'),
           Locale('nl'),
-          Locale('fr'),
         ],
         material: (_, _) => MaterialAppData(
           theme: AppTheme.lightTheme,

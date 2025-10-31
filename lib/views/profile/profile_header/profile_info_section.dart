@@ -65,7 +65,7 @@ class ProfileInfoSection extends StatelessWidget {
             children: [
               // Distance
               if (!isEditable && profile.formattedDistance != null) ...[
-                context.themedIcon('location', size: 14),
+                context.themedIcon('location', size: 14, overrideColor: context.venyuTheme.secondaryText),
                 const SizedBox(width: 4),
                 Text(
                   profile.formattedDistance!,

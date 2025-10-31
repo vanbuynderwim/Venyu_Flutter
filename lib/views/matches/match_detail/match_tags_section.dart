@@ -59,7 +59,8 @@ class MatchTagsSection extends StatelessWidget {
                 Text(
                   tagGroup.label ?? AppLocalizations.of(context)!.matchSectionUnknownTagGroup,
                   style: AppTextStyles.subheadline.copyWith(
-                    color: context.venyuTheme.secondaryText,
+                    fontWeight: FontWeight.w500,
+                    color: context.venyuTheme.primaryText,
                   ),
                 ),
                 const SizedBox(height: 8),

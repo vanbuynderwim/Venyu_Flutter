@@ -48,7 +48,7 @@
   "dailyPromptsReportError": "Rapporteren mislukt",
   "dailyPromptsNoPromptsAvailable": "Geen prompts beschikbaar",
   "dailyPromptsExampleTag": "Voorbeeld prompt",
-  "dailyPromptsReferralCodeSent": "Check je mail voor een uitnodigingscode om te delen met je referral",
+  "dailyPromptsReferralCodeSent": "Check je mail voor een uitnodigingscode om te delen met de persoon die je kent",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
@@ -184,6 +184,7 @@
   "actionEdit": "Bewerken",
   "actionNext": "Volgende",
   "actionSkip": "Niet nu",
+  "buttonSkip": "Overslaan",
   "actionConfirm": "Bevestigen",
   "actionInterested": "Stel me voor",
 
@@ -1026,10 +1027,10 @@
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Voltooien van registratie mislukt. Probeer het opnieuw.",
-  "registrationCompleteTutorialPrompt1": "Op zoek naar ondernemers die internationaal groeien.",
-  "registrationCompleteTutorialPrompt2": "Op zoek naar iemand die al investering heeft opgehaald.",
-  "registrationCompleteTutorialPrompt3": "Een vriendin lanceert een coworking space. Ik wil haar graag in contact brengen met anderen die dit gedaan hebben.",
-  "registrationCompleteTutorialPrompt4": "Op zoek naar een expert in diervoeding voor een nieuw petfood concept.",
+  "registrationCompleteTutorialPrompt1": "ervaring heeft met internationaal opschalen.",
+  "registrationCompleteTutorialPrompt2": "al eens een Europese subsidie heeft binnengehaald en zijn learnings wil delen.",
+  "registrationCompleteTutorialPrompt3": "ervaring heeft met het opstarten of runnen van een coworking space.",
+  "registrationCompleteTutorialPrompt4": "expertise heeft in diervoeding voor een nieuw petfood concept.",
 
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Uploaden van foto mislukt. Probeer het opnieuw.",

@@ -63,7 +63,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
       context: context,
       title: l10n.matchActionsSkipDialogTitle,
       message: l10n.matchActionsSkipDialogMessage,
-      confirmText: l10n.actionConfirm,
+      confirmText: l10n.buttonSkip,
     );
 
     if (confirmed) {
@@ -143,7 +143,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
 
     return Container(
       decoration: BoxDecoration(
-        color: context.venyuTheme.cardBackground,
+        color: context.venyuTheme.primary.withValues(alpha: 0.03),
         border: Border(
           top: BorderSide(
             color: context.venyuTheme.borderColor,
@@ -174,11 +174,11 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
                 children: [
                   // Skip button (1/3 width)
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: ActionButton(
-                      label: l10n.actionSkip,
+                      label: l10n.buttonSkip,
                       onPressed: _isProcessingInterested ? null : _showSkipAlert,
-                      type: ActionButtonType.secondary,
+                      type: ActionButtonType.destructive,
                       isLoading: _isProcessingSkip,
                       isDisabled: _isProcessingInterested,
                     ),
@@ -188,7 +188,7 @@ class _MatchActionsSectionState extends State<MatchActionsSection>
 
                   // Interested button (2/3 width)
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: ActionButton(
                       label: l10n.actionInterested,
                       onPressed: _isProcessingSkip ? null : _handleConnectMatch,

@@ -189,16 +189,18 @@ class _PromptItemState extends State<PromptItem> {
                     ],
 
                           // Checkbox for reviewing mode
-                          if (widget.reviewing) ...[
-                            SizedBox(height: AppModifiers.mediumSpacing),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: _buildCheckbox(),
-                            ),
-                          ],
+                          
                         ],
                       ),
                     ),
+
+                    if (widget.reviewing) ...[
+                      SizedBox(height: AppModifiers.mediumSpacing),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: _buildCheckbox(),
+                      ),
+                    ],
                     
                     // Chevron on the right
                     if (widget.showChevron) ...[

@@ -329,13 +329,13 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                   const SizedBox(height: AppModifiers.largeSpacing),
 
                   // Tutorial hint tag for first time users showing which button to press
-                  if (widget.isFirstTimeUser && _currentPrompt.interactionType != null) ...[
+                  if (widget.isFirstTimeUser && _currentPrompt.matchInteractionType != null) ...[
                     TagView(
                       id: 'tutorial-hint',
                       emoji: '👇',
                       iconSize: 18, // Slightly larger for better emoji visibility
                       label: _selectedInteractionType == null
-                          ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.interactionType!.buttonTitle(context))
+                          ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.matchInteractionType!.buttonTitle(context))
                           : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
                     ),
                     const SizedBox(height: AppModifiers.mediumSpacing),
@@ -349,7 +349,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       selectedInteractionType: _selectedInteractionType,
                       isUpdating: isProcessing,
                       spacing: AppModifiers.smallSpacing,
-                      enabledInteractionType: widget.isFirstTimeUser ? _currentPrompt.interactionType : null,
+                      enabledInteractionType: widget.isFirstTimeUser ? _currentPrompt.matchInteractionType : null,
                       promptInteractionType: _currentPrompt.interactionType,
                     ),
                   ),

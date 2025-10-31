@@ -36,7 +36,7 @@ class EditNotificationsView extends BaseFormView {
 
 class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsView> {
   @override
-  String getFormTitle() => AppLocalizations.of(context)!.editNotificationsTitle;
+  String getFormTitle() => AppLocalizations.of(context)!.registrationStepNotificationsTitle;
 
   bool _isEnablingNotifications = false;
 
@@ -89,7 +89,7 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         // Title
         Center(
           child: Text(
-            l10n.editNotificationsTitle,
+            l10n.registrationStepNotificationsTitle,
             style: AppTextStyles.title2,
           ),
         ),

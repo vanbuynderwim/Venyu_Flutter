@@ -5,6 +5,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import 'avatar_view.dart';
+import 'matching_score_widget.dart';
 
 /// RoleView - Component voor het weergeven van profielen met avatar en bedrijfsinformatie
 class RoleView extends StatelessWidget {
@@ -17,6 +18,7 @@ class RoleView extends StatelessWidget {
   final bool shouldBlur;
   final bool showNotificationDot;
   final Match? match;
+  final double? matchingScore;
 
   const RoleView({
     super.key,
@@ -29,6 +31,7 @@ class RoleView extends StatelessWidget {
     this.shouldBlur = false,
     this.showNotificationDot = false,
     this.match,
+    this.matchingScore,
   });
 
   @override
@@ -79,13 +82,20 @@ class RoleView extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         profile.formattedDistance!,
-                        style: AppTextStyles.footnote.copyWith(
+                        style: AppTextStyles.caption1.copyWith(
                           color: context.venyuTheme.secondaryText,
                         ),
                       ),
                     ],
                   ),
-                
+
+                // Matching score if available
+                if (matchingScore != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: MatchingScoreWidget(score: matchingScore!),
+                  ),
+
                 // Bio if available
                 if (profile.bio != null && profile.bio!.isNotEmpty)
                   Text(

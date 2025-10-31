@@ -48,7 +48,7 @@
   "dailyPromptsReportError": "Failed to report prompt",
   "dailyPromptsNoPromptsAvailable": "No prompts available",
   "dailyPromptsExampleTag": "Example prompt",
-  "dailyPromptsReferralCodeSent": "Check your email for an invite code to share with your referral",
+  "dailyPromptsReferralCodeSent": "Check your email for an invite code to share with the person you know",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
@@ -184,6 +184,7 @@
   "actionEdit": "Edit",
   "actionNext": "Next",
   "actionSkip": "Not now",
+  "buttonSkip": "Skip",
   "actionConfirm": "Confirm",
   "actionInterested": "Introduce me",
 
@@ -1026,10 +1027,10 @@
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Failed to complete registration. Please try again.",
-  "registrationCompleteTutorialPrompt1": "Looking to connect with entrepreneurs growing beyond Belgium.",
-  "registrationCompleteTutorialPrompt2": "Looking for someone who's raised investment before.",
-  "registrationCompleteTutorialPrompt3": "A friend is launching a coworking space. I'd like to introduce her to others who've done it.",
-  "registrationCompleteTutorialPrompt4": "Looking for an expert in animal nutrition for a new pet food concept.",
+  "registrationCompleteTutorialPrompt1": "has experience scaling internationally.",
+  "registrationCompleteTutorialPrompt2": "has secured an EU grant before and is open to share lessons learned.",
+  "registrationCompleteTutorialPrompt3": "has experience starting or running a coworking space.",
+  "registrationCompleteTutorialPrompt4": "has expertise in animal nutrition for a new pet food concept.",
 
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Failed to upload photo. Please try again.",
