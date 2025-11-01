@@ -9,6 +9,7 @@ export 'badge.dart';
 export 'language.dart';
 export 'invite.dart';
 export 'app_version.dart';
+export 'score_detail.dart';
 export 'requests/paginated_request.dart';
 
 // Enums - Core functionality

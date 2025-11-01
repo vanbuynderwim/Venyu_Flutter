@@ -866,6 +866,9 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get matchDetailScoreBreakdown => 'Matching score';
+
+  @override
   String get matchDetailUnlockTitle => 'Ontgrendel wederzijdse interesses';
 
   @override

@@ -65,7 +65,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       AppLogger.success('Match detail RPC call successful', context: 'MatchingManager');
       AppLogger.debug('Match detail data received', context: 'MatchingManager');
-      
+
       // Convert response to Match object
       final match = Match.fromJson(result);
       AppLogger.success('Match detail parsed: ${match.profile.fullName}', context: 'MatchingManager');

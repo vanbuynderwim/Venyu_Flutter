@@ -26,6 +26,7 @@ import '../../widgets/common/sub_title.dart';
 import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
 import 'match_detail/match_preview_indicator.dart';
+import 'match_detail/match_score_section.dart';
 import 'match_reasons_view.dart';
 
 /// Enum for match menu actions
@@ -512,8 +513,19 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 MatchReasonsView(match: _match!),
                 const SizedBox(height: 16),
               ],
+
+              // Match score breakdown section
+              if (_match!.scoreDetails != null && _match!.scoreDetails!.isNotEmpty) ...[
+                SubTitle(
+                  iconName: 'match',
+                  title: l10n.matchDetailScoreBreakdown,
+                ),
+                const SizedBox(height: 16),
+                MatchScoreSection(match: _match!),
+                const SizedBox(height: 16),
+              ],
             ],
-            
+
       ],
     );
   }

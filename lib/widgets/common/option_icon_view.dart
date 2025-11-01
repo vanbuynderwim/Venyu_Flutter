@@ -60,6 +60,7 @@ class OptionIconView extends StatelessWidget {
           size: size,
           placeholder: placeholder,
           opacity: opacity,
+          color: color,
         );
       }
     }
@@ -87,6 +88,7 @@ class OptionIconView extends StatelessWidget {
             size: size,
             placeholder: placeholder,
             opacity: opacity,
+            color: color,
           );
         },
       ),

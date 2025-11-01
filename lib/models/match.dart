@@ -2,6 +2,7 @@ import 'profile.dart';
 import 'prompt.dart';
 import 'tag_group.dart';
 import 'venue.dart';
+import 'score_detail.dart';
 import 'enums/match_status.dart';
 import 'enums/match_response.dart';
 
@@ -20,6 +21,7 @@ class Match {
   final int? unreadCount;
   final bool? isPreview;
   final bool? isViewed;
+  final List<ScoreDetail>? scoreDetails;
 
   const Match({
     required this.id,
@@ -36,6 +38,7 @@ class Match {
     this.unreadCount,
     this.isPreview,
     this.isViewed,
+    this.scoreDetails,
   });
 
   factory Match.fromJson(Map<String, dynamic> json) {
@@ -65,6 +68,9 @@ class Match {
       unreadCount: json['unread_count'] as int?,
       isPreview: json['is_preview'] as bool?,
       isViewed: json['is_viewed'] as bool?,
+      scoreDetails: (json['score_detail'] ?? json['score_details']) != null
+          ? ((json['score_detail'] ?? json['score_details']) as List).map((detail) => ScoreDetail.fromJson(detail)).toList()
+          : null,
     );
   }
 
@@ -84,6 +90,7 @@ class Match {
       'unread_count': unreadCount,
       'is_preview': isPreview,
       'is_viewed': isViewed,
+      'score_details': scoreDetails?.map((detail) => detail.toJson()).toList(),
     };
   }
 
@@ -147,6 +154,7 @@ class Match {
     int? unreadCount,
     bool? isPreview,
     bool? isViewed,
+    List<ScoreDetail>? scoreDetails,
   }) {
     return Match(
       id: id ?? this.id,
@@ -163,6 +171,7 @@ class Match {
       unreadCount: unreadCount ?? this.unreadCount,
       isPreview: isPreview ?? this.isPreview,
       isViewed: isViewed ?? this.isViewed,
+      scoreDetails: scoreDetails ?? this.scoreDetails,
     );
   }
 }

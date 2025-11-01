@@ -439,6 +439,7 @@
       }
     }
   },
+  "matchDetailScoreBreakdown": "Matching score",
   "matchDetailUnlockTitle": "Unlock mutual interests",
   "matchDetailUnlockMessage": "See what you share on a personal level with {name}",
   "@matchDetailUnlockMessage": {

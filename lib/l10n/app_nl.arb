@@ -439,6 +439,7 @@
       }
     }
   },
+  "matchDetailScoreBreakdown": "Matching score",
   "matchDetailUnlockTitle": "Ontgrendel wederzijdse interesses",
   "matchDetailUnlockMessage": "Zie wat je op persoonlijk niveau met {name} deelt",
   "@matchDetailUnlockMessage": {

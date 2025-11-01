@@ -1640,6 +1640,12 @@ abstract class AppLocalizations {
   /// **'Why you and {name} match'**
   String matchDetailWhyMatch(String name);
 
+  /// No description provided for @matchDetailScoreBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching score'**
+  String get matchDetailScoreBreakdown;
+
   /// No description provided for @matchDetailUnlockTitle.
   ///
   /// In en, this message translates to:

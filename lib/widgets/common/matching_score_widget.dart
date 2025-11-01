@@ -7,11 +7,12 @@ import '../../core/theme/venyu_theme.dart';
 /// Scores of 8+ fill all 5 dots, making it easier to reach maximum.
 ///
 /// Example:
-/// - score 0-1.9: 1 dot filled
-/// - score 2-3.9: 2 dots filled
-/// - score 4-5.9: 3 dots filled
-/// - score 6-7.9: 4 dots filled
-/// - score 8+: 5 dots filled (maximum)
+/// - score 0: 0 dots filled (no data/null case)
+/// - score > 0 and <= 2: 1 dot filled
+/// - score > 2 and <= 4: 2 dots filled
+/// - score > 4 and <= 6: 3 dots filled
+/// - score > 6 and <= 8: 4 dots filled
+/// - score > 8: 5 dots filled (maximum)
 class MatchingScoreWidget extends StatelessWidget {
   /// The matching score from 0 to 10
   final double score;
@@ -26,7 +27,7 @@ class MatchingScoreWidget extends StatelessWidget {
     super.key,
     required this.score,
     this.dotSize = 8,
-    this.spacing = 8,
+    this.spacing = 6,
   });
 
   /// Calculate how many dots should be filled based on the score
@@ -34,12 +35,23 @@ class MatchingScoreWidget extends StatelessWidget {
     // Clamp score between 0 and 10
     final clampedScore = score.clamp(0.0, 10.0);
 
-    // Scores of 8 or higher fill all 5 dots
-    if (clampedScore >= 8.0) return 5;
+    // 0 = 0 bolletjes
+    if (clampedScore == 0.0) return 0;
 
-    // Otherwise: divide by 2, floor, and add 1
-    // This gives: 0-1.9→1, 2-3.9→2, 4-5.9→3, 6-7.9→4
-    return ((clampedScore / 2).floor() + 1).clamp(1, 5);
+    // > 0 en <= 2: 1 bolletje
+    if (clampedScore <= 2.0) return 1;
+
+    // > 2 en <= 4: 2 bolletjes
+    if (clampedScore <= 4.0) return 2;
+
+    // > 4 en <= 6: 3 bolletjes
+    if (clampedScore <= 6.0) return 3;
+
+    // > 6 en <= 8: 4 bolletjes
+    if (clampedScore <= 8.0) return 4;
+
+    // > 8: 5 bolletjes
+    return 5;
   }
 
   @override

@@ -862,6 +862,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get matchDetailScoreBreakdown => 'Matching score';
+
+  @override
   String get matchDetailUnlockTitle => 'Unlock mutual interests';
 
   @override
