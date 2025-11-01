@@ -27,7 +27,7 @@ class MatchingScoreWidget extends StatelessWidget {
     super.key,
     required this.score,
     this.dotSize = 8,
-    this.spacing = 6,
+    this.spacing = 4,
   });
 
   /// Calculate how many dots should be filled based on the score
