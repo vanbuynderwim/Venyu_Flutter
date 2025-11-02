@@ -62,6 +62,25 @@
                 <data android:pathPrefix="/auth/v1/callback"/>
             </intent-filter>
             -->
+
+            <!-- App Links for deep linking to matches, prompts, and profiles -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="app.getvenyu.com"
+                    android:pathPrefix="/match" />
+                <data
+                    android:scheme="https"
+                    android:host="app.getvenyu.com"
+                    android:pathPrefix="/prompt" />
+                <data
+                    android:scheme="https"
+                    android:host="app.getvenyu.com"
+                    android:pathPrefix="/profile" />
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

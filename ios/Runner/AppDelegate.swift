@@ -1,5 +1,5 @@
-import Flutter
 import UIKit
+import Flutter
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -26,10 +26,37 @@ import UIKit
   
   override func applicationDidBecomeActive(_ application: UIApplication) {
     super.applicationDidBecomeActive(application)
-    
+
     // Ensure splash screen colors remain consistent
     if let window = self.window {
       window.backgroundColor = UIColor(red: 113/255, green: 113/255, blue: 255/255, alpha: 1.0)
     }
+  }
+
+  // CRITICAL: Handle Universal Links to prevent Safari from opening
+  // This method tells iOS that the app successfully handled the Universal Link
+  override func application(
+    _ application: UIApplication,
+    continue userActivity: NSUserActivity,
+    restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
+  ) -> Bool {
+    // First, let the super class (app_links plugin) handle the link
+    let handled = super.application(application, continue: userActivity, restorationHandler: restorationHandler)
+
+    // If app_links handled it, return true
+    if handled {
+      return true
+    }
+
+    // Otherwise, check if it's a Universal Link and handle it ourselves
+    if userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+       let url = userActivity.webpageURL {
+      // The link is received and will be handled by Flutter's DeepLinkService
+      // CRITICAL: Return true to tell iOS we handled it and prevent Safari from opening
+      NSLog("Universal Link received in AppDelegate: \(url.absoluteString)")
+      return true
+    }
+
+    return false
   }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:location/location.dart';
 
 import '../l10n/app_localizations.dart';
 import '../core/theme/venyu_theme.dart';
 import '../core/utils/app_logger.dart';
 import '../models/prompt.dart';
 import '../services/supabase_managers/content_manager.dart';
+import '../services/supabase_managers/profile_manager.dart';
 import '../core/providers/app_providers.dart';
 import '../services/notification_service.dart';
 import '../services/version_service.dart';
@@ -67,8 +69,9 @@ class _MainViewState extends State<MainView> {
     // Set up available prompts update callback
     _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
 
-    // Check for prompts, badges, version, and connectivity on app startup
+    // Check for prompts, badges, version, connectivity, and permissions on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndRequestPermissions();
       _checkForPrompts();
       _fetchBadges();
       _checkVersion();
@@ -82,6 +85,62 @@ class _MainViewState extends State<MainView> {
       setState(() {
         _availablePromptsCount = prompts.length;
       });
+    }
+  }
+
+  /// Check and request missing permissions for returning users
+  ///
+  /// This handles the case where a user reinstalls the app:
+  /// - iOS resets all permissions after app deletion
+  /// - User is already registered (skips onboarding)
+  /// - We need to re-request location and notification permissions
+  Future<void> _checkAndRequestPermissions() async {
+    try {
+      // 1. Check and request location permission
+      final location = Location();
+      final locationPermission = await location.hasPermission();
+
+      if (locationPermission != PermissionStatus.granted &&
+          locationPermission != PermissionStatus.grantedLimited) {
+        AppLogger.info(
+          'Location permission missing for returning user, requesting...',
+          context: 'MainView',
+        );
+
+        final granted = await location.requestPermission();
+
+        if (granted == PermissionStatus.granted ||
+            granted == PermissionStatus.grantedLimited) {
+          AppLogger.success('Location permission granted', context: 'MainView');
+
+          // Now that we have permission, refresh the location
+          await ProfileManager.shared.refreshLocationAtStartup();
+        } else {
+          AppLogger.info('Location permission denied', context: 'MainView');
+        }
+      }
+
+      // 2. Request notification permission
+      // Note: iOS won't show dialog if permission is already granted
+      AppLogger.info(
+        'Checking notification permission for returning user...',
+        context: 'MainView',
+      );
+
+      final granted = await _notificationService.requestPermission();
+
+      if (granted) {
+        AppLogger.success('Notification permission granted', context: 'MainView');
+      } else {
+        AppLogger.info('Notification permission denied or already denied', context: 'MainView');
+      }
+    } catch (error) {
+      AppLogger.error(
+        'Error checking/requesting permissions',
+        error: error,
+        context: 'MainView',
+      );
+      // Don't block app startup if permission check fails
     }
   }
 

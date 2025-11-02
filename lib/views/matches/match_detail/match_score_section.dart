@@ -33,7 +33,7 @@ class MatchScoreSection extends StatelessWidget {
           final isLast = index == match.scoreDetails!.length - 1;
 
           return Padding(
-            padding: EdgeInsets.only(bottom: isLast ? 0 : 0),
+            padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
             child: ScoreDetailItem(scoreDetail: scoreDetail),
           );
         }).toList(),

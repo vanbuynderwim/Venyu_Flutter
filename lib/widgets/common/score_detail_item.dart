@@ -33,62 +33,59 @@ class ScoreDetailItem extends StatelessWidget {
     // Lower opacity for text when no data
     final textOpacity = hasData ? 1.0 : 0.5;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Icon
-          SizedBox(
-            width: 18,
-            height: 18,
-            child: OptionIconView(
-              icon: scoreDetail.icon,
-              emoji: null,
-              size: 24,
-              color: iconColor,
-              placeholder: 'match',
-              opacity: 1.0,
-              isLocal: false, // Remote icons from database
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Icon
+        SizedBox(
+          width: 20,
+          height: 20,
+          child: OptionIconView(
+            icon: scoreDetail.icon,
+            emoji: null,
+            size: 24,
+            color: iconColor,
+            placeholder: 'match',
+            opacity: 1.0,
+            isLocal: false, // Remote icons from database
+          ),
+        ),
+
+        const SizedBox(width: 16),
+
+        // Label and Description
+        Expanded(
+          child: Opacity(
+            opacity: textOpacity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  scoreDetail.label,
+                  style: AppTextStyles.subheadline.copyWith(
+                    color: venyuTheme.primaryText,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  scoreDetail.description,
+                  style: AppTextStyles.caption2.copyWith(
+                    color: venyuTheme.secondaryText,
+                  ),
+                ),
+              ],
             ),
           ),
+        ),
 
-          const SizedBox(width: 16),
+        const SizedBox(width: 10),
 
-          // Label and Description
-          Expanded(
-            child: Opacity(
-              opacity: textOpacity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    scoreDetail.label,
-                    style: AppTextStyles.subheadline.copyWith(
-                      color: venyuTheme.primaryText,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    scoreDetail.description,
-                    style: AppTextStyles.footnote.copyWith(
-                      color: venyuTheme.secondaryText,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          // Matching Score Widget (right-aligned)
-          // Show score if available, otherwise show empty (0) score
-          MatchingScoreWidget(
-            score: scoreDetail.weightedPoints ?? 0.0,
-          ),
-        ],
-      ),
+        // Matching Score Widget (right-aligned)
+        // Show score if available, otherwise show empty (0) score
+        MatchingScoreWidget(
+          score: scoreDetail.weightedPoints ?? 0.0,
+        ),
+      ],
     );
   }
 }

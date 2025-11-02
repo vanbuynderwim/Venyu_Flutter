@@ -273,6 +273,8 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
       final location = Location();
 
       // Check if we have location permission
+      // Note: We don't request permission here - that's done during onboarding
+      // in edit_location_view where we first explain the benefits to the user
       final hasPermission = await location.hasPermission();
       if (hasPermission != PermissionStatus.granted &&
           hasPermission != PermissionStatus.grantedLimited) {

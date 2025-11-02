@@ -18,6 +18,7 @@ import 'services/profile_service.dart';
 import 'services/supabase_manager.dart';
 import 'services/notification_service.dart';
 import 'services/revenuecat_service.dart';
+import 'services/deep_link_service.dart';
 import 'views/index.dart';
 import 'views/auth/invite_screening_view.dart';
 import 'views/auth/redeem_invite_view.dart';
@@ -27,7 +28,8 @@ void main() async {
   // Critical: Preserve splash screen immediately to prevent white screen
   // This must be the FIRST thing after ensureInitialized()
   // Use SentryWidgetsFlutterBinding for proper Sentry integration
-  WidgetsBinding widgetsBinding = SentryWidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding =
+      SentryWidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   // Configure transparent system UI for edge-to-edge display (Android 15+ compatibility)
@@ -48,11 +50,18 @@ void main() async {
     await initializeDateFormatting();
     // Explicitly initialize nl_BE locale
     await initializeDateFormatting('nl_BE');
-    AppLogger.info('Date formatting initialized for all locales including nl_BE', context: 'main');
+    AppLogger.info(
+      'Date formatting initialized for all locales including nl_BE',
+      context: 'main',
+    );
   } catch (e) {
-    AppLogger.warning('Date formatting initialization failed', error: e, context: 'main');
+    AppLogger.warning(
+      'Date formatting initialization failed',
+      error: e,
+      context: 'main',
+    );
   }
-  
+
   // Load environment variables from .env file
   // In CI/CD, this file is generated with environment-specific values
   try {
@@ -62,7 +71,7 @@ void main() async {
     AppLogger.warning('Could not load .env file', error: e, context: 'main');
     AppLogger.info('Using fallback configuration', context: 'main');
   }
-  
+
   // Validate configuration before proceeding
   try {
     if (!AppConfig.validateConfiguration()) {
@@ -70,58 +79,95 @@ void main() async {
     }
   } catch (e) {
     AppLogger.error('Configuration error', error: e, context: 'main');
-    AppLogger.error('Please ensure environment variables are properly set in .env.local', context: 'main');
+    AppLogger.error(
+      'Please ensure environment variables are properly set in .env.local',
+      context: 'main',
+    );
     return;
   }
-  
+
   // Initialize Supabase through SupabaseManager - better separation of concerns
   try {
     await SupabaseManager.shared.initialize();
   } catch (e) {
-    AppLogger.error('Failed to initialize SupabaseManager', error: e, context: 'main');
-    AppLogger.error('Cannot continue without Supabase connection', context: 'main');
+    AppLogger.error(
+      'Failed to initialize SupabaseManager',
+      error: e,
+      context: 'main',
+    );
+    AppLogger.error(
+      'Cannot continue without Supabase connection',
+      context: 'main',
+    );
     return;
   }
-  
-  
+
   // Initialize Firebase and NotificationService (non-blocking)
   NotificationService.shared.initialize().catchError((error) {
-    AppLogger.warning('NotificationService initialization failed', error: error, context: 'main');
-    AppLogger.info('App will continue without push notifications', context: 'main');
+    AppLogger.warning(
+      'NotificationService initialization failed',
+      error: error,
+      context: 'main',
+    );
+    AppLogger.info(
+      'App will continue without push notifications',
+      context: 'main',
+    );
   });
-  
+
   // Initialize RevenueCat (only if Pro features are enabled)
   if (AppConfig.showPro) {
     try {
       await _initializeRevenueCat();
     } catch (e) {
-      AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
-      AppLogger.info('App will continue without subscription features', context: 'main');
+      AppLogger.warning(
+        'RevenueCat initialization failed',
+        error: e,
+        context: 'main',
+      );
+      AppLogger.info(
+        'App will continue without subscription features',
+        context: 'main',
+      );
     }
   } else {
-    AppLogger.info('RevenueCat initialization skipped - Pro features disabled in config', context: 'main');
+    AppLogger.info(
+      'RevenueCat initialization skipped - Pro features disabled in config',
+      context: 'main',
+    );
   }
-  
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = 'https://551ad30b7555c2fdc9f9a65e56ce1a07@o4510182183534592.ingest.de.sentry.io/4510182184976464';
-      // Adds request headers and IP for users, for more info visit:
-      // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
-      options.sendDefaultPii = true;
-      // Disable debug logs to reduce console noise during development
-      options.debug = false;
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-      // The sampling rate for profiling is relative to tracesSampleRate
-      // Setting to 1.0 will profile 100% of sampled transactions:
-      options.profilesSampleRate = 1.0;
-      // Configure Session Replay
-      options.replay.sessionSampleRate = 0.1;
-      options.replay.onErrorSampleRate = 1.0;
-    },
-    appRunner: () => runApp(SentryWidget(child: const VenyuApp())),
-  );
+
+  // Initialize DeepLinkService EARLY (before runApp)
+  // This registers the listener immediately so iOS doesn't fall back to Safari
+  try {
+    await DeepLinkService.shared.earlyBootstrap();
+    AppLogger.info('DeepLinkService early bootstrap completed', context: 'main');
+  } catch (e) {
+    AppLogger.warning(
+      'DeepLinkService early bootstrap failed',
+      error: e,
+      context: 'main',
+    );
+  }
+
+  await SentryFlutter.init((options) {
+    options.dsn =
+        'https://551ad30b7555c2fdc9f9a65e56ce1a07@o4510182183534592.ingest.de.sentry.io/4510182184976464';
+    // Adds request headers and IP for users, for more info visit:
+    // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
+    options.sendDefaultPii = true;
+    // Disable debug logs to reduce console noise during development
+    options.debug = false;
+    // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+    // We recommend adjusting this value in production.
+    options.tracesSampleRate = 1.0;
+    // The sampling rate for profiling is relative to tracesSampleRate
+    // Setting to 1.0 will profile 100% of sampled transactions:
+    options.profilesSampleRate = 1.0;
+    // Configure Session Replay
+    options.replay.sessionSampleRate = 0.1;
+    options.replay.onErrorSampleRate = 1.0;
+  }, appRunner: () => runApp(SentryWidget(child: const VenyuApp())));
 }
 
 /// Initialize RevenueCat using the dedicated service
@@ -129,8 +175,15 @@ Future<void> _initializeRevenueCat() async {
   try {
     await RevenueCatService().initialize();
   } catch (e) {
-    AppLogger.warning('RevenueCat initialization failed', error: e, context: 'main');
-    AppLogger.info('App will continue without subscription features', context: 'main');
+    AppLogger.warning(
+      'RevenueCat initialization failed',
+      error: e,
+      context: 'main',
+    );
+    AppLogger.info(
+      'App will continue without subscription features',
+      context: 'main',
+    );
   }
 }
 
@@ -139,8 +192,11 @@ class VenyuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.ui('VenyuApp.build() - Creating AppProviders with focused services', context: 'VenyuApp');
-    
+    AppLogger.ui(
+      'VenyuApp.build() - Creating AppProviders with focused services',
+      context: 'VenyuApp',
+    );
+
     return AppProviders(
       child: PlatformApp(
         title: 'Venyu',
@@ -151,10 +207,7 @@ class VenyuApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('nl'),
-        ],
+        supportedLocales: const [Locale('en'), Locale('nl')],
         material: (_, _) => MaterialAppData(
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
@@ -163,8 +216,8 @@ class VenyuApp extends StatelessWidget {
         cupertino: (context, platform) {
           final brightness = MediaQuery.platformBrightnessOf(context);
           return CupertinoAppData(
-            theme: brightness == Brightness.dark 
-                ? AppTheme.cupertinoDarkTheme 
+            theme: brightness == Brightness.dark
+                ? AppTheme.cupertinoDarkTheme
                 : AppTheme.cupertinoLightTheme,
           );
         },
@@ -185,19 +238,31 @@ class AuthFlow extends StatefulWidget {
 
 class _AuthFlowState extends State<AuthFlow> {
   bool _splashRemoved = false;
+  bool _deepLinkInitialized = false;
+
+  @override
+  void dispose() {
+    if (_deepLinkInitialized) {
+      DeepLinkService.shared.dispose();
+    }
+    super.dispose();
+  }
 
   /// Determines the overall app state by combining auth and profile services.
-  AuthenticationState _determineAppState(AuthService authService, ProfileService profileService) {
+  AuthenticationState _determineAppState(
+    AuthService authService,
+    ProfileService profileService,
+  ) {
     // Start with auth state
     final authState = authService.authState;
-    
+
     // If auth is not authenticated, return that state
     if (authState == AuthenticationState.unauthenticated ||
         authState == AuthenticationState.loading ||
         authState == AuthenticationState.error) {
       return authState;
     }
-    
+
     // If authenticated, check profile registration status
     if (authState == AuthenticationState.authenticated) {
       // If we don't have a profile yet, stay in loading to prevent flash
@@ -216,12 +281,12 @@ class _AuthFlowState extends State<AuthFlow> {
         return AuthenticationState.authenticated;
       }
     }
-    
+
     // If already registered, return that state
     if (authState == AuthenticationState.registered) {
       return AuthenticationState.registered;
     }
-    
+
     // Default case
     return authState;
   }
@@ -229,19 +294,37 @@ class _AuthFlowState extends State<AuthFlow> {
   @override
   Widget build(BuildContext context) {
     AppLogger.ui('AuthFlow.build() called', context: 'AuthFlow');
-    
+
     return AuthProfileConsumer(
       builder: (context, authService, profileService, child) {
-        AppLogger.ui('AuthFlow Consumer: Current state = ${authService.authState}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: isAuthenticated = ${authService.isAuthenticated}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: isRegistered = ${profileService.isRegistered}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: isRedeemed = ${profileService.isRedeemed}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: hasProfile = ${profileService.currentProfile != null}', context: 'AuthFlow');
-        AppLogger.ui('AuthFlow Consumer: AuthService instance = ${authService.hashCode}', context: 'AuthFlow');
-        
+        AppLogger.ui(
+          'AuthFlow Consumer: Current state = ${authService.authState}',
+          context: 'AuthFlow',
+        );
+        AppLogger.ui(
+          'AuthFlow Consumer: isAuthenticated = ${authService.isAuthenticated}',
+          context: 'AuthFlow',
+        );
+        AppLogger.ui(
+          'AuthFlow Consumer: isRegistered = ${profileService.isRegistered}',
+          context: 'AuthFlow',
+        );
+        AppLogger.ui(
+          'AuthFlow Consumer: isRedeemed = ${profileService.isRedeemed}',
+          context: 'AuthFlow',
+        );
+        AppLogger.ui(
+          'AuthFlow Consumer: hasProfile = ${profileService.currentProfile != null}',
+          context: 'AuthFlow',
+        );
+        AppLogger.ui(
+          'AuthFlow Consumer: AuthService instance = ${authService.hashCode}',
+          context: 'AuthFlow',
+        );
+
         // Determine the overall app state by combining auth and profile services
         final appState = _determineAppState(authService, profileService);
-        
+
         // Remove splash screen once we have a definitive state AND UI is ready
         // Following flutter_native_splash best practices
         if (!_splashRemoved && appState != AuthenticationState.loading) {
@@ -253,27 +336,44 @@ class _AuthFlowState extends State<AuthFlow> {
                 // Use recommended removal method
                 FlutterNativeSplash.remove();
                 _splashRemoved = true;
-                AppLogger.info('Splash screen removed - app fully initialized', context: 'AuthFlow');
+                AppLogger.info(
+                  'Splash screen removed - app fully initialized',
+                  context: 'AuthFlow',
+                );
               }
             });
           });
         }
-        
+
         switch (appState) {
           case AuthenticationState.loading:
             AppLogger.ui('Showing loading screen', context: 'AuthFlow');
             return PlatformScaffold(
-              body: Center(
-                child: PlatformCircularProgressIndicator(),
-              ),
+              body: Center(child: PlatformCircularProgressIndicator()),
             );
-            
+
           case AuthenticationState.unauthenticated:
             AppLogger.ui('Showing invite screening view', context: 'AuthFlow');
             return const InviteScreeningView();
-            
+
           case AuthenticationState.registered:
             AppLogger.ui('Showing main view', context: 'AuthFlow');
+
+            // Attach context to deep link service once user is registered
+            // The listener was already registered early (before runApp)
+            if (!_deepLinkInitialized) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted && !_deepLinkInitialized) {
+                  DeepLinkService.shared.attachContext(context);
+                  _deepLinkInitialized = true;
+                  AppLogger.info(
+                    'Deep link context attached',
+                    context: 'AuthFlow',
+                  );
+                }
+              });
+            }
+
             return const MainView();
 
           case AuthenticationState.authenticated:
@@ -292,15 +392,14 @@ class _AuthFlowState extends State<AuthFlow> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      isCupertino(context) ? CupertinoIcons.exclamationmark_circle : Icons.error_outline,
+                      isCupertino(context)
+                          ? CupertinoIcons.exclamationmark_circle
+                          : Icons.error_outline,
                       size: 64,
                       color: Colors.red,
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      'Authentication Error',
-                      style: AppTextStyles.title2,
-                    ),
+                    Text('Authentication Error', style: AppTextStyles.title2),
                     const SizedBox(height: 8),
                     Text(
                       authService.lastError ?? 'Unknown error occurred',
@@ -330,4 +429,3 @@ class _AuthFlowState extends State<AuthFlow> {
     );
   }
 }
-

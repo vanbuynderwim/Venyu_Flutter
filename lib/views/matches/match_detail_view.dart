@@ -522,7 +522,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchScoreSection(match: _match!),
-                const SizedBox(height: 16),
               ],
             ],
 
