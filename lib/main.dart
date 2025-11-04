@@ -365,9 +365,10 @@ class _AuthFlowState extends State<AuthFlow> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted && !_deepLinkInitialized) {
                   DeepLinkService.shared.attachContext(context);
+                  NotificationService.shared.attachContext(context);
                   _deepLinkInitialized = true;
                   AppLogger.info(
-                    'Deep link context attached',
+                    'Deep link and notification context attached',
                     context: 'AuthFlow',
                   );
                 }

@@ -6,7 +6,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../core/utils/app_logger.dart';
 import '../views/matches/match_detail_view.dart';
 import '../views/prompts/prompt_detail_view.dart';
-import '../views/profile/profile_view.dart';
 
 /// DeepLinkService - Handles deep linking for the app
 ///
@@ -14,10 +13,10 @@ import '../views/profile/profile_view.dart';
 /// The service registers the listener BEFORE the app is fully initialized,
 /// queues incoming links, and processes them when the navigator is ready.
 ///
-/// Supports the following deep link patterns:
-/// - https://app.getvenyu.com/match/{matchId}
-/// - https://app.getvenyu.com/prompt/{promptId}
-/// - https://app.getvenyu.com/profile/{profileId}
+/// Supported deep link patterns:
+/// - https://app.getvenyu.com/match/{matchId} - Navigate to specific match
+/// - https://app.getvenyu.com/prompt/{promptId} - Navigate to specific prompt
+/// - https://app.getvenyu.com/profile - Navigate to profile tab
 class DeepLinkService {
   static final DeepLinkService _instance = DeepLinkService._internal();
   static DeepLinkService get shared => _instance;
@@ -29,6 +28,9 @@ class DeepLinkService {
   StreamSubscription<Uri>? _subscription;
   BuildContext? _context;
   bool _earlyBootstrapDone = false;
+
+  /// Callback to navigate to a specific tab index in MainView
+  void Function(int tabIndex)? _navigateToTabCallback;
 
   /// Call VERY early (before runApp) to register the listener immediately.
   /// This ensures iOS sees an active handler and doesn't fall back to Safari.
@@ -76,6 +78,11 @@ class DeepLinkService {
     AppLogger.info('Attaching context to DeepLinkService', context: 'DeepLinkService');
     _context = context;
     _drainQueue();
+  }
+
+  /// Set callback for navigating to a specific tab in MainView
+  void setNavigateToTabCallback(void Function(int tabIndex)? callback) {
+    _navigateToTabCallback = callback;
   }
 
   /// Process queued deep links when context becomes available.
@@ -229,31 +236,23 @@ class DeepLinkService {
     );
   }
 
-  /// Handle profile deep links: /profile/{profileId}
+  /// Handle profile deep links: /profile
+  /// Navigates to the profile tab in MainView
   void _handleProfileDeepLink(List<String> pathSegments) {
-    if (pathSegments.length < 2) {
-      AppLogger.warning(
-        'Profile deep link missing ID',
-        context: 'DeepLinkService',
-      );
-      return;
-    }
-
-    final profileId = pathSegments[1];
     AppLogger.info(
-      'Navigating to profile: $profileId',
+      'Profile deep link, navigating to profile tab',
       context: 'DeepLinkService',
     );
 
-    // TODO: For now, navigate to the current user's profile view
-    // In the future, we might want to add a PublicProfileView that can show any user's profile by ID
-    Navigator.push(
-      _context!,
-      platformPageRoute(
-        context: _context!,
-        builder: (_) => const ProfileView(),
-      ),
-    );
+    // Use callback to switch to the profile tab (index 3)
+    if (_navigateToTabCallback != null) {
+      _navigateToTabCallback!(3);
+    } else {
+      AppLogger.warning(
+        'Navigate to tab callback not set, cannot switch to profile tab',
+        context: 'DeepLinkService',
+      );
+    }
   }
 
   /// Dispose of resources

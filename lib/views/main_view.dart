@@ -12,6 +12,7 @@ import '../core/providers/app_providers.dart';
 import '../services/notification_service.dart';
 import '../services/version_service.dart';
 import '../services/connectivity_service.dart';
+import '../services/deep_link_service.dart';
 import '../models/badge_data.dart';
 import 'matches/matches_view.dart';
 import 'prompts/prompts_view.dart';
@@ -69,6 +70,9 @@ class _MainViewState extends State<MainView> {
     // Set up available prompts update callback
     _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
 
+    // Set up deep link navigation callback
+    DeepLinkService.shared.setNavigateToTabCallback(_navigateToTab);
+
     // Check for prompts, badges, version, connectivity, and permissions on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAndRequestPermissions();
@@ -85,6 +89,14 @@ class _MainViewState extends State<MainView> {
       setState(() {
         _availablePromptsCount = prompts.length;
       });
+    }
+  }
+
+  /// Navigate to a specific tab (used by deep link service)
+  void _navigateToTab(int tabIndex) {
+    if (mounted && tabIndex >= 0 && tabIndex < _pages.length) {
+      AppLogger.info('Navigating to tab $tabIndex via deep link', context: 'MainView');
+      _tabController.setIndex(context, tabIndex);
     }
   }
 
@@ -244,6 +256,7 @@ class _MainViewState extends State<MainView> {
   @override
   void dispose() {
     _contentManager.removeAvailablePromptsCallback(_onAvailablePromptsUpdate);
+    DeepLinkService.shared.setNavigateToTabCallback(null);
     _tabController.dispose();
     ConnectivityService.shared.dispose();
     super.dispose();

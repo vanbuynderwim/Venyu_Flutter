@@ -1,41 +1,50 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../core/utils/app_logger.dart';
 import '../core/utils/device_info.dart';
 import '../models/device.dart';
 import '../models/badge_data.dart';
 import '../firebase_options.dart';
+import '../views/matches/match_detail_view.dart';
+import '../views/prompts/prompt_detail_view.dart';
 import 'supabase_managers/profile_manager.dart';
 import 'supabase_managers/base_supabase_manager.dart';
 import 'auth_service.dart';
 import 'profile_service.dart';
 
 /// Service for managing Firebase Cloud Messaging and push notifications
-/// 
+///
 /// This service handles:
 /// - Firebase initialization
 /// - Requesting notification permissions
 /// - Managing FCM tokens
 /// - Registering devices with the backend
+/// - Handling notification taps and navigating to the appropriate screens
 class NotificationService {
   NotificationService._();
   static final NotificationService shared = NotificationService._();
-  
+
   FirebaseMessaging? _messaging;
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-  
+
   String? _fcmToken;
   bool _isInitialized = false;
+  bool _notificationListenersSetup = false;
 
   // Badge update callback
   Function(BadgeData)? _onBadgeUpdate;
 
   // Local badge data for manual updates
   BadgeData? _currentBadgeData;
+
+  // BuildContext for navigation
+  BuildContext? _context;
   
   /// FCM token for this device
   String? get fcmToken => _fcmToken;
@@ -43,6 +52,93 @@ class NotificationService {
   /// Set callback for badge updates
   void setBadgeUpdateCallback(Function(BadgeData)? callback) {
     _onBadgeUpdate = callback;
+  }
+
+  /// Attach context for navigation when notification is tapped
+  /// Call this when the user is authenticated and the main view is ready
+  void attachContext(BuildContext context) {
+    AppLogger.info('Attaching context to NotificationService', context: 'NotificationService');
+    _context = context;
+    _setupNotificationListeners();
+  }
+
+  /// Setup notification listeners for handling taps
+  void _setupNotificationListeners() {
+    if (_notificationListenersSetup || _messaging == null) return;
+
+    AppLogger.info('Setting up notification listeners', context: 'NotificationService');
+
+    // Handle notification tap when app is in background
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      AppLogger.info('Notification tapped (background): ${message.data}', context: 'NotificationService');
+      _handleNotificationTap(message);
+    });
+
+    // Check for notification that opened the app from terminated state
+    _messaging!.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        AppLogger.info('Notification opened app from terminated state: ${message.data}', context: 'NotificationService');
+        _handleNotificationTap(message);
+      }
+    });
+
+    _notificationListenersSetup = true;
+    AppLogger.success('Notification listeners setup complete', context: 'NotificationService');
+  }
+
+  /// Handle notification tap and navigate to the appropriate screen
+  void _handleNotificationTap(RemoteMessage message) {
+    if (_context == null) {
+      AppLogger.warning('Cannot handle notification tap: context not available', context: 'NotificationService');
+      return;
+    }
+
+    final data = message.data;
+    AppLogger.info('Handling notification tap with data: $data', context: 'NotificationService');
+
+    // Check for match_id in notification data
+    if (data.containsKey('match_id')) {
+      final matchId = data['match_id'] as String;
+      AppLogger.info('Navigating to match: $matchId', context: 'NotificationService');
+      _navigateToMatch(matchId);
+      return;
+    }
+
+    // Check for prompt_id in notification data
+    if (data.containsKey('prompt_id')) {
+      final promptId = data['prompt_id'] as String;
+      AppLogger.info('Navigating to prompt: $promptId', context: 'NotificationService');
+      _navigateToPrompt(promptId);
+      return;
+    }
+
+    AppLogger.warning('Notification data does not contain match_id or prompt_id', context: 'NotificationService');
+  }
+
+  /// Navigate to match detail view
+  void _navigateToMatch(String matchId) {
+    if (_context == null) return;
+
+    Navigator.push(
+      _context!,
+      platformPageRoute(
+        context: _context!,
+        builder: (_) => MatchDetailView(matchId: matchId),
+      ),
+    );
+  }
+
+  /// Navigate to prompt detail view
+  void _navigateToPrompt(String promptId) {
+    if (_context == null) return;
+
+    Navigator.push(
+      _context!,
+      platformPageRoute(
+        context: _context!,
+        builder: (_) => PromptDetailView(promptId: promptId),
+      ),
+    );
   }
   
   /// Initialize Firebase and set up messaging
