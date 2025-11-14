@@ -106,9 +106,15 @@ class MatchFinishView extends StatelessWidget {
 
                                     const SizedBox(height: 24),
 
-                                    // Info box with next steps
-                                    InfoBoxWidget(
-                                      text: l10n.matchFinishInfoMessage(otherProfileFirstName),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                                      child: Text(
+                                        l10n.matchFinishInfoMessage(otherProfileFirstName),
+                                        style: AppTextStyles.footnote.copyWith(
+                                          color: venyuTheme.darkText,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
 
                                     const Spacer(flex: 3),

@@ -9,7 +9,9 @@ import '../../widgets/common/interaction_tag.dart';
 import '../../widgets/common/venue_tag.dart';
 import '../../widgets/common/prompt_counters.dart';
 import '../../widgets/common/status_badge_view.dart';
+import '../../widgets/common/tag_view.dart';
 import '../../widgets/prompts/selection_title_with_icon.dart';
+import '../../l10n/app_localizations.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
 class PromptItem extends StatefulWidget {
@@ -50,7 +52,7 @@ class _PromptItemState extends State<PromptItem> {
   @override
   Widget build(BuildContext context) {
     // Helper variables for cleaner conditions
-    final hasInteractionTag = widget.showMatchInteraction && widget.prompt.interactionType != null;
+    final hasInteractionTag = widget.showMatchInteraction && widget.prompt.userInteractionType != null;
     final hasVenueTag = widget.prompt.venue != null;
     final hasMatchInteractionTag = widget.showMatchInteraction && widget.prompt.matchInteractionType != null;
     final hasTags = hasInteractionTag || hasVenueTag || hasMatchInteractionTag;
@@ -124,12 +126,24 @@ class _PromptItemState extends State<PromptItem> {
                       overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
                     ),
 
-                    // Status badge - below prompt label
+                    // Status badge and paused tag - below prompt label
                     if (widget.shouldShowStatus && !widget.showMatchInteraction) ...[
                       const SizedBox(height: 16),
-                      StatusBadgeView(
-                        status: widget.prompt.displayStatus,
-                        compact: false,
+                      Row(
+                        children: [
+                          StatusBadgeView(
+                            status: widget.prompt.displayStatus,
+                            compact: false,
+                          ),
+                          if (widget.prompt.isPaused == true) ...[
+                            const SizedBox(width: 4),
+                            TagView(
+                              id: 'paused_${widget.prompt.promptID}',
+                              label: AppLocalizations.of(context)!.promptItemPausedTag,
+                              icon: 'pause',
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                     
@@ -147,7 +161,7 @@ class _PromptItemState extends State<PromptItem> {
                             children: [
                               if (hasInteractionTag) ...[
                                 InteractionTag(
-                                  interactionType: widget.prompt.interactionType!,
+                                  interactionType: widget.prompt.userInteractionType!,
                                   compact: true,
                                 ),
                                 if (hasVenueTag) const SizedBox(width: 8),
@@ -228,7 +242,7 @@ class _PromptItemState extends State<PromptItem> {
 
     // If showing match interactions, always show the two interaction colors
     if (widget.showMatchInteraction) {
-      final leftColor = widget.prompt.interactionType?.color;
+      final leftColor = widget.prompt.userInteractionType?.color;
       final rightColor = widget.prompt.matchInteractionType?.color;
 
       // If we have both colors, show gradient

@@ -52,7 +52,7 @@ class MatchReasonsView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 2, right: 10),
-                      child: context.themedIcon('checkbox', selected: true, overrideColor: venyuTheme.secondaryText, size: 18),
+                      child: context.themedIcon('checkbox', selected: true, overrideColor: venyuTheme.primary, size: 18),
                     ),
                     Expanded(
                       child: Text(

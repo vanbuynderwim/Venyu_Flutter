@@ -183,24 +183,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeLookingForThisSelection =>
-      'I’m looking for someone who';
+      'I’m looking for someone';
+
+  @override
+  String get interactionTypeLookingForThisHint =>
+      'with experience in ...\nwho can help with ...\nwith access to ...\nwho can brainstorm on ...\nwho can introduce me to ...\nwho can advise on ...\nwith expertise in ...\n...';
+
+  @override
+  String get interactionTypeThisIsMeHint =>
+      'who can help with ...\nwith experience in ...\nwho can introduce you to ...\nwho can think along about ...\nwho can advise on ...\nwith expertise in ...\nwho has connections in ...\n...';
+
+  @override
+  String get interactionTypeThisIsMeSelection => 'I’m someone';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Who are you looking for right now? Think support, experience or an introduction.';
-
-  @override
-  String get interactionTypeLookingForThisHint => '... continue the sentence';
-
-  @override
-  String get interactionTypeThisIsMeSelection => 'I\'m someone who';
+      'can offer advice, experience, introductions...';
 
   @override
   String get interactionTypeThisIsMeSubtitle =>
-      'How can you help someone else? Think experience, insight, or network.';
-
-  @override
-  String get interactionTypeThisIsMeHint => '... continue the sentence';
+      'can help with experience, learnings, netwerk...';
 
   @override
   String get interactionTypeKnowSomeoneSelection => 'I can connect';
@@ -1509,7 +1511,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'All prompts are subject to review before going live';
+      'Prompts are reviewed before going live';
+
+  @override
+  String get interactionTypeSelectionDisclaimerBeforeLinkText =>
+      'Prompts are reviewed according to our  ';
+
+  @override
+  String get interactionTypeSelectionDisclaimerLinkText =>
+      'community guidelines';
 
   @override
   String get interactionTypeSelectionShowGuidelines =>
@@ -1529,11 +1539,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptDetailStatusTitle => 'Status';
 
   @override
-  String get promptDetailHowYouMatchTitle => 'How you match';
+  String get promptDetailHowYouMatchTitle => 'Control matching';
 
   @override
   String get promptDetailHowYouMatchDescription =>
-      'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.';
+      'Pause matching on this prompt to temporarily stop receiving new matches. You can resume at any time.';
 
   @override
   String get promptDetailFirstCallTitle => 'First Call';
@@ -1582,6 +1592,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get promptDetailPauseMatchingCancel => 'Cancel';
+
+  @override
+  String get promptDetailPauseMatchingMessageGeneric =>
+      'You will no longer receive matches on this prompt. You can resume matching anytime.';
+
+  @override
+  String get promptDetailMatchingActiveLabel => 'Matching is active';
+
+  @override
+  String get promptDetailMatchingPausedLabel => 'Matching is paused';
+
+  @override
+  String get promptItemPausedTag => 'Paused';
 
   @override
   String get promptDetailRejectButton => 'Reject';
@@ -1701,7 +1724,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptSettingsErrorSubmit => 'Failed to submit prompt';
 
   @override
-  String get promptsViewTitle => 'Pprompts';
+  String get promptsViewTitle => 'Prompts';
 
   @override
   String get promptsViewEmptyActionButton => 'New prompt';
@@ -1811,11 +1834,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get communityGuidelinesAllowed =>
-      'networking, sharing knowledge or resources, asking for help, reach out for genuine connections';
+      'networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations';
 
   @override
   String get communityGuidelinesProhibited =>
-      'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches';
+      'politics, deception, fraud, spam, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, job postings or vacancies, advertising or commercial messages';
 
   @override
   String get errorStateDefaultTitle => 'Something went wrong';
@@ -1976,7 +1999,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String matchFinishInfoMessage(String firstName) {
-    return 'Now it’s waiting for $firstName. If $firstName also requests an introduction, you’ll both receive an email to get in touch.';
+    return 'If $firstName also requests an introduction, you’ll both receive an email with each of you CC’d so you can get in touch.';
   }
 
   @override
@@ -1988,19 +2011,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get registrationCompleteTutorialPrompt1 =>
-      'has experience scaling internationally.';
+      'with experience in scaling internationally.';
 
   @override
   String get registrationCompleteTutorialPrompt2 =>
-      'has secured an EU grant before and is open to share lessons learned.';
+      'with experience securing EU grants and open to sharing lessons learned.';
 
   @override
   String get registrationCompleteTutorialPrompt3 =>
-      'has experience starting or running a coworking space.';
+      'who has started or run a coworking space before.';
 
   @override
   String get registrationCompleteTutorialPrompt4 =>
-      'has expertise in animal nutrition for a new pet food concept.';
+      'with expertise in animal nutrition for new pet-food concepts.';
 
   @override
   String get avatarUploadError => 'Failed to upload photo. Please try again.';

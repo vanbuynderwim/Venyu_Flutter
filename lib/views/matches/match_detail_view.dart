@@ -12,6 +12,7 @@ import '../../core/utils/dialog_utils.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/profile_service.dart';
+import '../../services/rating_service.dart';
 import '../../core/providers/app_providers.dart';
 import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -84,6 +85,27 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
     if (match != null) {
       setState(() => _match = match);
+
+      // Request app rating if match is connected and user hasn't been asked before
+      // This is a positive moment to ask for a rating
+      if (match.isConnected) {
+        _requestAppRatingIfAppropriate();
+      }
+    }
+  }
+
+  /// Request app rating at an appropriate moment (when match is connected)
+  Future<void> _requestAppRatingIfAppropriate() async {
+    try {
+      // Small delay to let the UI settle first
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      if (mounted) {
+        await RatingService.shared.requestReview();
+      }
+    } catch (error) {
+      // Silently fail - rating is not critical
+      AppLogger.debug('Rating request failed: $error', context: 'MatchDetailView');
     }
   }
 
@@ -477,7 +499,20 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 const SizedBox(height: 8),
                 MatchVenuesSection(match: _match!),
                 const SizedBox(height: 16),
-              ],             
+              ],    
+
+              // Match reasons section (only for connected status)
+              if (_match!.status == MatchStatus.connected &&
+                  _match!.motivation != null &&
+                  _match!.motivation!.isNotEmpty) ...[
+                SubTitle(
+                  iconName: 'bulb',
+                  title: l10n.matchDetailWhyMatch(_match!.profile.firstName),
+                ),
+                const SizedBox(height: 16),
+                MatchReasonsView(match: _match!),
+                const SizedBox(height: 16),
+              ],         
               
               // Personal matches section
               if (_match!.nrOfPersonalTags > 0) ...[
@@ -498,19 +533,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 16),
                 MatchTagsSection(tagGroups: _match!.companyTagGroups),
-                const SizedBox(height: 16),
-              ],
-
-              // Match reasons section (only for connected status)
-              if (_match!.status == MatchStatus.connected &&
-                  _match!.motivation != null &&
-                  _match!.motivation!.isNotEmpty) ...[
-                SubTitle(
-                  iconName: 'bulb',
-                  title: l10n.matchDetailWhyMatch(_match!.profile.firstName),
-                ),
-                const SizedBox(height: 16),
-                MatchReasonsView(match: _match!),
                 const SizedBox(height: 16),
               ],
 

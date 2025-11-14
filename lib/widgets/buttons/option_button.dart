@@ -188,6 +188,10 @@ class OptionButton extends StatefulWidget {
   /// Whether to use gradient background. Defaults to false.
   final bool useGradient;
 
+  /// Optional badge count to display. If provided, overrides option.badge.
+  /// This allows dynamic badge values without modifying the option object.
+  final int? badgeCount;
+
   /// Creates an [OptionButton] widget.
   ///
   /// The [option] parameter is required and contains the data to display.
@@ -209,6 +213,7 @@ class OptionButton extends StatefulWidget {
     this.useBorderSelection = false,
     this.showTagMotivation = false,
     this.useGradient = false,
+    this.badgeCount,
   });
 
   @override
@@ -240,6 +245,7 @@ class _OptionButtonState extends State<OptionButton> {
                   widget.option.title(context),
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
@@ -290,8 +296,8 @@ class _OptionButtonState extends State<OptionButton> {
             ),
           ),
           
-          // Badge
-          if (widget.option.badge > 0)
+          // Badge - use badgeCount if provided, otherwise use option.badge
+          if ((widget.badgeCount ?? widget.option.badge) > 0)
             Container(
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(
@@ -303,8 +309,8 @@ class _OptionButtonState extends State<OptionButton> {
                 borderRadius: BorderRadius.circular(AppModifiers.mediumRadius),
               ),
               child: Text(
-                widget.option.badge.toString(),
-                style: AppTextStyles.caption1.copyWith(
+                (widget.badgeCount ?? widget.option.badge).toString(),
+                style: AppTextStyles.caption2.copyWith(
                   color: venyuTheme.cardBackground,
                 ),
               ),

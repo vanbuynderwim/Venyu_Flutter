@@ -1,0 +1,1091 @@
+{
+  "@@locale": "fr",
+
+  "@_ONBOARDING": {},
+  "onboardTitle": "Bienvenue sur Venyu",
+  "onboardDescription": "Venyu vous met en relation avec d'autres entrepreneurs en fonction de vos objectifs communs, de vos ambitions et de qui vous connaissez. R\u00e9pondez \u00e0 3 prompts quotidiens pour nous aider \u00e0 trouver la bonne personne pour vous.",
+  "onboardStartTutorial": "Avant de configurer votre profil, d\u00e9couvrez comment Venyu fonctionne avec un tutoriel rapide.",
+  "onboardButtonStart": "Commencer",
+
+  "@_TUTORIAL": {},
+  "tutorialStep1Title": "Prompts",
+  "tutorialStep1Description": "Chaque jour, vous pouvez r\u00e9pondre \u00e0 3 prompts. Cela prend moins d'une minute et nous aide \u00e0 trouver les bonnes personnes pour vous.",
+
+  "tutorialStep2Title": "Matches",
+  "tutorialStep2Description": "Une fois que nous avons trouv\u00e9 le bon match, nous vous le faisons savoir afin que vous puissiez d\u00e9cider si vous souhaitez une introduction.",
+
+  "tutorialStep3Title": "Introductions",
+  "tutorialStep3Description": "Lorsque l'int\u00e9r\u00eat est mutuel, nous faisons l'introduction par e-mail afin que vous puissiez entrer en contact directement.",
+
+  "tutorialStep4Title": "Vous \u00eates pr\u00eat !",
+  "tutorialStep4Description": "Compl\u00e9tons votre profil et commen\u00e7ons \u00e0 trouver les bonnes personnes.",
+
+  "tutorialButtonPrevious": "Pr\u00e9c\u00e9dent",
+  "tutorialButtonNext": "Suivant",
+
+  "@_REGISTRATION_COMPLETE": {},
+  "registrationCompleteTitle": "Votre profil est pr\u00eat ! \ud83c\udf89",
+  "registrationCompleteDescription": "Merci d'avoir configur\u00e9 votre profil. Voyons maintenant comment r\u00e9pondre \u00e0 3 prompts chaque jour nous aide \u00e0 trouver la bonne personne pour vous.",
+  "registrationCompleteButton": "Continuer",
+
+  "@_PROMPT_ENTRY": {},
+  "promptEntryTitleFirstTime": "Essayons !",
+  "promptEntryDescriptionFirstTime": "Voici 3 exemples de prompts pour vous aider \u00e0 comprendre comment \u00e7a fonctionne. Ne vous inqui\u00e9tez pas, ce ne sont que des exercices.",
+  "promptEntryButtonFirstTime": "D\u00e9marrer le tutoriel",
+
+  "@_DAILY_PROMPTS": {},
+  "dailyPromptsHintSelect": "S\u00e9lectionnez \"{buttonTitle}\"",
+  "@dailyPromptsHintSelect": {
+    "placeholders": {
+      "buttonTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyPromptsHintConfirm": "S\u00e9lectionnez \"Suivant\"",
+  "dailyPromptsButtonNext": "Suivant",
+  "dailyPromptsReportSuccess": "Prompt signal\u00e9 avec succ\u00e8s",
+  "dailyPromptsReportError": "\u00c9chec du signalement du prompt",
+  "dailyPromptsNoPromptsAvailable": "Aucun prompt disponible",
+  "dailyPromptsExampleTag": "Exemple de prompt",
+  "dailyPromptsReferralCodeSent": "Consultez votre e-mail pour obtenir un code d'invitation \u00e0 partager avec la personne que vous connaissez",
+
+  "@_TUTORIAL_FINISHED": {},
+  "tutorialFinishedTitle": "Vous \u00eates pr\u00eat ! \ud83c\udf89",
+  "tutorialFinishedDescription": "Vous avez termin\u00e9 la visite rapide. Vous \u00eates maintenant pr\u00eat \u00e0 r\u00e9pondre \u00e0 vos 3 premiers vrais prompts pour \u00eatre mis en relation avec d'autres entrepreneurs.",
+  "tutorialFinishedButton": "C'est parti !",
+
+  "@_REGISTRATION_FINISH": {},
+  "registrationFinishTitle": "C'est fait ! \ud83c\udf89",
+  "registrationFinishDescription": "Votre compte est configur\u00e9 et vous avez r\u00e9pondu \u00e0 vos 3 premiers prompts. Revenez demain pour r\u00e9pondre \u00e0 plus de prompts et d\u00e9couvrir de nouveaux matches.",
+  "registrationFinishButton": "Termin\u00e9 !",
+
+  "@_COMMON": {},
+  "buttonContinue": "Continuer",
+  "buttonNext": "Suivant",
+  "buttonPrevious": "Pr\u00e9c\u00e9dent",
+  "buttonStart": "Commencer",
+  "buttonGotIt": "Compris",
+
+  "@_ERRORS": {},
+  "errorNoCardsAvailable": "Aucun prompt disponible pour le moment. Revenez plus tard !",
+  "errorFailedToLoadCards": "\u00c9chec du chargement des prompts. Veuillez r\u00e9essayer.",
+  "errorFailedToRefreshProfile": "\u00c9chec de l'actualisation du profil. Veuillez r\u00e9essayer.",
+  "errorNoInternetConnection": "Pas de connexion Internet. V\u00e9rifiez votre connexion et r\u00e9essayez.",
+  "errorAuthenticationFailed": "\u00c9chec de la connexion. Veuillez r\u00e9essayer.",
+
+  "@_INTERACTION_TYPE": {},
+  "interactionTypeThisIsMeButton": "C'est moi",
+  "interactionTypeLookingForThisButton": "J'ai besoin",
+  "interactionTypeKnowSomeoneButton": "Je peux présenter",
+  "interactionTypeNotRelevantButton": "Pas pour moi",
+
+  "interactionTypeThisIsMeButtonToo": "C'est moi aussi",
+  "interactionTypeLookingForThisButtonToo": "J'ai besoin aussi",
+  "interactionTypeKnowSomeoneButtonToo": "Je connais quelqu'un aussi",
+  "interactionTypeNotRelevantButtonToo": "Pas pour moi",
+
+  "interactionTypeLookingForThisSelection": "Je cherche quelqu'un",
+
+  "interactionTypeLookingForThisHint": "avec de l'exp\u00e9rience en...\nqui peut aider avec...\navec acc\u00e8s \u00e0...\nqui peut brainstormer sur...\nqui peut me pr\u00e9senter \u00e0...\nqui peut conseiller sur...\navec une expertise en...\n...",
+  "interactionTypeThisIsMeHint": "qui peut aider avec...\navec de l'exp\u00e9rience en...\nqui peut vous pr\u00e9senter \u00e0...\nqui peut r\u00e9fl\u00e9chir sur...\nqui peut conseiller sur...\navec une expertise en...\nqui a des connexions dans...\n...",
+
+  "interactionTypeThisIsMeSelection": "Je suis quelqu'un",
+
+  "interactionTypeLookingForThisSubtitle": "peut offrir des conseils, de l'exp\u00e9rience, des introductions...",
+  "interactionTypeThisIsMeSubtitle": "peut aider avec de l'exp\u00e9rience, des apprentissages, un r\u00e9seau...",
+
+  "interactionTypeKnowSomeoneSelection": "Je peux connecter",
+  "interactionTypeKnowSomeoneSubtitle": "Pr\u00e9senter des personnes qui peuvent aider",
+  "interactionTypeKnowSomeoneHint": "Qui pouvez-vous connecter pour ce besoin ?",
+
+  "interactionTypeNotRelevantSelection": "Passer",
+  "interactionTypeNotRelevantSubtitle": "Passer celui-ci",
+  "interactionTypeNotRelevantHint": "Que souhaitez-vous partager ?",
+
+  "@_REGISTRATION_STEP": {},
+  "registrationStepNameTitle": "Informations personnelles",
+  "registrationStepEmailTitle": "V\u00e9rification de l'e-mail",
+  "registrationStepLocationTitle": "Partager la localisation",
+  "registrationStepCityTitle": "Ville",
+  "registrationStepCompanyTitle": "Informations sur l'entreprise",
+  "registrationStepRolesTitle": "Vos r\u00f4les",
+  "registrationStepSectorsTitle": "Vos secteurs",
+  "registrationStepMeetingPreferencesTitle": "Pr\u00e9f\u00e9rences de rencontre",
+  "registrationStepNetworkingGoalsTitle": "Objectifs de r\u00e9seautage",
+  "registrationStepAvatarTitle": "Photo de profil",
+  "registrationStepNotificationsTitle": "Notifications",
+  "registrationStepCompleteTitle": "Bienvenue sur Venyu !",
+
+  "@_ONBOARDING_BENEFIT": {},
+  "benefitNearbyMatchesTitle": "Rencontrez des entrepreneurs proches",
+  "benefitNearbyMatchesDescription": "D\u00e9couvrez des personnes pr\u00e8s de chez vous",
+  "benefitDistanceAwarenessTitle": "Voyez qui est \u00e0 port\u00e9e",
+  "benefitDistanceAwarenessDescription": "Connaissez la distance des matches",
+  "benefitBetterMatchingTitle": "D\u00e9veloppez votre r\u00e9seau localement",
+  "benefitBetterMatchingDescription": "Obtenez de meilleurs r\u00e9sultats avec une approche locale",
+  "benefitMatchNotificationsTitle": "Alertes de nouveaux matches",
+  "benefitMatchNotificationsDescription": "Soyez alert\u00e9 d\u00e8s qu'un nouveau match appara\u00eet",
+  "benefitConnectionNotificationsTitle": "Ne ratez aucune intro",
+  "benefitConnectionNotificationsDescription": "Sachez imm\u00e9diatement quand vous recevez une nouvelle introduction",
+  "benefitDailyRemindersTitle": "Restez dans le jeu",
+  "benefitDailyRemindersDescription": "Recevez un rappel quotidien pour make the net work",
+  "benefitFocusedReachTitle": "Ciblage intelligent",
+  "benefitFocusedReachDescription": "Publiez vos questions au bon public",
+  "benefitDiscreetPreviewTitle": "First call",
+  "benefitDiscreetPreviewDescription": "Sur vos prompts, vous avez le first call. Les matches ne sont montr\u00e9s aux autres que si vous \u00eates int\u00e9ress\u00e9.",
+  "benefitUnlimitedIntroductionsTitle": "Intros illimit\u00e9es",
+  "benefitUnlimitedIntroductionsDescription": "Continuez \u00e0 d\u00e9velopper votre r\u00e9seau avec des introductions illimit\u00e9es et ne ratez jamais une opportunit\u00e9",
+  "benefitUnlockFullProfilesTitle": "Profils complets",
+  "benefitUnlockFullProfilesDescription": "D\u00e9couvrez qui se cache derri\u00e8re le match en voyant leur avatar et en v\u00e9rifiant les int\u00e9r\u00eats communs",
+  "benefitViewsAndImpressionsTitle": "Vues et impressions",
+  "benefitViewsAndImpressionsDescription": "Comprenez votre port\u00e9e avec des statistiques simples",
+  "benefitDailyCardsBoostTitle": "Plus de prompts quotidiens",
+  "benefitDailyCardsBoostDescription": "Plus de prompts pour d\u00e9velopper votre r\u00e9seau plus rapidement.",
+  "benefitAiPoweredMatchesTitle": "Matches par IA (plus tard)",
+  "benefitAiPoweredMatchesDescription": "Recevez des suggestions intelligentes bas\u00e9es sur votre profil.",
+
+  "@_EDIT_COMPANY_INFO_TYPE": {},
+  "editCompanyInfoNameTitle": "Nom & site web",
+  "editCompanyInfoNameDescription": "Le nom de votre entreprise",
+
+  "@_EDIT_PERSONAL_INFO_TYPE": {},
+  "editPersonalInfoNameTitle": "Nom",
+  "editPersonalInfoNameDescription": "Votre nom et URL LinkedIn",
+  "editPersonalInfoBioTitle": "Bio",
+  "editPersonalInfoBioDescription": "Une courte pr\u00e9sentation de vous",
+  "editPersonalInfoLocationTitle": "Ville",
+  "editPersonalInfoLocationDescription": "La ville o\u00f9 vous vivez",
+  "editPersonalInfoEmailTitle": "E-mail",
+  "editPersonalInfoEmailDescription": "Votre adresse e-mail de contact",
+
+  "@_PROFILE_EDIT_TYPE": {},
+  "profileEditAccountTitle": "Compte",
+  "profileEditAccountDescription": "G\u00e9rer votre compte",
+
+  "@_REVIEW_TYPE": {},
+  "reviewTypeUserTitle": "G\u00e9n\u00e9r\u00e9 par les utilisateurs",
+  "reviewTypeUserDescription": "Prompts soumis par les utilisateurs",
+  "reviewTypeSystemTitle": "G\u00e9n\u00e9r\u00e9 par IA",
+  "reviewTypeSystemDescription": "Prompts quotidiens g\u00e9n\u00e9r\u00e9s par IA",
+
+  "@_APP_METADATA": {},
+  "appName": "Venyu",
+  "appTagline": "make the net work",
+
+  "@_NAVIGATION": {},
+  "navMatches": "Matches",
+  "navCards": "Prompts",
+  "navNotifications": "Updates",
+  "navProfile": "Profil",
+
+  "@_COMMON_ACTIONS": {},
+  "actionSave": "Enregistrer",
+  "actionCancel": "Annuler",
+  "actionDelete": "Supprimer",
+  "actionEdit": "Modifier",
+  "actionNext": "Suivant",
+  "actionSkip": "Pas maintenant",
+  "buttonSkip": "Passer",
+  "actionConfirm": "Confirmer",
+  "actionInterested": "Pr\u00e9sentez-moi",
+
+  "@_SUCCESS_MESSAGES": {},
+  "successSaved": "Enregistr\u00e9 avec succ\u00e8s",
+
+  "@_DIALOG_MESSAGES": {},
+  "dialogRemoveAvatarTitle": "Supprimer l'avatar",
+  "dialogRemoveAvatarMessage": "\u00cates-vous s\u00fbr de vouloir supprimer votre avatar ?",
+  "dialogRemoveButton": "Supprimer",
+  "dialogOkButton": "OK",
+  "dialogErrorTitle": "Erreur",
+  "dialogLoadingMessage": "Chargement...",
+
+  "@_VALIDATION_MESSAGES": {},
+  "validationEmailRequired": "L'e-mail est requis",
+  "validationEmailInvalid": "Veuillez entrer une adresse e-mail valide",
+  "validationUrlInvalid": "Veuillez entrer une URL valide (commen\u00e7ant par http:// ou https://)",
+  "validationLinkedInUrlInvalid": "Veuillez entrer une URL de profil LinkedIn valide\n(ex: https://www.linkedin.com/in/votrepresom)",
+  "validationFieldRequired": "{fieldName} est requis",
+  "@validationFieldRequired": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      }
+    }
+  },
+  "validationFieldRequiredDefault": "Ce champ est requis",
+  "validationMinLength": "{fieldName} doit contenir au moins {minLength} caract\u00e8res",
+  "@validationMinLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "minLength": {
+        "type": "int"
+      }
+    }
+  },
+  "validationMaxLength": "{fieldName} ne peut pas d\u00e9passer {maxLength} caract\u00e8res",
+  "@validationMaxLength": {
+    "placeholders": {
+      "fieldName": {
+        "type": "String"
+      },
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "validationOtpRequired": "Le code de v\u00e9rification est requis",
+  "validationOtpLength": "Le code de v\u00e9rification doit contenir 6 chiffres",
+  "validationOtpNumeric": "Le code de v\u00e9rification ne peut contenir que des chiffres",
+
+  "@_IMAGE_SOURCE_TYPE": {},
+  "imageSourceCameraTitle": "Cam\u00e9ra",
+  "imageSourceCameraDescription": "Prendre une nouvelle photo",
+  "imageSourcePhotoLibraryTitle": "Biblioth\u00e8que",
+  "imageSourcePhotoLibraryDescription": "Choisir depuis la biblioth\u00e8que",
+
+  "@_PAGES_TYPE": {},
+  "pagesProfileEditTitle": "\u00c9dition du profil",
+  "pagesProfileEditDescription": "Modifier les informations du profil",
+  "pagesLocationTitle": "Localisation",
+  "pagesLocationDescription": "Param\u00e8tres de localisation",
+
+  "@_PROMPT_SECTIONS": {},
+  "promptSectionCardTitle": "Statut",
+  "promptSectionCardDescription": "Voir les d\u00e9tails de votre prompt",
+  "promptSectionStatsTitle": "Stats",
+  "promptSectionStatsDescription": "Performance et analyses",
+  "promptSectionIntroTitle": "Intros",
+  "promptSectionIntroDescription": "Matches et introductions",
+
+  "@_PROMPT_STATUS": {},
+  "promptStatusDraftDisplay": "Brouillon",
+  "promptStatusDraftInfo": "Votre prompt est sauvegard\u00e9 comme brouillon. Compl\u00e9tez-le et soumettez-le pour commencer \u00e0 recevoir des matches.",
+  "promptStatusPendingReviewDisplay": "En attente de validation",
+  "promptStatusPendingReviewInfo": "Votre prompt est en cours d'examen par notre \u00e9quipe. Cela prend g\u00e9n\u00e9ralement 12-24 heures pour v\u00e9rifier si le contenu respecte les directives de la communaut\u00e9.",
+  "promptStatusPendingTranslationDisplay": "En attente de traduction",
+  "promptStatusPendingTranslationInfo": "Votre prompt est en cours de traduction vers d'autres langues.",
+  "promptStatusApprovedDisplay": "Approuv\u00e9",
+  "promptStatusApprovedInfo": "Votre prompt a \u00e9t\u00e9 approuv\u00e9 et est actif. Vous pouvez recevoir des matches.",
+  "promptStatusRejectedDisplay": "Rejet\u00e9",
+  "promptStatusRejectedInfo": "Votre prompt a \u00e9t\u00e9 rejet\u00e9 car il ne respecte pas les directives de la communaut\u00e9. Veuillez le modifier et le soumettre \u00e0 nouveau.",
+  "promptStatusArchivedDisplay": "Archiv\u00e9",
+  "promptStatusArchivedInfo": "Votre prompt a \u00e9t\u00e9 archiv\u00e9 et n'est plus visible par les autres utilisateurs.",
+
+  "@_VENUE_TYPE": {},
+  "venueTypeEventDisplayName": "\u00c9v\u00e9nement",
+  "venueTypeEventDescription": "Lieu temporaire pour \u00e9v\u00e9nements, conf\u00e9rences ou rencontres",
+  "venueTypeOrganisationDisplayName": "Communaut\u00e9",
+  "venueTypeOrganisationDescription": "Lieu permanent pour entreprises ou organisations",
+
+  "@_SERVER_LIST_TYPE_EMPTY_STATES": {},
+  "emptyStateNotificationsTitle": "Tout est \u00e0 jour !",
+  "emptyStateNotificationsDescription": "Quand quelque chose d'important se passe, nous vous informerons ici",
+  "emptyStateReviewsTitle": "Tout est \u00e0 jour !",
+  "emptyStateReviewsDescription": "Quand des prompts sont soumis pour examen, ils appara\u00eetront ici",
+  "emptyStateMatchesTitle": "En attente de votre premier match !",
+  "emptyStateMatchesDescription": "Une fois que vous aurez un match, il appara\u00eetra ici. \u00c9crivez un nouveau prompt pour \u00eatre match\u00e9 plus rapidement.",
+  "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
+  "emptyStatePromptsDescription": "Les prompts nous aident \u00e0 trouver les bons matches qui m\u00e8nent \u00e0 de vraies introductions. \u00c9crivez le v\u00f4tre pour commencer.",
+
+  "@_AUTH_VIEWS": {},
+  "authGoogleRetryingMessage": "Veuillez patienter...",
+  "redeemInviteTitle": "Entrez votre code d'invitation",
+  "redeemInviteSubtitle": "Veuillez entrer le code d'invitation \u00e0 8 caract\u00e8res que vous avez re\u00e7u pour continuer.",
+  "redeemInviteContinue": "Continuer",
+  "redeemInvitePlaceholder": "Entrer le code d'invitation",
+
+  "waitlistFinishTitle": "Vous \u00eates sur la liste !",
+  "waitlistFinishDescription": "Merci de rejoindre la liste d'attente Venyu. Nous vous informerons d\u00e8s que de nouvelles places se lib\u00e8rent.",
+  "waitlistFinishButton": "Termin\u00e9",
+
+  "waitlistTitle": "Rejoindre la liste d'attente",
+  "waitlistDescription": "Venyu est sur invitation uniquement. Rejoignez la liste d'attente et soyez invit\u00e9 lorsque de nouvelles places s'ouvrent.",
+  "waitlistNameHint": "Votre nom complet",
+  "waitlistCompanyHint": "Le nom de votre entreprise",
+  "waitlistRoleHint": "Votre r\u00f4le / titre",
+  "waitlistEmailHint": "Votre adresse e-mail",
+  "waitlistButton": "Rejoindre la liste d'attente",
+  "waitlistErrorDuplicate": "Cet e-mail est d\u00e9j\u00e0 sur la liste d'attente",
+  "waitlistErrorFailed": "\u00c9chec d'inscription \u00e0 la liste d'attente. Veuillez r\u00e9essayer.",
+  "waitlistSuccessMessage": "Vous avez \u00e9t\u00e9 ajout\u00e9 \u00e0 la liste d'attente ! Nous vous pr\u00e9viendrons quand nous serons pr\u00eats.",
+
+  "inviteScreeningTitle": "Bienvenue sur venyu \ud83e\udd1d",
+  "inviteScreeningDescription": "La communaut\u00e9 sur invitation pour entrepreneurs o\u00f9 les bons matches m\u00e8nent \u00e0 de vraies introductions.",
+  "inviteScreeningHasCode": "J'ai un code d'invitation",
+  "inviteScreeningNoCode": "Je n'ai pas de code d'invitation",
+
+  "onboardWelcome": "Bienvenue {name} \ud83d\udc4b",
+  "@onboardWelcome": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardDescription": "Vous faites maintenant partie d'une communaut\u00e9 bas\u00e9e sur de vraies introductions !\n\nCommen\u00e7ons par une visite rapide avant de configurer votre profil.",
+  "onboardStart": "D\u00e9marrer",
+
+  "loginLegalText": "En vous connectant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialit\u00e9",
+
+  "@_VENUE_VIEWS": {},
+  "joinVenueTitle": "Rejoindre le lieu",
+  "joinVenueSubtitle": "Entrez le code d'invitation \u00e0 8 caract\u00e8res pour rejoindre.",
+  "joinVenueButton": "Rejoindre",
+  "joinVenuePlaceholder": "Entrer le code du lieu",
+
+  "@_MATCH_VIEWS": {},
+  "matchDetailLoading": "Chargement...",
+  "matchDetailTitleIntroduction": "Introduction",
+  "matchDetailTitleMatch": "Match",
+  "matchDetailMenuReport": "Signaler",
+  "matchDetailMenuRemove": "Supprimer",
+  "matchDetailMenuBlock": "Bloquer",
+  "matchDetailReportSuccess": "Profil signal\u00e9 avec succ\u00e8s",
+  "matchDetailBlockTitle": "Bloquer l'utilisateur ?",
+  "matchDetailBlockMessage": "Bloquer cet utilisateur supprimera le match et emp\u00eachera tout futur matching. Cette action ne peut pas \u00eatre annul\u00e9e.",
+  "matchDetailBlockButton": "Bloquer",
+  "matchDetailBlockSuccess": "Utilisateur bloqu\u00e9 avec succ\u00e8s",
+  "matchDetailRemoveTitle": "Supprimer l'introduction ?",
+  "matchDetailRemoveMessage": "\u00cates-vous s\u00fbr de vouloir supprimer cette {type} ? Cette action ne peut pas \u00eatre annul\u00e9e.",
+  "@matchDetailRemoveMessage": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailRemoveButton": "Supprimer",
+  "matchDetailRemoveSuccessIntroduction": "Introduction supprim\u00e9e avec succ\u00e8s",
+  "matchDetailRemoveSuccessMatch": "Match supprim\u00e9 avec succ\u00e8s",
+  "matchDetailTypeIntroduction": "introduction",
+  "matchDetailTypeMatch": "match",
+  "matchDetailErrorLoad": "\u00c9chec du chargement des d\u00e9tails du match",
+  "matchDetailRetry": "R\u00e9essayer",
+  "matchDetailNotFound": "Match non trouv\u00e9",
+  "matchDetailLimitTitle": "Limite mensuelle atteinte",
+  "matchDetailLimitMessage": "Vous avez atteint votre limite de 3 intros par mois. Passez \u00e0 Venyu Pro pour des introductions illimit\u00e9es.",
+  "matchDetailLimitButton": "Passer \u00e0 Pro",
+  "matchDetailFirstCallTitle": "First call activ\u00e9",
+  "matchDetailMatchingCards": "{count} {cards} match\u00e9s",
+  "@matchDetailMatchingCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "cards": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailCard": "prompt",
+  "matchDetailCards": "prompts",
+  "matchDetailSharedIntros": "{count} {intros} partag\u00e9es",
+  "@matchDetailSharedIntros": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "intros": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailIntroduction": "introduction",
+  "matchDetailIntroductions": "introductions",
+  "matchDetailSharedVenues": "{count} {venues} partag\u00e9s",
+  "@matchDetailSharedVenues": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "venues": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailVenue": "lieu",
+  "matchDetailVenues": "lieux",
+  "matchDetailCompanyFacts": "Professionnel : {count} {areas} partag\u00e9s",
+  "@matchDetailCompanyFacts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "areas": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailPersonalInterests": "Personnel : {count} {areas} partag\u00e9s",
+  "@matchDetailPersonalInterests": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "areas": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailArea": "domaine",
+  "matchDetailAreas": "domaines",
+  "matchDetailWhyMatch": "Pourquoi vous et {name} \u00eates en match",
+  "@matchDetailWhyMatch": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailScoreBreakdown": "Score de matching",
+  "matchDetailUnlockTitle": "D\u00e9bloquer les int\u00e9r\u00eats mutuels",
+  "matchDetailUnlockMessage": "Voyez ce que vous partagez sur le plan personnel avec {name}",
+  "@matchDetailUnlockMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailUnlockButton": "Passer \u00e0 Pro maintenant",
+  "matchDetailInterestedInfoMessage": "Souhaitez-vous une introduction \u00e0 {name} ?",
+  "@matchDetailInterestedInfoMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchDetailEmailSubject": "Nous sommes connect\u00e9s sur Venyu !",
+  "matchOverviewYou": "Vous",
+
+  "@_PROFILE_AVATAR": {},
+  "profileAvatarMenuCamera": "Cam\u00e9ra",
+  "profileAvatarMenuGallery": "Galerie",
+  "profileAvatarMenuView": "Voir",
+  "profileAvatarMenuRemove": "Supprimer",
+  "profileAvatarErrorAction": "Action sur l'avatar \u00e9chou\u00e9e : {error}",
+  "@profileAvatarErrorAction": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "profileAvatarErrorUpload": "\u00c9chec du t\u00e9l\u00e9chargement de la photo. Veuillez r\u00e9essayer.",
+  "profileAvatarErrorRemove": "\u00c9chec de la suppression de la photo. Veuillez r\u00e9essayer.",
+  "profileAvatarErrorTitle": "Erreur",
+  "profileAvatarErrorButton": "OK",
+
+  "@_PROFILE_INFO": {},
+  "profileInfoAddCompanyInfo": "Ajouter les infos entreprise",
+
+  "@_PROFILE_VENUES": {},
+  "venuesErrorLoading": "Erreur lors du chargement des lieux",
+  "venuesRetry": "R\u00e9essayer",
+  "venuesEmptyTitle": "Vos lieux appara\u00eetront ici",
+  "venuesEmptyDescription": "Vous avez un code d'invitation ? Utilisez-le pour rejoindre ce lieu et commencer \u00e0 obtenir de vraies introductions dans la communaut\u00e9.",
+  "venuesEmptyAction": "Rejoindre un lieu",
+
+  "@_PROFILE_INVITES": {},
+  "invitesAvailableDescription": "Vous avez {count} {codes} d'invitation pr\u00eats \u00e0 partager. Chacun d\u00e9bloque Venyu pour un nouvel entrepreneur",
+  "@invitesAvailableDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "codes": {
+        "type": "String"
+      }
+    }
+  },
+  "invitesCode": "code",
+  "invitesCodes": "codes",
+  "invitesAllSharedDescription": "Tous vos codes d'invitation ont \u00e9t\u00e9 partag\u00e9s. Merci d'aider \u00e0 faire grandir la communaut\u00e9 Venyu.",
+  "invitesGenerateMore": "G\u00e9n\u00e9rer plus de codes",
+  "invitesEmptyTitle": "Pas encore de codes d'invitation",
+  "invitesEmptyDescription": "Vos codes d'invitation appara\u00eetront ici. Vous pouvez les partager avec vos amis pour les inviter sur Venyu.",
+  "invitesEmptyAction": "G\u00e9n\u00e9rer des codes",
+  "invitesSubtitleAvailable": "Codes disponibles",
+  "invitesSubtitleShared": "Codes partag\u00e9s",
+  "invitesSubtitleRedeemed": "Codes utilis\u00e9s",
+  "invitesMenuShare": "Partager",
+  "invitesMenuCopy": "Copier",
+  "invitesMenuMarkShared": "Marquer comme partag\u00e9",
+  "invitesShareSubject": "Votre invitation personnelle Venyu",
+  "invitesShareText": "Rejoignez-moi sur Venyu !\n\nLa communaut\u00e9 sur invitation pour entrepreneurs o\u00f9 les bons matches m\u00e8nent \u00e0 de vraies introductions.\n\nT\u00e9l\u00e9chargez l'app sur \ud83d\udc49 www.getvenyu.com\n\n\ud83d\udd11 Votre code d'invitation :\n\n{code}",
+  "@invitesShareText": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "invitesCopiedToast": "Code d'invitation copi\u00e9 dans le presse-papiers",
+  "invitesMarkedSentToast": "Code d'invitation marqu\u00e9 comme envoy\u00e9",
+  "invitesMarkedSentError": "\u00c9chec du marquage de l'invitation comme envoy\u00e9e",
+  "invitesGenerateDialogTitle": "G\u00e9n\u00e9rer plus de codes",
+  "invitesGenerateDialogMessage": "G\u00e9n\u00e9rer 5 nouveaux codes d'invitation ? Ils expireront dans 1 an.",
+  "invitesGenerateDialogConfirm": "G\u00e9n\u00e9rer",
+  "invitesGenerateDialogCancel": "Annuler",
+  "invitesGenerateSuccessToast": "5 nouveaux codes d'invitation g\u00e9n\u00e9r\u00e9s avec succ\u00e8s",
+  "invitesGenerateErrorToast": "\u00c9chec de la g\u00e9n\u00e9ration des codes d'invitation",
+
+  "@_PROFILE_SECTIONS": {},
+  "companySectionEmptyTagGroups": "Aucun groupe de tags entreprise disponible",
+  "personalSectionEmptyTagGroups": "Aucun groupe de tags personnel disponible",
+  "profileSectionPersonalTitle": "Personnel",
+  "profileSectionPersonalDescription": "Informations personnelles",
+  "profileSectionCompanyTitle": "Professionnel",
+  "profileSectionCompanyDescription": "Informations professionnelles",
+  "profileSectionVenuesTitle": "Lieux",
+  "profileSectionVenuesDescription": "\u00c9v\u00e9nements et organisations",
+  "profileSectionInvitesTitle": "Codes",
+  "profileSectionInvitesDescription": "Invitations et codes",
+  "profileSectionReviewsTitle": "Avis",
+  "profileSectionReviewsDescription": "Avis et retours utilisateurs",
+
+  "@_EDIT_ACCOUNT": {},
+  "editAccountTitle": "Param\u00e8tres du compte",
+  "editAccountDataExportTitle": "Export de donn\u00e9es",
+  "editAccountDataExportDescription": "Vous pouvez demander une copie de toutes vos donn\u00e9es personnelles. Cela inclut vos informations de profil, prompts, matches et historique d'activit\u00e9. L'export sera envoy\u00e9 \u00e0 votre adresse e-mail enregistr\u00e9e.",
+  "editAccountExportDataButton": "Exporter toutes vos donn\u00e9es",
+  "editAccountDeleteTitle": "Supprimer le compte",
+  "editAccountDeleteDescription": "La suppression de votre compte est d\u00e9finitive. Toutes vos donn\u00e9es, y compris votre profil, prompts et matches seront supprim\u00e9s.",
+  "editAccountDeleteButton": "Supprimer le compte",
+  "editAccountLogoutButton": "D\u00e9connexion",
+  "editAccountExportDialogTitle": "Exporter les donn\u00e9es",
+  "editAccountExportDialogMessage": "Vous recevrez un lien d'export par e-mail d\u00e8s que vos donn\u00e9es seront pr\u00eates.",
+  "editAccountExportDialogCancel": "Annuler",
+  "editAccountExportDialogConfirm": "Exporter",
+  "editAccountExportSuccessMessage": "Un e-mail sera envoy\u00e9 une fois l'export pr\u00eat",
+  "editAccountExportErrorMessage": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard.",
+  "editAccountDeleteDialogTitle": "Supprimer le compte",
+  "editAccountDeleteDialogMessage": "Votre compte et toutes ses donn\u00e9es seront d\u00e9finitivement supprim\u00e9s imm\u00e9diatement. Cette action ne peut pas \u00eatre annul\u00e9e. \u00cates-vous s\u00fbr de vouloir continuer ?",
+  "editAccountDeleteDialogCancel": "Annuler",
+  "editAccountDeleteDialogConfirm": "Supprimer",
+  "editAccountDeleteErrorMessage": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard.",
+  "editAccountLogoutDialogTitle": "D\u00e9connexion",
+  "editAccountLogoutDialogMessage": "\u00cates-vous s\u00fbr de vouloir vous d\u00e9connecter ?",
+  "editAccountLogoutDialogCancel": "Annuler",
+  "editAccountLogoutDialogConfirm": "D\u00e9connexion",
+  "editAccountLogoutErrorMessage": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard.",
+
+  "@_EDIT_TAG_GROUP": {},
+  "editTagGroupSavingButton": "Enregistrement...",
+  "editTagGroupNextButton": "Suivant",
+  "editTagGroupSaveButton": "Enregistrer",
+  "editTagGroupLoadErrorTitle": "\u00c9chec du chargement des tags",
+  "editTagGroupRetryButton": "R\u00e9essayer",
+  "editTagGroupNoTagsMessage": "Aucun tag disponible",
+  "editTagGroupSaveErrorTitle": "Erreur",
+  "editTagGroupSaveErrorMessage": "\u00c9chec de l'enregistrement des modifications : {error}",
+  "@editTagGroupSaveErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTagGroupErrorDialogOk": "OK",
+
+  "@_EDIT_NOTIFICATIONS": {},
+  "editNotificationsTitle": "Notifications",
+  "editNotificationsSavedMessage": "Notifications enregistr\u00e9es",
+  "editNotificationsSaveErrorMessage": "\u00c9chec de l'enregistrement des notifications",
+  "editNotificationsEnableTitle": "Activer les notifications pour...",
+  "editNotificationsNotNowButton": "Pas maintenant",
+  "editNotificationsEnableButton": "Activer",
+  "editNotificationsPermissionDialogTitle": "Autorisation de notification requise",
+  "editNotificationsPermissionDialogMessage": "L'autorisation de notification a \u00e9t\u00e9 refus\u00e9e. Veuillez l'activer dans les param\u00e8tres de votre appareil pour recevoir les Updates.",
+  "editNotificationsPermissionDialogNotNow": "Pas maintenant",
+  "editNotificationsPermissionDialogOpenSettings": "Ouvrir les param\u00e8tres",
+  "editNotificationsLaterMessage": "Vous pouvez activer les notifications plus tard dans les param\u00e8tres",
+  "editNotificationsEnableErrorMessage": "\u00c9chec de l'activation des notifications. Vous pouvez r\u00e9essayer dans les param\u00e8tres.",
+
+  "@_EDIT_LOCATION": {},
+  "editLocationTitle": "Localisation",
+  "editLocationSavedMessage": "Localisation enregistr\u00e9e",
+  "editLocationSaveErrorMessage": "\u00c9chec de l'enregistrement de la localisation",
+  "editLocationEnableTitle": "Activer la localisation pour",
+  "editLocationNotNowButton": "Pas maintenant",
+  "editLocationEnableButton": "Activer",
+  "editLocationServicesDisabledMessage": "Les services de localisation sont d\u00e9sactiv\u00e9s. Veuillez les activer dans les param\u00e8tres.",
+  "editLocationPermissionDeniedMessage": "Autorisation de localisation refus\u00e9e. Vous pouvez l'activer plus tard dans les param\u00e8tres.",
+  "editLocationPermissionDialogTitle": "Autorisation de localisation requise",
+  "editLocationPermissionDialogMessage": "L'autorisation de localisation a \u00e9t\u00e9 refus\u00e9e de mani\u00e8re permanente. Veuillez l'activer dans les param\u00e8tres de votre appareil pour utiliser cette fonctionnalit\u00e9.",
+  "editLocationPermissionDialogNotNow": "Pas maintenant",
+  "editLocationPermissionDialogOpenSettings": "Ouvrir les param\u00e8tres",
+  "editLocationCoordinatesErrorMessage": "Impossible d'obtenir les coordonn\u00e9es de localisation",
+  "editLocationEnableErrorMessage": "\u00c9chec de l'activation de la localisation. Veuillez r\u00e9essayer.",
+  "editLocationUnavailableMessage": "Impossible de r\u00e9cup\u00e9rer votre localisation. Vous pouvez l'ajouter plus tard dans les param\u00e8tres.",
+  "editLocationApproximateInfo": "Utilisation de la localisation approximative. Activez 'Localisation pr\u00e9cise' dans les param\u00e8tres pour un meilleur matching.",
+
+  "@_EDIT_NAME": {},
+  "editNameTitle": "Vous",
+  "editNameSuccessMessage": "Modifications enregistr\u00e9es avec succ\u00e8s",
+  "editNameErrorMessage": "\u00c9chec de la mise \u00e0 jour, veuillez r\u00e9essayer",
+  "editNameLinkedInFormatError": "Le format de l'URL LinkedIn est invalide",
+  "editNameLinkedInMismatchDialogTitle": "Nous n'avons pas trouv\u00e9 votre nom dans votre URL LinkedIn",
+  "editNameLinkedInMismatchDialogMessage": "Votre URL LinkedIn ne semble pas contenir votre pr\u00e9nom et nom. Vous pouvez continuer ou v\u00e9rifier votre URL.",
+  "editNameLinkedInMismatchDialogCheckUrl": "V\u00e9rifier l'URL",
+  "editNameLinkedInMismatchDialogContinue": "Continuer quand m\u00eame",
+  "editNameFirstNameLabel": "PR\u00c9NOM",
+  "editNameFirstNameHint": "Pr\u00e9nom",
+  "editNameLastNameLabel": "NOM",
+  "editNameLastNameHint": "Nom",
+  "editNameLinkedInLabel": "URL LINKEDIN",
+  "editNameLinkedInHint": "linkedin.com/in/votre-nom",
+  "editNameLinkedInInfoMessage": "Nous ne partagerons votre profil LinkedIn que dans l'e-mail d'introduction une fois qu'il y a un int\u00e9r\u00eat mutuel. Il n'est jamais partag\u00e9 lors du premier match.",
+  "editNameLinkedInMobileTip": "Sur l'app mobile LinkedIn : Allez sur votre profil \u2192 appuyez sur les trois points (\u2022\u2022\u2022) \u2192 s\u00e9lectionnez 'Partager le profil' \u2192 appuyez sur 'Copier le lien'",
+
+  "@_EDIT_EMAIL": {},
+  "editEmailTitle": "Adresse e-mail",
+  "editEmailSendCodeButton": "Envoyer le code de v\u00e9rification",
+  "editEmailAddressLabel": "ADRESSE E-MAIL",
+  "editEmailCodeSentMessage": "Un code de v\u00e9rification a \u00e9t\u00e9 envoy\u00e9 \u00e0 {email}. Veuillez aussi v\u00e9rifier le dossier spam.",
+  "@editEmailCodeSentMessage": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "editEmailSuccessMessage": "Adresse e-mail de contact mise \u00e0 jour",
+  "editEmailSendCodeErrorMessage": "\u00c9chec de l'envoi du code de confirmation, veuillez r\u00e9essayer",
+  "editEmailVerifyCodeErrorMessage": "\u00c9chec de la v\u00e9rification du code, veuillez r\u00e9essayer",
+  "editEmailVerifyCodeButton": "V\u00e9rifier le code",
+  "editEmailAddressHint": "Une adresse e-mail valide",
+  "editEmailInfoMessage": "Nous utiliserons cet e-mail uniquement pour les notifications de l'app comme les nouveaux matches, les introductions et les mises \u00e0 jour importantes",
+  "editEmailNewsletterLabel": "S'ABONNER AUX UPDATES VENYU",
+  "editEmailVerificationCodeLabel": "Code de v\u00e9rification",
+  "editEmailVerificationCodeHint": "Entrez le code \u00e0 6 chiffres",
+  "editEmailOtpInfoMessage": "Veuillez v\u00e9rifier votre dossier spam si vous ne voyez pas le code de v\u00e9rification.",
+
+  "@_EDIT_CITY": {},
+  "editCityTitle": "Ville",
+  "editCitySavedMessage": "Ville enregistr\u00e9e",
+  "editCityErrorMessage": "\u00c9chec de la mise \u00e0 jour de la ville, veuillez r\u00e9essayer",
+  "editCityCityLabel": "VILLE",
+  "editCityCityHint": "Ville",
+  "editCityInfoMessage": "Votre ville n'est partag\u00e9e qu'avec les personnes avec qui vous \u00eates pr\u00e9sent\u00e9, pas avec les matches. Cela facilite les rencontres en personne une fois qu'une connexion est \u00e9tablie.",
+
+  "@_EDIT_COMPANY_NAME": {},
+  "editCompanyNameTitle": "Nom de l'entreprise",
+  "editCompanyNameSuccessMessage": "Modifications des infos de l'entreprise enregistr\u00e9es",
+  "editCompanyNameErrorMessage": "\u00c9chec de la mise \u00e0 jour des infos de l'entreprise, veuillez r\u00e9essayer",
+  "editCompanyNameCompanyLabel": "NOM DE L'ENTREPRISE",
+  "editCompanyNameCompanyHint": "Nom de l'entreprise",
+  "editCompanyNameWebsiteLabel": "SITE WEB",
+  "editCompanyNameWebsiteHint": "Site web",
+  "editCompanyNameInfoMessage": "Votre nom d'entreprise et site web ne sont partag\u00e9s qu'avec les personnes avec qui vous \u00eates pr\u00e9sent\u00e9, pas avec les matches. Ils rendent les introductions plus significatives et pertinentes.",
+
+  "@_EDIT_AVATAR": {},
+  "editAvatarTitle": "Photo de profil",
+  "editAvatarSuccessMessage": "Photo de profil enregistr\u00e9e",
+  "editAvatarErrorMessage": "\u00c9chec de l'enregistrement de la photo de profil",
+  "editAvatarRemoveButton": "Supprimer",
+  "editAvatarAddTitle": "Ajouter une photo de profil",
+  "editAvatarInfoMessage": "Votre photo est souvent votre premi\u00e8re impression. Choisissez un portrait clair et amical qui vous ressemble. Elle appara\u00eetra flout\u00e9e dans les matches, mais visible une fois que vous \u00eates pr\u00e9sent\u00e9.",
+  "editAvatarCameraButton": "Cam\u00e9ra",
+  "editAvatarGalleryButton": "Galerie",
+  "editAvatarNextButton": "Suivant",
+
+  "@_EDIT_BIO": {},
+  "editBioTitle": "\u00c0 propos de vous",
+  "editBioSuccessMessage": "Bio du profil enregistr\u00e9e",
+  "editBioErrorMessage": "\u00c9chec de la mise \u00e0 jour de la bio du profil, veuillez r\u00e9essayer",
+  "editBioInfoMessage": "Votre bio est visible par tous ceux avec qui vous matchez. Gardez \u00e0 l'esprit : si vous ne voulez pas que certains d\u00e9tails personnels soient connus avant une introduction (comme le nom de votre entreprise, profil LinkedIn, ou autres informations identificatrices), veuillez les omettre.\n\nUtilisez cet espace pour mettre en avant votre exp\u00e9rience, int\u00e9r\u00eats et ce pour quoi vous \u00eates ouvert, sans partager de d\u00e9tails sensibles que vous pr\u00e9f\u00e9reriez garder priv\u00e9s jusqu'\u00e0 apr\u00e8s une introduction.",
+  "editBioPlaceholder": "\u00c9crivez votre bio ici...",
+
+  "@_PROMPT_CARD_SECTION": {},
+  "promptCardCreatedLabel": "Cr\u00e9\u00e9",
+  "promptCardReviewedLabel": "R\u00e9vis\u00e9",
+  "promptCardStatusLabel": "Statut",
+  "promptCardUpgradeTitle": "\u00c9tendez la visibilit\u00e9 de votre prompt",
+  "promptCardUpgradeSubtitle": "Passez \u00e0 Venyu Pro pour garder votre prompt en ligne pendant 10 jours au lieu de 3.",
+  "promptCardUpgradeButton": "Passer \u00e0 Pro",
+
+  "@_PROMPT_INTRO_SECTION": {},
+  "promptIntroErrorMessage": "\u00c9chec du chargement des matches",
+  "promptIntroRetryButton": "R\u00e9essayer",
+  "promptIntroEmptyTitle": "Pas encore de matches",
+  "promptIntroEmptyDescription": "Quand des personnes matchent avec votre prompt, leurs profils appara\u00eetront ici.",
+
+  "@_PROMPT_STATS_SECTION": {},
+  "promptStatsTitle": "Stats bient\u00f4t disponibles",
+  "promptStatsDescription": "Suivez les performances de votre prompt, les vues et les m\u00e9triques d'engagement.",
+
+  "@_INTERACTION_TYPE_SELECTION": {},
+  "interactionTypeSelectionTitleFromPrompts": "Merci{name}",
+  "@interactionTypeSelectionTitleFromPrompts": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeSelectionTitleDefault": "Make the net work",
+  "interactionTypeSelectionSubtitleFromPrompts": "Maintenant, faisons travailler le r\u00e9seau pour vous",
+  "interactionTypeSelectionSubtitleDefault": "\u00c9crivez votre propre prompt",
+  "interactionTypeSelectionDisclaimerText": "Les prompts sont r\u00e9vis\u00e9s avant d'\u00eatre publi\u00e9s",
+  "interactionTypeSelectionDisclaimerBeforeLinkText": "Les prompts sont r\u00e9vis\u00e9s selon nos  ",
+  "interactionTypeSelectionDisclaimerLinkText": "directives de la communaut\u00e9",
+  "interactionTypeSelectionShowGuidelines": "Afficher les directives de la communaut\u00e9",
+  "interactionTypeSelectionHideGuidelines": "Masquer les directives de la communaut\u00e9",
+  "interactionTypeSelectionNotNowButton": "Pas maintenant",
+
+  "@_PROMPT_DETAIL_VIEW": {},
+  "promptDetailTitle": "D\u00e9tail du prompt",
+  "promptDetailStatusTitle": "Statut",
+  "promptDetailHowYouMatchTitle": "Contr\u00f4ler le matching",
+  "promptDetailHowYouMatchDescription": "Mettez en pause le matching sur ce prompt pour arr\u00eater temporairement de recevoir de nouveaux matches. Vous pouvez reprendre \u00e0 tout moment.",
+  "promptDetailFirstCallTitle": "First Call",
+  "promptDetailPublishedInTitle": "Publi\u00e9 dans",
+  "promptDetailMatchesTitle": "Matches",
+  "promptDetailErrorMessage": "\u00c9chec du chargement du prompt",
+  "promptDetailErrorDataMessage": "\u00c9chec du chargement des donn\u00e9es du prompt",
+  "promptDetailRetryButton": "R\u00e9essayer",
+  "promptDetailEmptyMatchesTitle": "Pas encore de matches",
+  "promptDetailEmptyMatchesDescription": "Quand des personnes matchent avec votre prompt, leurs profils appara\u00eetront ici.",
+  "promptDetailEditButton": "Modifier le prompt",
+  "promptDetailPreviewUpdatedMessage": "Param\u00e8tre d'aper\u00e7u mis \u00e0 jour",
+  "promptDetailMatchSettingUpdatedMessage": "Param\u00e8tre de match mis \u00e0 jour",
+  "promptDetailPauseMatchingTitle": "Mettre en pause le matching ?",
+  "promptDetailPauseMatchingMessage": "Vous ne recevrez plus de matches pour \"{interactionType}\" sur ce prompt. Vous pouvez reprendre le matching \u00e0 tout moment.",
+  "@promptDetailPauseMatchingMessage": {
+    "placeholders": {
+      "interactionType": {
+        "type": "String"
+      }
+    }
+  },
+  "promptDetailPauseMatchingConfirm": "Pause",
+  "promptDetailPauseMatchingCancel": "Annuler",
+  "promptDetailPauseMatchingMessageGeneric": "Vous ne recevrez plus de matches sur ce prompt. Vous pouvez reprendre le matching \u00e0 tout moment.",
+  "promptDetailMatchingActiveLabel": "Le matching est actif",
+  "promptDetailMatchingPausedLabel": "Le matching est en pause",
+  "promptItemPausedTag": "En pause",
+  "promptDetailRejectButton": "Rejeter",
+  "promptDetailApproveButton": "Approuver",
+  "promptDetailApprovedMessage": "Prompt approuv\u00e9",
+  "promptDetailRejectedMessage": "Prompt rejet\u00e9",
+  "promptDetailDeleteButton": "Supprimer le prompt",
+  "promptDetailDeleteConfirmTitle": "Supprimer le prompt ?",
+  "promptDetailDeleteConfirmMessage": "Cela supprimera d\u00e9finitivement votre prompt. Cette action ne peut pas \u00eatre annul\u00e9e.",
+  "promptDetailDeleteConfirmButton": "Supprimer",
+  "promptDetailDeleteCancelButton": "Annuler",
+  "promptDetailDeletedMessage": "Prompt supprim\u00e9",
+  "promptDetailDeleteErrorMessage": "\u00c9chec de la suppression du prompt",
+
+  "@_PROMPT_EDIT_VIEW": {},
+  "promptEditNextButton": "Suivant",
+
+  "@_PROMPT_ENTRY_VIEW": {},
+  "promptEntryGreeting": "Salut{firstName} \ud83d\udc4b",
+  "@promptEntryGreeting": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "promptEntryFirstTimeDescription": "Les {count} prochains prompts sont des exemples d'entra\u00eenement pour vous aider \u00e0 apprendre comment y r\u00e9pondre.",
+  "@promptEntryFirstTimeDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptEntryDailyDescription": "Vos {count} prompts quotidiens vous attendent",
+  "@promptEntryDailyDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptEntryButton": "Montrez-moi",
+
+  "@_PROMPT_FINISH_VIEW": {},
+  "promptFinishTitle": "Prompt soumis !",
+  "promptFinishDescription": "Votre prompt a \u00e9t\u00e9 soumis avec succ\u00e8s et est en cours d'examen. Nous vous pr\u00e9viendrons une fois qu'il sera en ligne.",
+  "promptFinishReviewInfo": "Les examens prennent g\u00e9n\u00e9ralement moins de 24 heures",
+  "promptFinishDoneButton": "Termin\u00e9",
+
+  "@_PROMPT_PREVIEW_VIEW": {},
+  "promptPreviewTitle": "Aper\u00e7u",
+  "promptPreviewNextButton": "Suivant",
+  "promptPreviewSubmitButton": "Soumettre",
+  "promptPreviewErrorUpdate": "\u00c9chec de la mise \u00e0 jour du prompt",
+  "promptPreviewErrorSubmit": "\u00c9chec de la soumission du prompt",
+
+  "@_PROMPT_SELECT_VENUE_VIEW": {},
+  "promptSelectVenueTitle": "S\u00e9lectionner le public",
+  "promptSelectVenueSubtitle": "O\u00f9 souhaitez-vous publier ?",
+  "promptSelectVenuePublicTitle": "Publier publiquement",
+  "promptSelectVenuePublicDescription": "Visible par tous les utilisateurs",
+  "promptSelectVenueOrTitle": "Ou s\u00e9lectionnez un lieu sp\u00e9cifique",
+  "promptSelectVenueNextButton": "Suivant",
+  "promptSelectVenueSubmitButton": "Soumettre",
+  "promptSelectVenueErrorSubmit": "\u00c9chec de la soumission du prompt",
+
+  "@_PROMPT_SETTINGS_VIEW": {},
+  "promptSettingsTitle": "Param\u00e8tres",
+  "promptSettingsSubmitButton": "Soumettre",
+  "promptSettingsErrorSubmit": "\u00c9chec de la soumission du prompt",
+
+  "@_PROMPTS_VIEW": {},
+  "promptsViewTitle": "Prompts",
+  "promptsViewEmptyActionButton": "Nouveau prompt",
+  "promptsViewAnswerPromptsButton": "Prompts non r\u00e9pondus",
+  "promptsViewAllAnsweredMessage": "Tous les prompts r\u00e9pondus pour aujourd'hui",
+  "promptsViewMyPromptsTitle": "Mes prompts",
+
+  "@_VENUE_CODE_FIELD": {},
+  "venueCodeFieldPlaceholder": "Code d'invitation",
+
+  "@_VENUE_DETAIL_VIEW": {},
+  "venueDetailTitle": "D\u00e9tails du lieu",
+  "venueDetailErrorLoading": "\u00c9chec du chargement des d\u00e9tails du lieu",
+  "venueDetailRetryButton": "R\u00e9essayer",
+  "venueDetailNotFound": "Lieu non trouv\u00e9",
+  "venueDetailMemberSingular": "Membre",
+  "venueDetailMembersPlural": "Membres",
+  "venueDetailCardSingular": "Prompt",
+  "venueDetailCardsPlural": "Prompts",
+  "venueDetailMatchSingular": "Match",
+  "venueDetailMatchesPlural": "Matches",
+  "venueDetailIntroductionSingular": "Introduction",
+  "venueDetailIntroductionsPlural": "Introductions",
+  "venueDetailMatchesAndIntrosTitle": "Matches",
+  "venueDetailEmptyMatchesTitle": "Pas encore de matches",
+  "venueDetailEmptyMatchesDescription": "Quand les membres matchent via ce lieu, leurs profils appara\u00eetront ici.",
+  "venueDetailOpenForMatchmaking": "Ouvert pour le matching",
+  "venueDetailOpenFrom": "Ouvert pour le matching \u00e0 partir du {startDate}",
+  "@venueDetailOpenFrom": {
+    "placeholders": {
+      "startDate": {
+        "type": "String"
+      }
+    }
+  },
+  "venueDetailOpenUntil": "Ouvert pour le matching jusqu'au {endDate}",
+  "@venueDetailOpenUntil": {
+    "placeholders": {
+      "endDate": {
+        "type": "String"
+      }
+    }
+  },
+  "venueDetailOpenFromUntil": "Ouvert pour le matching du {startDate} au {endDate}",
+  "@venueDetailOpenFromUntil": {
+    "placeholders": {
+      "startDate": {
+        "type": "String"
+      },
+      "endDate": {
+        "type": "String"
+      }
+    }
+  },
+
+  "@_VENUE_PROFILES_VIEW": {},
+  "venueProfilesViewTitle": "Membres de {venueName}",
+  "@venueProfilesViewTitle": {
+    "placeholders": {
+      "venueName": {
+        "type": "String"
+      }
+    }
+  },
+  "venueProfilesViewEmptyTitle": "Aucun membre trouv\u00e9",
+  "venueProfilesViewEmptyDescription": "Ce lieu n'a pas encore de membres.",
+
+  "@_VENUE_PROMPTS_VIEW": {},
+  "venuePromptsViewTitle": "Prompts de {venueName}",
+  "@venuePromptsViewTitle": {
+    "placeholders": {
+      "venueName": {
+        "type": "String"
+      }
+    }
+  },
+  "venuePromptsViewEmptyTitle": "Aucun prompt trouv\u00e9",
+  "venuePromptsViewEmptyDescription": "Ce lieu n'a pas encore de prompts.",
+
+  "@_COMMUNITY_GUIDELINES_WIDGET": {},
+  "communityGuidelinesTitle": "Directives",
+  "communityGuidelinesAllowed": "r\u00e9seautage, partage de connaissances, demande d'aide, partage d'exp\u00e9rience et d'expertise, introductions pertinentes, exploration de collaborations, r\u00e9flexion sur des d\u00e9fis, recherche de co-fondateurs ou partenaires strat\u00e9giques, questions entrepreneuriales, recherche ou don de recommandations",
+  "communityGuidelinesProhibited": "politique, tromperie, fraude, spam, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, d\u00e9clarations haineuses, offres d'emploi ou postes vacants, publicit\u00e9 ou messages commerciaux",
+
+  "@_ERROR_STATE_WIDGET": {},
+  "errorStateDefaultTitle": "Quelque chose s'est mal pass\u00e9",
+  "errorStateRetryButton": "R\u00e9essayer",
+
+  "@_FIRST_CALL_SETTINGS_WIDGET": {},
+  "firstCallSettingsTitle": "First Call",
+  "firstCallSettingsDescription": "Vous voyez les matches en premier, les autres ne le d\u00e9couvrent que lorsque vous montrez de l'int\u00e9r\u00eat. Filtrez les introductions potentielles discr\u00e8tement avant de r\u00e9v\u00e9ler le match.",
+  "firstCallSettingsEnableLabel": "Activer",
+  "firstCallSettingsUpgradeSubtitle": "D\u00e9bloquez First Call et voyez les matches en premier.",
+  "firstCallSettingsUpgradeButton": "Passer \u00e0 Pro",
+  "firstCallSettingsVenueInfo": "Disponible lors de la publication dans un lieu",
+
+  "@_PROMPT_INTERACTION_ITEM_VIEW": {},
+  "promptInteractionPauseButton": "Pause",
+  "promptInteractionResumeButton": "Reprendre",
+
+  "@_PAYWALL_VIEW": {},
+  "paywallTitle": "Rejoignez Venyu Pro",
+  "paywallSubtitle": "Make the net work. Better \ud83d\udcaa",
+  "paywallButtonNotNow": "Pas maintenant",
+  "paywallButtonSubscribe": "S'abonner",
+  "paywallButtonContinue": "Continuer",
+  "paywallButtonSubscribeContinue": "S'abonner et continuer",
+  "paywallButtonContinueToVenyu": "Continuer vers Venyu",
+  "paywallButtonRestorePurchases": "Restaurer les achats",
+  "paywallDailyCost": "{currency}{price} par jour",
+  "@paywallDailyCost": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "paywallDiscountBadge": "{percentage}% DE R\u00c9DUCTION",
+  "@paywallDiscountBadge": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "paywallErrorLoadOptions": "\u00c9chec du chargement des options d'abonnement",
+  "paywallSuccessActivated": "Abonnement activ\u00e9 avec succ\u00e8s !",
+  "paywallErrorPurchaseFailed": "\u00c9chec de l'achat. Veuillez r\u00e9essayer.",
+  "paywallSuccessRestored": "Achats restaur\u00e9s avec succ\u00e8s !",
+  "paywallInfoNoSubscriptions": "Aucun abonnement actif trouv\u00e9",
+  "paywallErrorRestoreFailed": "\u00c9chec de la restauration des achats",
+
+  "@_MATCHES_VIEW": {},
+  "matchesViewTitle": "Matches",
+  "matchesViewEmptyActionButton": "Nouveau prompt",
+
+  "@_PROFILE_VIEW": {},
+  "profileViewTitle": "Profil",
+  "profileViewFabJoinVenue": "Rejoindre un lieu",
+
+  "@_PROFILE_HEADER": {},
+  "profileHeaderBioPlaceholder": "\u00c9crivez quelque chose sur vous...",
+
+  "@_GET_MATCHED_BUTTON": {},
+  "getMatchedButtonLabel": "\u00catre match\u00e9",
+
+  "@_REVIEW_PENDING_PROMPTS_VIEW": {},
+  "reviewPendingPromptsErrorUpdate": "\u00c9chec de la mise \u00e0 jour des prompts",
+  "reviewPendingPromptsErrorUpdateAll": "\u00c9chec de la mise \u00e0 jour de tous les prompts",
+  "reviewPendingPromptsRejectSelected": "Rejeter {count}",
+  "@reviewPendingPromptsRejectSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewPendingPromptsApproveSelected": "Approuver {count}",
+  "@reviewPendingPromptsApproveSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewPendingPromptsRejectAll": "Tout rejeter",
+  "reviewPendingPromptsApproveAll": "Tout approuver",
+
+  "@_MATCH_SECTIONS": {},
+  "matchSectionNoSharedConnections": "Aucune connexion partag\u00e9e",
+  "matchSectionNoSharedTags": "Aucun tag partag\u00e9",
+  "matchSectionNoSharedVenues": "Aucun lieu partag\u00e9",
+  "matchSectionUnknownTagGroup": "Inconnu",
+
+  "@_MATCH_ACTIONS": {},
+  "matchActionsSkipDialogTitle": "Passer ce match ?",
+  "matchActionsSkipDialogMessage": "Ce match sera supprim\u00e9 de vos matches. L'autre personne ne recevra aucune notification et ne saura pas que vous l'avez pass\u00e9e.",
+  "matchActionsSkipError": "\u00c9chec de passer le match",
+  "matchActionsConnectError": "\u00c9chec de la connexion",
+
+  "@_MATCH_FINISH": {},
+  "matchFinishTitle": "Super !",
+  "matchFinishDescription": "Votre demande a \u00e9t\u00e9 soumise.",
+  "matchFinishInfoMessage": "Si {firstName} demande \u00e9galement une introduction, vous recevrez tous les deux un e-mail avec vous deux en copie afin que vous puissiez entrer en contact.",
+  "@matchFinishInfoMessage": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "matchFinishDoneButton": "Termin\u00e9",
+
+  "@_REGISTRATION_COMPLETE": {},
+  "registrationCompleteError": "\u00c9chec de la finalisation de l'inscription. Veuillez r\u00e9essayer.",
+  "registrationCompleteTutorialPrompt1": "avec de l'exp\u00e9rience en d\u00e9veloppement international.",
+  "registrationCompleteTutorialPrompt2": "avec de l'exp\u00e9rience en obtention de subventions europ\u00e9ennes et ouvert au partage de le\u00e7ons apprises.",
+  "registrationCompleteTutorialPrompt3": "qui a d\u00e9marr\u00e9 ou g\u00e9r\u00e9 un espace de coworking auparavant.",
+  "registrationCompleteTutorialPrompt4": "avec une expertise en nutrition animale pour de nouveaux concepts d'aliments pour animaux.",
+
+  "@_AVATAR_UPLOAD": {},
+  "avatarUploadError": "\u00c9chec du t\u00e9l\u00e9chargement de la photo. Veuillez r\u00e9essayer.",
+  "avatarRemoveError": "\u00c9chec de la suppression de la photo. Veuillez r\u00e9essayer.",
+
+  "@_VERSION_CHECK": {},
+  "versionCheckUpdateAvailable": "Une nouvelle version de Venyu est disponible. Mettez \u00e0 jour maintenant pour les derni\u00e8res fonctionnalit\u00e9s !",
+
+  "@_BASE_LIST_VIEW": {},
+  "baseListViewLoading": "Chargement...",
+  "baseListViewErrorTitle": "\u00c9chec du chargement des donn\u00e9es",
+
+  "@_BASE_FORM_VIEW": {},
+  "baseFormViewErrorUpdate": "\u00c9chec de la mise \u00e0 jour, veuillez r\u00e9essayer",
+
+  "@_ERROR_HANDLING": {},
+  "errorPrefix": "Erreur :",
+
+  "@_REVIEW_PENDING_PROMPTS_TITLE": {},
+  "reviewPendingPromptsAppBarTitle": "{type} en attente",
+  "@reviewPendingPromptsAppBarTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+
+  "@_INVITE_CODE_ERRORS": {},
+  "inviteCodeErrorInvalidOrExpired": "Ce code est invalide ou a expir\u00e9. Veuillez v\u00e9rifier votre code et r\u00e9essayer.",
+  "inviteCodeErrorRequired": "Veuillez entrer un code d'invitation.",
+  "inviteCodeErrorLength": "Le code doit contenir exactement 8 caract\u00e8res.",
+
+  "@_VENUE_ERRORS": {},
+  "venueErrorNotMember": "Vous n'\u00eates pas membre de ce lieu ou il n'existe pas.",
+  "venueErrorCodeInvalidOrExpired": "Ce code est invalide ou a expir\u00e9. Veuillez demander un nouveau code.",
+  "venueErrorAlreadyMember": "Vous \u00eates d\u00e9j\u00e0 membre de ce lieu.",
+  "venueErrorCodeRequired": "Veuillez entrer un code de lieu.",
+  "venueErrorCodeLength": "Le code doit contenir exactement 8 caract\u00e8res.",
+  "venueErrorAdminRequired": "Vous avez besoin de privil\u00e8ges d'administrateur pour voir les membres du lieu.",
+  "venueErrorIdRequired": "L'ID du lieu est requis.",
+  "venueErrorAdminRequiredPrompts": "Vous avez besoin de privil\u00e8ges d'administrateur pour voir les prompts du lieu.",
+  "venueErrorPermissionDenied": "Vous n'avez pas la permission de voir les matches de ce lieu.",
+
+  "@_OPTION_BUTTON": {},
+  "optionButtonCompleteProfile": "Compl\u00e9ter le profil"
+}

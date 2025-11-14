@@ -2,44 +2,28 @@ import 'dart:io';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'app_logger.dart';
+import 'region_detector.dart';
 
 /// DeviceInfo - Utility class to detect device information
-/// 
+///
 /// Equivalent to iOS device detection functions used in SupabaseManager.
 class DeviceInfo {
   DeviceInfo._();
 
   /// Detect device country code - equivalent to iOS detectCountry()
-  /// 
-  /// Returns the device's current country code based on locale.
+  ///
+  /// Returns the device's current country/region code based on system settings.
+  /// Uses native platform channels to get the actual region setting, not language.
   /// Falls back to 'NL' if detection fails (matching iOS behavior).
-  static String detectCountry() {
+  ///
+  /// Note: This is now async to support platform channel communication.
+  static Future<String> detectCountry() async {
     try {
-      // Get the device locale
-      final locale = Platform.localeName; // e.g., "en_US" or "nl_NL"
-      
-      if (locale.contains('_')) {
-        final countryCode = locale.split('_').last.toUpperCase();
-        AppLogger.info('Detected country code: $countryCode', context: 'DeviceInfo');
-        return countryCode;
-      }
-      
-      // Fallback mapping for common locales without country codes
-      final languageToCountryMap = {
-        'en': 'US',
-        'nl': 'NL', 
-        'de': 'DE',
-        'fr': 'FR',
-        'es': 'ES',
-        'it': 'IT',
-        'pt': 'PT',
-      };
-      
-      final languageCode = locale.toLowerCase();
-      final countryCode = languageToCountryMap[languageCode] ?? 'NL';
-      AppLogger.info('Mapped country code from language $languageCode: $countryCode', context: 'DeviceInfo');
+      // Use RegionDetector to get the actual region from system settings
+      // This ensures we get "BE" for Belgium region, even if language is "en_GB"
+      final countryCode = await RegionDetector.detectRegion();
+      AppLogger.info('Detected country/region code: $countryCode', context: 'DeviceInfo');
       return countryCode;
-      
     } catch (error) {
       AppLogger.error('Error detecting country, using fallback NL', error: error, context: 'DeviceInfo');
       return 'NL'; // Default fallback matching iOS
@@ -66,8 +50,8 @@ class DeviceInfo {
       return languageCode;
       
     } catch (error) {
-      AppLogger.error('Error detecting language, using fallback nl', error: error, context: 'DeviceInfo');
-      return 'nl'; // Default fallback matching iOS
+      AppLogger.error('Error detecting language, using fallback en', error: error, context: 'DeviceInfo');
+      return 'en'; // Default fallback matching iOS
     }
   }
 
@@ -97,13 +81,13 @@ class DeviceInfo {
 
   /// Get complete device info for debugging - equivalent to iOS debug info
   static Future<Map<String, dynamic>> getDebugInfo() async {
-    final country = detectCountry();
+    final country = await detectCountry();
     final language = detectLanguage();
     final appVersion = await detectAppVersion();
-    
+
     return {
       'countryCode': country,
-      'languageCode': language,  
+      'languageCode': language,
       'appVersion': appVersion,
       'platform': Platform.operatingSystem,
       'platformVersion': Platform.operatingSystemVersion,

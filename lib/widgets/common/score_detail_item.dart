@@ -64,6 +64,7 @@ class ScoreDetailItem extends StatelessWidget {
                   scoreDetail.label,
                   style: AppTextStyles.subheadline.copyWith(
                     color: venyuTheme.primaryText,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 2),

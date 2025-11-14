@@ -295,7 +295,7 @@ class _MainViewState extends State<MainView> {
                   child: context.themedIcon('card', selected: true),
                 )
               : context.themedIcon('card', selected: true),
-          label: AppLocalizations.of(context)!.promptsViewMyPromptsTitle,
+          label: AppLocalizations.of(context)!.promptsViewTitle,
         ),
         BottomNavigationBarItem(
           icon: _badgeData != null && _badgeData!.unreadNotifications > 0
@@ -313,15 +313,15 @@ class _MainViewState extends State<MainView> {
           label: AppLocalizations.of(context)!.navNotifications,
         ),
         BottomNavigationBarItem(
-          icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
+          icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount,
                   child: context.themedIcon('profile', selected: false),
                 )
               : context.themedIcon('profile', selected: false),
-          activeIcon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
+          activeIcon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount,
                   child: context.themedIcon('profile', selected: true),
                 )
               : context.themedIcon('profile', selected: true),

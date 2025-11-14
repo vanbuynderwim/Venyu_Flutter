@@ -183,24 +183,26 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeNotRelevantButtonToo => 'Niet voor mij';
 
   @override
-  String get interactionTypeLookingForThisSelection => 'Ik zoek iemand die';
+  String get interactionTypeLookingForThisSelection => 'Ik zoek iemand';
+
+  @override
+  String get interactionTypeLookingForThisHint =>
+      'met ervaring in ...\ndie kan helpen met ...\nmet toegang tot ...\ndie mee kan sparren over ...\ndie een introductie kan maken naar ...\ndie advies kan geven over ...\nmet expertise in ...\n...';
+
+  @override
+  String get interactionTypeThisIsMeHint =>
+      'die kan helpen met ...\nmet ervaring in ...\ndie kan introduceren bij ...\ndie kan meedenken over ...\ndie advies kan geven over ...\nmet expertise in ...\ndie connecties heeft in ...\n...';
+
+  @override
+  String get interactionTypeThisIsMeSelection => 'Ik ben iemand';
 
   @override
   String get interactionTypeLookingForThisSubtitle =>
-      'Waar heb jij iemand voor nodig? Denk aan advies, expertise of een introductie.';
-
-  @override
-  String get interactionTypeLookingForThisHint => '...vul verder aan';
-
-  @override
-  String get interactionTypeThisIsMeSelection => 'Ik ben iemand die';
+      'die advies, ervaring of netwerk kan bieden';
 
   @override
   String get interactionTypeThisIsMeSubtitle =>
-      'Waar kan jij iemand mee helpen? Denk aan ervaring, inzichten of netwerk.';
-
-  @override
-  String get interactionTypeThisIsMeHint => '... vul verder aan';
+      'die kan helpen met advies, ervaring of netwerk';
 
   @override
   String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
@@ -1520,7 +1522,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'Alle prompts worden beoordeeld voordat ze live gaan';
+      'Prompts worden nagekeken voordat ze live gaan';
+
+  @override
+  String get interactionTypeSelectionDisclaimerBeforeLinkText =>
+      'Prompts worden nagekeken volgens onze ';
+
+  @override
+  String get interactionTypeSelectionDisclaimerLinkText =>
+      'community richtlijnen';
 
   @override
   String get interactionTypeSelectionShowGuidelines =>
@@ -1540,11 +1550,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailStatusTitle => 'Status';
 
   @override
-  String get promptDetailHowYouMatchTitle => 'Hoe je matcht';
+  String get promptDetailHowYouMatchTitle => 'Matchen beheren';
 
   @override
   String get promptDetailHowYouMatchDescription =>
-      'Pauzeer een matchingsoptie om tijdelijk te stoppen met matches ontvangen. Hervat om weer te matchen.';
+      'Pauzeer het matchen op deze prompt om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.';
 
   @override
   String get promptDetailFirstCallTitle => 'First Call';
@@ -1595,6 +1605,19 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptDetailPauseMatchingCancel => 'Annuleren';
+
+  @override
+  String get promptDetailPauseMatchingMessageGeneric =>
+      'Je ontvangt geen matches meer op deze prompt. Je kan matchen op elk moment hervatten.';
+
+  @override
+  String get promptDetailMatchingActiveLabel => 'Matchen is actief';
+
+  @override
+  String get promptDetailMatchingPausedLabel => 'Matchen is gepauzeerd';
+
+  @override
+  String get promptItemPausedTag => 'Gepauzeerd';
 
   @override
   String get promptDetailRejectButton => 'Afwijzen';
@@ -1826,11 +1849,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get communityGuidelinesAllowed =>
-      'netwerken, kennis of bronnen delen, hulp vragen, contacten leggen voor echte connecties';
+      'netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven';
 
   @override
   String get communityGuidelinesProhibited =>
-      'politieke posts, oplichting, spam, misleidende, aanstootgevende of expliciete inhoud, reclame of commerciële boodschappen.';
+      'politiek, misleiding, oplichting, spam, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, reclame of commerciële boodschappen';
 
   @override
   String get errorStateDefaultTitle => 'Er ging iets mis';
@@ -1992,7 +2015,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String matchFinishInfoMessage(String firstName) {
-    return 'Nu is het wachten op $firstName. Als $firstName ook een introductie wil, ontvangen jullie automatisch een mail om kennis te maken.';
+    return 'Als $firstName ook een introductie wil, ontvangen jullie automatisch een mail met beiden in Cc om kennis te maken.';
   }
 
   @override
@@ -2004,19 +2027,19 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationCompleteTutorialPrompt1 =>
-      'ervaring heeft met internationaal opschalen.';
+      'met ervaring in internationaal opschalen.';
 
   @override
   String get registrationCompleteTutorialPrompt2 =>
-      'al eens een Europese subsidie heeft binnengehaald en zijn learnings wil delen.';
+      'met ervaring in Europese subsidies en graag zijn learnings deelt.';
 
   @override
   String get registrationCompleteTutorialPrompt3 =>
-      'ervaring heeft met het opstarten of runnen van een coworking space.';
+      'die al een coworking space heeft opgestart of uitgebaat.';
 
   @override
   String get registrationCompleteTutorialPrompt4 =>
-      'expertise heeft in diervoeding voor een nieuw petfood concept.';
+      'met expertise in diervoeding voor nieuwe petfoodconcepten.';
 
   @override
   String get avatarUploadError =>

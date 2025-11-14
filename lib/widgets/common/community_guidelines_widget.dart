@@ -47,7 +47,7 @@ class CommunityGuidelinesWidget extends StatelessWidget {
 
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: AppLayoutStyles.cardDecoration(context),
+            //decoration: AppLayoutStyles.cardDecoration(context, withBackground: false),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -56,14 +56,14 @@ class CommunityGuidelinesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      '👍  ',
+                      '✅  ',
                       style: TextStyle(fontSize: 20),
                     ),
                     Expanded(
                       child: Text(
                         l10n.communityGuidelinesAllowed,
                         style: AppTextStyles.footnote.copyWith(
-                          color: context.venyuTheme.secondaryText,
+                          color: context.venyuTheme.darkText,
                         ),
                       ),
                     ),
@@ -77,14 +77,14 @@ class CommunityGuidelinesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      '🚫  ',
+                      '❌  ',
                       style: TextStyle(fontSize: 20),
                     ),
                     Expanded(
                       child: Text(
                         l10n.communityGuidelinesProhibited,
                         style: AppTextStyles.footnote.copyWith(
-                          color: context.venyuTheme.secondaryText,
+                          color: context.venyuTheme.darkText,
                         ),
                       ),
                     ),

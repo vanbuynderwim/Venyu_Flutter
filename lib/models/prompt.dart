@@ -1,6 +1,5 @@
 import 'profile.dart';
 import 'venue.dart';
-import 'prompt_interaction.dart';
 import 'enums/prompt_status.dart';
 import 'enums/interaction_type.dart';
 
@@ -13,6 +12,7 @@ class Prompt {
   final DateTime? reviewedAt;
   final int? impressionCount;
   final InteractionType? interactionType;
+  final InteractionType? userInteractionType;
   final InteractionType? matchInteractionType;
   final Profile? profile;
   final Venue? venue;
@@ -31,8 +31,8 @@ class Prompt {
   /// Whether the current user is the author of this prompt (optional).
   final bool? fromAuthor;
 
-  /// List of interactions the current user has had with this prompt (optional).
-  final List<PromptInteraction>? interactions;
+  /// Whether this prompt is paused (optional).
+  final bool? isPaused;
 
   const Prompt({
     this.feedID,
@@ -43,6 +43,7 @@ class Prompt {
     this.reviewedAt,
     this.impressionCount,
     this.interactionType,
+    this.userInteractionType,
     this.matchInteractionType,
     this.profile,
     this.venue,
@@ -50,7 +51,7 @@ class Prompt {
     this.connectionCount,
     this.withPreview,
     this.fromAuthor,
-    this.interactions,
+    this.isPaused,
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
@@ -62,11 +63,14 @@ class Prompt {
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
       reviewedAt: json['reviewed_at'] != null ? DateTime.parse(json['reviewed_at']) : null,
       impressionCount: json['impression_count'] as int?,
-      interactionType: json['interaction_type'] != null 
-          ? InteractionType.fromJson(json['interaction_type']) 
+      interactionType: json['interaction_type'] != null
+          ? InteractionType.fromJson(json['interaction_type'])
           : null,
-      matchInteractionType: json['match_interaction_type'] != null 
-          ? InteractionType.fromJson(json['match_interaction_type']) 
+      userInteractionType: json['user_interaction_type'] != null
+          ? InteractionType.fromJson(json['user_interaction_type'])
+          : null,
+      matchInteractionType: json['match_interaction_type'] != null
+          ? InteractionType.fromJson(json['match_interaction_type'])
           : null,
       profile: json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       venue: json['venue'] != null ? Venue.fromJson(json['venue']) : null,
@@ -78,11 +82,7 @@ class Prompt {
           : null,
       withPreview: json['with_preview'] as bool?,
       fromAuthor: json['from_author'] as bool?,
-      interactions: json['interactions'] != null
-          ? (json['interactions'] as List)
-              .map((item) => PromptInteraction.fromJson(item))
-              .toList()
-          : null,
+      isPaused: json['is_paused'] as bool?,
     );
   }
 
@@ -96,6 +96,7 @@ class Prompt {
       'reviewed_at': reviewedAt?.toIso8601String(),
       'impression_count': impressionCount,
       'interaction_type': interactionType?.toJson(),
+      'user_interaction_type': userInteractionType?.toJson(),
       'match_interaction_type': matchInteractionType?.toJson(),
       'profile': profile?.toJson(),
       'venue': venue?.toJson(),
@@ -103,7 +104,7 @@ class Prompt {
       if (connectionCount != null) 'connection_count': connectionCount,
       'with_preview': withPreview,
       'from_author': fromAuthor,
-      if (interactions != null) 'interactions': interactions!.map((i) => i.toJson()).toList(),
+      'is_paused': isPaused,
     };
   }
 

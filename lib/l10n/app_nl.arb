@@ -85,14 +85,15 @@
   "interactionTypeKnowSomeoneButtonToo": "Die ken ik ook",
   "interactionTypeNotRelevantButtonToo": "Niet voor mij",
 
-  "interactionTypeLookingForThisSelection": "Ik zoek iemand die",
-  "interactionTypeLookingForThisSubtitle": "Waar heb jij iemand voor nodig? Denk aan advies, expertise of een introductie.",
-  "interactionTypeLookingForThisHint": "...vul verder aan",
+  "interactionTypeLookingForThisSelection": "Ik zoek iemand",
+  "interactionTypeThisIsMeSelection": "Ik ben iemand",
 
-  "interactionTypeThisIsMeSelection": "Ik ben iemand die",
-  "interactionTypeThisIsMeSubtitle": "Waar kan jij iemand mee helpen? Denk aan ervaring, inzichten of netwerk.",
-  "interactionTypeThisIsMeHint": "... vul verder aan",
+  "interactionTypeLookingForThisHint": "met ervaring in ...\ndie kan helpen met ...\nmet toegang tot ...\ndie mee kan sparren over ...\ndie een introductie kan maken naar ...\ndie advies kan geven over ...\nmet expertise in ...\n...",
+  "interactionTypeThisIsMeHint": "die kan helpen met ...\nmet ervaring in ...\ndie kan introduceren bij ...\ndie kan meedenken over ...\ndie advies kan geven over ...\nmet expertise in ...\ndie connecties heeft in ...\n...",
 
+  "interactionTypeLookingForThisSubtitle": "die advies, ervaring of netwerk kan bieden",
+  "interactionTypeThisIsMeSubtitle": "die kan helpen met advies, ervaring of netwerk",
+ 
   "interactionTypeKnowSomeoneSelection": "Ik kan verbinden",
   "interactionTypeKnowSomeoneSubtitle": "Stel mensen voor die kunnen helpen",
   "interactionTypeKnowSomeoneHint": "Wie kun je aanraden?",
@@ -730,7 +731,9 @@
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Make the net work for you",
   "interactionTypeSelectionSubtitleDefault": "Schrijf zelf een prompt",
-  "interactionTypeSelectionDisclaimerText": "Alle prompts worden beoordeeld voordat ze live gaan",
+  "interactionTypeSelectionDisclaimerText": "Prompts worden nagekeken voordat ze live gaan",
+  "interactionTypeSelectionDisclaimerBeforeLinkText": "Prompts worden nagekeken volgens onze ",
+  "interactionTypeSelectionDisclaimerLinkText": "community richtlijnen",
   "interactionTypeSelectionShowGuidelines": "Community richtlijnen tonen",
   "interactionTypeSelectionHideGuidelines": "Community richtlijnen verbergen",
   "interactionTypeSelectionNotNowButton": "Niet nu",
@@ -738,8 +741,8 @@
   "@_PROMPT_DETAIL_VIEW": {},
   "promptDetailTitle": "Prompt detail",
   "promptDetailStatusTitle": "Status",
-  "promptDetailHowYouMatchTitle": "Hoe je matcht",
-  "promptDetailHowYouMatchDescription": "Pauzeer een matchingsoptie om tijdelijk te stoppen met matches ontvangen. Hervat om weer te matchen.",
+  "promptDetailHowYouMatchTitle": "Matchen beheren",
+  "promptDetailHowYouMatchDescription": "Pauzeer het matchen op deze prompt om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.",
   "promptDetailFirstCallTitle": "First Call",
   "promptDetailPublishedInTitle": "Gepubliceerd in",
   "promptDetailMatchesTitle": "Matches",
@@ -762,6 +765,10 @@
   },
   "promptDetailPauseMatchingConfirm": "Pauzeren",
   "promptDetailPauseMatchingCancel": "Annuleren",
+  "promptDetailPauseMatchingMessageGeneric": "Je ontvangt geen matches meer op deze prompt. Je kan matchen op elk moment hervatten.",
+  "promptDetailMatchingActiveLabel": "Matchen is actief",
+  "promptDetailMatchingPausedLabel": "Matchen is gepauzeerd",
+  "promptItemPausedTag": "Gepauzeerd",
   "promptDetailRejectButton": "Afwijzen",
   "promptDetailApproveButton": "Goedkeuren",
   "promptDetailApprovedMessage": "Prompt goedgekeurd",
@@ -913,9 +920,8 @@
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Richtlijnen",
-  "communityGuidelinesAllowed": "netwerken, kennis of bronnen delen, hulp vragen, contacten leggen voor echte connecties",
-  "communityGuidelinesProhibited": "politieke posts, oplichting, spam, misleidende, aanstootgevende of expliciete inhoud, reclame of commerciële boodschappen.",
-
+  "communityGuidelinesAllowed": "netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven",
+  "communityGuidelinesProhibited": "politiek, misleiding, oplichting, spam, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, reclame of commerciële boodschappen",
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Er ging iets mis",
   "errorStateRetryButton": "Opnieuw proberen",
@@ -1018,7 +1024,7 @@
   "@_MATCH_FINISH": {},
   "matchFinishTitle": "Gelukt!",
   "matchFinishDescription": "Je verzoek is ingediend.",
-  "matchFinishInfoMessage": "Nu is het wachten op {firstName}. Als {firstName} ook een introductie wil, ontvangen jullie automatisch een mail om kennis te maken.",
+  "matchFinishInfoMessage": "Als {firstName} ook een introductie wil, ontvangen jullie automatisch een mail met beiden in Cc om kennis te maken.",
   "@matchFinishInfoMessage": {
     "placeholders": {
       "firstName": { "type": "String" }
@@ -1028,11 +1034,10 @@
 
   "@_REGISTRATION_COMPLETE": {},
   "registrationCompleteError": "Voltooien van registratie mislukt. Probeer het opnieuw.",
-  "registrationCompleteTutorialPrompt1": "ervaring heeft met internationaal opschalen.",
-  "registrationCompleteTutorialPrompt2": "al eens een Europese subsidie heeft binnengehaald en zijn learnings wil delen.",
-  "registrationCompleteTutorialPrompt3": "ervaring heeft met het opstarten of runnen van een coworking space.",
-  "registrationCompleteTutorialPrompt4": "expertise heeft in diervoeding voor een nieuw petfood concept.",
-
+  "registrationCompleteTutorialPrompt1": "met ervaring in internationaal opschalen.",
+  "registrationCompleteTutorialPrompt2": "met ervaring in Europese subsidies en graag zijn learnings deelt.",
+  "registrationCompleteTutorialPrompt3": "die al een coworking space heeft opgestart of uitgebaat.",
+  "registrationCompleteTutorialPrompt4": "met expertise in diervoeding voor nieuwe petfoodconcepten.",
   "@_AVATAR_UPLOAD": {},
   "avatarUploadError": "Uploaden van foto mislukt. Probeer het opnieuw.",
   "avatarRemoveError": "Verwijderen van foto mislukt. Probeer het opnieuw.",

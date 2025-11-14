@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../../models/badge_data.dart';
 import '../../../models/enums/review_type.dart';
 import '../../../widgets/buttons/option_button.dart';
 import '../review_pending_prompts_view.dart';
 
 /// ReviewsSection - Admin reviews section
-/// 
+///
 /// This widget displays the reviews section for super admin users.
 /// It shows options for both user-generated and AI-generated card reviews.
-/// 
+///
 /// Features:
-/// - User-generated reviews option
-/// - AI/System-generated reviews option
+/// - User-generated reviews option with badge count
+/// - AI/System-generated reviews option with badge count
 /// - Navigation to review pending cards view
 /// - Admin-only visibility
 class ReviewsSection extends StatelessWidget {
-  const ReviewsSection({super.key});
+  final BadgeData? badgeData;
+
+  const ReviewsSection({
+    super.key,
+    this.badgeData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +41,7 @@ class ReviewsSection extends StatelessWidget {
           isChevronVisible: true,
           isButton: true,
           withDescription: true,
+          badgeCount: badgeData?.userReviewsCount ?? 0,
           onSelect: () {
             Navigator.push(
               context,
@@ -49,8 +56,8 @@ class ReviewsSection extends StatelessWidget {
         ),
       ),
     );
-    
-    // AI generated reviews  
+
+    // AI generated reviews
     children.add(
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 0),
@@ -63,6 +70,7 @@ class ReviewsSection extends StatelessWidget {
           isChevronVisible: true,
           isButton: true,
           withDescription: true,
+          badgeCount: badgeData?.systemReviewsCount ?? 0,
           onSelect: () {
             Navigator.push(
               context,

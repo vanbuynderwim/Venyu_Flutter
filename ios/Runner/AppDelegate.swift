@@ -12,16 +12,41 @@ import Flutter
     if let window = self.window {
       // Use primary color (#7171FF) to match splash screen
       window.backgroundColor = UIColor(red: 113/255, green: 113/255, blue: 255/255, alpha: 1.0)
-      
+
       // Ensure the launch screen persists until Flutter is ready
       // This prevents any gap between native launch and Flutter initialization
       if let controller = window.rootViewController as? FlutterViewController {
         controller.isViewOpaque = false
       }
     }
-    
+
+    // Setup region detection method channel
+    setupRegionChannel()
+
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  // Setup method channel for region detection
+  private func setupRegionChannel() {
+    guard let controller = window?.rootViewController as? FlutterViewController else {
+      return
+    }
+
+    let regionChannel = FlutterMethodChannel(
+      name: "com.getvenyu.app/region",
+      binaryMessenger: controller.binaryMessenger
+    )
+
+    regionChannel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
+      if call.method == "getRegion" {
+        // Get region code from iOS system settings
+        let regionCode = Locale.current.regionCode ?? "NL"
+        result(regionCode)
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
+    }
   }
   
   override func applicationDidBecomeActive(_ application: UIApplication) {

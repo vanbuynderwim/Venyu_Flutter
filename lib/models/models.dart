@@ -18,6 +18,7 @@ export 'enums/match_response.dart';
 export 'enums/notification_type.dart';
 export 'enums/interaction_type.dart';
 export 'enums/prompt_status.dart';
+export 'enums/prompt_setting.dart';
 export 'enums/category_type.dart';
 
 // Enums - Feedback & Reviews

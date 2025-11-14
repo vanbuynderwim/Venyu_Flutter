@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_fr.dart';
 import 'app_localizations_nl.dart';
 
 // ignore_for_file: type=lint
@@ -96,6 +97,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('nl'),
+    Locale('fr'),
   ];
 
   /// No description provided for @onboardTitle.
@@ -413,38 +415,38 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeLookingForThisSelection.
   ///
   /// In en, this message translates to:
-  /// **'I’m looking for someone who'**
+  /// **'I’m looking for someone'**
   String get interactionTypeLookingForThisSelection;
-
-  /// No description provided for @interactionTypeLookingForThisSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Who are you looking for right now? Think support, experience or an introduction.'**
-  String get interactionTypeLookingForThisSubtitle;
 
   /// No description provided for @interactionTypeLookingForThisHint.
   ///
   /// In en, this message translates to:
-  /// **'... continue the sentence'**
+  /// **'with experience in ...\nwho can help with ...\nwith access to ...\nwho can brainstorm on ...\nwho can introduce me to ...\nwho can advise on ...\nwith expertise in ...\n...'**
   String get interactionTypeLookingForThisHint;
-
-  /// No description provided for @interactionTypeThisIsMeSelection.
-  ///
-  /// In en, this message translates to:
-  /// **'I\'m someone who'**
-  String get interactionTypeThisIsMeSelection;
-
-  /// No description provided for @interactionTypeThisIsMeSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'How can you help someone else? Think experience, insight, or network.'**
-  String get interactionTypeThisIsMeSubtitle;
 
   /// No description provided for @interactionTypeThisIsMeHint.
   ///
   /// In en, this message translates to:
-  /// **'... continue the sentence'**
+  /// **'who can help with ...\nwith experience in ...\nwho can introduce you to ...\nwho can think along about ...\nwho can advise on ...\nwith expertise in ...\nwho has connections in ...\n...'**
   String get interactionTypeThisIsMeHint;
+
+  /// No description provided for @interactionTypeThisIsMeSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'I’m someone'**
+  String get interactionTypeThisIsMeSelection;
+
+  /// No description provided for @interactionTypeLookingForThisSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'can offer advice, experience, introductions...'**
+  String get interactionTypeLookingForThisSubtitle;
+
+  /// No description provided for @interactionTypeThisIsMeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'can help with experience, learnings, netwerk...'**
+  String get interactionTypeThisIsMeSubtitle;
 
   /// No description provided for @interactionTypeKnowSomeoneSelection.
   ///
@@ -2807,8 +2809,20 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionDisclaimerText.
   ///
   /// In en, this message translates to:
-  /// **'All prompts are subject to review before going live'**
+  /// **'Prompts are reviewed before going live'**
   String get interactionTypeSelectionDisclaimerText;
+
+  /// No description provided for @interactionTypeSelectionDisclaimerBeforeLinkText.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompts are reviewed according to our  '**
+  String get interactionTypeSelectionDisclaimerBeforeLinkText;
+
+  /// No description provided for @interactionTypeSelectionDisclaimerLinkText.
+  ///
+  /// In en, this message translates to:
+  /// **'community guidelines'**
+  String get interactionTypeSelectionDisclaimerLinkText;
 
   /// No description provided for @interactionTypeSelectionShowGuidelines.
   ///
@@ -2843,13 +2857,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailHowYouMatchTitle.
   ///
   /// In en, this message translates to:
-  /// **'How you match'**
+  /// **'Control matching'**
   String get promptDetailHowYouMatchTitle;
 
   /// No description provided for @promptDetailHowYouMatchDescription.
   ///
   /// In en, this message translates to:
-  /// **'Pause a matching option to temporarily stop receiving matches. Resume to start matching again.'**
+  /// **'Pause matching on this prompt to temporarily stop receiving new matches. You can resume at any time.'**
   String get promptDetailHowYouMatchDescription;
 
   /// No description provided for @promptDetailFirstCallTitle.
@@ -2941,6 +2955,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get promptDetailPauseMatchingCancel;
+
+  /// No description provided for @promptDetailPauseMatchingMessageGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'You will no longer receive matches on this prompt. You can resume matching anytime.'**
+  String get promptDetailPauseMatchingMessageGeneric;
+
+  /// No description provided for @promptDetailMatchingActiveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching is active'**
+  String get promptDetailMatchingActiveLabel;
+
+  /// No description provided for @promptDetailMatchingPausedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching is paused'**
+  String get promptDetailMatchingPausedLabel;
+
+  /// No description provided for @promptItemPausedTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get promptItemPausedTag;
 
   /// No description provided for @promptDetailRejectButton.
   ///
@@ -3161,7 +3199,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pprompts'**
+  /// **'Prompts'**
   String get promptsViewTitle;
 
   /// No description provided for @promptsViewEmptyActionButton.
@@ -3353,13 +3391,13 @@ abstract class AppLocalizations {
   /// No description provided for @communityGuidelinesAllowed.
   ///
   /// In en, this message translates to:
-  /// **'networking, sharing knowledge or resources, asking for help, reach out for genuine connections'**
+  /// **'networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations'**
   String get communityGuidelinesAllowed;
 
   /// No description provided for @communityGuidelinesProhibited.
   ///
   /// In en, this message translates to:
-  /// **'political posts, scams, spam, misleading, offensive or explicit content, advertising or sales pitches'**
+  /// **'politics, deception, fraud, spam, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, job postings or vacancies, advertising or commercial messages'**
   String get communityGuidelinesProhibited;
 
   /// No description provided for @errorStateDefaultTitle.
@@ -3653,7 +3691,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchFinishInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'Now it’s waiting for {firstName}. If {firstName} also requests an introduction, you’ll both receive an email to get in touch.'**
+  /// **'If {firstName} also requests an introduction, you’ll both receive an email with each of you CC’d so you can get in touch.'**
   String matchFinishInfoMessage(String firstName);
 
   /// No description provided for @matchFinishDoneButton.
@@ -3671,25 +3709,25 @@ abstract class AppLocalizations {
   /// No description provided for @registrationCompleteTutorialPrompt1.
   ///
   /// In en, this message translates to:
-  /// **'has experience scaling internationally.'**
+  /// **'with experience in scaling internationally.'**
   String get registrationCompleteTutorialPrompt1;
 
   /// No description provided for @registrationCompleteTutorialPrompt2.
   ///
   /// In en, this message translates to:
-  /// **'has secured an EU grant before and is open to share lessons learned.'**
+  /// **'with experience securing EU grants and open to sharing lessons learned.'**
   String get registrationCompleteTutorialPrompt2;
 
   /// No description provided for @registrationCompleteTutorialPrompt3.
   ///
   /// In en, this message translates to:
-  /// **'has experience starting or running a coworking space.'**
+  /// **'who has started or run a coworking space before.'**
   String get registrationCompleteTutorialPrompt3;
 
   /// No description provided for @registrationCompleteTutorialPrompt4.
   ///
   /// In en, this message translates to:
-  /// **'has expertise in animal nutrition for a new pet food concept.'**
+  /// **'with expertise in animal nutrition for new pet-food concepts.'**
   String get registrationCompleteTutorialPrompt4;
 
   /// No description provided for @avatarUploadError.
@@ -3830,7 +3868,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'nl'].contains(locale.languageCode);
+      <String>['en', 'fr', 'nl'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3841,6 +3879,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'fr':
+      return AppLocalizationsFr();
     case 'nl':
       return AppLocalizationsNl();
   }

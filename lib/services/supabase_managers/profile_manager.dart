@@ -52,7 +52,7 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Create payload with device information - exact equivalent of iOS UpdateCountryAndLanguageRequest
       final payload = {
-        'country_code': DeviceInfo.detectCountry(),
+        'country_code': await DeviceInfo.detectCountry(),
         'language_code': DeviceInfo.detectLanguage(),
         'app_version': await DeviceInfo.detectAppVersion(),
       };

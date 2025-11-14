@@ -12,7 +12,6 @@ import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../core/providers/app_providers.dart';
-import '../../widgets/common/info_box_widget.dart';
 import 'prompt_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.
@@ -103,16 +102,16 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return SingleChildScrollView(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.all(16),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight - 48, // Account for padding
+                          minHeight: constraints.maxHeight - 32, // Account for padding
                         ),
                         child: IntrinsicHeight(
                           child: Column(
                             children: [
-                const Spacer(flex: 1),
-                
+                const SizedBox(height: 32),
+
                 // Title text
                 Text(
                   l10n.interactionTypeSelectionTitleDefault,
@@ -136,7 +135,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                   textAlign: TextAlign.center,
                 ),
 
-                const Spacer(flex: 1),
+                const SizedBox(height: 40),
                 
                 // "I need this" button
                 Theme(
@@ -161,53 +160,47 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                     onTap: () => _handleSelection(context, InteractionType.thisIsMe),
                   ),
                 ),
-                
-                // Community guidelines
-                const SizedBox(height: 16),
-                
-                
-                // Disclaimer text
-                InfoBoxWidget(
-                  text: l10n.interactionTypeSelectionDisclaimerText,
-                ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 24),
 
-                // Toggle guidelines button
+                // Disclaimer text with clickable community guidelines
                 GestureDetector(
                   onTap: _toggleGuidelines,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _showGuidelines ? l10n.interactionTypeSelectionHideGuidelines : l10n.interactionTypeSelectionShowGuidelines,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
                         style: TextStyle(
                           color: venyuTheme.darkText,
                           fontSize: 14,
-                          decoration: TextDecoration.underline,
                         ),
+                        children: [
+                          TextSpan(
+                            text: l10n.interactionTypeSelectionDisclaimerBeforeLinkText,
+                          ),
+                          TextSpan(
+                            text: l10n.interactionTypeSelectionDisclaimerLinkText,
+                            style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        _showGuidelines ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                        color: venyuTheme.darkText,
-                        size: 18,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
 
                 // Community guidelines (expandable)
                 if (_showGuidelines) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 24),
                   CommunityGuidelinesWidget(
                     showTitle: false,
                   ),
                 ],
 
+                const Spacer(),
 
-                Spacer(flex: 2),
-                
                 // "Not now" button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0),
@@ -270,21 +263,21 @@ class _InteractionTypeButton extends StatelessWidget {
           highlightColor: Colors.white.withValues(alpha: 0.2),
           splashFactory: InkSplash.splashFactory,
           child: Padding(
-            padding: const EdgeInsets.all(AppModifiers.largeSpacing),
+            padding: const EdgeInsets.all(AppModifiers.mediumSpacing),
             child: Row(
             children: [
               // Icon asset image
               Image.asset(
                 interactionType.assetPath,
-                width: 30,
-                height: 30,
+                width: 24,
+                height: 24,
                 color: Colors.white,
                 errorBuilder: (context, error, stackTrace) {
                   // Fallback to icon if asset fails
                   return Icon(
                     interactionType.fallbackIcon,
                     color: Colors.white,
-                    size: 28,
+                    size: 24,
                   );
                 },
               ),
@@ -300,16 +293,9 @@ class _InteractionTypeButton extends StatelessWidget {
                       interactionType.selectionTitle(context),
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      interactionType.selectionSubtitle(context),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: AppFonts.graphie,
+                        fontSize: 20,
                       ),
                     ),
                   ],

@@ -27,22 +27,22 @@ class InfoBoxWidget extends StatelessWidget {
     final venyuTheme = context.venyuTheme;
 
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: AppLayoutStyles.cardDecoration(context),
+      padding: const EdgeInsets.all(8),
+      //decoration: AppLayoutStyles.cardDecoration(context),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           context.themedIcon(
             iconName,
             size: 24,
-            overrideColor: iconColor ?? venyuTheme.primary,
+            overrideColor: iconColor ?? venyuTheme.primaryText,
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
               style: AppTextStyles.footnote.copyWith(
-                color: textColor ?? venyuTheme.secondaryText,
+                color: textColor ?? venyuTheme.primaryText,
               ),
             ),
           ),

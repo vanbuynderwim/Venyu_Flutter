@@ -50,12 +50,12 @@ class PromptDisplayWidget extends StatelessWidget {
                 Center(
                   child: SelectionTitleWithIcon(
                     interactionType: interactionType!,
-                    size: 24,
+                    size: 18,
                     color: venyuTheme.darkText,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 4),
               ],
 
               // Main prompt text
@@ -63,8 +63,9 @@ class PromptDisplayWidget extends StatelessWidget {
                 promptLabel,
                 style: TextStyle(
                   color: venyuTheme.darkText,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontFamily: AppFonts.graphie,
+                  height: 1.5,
                 ),
                 textAlign: TextAlign.center,
               ),

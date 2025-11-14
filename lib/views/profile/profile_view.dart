@@ -267,7 +267,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           },
         );
       case ProfileSections.reviews:
-        return const ReviewsSection();
+        return ReviewsSection(badgeData: _badgeData);
     }
   }
 

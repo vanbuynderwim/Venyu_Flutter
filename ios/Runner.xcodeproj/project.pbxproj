@@ -15,7 +15,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		E5685D043F7200BD32781289 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9DC8A5816FC7409317EB5F /* Pods_RunnerTests.framework */; };
-		F18D6B892E9F09BE00BF03F9 /* pushsound 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = F18D6B882E9F09BE00BF03F9 /* pushsound 2.wav */; };
+		F112D5DF2EBCDDAD005D114F /* pushsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = F112D5DE2EBCDDAD005D114F /* pushsound.wav */; };
 		F19E2FE42E44E5CF0036262C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F19E2FE32E44E5CF0036262C /* GoogleService-Info.plist */; };
 		FAB41F9CF2089496BB13B57D /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 014FB349A300CE6072593790 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
@@ -66,8 +66,8 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE9DC8A5816FC7409317EB5F /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52C2822817B69458116C337 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
+		F112D5DE2EBCDDAD005D114F /* pushsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pushsound.wav; sourceTree = "<group>"; };
 		F13006482E2FBBAD00730B85 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		F18D6B882E9F09BE00BF03F9 /* pushsound 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "pushsound 2.wav"; sourceTree = "<group>"; };
 		F19E2FE32E44E5CF0036262C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FAC67BBC8EB7BDCAC262C750 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,7 +182,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				F18D6B882E9F09BE00BF03F9 /* pushsound 2.wav */,
+				F112D5DE2EBCDDAD005D114F /* pushsound.wav */,
 				F18D6A9E2E9D3D0700BF03F9 /* en.lproj */,
 				F18D6AA12E9D3D0700BF03F9 /* nl.lproj */,
 				F19E2FE32E44E5CF0036262C /* GoogleService-Info.plist */,
@@ -304,7 +304,7 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				F19E2FE42E44E5CF0036262C /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				F18D6B892E9F09BE00BF03F9 /* pushsound 2.wav in Resources */,
+				F112D5DF2EBCDDAD005D114F /* pushsound.wav in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

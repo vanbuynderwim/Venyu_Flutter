@@ -24,6 +24,7 @@ import '../matches/match_item_view.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/prompt_status.dart';
+import '../../models/enums/prompt_setting.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../widgets/common/sub_title.dart';
@@ -33,8 +34,6 @@ import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../services/profile_service.dart';
-import '../../widgets/prompts/prompt_interaction_item_view.dart';
-import '../../models/prompt_interaction.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../models/enums/action_button_type.dart';
 
@@ -191,44 +190,69 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                 const SizedBox(height: 16),
 
                 // Status info section
-                _buildStatusInfoSection(),                
+                _buildStatusInfoSection(),
               ],
 
-              // Interactions section - show if there are interactions
-              if (_prompt!.interactions != null &&
-                  _prompt!.interactions!.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SubTitle(
-                    iconName: 'match',
-                    title: l10n.promptDetailHowYouMatchTitle,
-                  ),
+              // Pause/Resume matching section
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SubTitle(
+                  iconName: 'settings',
+                  title: l10n.promptSettingsTitle,
                 ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    l10n.promptDetailHowYouMatchDescription,
-                    style: AppTextStyles.footnote.copyWith(
-                      color: context.venyuTheme.secondaryText,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              const SizedBox(height: 16),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: AppLayoutStyles.cardDecoration(context),
                   child: Column(
-                    children: _prompt!.interactions!.map((interaction) {
-                      return PromptInteractionItemView(
-                        interaction: interaction,
-                        onMatchingToggled: (value) => _handleToggleInteraction(interaction),
-                      );
-                    }).toList(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.promptDetailHowYouMatchDescription,
+                        style: AppTextStyles.footnote.copyWith(
+                          color: context.venyuTheme.secondaryText,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _prompt!.isPaused == true
+                                  ? l10n.promptDetailMatchingPausedLabel
+                                  : l10n.promptDetailMatchingActiveLabel,
+                              style: AppTextStyles.subheadline.copyWith(
+                                color: context.venyuTheme.primaryText,
+                                fontWeight: FontWeight.w600
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          ActionButton(
+                            label: _prompt!.isPaused == true
+                                ? l10n.promptInteractionResumeButton
+                                : l10n.promptInteractionPauseButton,
+                            type: _prompt!.isPaused == true
+                                ? ActionButtonType.primary
+                                : ActionButtonType.destructive,
+                            icon: _prompt!.isPaused == true
+                                    ? context.themedIcon('play', selected:true)
+                                    : context.themedIcon('pause', selected: true),
+                            onPressed: _handleToggleMatching,
+                            isCompact: true,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 16),
-              ],
+              ),
+              const SizedBox(height: 16),
 
               // First Call section - only show if Pro features are enabled
               if (AppConfig.showPro) ...[
@@ -350,6 +374,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        //const SizedBox(height: 16),
         // Introductions title
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -358,7 +383,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             title: l10n.promptDetailMatchesTitle,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
 
         // Matches list
         ..._matches.map((match) => Padding(
@@ -537,16 +562,17 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     );
   }
 
-  /// Handle interaction matching toggle
-  void _handleToggleInteraction(PromptInteraction interaction) async {
+  /// Handle matching toggle (pause/resume)
+  void _handleToggleMatching() async {
     final l10n = AppLocalizations.of(context)!;
+    final isPaused = _prompt!.isPaused == true;
 
-    // If currently enabled (user wants to pause), show confirmation dialog
-    if (interaction.matchingEnabled) {
+    // If currently active (user wants to pause), show confirmation dialog
+    if (!isPaused) {
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
         title: l10n.promptDetailPauseMatchingTitle,
-        message: l10n.promptDetailPauseMatchingMessage(interaction.interactionType.buttonTitle(context)),
+        message: l10n.promptDetailPauseMatchingMessageGeneric,
         confirmText: l10n.promptDetailPauseMatchingConfirm,
         cancelText: l10n.promptDetailPauseMatchingCancel,
       );
@@ -556,16 +582,22 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       }
     }
 
-    AppLogger.debug('Toggling interaction: ${interaction.id}', context: 'PromptDetailView');
+    AppLogger.debug('${isPaused ? "Resuming" : "Pausing"} matching for prompt: ${_prompt!.promptID}', context: 'PromptDetailView');
 
     await executeWithLoading(
       operation: () async {
-        await _contentManager.togglePromptInteraction(interaction.id);
+        if (isPaused) {
+          // Resume: delete paused setting
+          await _contentManager.deletePromptSetting(_prompt!.promptID, PromptSetting.paused);
+        } else {
+          // Pause: insert paused setting
+          await _contentManager.insertPromptSetting(_prompt!.promptID, PromptSetting.paused);
+        }
 
         // Reload prompt data to get updated state
         await _loadPromptData();
 
-        AppLogger.success('Interaction toggled successfully', context: 'PromptDetailView');
+        AppLogger.success('Matching ${isPaused ? "resumed" : "paused"} successfully', context: 'PromptDetailView');
       },
       showSuccessToast: true,
       successMessage: l10n.promptDetailMatchSettingUpdatedMessage,

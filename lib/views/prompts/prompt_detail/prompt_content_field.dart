@@ -70,12 +70,12 @@ class PromptContentField extends StatelessWidget {
             Center(
               child: SelectionTitleWithIcon(
                 interactionType: interactionType,
-                size: 24,
+                size: 18,
                 color: venyuTheme.darkText,
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
 
             // Content text field
             PlatformTextField(
@@ -89,8 +89,9 @@ class PromptContentField extends StatelessWidget {
               ],
               style: TextStyle(
                 color: venyuTheme.darkText,
-                fontSize: 24,
+                fontSize: 18,
                 fontFamily: AppFonts.graphie,
+                height: 1.5,
               ),
               textAlign: TextAlign.center,
               textCapitalization: TextCapitalization.sentences,
@@ -99,7 +100,7 @@ class PromptContentField extends StatelessWidget {
                 placeholder: interactionType.hintText(context),
                 placeholderStyle: TextStyle(
                   color: venyuTheme.darkText.withValues(alpha: 0.5),
-                  fontSize: 24,
+                  fontSize: 18,
                   fontFamily: AppFonts.graphie,
                 ),
                 decoration: const BoxDecoration(), // No borders
@@ -110,7 +111,7 @@ class PromptContentField extends StatelessWidget {
                   hintText: interactionType.hintText(context),
                   hintStyle: TextStyle(
                     color: venyuTheme.darkText.withValues(alpha: 0.5),
-                    fontSize: 24,
+                    fontSize: 18,
                     fontFamily: AppFonts.graphie,
                   ),
                   border: InputBorder.none, // No borders

@@ -392,6 +392,52 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Insert or update a prompt setting
+  ///
+  /// Creates a new prompt setting or updates an existing one for the current user.
+  /// Uses the PromptSetting enum to ensure type safety.
+  ///
+  /// Parameters:
+  /// - [promptId]: The ID of the prompt to configure
+  /// - [setting]: The prompt setting to insert/update
+  Future<void> insertPromptSetting(String promptId, PromptSetting setting) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Inserting prompt setting: ${setting.value} for prompt: $promptId', context: 'ContentManager');
+
+      final payload = {
+        'prompt_id': promptId,
+        'prompt_setting': setting.toJson(),
+      };
+
+      await client.rpc('insert_prompt_setting', params: {'payload': payload});
+
+      AppLogger.success('Prompt setting inserted successfully', context: 'ContentManager');
+    });
+  }
+
+  /// Delete a prompt setting
+  ///
+  /// Removes a specific prompt setting for the current user.
+  /// Uses the PromptSetting enum to ensure type safety.
+  ///
+  /// Parameters:
+  /// - [promptId]: The ID of the prompt
+  /// - [setting]: The prompt setting to delete
+  Future<void> deletePromptSetting(String promptId, PromptSetting setting) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Deleting prompt setting: ${setting.value} for prompt: $promptId', context: 'ContentManager');
+
+      final payload = {
+        'prompt_id': promptId,
+        'prompt_setting': setting.toJson(),
+      };
+
+      await client.rpc('delete_prompt_setting', params: {'payload': payload});
+
+      AppLogger.success('Prompt setting deleted successfully', context: 'ContentManager');
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('ContentManager');
