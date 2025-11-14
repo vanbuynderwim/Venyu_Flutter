@@ -42,8 +42,8 @@ void main() async {
     ),
   );
 
-  // Enable edge-to-edge mode
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  // Enable immersive mode (hide status bar and navigation bar)
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
   // Initialize date formatting for all supported locales
   try {
@@ -207,7 +207,7 @@ class VenyuApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [Locale('en'), Locale('nl')],
+        supportedLocales: const [Locale('en'), Locale('nl'), Locale('fr')],
         material: (_, _) => MaterialAppData(
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,

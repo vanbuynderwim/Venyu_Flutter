@@ -129,15 +129,6 @@ extension DateTimeExtensions on DateTime {
     }
   }
 
-  /// Formats date as "15 Mar 2024"
-  String formatDate() {
-    final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return '$day ${months[month - 1]} $year';
-  }
-
   /// Formats date using system locale format but shorter
   String formatDateShort(BuildContext context) {
     final loc = effectiveLocaleString(context);
