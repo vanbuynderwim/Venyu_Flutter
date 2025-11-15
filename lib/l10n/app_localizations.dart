@@ -1738,6 +1738,18 @@ abstract class AppLocalizations {
   /// **'OK'**
   String get profileAvatarErrorButton;
 
+  /// No description provided for @profileAvatarCameraPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera access is disabled. Please enable it in your device settings to take photos.'**
+  String get profileAvatarCameraPermissionDenied;
+
+  /// No description provided for @profileAvatarGalleryPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo library access is disabled. Please enable it in your device settings to select photos.'**
+  String get profileAvatarGalleryPermissionDenied;
+
   /// No description provided for @profileInfoAddCompanyInfo.
   ///
   /// In en, this message translates to:

@@ -149,10 +149,10 @@ class _ActionButtonState extends State<ActionButton> {
                     width: 20,
                     height: 20,
                     child: PlatformCircularProgressIndicator(
-                      cupertino: (_, __) => CupertinoProgressIndicatorData(
+                      cupertino: (_, _) => CupertinoProgressIndicatorData(
                         color: widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                       ),
-                      material: (_, __) => MaterialProgressIndicatorData(
+                      material: (_, _) => MaterialProgressIndicatorData(
                         color: widget.type.textColor(context, onInvertedBackground: widget.onInvertedBackground),
                         strokeWidth: 2,
                       ),

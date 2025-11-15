@@ -289,9 +289,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
   /// Select and upload photo from camera
   Future<void> _selectFromCamera(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
-
-    final success = await AvatarUploadService.pickFromCameraAndUpload(
+    await AvatarUploadService.pickFromCameraAndUpload(
       context: context,
       onUploadStart: () {
         if (mounted) setState(() => _isUploading = true);
@@ -306,18 +304,13 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
         }
       },
     );
-
-    // Show error if upload failed (but not if cancelled)
-    if (!success && mounted && context.mounted) {
-      _showErrorDialog(context, l10n.profileAvatarErrorUpload);
-    }
+    // Note: Error handling is done by AvatarUploadService via toast
+    // No need to show additional error dialog here
   }
 
   /// Select and upload photo from gallery
   Future<void> _selectFromGallery(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
-
-    final success = await AvatarUploadService.pickFromGalleryAndUpload(
+    await AvatarUploadService.pickFromGalleryAndUpload(
       context: context,
       onUploadStart: () {
         if (mounted) setState(() => _isUploading = true);
@@ -332,11 +325,8 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
         }
       },
     );
-
-    // Show error if upload failed (but not if cancelled)
-    if (!success && mounted && context.mounted) {
-      _showErrorDialog(context, l10n.profileAvatarErrorUpload);
-    }
+    // Note: Error handling is done by AvatarUploadService via toast
+    // No need to show additional error dialog here
   }
 
   /// View avatar in fullscreen

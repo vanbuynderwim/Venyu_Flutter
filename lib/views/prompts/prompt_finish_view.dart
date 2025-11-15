@@ -8,7 +8,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
-import '../../widgets/common/info_box_widget.dart';
 
 /// Prompt finish view - final confirmation screen
 ///
@@ -108,9 +107,15 @@ class PromptFinishView extends StatelessWidget {
 
                                     const SizedBox(height: 24),
 
-                                    // Review info box
-                                    InfoBoxWidget(
-                                      text: l10n.promptFinishReviewInfo,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                                      child: Text(
+                                        l10n.promptFinishReviewInfo,
+                                        style: AppTextStyles.footnote.copyWith(
+                                          color: venyuTheme.darkText,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
 
                                     const Spacer(flex: 3),

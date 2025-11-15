@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 
 /// Reusable widget for displaying community guidelines

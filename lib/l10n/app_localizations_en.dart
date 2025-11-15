@@ -920,6 +920,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileAvatarErrorButton => 'OK';
 
   @override
+  String get profileAvatarCameraPermissionDenied =>
+      'Camera access is disabled. Please enable it in your device settings to take photos.';
+
+  @override
+  String get profileAvatarGalleryPermissionDenied =>
+      'Photo library access is disabled. Please enable it in your device settings to select photos.';
+
+  @override
   String get profileInfoAddCompanyInfo => 'Add company info';
 
   @override

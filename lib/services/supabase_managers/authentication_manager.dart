@@ -60,8 +60,7 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
         final bool launched = await client.auth.signInWithOAuth(
           OAuthProvider.linkedinOidc,
           // Using custom scheme with external browser - upgraded SDK should persist flow_state
-          redirectTo: 'com.getvenyu.app://callback',
-          authScreenLaunchMode: LaunchMode.externalApplication,
+          authScreenLaunchMode: LaunchMode.inAppWebView,
           scopes: 'openid profile email', // Same scopes as iOS
         );
 

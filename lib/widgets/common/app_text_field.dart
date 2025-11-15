@@ -283,7 +283,7 @@ class AppTextField extends StatelessWidget {
       style: AppTextStyles.body.copyWith(
         color: enabled ? venyuTheme.primaryText : venyuTheme.disabledText,
       ),
-      material: (_, __) => MaterialTextFormFieldData(
+      material: (_, _) => MaterialTextFormFieldData(
         decoration: _getInputDecoration(context).copyWith(
           contentPadding: padding,
         ),

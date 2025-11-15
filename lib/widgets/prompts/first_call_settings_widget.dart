@@ -98,9 +98,9 @@ class FirstCallSettingsWidget extends StatelessWidget {
                     PlatformSwitch(
                       value: withPreview,
                       onChanged: canUseFirstCall ? onChanged : null,
-                      material: (_, __) => MaterialSwitchData(
+                      material: (_, _) => MaterialSwitchData(
                       ),
-                      cupertino: (_, __) => CupertinoSwitchData(
+                      cupertino: (_, _) => CupertinoSwitchData(
                         thumbColor: Theme.of(context).brightness == Brightness.dark
                             ? venyuTheme.adaptiveBackground
                             : null,

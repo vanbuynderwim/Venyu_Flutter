@@ -41,7 +41,7 @@ class MenuOptionBuilder {
     return PopupMenuOption(
       label: label,
       onTap: onTap,
-      cupertino: (_, __) => CupertinoPopupMenuOptionData(
+      cupertino: (_, _) => CupertinoPopupMenuOptionData(
         isDestructiveAction: isDestructive,
         isDefaultAction: isDefaultAction,
         child: Row(
@@ -56,7 +56,7 @@ class MenuOptionBuilder {
           ],
         ),
       ),
-      material: (_, __) => MaterialPopupMenuOptionData(
+      material: (_, _) => MaterialPopupMenuOptionData(
         child: Row(
           children: [
             const SizedBox(width: 8),
@@ -86,7 +86,7 @@ class MenuOptionBuilder {
     return PopupMenuOption(
       label: label,
       onTap: onTap,
-      cupertino: (_, __) => CupertinoPopupMenuOptionData(
+      cupertino: (_, _) => CupertinoPopupMenuOptionData(
         isDestructiveAction: isDestructive,
         isDefaultAction: isDefaultAction,
         child: Text(
@@ -94,7 +94,7 @@ class MenuOptionBuilder {
           style: AppTextStyles.body.copyWith(color: textColor),
         ),
       ),
-      material: (_, __) => MaterialPopupMenuOptionData(
+      material: (_, _) => MaterialPopupMenuOptionData(
         child: Text(
           label,
           style: AppTextStyles.body.copyWith(color: textColor),

@@ -481,6 +481,8 @@
   "profileAvatarErrorRemove": "Failed to remove photo. Please try again.",
   "profileAvatarErrorTitle": "Error",
   "profileAvatarErrorButton": "OK",
+  "profileAvatarCameraPermissionDenied": "Camera access is disabled. Please enable it in your device settings to take photos.",
+  "profileAvatarGalleryPermissionDenied": "Photo library access is disabled. Please enable it in your device settings to select photos.",
 
   "@_PROFILE_INFO": {},
   "profileInfoAddCompanyInfo": "Add company info",

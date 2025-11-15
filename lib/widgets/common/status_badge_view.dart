@@ -1,8 +1,6 @@
 import 'package:app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../models/enums/prompt_status.dart';
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_modifiers.dart';
 
 /// StatusBadgeView - Component voor het weergeven van prompt status badges
 class StatusBadgeView extends StatelessWidget {

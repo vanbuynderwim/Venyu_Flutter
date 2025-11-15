@@ -924,6 +924,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get profileAvatarErrorButton => 'OK';
 
   @override
+  String get profileAvatarCameraPermissionDenied =>
+      'Cameratoegang is uitgeschakeld. Schakel dit in via de instellingen van je apparaat om foto\'s te maken.';
+
+  @override
+  String get profileAvatarGalleryPermissionDenied =>
+      'Toegang tot fotobibliotheek is uitgeschakeld. Schakel dit in via de instellingen van je apparaat om foto\'s te selecteren.';
+
+  @override
   String get profileInfoAddCompanyInfo => 'Bedrijfsinfo toevoegen';
 
   @override

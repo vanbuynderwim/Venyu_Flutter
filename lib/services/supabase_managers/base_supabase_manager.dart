@@ -186,11 +186,7 @@ abstract class BaseSupabaseManager {
       };
       
       AppLogger.debug('Error metadata: $enrichedMetadata', context: 'BaseSupabaseManager');
-      
-      // TODO: Implement actual Bugsnag reporting when instance is available
-      // bugsnag.notify(error, stackTrace, (event) {
-      //   event.addMetadata('supabase', enrichedMetadata);
-      // });
+  
       
     } catch (trackingError) {
       AppLogger.warning('Failed to track error: $trackingError', context: 'BaseSupabaseManager');
@@ -228,12 +224,12 @@ abstract class BaseSupabaseManager {
   }
 
   /// Get stored user information from secure storage.
-  /// 
+  ///
   /// Returns a map of all stored user data for profile enhancement.
   static Future<Map<String, String?>> getStoredUserInfo() async {
     try {
       AppLogger.storage('Retrieving stored user info...', context: 'BaseSupabaseManager');
-      
+
       final userInfo = <String, String?>{
         'firstName': await _storage.read(key: 'firstName'),
         'lastName': await _storage.read(key: 'lastName'),
@@ -243,8 +239,9 @@ abstract class BaseSupabaseManager {
         'appleUserIdentifier': await _storage.read(key: 'appleUserIdentifier'),
         'linkedInUserIdentifier': await _storage.read(key: 'linkedInUserIdentifier'),
         'googleUserIdentifier': await _storage.read(key: 'googleUserIdentifier'),
+        'auth_provider': await _storage.read(key: 'auth_provider'),
       };
-      
+
       AppLogger.success('Retrieved stored user info', context: 'BaseSupabaseManager');
       return userInfo;
     } catch (error, stackTrace) {

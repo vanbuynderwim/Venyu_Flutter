@@ -15,7 +15,7 @@ class AvatarUploadService {
   AvatarUploadService._();
   
   /// Picks an image from the specified source and uploads it
-  /// 
+  ///
   /// Returns true if upload was successful, false if cancelled or failed
   /// Shows appropriate toast messages for success/failure
   static Future<bool> pickAndUploadAvatar({
@@ -27,7 +27,7 @@ class AvatarUploadService {
     try {
       // Notify upload start
       onUploadStart?.call();
-      
+
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(
         source: source,
@@ -35,18 +35,18 @@ class AvatarUploadService {
         maxHeight: 1024,
         imageQuality: 100,
       );
-      
+
       if (pickedFile == null) {
         // User cancelled - notify complete without error
         onUploadComplete?.call();
         return false;
       }
-      
+
       final imageBytes = await pickedFile.readAsBytes();
-      
+
       // Upload to server
       await ProfileService.shared.uploadUserProfileAvatar(imageBytes);
-      
+
       // Show success message
       /*if (context.mounted) {
         ToastService.success(
@@ -54,25 +54,46 @@ class AvatarUploadService {
           message: 'Profile photo updated successfully',
         );
       }*/
-      
+
       // Notify upload complete
       onUploadComplete?.call();
-      
+
       return true;
     } catch (error) {
       AppLogger.error('Avatar upload error: $error', context: 'AvatarUploadService');
-      
-      // Show error message
+
+      // Check if error is permission-related
+      final errorMessage = error.toString().toLowerCase();
+      final isPermissionError = errorMessage.contains('permission') ||
+          errorMessage.contains('denied') ||
+          errorMessage.contains('authorized') ||
+          errorMessage.contains('access');
+
+      // Show appropriate error message
       if (context.mounted) {
-        ToastService.error(
-          context: context,
-          message: AppLocalizations.of(context)!.avatarUploadError,
-        );
+        if (isPermissionError) {
+          // Show permission-specific warning
+          final l10n = AppLocalizations.of(context)!;
+          final message = source == ImageSource.camera
+              ? l10n.profileAvatarCameraPermissionDenied
+              : l10n.profileAvatarGalleryPermissionDenied;
+
+          ToastService.warning(
+            context: context,
+            message: message,
+          );
+        } else {
+          // Show generic upload error
+          ToastService.error(
+            context: context,
+            message: AppLocalizations.of(context)!.avatarUploadError,
+          );
+        }
       }
-      
+
       // Notify upload complete (even on error)
       onUploadComplete?.call();
-      
+
       return false;
     }
   }

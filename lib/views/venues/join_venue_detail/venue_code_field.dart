@@ -77,7 +77,7 @@ class VenueCodeField extends StatelessWidget {
                   focusNode.requestFocus();
                 }
               },
-              cupertino: (_, __) => CupertinoTextFieldData(
+              cupertino: (_, _) => CupertinoTextFieldData(
                 placeholder: l10n.venueCodeFieldPlaceholder,
                 placeholderStyle: TextStyle(
                   color: venyuTheme.disabledText,
@@ -87,7 +87,7 @@ class VenueCodeField extends StatelessWidget {
                 decoration: const BoxDecoration(), // No borders
                 padding: EdgeInsets.zero, // No internal padding
               ),
-              material: (_, __) => MaterialTextFieldData(
+              material: (_, _) => MaterialTextFieldData(
                 decoration: InputDecoration(
                   hintText: l10n.venueCodeFieldPlaceholder,
                   hintStyle: TextStyle(

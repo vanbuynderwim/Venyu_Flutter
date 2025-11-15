@@ -933,6 +933,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileAvatarErrorButton => 'OK';
 
   @override
+  String get profileAvatarCameraPermissionDenied =>
+      'L\'accès à la caméra est désactivé. Veuillez l\'activer dans les paramètres de votre appareil pour prendre des photos.';
+
+  @override
+  String get profileAvatarGalleryPermissionDenied =>
+      'L\'accès à la bibliothèque de photos est désactivé. Veuillez l\'activer dans les paramètres de votre appareil pour sélectionner des photos.';
+
+  @override
   String get profileInfoAddCompanyInfo => 'Ajouter les infos entreprise';
 
   @override

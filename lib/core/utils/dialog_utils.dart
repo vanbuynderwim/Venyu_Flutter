@@ -32,10 +32,10 @@ class DialogUtils {
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(true),
             child: Text(confirmText!),
-            cupertino: (_, __) => CupertinoDialogActionData(
+            cupertino: (_, _) => CupertinoDialogActionData(
               isDestructiveAction: isDestructive,
             ),
-            material: (_, __) => MaterialDialogActionData(
+            material: (_, _) => MaterialDialogActionData(
               style: TextButton.styleFrom(
                 foregroundColor: isDestructive ? Theme.of(context).colorScheme.error : null,
               ),
@@ -44,7 +44,7 @@ class DialogUtils {
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(cancelText!),
-            cupertino: (_, __) => CupertinoDialogActionData(
+            cupertino: (_, _) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),
           ),
@@ -86,7 +86,7 @@ class DialogUtils {
           PlatformDialogAction(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(buttonText!),
-            cupertino: (_, __) => CupertinoDialogActionData(
+            cupertino: (_, _) => CupertinoDialogActionData(
               isDefaultAction: true,
             ),
           ),
@@ -128,7 +128,7 @@ class DialogUtils {
         actions: choices.map((choice) => PlatformDialogAction(
           onPressed: () => Navigator.of(context).pop(choice.value),
           child: Text(choice.label),
-          cupertino: (_, __) => CupertinoDialogActionData(
+          cupertino: (_, _) => CupertinoDialogActionData(
             isDefaultAction: choice.isDefault,
             isDestructiveAction: choice.isDestructive,
           ),
@@ -201,7 +201,7 @@ class DialogUtils {
         useRootNavigator: false,
       ),
       builder: (sheetContext) => PlatformWidget(
-        cupertino: (_, __) => CupertinoActionSheet(
+        cupertino: (_, _) => CupertinoActionSheet(
           actions: List.generate(
             menuOptions.length,
             (index) => CupertinoActionSheetAction(
@@ -214,7 +214,7 @@ class DialogUtils {
             child: Text(cancelText!),
           ),
         ),
-        material: (_, __) => SafeArea(
+        material: (_, _) => SafeArea(
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 16),

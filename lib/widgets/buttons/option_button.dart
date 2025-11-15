@@ -321,9 +321,9 @@ class _OptionButtonState extends State<OptionButton> {
             PlatformSwitch(
               value: widget.toggleIsOn ?? false,
               onChanged: widget.disabled ? null : widget.onToggle,
-              material: (_, __) => MaterialSwitchData(
+              material: (_, _) => MaterialSwitchData(
               ),
-              cupertino: (_, __) => CupertinoSwitchData(
+              cupertino: (_, _) => CupertinoSwitchData(
                 thumbColor: Theme.of(context).brightness == Brightness.dark
                             ? venyuTheme.adaptiveBackground
                             : null,

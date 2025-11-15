@@ -8,7 +8,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
-import '../../widgets/common/info_box_widget.dart';
 
 /// Match finish view - confirmation screen after expressing interest
 ///

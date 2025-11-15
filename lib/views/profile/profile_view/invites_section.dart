@@ -172,10 +172,6 @@ class _InvitesSectionState extends State<InvitesSection> {
       for (final invite in sentInvites) {
         widgets.add(InviteItemView(
           invite: invite,
-          onTap: () {
-            AppLogger.info('Tapped on invite code: ${invite.code}', context: 'InvitesSection');
-            // TODO: Add invite detail/share functionality
-          },
         ));
       }
     }
@@ -194,10 +190,6 @@ class _InvitesSectionState extends State<InvitesSection> {
       for (final invite in redeemedInvites) {
         widgets.add(InviteItemView(
           invite: invite,
-          onTap: () {
-            AppLogger.info('Tapped on invite code: ${invite.code}', context: 'InvitesSection');
-            // TODO: Add invite detail/share functionality
-          },
         ));
       }
     }

@@ -1,3 +1,4 @@
+import 'package:app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -38,8 +39,12 @@ class LoginButton extends StatefulWidget {
   /// When true, shows a progress indicator and disables the button.
   final bool isLoading;
 
+  /// Whether this was the last used login method.
+  /// When true, shows a small indicator dot.
+  final bool isLastUsed;
+
   /// Creates a [LoginButton] widget.
-  /// 
+  ///
   /// The button automatically uses the correct label and icon based on [type].
   const LoginButton({
     super.key,
@@ -47,6 +52,7 @@ class LoginButton extends StatefulWidget {
     this.onPressed,
     this.isDisabled = false,
     this.isLoading = false,
+    this.isLastUsed = false,
   });
 
   @override
@@ -54,6 +60,15 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
+  @override
+  void initState() {
+    super.initState();
+    // Debug logging
+    if (widget.isLastUsed) {
+      print('🔵 LoginButton: ${widget.type.label} - isLastUsed = true');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
@@ -72,38 +87,63 @@ class _LoginButtonState extends State<LoginButton> {
         opacity: isActuallyDisabled ? 0.7 : 1.0,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Center(
-            child: widget.isLoading
-                ? SizedBox(
+          child: widget.isLoading
+              ? Center(
+                  child: SizedBox(
                     width: 20,
                     height: 20,
                     child: PlatformCircularProgressIndicator(
-                      cupertino: (_, __) => CupertinoProgressIndicatorData(
+                      cupertino: (_, _) => CupertinoProgressIndicatorData(
                         color: textColor,
                       ),
-                      material: (_, __) => MaterialProgressIndicatorData(
+                      material: (_, _) => MaterialProgressIndicatorData(
                         color: textColor,
                         strokeWidth: 2,
                       ),
                     ),
-                  )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Login buttons always preserve original logo colors
-                      widget.type.icon,
-                      const SizedBox(width: 8),
-                      Text(
-                        widget.type.label,
-                        style: AppTextStyles.body.copyWith(
-                          color: textColor,
-                          fontWeight: widget.type.fontWeight,
+                  ),
+                )
+              : Stack(
+                  children: [
+                    // Main content - centered
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Login buttons always preserve original logo colors
+                          widget.type.icon,
+                          const SizedBox(width: 8),
+                          Text(
+                            widget.type.label,
+                            style: AppTextStyles.subheadline.copyWith(
+                              color: textColor,
+                              fontWeight: widget.type.fontWeight,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Last used indicator - positioned on the right
+                    if (widget.isLastUsed)
+                      Positioned(
+                        right: 6,
+                        top: 0,
+                        bottom: 0,
+                        child: Center(
+                          child: Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-          ),
+                  ],
+                ),
         ),
       ),
     );

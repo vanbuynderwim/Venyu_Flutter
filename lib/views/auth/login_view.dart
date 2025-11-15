@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -12,6 +14,7 @@ import '../../models/enums/login_button_type.dart';
 import '../../widgets/buttons/login_button.dart';
 import '../../services/auth_service.dart';
 import '../../services/toast_service.dart';
+import '../../services/supabase_managers/base_supabase_manager.dart';
 import '../../widgets/index.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
@@ -35,6 +38,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   // _isSigningIn removed - using mixin's isProcessing
   AuthenticationState? _previousAuthState;
+  String? _lastUsedProvider;
 
   @override
   void initState() {
@@ -44,6 +48,34 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
       final authService = context.read<AuthService>();
       _previousAuthState = authService.authState;
     });
+
+    // Load last used auth provider
+    _loadLastUsedProvider();
+  }
+
+  /// Load the last used authentication provider from secure storage
+  Future<void> _loadLastUsedProvider() async {
+    try {
+      final provider = await BaseSupabaseManager.getStoredUserInfo();
+      print('🔍 LoginView: Retrieved provider info: $provider');
+      if (mounted) {
+        setState(() {
+          _lastUsedProvider = provider['auth_provider'];
+        });
+        print('🔍 LoginView: _lastUsedProvider set to: $_lastUsedProvider');
+        AppLogger.info(
+          'Last used auth provider: $_lastUsedProvider',
+          context: 'LoginView',
+        );
+      }
+    } catch (e) {
+      print('❌ LoginView: Failed to load provider - $e');
+      AppLogger.warning(
+        'Failed to load last used provider',
+        error: e,
+        context: 'LoginView',
+      );
+    }
   }
 
   void _handleSuccessfulAuth(AuthenticationState authState) {
@@ -207,7 +239,6 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                               Text(
                                 AppLocalizations.of(context)!.appTagline,
                                 style: AppTextStyles.appSubtitle.copyWith(
-                                  fontSize: 20,
                                   color: venyuTheme.secondaryText,
                                 ),
                               ),
@@ -217,27 +248,70 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                           const Spacer(flex: 1),
 
                           // Sign-in buttons
+                          // Order: Apple first on iOS, Google first on Android
                           Column(
                             children: [
-                              // LinkedIn sign-in
-                              LoginButton(
-                                type: LoginButtonType.linkedIn,
-                                onPressed: isProcessing ? null : _signInWithLinkedIn,
-                              ),
-                              const SizedBox(height: 8),
+                              // LinkedIn sign-in (temporarily disabled)
+                              //LoginButton(
+                              //  type: LoginButtonType.linkedIn,
+                              //  onPressed: isProcessing ? null : _signInWithLinkedIn,
+                              //),
+                              //const SizedBox(height: 8),
 
-                              // Google sign-in
-                              LoginButton(
-                                type: LoginButtonType.google,
-                                onPressed: isProcessing ? null : _signInWithGoogle,
-                              ),
-                              const SizedBox(height: 8),
-
-                              // Apple sign-in
-                              LoginButton(
-                                type: LoginButtonType.apple,
-                                onPressed: isProcessing ? null : _signInWithApple,
-                              ),
+                              // Platform-specific order
+                              if (Platform.isIOS) ...[
+                                // Apple sign-in first on iOS
+                                Builder(
+                                  builder: (context) {
+                                    final isLastUsed = _lastUsedProvider == 'apple';
+                                    print('🔍 Apple button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
+                                    return LoginButton(
+                                      type: LoginButtonType.apple,
+                                      onPressed: isProcessing ? null : _signInWithApple,
+                                      isLastUsed: isLastUsed,
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 8),
+                                // Google sign-in second on iOS
+                                Builder(
+                                  builder: (context) {
+                                    final isLastUsed = _lastUsedProvider == 'google';
+                                    print('🔍 Google button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
+                                    return LoginButton(
+                                      type: LoginButtonType.google,
+                                      onPressed: isProcessing ? null : _signInWithGoogle,
+                                      isLastUsed: isLastUsed,
+                                    );
+                                  },
+                                ),
+                              ] else ...[
+                                // Google sign-in first on Android
+                                Builder(
+                                  builder: (context) {
+                                    final isLastUsed = _lastUsedProvider == 'google';
+                                    print('🔍 Google button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
+                                    return LoginButton(
+                                      type: LoginButtonType.google,
+                                      onPressed: isProcessing ? null : _signInWithGoogle,
+                                      isLastUsed: isLastUsed,
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 8),
+                                // Apple sign-in second on Android
+                                Builder(
+                                  builder: (context) {
+                                    final isLastUsed = _lastUsedProvider == 'apple';
+                                    print('🔍 Apple button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
+                                    return LoginButton(
+                                      type: LoginButtonType.apple,
+                                      onPressed: isProcessing ? null : _signInWithApple,
+                                      isLastUsed: isLastUsed,
+                                    );
+                                  },
+                                ),
+                              ],
                             ],
                           ),
 

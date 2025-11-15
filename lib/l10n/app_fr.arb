@@ -480,6 +480,8 @@
   "profileAvatarErrorRemove": "\u00c9chec de la suppression de la photo. Veuillez r\u00e9essayer.",
   "profileAvatarErrorTitle": "Erreur",
   "profileAvatarErrorButton": "OK",
+  "profileAvatarCameraPermissionDenied": "L'acc\u00e8s \u00e0 la cam\u00e9ra est d\u00e9sactiv\u00e9. Veuillez l'activer dans les param\u00e8tres de votre appareil pour prendre des photos.",
+  "profileAvatarGalleryPermissionDenied": "L'acc\u00e8s \u00e0 la biblioth\u00e8que de photos est d\u00e9sactiv\u00e9. Veuillez l'activer dans les param\u00e8tres de votre appareil pour s\u00e9lectionner des photos.",
 
   "@_PROFILE_INFO": {},
   "profileInfoAddCompanyInfo": "Ajouter les infos entreprise",

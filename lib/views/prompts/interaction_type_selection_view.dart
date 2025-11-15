@@ -11,7 +11,6 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../core/providers/app_providers.dart';
 import 'prompt_edit_view.dart';
 
 /// Initial selection view for choosing interaction type when creating a new card.

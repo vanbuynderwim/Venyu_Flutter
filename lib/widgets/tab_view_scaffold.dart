@@ -17,7 +17,7 @@ class TabViewScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
-      cupertino: (_, __) => CupertinoPageScaffold(
+      cupertino: (_, _) => CupertinoPageScaffold(
         child: CustomScrollView(
           slivers: [
             CupertinoSliverNavigationBar(
@@ -33,7 +33,7 @@ class TabViewScaffold extends StatelessWidget {
           ],
         ),
       ),
-      material: (_, __) => Scaffold(
+      material: (_, _) => Scaffold(
         appBar: AppBar(
           title: Text(title),
           actions: actions,

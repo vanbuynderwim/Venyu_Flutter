@@ -479,6 +479,8 @@
   "profileAvatarErrorRemove": "Foto verwijderen mislukt. Probeer het opnieuw.",
   "profileAvatarErrorTitle": "Fout",
   "profileAvatarErrorButton": "OK",
+  "profileAvatarCameraPermissionDenied": "Cameratoegang is uitgeschakeld. Schakel dit in via de instellingen van je apparaat om foto's te maken.",
+  "profileAvatarGalleryPermissionDenied": "Toegang tot fotobibliotheek is uitgeschakeld. Schakel dit in via de instellingen van je apparaat om foto's te selecteren.",
 
   "@_PROFILE_INFO": {},
   "profileInfoAddCompanyInfo": "Bedrijfsinfo toevoegen",

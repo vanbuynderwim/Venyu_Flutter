@@ -38,11 +38,11 @@ class StandardAppBar {
       ),
       trailingActions: trailingActions,
       leading: leading,
-      material: (_, __) => MaterialAppBarData(
+      material: (_, _) => MaterialAppBarData(
         backgroundColor: _getMaterialBackgroundColor(style),
         elevation: _getElevation(style),
       ),
-      cupertino: (_, __) => CupertinoNavigationBarData(
+      cupertino: (_, _) => CupertinoNavigationBarData(
         backgroundColor: _getCupertinoBackgroundColor(style),
       ),
     );

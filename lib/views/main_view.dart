@@ -29,7 +29,6 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  static bool _hasShownFirstTimePrompts = false; // Track if we've already shown prompts this session
   static bool _hasCheckedPromptsThisSession = false; // Track if we've already checked for prompts this session
   bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
 

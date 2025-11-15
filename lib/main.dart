@@ -42,8 +42,11 @@ void main() async {
     ),
   );
 
-  // Enable immersive mode (hide status bar and navigation bar)
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  // Enable edge-to-edge mode (show status bar and navigation bar)
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
+  );
 
   // Initialize date formatting for all supported locales
   try {
