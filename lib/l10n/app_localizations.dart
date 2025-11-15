@@ -772,6 +772,150 @@ abstract class AppLocalizations {
   /// **'Your contact email address'**
   String get editPersonalInfoEmailDescription;
 
+  /// No description provided for @accountSettingsDeleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get accountSettingsDeleteAccountTitle;
+
+  /// No description provided for @accountSettingsDeleteAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete your account'**
+  String get accountSettingsDeleteAccountDescription;
+
+  /// No description provided for @accountSettingsExportDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get accountSettingsExportDataTitle;
+
+  /// No description provided for @accountSettingsExportDataDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Download your personal data'**
+  String get accountSettingsExportDataDescription;
+
+  /// No description provided for @accountSettingsLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get accountSettingsLogoutTitle;
+
+  /// No description provided for @accountSettingsLogoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account'**
+  String get accountSettingsLogoutDescription;
+
+  /// No description provided for @accountSettingsRateUsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate us'**
+  String get accountSettingsRateUsTitle;
+
+  /// No description provided for @accountSettingsRateUsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Venyu in the App Store'**
+  String get accountSettingsRateUsDescription;
+
+  /// No description provided for @accountSettingsTermsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and conditions'**
+  String get accountSettingsTermsTitle;
+
+  /// No description provided for @accountSettingsTermsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our terms and conditions'**
+  String get accountSettingsTermsDescription;
+
+  /// No description provided for @accountSettingsPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get accountSettingsPrivacyTitle;
+
+  /// No description provided for @accountSettingsPrivacyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our privacy policy'**
+  String get accountSettingsPrivacyDescription;
+
+  /// No description provided for @accountSettingsSupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact support'**
+  String get accountSettingsSupportTitle;
+
+  /// No description provided for @accountSettingsSupportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get help from our support team'**
+  String get accountSettingsSupportDescription;
+
+  /// No description provided for @accountSettingsFeatureRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature request'**
+  String get accountSettingsFeatureRequestTitle;
+
+  /// No description provided for @accountSettingsFeatureRequestDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggest a new feature'**
+  String get accountSettingsFeatureRequestDescription;
+
+  /// No description provided for @accountSettingsNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get accountSettingsNotificationsTitle;
+
+  /// No description provided for @accountSettingsNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notification preferences'**
+  String get accountSettingsNotificationsDescription;
+
+  /// No description provided for @accountSettingsLocationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location settings'**
+  String get accountSettingsLocationSettingsTitle;
+
+  /// No description provided for @accountSettingsLocationSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Update location permissions'**
+  String get accountSettingsLocationSettingsDescription;
+
+  /// No description provided for @accountSettingsLinkedInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LinkedIn'**
+  String get accountSettingsLinkedInTitle;
+
+  /// No description provided for @accountSettingsLinkedInDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage LinkedIn connection'**
+  String get accountSettingsLinkedInDescription;
+
+  /// No description provided for @accountSettingsBlockedUsersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked users'**
+  String get accountSettingsBlockedUsersTitle;
+
+  /// No description provided for @accountSettingsBlockedUsersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'View and manage blocked users'**
+  String get accountSettingsBlockedUsersDescription;
+
   /// No description provided for @profileEditAccountTitle.
   ///
   /// In en, this message translates to:
@@ -2013,6 +2157,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account settings'**
   String get editAccountTitle;
+
+  /// No description provided for @editAccountSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get editAccountSectionLabel;
 
   /// No description provided for @editAccountDataExportTitle.
   ///

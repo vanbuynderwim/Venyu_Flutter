@@ -127,7 +127,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         trailingActions: [
           PlatformIconButton(
             padding: EdgeInsets.zero,
-            icon: context.themedIcon('settings'),
+            icon: context.themedIcon('hamburger'),
             onPressed: () async {
               await Navigator.push(
                 context,

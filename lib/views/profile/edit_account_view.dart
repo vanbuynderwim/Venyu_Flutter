@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
-import '../../models/enums/action_button_type.dart';
+import '../../models/enums/account_settings_type.dart';
 import '../../services/auth_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
-import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
 
 /// Account settings view for data export, logout, and account deletion
 /// 
@@ -40,97 +40,69 @@ class _EditAccountViewState extends State<EditAccountView> {
         title: Text(l10n.editAccountTitle),
       ),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 32, // Account for padding
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Export section
-                      _buildSection(
-                        context: context,
-                        title: l10n.editAccountDataExportTitle,
-                        description: l10n.editAccountDataExportDescription,
-                        child: ActionButton(
-                          label: l10n.editAccountExportDataButton,
-                          type: ActionButtonType.secondary,
-                          onPressed: _handleExportData,
-                          isLoading: _isExporting,
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Delete section
-                      _buildSection(
-                        context: context,
-                        title: l10n.editAccountDeleteTitle,
-                        description: l10n.editAccountDeleteDescription,
-                        child: ActionButton(
-                          label: l10n.editAccountDeleteButton,
-                          type: ActionButtonType.destructive,
-                          onPressed: _handleDeleteAccount,
-                          isLoading: _isDeleting,
-                        ),
-                      ),
-
-                      const Spacer(),
-
-                      // Logout button
-                      ActionButton(
-                        label: l10n.editAccountLogoutButton,
-                        type: ActionButtonType.secondary,
-                        onPressed: _handleLogout,
-                        isLoading: _isLoggingOut,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildAccountSection(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildSection({
-    required BuildContext context,
-    required String title,
-    required String description,
-    required Widget child,
-  }) {
-    final venyuTheme = context.venyuTheme;
-    
+  /// Build a settings section with label and option buttons
+  Widget _buildAccountSection() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          title,
-          style: AppTextStyles.title2.copyWith(
-            color: venyuTheme.primaryText,
+        // Section label
+        Padding(
+          padding: const EdgeInsets.only(left: 0, bottom: 8),
+          child: Text(
+            l10n.editAccountSectionLabel,
+            style: AppTextStyles.headline.copyWith(
+              color: context.venyuTheme.primaryText,
+            ),
           ),
         ),
-        
-        const SizedBox(height: 12),
-        
-        Text(
-          description,
-          style: AppTextStyles.subheadline.copyWith(
-            color: venyuTheme.secondaryText,
-            height: 1.4,
-          ),
+
+        // Logout button
+        OptionButton(
+          option: AccountSettingsType.logout,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          withDescription: true,
+          disabled: _isLoggingOut,
+          onSelect: _handleLogout,
         ),
-        
-        const SizedBox(height: 12),
-        
-        child,
+
+        // Export data button
+        OptionButton(
+          option: AccountSettingsType.exportData,
+          isButton: true,
+          isChevronVisible: true,
+          isCheckmarkVisible: false,
+          withDescription: true,
+          disabled: _isExporting,
+          onSelect: _handleExportData,
+        ),
+
+        // Delete account button
+        OptionButton(
+          option: AccountSettingsType.deleteAccount,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          withDescription: true,
+          disabled: _isDeleting,
+          onSelect: _handleDeleteAccount,
+        ),
       ],
     );
   }

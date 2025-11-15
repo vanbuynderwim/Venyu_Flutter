@@ -381,6 +381,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editPersonalInfoEmailDescription => 'Your contact email address';
 
   @override
+  String get accountSettingsDeleteAccountTitle => 'Delete account';
+
+  @override
+  String get accountSettingsDeleteAccountDescription =>
+      'Permanently delete your account';
+
+  @override
+  String get accountSettingsExportDataTitle => 'Export data';
+
+  @override
+  String get accountSettingsExportDataDescription =>
+      'Download your personal data';
+
+  @override
+  String get accountSettingsLogoutTitle => 'Logout';
+
+  @override
+  String get accountSettingsLogoutDescription => 'Sign out of your account';
+
+  @override
+  String get accountSettingsRateUsTitle => 'Rate us';
+
+  @override
+  String get accountSettingsRateUsDescription => 'Rate Venyu in the App Store';
+
+  @override
+  String get accountSettingsTermsTitle => 'Terms and conditions';
+
+  @override
+  String get accountSettingsTermsDescription => 'Read our terms and conditions';
+
+  @override
+  String get accountSettingsPrivacyTitle => 'Privacy policy';
+
+  @override
+  String get accountSettingsPrivacyDescription => 'Read our privacy policy';
+
+  @override
+  String get accountSettingsSupportTitle => 'Contact support';
+
+  @override
+  String get accountSettingsSupportDescription =>
+      'Get help from our support team';
+
+  @override
+  String get accountSettingsFeatureRequestTitle => 'Feature request';
+
+  @override
+  String get accountSettingsFeatureRequestDescription =>
+      'Suggest a new feature';
+
+  @override
+  String get accountSettingsNotificationsTitle => 'Notifications';
+
+  @override
+  String get accountSettingsNotificationsDescription =>
+      'Manage notification preferences';
+
+  @override
+  String get accountSettingsLocationSettingsTitle => 'Location settings';
+
+  @override
+  String get accountSettingsLocationSettingsDescription =>
+      'Update location permissions';
+
+  @override
+  String get accountSettingsLinkedInTitle => 'LinkedIn';
+
+  @override
+  String get accountSettingsLinkedInDescription => 'Manage LinkedIn connection';
+
+  @override
+  String get accountSettingsBlockedUsersTitle => 'Blocked users';
+
+  @override
+  String get accountSettingsBlockedUsersDescription =>
+      'View and manage blocked users';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override
@@ -1068,6 +1147,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editAccountTitle => 'Account settings';
+
+  @override
+  String get editAccountSectionLabel => 'Account';
 
   @override
   String get editAccountDataExportTitle => 'Data Export';

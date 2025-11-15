@@ -423,6 +423,20 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
         );
         AppLogger.info('Google user authenticated: ${googleUser.email}', context: 'AuthenticationManager');
       } on GoogleSignInException catch (e) {
+        // Handle Google Play Services configuration error
+        // This occurs on emulators or devices without Google Play Services
+        if (e.code == GoogleSignInExceptionCode.providerConfigurationError) {
+          AppLogger.warning(
+            'Google Play Services not available - likely emulator or device without GMS: $e',
+            context: 'AuthenticationManager',
+          );
+          // Throw user-friendly error that won't be sent to Sentry as critical
+          throw const AuthException(
+            'Google Sign In is not available on this device. '
+            'Please use Apple Sign In instead, or try on a device with Google Play Services.',
+          );
+        }
+
         // User canceled the sign-in by clicking back or outside the popup
         // This is not an error - just silently return without authentication
         if (e.code == GoogleSignInExceptionCode.canceled &&

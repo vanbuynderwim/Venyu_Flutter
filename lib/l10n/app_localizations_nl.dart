@@ -381,6 +381,87 @@ class AppLocalizationsNl extends AppLocalizations {
   String get editPersonalInfoEmailDescription => 'Je contact e-mailadres';
 
   @override
+  String get accountSettingsDeleteAccountTitle => 'Account verwijderen';
+
+  @override
+  String get accountSettingsDeleteAccountDescription =>
+      'Verwijder je account permanent';
+
+  @override
+  String get accountSettingsExportDataTitle => 'Data exporteren';
+
+  @override
+  String get accountSettingsExportDataDescription =>
+      'Download je persoonlijke gegevens';
+
+  @override
+  String get accountSettingsLogoutTitle => 'Uitloggen';
+
+  @override
+  String get accountSettingsLogoutDescription => 'Log uit van je account';
+
+  @override
+  String get accountSettingsRateUsTitle => 'Beoordeel ons';
+
+  @override
+  String get accountSettingsRateUsDescription =>
+      'Beoordeel Venyu in de App Store';
+
+  @override
+  String get accountSettingsTermsTitle => 'Algemene voorwaarden';
+
+  @override
+  String get accountSettingsTermsDescription =>
+      'Lees onze algemene voorwaarden';
+
+  @override
+  String get accountSettingsPrivacyTitle => 'Privacybeleid';
+
+  @override
+  String get accountSettingsPrivacyDescription => 'Lees ons privacybeleid';
+
+  @override
+  String get accountSettingsSupportTitle => 'Contact support';
+
+  @override
+  String get accountSettingsSupportDescription =>
+      'Krijg hulp van ons support team';
+
+  @override
+  String get accountSettingsFeatureRequestTitle => 'Feature verzoek';
+
+  @override
+  String get accountSettingsFeatureRequestDescription =>
+      'Stel een nieuwe functie voor';
+
+  @override
+  String get accountSettingsNotificationsTitle => 'Meldingen';
+
+  @override
+  String get accountSettingsNotificationsDescription =>
+      'Beheer meldingsvoorkeuren';
+
+  @override
+  String get accountSettingsLocationSettingsTitle => 'Locatie-instellingen';
+
+  @override
+  String get accountSettingsLocationSettingsDescription =>
+      'Update locatietoestemmingen';
+
+  @override
+  String get accountSettingsLinkedInTitle => 'LinkedIn';
+
+  @override
+  String get accountSettingsLinkedInDescription => 'Beheer LinkedIn verbinding';
+
+  @override
+  String get accountSettingsBlockedUsersTitle => 'Geblokkeerde gebruikers';
+
+  @override
+  String get accountSettingsBlockedUsersDescription =>
+      'Bekijk en beheer geblokkeerde gebruikers';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override
@@ -1076,6 +1157,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountTitle => 'Accountinstellingen';
+
+  @override
+  String get editAccountSectionLabel => 'Account';
 
   @override
   String get editAccountDataExportTitle => 'Data Export';

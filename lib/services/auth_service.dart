@@ -334,6 +334,23 @@ class AuthService extends ChangeNotifier {
 
       AppLogger.success('Google sign in completed', context: 'AuthService');
 
+    } on AuthException catch (e) {
+      // Handle Google Play Services not available error
+      // This is expected on emulators and devices without Google Play Services
+      if (e.message.contains('Google Sign In is not available')) {
+        AppLogger.warning(
+          'Google Play Services not available: ${e.message}',
+          context: 'AuthService',
+        );
+        // Don't log to Sentry as critical - this is expected behavior
+        // Just rethrow so UI can handle it
+        rethrow;
+      }
+
+      // Other auth errors
+      AppLogger.error('Auth error during Google sign in: $e', context: 'AuthService');
+      _handleAuthError(e);
+      rethrow;
     } on GoogleSignInException catch (e) {
       // User canceled the sign-in - this is not an error, just log it
       if (e.code == GoogleSignInExceptionCode.canceled) {

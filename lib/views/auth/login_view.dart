@@ -57,19 +57,17 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
   Future<void> _loadLastUsedProvider() async {
     try {
       final provider = await BaseSupabaseManager.getStoredUserInfo();
-      print('🔍 LoginView: Retrieved provider info: $provider');
+      AppLogger.debug('Retrieved provider info: $provider', context: 'LoginView');
       if (mounted) {
         setState(() {
           _lastUsedProvider = provider['auth_provider'];
         });
-        print('🔍 LoginView: _lastUsedProvider set to: $_lastUsedProvider');
         AppLogger.info(
           'Last used auth provider: $_lastUsedProvider',
           context: 'LoginView',
         );
       }
     } catch (e) {
-      print('❌ LoginView: Failed to load provider - $e');
       AppLogger.warning(
         'Failed to load last used provider',
         error: e,
@@ -134,7 +132,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
           AppLogger.auth('Google sign-in initiated successfully', context: 'LoginView');
         },
         showSuccessToast: false,
-        showErrorToast: false,
+        showErrorToast: true, // Show all errors to user
         useProcessingState: true, // This disables all login buttons during the entire flow
       );
     } finally {
@@ -261,55 +259,31 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                               // Platform-specific order
                               if (Platform.isIOS) ...[
                                 // Apple sign-in first on iOS
-                                Builder(
-                                  builder: (context) {
-                                    final isLastUsed = _lastUsedProvider == 'apple';
-                                    print('🔍 Apple button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
-                                    return LoginButton(
-                                      type: LoginButtonType.apple,
-                                      onPressed: isProcessing ? null : _signInWithApple,
-                                      isLastUsed: isLastUsed,
-                                    );
-                                  },
+                                LoginButton(
+                                  type: LoginButtonType.apple,
+                                  onPressed: isProcessing ? null : _signInWithApple,
+                                  isLastUsed: _lastUsedProvider == 'apple',
                                 ),
                                 const SizedBox(height: 8),
                                 // Google sign-in second on iOS
-                                Builder(
-                                  builder: (context) {
-                                    final isLastUsed = _lastUsedProvider == 'google';
-                                    print('🔍 Google button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
-                                    return LoginButton(
-                                      type: LoginButtonType.google,
-                                      onPressed: isProcessing ? null : _signInWithGoogle,
-                                      isLastUsed: isLastUsed,
-                                    );
-                                  },
+                                LoginButton(
+                                  type: LoginButtonType.google,
+                                  onPressed: isProcessing ? null : _signInWithGoogle,
+                                  isLastUsed: _lastUsedProvider == 'google',
                                 ),
                               ] else ...[
                                 // Google sign-in first on Android
-                                Builder(
-                                  builder: (context) {
-                                    final isLastUsed = _lastUsedProvider == 'google';
-                                    print('🔍 Google button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
-                                    return LoginButton(
-                                      type: LoginButtonType.google,
-                                      onPressed: isProcessing ? null : _signInWithGoogle,
-                                      isLastUsed: isLastUsed,
-                                    );
-                                  },
+                                LoginButton(
+                                  type: LoginButtonType.google,
+                                  onPressed: isProcessing ? null : _signInWithGoogle,
+                                  isLastUsed: _lastUsedProvider == 'google',
                                 ),
                                 const SizedBox(height: 8),
                                 // Apple sign-in second on Android
-                                Builder(
-                                  builder: (context) {
-                                    final isLastUsed = _lastUsedProvider == 'apple';
-                                    print('🔍 Apple button: _lastUsedProvider=$_lastUsedProvider, isLastUsed=$isLastUsed');
-                                    return LoginButton(
-                                      type: LoginButtonType.apple,
-                                      onPressed: isProcessing ? null : _signInWithApple,
-                                      isLastUsed: isLastUsed,
-                                    );
-                                  },
+                                LoginButton(
+                                  type: LoginButtonType.apple,
+                                  onPressed: isProcessing ? null : _signInWithApple,
+                                  isLastUsed: _lastUsedProvider == 'apple',
                                 ),
                               ],
                             ],
@@ -324,7 +298,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
                               onTap: () {
                                 UrlHelper.openWebsite(
                                   context,
-                                  'https://app.getvenyu.com/functions/v1/terms',
+                                  'https://www.getvenyu.com/legal/terms-and-conditions',
                                 );
                               },
                               child: Text(
