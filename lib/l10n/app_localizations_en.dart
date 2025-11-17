@@ -351,10 +351,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Receive smart suggestions based on your profile.';
 
   @override
-  String get editCompanyInfoNameTitle => 'Name & website';
+  String get editCompanyInfoNameTitle => 'Company information';
 
   @override
-  String get editCompanyInfoNameDescription => 'The name of your company';
+  String get editCompanyInfoNameDescription =>
+      'Name and website of your company';
 
   @override
   String get editPersonalInfoNameTitle => 'Name';
@@ -404,7 +405,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSettingsRateUsTitle => 'Rate us';
 
   @override
-  String get accountSettingsRateUsDescription => 'Rate Venyu in the App Store';
+  String get accountSettingsRateUsDescription => '5 stars is enough, thanks!';
+
+  @override
+  String get accountSettingsFollowUsTitle => 'Follow us';
+
+  @override
+  String get accountSettingsFollowUsDescription => 'Follow our LinkedIn page';
+
+  @override
+  String get accountSettingsTestimonialTitle => 'Testimonial';
+
+  @override
+  String get accountSettingsTestimonialDescription =>
+      'Write a testimonial for the website';
 
   @override
   String get accountSettingsTermsTitle => 'Terms and conditions';
@@ -431,6 +445,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSettingsFeatureRequestDescription =>
       'Suggest a new feature';
+
+  @override
+  String get accountSettingsBugTitle => 'Report a bug';
+
+  @override
+  String get accountSettingsBugDescription => 'Report an issue or bug';
+
+  @override
+  String get accountSettingsPersonalInfoTitle => 'Personal information';
+
+  @override
+  String get accountSettingsPersonalInfoDescription =>
+      'Manage your personal information';
 
   @override
   String get accountSettingsNotificationsTitle => 'Notifications';
@@ -711,6 +738,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Prompts help us find the right matches that lead to real introductions. Write yours to get started.';
+
+  @override
+  String get emptyStateNotificationSettingsTitle => 'No settings available';
+
+  @override
+  String get emptyStateNotificationSettingsDescription =>
+      'Notification settings will appear here once they are configured.';
+
+  @override
+  String get notificationSettingsTitle => 'Notification settings';
+
+  @override
+  String get notificationSettingsPushSection => 'Push notifications';
+
+  @override
+  String get notificationSettingsEmailSection => 'Email notifications';
+
+  @override
+  String get notificationsDisabledWarning =>
+      'Push notifications are disabled. Tap here to enable them in your device settings.';
 
   @override
   String get authGoogleRetryingMessage => 'Please wait...';
@@ -1146,7 +1193,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSectionReviewsDescription => 'User reviews and feedback';
 
   @override
-  String get editAccountTitle => 'Account settings';
+  String profilePersonalCompletenessMessage(int percentage) {
+    return 'Your personal profile is $percentage% complete. Finish it to get better and more relevant matches.';
+  }
+
+  @override
+  String profileCompanyCompletenessMessage(int percentage) {
+    return 'Your professional profile is $percentage% complete. Finish it to get better and more relevant matches.';
+  }
+
+  @override
+  String get editAccountTitle => 'Settings';
+
+  @override
+  String get editAccountProfileSectionLabel => 'Profile';
+
+  @override
+  String get editAccountSettingsSectionLabel => 'Settings';
+
+  @override
+  String get editAccountFeedbackSectionLabel => 'Feedback';
+
+  @override
+  String get editAccountSupportLegalSectionLabel => 'Support & Legal';
 
   @override
   String get editAccountSectionLabel => 'Account';

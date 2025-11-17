@@ -350,10 +350,10 @@ class AppLocalizationsNl extends AppLocalizations {
       'Ontvang slimme suggesties op basis van je profiel.';
 
   @override
-  String get editCompanyInfoNameTitle => 'Naam & website';
+  String get editCompanyInfoNameTitle => 'Bedrijfsgegevens';
 
   @override
-  String get editCompanyInfoNameDescription => 'De naam van je bedrijf';
+  String get editCompanyInfoNameDescription => 'Naam en website van je bedrijf';
 
   @override
   String get editPersonalInfoNameTitle => 'Naam';
@@ -405,7 +405,20 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get accountSettingsRateUsDescription =>
-      'Beoordeel Venyu in de App Store';
+      '5 sterren is genoeg, bedankt!';
+
+  @override
+  String get accountSettingsFollowUsTitle => 'Volg ons';
+
+  @override
+  String get accountSettingsFollowUsDescription => 'Volg onze LinkedIn pagina';
+
+  @override
+  String get accountSettingsTestimonialTitle => 'Testimonial';
+
+  @override
+  String get accountSettingsTestimonialDescription =>
+      'Schrijf een testimonial voor de website';
 
   @override
   String get accountSettingsTermsTitle => 'Algemene voorwaarden';
@@ -433,6 +446,19 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get accountSettingsFeatureRequestDescription =>
       'Stel een nieuwe functie voor';
+
+  @override
+  String get accountSettingsBugTitle => 'Meld een bug';
+
+  @override
+  String get accountSettingsBugDescription => 'Meld een probleem of bug';
+
+  @override
+  String get accountSettingsPersonalInfoTitle => 'Persoonlijke gegevens';
+
+  @override
+  String get accountSettingsPersonalInfoDescription =>
+      'Beheer je persoonlijke informatie';
 
   @override
   String get accountSettingsNotificationsTitle => 'Meldingen';
@@ -715,6 +741,27 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
+
+  @override
+  String get emptyStateNotificationSettingsTitle =>
+      'Geen instellingen beschikbaar';
+
+  @override
+  String get emptyStateNotificationSettingsDescription =>
+      'Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.';
+
+  @override
+  String get notificationSettingsTitle => 'Notificatie-instellingen';
+
+  @override
+  String get notificationSettingsPushSection => 'Push notificaties';
+
+  @override
+  String get notificationSettingsEmailSection => 'Email notificaties';
+
+  @override
+  String get notificationsDisabledWarning =>
+      'Push notificaties zijn uitgeschakeld. Tik hier om ze in te schakelen in je toestel instellingen.';
 
   @override
   String get authGoogleRetryingMessage => 'Even geduld...';
@@ -1156,7 +1203,29 @@ class AppLocalizationsNl extends AppLocalizations {
       'Gebruikersbeoordelingen en feedback';
 
   @override
-  String get editAccountTitle => 'Accountinstellingen';
+  String profilePersonalCompletenessMessage(int percentage) {
+    return 'Je persoonlijk profiel is $percentage% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.';
+  }
+
+  @override
+  String profileCompanyCompletenessMessage(int percentage) {
+    return 'Je professioneel profiel is $percentage% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.';
+  }
+
+  @override
+  String get editAccountTitle => 'Instellingen';
+
+  @override
+  String get editAccountProfileSectionLabel => 'Profiel';
+
+  @override
+  String get editAccountSettingsSectionLabel => 'Instellingen';
+
+  @override
+  String get editAccountFeedbackSectionLabel => 'Feedback';
+
+  @override
+  String get editAccountSupportLegalSectionLabel => 'Support & Juridisch';
 
   @override
   String get editAccountSectionLabel => 'Account';

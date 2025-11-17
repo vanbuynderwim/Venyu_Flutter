@@ -1,4 +1,3 @@
-import 'package:app/views/profile/edit_city_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -7,14 +6,14 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/profile_sections.dart';
-import '../../models/enums/edit_personal_info_type.dart';
-import '../../models/enums/edit_company_info_type.dart';
 import '../../models/enums/category_type.dart';
+import '../../models/profile.dart';
 import '../../models/tag_group.dart';
 import '../../models/invite.dart';
 import '../../models/badge_data.dart';
 import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/profile_service.dart';
 import '../../services/notification_service.dart';
 import '../../services/supabase_managers/content_manager.dart';
@@ -24,6 +23,7 @@ import '../../widgets/buttons/fab_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/warning_box_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import '../venues/join_venue_view.dart';
 import 'profile_header.dart';
@@ -34,13 +34,8 @@ import 'profile_view/venues_section.dart';
 import 'profile_view/invites_section.dart';
 import 'profile_view/reviews_section.dart';
 import 'edit_tag_group_view.dart';
-import 'edit_name_view.dart';
-import 'edit_bio_view.dart';
 import 'edit_account_view.dart';
-import 'edit_email_info_view.dart';
-import 'edit_company_name_view.dart';
 import '../prompts/prompt_entry_view.dart';
-import '../../l10n/app_localizations.dart';
 
 /// ProfileView - Current user's profile page
 /// 
@@ -158,7 +153,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
               onRefresh: () => _refreshProfile(forceRefresh: true),
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(bottom: 32.0),
+                padding: const EdgeInsets.only(bottom: 16.0),
                 children: [
                 
                 // Profile Header
@@ -204,9 +199,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                     },
                   ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
 
-                
+                // Completeness Warning
+                if (!_isProfileLoading && profile != null)
+                  _buildCompletenessWarning(profile),                
 
                 // Section Content
                 if (!_isProfileLoading && profile != null)
@@ -230,7 +227,49 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     );
   }
 
-  
+  /// Builds the completeness warning if profile is not 100% complete
+  Widget _buildCompletenessWarning(Profile profile) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Determine which completeness to show based on selected section
+    int? completeness;
+    String message = '';
+
+    switch (_selectedSection) {
+      case ProfileSections.personal:
+        completeness = profile.personalCompleteness;
+        if (completeness != null && completeness < 100) {
+          message = l10n.profilePersonalCompletenessMessage(completeness);
+        }
+        break;
+      case ProfileSections.company:
+        completeness = profile.companyCompleteness;
+        if (completeness != null && completeness < 100) {
+          message = l10n.profileCompanyCompletenessMessage(completeness);
+        }
+        break;
+      default:
+        // No completeness warning for other sections
+        return const SizedBox.shrink();
+    }
+
+    // Only show warning if completeness is not 100%
+    if (message.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        //const SizedBox(height: 4),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+          child: WarningBoxWidget(text: message),
+        ),
+      ],
+    );
+  }
+
   /// Builds the content for the selected section
   Widget _buildSectionContent() {
     switch (_selectedSection) {
@@ -238,14 +277,12 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         return PersonalInfoSection(
           personalTagGroups: _personalTagGroups,
           personalTagGroupsLoading: _personalTagGroupsLoading,
-          onPersonalInfoTap: _handlePersonalInfoTap,
           onTagGroupTap: _handleTagGroupTap,
         );
       case ProfileSections.company:
         return CompanyInfoSection(
           companyTagGroups: _companyTagGroups,
           companyTagGroupsLoading: _companyTagGroupsLoading,
-          onCompanyInfoTap: _handleCompanyInfoTap,
           onCompanyTagGroupTap: _handleCompanyTagGroupTap,
         );
       case ProfileSections.venues:
@@ -526,66 +563,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   }
 
   /// Handles personal info option tap
-  void _handlePersonalInfoTap(EditPersonalInfoType type) async {
-    AppLogger.ui('Tapped on personal info type: ${type.title}', context: 'ProfileView');
-
-    switch (type) {
-      case EditPersonalInfoType.name:
-        await Navigator.push<bool>(
-          context,
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditNameView(),
-          ),
-        );
-        break;
-      case EditPersonalInfoType.bio:
-        await Navigator.push<bool>(
-          context,
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditBioView(),
-          ),
-        );
-        break;
-      case EditPersonalInfoType.location:
-        await Navigator.push<bool>(
-          context,
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditCityView(),
-          ),
-        );
-        break;
-      case EditPersonalInfoType.email:
-        await Navigator.push<bool>(
-          context,
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditEmailInfoView(),
-          ),
-        );
-        break;
-    }
-  }
-  
-  /// Handles company info option tap
-  void _handleCompanyInfoTap(EditCompanyInfoType type) async {
-    AppLogger.ui('Tapped on company info type: ${type.title}', context: 'ProfileView');
-    
-    switch (type) {
-      case EditCompanyInfoType.name:
-        await Navigator.push<bool>(
-          context,
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditCompanyNameView(),
-          ),
-        );
-        break;
-    }
-  }
-  
   /// Handles personal tag group tap
   void _handleTagGroupTap(TagGroup tagGroup) async {
     AppLogger.ui('Tapped on personal tag group: ${tagGroup.title}', context: 'ProfileView');

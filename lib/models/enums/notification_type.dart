@@ -3,7 +3,9 @@ enum NotificationType {
   cardApproved('card_approved'),
   cardRejected('card_rejected'),
   matched('matched'),
-  connected('connected');
+  connected('connected'),
+  dailyReminder('daily_reminder'),
+  canRefer('can_refer');
 
   const NotificationType(this.value);
   
@@ -18,19 +20,4 @@ enum NotificationType {
 
   String toJson() => value;
 
-  /// Returns the icon name for this notification type
-  String get icon {
-    switch (this) {
-      case NotificationType.cardSubmitted:
-        return 'card';
-      case NotificationType.cardApproved:
-        return 'like'; // Use existing like icon for approved
-      case NotificationType.cardRejected:
-        return 'dislike'; // Use existing dislike icon for rejected
-      case NotificationType.matched:
-        return 'match';
-      case NotificationType.connected:
-        return 'handshake';
-    }
-  }
 }

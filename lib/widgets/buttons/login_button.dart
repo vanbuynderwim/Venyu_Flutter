@@ -1,11 +1,7 @@
 import 'package:app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
-import '../../core/theme/app_text_styles.dart';
-import '../../core/theme/app_layout_styles.dart';
 import '../../models/enums/login_button_type.dart';
-import '../../core/theme/venyu_theme.dart';
 
 /// A specialized button widget for authentication/login purposes.
 /// 
@@ -63,10 +59,6 @@ class _LoginButtonState extends State<LoginButton> {
   @override
   void initState() {
     super.initState();
-    // Debug logging
-    if (widget.isLastUsed) {
-      print('🔵 LoginButton: ${widget.type.label} - isLastUsed = true');
-    }
   }
 
   @override

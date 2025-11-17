@@ -96,7 +96,7 @@ class _PromptsViewState extends State<PromptsView>
                   padding: EdgeInsets.zero,
                   icon: Badge.count(
                     count: _availablePrompts!.length,
-                    child: context.themedIcon('prompts'),
+                    child: context.themedIcon('prompts', selected: true),
                   ),
                   onPressed: _showPromptsModal,
                 ),

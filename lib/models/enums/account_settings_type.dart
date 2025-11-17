@@ -9,18 +9,19 @@ import '../tag.dart';
 /// This enum is used in the edit account view to represent different
 /// settings that can be modified by the user.
 enum AccountSettingsType implements OptionType {
-  name,
-  bio,
-  email,
-  location,
+  companyName,
+  personalInfo,
   deleteAccount,
   exportData,
   logout,
   rateUs,
+  followUs,
+  testimonial,
   terms,
   privacy,
   support,
   featureRequest,
+  bug,
   notifications,
   locationSettings,
   linkedIn,
@@ -33,14 +34,10 @@ enum AccountSettingsType implements OptionType {
   String title(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
-      case AccountSettingsType.name:
-        return l10n.editPersonalInfoNameTitle;
-      case AccountSettingsType.bio:
-        return l10n.editPersonalInfoBioTitle;
-      case AccountSettingsType.location:
-        return l10n.editPersonalInfoLocationTitle;
-      case AccountSettingsType.email:
-        return l10n.editPersonalInfoEmailTitle;
+      case AccountSettingsType.companyName:
+        return l10n.editCompanyInfoNameTitle;
+      case AccountSettingsType.personalInfo:
+        return l10n.accountSettingsPersonalInfoTitle;
       case AccountSettingsType.deleteAccount:
         return l10n.accountSettingsDeleteAccountTitle;
       case AccountSettingsType.exportData:
@@ -49,6 +46,10 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsLogoutTitle;
       case AccountSettingsType.rateUs:
         return l10n.accountSettingsRateUsTitle;
+      case AccountSettingsType.followUs:
+        return l10n.accountSettingsFollowUsTitle;
+      case AccountSettingsType.testimonial:
+        return l10n.accountSettingsTestimonialTitle;
       case AccountSettingsType.terms:
         return l10n.accountSettingsTermsTitle;
       case AccountSettingsType.privacy:
@@ -57,6 +58,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsSupportTitle;
       case AccountSettingsType.featureRequest:
         return l10n.accountSettingsFeatureRequestTitle;
+      case AccountSettingsType.bug:
+        return l10n.accountSettingsBugTitle;
       case AccountSettingsType.notifications:
         return l10n.accountSettingsNotificationsTitle;
       case AccountSettingsType.locationSettings:
@@ -72,14 +75,10 @@ enum AccountSettingsType implements OptionType {
   String description(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
-      case AccountSettingsType.name:
-        return l10n.editPersonalInfoNameDescription;
-      case AccountSettingsType.bio:
-        return l10n.editPersonalInfoBioDescription;
-      case AccountSettingsType.location:
-        return l10n.editPersonalInfoLocationDescription;
-      case AccountSettingsType.email:
-        return l10n.editPersonalInfoEmailDescription;
+      case AccountSettingsType.companyName:
+        return l10n.editCompanyInfoNameDescription;
+      case AccountSettingsType.personalInfo:
+        return l10n.accountSettingsPersonalInfoDescription;
       case AccountSettingsType.deleteAccount:
         return l10n.accountSettingsDeleteAccountDescription;
       case AccountSettingsType.exportData:
@@ -88,6 +87,10 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsLogoutDescription;
       case AccountSettingsType.rateUs:
         return l10n.accountSettingsRateUsDescription;
+      case AccountSettingsType.followUs:
+        return l10n.accountSettingsFollowUsDescription;
+      case AccountSettingsType.testimonial:
+        return l10n.accountSettingsTestimonialDescription;
       case AccountSettingsType.terms:
         return l10n.accountSettingsTermsDescription;
       case AccountSettingsType.privacy:
@@ -96,6 +99,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsSupportDescription;
       case AccountSettingsType.featureRequest:
         return l10n.accountSettingsFeatureRequestDescription;
+      case AccountSettingsType.bug:
+        return l10n.accountSettingsBugDescription;
       case AccountSettingsType.notifications:
         return l10n.accountSettingsNotificationsDescription;
       case AccountSettingsType.locationSettings:
@@ -110,14 +115,10 @@ enum AccountSettingsType implements OptionType {
   @override
   String? get icon {
     switch (this) {
-      case AccountSettingsType.name:
+      case AccountSettingsType.companyName:
+        return 'company';
+      case AccountSettingsType.personalInfo:
         return 'profile';
-      case AccountSettingsType.bio:
-        return 'edit';
-      case AccountSettingsType.location:
-        return 'map';
-      case AccountSettingsType.email:
-        return 'email';
       case AccountSettingsType.deleteAccount:
         return 'delete_account';
       case AccountSettingsType.exportData:
@@ -126,6 +127,10 @@ enum AccountSettingsType implements OptionType {
         return 'logout';
       case AccountSettingsType.rateUs:
         return 'star';
+      case AccountSettingsType.followUs:
+        return 'linkedin';
+      case AccountSettingsType.testimonial:
+        return 'heart';
       case AccountSettingsType.terms:
         return 'terms';
       case AccountSettingsType.privacy:
@@ -134,6 +139,8 @@ enum AccountSettingsType implements OptionType {
         return 'email';
       case AccountSettingsType.featureRequest:
         return 'bulb';
+      case AccountSettingsType.bug:
+        return 'report';
       case AccountSettingsType.notifications:
         return 'notification';
       case AccountSettingsType.locationSettings:

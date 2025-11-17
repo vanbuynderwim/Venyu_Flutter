@@ -94,6 +94,14 @@ class Profile {
   /// Contains categorized tags like roles, sectors, etc.
   final List<TagGroup>? taggroups;
 
+  /// Company profile completeness percentage (0-100).
+  /// Indicates how complete the company-related information is.
+  final int? companyCompleteness;
+
+  /// Personal profile completeness percentage (0-100).
+  /// Indicates how complete the personal information is.
+  final int? personalCompleteness;
+
   /// Creates a [Profile] instance.
   /// 
   /// [id] and [firstName] are required. [isSuperAdmin] and [isPro] default to false
@@ -121,6 +129,8 @@ class Profile {
     this.publicKey,
     this.languageCode,
     this.taggroups,
+    this.companyCompleteness,
+    this.personalCompleteness,
   });
 
   /// Creates a [Profile] from a JSON object.
@@ -153,6 +163,8 @@ class Profile {
       taggroups: json['taggroups'] != null
           ? (json['taggroups'] as List).map((tagGroup) => TagGroup.fromJson(tagGroup)).toList()
           : null,
+      companyCompleteness: json['company_completeness'] as int?,
+      personalCompleteness: json['personal_completeness'] as int?,
     );
   }
 
@@ -184,6 +196,8 @@ class Profile {
       'public_key': publicKey,
       'language_code': languageCode,
       'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
+      'company_completeness': companyCompleteness,
+      'personal_completeness': personalCompleteness,
     };
   }
 
@@ -337,6 +351,8 @@ class Profile {
     String? publicKey,
     String? languageCode,
     List<TagGroup>? taggroups,
+    int? companyCompleteness,
+    int? personalCompleteness,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -361,6 +377,8 @@ class Profile {
       publicKey: publicKey ?? this.publicKey,
       languageCode: languageCode ?? this.languageCode,
       taggroups: taggroups ?? this.taggroups,
+      companyCompleteness: companyCompleteness ?? this.companyCompleteness,
+      personalCompleteness: personalCompleteness ?? this.personalCompleteness,
     );
   }
 }

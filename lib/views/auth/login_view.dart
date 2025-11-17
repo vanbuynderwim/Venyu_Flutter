@@ -144,7 +144,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
     }
   }
   
-  Future<void> _signInWithLinkedIn() async {
+  /*Future<void> _signInWithLinkedIn() async {
     final authService = context.read<AuthService>();
     
     await executeWithLoading(
@@ -157,7 +157,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
       showErrorToast: false, 
       useProcessingState: true,
     );
-  }
+  }*/
   
 
   @override
@@ -186,13 +186,15 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
         return AppScaffold(
       usePadding: false,
       useSafeArea: false,
-      body: Stack(
-        children: [
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
           // Full-screen radar background image
           const RadarBackground(),
           
           // Content
           SafeArea(
+            bottom: false,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -336,6 +338,7 @@ class _LoginViewState extends State<LoginView> with ErrorHandlingMixin {
               ),
             ),
         ],
+        ),
       ),
     );
       },

@@ -252,7 +252,7 @@ class _OptionButtonState extends State<OptionButton> {
                 // Description
                 if (widget.withDescription && widget.option.description(context).isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: const EdgeInsets.only(top: 4, right: 16),
                     child: Text(
                       widget.option.description(context),
                       style: AppTextStyles.footnote.copyWith(

@@ -147,8 +147,8 @@
   "benefitAiPoweredMatchesDescription": "Receive smart suggestions based on your profile.",
 
   "@_EDIT_COMPANY_INFO_TYPE": {},
-  "editCompanyInfoNameTitle": "Name & website",
-  "editCompanyInfoNameDescription": "The name of your company",
+  "editCompanyInfoNameTitle": "Company information",
+  "editCompanyInfoNameDescription": "Name and website of your company",
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Name",
@@ -168,7 +168,11 @@
   "accountSettingsLogoutTitle": "Logout",
   "accountSettingsLogoutDescription": "Sign out of your account",
   "accountSettingsRateUsTitle": "Rate us",
-  "accountSettingsRateUsDescription": "Rate Venyu in the App Store",
+  "accountSettingsRateUsDescription": "5 stars is enough, thanks!",
+  "accountSettingsFollowUsTitle": "Follow us",
+  "accountSettingsFollowUsDescription": "Follow our LinkedIn page",
+  "accountSettingsTestimonialTitle": "Testimonial",
+  "accountSettingsTestimonialDescription": "Write a testimonial for the website",
   "accountSettingsTermsTitle": "Terms and conditions",
   "accountSettingsTermsDescription": "Read our terms and conditions",
   "accountSettingsPrivacyTitle": "Privacy policy",
@@ -177,6 +181,10 @@
   "accountSettingsSupportDescription": "Get help from our support team",
   "accountSettingsFeatureRequestTitle": "Feature request",
   "accountSettingsFeatureRequestDescription": "Suggest a new feature",
+  "accountSettingsBugTitle": "Report a bug",
+  "accountSettingsBugDescription": "Report an issue or bug",
+  "accountSettingsPersonalInfoTitle": "Personal information",
+  "accountSettingsPersonalInfoDescription": "Manage your personal information",
   "accountSettingsNotificationsTitle": "Notifications",
   "accountSettingsNotificationsDescription": "Manage notification preferences",
   "accountSettingsLocationSettingsTitle": "Location settings",
@@ -317,6 +325,14 @@
   "emptyStateMatchesDescription": "Once you have a match, it will appear here. Write a new prompt to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
   "emptyStatePromptsDescription": "Prompts help us find the right matches that lead to real introductions. Write yours to get started.",
+  "emptyStateNotificationSettingsTitle": "No settings available",
+  "emptyStateNotificationSettingsDescription": "Notification settings will appear here once they are configured.",
+
+  "@_NOTIFICATION_SETTINGS": {},
+  "notificationSettingsTitle": "Notification settings",
+  "notificationSettingsPushSection": "Push notifications",
+  "notificationSettingsEmailSection": "Email notifications",
+  "notificationsDisabledWarning": "Push notifications are disabled. Tap here to enable them in your device settings.",
 
   "@_AUTH_VIEWS": {},
   "authGoogleRetryingMessage": "Please wait...",
@@ -577,9 +593,29 @@
   "profileSectionInvitesDescription": "Invites and invitations",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "User reviews and feedback",
+  "profilePersonalCompletenessMessage": "Your personal profile is {percentage}% complete. Finish it to get better and more relevant matches.",
+  "@profilePersonalCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCompanyCompletenessMessage": "Your professional profile is {percentage}% complete. Finish it to get better and more relevant matches.",
+  "@profileCompanyCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
 
   "@_EDIT_ACCOUNT": {},
-  "editAccountTitle": "Account settings",
+  "editAccountTitle": "Settings",
+  "editAccountProfileSectionLabel": "Profile",
+  "editAccountSettingsSectionLabel": "Settings",
+  "editAccountFeedbackSectionLabel": "Feedback",
+  "editAccountSupportLegalSectionLabel": "Support & Legal",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
   "editAccountDataExportDescription": "You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.",

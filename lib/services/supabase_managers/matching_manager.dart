@@ -5,18 +5,17 @@ import 'base_supabase_manager.dart';
 import '../../mixins/disposable_manager_mixin.dart';
 
 /// MatchingManager - Handles matching and connection operations
-/// 
+///
 /// This manager is responsible for:
 /// - Match fetching with pagination
 /// - Match detail retrieval
 /// - Match response handling (like/skip)
-/// - Notification management
-/// 
+/// - Match removal, blocking, and reporting
+///
 /// Features:
 /// - Paginated match fetching
 /// - Detailed match information with prompts and connections
 /// - Match response recording
-/// - Push notification management
 class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
   static MatchingManager? _instance;
   
@@ -96,50 +95,15 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<void> insertMatchResponse(String matchId, MatchResponse response) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Inserting match response', context: 'MatchingManager');
-      
+
       final payload = {
         'match_id': matchId,
         'response': response.toJson(),
       };
-      
+
       await client.rpc('insert_match_response', params: {'payload': payload});
-      
+
       AppLogger.success('Match response inserted successfully', context: 'MatchingManager');
-    });
-  }
-
-  /// Fetch notifications with pagination
-  Future<List<Notification>> fetchNotifications(PaginatedRequest paginatedRequest) async {
-    return executeAuthenticatedRequest(() async {
-      AppLogger.info('Fetching notifications with pagination: $paginatedRequest', context: 'MatchingManager');
-
-      // Call the get_notifications RPC function - exact equivalent of iOS implementation
-      final result = await client
-          .rpc('get_notifications', params: {'payload': paginatedRequest.toJson()})
-          .select();
-
-      AppLogger.success('Notifications RPC call successful', context: 'MatchingManager');
-      AppLogger.debug('Notifications data received: ${result.length} notifications', context: 'MatchingManager');
-
-      // Convert response to list of Notification objects
-      final notifications = (result as List)
-          .map((json) => Notification.fromJson(json))
-          .toList();
-
-      AppLogger.success('Notifications parsed: ${notifications.length} notifications', context: 'MatchingManager');
-      return notifications;
-    });
-  }
-
-  /// Update notification as opened
-  Future<void> updateNotification(String notificationId) async {
-    return executeAuthenticatedRequest(() async {
-      AppLogger.info('Updating notification with ID: $notificationId', context: 'MatchingManager');
-
-      // Call the update_notification RPC function
-      await client.rpc('update_notification', params: {'p_notification_id': notificationId});
-
-      AppLogger.success('Notification updated successfully', context: 'MatchingManager');
     });
   }
 

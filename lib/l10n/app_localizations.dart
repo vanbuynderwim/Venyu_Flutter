@@ -715,13 +715,13 @@ abstract class AppLocalizations {
   /// No description provided for @editCompanyInfoNameTitle.
   ///
   /// In en, this message translates to:
-  /// **'Name & website'**
+  /// **'Company information'**
   String get editCompanyInfoNameTitle;
 
   /// No description provided for @editCompanyInfoNameDescription.
   ///
   /// In en, this message translates to:
-  /// **'The name of your company'**
+  /// **'Name and website of your company'**
   String get editCompanyInfoNameDescription;
 
   /// No description provided for @editPersonalInfoNameTitle.
@@ -817,8 +817,32 @@ abstract class AppLocalizations {
   /// No description provided for @accountSettingsRateUsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Rate Venyu in the App Store'**
+  /// **'5 stars is enough, thanks!'**
   String get accountSettingsRateUsDescription;
+
+  /// No description provided for @accountSettingsFollowUsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow us'**
+  String get accountSettingsFollowUsTitle;
+
+  /// No description provided for @accountSettingsFollowUsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow our LinkedIn page'**
+  String get accountSettingsFollowUsDescription;
+
+  /// No description provided for @accountSettingsTestimonialTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Testimonial'**
+  String get accountSettingsTestimonialTitle;
+
+  /// No description provided for @accountSettingsTestimonialDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a testimonial for the website'**
+  String get accountSettingsTestimonialDescription;
 
   /// No description provided for @accountSettingsTermsTitle.
   ///
@@ -867,6 +891,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Suggest a new feature'**
   String get accountSettingsFeatureRequestDescription;
+
+  /// No description provided for @accountSettingsBugTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get accountSettingsBugTitle;
+
+  /// No description provided for @accountSettingsBugDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an issue or bug'**
+  String get accountSettingsBugDescription;
+
+  /// No description provided for @accountSettingsPersonalInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get accountSettingsPersonalInfoTitle;
+
+  /// No description provided for @accountSettingsPersonalInfoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your personal information'**
+  String get accountSettingsPersonalInfoDescription;
 
   /// No description provided for @accountSettingsNotificationsTitle.
   ///
@@ -1377,6 +1425,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Prompts help us find the right matches that lead to real introductions. Write yours to get started.'**
   String get emptyStatePromptsDescription;
+
+  /// No description provided for @emptyStateNotificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No settings available'**
+  String get emptyStateNotificationSettingsTitle;
+
+  /// No description provided for @emptyStateNotificationSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings will appear here once they are configured.'**
+  String get emptyStateNotificationSettingsDescription;
+
+  /// No description provided for @notificationSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get notificationSettingsTitle;
+
+  /// No description provided for @notificationSettingsPushSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications'**
+  String get notificationSettingsPushSection;
+
+  /// No description provided for @notificationSettingsEmailSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Email notifications'**
+  String get notificationSettingsEmailSection;
+
+  /// No description provided for @notificationsDisabledWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications are disabled. Tap here to enable them in your device settings.'**
+  String get notificationsDisabledWarning;
 
   /// No description provided for @authGoogleRetryingMessage.
   ///
@@ -2152,11 +2236,47 @@ abstract class AppLocalizations {
   /// **'User reviews and feedback'**
   String get profileSectionReviewsDescription;
 
+  /// No description provided for @profilePersonalCompletenessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal profile is {percentage}% complete. Finish it to get better and more relevant matches.'**
+  String profilePersonalCompletenessMessage(int percentage);
+
+  /// No description provided for @profileCompanyCompletenessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your professional profile is {percentage}% complete. Finish it to get better and more relevant matches.'**
+  String profileCompanyCompletenessMessage(int percentage);
+
   /// No description provided for @editAccountTitle.
   ///
   /// In en, this message translates to:
-  /// **'Account settings'**
+  /// **'Settings'**
   String get editAccountTitle;
+
+  /// No description provided for @editAccountProfileSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get editAccountProfileSectionLabel;
+
+  /// No description provided for @editAccountSettingsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get editAccountSettingsSectionLabel;
+
+  /// No description provided for @editAccountFeedbackSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get editAccountFeedbackSectionLabel;
+
+  /// No description provided for @editAccountSupportLegalSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & Legal'**
+  String get editAccountSupportLegalSectionLabel;
 
   /// No description provided for @editAccountSectionLabel.
   ///

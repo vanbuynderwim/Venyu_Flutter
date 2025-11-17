@@ -145,8 +145,8 @@
   "benefitAiPoweredMatchesDescription": "Ontvang slimme suggesties op basis van je profiel.",
 
   "@_EDIT_COMPANY_INFO_TYPE": {},
-  "editCompanyInfoNameTitle": "Naam & website",
-  "editCompanyInfoNameDescription": "De naam van je bedrijf",
+  "editCompanyInfoNameTitle": "Bedrijfsgegevens",
+  "editCompanyInfoNameDescription": "Naam en website van je bedrijf",
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Naam",
@@ -166,7 +166,11 @@
   "accountSettingsLogoutTitle": "Uitloggen",
   "accountSettingsLogoutDescription": "Log uit van je account",
   "accountSettingsRateUsTitle": "Beoordeel ons",
-  "accountSettingsRateUsDescription": "Beoordeel Venyu in de App Store",
+  "accountSettingsRateUsDescription": "5 sterren is genoeg, bedankt!",
+  "accountSettingsFollowUsTitle": "Volg ons",
+  "accountSettingsFollowUsDescription": "Volg onze LinkedIn pagina",
+  "accountSettingsTestimonialTitle": "Testimonial",
+  "accountSettingsTestimonialDescription": "Schrijf een testimonial voor de website",
   "accountSettingsTermsTitle": "Algemene voorwaarden",
   "accountSettingsTermsDescription": "Lees onze algemene voorwaarden",
   "accountSettingsPrivacyTitle": "Privacybeleid",
@@ -175,6 +179,10 @@
   "accountSettingsSupportDescription": "Krijg hulp van ons support team",
   "accountSettingsFeatureRequestTitle": "Feature verzoek",
   "accountSettingsFeatureRequestDescription": "Stel een nieuwe functie voor",
+  "accountSettingsBugTitle": "Meld een bug",
+  "accountSettingsBugDescription": "Meld een probleem of bug",
+  "accountSettingsPersonalInfoTitle": "Persoonlijke gegevens",
+  "accountSettingsPersonalInfoDescription": "Beheer je persoonlijke informatie",
   "accountSettingsNotificationsTitle": "Meldingen",
   "accountSettingsNotificationsDescription": "Beheer meldingsvoorkeuren",
   "accountSettingsLocationSettingsTitle": "Locatie-instellingen",
@@ -315,6 +323,14 @@
   "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe prompt om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
   "emptyStatePromptsDescription": "Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
+  "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
+  "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
+
+  "@_NOTIFICATION_SETTINGS": {},
+  "notificationSettingsTitle": "Notificatie-instellingen",
+  "notificationSettingsPushSection": "Push notificaties",
+  "notificationSettingsEmailSection": "Email notificaties",
+  "notificationsDisabledWarning": "Push notificaties zijn uitgeschakeld. Tik hier om ze in te schakelen in je toestel instellingen.",
 
   "@_AUTH_VIEWS": {},
   "authGoogleRetryingMessage": "Even geduld...",
@@ -575,9 +591,29 @@
   "profileSectionInvitesDescription": "Uitnodigingen en codes",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "Gebruikersbeoordelingen en feedback",
+  "profilePersonalCompletenessMessage": "Je persoonlijk profiel is {percentage}% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.",
+  "@profilePersonalCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCompanyCompletenessMessage": "Je professioneel profiel is {percentage}% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.",
+  "@profileCompanyCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
 
   "@_EDIT_ACCOUNT": {},
-  "editAccountTitle": "Accountinstellingen",
+  "editAccountTitle": "Instellingen",
+  "editAccountProfileSectionLabel": "Profiel",
+  "editAccountSettingsSectionLabel": "Instellingen",
+  "editAccountFeedbackSectionLabel": "Feedback",
+  "editAccountSupportLegalSectionLabel": "Support & Juridisch",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
   "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",

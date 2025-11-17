@@ -2,6 +2,7 @@
 export 'profile.dart';
 export 'match.dart';
 export 'notification.dart';
+export 'notification_setting.dart';
 export 'prompt.dart';
 export 'tag.dart';
 export 'tag_group.dart';
@@ -16,6 +17,7 @@ export 'requests/paginated_request.dart';
 export 'enums/match_status.dart';
 export 'enums/match_response.dart';
 export 'enums/notification_type.dart';
+export 'enums/notification_target.dart';
 export 'enums/interaction_type.dart';
 export 'enums/prompt_status.dart';
 export 'enums/prompt_setting.dart';

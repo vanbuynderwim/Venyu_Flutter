@@ -146,8 +146,8 @@
   "benefitAiPoweredMatchesDescription": "Recevez des suggestions intelligentes bas\u00e9es sur votre profil.",
 
   "@_EDIT_COMPANY_INFO_TYPE": {},
-  "editCompanyInfoNameTitle": "Nom & site web",
-  "editCompanyInfoNameDescription": "Le nom de votre entreprise",
+  "editCompanyInfoNameTitle": "Informations de l'entreprise",
+  "editCompanyInfoNameDescription": "Nom et site web de votre entreprise",
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Nom",
@@ -167,7 +167,11 @@
   "accountSettingsLogoutTitle": "D\u00e9connexion",
   "accountSettingsLogoutDescription": "Se d\u00e9connecter de votre compte",
   "accountSettingsRateUsTitle": "\u00c9valuez-nous",
-  "accountSettingsRateUsDescription": "\u00c9valuez Venyu sur l'App Store",
+  "accountSettingsRateUsDescription": "5 \u00e9toiles suffisent, merci!",
+  "accountSettingsFollowUsTitle": "Suivez-nous",
+  "accountSettingsFollowUsDescription": "Suivez notre page LinkedIn",
+  "accountSettingsTestimonialTitle": "T\u00e9moignage",
+  "accountSettingsTestimonialDescription": "\u00c9crire un t\u00e9moignage pour le site web",
   "accountSettingsTermsTitle": "Conditions g\u00e9n\u00e9rales",
   "accountSettingsTermsDescription": "Lire nos conditions g\u00e9n\u00e9rales",
   "accountSettingsPrivacyTitle": "Politique de confidentialit\u00e9",
@@ -176,6 +180,10 @@
   "accountSettingsSupportDescription": "Obtenir de l'aide de notre \u00e9quipe",
   "accountSettingsFeatureRequestTitle": "Demande de fonctionnalit\u00e9",
   "accountSettingsFeatureRequestDescription": "Sugg\u00e9rer une nouvelle fonctionnalit\u00e9",
+  "accountSettingsBugTitle": "Signaler un bug",
+  "accountSettingsBugDescription": "Signaler un probl\u00e8me ou bug",
+  "accountSettingsPersonalInfoTitle": "Informations personnelles",
+  "accountSettingsPersonalInfoDescription": "G\u00e9rer vos informations personnelles",
   "accountSettingsNotificationsTitle": "Notifications",
   "accountSettingsNotificationsDescription": "G\u00e9rer les pr\u00e9f\u00e9rences de notification",
   "accountSettingsLocationSettingsTitle": "Param\u00e8tres de localisation",
@@ -316,6 +324,14 @@
   "emptyStateMatchesDescription": "Une fois que vous aurez un match, il appara\u00eetra ici. \u00c9crivez un nouveau prompt pour \u00eatre match\u00e9 plus rapidement.",
   "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
   "emptyStatePromptsDescription": "Les prompts nous aident \u00e0 trouver les bons matches qui m\u00e8nent \u00e0 de vraies introductions. \u00c9crivez le v\u00f4tre pour commencer.",
+  "emptyStateNotificationSettingsTitle": "Aucun param\u00e8tre disponible",
+  "emptyStateNotificationSettingsDescription": "Les param\u00e8tres de notification appara\u00eetront ici une fois configur\u00e9s.",
+
+  "@_NOTIFICATION_SETTINGS": {},
+  "notificationSettingsTitle": "Param\u00e8tres de notification",
+  "notificationSettingsPushSection": "Notifications push",
+  "notificationSettingsEmailSection": "Notifications email",
+  "notificationsDisabledWarning": "Les notifications push sont d\u00e9sactiv\u00e9es. Appuyez ici pour les activer dans les param\u00e8tres de votre appareil.",
 
   "@_AUTH_VIEWS": {},
   "authGoogleRetryingMessage": "Veuillez patienter...",
@@ -576,9 +592,29 @@
   "profileSectionInvitesDescription": "Invitations et codes",
   "profileSectionReviewsTitle": "Avis",
   "profileSectionReviewsDescription": "Avis et retours utilisateurs",
+  "profilePersonalCompletenessMessage": "Votre profil personnel est {percentage}% complet. Compl\u00e9tez-le pour obtenir des matches meilleurs et plus pertinents.",
+  "@profilePersonalCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "profileCompanyCompletenessMessage": "Votre profil professionnel est {percentage}% complet. Compl\u00e9tez-le pour obtenir des matches meilleurs et plus pertinents.",
+  "@profileCompanyCompletenessMessage": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
 
   "@_EDIT_ACCOUNT": {},
-  "editAccountTitle": "Param\u00e8tres du compte",
+  "editAccountTitle": "Param\u00e8tres",
+  "editAccountProfileSectionLabel": "Profil",
+  "editAccountSettingsSectionLabel": "Param\u00e8tres",
+  "editAccountFeedbackSectionLabel": "Retour",
+  "editAccountSupportLegalSectionLabel": "Support & L\u00e9gal",
   "editAccountSectionLabel": "Compte",
   "editAccountDataExportTitle": "Export de donn\u00e9es",
   "editAccountDataExportDescription": "Vous pouvez demander une copie de toutes vos donn\u00e9es personnelles. Cela inclut vos informations de profil, prompts, matches et historique d'activit\u00e9. L'export sera envoy\u00e9 \u00e0 votre adresse e-mail enregistr\u00e9e.",

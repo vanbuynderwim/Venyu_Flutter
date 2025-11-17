@@ -355,10 +355,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Recevez des suggestions intelligentes basées sur votre profil.';
 
   @override
-  String get editCompanyInfoNameTitle => 'Nom & site web';
+  String get editCompanyInfoNameTitle => 'Informations de l\'entreprise';
 
   @override
-  String get editCompanyInfoNameDescription => 'Le nom de votre entreprise';
+  String get editCompanyInfoNameDescription =>
+      'Nom et site web de votre entreprise';
 
   @override
   String get editPersonalInfoNameTitle => 'Nom';
@@ -411,8 +412,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get accountSettingsRateUsTitle => 'Évaluez-nous';
 
   @override
-  String get accountSettingsRateUsDescription =>
-      'Évaluez Venyu sur l\'App Store';
+  String get accountSettingsRateUsDescription => '5 étoiles suffisent, merci!';
+
+  @override
+  String get accountSettingsFollowUsTitle => 'Suivez-nous';
+
+  @override
+  String get accountSettingsFollowUsDescription => 'Suivez notre page LinkedIn';
+
+  @override
+  String get accountSettingsTestimonialTitle => 'Témoignage';
+
+  @override
+  String get accountSettingsTestimonialDescription =>
+      'Écrire un témoignage pour le site web';
 
   @override
   String get accountSettingsTermsTitle => 'Conditions générales';
@@ -440,6 +453,19 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get accountSettingsFeatureRequestDescription =>
       'Suggérer une nouvelle fonctionnalité';
+
+  @override
+  String get accountSettingsBugTitle => 'Signaler un bug';
+
+  @override
+  String get accountSettingsBugDescription => 'Signaler un problème ou bug';
+
+  @override
+  String get accountSettingsPersonalInfoTitle => 'Informations personnelles';
+
+  @override
+  String get accountSettingsPersonalInfoDescription =>
+      'Gérer vos informations personnelles';
 
   @override
   String get accountSettingsNotificationsTitle => 'Notifications';
@@ -727,6 +753,27 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Les prompts nous aident à trouver les bons matches qui mènent à de vraies introductions. Écrivez le vôtre pour commencer.';
+
+  @override
+  String get emptyStateNotificationSettingsTitle =>
+      'Aucun paramètre disponible';
+
+  @override
+  String get emptyStateNotificationSettingsDescription =>
+      'Les paramètres de notification apparaîtront ici une fois configurés.';
+
+  @override
+  String get notificationSettingsTitle => 'Paramètres de notification';
+
+  @override
+  String get notificationSettingsPushSection => 'Notifications push';
+
+  @override
+  String get notificationSettingsEmailSection => 'Notifications email';
+
+  @override
+  String get notificationsDisabledWarning =>
+      'Les notifications push sont désactivées. Appuyez ici pour les activer dans les paramètres de votre appareil.';
 
   @override
   String get authGoogleRetryingMessage => 'Veuillez patienter...';
@@ -1169,7 +1216,29 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileSectionReviewsDescription => 'Avis et retours utilisateurs';
 
   @override
-  String get editAccountTitle => 'Paramètres du compte';
+  String profilePersonalCompletenessMessage(int percentage) {
+    return 'Votre profil personnel est $percentage% complet. Complétez-le pour obtenir des matches meilleurs et plus pertinents.';
+  }
+
+  @override
+  String profileCompanyCompletenessMessage(int percentage) {
+    return 'Votre profil professionnel est $percentage% complet. Complétez-le pour obtenir des matches meilleurs et plus pertinents.';
+  }
+
+  @override
+  String get editAccountTitle => 'Paramètres';
+
+  @override
+  String get editAccountProfileSectionLabel => 'Profil';
+
+  @override
+  String get editAccountSettingsSectionLabel => 'Paramètres';
+
+  @override
+  String get editAccountFeedbackSectionLabel => 'Retour';
+
+  @override
+  String get editAccountSupportLegalSectionLabel => 'Support & Légal';
 
   @override
   String get editAccountSectionLabel => 'Compte';
