@@ -371,7 +371,7 @@
   "onboardDescription": "Vous faites maintenant partie d'une communaut\u00e9 bas\u00e9e sur de vraies introductions !\n\nCommen\u00e7ons par une visite rapide avant de configurer votre profil.",
   "onboardStart": "D\u00e9marrer",
 
-  "loginLegalText": "En vous connectant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialit\u00e9",
+  "loginLegalText": "En vous connectant, vous acceptez nos Conditions d'utilisation.",
 
   "@_VENUE_VIEWS": {},
   "joinVenueTitle": "Rejoindre le lieu",
@@ -798,7 +798,7 @@
   "interactionTypeSelectionSubtitleFromPrompts": "Maintenant, faisons travailler le r\u00e9seau pour vous",
   "interactionTypeSelectionSubtitleDefault": "\u00c9crivez votre propre prompt",
   "interactionTypeSelectionDisclaimerText": "Les prompts sont r\u00e9vis\u00e9s avant d'\u00eatre publi\u00e9s",
-  "interactionTypeSelectionDisclaimerBeforeLinkText": "Les prompts sont r\u00e9vis\u00e9s selon nos  ",
+  "interactionTypeSelectionDisclaimerBeforeLinkText": "Les prompts sont r\u00e9vis\u00e9s selon nos ",
   "interactionTypeSelectionDisclaimerLinkText": "directives de la communaut\u00e9",
   "interactionTypeSelectionShowGuidelines": "Afficher les directives de la communaut\u00e9",
   "interactionTypeSelectionHideGuidelines": "Masquer les directives de la communaut\u00e9",
@@ -986,8 +986,8 @@
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Directives",
-  "communityGuidelinesAllowed": "r\u00e9seautage, partage de connaissances, demande d'aide, partage d'exp\u00e9rience et d'expertise, introductions pertinentes, exploration de collaborations, r\u00e9flexion sur des d\u00e9fis, recherche de co-fondateurs ou partenaires strat\u00e9giques, questions entrepreneuriales, recherche ou don de recommandations",
-  "communityGuidelinesProhibited": "politique, tromperie, fraude, spam, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, d\u00e9clarations haineuses, offres d'emploi ou postes vacants, publicit\u00e9 ou messages commerciaux",
+  "communityGuidelinesAllowed": "r\u00e9seautage, Partage de connaissances, demande d'aide, partage d'exp\u00e9rience et d'expertise, introductions pertinentes, exploration de collaborations, r\u00e9flexion sur des d\u00e9fis, recherche de co-fondateurs ou partenaires strat\u00e9giques, questions entrepreneuriales, recherche ou don de recommandations.",
+  "communityGuidelinesProhibited": "Spam, fraude, tromperie, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, d\u00e9clarations haineuses, politique, offres d'emploi ou postes vacants, publicit\u00e9 ou messages commerciaux.",
 
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Quelque chose s'est mal pass\u00e9",

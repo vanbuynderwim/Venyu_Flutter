@@ -841,7 +841,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginLegalText =>
-      'By signing in, you agree to our Terms of Service and Privacy Policy';
+      'By signing in, you agree to our Terms an Conditions.';
 
   @override
   String get joinVenueTitle => 'Join venue';
@@ -1674,7 +1674,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerBeforeLinkText =>
-      'Prompts are reviewed according to our  ';
+      'Prompts are reviewed according to our ';
 
   @override
   String get interactionTypeSelectionDisclaimerLinkText =>
@@ -1993,11 +1993,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get communityGuidelinesAllowed =>
-      'networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations';
+      'Networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations.';
 
   @override
   String get communityGuidelinesProhibited =>
-      'politics, deception, fraud, spam, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, job postings or vacancies, advertising or commercial messages';
+      'Spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.';
 
   @override
   String get errorStateDefaultTitle => 'Something went wrong';

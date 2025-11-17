@@ -203,7 +203,9 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
                 // Completeness Warning
                 if (!_isProfileLoading && profile != null)
-                  _buildCompletenessWarning(profile),                
+                  _buildCompletenessWarning(profile),
+
+                
 
                 // Section Content
                 if (!_isProfileLoading && profile != null)

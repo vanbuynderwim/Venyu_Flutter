@@ -370,7 +370,7 @@
   "onboardDescription": "Je maakt nu deel uit van een community gebouwd op echte introducties!\n\nLaten we beginnen met een korte rondleiding voordat we je profiel instellen.",
   "onboardStart": "Start",
 
-  "loginLegalText": "Door in te loggen ga je akkoord met onze Servicevoorwaarden en Privacybeleid",
+  "loginLegalText": "Door in te loggen ga je akkoord met onze Algemene Voorwaarden.",
 
   "@_VENUE_VIEWS": {},
   "joinVenueTitle": "Venue toevoegen",
@@ -985,8 +985,8 @@
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Richtlijnen",
-  "communityGuidelinesAllowed": "netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven",
-  "communityGuidelinesProhibited": "politiek, misleiding, oplichting, spam, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, reclame of commerciële boodschappen",
+  "communityGuidelinesAllowed": "Netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven.",
+  "communityGuidelinesProhibited": "Spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.",
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Er ging iets mis",
   "errorStateRetryButton": "Opnieuw proberen",

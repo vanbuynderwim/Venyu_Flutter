@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../widgets/common/loading_state_widget.dart';
 import '../../../widgets/common/empty_state_widget.dart';
+import '../../../widgets/common/warning_box_widget.dart';
 import '../../../widgets/common/sub_title.dart';
 import '../../../widgets/buttons/action_button.dart';
 import '../../../widgets/menus/menu_option_builder.dart';
@@ -85,29 +86,37 @@ class _InvitesSectionState extends State<InvitesSection> {
     final availableInvites = widget.inviteCodes!.where((invite) => !invite.isSent && !invite.isRedeemed).toList();
     final hasAvailableCodes = availableInvites.isNotEmpty;
 
-    // Invite codes found - show header card and list of invite items
+    // Invite codes found - show warning box or container based on availability
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header card with title, description and action button
-          Container(
-            decoration: AppLayoutStyles.cardDecoration(context),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Section title and description - different based on availability
-                Text(
-                  hasAvailableCodes
-                    ? l10n.invitesAvailableDescription(availableInvites.length, availableInvites.length == 1 ? l10n.invitesCode : l10n.invitesCodes)
-                    : l10n.invitesAllSharedDescription,
-                  style: AppTextStyles.subheadline.copyWith(
-                    color: context.venyuTheme.primaryText,
-                  ),
+          // Warning box when there are available codes
+          if (hasAvailableCodes)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+              child: WarningBoxWidget(
+                text: l10n.invitesAvailableDescription(
+                  availableInvites.length,
+                  availableInvites.length == 1 ? l10n.invitesCode : l10n.invitesCodes,
                 ),
+              ),
+            ),
 
-                // Only show button if no available codes
-                if (!hasAvailableCodes) ...[
+          // Container with action button when no available codes
+          if (!hasAvailableCodes)
+            Container(
+              decoration: AppLayoutStyles.cardDecoration(context),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Description text
+                  Text(
+                    l10n.invitesAllSharedDescription,
+                    style: AppTextStyles.subheadline.copyWith(
+                      color: context.venyuTheme.primaryText,
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   // Generate more codes button
                   ActionButton(
@@ -117,9 +126,8 @@ class _InvitesSectionState extends State<InvitesSection> {
                     isCompact: false,
                   ),
                 ],
-              ],
+              ),
             ),
-          ),
 
           const SizedBox(height: 8),
 

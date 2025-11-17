@@ -1609,7 +1609,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginLegalText.
   ///
   /// In en, this message translates to:
-  /// **'By signing in, you agree to our Terms of Service and Privacy Policy'**
+  /// **'By signing in, you agree to our Terms an Conditions.'**
   String get loginLegalText;
 
   /// No description provided for @joinVenueTitle.
@@ -3097,7 +3097,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionDisclaimerBeforeLinkText.
   ///
   /// In en, this message translates to:
-  /// **'Prompts are reviewed according to our  '**
+  /// **'Prompts are reviewed according to our '**
   String get interactionTypeSelectionDisclaimerBeforeLinkText;
 
   /// No description provided for @interactionTypeSelectionDisclaimerLinkText.
@@ -3673,13 +3673,13 @@ abstract class AppLocalizations {
   /// No description provided for @communityGuidelinesAllowed.
   ///
   /// In en, this message translates to:
-  /// **'networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations'**
+  /// **'Networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations.'**
   String get communityGuidelinesAllowed;
 
   /// No description provided for @communityGuidelinesProhibited.
   ///
   /// In en, this message translates to:
-  /// **'politics, deception, fraud, spam, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, job postings or vacancies, advertising or commercial messages'**
+  /// **'Spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.'**
   String get communityGuidelinesProhibited;
 
   /// No description provided for @errorStateDefaultTitle.

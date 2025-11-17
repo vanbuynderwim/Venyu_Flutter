@@ -846,7 +846,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get loginLegalText =>
-      'Door in te loggen ga je akkoord met onze Servicevoorwaarden en Privacybeleid';
+      'Door in te loggen ga je akkoord met onze Algemene Voorwaarden.';
 
   @override
   String get joinVenueTitle => 'Venue toevoegen';
@@ -2010,11 +2010,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get communityGuidelinesAllowed =>
-      'netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven';
+      'Netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven.';
 
   @override
   String get communityGuidelinesProhibited =>
-      'politiek, misleiding, oplichting, spam, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, reclame of commerciële boodschappen';
+      'Spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.';
 
   @override
   String get errorStateDefaultTitle => 'Er ging iets mis';

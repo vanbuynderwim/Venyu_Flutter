@@ -858,7 +858,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get loginLegalText =>
-      'En vous connectant, vous acceptez nos Conditions d\'utilisation et notre Politique de confidentialité';
+      'En vous connectant, vous acceptez nos Conditions d\'utilisation.';
 
   @override
   String get joinVenueTitle => 'Rejoindre le lieu';
@@ -1707,7 +1707,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionDisclaimerBeforeLinkText =>
-      'Les prompts sont révisés selon nos  ';
+      'Les prompts sont révisés selon nos ';
 
   @override
   String get interactionTypeSelectionDisclaimerLinkText =>
@@ -2033,11 +2033,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get communityGuidelinesAllowed =>
-      'réseautage, partage de connaissances, demande d\'aide, partage d\'expérience et d\'expertise, introductions pertinentes, exploration de collaborations, réflexion sur des défis, recherche de co-fondateurs ou partenaires stratégiques, questions entrepreneuriales, recherche ou don de recommandations';
+      'réseautage, Partage de connaissances, demande d\'aide, partage d\'expérience et d\'expertise, introductions pertinentes, exploration de collaborations, réflexion sur des défis, recherche de co-fondateurs ou partenaires stratégiques, questions entrepreneuriales, recherche ou don de recommandations.';
 
   @override
   String get communityGuidelinesProhibited =>
-      'politique, tromperie, fraude, spam, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, déclarations haineuses, offres d\'emploi ou postes vacants, publicité ou messages commerciaux';
+      'Spam, fraude, tromperie, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, déclarations haineuses, politique, offres d\'emploi ou postes vacants, publicité ou messages commerciaux.';
 
   @override
   String get errorStateDefaultTitle => 'Quelque chose s\'est mal passé';

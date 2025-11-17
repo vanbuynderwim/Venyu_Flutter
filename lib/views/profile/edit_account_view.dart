@@ -64,7 +64,7 @@ class _EditAccountViewState extends State<EditAccountView> {
         title: Text(l10n.editAccountTitle),
       ),
       body: SafeArea(
-        bottom: false,
+        bottom: Platform.isAndroid,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(

@@ -143,7 +143,7 @@ class _PromptsViewState extends State<PromptsView>
                   child: ListView.builder(
                     controller: scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == _prompts.length) {
