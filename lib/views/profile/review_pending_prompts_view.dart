@@ -150,9 +150,13 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
   void _togglePromptSelection(Prompt prompt) {
     setState(() {
       if (_selectedPromptIds.contains(prompt.promptID)) {
+        // Always allow deselection
         _selectedPromptIds.remove(prompt.promptID);
       } else {
-        _selectedPromptIds.add(prompt.promptID);
+        // Only allow selection if less than 10 prompts are selected
+        if (_selectedPromptIds.length < 10) {
+          _selectedPromptIds.add(prompt.promptID);
+        }
       }
     });
   }
@@ -321,16 +325,17 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
           }
 
           final prompt = _prompts[index];
-          //final isSelected = _selectedPromptIds.contains(prompt.promptID);
+          final isSelected = _selectedPromptIds.contains(prompt.promptID);
+          final canSelect = isSelected || _selectedPromptIds.length < 10;
 
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 4),
+            margin: const EdgeInsets.symmetric(vertical: 0),
             child: PromptItem(
               prompt: prompt,
               reviewing: true,
               isFirst: index == 0,
               isLast: index == _prompts.length - 1,
-              onPromptSelected: _togglePromptSelection,
+              onPromptSelected: canSelect ? _togglePromptSelection : null,
             ),
           );
         },

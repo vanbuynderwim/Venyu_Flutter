@@ -4057,7 +4057,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewPendingPromptsAppBarTitle.
   ///
   /// In en, this message translates to:
-  /// **'Pending {type}'**
+  /// **'{type}'**
   String reviewPendingPromptsAppBarTitle(String type);
 
   /// No description provided for @inviteCodeErrorInvalidOrExpired.

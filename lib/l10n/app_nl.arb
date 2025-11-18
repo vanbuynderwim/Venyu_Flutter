@@ -1121,7 +1121,7 @@
   "errorPrefix": "Fout:",
 
   "@_REVIEW_PENDING_PROMPTS_TITLE": {},
-  "reviewPendingPromptsAppBarTitle": "In behandeling {type}",
+  "reviewPendingPromptsAppBarTitle": "{type}",
   "@reviewPendingPromptsAppBarTitle": {
     "placeholders": {
       "type": {

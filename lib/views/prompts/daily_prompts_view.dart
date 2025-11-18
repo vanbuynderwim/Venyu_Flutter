@@ -59,10 +59,15 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
   Prompt get _currentPrompt => widget.prompts[_currentPromptIndex];
   
-  /// Get the current gradient color based on selected interaction type or default
-  Color get _currentGradientColor {
-    // Use theme-aware gradient primary color when no selection is made
-    return _selectedInteractionType?.color ?? context.venyuTheme.gradientPrimary;
+  /// Get the top gradient color from the current prompt's interaction type
+  Color get _topGradientColor {
+    return _currentPrompt.interactionType?.color ?? context.venyuTheme.gradientPrimary;
+  }
+
+  /// Get the bottom gradient color based on selected interaction type or default
+  Color get _bottomGradientColor {
+    // Use selected interaction type color when available, otherwise adaptive background
+    return _selectedInteractionType?.color ?? context.venyuTheme.adaptiveBackground;
   }
 
   void _handleInteractionPressed(InteractionType interactionType) {
@@ -280,8 +285,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              _currentGradientColor,
-            context.venyuTheme.adaptiveBackground,
+              _topGradientColor,
+              _bottomGradientColor,
             ],
           ),
         ),
@@ -354,7 +359,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     ),
                   ),
 
-                  const SizedBox(height: AppModifiers.largeSpacing),
+                  const SizedBox(height: AppModifiers.mediumSpacing),
 
                   // Next button - enabled when interaction is selected, wrapped in light theme
                   Container(

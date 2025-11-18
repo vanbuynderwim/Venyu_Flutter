@@ -35,48 +35,65 @@ class InteractionButton extends StatelessWidget {
     final Color buttonColor = isDisabled
         ? theme.disabledText
         : interactionType.color;
+
+    // Selected state: solid color background
+    // Non-selected state: white background with opacity
     final Color backgroundColor = isSelected
         ? (isDisabled ? theme.disabledText : interactionType.color)
-        : Colors.transparent;
+        : const Color(0xFFFFFFFF).withValues(alpha: 0.9);
+
+    // Text color: white when selected, dark neutral when not selected
+    final Color textColor = isSelected
+        ? Colors.white
+        : (isDisabled ? theme.disabledText : interactionType.textColor);
 
     return Opacity(
       opacity: isDisabled ? 0.6 : 1.0,
       child: SizedBox(
         width: width,
-        height: height ?? 56,
-        child: Material(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
-          child: InkWell(
-            onTap: isUpdating ? null : () {
-              if (!isSelected) {
-                HapticFeedback.mediumImpact();
-              }
-              onPressed?.call();
-            },
-            borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
-            highlightColor: buttonColor.withValues(alpha: 0.2),
-            splashColor: buttonColor.withValues(alpha: 0.3),
-            child: SizedBox(
-              height: height ?? 56,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Icon
-                  
-                  // Title
-                  Flexible(
-                    child: Text(
-                      customTitle ?? interactionType.buttonTitle(context),
-                      style: AppTextStyles.headline2.copyWith(
-                        color: isSelected ? Colors.white : buttonColor,
-                        fontWeight: FontWeight.w700,
+        height: height ?? 80,
+        child: Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+            // Add border for non-selected state
+            border: !isSelected ? Border.all(
+              color: isDisabled ? theme.disabledText : interactionType.color,
+              width: AppModifiers.thickBorder,
+            ) : null,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
+            child: InkWell(
+              onTap: isUpdating ? null : () {
+                if (!isSelected) {
+                  HapticFeedback.mediumImpact();
+                }
+                onPressed?.call();
+              },
+              borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
+              highlightColor: buttonColor.withValues(alpha: 0.2),
+              splashColor: buttonColor.withValues(alpha: 0.3),
+              child: SizedBox(
+                height: height ?? 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                                         // Title
+                    Flexible(
+                      child: Text(
+                        customTitle ?? interactionType.buttonTitle(context),
+                        style: AppTextStyles.callout.copyWith(
+                          color: textColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -170,7 +187,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.thisIsMe)
                     ? () => _handleSelection(InteractionType.thisIsMe)
                     : null,
-                height: widget.buttonHeight ?? 40,
+                height: widget.buttonHeight ?? 56,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.thisIsMe),
                 customTitle: _getButtonTitle(context, InteractionType.thisIsMe),
               ),
@@ -183,7 +200,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.lookingForThis)
                     ? () => _handleSelection(InteractionType.lookingForThis)
                     : null,
-                height: widget.buttonHeight ?? 40,
+                height: widget.buttonHeight ?? 56,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.lookingForThis),
                 customTitle: _getButtonTitle(context, InteractionType.lookingForThis),
               ),
@@ -202,12 +219,12 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.knowSomeone)
                     ? () => _handleSelection(InteractionType.knowSomeone)
                     : null,
-                height: widget.buttonHeight ?? 40,
+                height: widget.buttonHeight ?? 56,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.knowSomeone),
                 customTitle: _getButtonTitle(context, InteractionType.knowSomeone),
               ),
             ),
-
+            SizedBox(width: widget.spacing),
             Expanded(
               child: InteractionButton(
                 interactionType: InteractionType.notRelevant,
@@ -215,7 +232,7 @@ class _InteractionButtonRowState extends State<InteractionButtonRow> {
                 onPressed: _isButtonEnabled(InteractionType.notRelevant)
                     ? () => _handleSelection(InteractionType.notRelevant)
                     : null,
-                height: widget.buttonHeight ?? 40,
+                height: widget.buttonHeight ?? 56,
                 isUpdating: widget.isUpdating || !_isButtonEnabled(InteractionType.notRelevant),
                 customTitle: _getButtonTitle(context, InteractionType.notRelevant),
               ),

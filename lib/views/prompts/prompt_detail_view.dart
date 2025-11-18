@@ -193,66 +193,9 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                 _buildStatusInfoSection(),
               ],
 
-              // Pause/Resume matching section
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: SubTitle(
-                  iconName: 'settings',
-                  title: l10n.promptSettingsTitle,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: AppLayoutStyles.cardDecoration(context),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.promptDetailHowYouMatchDescription,
-                        style: AppTextStyles.footnote.copyWith(
-                          color: context.venyuTheme.secondaryText,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _prompt!.isPaused == true
-                                  ? l10n.promptDetailMatchingPausedLabel
-                                  : l10n.promptDetailMatchingActiveLabel,
-                              style: AppTextStyles.subheadline.copyWith(
-                                color: context.venyuTheme.primaryText,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          ActionButton(
-                            label: _prompt!.isPaused == true
-                                ? l10n.promptInteractionResumeButton
-                                : l10n.promptInteractionPauseButton,
-                            type: _prompt!.isPaused == true
-                                ? ActionButtonType.primary
-                                : ActionButtonType.destructive,
-                            icon: _prompt!.isPaused == true
-                                    ? context.themedIcon('play', selected:true)
-                                    : context.themedIcon('pause', selected: true),
-                            onPressed: _handleToggleMatching,
-                            isCompact: true,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
+              // Pause/Resume matching section - only show if prompt is approved
+              if (_prompt?.displayStatus == PromptStatus.approved)
+                _buildMatchingControlSection(),
 
               // First Call section - only show if Pro features are enabled
               if (AppConfig.showPro) ...[
@@ -476,21 +419,21 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Show community guidelines for rejected status
             if (status == PromptStatus.rejected) ...[
               const SizedBox(height: 16),
-              const CommunityGuidelinesWidget(
-                showTitle: false,
-              ),
-            ],
 
-            // Edit button - only show if editing is allowed
-            if (status.canEdit) ...[
-              const SizedBox(height: 16),
               ActionButton(
                 label: AppLocalizations.of(context)!.promptDetailEditButton,
                 icon: context.themedIcon('edit'),
                 onPressed: () => _editPrompt(),
                 isCompact: false,
               ),
+
+               const SizedBox(height: 16),
+
+              const CommunityGuidelinesWidget(
+                showTitle: true,
+              ),
             ],
+
           ],
         ),
       ),
@@ -536,6 +479,75 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       },
       isEditing: true, // This is always editing an existing prompt
       hasVenue: _prompt?.venue != null, // Check if prompt has a venue
+    );
+  }
+
+  /// Build matching control section with pause/resume functionality
+  Widget _buildMatchingControlSection() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SubTitle(
+            iconName: 'settings',
+            title: l10n.promptSettingsTitle,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: AppLayoutStyles.cardDecoration(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.promptDetailHowYouMatchDescription,
+                  style: AppTextStyles.footnote.copyWith(
+                    color: context.venyuTheme.secondaryText,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _prompt!.isPaused == true
+                            ? l10n.promptDetailMatchingPausedLabel
+                            : l10n.promptDetailMatchingActiveLabel,
+                        style: AppTextStyles.subheadline.copyWith(
+                          color: context.venyuTheme.primaryText,
+                          fontWeight: FontWeight.w600
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    ActionButton(
+                      label: _prompt!.isPaused == true
+                          ? l10n.promptInteractionResumeButton
+                          : l10n.promptInteractionPauseButton,
+                      type: _prompt!.isPaused == true
+                          ? ActionButtonType.primary
+                          : ActionButtonType.destructive,
+                      icon: _prompt!.isPaused == true
+                              ? context.themedIcon('play', selected:true)
+                              : context.themedIcon('pause', selected: true),
+                      onPressed: _handleToggleMatching,
+                      isCompact: true,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 

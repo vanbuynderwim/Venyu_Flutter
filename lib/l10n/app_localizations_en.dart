@@ -2208,7 +2208,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String reviewPendingPromptsAppBarTitle(String type) {
-    return 'Pending $type';
+    return '$type';
   }
 
   @override

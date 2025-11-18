@@ -34,14 +34,14 @@ class CommunityGuidelinesWidget extends StatelessWidget {
             Center(
               child: Text(
                 l10n.communityGuidelinesTitle,
-                style: AppTextStyles.caption1.copyWith(
+                style: AppTextStyles.subheadline2.copyWith(
                   color: context.venyuTheme.darkText,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(height: 12),
+            //const SizedBox(height: 8),
           ],
 
           Container(

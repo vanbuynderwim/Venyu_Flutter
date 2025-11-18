@@ -12,6 +12,7 @@ import '../../models/notification_setting.dart';
 import '../../models/enums/notification_target.dart';
 import '../../services/supabase_managers/notification_manager.dart';
 import '../../core/providers/app_providers.dart';
+import 'dart:io';
 
 /// NotificationSettingsView - Page for managing notification preferences
 class NotificationSettingsView extends StatefulWidget {
@@ -116,7 +117,7 @@ class _NotificationSettingsViewState extends State<NotificationSettingsView> {
         title: Text(l10n.notificationSettingsTitle),
       ),
       body: SafeArea(
-        bottom: false,
+        bottom: Platform.isAndroid,
         child: _isLoading
             ? const LoadingStateWidget()
             : _settings.isEmpty

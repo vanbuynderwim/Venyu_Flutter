@@ -2229,7 +2229,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String reviewPendingPromptsAppBarTitle(String type) {
-    return 'In behandeling $type';
+    return '$type';
   }
 
   @override

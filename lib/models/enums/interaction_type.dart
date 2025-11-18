@@ -52,7 +52,7 @@ enum InteractionType {
   String toJson() => value;
 
   /// Returns the theme color associated with this interaction type.
-  /// 
+  ///
   /// Each interaction type has a distinct color for visual differentiation.
   Color get color {
     switch (this) {
@@ -65,6 +65,13 @@ enum InteractionType {
       case InteractionType.notRelevant:
         return AppColors.na;
     }
+  }
+
+  /// Returns the text color for non-selected button state.
+  ///
+  /// Uses a neutral dark color for better readability against light backgrounds.
+  Color get textColor {
+    return const Color(0xFF1E1E1E);
   }
 
   /// Returns the user-facing button text for this interaction type.

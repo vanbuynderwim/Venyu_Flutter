@@ -138,8 +138,12 @@ class PromptFinishView extends StatelessWidget {
                                 // If from prompts flow, use the callback
                                 onCloseModal!();
                               } else {
-                                // Navigate back to root
-                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                // Pop all screens in the modal and return true to trigger refresh
+                                // Navigation stack: [PromptEditView, PromptPreviewView, PromptFinishView]
+                                // We need to pop all 3 screens and return true to the modal sheet
+                                Navigator.of(context).pop(); // Pop PromptFinishView
+                                Navigator.of(context).pop(); // Pop PromptPreviewView
+                                Navigator.of(context).pop(true); // Pop PromptEditView with result true
                               }
                             },
                           ),

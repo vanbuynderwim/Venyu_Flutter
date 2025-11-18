@@ -63,7 +63,7 @@ class _PromptItemState extends State<PromptItem> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+          onTap: widget.onPromptSelected != null ? () {
             // Only toggle selection if not showing match interactions
             if (!widget.showMatchInteraction) {
               setState(() {
@@ -71,7 +71,7 @@ class _PromptItemState extends State<PromptItem> {
               });
             }
             widget.onPromptSelected?.call(widget.prompt);
-          },
+          } : null,
           splashFactory: NoSplash.splashFactory,
           highlightColor: context.venyuTheme.primary.withValues(alpha: 0.1),
           borderRadius: _getCardBorderRadius(),
@@ -263,11 +263,13 @@ class _PromptItemState extends State<PromptItem> {
     }
 
     // Regular logic for non-match views
-    // If prompt is approved, show primary color gradient
+    // If prompt is approved, show interaction type color gradient
+    final gradientColor = widget.prompt.interactionType?.color ?? venyuTheme.gradientPrimary;
+
     return BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            venyuTheme.gradientPrimary.withValues(alpha: 0.3),
+            gradientColor.withValues(alpha: 0.3),
             venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,

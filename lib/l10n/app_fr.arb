@@ -1126,7 +1126,7 @@
   "errorPrefix": "Erreur :",
 
   "@_REVIEW_PENDING_PROMPTS_TITLE": {},
-  "reviewPendingPromptsAppBarTitle": "{type} en attente",
+  "reviewPendingPromptsAppBarTitle": "{type}",
   "@reviewPendingPromptsAppBarTitle": {
     "placeholders": {
       "type": {

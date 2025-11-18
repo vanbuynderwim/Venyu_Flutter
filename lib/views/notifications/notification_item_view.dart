@@ -119,8 +119,8 @@ class _NotificationItemViewState extends State<NotificationItemView> {
     final prompt = widget.notification.prompt!;
     final venyuTheme = context.venyuTheme;
 
-    // Get interaction type color, default to primary if null
-
+    // Get interaction type color, default to gradientPrimary if null
+    final gradientColor = prompt.interactionType?.color ?? venyuTheme.gradientPrimary;
 
     return Container(
       width: double.infinity,
@@ -128,7 +128,7 @@ class _NotificationItemViewState extends State<NotificationItemView> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            venyuTheme.gradientPrimary.withValues(alpha: 0.3),
+            gradientColor.withValues(alpha: 0.3),
             venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
           ],
           begin: Alignment.centerLeft,
