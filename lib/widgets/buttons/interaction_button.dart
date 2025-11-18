@@ -53,6 +53,7 @@ class InteractionButton extends StatelessWidget {
         width: width,
         height: height ?? 80,
         child: Container(
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
@@ -64,7 +65,6 @@ class InteractionButton extends StatelessWidget {
           ),
           child: Material(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
             child: InkWell(
               onTap: isUpdating ? null : () {
                 if (!isSelected) {
@@ -72,7 +72,6 @@ class InteractionButton extends StatelessWidget {
                 }
                 onPressed?.call();
               },
-              borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
               highlightColor: buttonColor.withValues(alpha: 0.2),
               splashColor: buttonColor.withValues(alpha: 0.3),
               child: SizedBox(
