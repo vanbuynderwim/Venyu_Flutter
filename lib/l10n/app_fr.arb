@@ -192,6 +192,8 @@
   "accountSettingsLinkedInDescription": "G\u00e9rer la connexion LinkedIn",
   "accountSettingsBlockedUsersTitle": "Utilisateurs bloqu\u00e9s",
   "accountSettingsBlockedUsersDescription": "Voir et g\u00e9rer les utilisateurs bloqu\u00e9s",
+  "accountSettingsAutoIntroductionTitle": "Auto-pr\u00e9sentation",
+  "accountSettingsAutoIntroductionDescription": "Demander automatiquement une pr\u00e9sentation lors des matches",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Compte",
@@ -639,6 +641,7 @@
   "editAccountLogoutDialogCancel": "Annuler",
   "editAccountLogoutDialogConfirm": "D\u00e9connexion",
   "editAccountLogoutErrorMessage": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard.",
+  "editAccountSettingsUpdateError": "Impossible de mettre \u00e0 jour le param\u00e8tre. Veuillez r\u00e9essayer.",
 
   "@_EDIT_TAG_GROUP": {},
   "editTagGroupSavingButton": "Enregistrement...",

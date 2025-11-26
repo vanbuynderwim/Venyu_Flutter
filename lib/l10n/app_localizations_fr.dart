@@ -497,6 +497,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voir et gérer les utilisateurs bloqués';
 
   @override
+  String get accountSettingsAutoIntroductionTitle => 'Auto-présentation';
+
+  @override
+  String get accountSettingsAutoIntroductionDescription =>
+      'Demander automatiquement une présentation lors des matches';
+
+  @override
   String get profileEditAccountTitle => 'Compte';
 
   @override
@@ -1320,6 +1327,10 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get editAccountLogoutErrorMessage =>
       'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.';
+
+  @override
+  String get editAccountSettingsUpdateError =>
+      'Impossible de mettre à jour le paramètre. Veuillez réessayer.';
 
   @override
   String get editTagGroupSavingButton => 'Enregistrement...';

@@ -487,6 +487,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'View and manage blocked users';
 
   @override
+  String get accountSettingsAutoIntroductionTitle => 'Auto-introduction';
+
+  @override
+  String get accountSettingsAutoIntroductionDescription =>
+      'Automatically opt-in for introductions on matches';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override
@@ -1297,6 +1304,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get editAccountLogoutErrorMessage =>
       'Something went wrong. Please try again later.';
+
+  @override
+  String get editAccountSettingsUpdateError =>
+      'Could not update setting. Please try again.';
 
   @override
   String get editTagGroupSavingButton => 'Saving...';

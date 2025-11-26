@@ -9,10 +9,12 @@ import '../../core/utils/dialog_utils.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/url_helper.dart';
 import '../../core/utils/device_info.dart';
+import '../../core/providers/app_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../models/enums/account_settings_type.dart';
 import '../../services/auth_service.dart';
+import '../../services/profile_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/option_button.dart';
@@ -38,11 +40,24 @@ class _EditAccountViewState extends State<EditAccountView> {
   bool _isDeleting = false;
   bool _isLoggingOut = false;
   String _appVersion = '';
+  bool _autoIntroduction = false;
+  bool _isUpdatingAutoIntroduction = false;
 
   @override
   void initState() {
     super.initState();
     _loadAppVersion();
+    _loadAutoIntroductionSetting();
+  }
+
+  /// Load auto-introduction setting from profile
+  void _loadAutoIntroductionSetting() {
+    final profile = ProfileService.shared.currentProfile;
+    if (profile != null) {
+      setState(() {
+        _autoIntroduction = profile.autoIntroduction ?? false;
+      });
+    }
   }
 
   /// Load app version
@@ -156,8 +171,61 @@ class _EditAccountViewState extends State<EditAccountView> {
           withDescription: true,
           onSelect: () => _handleNotifications(context),
         ),
+
+        // Auto-introduction toggle
+        OptionButton(
+          option: AccountSettingsType.autoIntroduction,
+          isSelected: _autoIntroduction,
+          isMultiSelect: true,
+          isButton: true,
+          withDescription: true,
+          disabled: _isUpdatingAutoIntroduction,
+          onSelect: _isUpdatingAutoIntroduction ? null : () => _handleAutoIntroductionToggle(!_autoIntroduction),
+        ),
       ],
     );
+  }
+
+  /// Handle auto-introduction toggle
+  Future<void> _handleAutoIntroductionToggle(bool value) async {
+    if (_isUpdatingAutoIntroduction) return;
+
+    setState(() {
+      _isUpdatingAutoIntroduction = true;
+    });
+
+    try {
+      await ProfileManager.shared.updateProfileSetting('auto_introduction', value);
+
+      if (mounted) {
+        setState(() {
+          _autoIntroduction = value;
+        });
+
+        // Update local profile
+        final currentProfile = context.profileService.currentProfile;
+        if (currentProfile != null) {
+          // Refresh profile to get updated data
+          final refreshedProfile = await ProfileManager.shared.fetchUserProfile();
+          ProfileService.shared.updateCurrentProfile(refreshedProfile);
+        }
+      }
+    } catch (error) {
+      AppLogger.error('Failed to update auto-introduction setting', error: error, context: 'EditAccountView');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ToastService.error(
+          context: context,
+          message: l10n.editAccountSettingsUpdateError,
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUpdatingAutoIntroduction = false;
+        });
+      }
+    }
   }
 
   /// Build the Feedback section with option buttons

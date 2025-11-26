@@ -191,6 +191,8 @@
   "accountSettingsLinkedInDescription": "Beheer LinkedIn verbinding",
   "accountSettingsBlockedUsersTitle": "Geblokkeerde gebruikers",
   "accountSettingsBlockedUsersDescription": "Bekijk en beheer geblokkeerde gebruikers",
+  "accountSettingsAutoIntroductionTitle": "Automatische introductie",
+  "accountSettingsAutoIntroductionDescription": "Automatisch introductie aanvragen bij matches",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",
@@ -638,6 +640,7 @@
   "editAccountLogoutDialogCancel": "Annuleren",
   "editAccountLogoutDialogConfirm": "Uitloggen",
   "editAccountLogoutErrorMessage": "Er ging iets mis. Probeer het later opnieuw.",
+  "editAccountSettingsUpdateError": "Instelling kon niet worden bijgewerkt. Probeer het opnieuw.",
 
   "@_EDIT_TAG_GROUP": {},
   "editTagGroupSavingButton": "Opslaan...",

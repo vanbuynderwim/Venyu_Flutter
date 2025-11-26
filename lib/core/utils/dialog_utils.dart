@@ -1,7 +1,7 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../theme/app_text_styles.dart';
@@ -238,23 +238,12 @@ class DialogUtils {
     );
   }
 
-  /// Opens device settings for app permissions
-  /// This method handles both iOS and Android platforms
+  /// Opens device notification settings for the app
+  /// This method handles both iOS and Android platforms using the app_settings package
   static Future<void> openAppSettings(BuildContext context) async {
     try {
-      // For iOS
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
-        final url = Uri.parse('app-settings:');
-        if (await canLaunchUrl(url)) {
-          await launchUrl(url);
-        }
-      } else {
-        // For Android, use package-specific settings
-        final url = Uri.parse('package:com.getvenyu.app');
-        if (await canLaunchUrl(url)) {
-          await launchUrl(url, mode: LaunchMode.externalApplication);
-        }
-      }
+      // Open notification settings directly - this works on both iOS and Android
+      await AppSettings.openAppSettings(type: AppSettingsType.notification);
     } catch (error) {
       debugPrint('❌ Error opening app settings: $error');
     }

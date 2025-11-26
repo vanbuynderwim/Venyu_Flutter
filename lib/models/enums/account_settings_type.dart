@@ -25,7 +25,8 @@ enum AccountSettingsType implements OptionType {
   notifications,
   locationSettings,
   linkedIn,
-  blockedUsers;
+  blockedUsers,
+  autoIntroduction;
 
   @override
   String get id => toString();
@@ -68,6 +69,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsLinkedInTitle;
       case AccountSettingsType.blockedUsers:
         return l10n.accountSettingsBlockedUsersTitle;
+      case AccountSettingsType.autoIntroduction:
+        return l10n.accountSettingsAutoIntroductionTitle;
     }
   }
 
@@ -109,6 +112,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsLinkedInDescription;
       case AccountSettingsType.blockedUsers:
         return l10n.accountSettingsBlockedUsersDescription;
+      case AccountSettingsType.autoIntroduction:
+        return l10n.accountSettingsAutoIntroductionDescription;
     }
   }
 
@@ -149,6 +154,8 @@ enum AccountSettingsType implements OptionType {
         return 'linkedin';
       case AccountSettingsType.blockedUsers:
         return 'blocked';
+      case AccountSettingsType.autoIntroduction:
+        return 'handshake';
     }
   }
 

@@ -102,15 +102,17 @@ class UrlHelper {
 
       final emailUri = Uri.parse(mailtoUrl);
 
-      if (await canLaunchUrl(emailUri)) {
-        await launchUrl(emailUri);
-      } else {
-        if (context.mounted) {
-          ToastService.error(
-            context: context,
-            message: 'Could not open email app',
-          );
-        }
+      // On Android 11+, canLaunchUrl requires mailto to be declared in
+      // AndroidManifest.xml queries. To be safe, we try to launch directly
+      // and catch the exception if it fails. This is more reliable than
+      // relying on canLaunchUrl which may return false even when an email
+      // app is available.
+      final launched = await launchUrl(emailUri);
+      if (!launched && context.mounted) {
+        ToastService.error(
+          context: context,
+          message: 'Could not open email app',
+        );
       }
     } catch (e) {
       AppLogger.error('Failed to compose email', error: e, context: 'UrlHelper');

@@ -584,7 +584,30 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
       }
     });
   }
-  
+
+  /// Update a profile setting (boolean value)
+  ///
+  /// This method calls the update_profile_setting RPC function which handles
+  /// various boolean settings like newsletter_subscribed, auto_introduction, etc.
+  ///
+  /// [setting] The setting key to update (e.g., 'newsletter_subscribed', 'auto_introduction')
+  /// [value] The boolean value to set
+  Future<void> updateProfileSetting(String setting, bool value) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating profile setting: $setting = $value', context: 'ProfileManager');
+
+      final payload = {
+        'setting': setting,
+        'value': value,
+      };
+
+      await client.rpc('update_profile_setting', params: {'payload': payload});
+
+      AppLogger.success('Profile setting updated successfully: $setting', context: 'ProfileManager');
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('ProfileManager');

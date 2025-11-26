@@ -488,6 +488,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Bekijk en beheer geblokkeerde gebruikers';
 
   @override
+  String get accountSettingsAutoIntroductionTitle => 'Automatische introductie';
+
+  @override
+  String get accountSettingsAutoIntroductionDescription =>
+      'Automatisch introductie aanvragen bij matches';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override
@@ -1307,6 +1314,10 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get editAccountLogoutErrorMessage =>
       'Er ging iets mis. Probeer het later opnieuw.';
+
+  @override
+  String get editAccountSettingsUpdateError =>
+      'Instelling kon niet worden bijgewerkt. Probeer het opnieuw.';
 
   @override
   String get editTagGroupSavingButton => 'Opslaan...';

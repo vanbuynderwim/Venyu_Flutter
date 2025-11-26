@@ -47,6 +47,7 @@ class PromptSubmissionHelper {
         platformPageRoute(
           context: context,
           builder: (context) => PromptFinishView(
+            interactionType: interactionType,
             isFromPrompts: isFromPrompts,
             onCloseModal: onCloseModal,
           ),

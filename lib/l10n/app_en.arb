@@ -193,6 +193,8 @@
   "accountSettingsLinkedInDescription": "Manage LinkedIn connection",
   "accountSettingsBlockedUsersTitle": "Blocked users",
   "accountSettingsBlockedUsersDescription": "View and manage blocked users",
+  "accountSettingsAutoIntroductionTitle": "Auto-introduction",
+  "accountSettingsAutoIntroductionDescription": "Automatically opt-in for introductions on matches",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",
@@ -640,6 +642,7 @@
   "editAccountLogoutDialogCancel": "Cancel",
   "editAccountLogoutDialogConfirm": "Logout",
   "editAccountLogoutErrorMessage": "Something went wrong. Please try again later.",
+  "editAccountSettingsUpdateError": "Could not update setting. Please try again.",
 
   "@_EDIT_TAG_GROUP": {},
   "editTagGroupSavingButton": "Saving...",

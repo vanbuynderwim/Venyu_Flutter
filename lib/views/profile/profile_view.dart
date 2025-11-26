@@ -568,7 +568,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   /// Handles personal tag group tap
   void _handleTagGroupTap(TagGroup tagGroup) async {
     AppLogger.ui('Tapped on personal tag group: ${tagGroup.title}', context: 'ProfileView');
-    
+
     final result = await Navigator.push<bool>(
       context,
       platformPageRoute(
@@ -576,16 +576,18 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         builder: (context) => EditTagGroupView(tagGroup: tagGroup),
       ),
     );
-    
+
     if (result == true) {
       _loadPersonalTagGroups();
+      // Refresh profile to update completeness percentage (calculated server-side)
+      _refreshProfileCompleteness();
     }
   }
-  
+
   /// Handles company tag group tap
   void _handleCompanyTagGroupTap(TagGroup tagGroup) async {
     AppLogger.ui('Tapped on company tag group: ${tagGroup.title}', context: 'ProfileView');
-    
+
     final result = await Navigator.push<bool>(
       context,
       platformPageRoute(
@@ -593,9 +595,22 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         builder: (context) => EditTagGroupView(tagGroup: tagGroup),
       ),
     );
-    
+
     if (result == true) {
       _loadCompanyTagGroups();
+      // Refresh profile to update completeness percentage (calculated server-side)
+      _refreshProfileCompleteness();
+    }
+  }
+
+  /// Refreshes only the profile data to update completeness percentages
+  /// This is a lightweight refresh that doesn't reset all cached data
+  Future<void> _refreshProfileCompleteness() async {
+    try {
+      final refreshedProfile = await _profileManager.fetchUserProfile();
+      ProfileService.shared.updateCurrentProfile(refreshedProfile);
+    } catch (error) {
+      AppLogger.error('Error refreshing profile completeness', error: error, context: 'ProfileView');
     }
   }
 }

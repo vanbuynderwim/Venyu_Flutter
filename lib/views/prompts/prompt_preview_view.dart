@@ -116,7 +116,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
           end: Alignment.bottomCenter,
           colors: [
             widget.interactionType.color,
-            Colors.white,
+            context.venyuTheme.adaptiveBackground,
           ],
         ),
       ),

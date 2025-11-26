@@ -964,6 +964,18 @@ abstract class AppLocalizations {
   /// **'View and manage blocked users'**
   String get accountSettingsBlockedUsersDescription;
 
+  /// No description provided for @accountSettingsAutoIntroductionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-introduction'**
+  String get accountSettingsAutoIntroductionTitle;
+
+  /// No description provided for @accountSettingsAutoIntroductionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically opt-in for introductions on matches'**
+  String get accountSettingsAutoIntroductionDescription;
+
   /// No description provided for @profileEditAccountTitle.
   ///
   /// In en, this message translates to:
@@ -2421,6 +2433,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again later.'**
   String get editAccountLogoutErrorMessage;
+
+  /// No description provided for @editAccountSettingsUpdateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update setting. Please try again.'**
+  String get editAccountSettingsUpdateError;
 
   /// No description provided for @editTagGroupSavingButton.
   ///

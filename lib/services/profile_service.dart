@@ -271,16 +271,17 @@ class ProfileService extends ChangeNotifier {
     String? publicKey,
     String? languageCode,
     List<TagGroup>? taggroups,
+    bool? autoIntroduction,
   }) {
     if (_disposed) return;
-    
+
     if (_currentProfile == null) {
       AppLogger.warning('Cannot update profile fields - no current profile', context: 'ProfileService');
       return;
     }
 
     AppLogger.debug('Updating profile fields', context: 'ProfileService');
-    
+
     _currentProfile = _currentProfile!.copyWith(
       firstName: firstName,
       lastName: lastName,
@@ -301,6 +302,7 @@ class ProfileService extends ChangeNotifier {
       publicKey: publicKey,
       languageCode: languageCode,
       taggroups: taggroups,
+      autoIntroduction: autoIntroduction,
     );
     
     notifyListeners();

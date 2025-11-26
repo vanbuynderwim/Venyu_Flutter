@@ -102,6 +102,10 @@ class Profile {
   /// Indicates how complete the personal information is.
   final int? personalCompleteness;
 
+  /// Whether the user has enabled auto-introduction on matches.
+  /// When enabled, the user automatically opts-in for introductions when matching.
+  final bool? autoIntroduction;
+
   /// Creates a [Profile] instance.
   /// 
   /// [id] and [firstName] are required. [isSuperAdmin] and [isPro] default to false
@@ -131,6 +135,7 @@ class Profile {
     this.taggroups,
     this.companyCompleteness,
     this.personalCompleteness,
+    this.autoIntroduction,
   });
 
   /// Creates a [Profile] from a JSON object.
@@ -165,6 +170,7 @@ class Profile {
           : null,
       companyCompleteness: json['company_completeness'] as int?,
       personalCompleteness: json['personal_completeness'] as int?,
+      autoIntroduction: json['auto_introduction'] as bool?,
     );
   }
 
@@ -198,6 +204,7 @@ class Profile {
       'taggroups': taggroups?.map((tagGroup) => tagGroup.toJson()).toList(),
       'company_completeness': companyCompleteness,
       'personal_completeness': personalCompleteness,
+      'auto_introduction': autoIntroduction,
     };
   }
 
@@ -353,6 +360,7 @@ class Profile {
     List<TagGroup>? taggroups,
     int? companyCompleteness,
     int? personalCompleteness,
+    bool? autoIntroduction,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -379,6 +387,7 @@ class Profile {
       taggroups: taggroups ?? this.taggroups,
       companyCompleteness: companyCompleteness ?? this.companyCompleteness,
       personalCompleteness: personalCompleteness ?? this.personalCompleteness,
+      autoIntroduction: autoIntroduction ?? this.autoIntroduction,
     );
   }
 }
