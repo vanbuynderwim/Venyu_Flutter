@@ -3,6 +3,8 @@ export 'profile.dart';
 export 'match.dart';
 export 'notification.dart';
 export 'notification_setting.dart';
+export 'contact.dart';
+export 'stage.dart';
 export 'prompt.dart';
 export 'tag.dart';
 export 'tag_group.dart';

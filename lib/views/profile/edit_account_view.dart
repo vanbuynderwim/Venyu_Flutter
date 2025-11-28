@@ -13,13 +13,17 @@ import '../../core/providers/app_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../models/enums/account_settings_type.dart';
+import '../../models/enums/review_type.dart';
+import '../../models/badge_data.dart';
 import '../../services/auth_service.dart';
 import '../../services/profile_service.dart';
+import '../../services/notification_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
 import '../../widgets/buttons/option_button.dart';
 import 'edit_personal_info_view.dart';
 import 'edit_company_name_view.dart';
+import 'review_pending_prompts_view.dart';
 import '../notifications/notification_settings_view.dart';
 
 /// Account settings view for data export, logout, and account deletion
@@ -42,12 +46,31 @@ class _EditAccountViewState extends State<EditAccountView> {
   String _appVersion = '';
   bool _autoIntroduction = false;
   bool _isUpdatingAutoIntroduction = false;
+  BadgeData? _badgeData;
 
   @override
   void initState() {
     super.initState();
     _loadAppVersion();
     _loadAutoIntroductionSetting();
+    _fetchBadges();
+  }
+
+  /// Fetch badge counts for reviews section
+  Future<void> _fetchBadges() async {
+    final profile = ProfileService.shared.currentProfile;
+    if (profile?.isSuperAdmin != true) return;
+
+    try {
+      final badges = await NotificationService.shared.fetchBadges();
+      if (badges != null && mounted) {
+        setState(() {
+          _badgeData = badges;
+        });
+      }
+    } catch (error) {
+      AppLogger.error('Failed to fetch badges in EditAccountView', error: error, context: 'EditAccountView');
+    }
   }
 
   /// Load auto-introduction setting from profile
@@ -85,6 +108,11 @@ class _EditAccountViewState extends State<EditAccountView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Reviews section (superadmin only)
+              if (ProfileService.shared.currentProfile?.isSuperAdmin == true) ...[
+                _buildReviewsSection(),
+                const SizedBox(height: 24),
+              ],
               _buildProfileSection(),
               const SizedBox(height: 24),
               _buildSettingsSection(),
@@ -100,6 +128,71 @@ class _EditAccountViewState extends State<EditAccountView> {
           ),
         ),
       ),
+    );
+  }
+
+  /// Build the Reviews section for superadmin users
+  Widget _buildReviewsSection() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Section label
+        Padding(
+          padding: const EdgeInsets.only(left: 0, bottom: 8),
+          child: Text(
+            l10n.editAccountReviewsSectionLabel,
+            style: AppTextStyles.headline.copyWith(
+              color: context.venyuTheme.primaryText,
+            ),
+          ),
+        ),
+
+        // User generated reviews
+        OptionButton(
+          option: ReviewType.user,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          isCheckmarkVisible: false,
+          withDescription: true,
+          badgeCount: _badgeData?.userReviewsCount ?? 0,
+          onSelect: () {
+            Navigator.push(
+              context,
+              platformPageRoute(
+                context: context,
+                builder: (context) => const ReviewPendingPromptsView(
+                  reviewType: ReviewType.user,
+                ),
+              ),
+            );
+          },
+        ),
+
+        // AI/System generated reviews
+        OptionButton(
+          option: ReviewType.system,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          isCheckmarkVisible: false,
+          withDescription: true,
+          badgeCount: _badgeData?.systemReviewsCount ?? 0,
+          onSelect: () {
+            Navigator.push(
+              context,
+              platformPageRoute(
+                context: context,
+                builder: (context) => const ReviewPendingPromptsView(
+                  reviewType: ReviewType.system,
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 

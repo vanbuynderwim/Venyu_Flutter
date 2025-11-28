@@ -2188,6 +2188,12 @@ abstract class AppLocalizations {
   /// **'No personal tag groups available'**
   String get personalSectionEmptyTagGroups;
 
+  /// No description provided for @contactSectionEmptyContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'No contact options available'**
+  String get contactSectionEmptyContacts;
+
   /// No description provided for @profileSectionPersonalTitle.
   ///
   /// In en, this message translates to:
@@ -2236,6 +2242,18 @@ abstract class AppLocalizations {
   /// **'Invites and invitations'**
   String get profileSectionInvitesDescription;
 
+  /// No description provided for @profileSectionContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get profileSectionContactTitle;
+
+  /// No description provided for @profileSectionContactDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact information'**
+  String get profileSectionContactDescription;
+
   /// No description provided for @profileSectionReviewsTitle.
   ///
   /// In en, this message translates to:
@@ -2259,6 +2277,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your professional profile is {percentage}% complete. Finish it to get better and more relevant matches.'**
   String profileCompanyCompletenessMessage(int percentage);
+
+  /// No description provided for @profileContactPrivacyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact details are never shared automatically, even in introductions. You choose what to include when you reach out.'**
+  String get profileContactPrivacyMessage;
 
   /// No description provided for @editAccountTitle.
   ///
@@ -2289,6 +2313,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Support & Legal'**
   String get editAccountSupportLegalSectionLabel;
+
+  /// No description provided for @editAccountReviewsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get editAccountReviewsSectionLabel;
 
   /// No description provided for @editAccountSectionLabel.
   ///
@@ -2841,6 +2871,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please check your spam folder if you don\'t see the verification code.'**
   String get editEmailOtpInfoMessage;
+
+  /// No description provided for @editContactSettingSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact info saved'**
+  String get editContactSettingSavedMessage;
+
+  /// No description provided for @editContactSettingErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update contact info, please try again'**
+  String get editContactSettingErrorMessage;
+
+  /// No description provided for @editContactSettingValueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter value'**
+  String get editContactSettingValueHint;
 
   /// No description provided for @editCityTitle.
   ///

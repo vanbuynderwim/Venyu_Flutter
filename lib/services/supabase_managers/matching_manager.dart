@@ -142,7 +142,60 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       AppLogger.success('Profile reported successfully', context: 'MatchingManager');
     });
   }
-  
+
+  /// Insert a match stage
+  ///
+  /// This method inserts a connection stage for a match.
+  /// If the stage already exists for this match, it will be ignored.
+  ///
+  /// [matchId] The UUID of the match
+  /// [connectionStageId] The UUID of the connection stage to insert
+  Future<void> insertMatchStage({
+    required String matchId,
+    required String connectionStageId,
+  }) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Inserting match stage for match: $matchId', context: 'MatchingManager');
+
+      final payload = {
+        'match_id': matchId,
+        'connection_stage_id': connectionStageId,
+      };
+
+      await client.rpc('insert_match_stage', params: {'payload': payload});
+
+      AppLogger.success('Match stage inserted successfully', context: 'MatchingManager');
+    });
+  }
+
+  /// Send a contact request to a match
+  ///
+  /// This method sends a contact request with selected contact settings and an optional message.
+  /// It updates the match stage to 'reached_out'.
+  ///
+  /// [matchId] The UUID of the match to send the contact request to
+  /// [contactSettingIds] List of contact setting UUIDs to share
+  /// [content] Optional message content to include with the request
+  Future<void> sendContactRequest({
+    required String matchId,
+    required List<String> contactSettingIds,
+    String? content,
+  }) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Sending contact request for match: $matchId', context: 'MatchingManager');
+
+      final payload = {
+        'match_id': matchId,
+        'contact_setting_ids': contactSettingIds,
+        'content': content,
+      };
+
+      await client.rpc('send_contact_request', params: {'payload': payload});
+
+      AppLogger.success('Contact request sent successfully', context: 'MatchingManager');
+    });
+  }
+
   /// Dispose this manager and clean up resources.
   void dispose() {
     disposeResources('MatchingManager');

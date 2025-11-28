@@ -37,9 +37,10 @@ class ProfileSectionButtonBar extends StatelessWidget {
       ProfileSections.company,
       // Only show venues if feature is enabled
       if (AppConfig.showVenues) ProfileSections.venues,
+      ProfileSections.contact,
       ProfileSections.invites,
-      // Only show reviews for super admins
-      if (profile?.isSuperAdmin == true) ProfileSections.reviews,
+      
+      // Reviews section moved to EditAccountView
     ];
 
     // Create badge counts map
@@ -47,9 +48,6 @@ class ProfileSectionButtonBar extends StatelessWidget {
     if (badgeData != null) {
       if (badgeData!.invitesCount > 0) {
         badgeCounts[ProfileSections.invites.id] = badgeData!.invitesCount;
-      }
-      if (badgeData!.totalReviews > 0) {
-        badgeCounts[ProfileSections.reviews.id] = badgeData!.totalReviews;
       }
     }
 

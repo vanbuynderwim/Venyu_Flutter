@@ -276,6 +276,7 @@ class _OptionButtonState extends State<OptionButton> {
                           emoji: tag.emoji,
                           fontSize: AppTextStyles.caption1,
                           backgroundColor: venyuTheme.tagBackground,
+                          maxWidth: 200,
                         ),
                       ).toList(),
                     ),

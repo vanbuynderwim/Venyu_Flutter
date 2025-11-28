@@ -1192,6 +1192,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucun groupe de tags personnel disponible';
 
   @override
+  String get contactSectionEmptyContacts =>
+      'Aucune option de contact disponible';
+
+  @override
   String get profileSectionPersonalTitle => 'Personnel';
 
   @override
@@ -1217,6 +1221,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileSectionInvitesDescription => 'Invitations et codes';
 
   @override
+  String get profileSectionContactTitle => 'Contact';
+
+  @override
+  String get profileSectionContactDescription => 'Coordonnées';
+
+  @override
   String get profileSectionReviewsTitle => 'Avis';
 
   @override
@@ -1233,6 +1243,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get profileContactPrivacyMessage =>
+      'Vos coordonnées ne sont jamais partagées automatiquement, même lors des introductions. Vous choisissez ce que vous partagez lorsque vous contactez quelqu\'un.';
+
+  @override
   String get editAccountTitle => 'Paramètres';
 
   @override
@@ -1246,6 +1260,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editAccountSupportLegalSectionLabel => 'Support & Légal';
+
+  @override
+  String get editAccountReviewsSectionLabel => 'Avis';
 
   @override
   String get editAccountSectionLabel => 'Compte';
@@ -1563,6 +1580,16 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get editEmailOtpInfoMessage =>
       'Veuillez vérifier votre dossier spam si vous ne voyez pas le code de vérification.';
+
+  @override
+  String get editContactSettingSavedMessage => 'Coordonnées enregistrées';
+
+  @override
+  String get editContactSettingErrorMessage =>
+      'Échec de la mise à jour des coordonnées, veuillez réessayer';
+
+  @override
+  String get editContactSettingValueHint => 'Entrez la valeur';
 
   @override
   String get editCityTitle => 'Ville';

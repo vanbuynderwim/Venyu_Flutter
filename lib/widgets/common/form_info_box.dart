@@ -8,19 +8,21 @@ import '../../core/theme/venyu_theme.dart';
 /// Displays contextual information in a styled container with an icon, title and description text.
 /// Used to provide context and guidance to users in form fields.
 class FormInfoBox extends StatelessWidget {
-  
+
   final String content;
+  final double? maxWidth;
 
   const FormInfoBox({
     super.key,
     required this.content,
+    this.maxWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
 
-    return Container(
+    Widget box = Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: venyuTheme.primary.withValues(alpha: 0.05),
@@ -42,5 +44,14 @@ class FormInfoBox extends StatelessWidget {
         ],
       ),
     );
+
+    if (maxWidth != null) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth!),
+        child: box,
+      );
+    }
+
+    return box;
   }
 }

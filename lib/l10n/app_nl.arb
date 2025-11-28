@@ -583,6 +583,7 @@
   "@_PROFILE_SECTIONS": {},
   "companySectionEmptyTagGroups": "Geen bedrijfs tag groepen beschikbaar",
   "personalSectionEmptyTagGroups": "Geen persoonlijke tag groepen beschikbaar",
+  "contactSectionEmptyContacts": "Geen contactopties beschikbaar",
   "profileSectionPersonalTitle": "Persoonlijk",
   "profileSectionPersonalDescription": "Persoonlijke informatie",
   "profileSectionCompanyTitle": "Professioneel",
@@ -591,6 +592,8 @@
   "profileSectionVenuesDescription": "Evenementen en organisaties",
   "profileSectionInvitesTitle": "Codes",
   "profileSectionInvitesDescription": "Uitnodigingen en codes",
+  "profileSectionContactTitle": "Contact",
+  "profileSectionContactDescription": "Contactgegevens",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "Gebruikersbeoordelingen en feedback",
   "profilePersonalCompletenessMessage": "Je persoonlijk profiel is {percentage}% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.",
@@ -609,6 +612,7 @@
       }
     }
   },
+  "profileContactPrivacyMessage": "Je contactgegevens worden nooit automatisch gedeeld, ook niet bij introducties. Jij kiest wat je deelt wanneer je contact opneemt.",
 
   "@_EDIT_ACCOUNT": {},
   "editAccountTitle": "Instellingen",
@@ -616,6 +620,7 @@
   "editAccountSettingsSectionLabel": "Instellingen",
   "editAccountFeedbackSectionLabel": "Feedback",
   "editAccountSupportLegalSectionLabel": "Support & Juridisch",
+  "editAccountReviewsSectionLabel": "Reviews",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
   "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",
@@ -732,6 +737,11 @@
   "editEmailVerificationCodeLabel": "Verificatiecode",
   "editEmailVerificationCodeHint": "Voer 6-cijferige code in",
   "editEmailOtpInfoMessage": "Controleer ook je spam folder als je de verificatiecode niet ziet.",
+
+  "@_EDIT_CONTACT_SETTING": {},
+  "editContactSettingSavedMessage": "Contactgegevens opgeslagen",
+  "editContactSettingErrorMessage": "Bijwerken van contactgegevens mislukt, probeer het opnieuw",
+  "editContactSettingValueHint": "Voer waarde in",
 
   "@_EDIT_CITY": {},
   "editCityTitle": "Stad",

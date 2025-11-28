@@ -1179,6 +1179,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Geen persoonlijke tag groepen beschikbaar';
 
   @override
+  String get contactSectionEmptyContacts => 'Geen contactopties beschikbaar';
+
+  @override
   String get profileSectionPersonalTitle => 'Persoonlijk';
 
   @override
@@ -1203,6 +1206,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String get profileSectionInvitesDescription => 'Uitnodigingen en codes';
 
   @override
+  String get profileSectionContactTitle => 'Contact';
+
+  @override
+  String get profileSectionContactDescription => 'Contactgegevens';
+
+  @override
   String get profileSectionReviewsTitle => 'Reviews';
 
   @override
@@ -1220,6 +1229,10 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get profileContactPrivacyMessage =>
+      'Je contactgegevens worden nooit automatisch gedeeld, ook niet bij introducties. Jij kiest wat je deelt wanneer je contact opneemt.';
+
+  @override
   String get editAccountTitle => 'Instellingen';
 
   @override
@@ -1233,6 +1246,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountSupportLegalSectionLabel => 'Support & Juridisch';
+
+  @override
+  String get editAccountReviewsSectionLabel => 'Reviews';
 
   @override
   String get editAccountSectionLabel => 'Account';
@@ -1544,6 +1560,16 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get editEmailOtpInfoMessage =>
       'Controleer ook je spam folder als je de verificatiecode niet ziet.';
+
+  @override
+  String get editContactSettingSavedMessage => 'Contactgegevens opgeslagen';
+
+  @override
+  String get editContactSettingErrorMessage =>
+      'Bijwerken van contactgegevens mislukt, probeer het opnieuw';
+
+  @override
+  String get editContactSettingValueHint => 'Voer waarde in';
 
   @override
   String get editCityTitle => 'Stad';

@@ -68,6 +68,9 @@ class TagView extends StatelessWidget {
   /// Optional custom text color. Uses theme default if not specified.
   final Color? textColor;
 
+  /// Maximum width for the label text. If set, text will be truncated with ellipsis.
+  final double? maxWidth;
+
   /// Creates a [TagView] widget.
   ///
   /// [id] and [label] are required. Provide either [icon] or [emoji] for visual enhancement.
@@ -82,6 +85,7 @@ class TagView extends StatelessWidget {
     this.iconSize = 16,
     this.backgroundColor,
     this.textColor,
+    this.maxWidth,
   });
 
   @override
@@ -118,12 +122,25 @@ class TagView extends StatelessWidget {
           ],
           
           // Label
-          Text(
-            label,
-            style: (fontSize ?? AppTextStyles.footnote).copyWith(
-              color: textColor ?? venyuTheme.primaryText,
+          if (maxWidth != null)
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth!),
+              child: Text(
+                label,
+                style: (fontSize ?? AppTextStyles.footnote).copyWith(
+                  color: textColor ?? venyuTheme.primaryText,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            )
+          else
+            Text(
+              label,
+              style: (fontSize ?? AppTextStyles.footnote).copyWith(
+                color: textColor ?? venyuTheme.primaryText,
+              ),
             ),
-          ),
         ],
       ),
     );

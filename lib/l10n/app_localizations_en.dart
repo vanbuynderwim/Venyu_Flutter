@@ -1170,6 +1170,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'No personal tag groups available';
 
   @override
+  String get contactSectionEmptyContacts => 'No contact options available';
+
+  @override
   String get profileSectionPersonalTitle => 'Personal';
 
   @override
@@ -1194,6 +1197,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSectionInvitesDescription => 'Invites and invitations';
 
   @override
+  String get profileSectionContactTitle => 'Contact';
+
+  @override
+  String get profileSectionContactDescription => 'Contact information';
+
+  @override
   String get profileSectionReviewsTitle => 'Reviews';
 
   @override
@@ -1210,6 +1219,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profileContactPrivacyMessage =>
+      'Your contact details are never shared automatically, even in introductions. You choose what to include when you reach out.';
+
+  @override
   String get editAccountTitle => 'Settings';
 
   @override
@@ -1223,6 +1236,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editAccountSupportLegalSectionLabel => 'Support & Legal';
+
+  @override
+  String get editAccountReviewsSectionLabel => 'Reviews';
 
   @override
   String get editAccountSectionLabel => 'Account';
@@ -1534,6 +1550,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get editEmailOtpInfoMessage =>
       'Please check your spam folder if you don\'t see the verification code.';
+
+  @override
+  String get editContactSettingSavedMessage => 'Contact info saved';
+
+  @override
+  String get editContactSettingErrorMessage =>
+      'Failed to update contact info, please try again';
+
+  @override
+  String get editContactSettingValueHint => 'Enter value';
 
   @override
   String get editCityTitle => 'City';

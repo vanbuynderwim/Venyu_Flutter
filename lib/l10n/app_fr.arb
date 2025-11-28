@@ -584,6 +584,7 @@
   "@_PROFILE_SECTIONS": {},
   "companySectionEmptyTagGroups": "Aucun groupe de tags entreprise disponible",
   "personalSectionEmptyTagGroups": "Aucun groupe de tags personnel disponible",
+  "contactSectionEmptyContacts": "Aucune option de contact disponible",
   "profileSectionPersonalTitle": "Personnel",
   "profileSectionPersonalDescription": "Informations personnelles",
   "profileSectionCompanyTitle": "Professionnel",
@@ -592,6 +593,8 @@
   "profileSectionVenuesDescription": "\u00c9v\u00e9nements et organisations",
   "profileSectionInvitesTitle": "Codes",
   "profileSectionInvitesDescription": "Invitations et codes",
+  "profileSectionContactTitle": "Contact",
+  "profileSectionContactDescription": "Coordonnées",
   "profileSectionReviewsTitle": "Avis",
   "profileSectionReviewsDescription": "Avis et retours utilisateurs",
   "profilePersonalCompletenessMessage": "Votre profil personnel est {percentage}% complet. Compl\u00e9tez-le pour obtenir des matches meilleurs et plus pertinents.",
@@ -610,6 +613,7 @@
       }
     }
   },
+  "profileContactPrivacyMessage": "Vos coordonnées ne sont jamais partagées automatiquement, même lors des introductions. Vous choisissez ce que vous partagez lorsque vous contactez quelqu'un.",
 
   "@_EDIT_ACCOUNT": {},
   "editAccountTitle": "Param\u00e8tres",
@@ -617,6 +621,7 @@
   "editAccountSettingsSectionLabel": "Param\u00e8tres",
   "editAccountFeedbackSectionLabel": "Retour",
   "editAccountSupportLegalSectionLabel": "Support & L\u00e9gal",
+  "editAccountReviewsSectionLabel": "Avis",
   "editAccountSectionLabel": "Compte",
   "editAccountDataExportTitle": "Export de donn\u00e9es",
   "editAccountDataExportDescription": "Vous pouvez demander une copie de toutes vos donn\u00e9es personnelles. Cela inclut vos informations de profil, prompts, matches et historique d'activit\u00e9. L'export sera envoy\u00e9 \u00e0 votre adresse e-mail enregistr\u00e9e.",
@@ -733,6 +738,11 @@
   "editEmailVerificationCodeLabel": "Code de v\u00e9rification",
   "editEmailVerificationCodeHint": "Entrez le code \u00e0 6 chiffres",
   "editEmailOtpInfoMessage": "Veuillez v\u00e9rifier votre dossier spam si vous ne voyez pas le code de v\u00e9rification.",
+
+  "@_EDIT_CONTACT_SETTING": {},
+  "editContactSettingSavedMessage": "Coordonnées enregistrées",
+  "editContactSettingErrorMessage": "Échec de la mise à jour des coordonnées, veuillez réessayer",
+  "editContactSettingValueHint": "Entrez la valeur",
 
   "@_EDIT_CITY": {},
   "editCityTitle": "Ville",

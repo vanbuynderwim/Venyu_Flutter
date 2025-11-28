@@ -32,8 +32,8 @@ enum ProfileSections implements SectionType {
   /// User's invites and invitations.
   invites,
 
-  /// User's reviews and feedback from others (admin only).
-  reviews;
+  /// User's contact information settings.
+  contact;
 
   @override
   String get id => name;
@@ -51,8 +51,8 @@ enum ProfileSections implements SectionType {
         return l10n.profileSectionVenuesTitle;
       case ProfileSections.invites:
         return l10n.profileSectionInvitesTitle;
-      case ProfileSections.reviews:
-        return l10n.profileSectionReviewsTitle;
+      case ProfileSections.contact:
+        return l10n.profileSectionContactTitle;
     }
   }
 
@@ -69,8 +69,8 @@ enum ProfileSections implements SectionType {
         return l10n.profileSectionVenuesDescription;
       case ProfileSections.invites:
         return l10n.profileSectionInvitesDescription;
-      case ProfileSections.reviews:
-        return l10n.profileSectionReviewsDescription;
+      case ProfileSections.contact:
+        return l10n.profileSectionContactDescription;
     }
   }
 
@@ -86,8 +86,8 @@ enum ProfileSections implements SectionType {
         return 'venue';
       case ProfileSections.invites:
         return 'ticket';
-      case ProfileSections.reviews:
-        return 'verified';
+      case ProfileSections.contact:
+        return 'email';
     }
   }
 }

@@ -3,6 +3,7 @@ import 'prompt.dart';
 import 'tag_group.dart';
 import 'venue.dart';
 import 'score_detail.dart';
+import 'stage.dart';
 import 'enums/match_status.dart';
 import 'enums/match_response.dart';
 
@@ -22,6 +23,7 @@ class Match {
   final bool? isPreview;
   final bool? isViewed;
   final List<ScoreDetail>? scoreDetails;
+  final Stage? stage;
 
   const Match({
     required this.id,
@@ -39,6 +41,7 @@ class Match {
     this.isPreview,
     this.isViewed,
     this.scoreDetails,
+    this.stage,
   });
 
   factory Match.fromJson(Map<String, dynamic> json) {
@@ -71,6 +74,7 @@ class Match {
       scoreDetails: (json['score_detail'] ?? json['score_details']) != null
           ? ((json['score_detail'] ?? json['score_details']) as List).map((detail) => ScoreDetail.fromJson(detail)).toList()
           : null,
+      stage: json['stage'] != null ? Stage.fromJson(json['stage']) : null,
     );
   }
 
@@ -91,6 +95,7 @@ class Match {
       'is_preview': isPreview,
       'is_viewed': isViewed,
       'score_details': scoreDetails?.map((detail) => detail.toJson()).toList(),
+      'stage': stage?.toJson(),
     };
   }
 
@@ -155,6 +160,7 @@ class Match {
     bool? isPreview,
     bool? isViewed,
     List<ScoreDetail>? scoreDetails,
+    Stage? stage,
   }) {
     return Match(
       id: id ?? this.id,
@@ -172,6 +178,7 @@ class Match {
       isPreview: isPreview ?? this.isPreview,
       isViewed: isViewed ?? this.isViewed,
       scoreDetails: scoreDetails ?? this.scoreDetails,
+      stage: stage ?? this.stage,
     );
   }
 }

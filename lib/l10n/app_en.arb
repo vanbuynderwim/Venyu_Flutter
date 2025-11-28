@@ -585,6 +585,7 @@
   "@_PROFILE_SECTIONS": {},
   "companySectionEmptyTagGroups": "No company tag groups available",
   "personalSectionEmptyTagGroups": "No personal tag groups available",
+  "contactSectionEmptyContacts": "No contact options available",
   "profileSectionPersonalTitle": "Personal",
   "profileSectionPersonalDescription": "Personal information",
   "profileSectionCompanyTitle": "Professional",
@@ -593,6 +594,8 @@
   "profileSectionVenuesDescription": "Events and organizations",
   "profileSectionInvitesTitle": "Codes",
   "profileSectionInvitesDescription": "Invites and invitations",
+  "profileSectionContactTitle": "Contact",
+  "profileSectionContactDescription": "Contact information",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "User reviews and feedback",
   "profilePersonalCompletenessMessage": "Your personal profile is {percentage}% complete. Finish it to get better and more relevant matches.",
@@ -611,6 +614,7 @@
       }
     }
   },
+  "profileContactPrivacyMessage": "Your contact details are never shared automatically, even in introductions. You choose what to include when you reach out.",
 
   "@_EDIT_ACCOUNT": {},
   "editAccountTitle": "Settings",
@@ -618,6 +622,7 @@
   "editAccountSettingsSectionLabel": "Settings",
   "editAccountFeedbackSectionLabel": "Feedback",
   "editAccountSupportLegalSectionLabel": "Support & Legal",
+  "editAccountReviewsSectionLabel": "Reviews",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
   "editAccountDataExportDescription": "You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.",
@@ -734,6 +739,11 @@
   "editEmailVerificationCodeLabel": "Verification code",
   "editEmailVerificationCodeHint": "Enter 6-digit code",
   "editEmailOtpInfoMessage": "Please check your spam folder if you don't see the verification code.",
+
+  "@_EDIT_CONTACT_SETTING": {},
+  "editContactSettingSavedMessage": "Contact info saved",
+  "editContactSettingErrorMessage": "Failed to update contact info, please try again",
+  "editContactSettingValueHint": "Enter value",
 
   "@_EDIT_CITY": {},
   "editCityTitle": "City",

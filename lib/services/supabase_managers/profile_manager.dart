@@ -585,6 +585,61 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Upsert profile contact information
+  ///
+  /// Updates or inserts a contact setting value for the current user's profile.
+  /// If the value is null or empty, the contact information will be deleted.
+  ///
+  /// [contactSettingId] The UUID of the contact setting to update
+  /// [value] The value to set (null or empty string will delete the entry)
+  Future<void> upsertProfileContactInformation({
+    required String contactSettingId,
+    String? value,
+  }) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Upserting profile contact information: $contactSettingId', context: 'ProfileManager');
+
+      final payload = {
+        'contact_setting_id': contactSettingId,
+        'value': value,
+      };
+
+      await client.rpc('upsert_profile_contact_information', params: {'payload': payload});
+
+      AppLogger.success('Profile contact information upserted successfully', context: 'ProfileManager');
+    });
+  }
+
+  /// Get profile contact settings
+  ///
+  /// Fetches all available contact settings for the current user's profile.
+  /// Returns a list of Contact objects with id, label, description, icon, and optional value.
+  Future<List<Contact>> getProfileContactSettings() async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching profile contact settings', context: 'ProfileManager');
+
+      try {
+        final response = await client.rpc('get_profile_contact_settings');
+
+        if (response == null) {
+          AppLogger.info('No contact settings found', context: 'ProfileManager');
+          return <Contact>[];
+        }
+
+        final List<dynamic> data = response as List<dynamic>;
+        final contacts = data.map((json) => Contact.fromJson(json as Map<String, dynamic>)).toList();
+
+        AppLogger.success('Fetched ${contacts.length} contact settings', context: 'ProfileManager');
+        return contacts;
+      } catch (error) {
+        AppLogger.error('Failed to fetch contact settings', error: error, context: 'ProfileManager');
+        rethrow;
+      }
+    });
+  }
+
   /// Update a profile setting (boolean value)
   ///
   /// This method calls the update_profile_setting RPC function which handles

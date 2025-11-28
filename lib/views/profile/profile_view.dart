@@ -10,6 +10,7 @@ import '../../models/enums/category_type.dart';
 import '../../models/profile.dart';
 import '../../models/tag_group.dart';
 import '../../models/invite.dart';
+import '../../models/contact.dart';
 import '../../models/badge_data.dart';
 import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
@@ -32,8 +33,9 @@ import 'profile_view/personal_info_section.dart';
 import 'profile_view/company_info_section.dart';
 import 'profile_view/venues_section.dart';
 import 'profile_view/invites_section.dart';
-import 'profile_view/reviews_section.dart';
+import 'profile_view/contact_info_section.dart';
 import 'edit_tag_group_view.dart';
+import 'edit_contact_setting_view.dart';
 import 'edit_account_view.dart';
 import '../prompts/prompt_entry_view.dart';
 
@@ -70,6 +72,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   bool _hasVenues = false;
   List<Invite>? _inviteCodes;
   bool _inviteCodesLoading = false;
+  List<Contact>? _contacts;
+  bool _contactsLoading = false;
   BadgeData? _badgeData;
   List<Prompt>? _availablePrompts; // Available daily prompts to answer
   bool _isCheckingPrompts = false;
@@ -195,6 +199,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                       } else if (section == ProfileSections.invites) {
                         // Always reload invite codes when switching to invites section
                         _loadInviteCodes(forceRefresh: true);
+                      } else if (section == ProfileSections.contact && _contacts == null) {
+                        _loadContacts();
                       }
                     },
                   ),
@@ -203,9 +209,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
                 // Completeness Warning
                 if (!_isProfileLoading && profile != null)
-                  _buildCompletenessWarning(profile),
-
-                
+                  _buildCompletenessWarning(profile),                
 
                 // Section Content
                 if (!_isProfileLoading && profile != null)
@@ -249,6 +253,10 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         if (completeness != null && completeness < 100) {
           message = l10n.profileCompanyCompletenessMessage(completeness);
         }
+        break;
+      case ProfileSections.contact:
+        // Always show privacy info for contact section
+        message = l10n.profileContactPrivacyMessage;
         break;
       default:
         // No completeness warning for other sections
@@ -305,8 +313,12 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
             _fetchBadges(); // Refresh badges when invite codes are refreshed
           },
         );
-      case ProfileSections.reviews:
-        return ReviewsSection(badgeData: _badgeData);
+      case ProfileSections.contact:
+        return ContactInfoSection(
+          contacts: _contacts,
+          contactsLoading: _contactsLoading,
+          onContactTap: _handleContactTap,
+        );
     }
   }
 
@@ -365,6 +377,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         _personalTagGroups = null;
         _companyTagGroups = null;
         _inviteCodes = null;
+        _contacts = null;
 
         // Reload current section data
         switch (_selectedSection) {
@@ -380,8 +393,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           case ProfileSections.venues:
             // VenuesSection manages its own refresh
             break;
-          case ProfileSections.reviews:
-            // ReviewsSection doesn't need refresh yet
+          case ProfileSections.contact:
+            _loadContacts(forceRefresh: true);
             break;
         }
 
@@ -498,6 +511,50 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         });
       },
     );
+  }
+
+  /// Loads contact settings
+  void _loadContacts({bool forceRefresh = false}) async {
+    // Always reload if forceRefresh is true, or if we don't have data yet
+    if (!forceRefresh && _contacts != null) return;
+
+    if (!mounted) return;
+    setState(() => _contactsLoading = true);
+
+    await executeSilently(
+      operation: () async {
+        final contacts = await _profileManager.getProfileContactSettings();
+        AppLogger.success('Loaded ${contacts.length} contact settings', context: 'ProfileView');
+        safeSetState(() {
+          _contacts = contacts;
+          _contactsLoading = false;
+        });
+      },
+      onError: (error) {
+        AppLogger.error('Error loading contact settings', error: error, context: 'ProfileView');
+        safeSetState(() {
+          _contacts = [];
+          _contactsLoading = false;
+        });
+      },
+    );
+  }
+
+  /// Handles contact setting tap
+  void _handleContactTap(Contact contact) async {
+    AppLogger.ui('Tapped on contact: ${contact.label}', context: 'ProfileView');
+
+    final result = await Navigator.push<bool>(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => EditContactSettingView(contact: contact),
+      ),
+    );
+
+    if (result == true) {
+      _loadContacts(forceRefresh: true);
+    }
   }
 
   /// Fetch badge counts for section buttons
