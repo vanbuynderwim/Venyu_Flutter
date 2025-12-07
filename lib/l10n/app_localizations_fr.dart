@@ -23,32 +23,46 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardButtonStart => 'Commencer';
 
   @override
-  String get tutorialStep1Title => 'Prompts';
+  String get tutorialStep0Title => 'Comment ça marche';
+
+  @override
+  String get tutorialStep0Description =>
+      'Venyu rapproche les personnes en faisant correspondre leurs offres avec les demandes des autres.';
+
+  @override
+  String get tutorialStep1Title => 'Votre offre';
 
   @override
   String get tutorialStep1Description =>
-      'Chaque jour, vous pouvez répondre à 3 prompts. Cela prend moins d\'une minute et nous aide à trouver les bonnes personnes pour vous.';
+      'Décrivez en quelques mots ce que vous avez à offrir ou comment vous pouvez aider les autres. Gardez-le court mais clair, plus c\'est spécifique, mieux nous pourrons vous matcher avec les bonnes demandes.';
 
   @override
-  String get tutorialStep2Title => 'Matches';
+  String get tutorialStep2Title => 'Répondre aux demandes';
 
   @override
   String get tutorialStep2Description =>
-      'Une fois que nous avons trouvé le bon match, nous vous le faisons savoir afin que vous puissiez décider si vous souhaitez une introduction.';
+      'Nous vous notifierons lorsque nous avons trouvé des demandes d\'autres personnes correspondant à votre offre. Décidez vous-même si vous voulez ou pouvez aider.';
 
   @override
-  String get tutorialStep3Title => 'Introductions';
+  String get tutorialStep3Title => 'Soyez matché';
 
   @override
   String get tutorialStep3Description =>
-      'Lorsque l\'intérêt est mutuel, nous faisons l\'introduction par e-mail afin que vous puissiez entrer en contact directement.';
+      'La personne qui a publié la demande est matchée avec vous si vous pouvez aider. À ce stade, vous ne voyez pas encore le match. Complétez votre profil pour un score de matching optimal.';
 
   @override
-  String get tutorialStep4Title => 'Vous êtes prêt !';
+  String get tutorialStep4Title => 'Introduction';
 
   @override
   String get tutorialStep4Description =>
-      'Complétons votre profil et commençons à trouver les bonnes personnes.';
+      'La personne qui traite la demande décide quel match reçoit une introduction. Une fois que vous recevez l\'e-mail d\'introduction, vous aurez accès au profil du match et pourrez commencer à connecter.';
+
+  @override
+  String get tutorialStep5Title => 'Chercher';
+
+  @override
+  String get tutorialStep5Description =>
+      'Soumettez votre propre demande et soyez matché avec des personnes qui peuvent vous aider. Cette fois, c\'est vous qui êtes aux commandes !';
 
   @override
   String get tutorialButtonPrevious => 'Précédent';
@@ -57,11 +71,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tutorialButtonNext => 'Suivant';
 
   @override
-  String get registrationCompleteTitle => 'Votre profil est prêt ! 🎉';
+  String get tutorialDoneTitle => 'Vous êtes au courant !';
+
+  @override
+  String get tutorialDoneDescription =>
+      'Complétons votre profil.\nCela ne prendra qu\'une minute.';
+
+  @override
+  String get registrationCompleteTitle => 'Presque terminé !';
 
   @override
   String get registrationCompleteDescription =>
-      'Merci d\'avoir configuré votre profil. Voyons maintenant comment répondre à 3 prompts chaque jour nous aide à trouver la bonne personne pour vous.';
+      'Merci d\'avoir configuré votre profil. Ajoutons maintenant votre offre à votre profil. Soyez clair pour que nous puissions vous matcher avec les bonnes demandes !';
 
   @override
   String get registrationCompleteButton => 'Continuer';
@@ -71,7 +92,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptEntryDescriptionFirstTime =>
-      'Voici 3 exemples de prompts pour vous aider à comprendre comment ça fonctionne. Ne vous inquiétez pas, ce ne sont que des exercices.';
+      'Voici 3 exemples de demandes pour vous aider à comprendre comment ça fonctionne. Ne vous inquiétez pas, ce ne sont que des exercices.';
 
   @override
   String get promptEntryButtonFirstTime => 'Démarrer le tutoriel';
@@ -88,16 +109,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dailyPromptsButtonNext => 'Suivant';
 
   @override
-  String get dailyPromptsReportSuccess => 'Prompt signalé avec succès';
+  String get dailyPromptsReportSuccess => 'Demande signalée avec succès';
 
   @override
-  String get dailyPromptsReportError => 'Échec du signalement du prompt';
+  String get dailyPromptsReportError => 'Échec du signalement de la demande';
 
   @override
-  String get dailyPromptsNoPromptsAvailable => 'Aucun prompt disponible';
+  String get dailyPromptsNoPromptsAvailable => 'Aucune demande disponible';
 
   @override
-  String get dailyPromptsExampleTag => 'Exemple de prompt';
+  String get dailyPromptsExampleTag => 'Exemple de demande';
 
   @override
   String get dailyPromptsReferralCodeSent =>
@@ -108,7 +129,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'Vous avez terminé la visite rapide. Vous êtes maintenant prêt à répondre à vos 3 premiers vrais prompts pour être mis en relation avec d\'autres entrepreneurs.';
+      'N\'hésitez pas à explorer l\'application maintenant ! Nous vous informerons lorsque nous trouverons des demandes correspondant à votre offre.\n\nAstuce : Vous pouvez ajouter plus d\'offres dans votre profil pour obtenir de meilleures correspondances.\n\nMake the net work 🤝';
 
   @override
   String get tutorialFinishedButton => 'C\'est parti !';
@@ -118,7 +139,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get registrationFinishDescription =>
-      'Votre compte est configuré et vous avez répondu à vos 3 premiers prompts. Revenez demain pour répondre à plus de prompts et découvrir de nouveaux matches.';
+      'Votre compte est configuré et vous avez répondu à vos 3 premières demandes. Revenez demain pour répondre à plus de demandes et découvrir de nouveaux matches.';
 
   @override
   String get registrationFinishButton => 'Terminé !';
@@ -140,11 +161,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get errorNoCardsAvailable =>
-      'Aucun prompt disponible pour le moment. Revenez plus tard !';
+      'Aucune demande disponible pour le moment. Revenez plus tard !';
 
   @override
   String get errorFailedToLoadCards =>
-      'Échec du chargement des prompts. Veuillez réessayer.';
+      'Échec du chargement des demandes. Veuillez réessayer.';
 
   @override
   String get errorFailedToRefreshProfile =>
@@ -226,6 +247,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get interactionTypeNotRelevantHint => 'Que souhaitez-vous partager ?';
 
   @override
+  String get interactionTypeThisIsMeNewTitle => 'Nouvelle offre';
+
+  @override
+  String get interactionTypeLookingForThisNewTitle => 'Nouvelle demande';
+
+  @override
+  String get interactionTypeKnowSomeoneNewTitle => 'Nouvelle connexion';
+
+  @override
+  String get interactionTypeNotRelevantNewTitle => 'Passer';
+
+  @override
   String get registrationStepNameTitle => 'Informations personnelles';
 
   @override
@@ -258,6 +291,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get registrationStepNotificationsTitle => 'Notifications';
+
+  @override
+  String get registrationStepOptinTitle => 'Tirez le meilleur parti de Venyu';
+
+  @override
+  String get registrationStepOptinBody =>
+      'Voulez-vous recevoir des conseils pour améliorer votre profil et être le premier informé des nouvelles fonctionnalités ?';
+
+  @override
+  String get registrationStepOptinButtonYes => 'Oui, tenez-moi au courant';
+
+  @override
+  String get registrationStepOptinButtonNo => 'Non, merci';
 
   @override
   String get registrationStepCompleteTitle => 'Bienvenue sur Venyu !';
@@ -317,7 +363,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get benefitDiscreetPreviewDescription =>
-      'Sur vos prompts, vous avez le first call. Les matches ne sont montrés aux autres que si vous êtes intéressé.';
+      'Sur vos demandes, vous avez le first call. Les matches ne sont montrés aux autres que si vous êtes intéressé.';
 
   @override
   String get benefitUnlimitedIntroductionsTitle => 'Intros illimitées';
@@ -341,11 +387,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Comprenez votre portée avec des statistiques simples';
 
   @override
-  String get benefitDailyCardsBoostTitle => 'Plus de prompts quotidiens';
+  String get benefitDailyCardsBoostTitle => 'Plus de demandes quotidiennes';
 
   @override
   String get benefitDailyCardsBoostDescription =>
-      'Plus de prompts pour développer votre réseau plus rapidement.';
+      'Plus de demandes pour développer votre réseau plus rapidement.';
 
   @override
   String get benefitAiPoweredMatchesTitle => 'Matches par IA (plus tard)';
@@ -358,14 +404,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get editCompanyInfoNameTitle => 'Informations de l\'entreprise';
 
   @override
-  String get editCompanyInfoNameDescription =>
-      'Nom et site web de votre entreprise';
+  String get editCompanyInfoNameDescription => 'Nom de votre entreprise';
 
   @override
   String get editPersonalInfoNameTitle => 'Nom';
 
   @override
-  String get editPersonalInfoNameDescription => 'Votre nom et URL LinkedIn';
+  String get editPersonalInfoNameDescription => 'Votre nom';
 
   @override
   String get editPersonalInfoBioTitle => 'Bio';
@@ -504,6 +549,19 @@ class AppLocalizationsFr extends AppLocalizations {
       'Demander automatiquement une présentation lors des matches';
 
   @override
+  String get accountSettingsInviteCodesTitle => 'Codes d\'invitation';
+
+  @override
+  String get accountSettingsInviteCodesDescription =>
+      'Codes d\'invitation disponibles';
+
+  @override
+  String get accountSettingsLinksTitle => 'Liens';
+
+  @override
+  String get accountSettingsLinksDescription => 'Vos liens sociaux personnels';
+
+  @override
   String get profileEditAccountTitle => 'Compte';
 
   @override
@@ -513,13 +571,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get reviewTypeUserTitle => 'Généré par les utilisateurs';
 
   @override
-  String get reviewTypeUserDescription => 'Prompts soumis par les utilisateurs';
+  String get reviewTypeUserDescription =>
+      'Demandes soumises par les utilisateurs';
 
   @override
   String get reviewTypeSystemTitle => 'Généré par IA';
 
   @override
-  String get reviewTypeSystemDescription => 'Prompts quotidiens générés par IA';
+  String get reviewTypeSystemDescription =>
+      'Demandes quotidiennes générées par IA';
 
   @override
   String get appName => 'Venyu';
@@ -531,7 +591,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Prompts';
+  String get navCards => 'Demandes';
 
   @override
   String get navNotifications => 'Updates';
@@ -541,6 +601,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get actionSave => 'Enregistrer';
+
+  @override
+  String get actionSend => 'Envoyer';
 
   @override
   String get actionCancel => 'Annuler';
@@ -597,7 +660,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get validationUrlInvalid =>
-      'Veuillez entrer une URL valide (commençant par http:// ou https://)';
+      'Veuillez entrer une URL valide (ex: exemple.com)';
 
   @override
   String get validationLinkedInUrlInvalid =>
@@ -662,7 +725,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptSectionCardTitle => 'Statut';
 
   @override
-  String get promptSectionCardDescription => 'Voir les détails de votre prompt';
+  String get promptSectionCardDescription =>
+      'Voir les détails de votre demande';
 
   @override
   String get promptSectionStatsTitle => 'Stats';
@@ -681,14 +745,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptStatusDraftInfo =>
-      'Votre prompt est sauvegardé comme brouillon. Complétez-le et soumettez-le pour commencer à recevoir des matches.';
+      'Votre demande est sauvegardée comme brouillon. Complétez-la et soumettez-la pour commencer à recevoir des matches.';
 
   @override
   String get promptStatusPendingReviewDisplay => 'En attente de validation';
 
   @override
   String get promptStatusPendingReviewInfo =>
-      'Votre prompt est en cours d\'examen par notre équipe. Cela prend généralement 12-24 heures pour vérifier si le contenu respecte les directives de la communauté.';
+      'Votre demande est en cours d\'examen par notre équipe. Cela prend généralement 12-24 heures pour vérifier si le contenu respecte les directives de la communauté.';
 
   @override
   String get promptStatusPendingTranslationDisplay =>
@@ -696,28 +760,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptStatusPendingTranslationInfo =>
-      'Votre prompt est en cours de traduction vers d\'autres langues.';
+      'Votre demande est en cours de traduction vers d\'autres langues.';
 
   @override
   String get promptStatusApprovedDisplay => 'Approuvé';
 
   @override
   String get promptStatusApprovedInfo =>
-      'Votre prompt a été approuvé et est actif. Vous pouvez recevoir des matches.';
+      'Votre demande a été approuvée et est active. Vous pouvez recevoir des matches.';
 
   @override
   String get promptStatusRejectedDisplay => 'Rejeté';
 
   @override
   String get promptStatusRejectedInfo =>
-      'Votre prompt a été rejeté car il ne respecte pas les directives de la communauté. Veuillez le modifier et le soumettre à nouveau.';
+      'Votre demande a été rejetée car elle ne respecte pas les directives de la communauté. Veuillez la modifier et la soumettre à nouveau.';
 
   @override
   String get promptStatusArchivedDisplay => 'Archivé';
 
   @override
   String get promptStatusArchivedInfo =>
-      'Votre prompt a été archivé et n\'est plus visible par les autres utilisateurs.';
+      'Votre demande a été archivée et n\'est plus visible par les autres utilisateurs.';
 
   @override
   String get venueTypeEventDisplayName => 'Événement';
@@ -745,21 +809,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get emptyStateReviewsDescription =>
-      'Quand des prompts sont soumis pour examen, ils apparaîtront ici';
+      'Quand des demandes sont soumises pour examen, elles apparaîtront ici';
 
   @override
   String get emptyStateMatchesTitle => 'En attente de votre premier match !';
 
   @override
   String get emptyStateMatchesDescription =>
-      'Une fois que vous aurez un match, il apparaîtra ici. Écrivez un nouveau prompt pour être matché plus rapidement.';
+      'Une fois que vous aurez un match, il apparaîtra ici. Écrivez une nouvelle demande pour être matché plus rapidement.';
 
   @override
   String get emptyStatePromptsTitle => 'Prêt à être matché ?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Les prompts nous aident à trouver les bons matches qui mènent à de vraies introductions. Écrivez le vôtre pour commencer.';
+      'Les demandes nous aident à trouver les bons matches qui mènent à de vraies introductions. Écrivez la vôtre pour commencer.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -881,6 +945,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get joinVenuePlaceholder => 'Entrer le code du lieu';
 
   @override
+  String get matchItemReachOut => 'Présentez-vous';
+
+  @override
   String get matchDetailLoading => 'Chargement...';
 
   @override
@@ -939,6 +1006,118 @@ class AppLocalizationsFr extends AppLocalizations {
   String get matchDetailTypeMatch => 'match';
 
   @override
+  String get matchReachOutTitle => 'Introduction';
+
+  @override
+  String matchReachOutSubtitle(String name) {
+    return 'Présentez-vous à $name';
+  }
+
+  @override
+  String get matchReachOutGreeting => 'Bonjour';
+
+  @override
+  String get matchReachOutPromptContextSingular =>
+      'La demande qui nous a matché:';
+
+  @override
+  String get matchReachOutPromptContextPlural =>
+      'Les demandes qui nous ont matché:';
+
+  @override
+  String get matchReachOutMessagePlaceholder => 'Écrivez votre message ici...';
+
+  @override
+  String get matchReachOutInfoMessage =>
+      'Votre message est envoyé directement par e-mail et n\'est pas stocké par Venyu. Vous pouvez envoyer une introduction par match, donc veuillez rester clair, respectueux et professionnel.';
+
+  @override
+  String get matchReachOutContactsSubtitle =>
+      'Partagez des liens supplémentaires (optionnel)';
+
+  @override
+  String get matchReachOutPreviewTitle => 'Aperçu';
+
+  @override
+  String get matchReachOutPreviewFromLabel => 'De';
+
+  @override
+  String matchReachOutPreviewFromValue(String name) {
+    return '$name (via Venyu)';
+  }
+
+  @override
+  String get matchReachOutPreviewReplyToLabel => 'Répondre à';
+
+  @override
+  String get matchReachOutPreviewSubjectLabel => 'Objet';
+
+  @override
+  String matchReachOutPreviewSubject(String firstName) {
+    return 'Introduction de $firstName';
+  }
+
+  @override
+  String get matchReachOutPreviewPS =>
+      'PS: N\'hésitez pas à répondre directement à cet e-mail.';
+
+  @override
+  String get matchReachOutFinishTitle => 'Introduction envoyée!';
+
+  @override
+  String matchReachOutFinishDescription(String name) {
+    return 'Votre message a été envoyé à $name. Il le recevra directement dans sa boîte de réception.';
+  }
+
+  @override
+  String get matchReachOutFinishDoneButton => 'Terminé';
+
+  @override
+  String get matchReachOutSuccessMessage => 'Message envoyé avec succès';
+
+  @override
+  String get matchReachOutErrorMessage => 'Échec de l\'envoi du message';
+
+  @override
+  String get matchStagesTitle => 'Étape de connexion';
+
+  @override
+  String get matchStagesDescription =>
+      'Suivez la progression de cette match. Vous et votre match pouvez tous deux mettre à jour cette étape.';
+
+  @override
+  String get matchStagesSaveButton => 'Enregistrer';
+
+  @override
+  String get matchStagesSavingButton => 'Enregistrement...';
+
+  @override
+  String get matchStagesLoadErrorTitle => 'Erreur de chargement des étapes';
+
+  @override
+  String get matchStagesRetryButton => 'Réessayer';
+
+  @override
+  String get matchStagesNoStagesMessage => 'Aucune étape disponible';
+
+  @override
+  String get matchStagesSaveErrorTitle =>
+      'Erreur d\'enregistrement de l\'étape';
+
+  @override
+  String matchStagesSaveErrorMessage(String error) {
+    return 'Échec de l\'enregistrement de l\'étape: $error';
+  }
+
+  @override
+  String get matchStagesErrorDialogOk => 'OK';
+
+  @override
+  String matchDetailFirstCallWarning(String firstName) {
+    return 'Vous seul pouvez voir ce match. Une fois que vous vous présentez, $firstName vous verra aussi.';
+  }
+
+  @override
   String get matchDetailErrorLoad => 'Échec du chargement des détails du match';
 
   @override
@@ -966,10 +1145,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get matchDetailCard => 'prompt';
+  String get matchDetailCard => 'demande';
 
   @override
-  String get matchDetailCards => 'prompts';
+  String get matchDetailCards => 'demandes';
 
   @override
   String matchDetailSharedIntros(int count, String intros) {
@@ -977,10 +1156,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get matchDetailIntroduction => 'introduction';
+  String get matchDetailIntroduction => 'match';
 
   @override
-  String get matchDetailIntroductions => 'introductions';
+  String get matchDetailIntroductions => 'matches';
 
   @override
   String matchDetailSharedVenues(int count, String venues) {
@@ -1196,6 +1375,23 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucune option de contact disponible';
 
   @override
+  String get aboutMeSectionEmptyTitle => 'C\'est moi';
+
+  @override
+  String get aboutMeSectionEmptyDescription =>
+      'Ajoutez quelques offres décrivant comment vous pouvez aider les autres. Elles sont privées et utilisées uniquement pour le matching avec les demandes des autres.';
+
+  @override
+  String get aboutMeSectionEmptyAction => 'Ajouter une offre';
+
+  @override
+  String get profileSectionAboutMeTitle => 'Mes offres';
+
+  @override
+  String get profileSectionAboutMeDescription =>
+      'Offres sur qui vous êtes et comment vous aidez les autres. Elles améliorent vos matches.';
+
+  @override
   String get profileSectionPersonalTitle => 'Personnel';
 
   @override
@@ -1221,10 +1417,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileSectionInvitesDescription => 'Invitations et codes';
 
   @override
-  String get profileSectionContactTitle => 'Contact';
+  String get profileSectionContactTitle => 'Liens';
 
   @override
-  String get profileSectionContactDescription => 'Coordonnées';
+  String get profileSectionContactDescription => 'Vos liens de contact';
 
   @override
   String get profileSectionReviewsTitle => 'Avis';
@@ -1272,7 +1468,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editAccountDataExportDescription =>
-      'Vous pouvez demander une copie de toutes vos données personnelles. Cela inclut vos informations de profil, prompts, matches et historique d\'activité. L\'export sera envoyé à votre adresse e-mail enregistrée.';
+      'Vous pouvez demander une copie de toutes vos données personnelles. Cela inclut vos informations de profil, demandes, offres, matches et historique d\'activité. L\'export sera envoyé à votre adresse e-mail enregistrée.';
 
   @override
   String get editAccountExportDataButton => 'Exporter toutes vos données';
@@ -1282,7 +1478,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editAccountDeleteDescription =>
-      'La suppression de votre compte est définitive. Toutes vos données, y compris votre profil, prompts et matches seront supprimés.';
+      'La suppression de votre compte est définitive. Toutes vos données, y compris votre profil, demandes, offres et matches seront supprimés.';
 
   @override
   String get editAccountDeleteButton => 'Supprimer le compte';
@@ -1480,7 +1676,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Utilisation de la localisation approximative. Activez \'Localisation précise\' dans les paramètres pour un meilleur matching.';
 
   @override
-  String get editNameTitle => 'Vous';
+  String get editNameTitle => 'Votre nom';
 
   @override
   String get editNameSuccessMessage => 'Modifications enregistrées avec succès';
@@ -1566,7 +1762,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editEmailInfoMessage =>
-      'Nous utiliserons cet e-mail uniquement pour les notifications de l\'app comme les nouveaux matches, les introductions et les mises à jour importantes';
+      'Nous utilisons votre e-mail uniquement pour la vérification du compte, les notifications de match, les mises à jour de vos demandes et les messages de service.';
 
   @override
   String get editEmailNewsletterLabel => 'S\'ABONNER AUX UPDATES VENYU';
@@ -1609,7 +1805,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editCityInfoMessage =>
-      'Votre ville n\'est partagée qu\'avec les personnes avec qui vous êtes présenté, pas avec les matches. Cela facilite les rencontres en personne une fois qu\'une connexion est établie.';
+      'Votre ville n\'est partagée qu\'avec les personnes avec qui vous matchez et n\'est pas publiquement visible. Cela facilite les rencontres en personne une fois qu\'une connexion est établie.';
 
   @override
   String get editCompanyNameTitle => 'Nom de l\'entreprise';
@@ -1656,7 +1852,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editAvatarInfoMessage =>
-      'Votre photo est souvent votre première impression. Choisissez un portrait clair et amical qui vous ressemble. Elle apparaîtra floutée dans les matches, mais visible une fois que vous êtes présenté.';
+      'Votre photo est souvent votre première impression. Choisissez un portrait clair et amical qui vous ressemble.';
 
   @override
   String get editAvatarCameraButton => 'Caméra';
@@ -1694,11 +1890,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptCardStatusLabel => 'Statut';
 
   @override
-  String get promptCardUpgradeTitle => 'Étendez la visibilité de votre prompt';
+  String get promptCardUpgradeTitle => 'Étendez la visibilité de votre demande';
 
   @override
   String get promptCardUpgradeSubtitle =>
-      'Passez à Venyu Pro pour garder votre prompt en ligne pendant 10 jours au lieu de 3.';
+      'Passez à Venyu Pro pour garder votre demande en ligne pendant 10 jours au lieu de 3.';
 
   @override
   String get promptCardUpgradeButton => 'Passer à Pro';
@@ -1714,14 +1910,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptIntroEmptyDescription =>
-      'Quand des personnes matchent avec votre prompt, leurs profils apparaîtront ici.';
+      'Quand des personnes matchent avec votre demande, leurs profils apparaîtront ici.';
 
   @override
   String get promptStatsTitle => 'Stats bientôt disponibles';
 
   @override
   String get promptStatsDescription =>
-      'Suivez les performances de votre prompt, les vues et les métriques d\'engagement.';
+      'Suivez les performances de votre demande, les vues et les métriques d\'engagement.';
 
   @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
@@ -1737,15 +1933,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionSubtitleDefault =>
-      'Écrivez votre propre prompt';
+      'Écrivez votre propre offre ou demande';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'Les prompts sont révisés avant d\'être publiés';
+      'Les demandes sont révisées avant d\'être publiées';
 
   @override
   String get interactionTypeSelectionDisclaimerBeforeLinkText =>
-      'Les prompts sont révisés selon nos ';
+      'Les demandes sont révisées selon nos ';
 
   @override
   String get interactionTypeSelectionDisclaimerLinkText =>
@@ -1763,7 +1959,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get interactionTypeSelectionNotNowButton => 'Pas maintenant';
 
   @override
-  String get promptDetailTitle => 'Détail du prompt';
+  String get interactionTypeSelectionPrivatePromptsInfo =>
+      'Une offre décrit comment vous pouvez aider les autres. Gardez-le court mais clair, plus c\'est spécifique, mieux nous pourrons vous matcher avec les bonnes demandes.';
+
+  @override
+  String get promptDetailTitle => 'Détail';
 
   @override
   String get promptDetailStatusTitle => 'Statut';
@@ -1773,7 +1973,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptDetailHowYouMatchDescription =>
-      'Mettez en pause le matching sur ce prompt pour arrêter temporairement de recevoir de nouveaux matches. Vous pouvez reprendre à tout moment.';
+      'Mettez en pause le matching sur cette demande pour arrêter temporairement de recevoir de nouveaux matches. Vous pouvez reprendre à tout moment.';
 
   @override
   String get promptDetailFirstCallTitle => 'First Call';
@@ -1782,14 +1982,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptDetailPublishedInTitle => 'Publié dans';
 
   @override
-  String get promptDetailMatchesTitle => 'Matches';
+  String promptDetailMatchesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get promptDetailErrorMessage => 'Échec du chargement du prompt';
+  String get promptDetailErrorMessage => 'Échec du chargement de la demande';
 
   @override
   String get promptDetailErrorDataMessage =>
-      'Échec du chargement des données du prompt';
+      'Échec du chargement des données de la demande';
 
   @override
   String get promptDetailRetryButton => 'Réessayer';
@@ -1799,10 +2007,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptDetailEmptyMatchesDescription =>
-      'Quand des personnes matchent avec votre prompt, leurs profils apparaîtront ici.';
+      'Quand des personnes matchent avec votre demande, leurs profils apparaîtront ici.';
 
   @override
-  String get promptDetailEditButton => 'Modifier le prompt';
+  String get promptDetailEditButton => 'Modifier la demande';
 
   @override
   String get promptDetailPreviewUpdatedMessage =>
@@ -1817,7 +2025,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String promptDetailPauseMatchingMessage(String interactionType) {
-    return 'Vous ne recevrez plus de matches pour \"$interactionType\" sur ce prompt. Vous pouvez reprendre le matching à tout moment.';
+    return 'Vous ne recevrez plus de matches pour \"$interactionType\" sur cette demande. Vous pouvez reprendre le matching à tout moment.';
   }
 
   @override
@@ -1828,7 +2036,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptDetailPauseMatchingMessageGeneric =>
-      'Vous ne recevrez plus de matches sur ce prompt. Vous pouvez reprendre le matching à tout moment.';
+      'Vous ne recevrez plus de matches sur cette demande. Vous pouvez reprendre le matching à tout moment.';
 
   @override
   String get promptDetailMatchingActiveLabel => 'Le matching est actif';
@@ -1840,26 +2048,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptItemPausedTag => 'En pause';
 
   @override
+  String promptItemMatchCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get promptDetailRejectButton => 'Rejeter';
 
   @override
   String get promptDetailApproveButton => 'Approuver';
 
   @override
-  String get promptDetailApprovedMessage => 'Prompt approuvé';
+  String get promptDetailApprovedMessage => 'Demande approuvée';
 
   @override
-  String get promptDetailRejectedMessage => 'Prompt rejeté';
+  String get promptDetailRejectedMessage => 'Demande rejetée';
 
   @override
-  String get promptDetailDeleteButton => 'Supprimer le prompt';
+  String get promptDetailDeleteButton => 'Supprimer';
 
   @override
-  String get promptDetailDeleteConfirmTitle => 'Supprimer le prompt ?';
+  String get promptDetailDeleteConfirmTitle => 'Supprimer ?';
 
   @override
   String get promptDetailDeleteConfirmMessage =>
-      'Cela supprimera définitivement votre prompt. Cette action ne peut pas être annulée.';
+      'Cela supprimera définitivement vos données. Cette action ne peut pas être annulée.';
 
   @override
   String get promptDetailDeleteConfirmButton => 'Supprimer';
@@ -1868,11 +2087,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptDetailDeleteCancelButton => 'Annuler';
 
   @override
-  String get promptDetailDeletedMessage => 'Prompt supprimé';
+  String get promptDetailDeletedMessage => 'Supprimé';
 
   @override
-  String get promptDetailDeleteErrorMessage =>
-      'Échec de la suppression du prompt';
+  String get promptDetailDeleteErrorMessage => 'Échec de la suppression';
 
   @override
   String get promptEditNextButton => 'Suivant';
@@ -1883,24 +2101,27 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get promptEntryGreetingFirstTime => 'Entraînons-nous d\'abord !';
+
+  @override
   String promptEntryFirstTimeDescription(int count) {
-    return 'Les $count prochains prompts sont des exemples d\'entraînement pour vous aider à apprendre comment y répondre.';
+    return 'Les $count prochaines demandes sont des exemples d\'entraînement pour vous aider à apprendre comment y répondre.';
   }
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Vos $count prompts quotidiens vous attendent';
+    return 'Vos $count demandes quotidiennes vous attendent';
   }
 
   @override
   String get promptEntryButton => 'Montrez-moi';
 
   @override
-  String get promptFinishTitle => 'Prompt soumis !';
+  String get promptFinishTitle => 'Demande soumise !';
 
   @override
   String get promptFinishDescription =>
-      'Votre prompt a été soumis avec succès et est en cours d\'examen. Nous vous préviendrons une fois qu\'il sera en ligne.';
+      'Votre demande a été soumise avec succès et est en cours d\'examen. Nous vous préviendrons une fois qu\'elle sera en ligne.';
 
   @override
   String get promptFinishReviewInfo =>
@@ -1908,6 +2129,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get promptFinishDoneButton => 'Terminé';
+
+  @override
+  String get promptFinishSavedTitle => 'Offre enregistrée';
+
+  @override
+  String get promptFinishSavedDescription =>
+      'Votre offre a été enregistrée avec succès !';
 
   @override
   String get promptPreviewTitle => 'Aperçu';
@@ -1919,10 +2147,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptPreviewSubmitButton => 'Soumettre';
 
   @override
-  String get promptPreviewErrorUpdate => 'Échec de la mise à jour du prompt';
+  String get promptPreviewErrorUpdate => 'Échec de la mise à jour';
 
   @override
-  String get promptPreviewErrorSubmit => 'Échec de la soumission du prompt';
+  String get promptPreviewErrorSubmit => 'Échec de la soumission';
 
   @override
   String get promptSelectVenueTitle => 'Sélectionner le public';
@@ -1947,7 +2175,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptSelectVenueSubmitButton => 'Soumettre';
 
   @override
-  String get promptSelectVenueErrorSubmit => 'Échec de la soumission du prompt';
+  String get promptSelectVenueErrorSubmit => 'Échec de la soumission';
 
   @override
   String get promptSettingsTitle => 'Paramètres';
@@ -1956,23 +2184,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptSettingsSubmitButton => 'Soumettre';
 
   @override
-  String get promptSettingsErrorSubmit => 'Échec de la soumission du prompt';
+  String get promptSettingsErrorSubmit => 'Échec de la soumission';
 
   @override
-  String get promptsViewTitle => 'Prompts';
+  String get promptsViewTitle => 'Demandes';
 
   @override
-  String get promptsViewEmptyActionButton => 'Nouveau prompt';
+  String get promptsViewEmptyActionButton => 'Nouvelle demande';
 
   @override
-  String get promptsViewAnswerPromptsButton => 'Prompts non répondus';
+  String get promptsViewAnswerPromptsButton => 'Demandes non répondues';
 
   @override
   String get promptsViewAllAnsweredMessage =>
-      'Tous les prompts répondus pour aujourd\'hui';
+      'Toutes les demandes répondues pour aujourd\'hui';
 
   @override
-  String get promptsViewMyPromptsTitle => 'Mes prompts';
+  String get promptsViewMyPromptsTitle => 'Mes demandes';
 
   @override
   String get venueCodeFieldPlaceholder => 'Code d\'invitation';
@@ -1997,10 +2225,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get venueDetailMembersPlural => 'Membres';
 
   @override
-  String get venueDetailCardSingular => 'Prompt';
+  String get venueDetailCardSingular => 'Demande';
 
   @override
-  String get venueDetailCardsPlural => 'Prompts';
+  String get venueDetailCardsPlural => 'Demandes';
 
   @override
   String get venueDetailMatchSingular => 'Match';
@@ -2056,15 +2284,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String venuePromptsViewTitle(String venueName) {
-    return 'Prompts de $venueName';
+    return 'Demandes de $venueName';
   }
 
   @override
-  String get venuePromptsViewEmptyTitle => 'Aucun prompt trouvé';
+  String get venuePromptsViewEmptyTitle => 'Aucune demande trouvée';
 
   @override
   String get venuePromptsViewEmptyDescription =>
-      'Ce lieu n\'a pas encore de prompts.';
+      'Ce lieu n\'a pas encore de demandes.';
 
   @override
   String get communityGuidelinesTitle => 'Directives';
@@ -2075,7 +2303,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get communityGuidelinesProhibited =>
-      'Spam, fraude, tromperie, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, déclarations haineuses, politique, offres d\'emploi ou postes vacants, publicité ou messages commerciaux.';
+      'Offres cachées, spam, fraude, tromperie, contenu offensant ou explicite, comportement toxique ou discriminatoire, discussions religieuses, déclarations haineuses, politique, offres d\'emploi ou postes vacants, publicité ou messages commerciaux.';
 
   @override
   String get errorStateDefaultTitle => 'Quelque chose s\'est mal passé';
@@ -2168,7 +2396,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Nouveau prompt';
+  String get matchesViewEmptyActionButton => 'Nouvelle demande';
 
   @override
   String get profileViewTitle => 'Profil';
@@ -2180,15 +2408,20 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileHeaderBioPlaceholder => 'Écrivez quelque chose sur vous...';
 
   @override
+  String get profileHeaderReachOutButton => 'Présentez-vous';
+
+  @override
+  String get profileHeaderAlreadyConnectedButton => 'Déjà en contact ?';
+
+  @override
   String get getMatchedButtonLabel => 'Être matché';
 
   @override
-  String get reviewPendingPromptsErrorUpdate =>
-      'Échec de la mise à jour des prompts';
+  String get reviewPendingPromptsErrorUpdate => 'Échec de la mise à jour';
 
   @override
   String get reviewPendingPromptsErrorUpdateAll =>
-      'Échec de la mise à jour de tous les prompts';
+      'Échec de la mise à jour de tout';
 
   @override
   String reviewPendingPromptsRejectSelected(int count) {
@@ -2334,7 +2567,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get venueErrorAdminRequiredPrompts =>
-      'Vous avez besoin de privilèges d\'administrateur pour voir les prompts du lieu.';
+      'Vous avez besoin de privilèges d\'administrateur pour voir les demandes du lieu.';
 
   @override
   String get venueErrorPermissionDenied =>
@@ -2342,4 +2575,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get optionButtonCompleteProfile => 'Compléter le profil';
+
+  @override
+  String returningUserTutorialWelcome(String name) {
+    return 'Bon retour $name';
+  }
+
+  @override
+  String get returningUserTutorialDescription =>
+      'Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.';
+
+  @override
+  String get returningUserTutorialButton => 'Montrez-moi';
+
+  @override
+  String get returningUserTutorialDoneDescription =>
+      'Merci d\'avoir pris le temps, profitez de cette nouvelle version !';
+
+  @override
+  String get returningUserTutorialDoneButton => 'Fermer';
 }

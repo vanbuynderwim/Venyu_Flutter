@@ -23,32 +23,46 @@ class AppLocalizationsNl extends AppLocalizations {
   String get onboardButtonStart => 'Start';
 
   @override
-  String get tutorialStep1Title => 'Prompts';
+  String get tutorialStep0Title => 'Hoe het werkt';
+
+  @override
+  String get tutorialStep0Description =>
+      'Venyu brengt mensen samen door hun aanbiedingen te matchen met de vragen van anderen.';
+
+  @override
+  String get tutorialStep1Title => 'Jouw aanbod';
 
   @override
   String get tutorialStep1Description =>
-      'Elke dag kan je 3 prompts beantwoorden. Het duurt nog geen minuut en helpt ons om de juiste matches te vinden.';
+      'Beschrijf in een paar woorden wat je te bieden hebt of hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.';
 
   @override
-  String get tutorialStep2Title => 'Matches';
+  String get tutorialStep2Title => 'Beantwoord vragen';
 
   @override
   String get tutorialStep2Description =>
-      'Zodra we de juiste match hebben gevonden, laten we het je weten zodat jij kunt kiezen of je een introductie wil.';
+      'We laten je weten wanneer we vragen van anderen hebben gevonden die passen bij jouw aanbod. Beslis zelf of je wil of kan helpen.';
 
   @override
-  String get tutorialStep3Title => 'Introducties';
+  String get tutorialStep3Title => 'Word gematcht';
 
   @override
   String get tutorialStep3Description =>
-      'Is de interesse wederzijds, dan maken we de introductie via e-mail en kan je rechtstreeks kennismaken.';
+      'De persoon van wie de vraag komt wordt met jou gematcht indien je kan helpen. Op dit punt zie jij de match nog niet. Zorg voor een compleet profiel voor een optimale matching score.';
 
   @override
-  String get tutorialStep4Title => 'Je bent er klaar voor!';
+  String get tutorialStep4Title => 'Introduction';
 
   @override
   String get tutorialStep4Description =>
-      'Laten we je profiel aanvullen en beginnen met het vinden van de juiste matches.';
+      'De persoon die de vraag behandelt beslist welke match een introductie krijgt. Zodra je de introductie e-mail ontvangt, krijg je toegang tot het profiel van de match en kan je beginnen connecteren.';
+
+  @override
+  String get tutorialStep5Title => 'Zoeken';
+
+  @override
+  String get tutorialStep5Description =>
+      'Dien je eigen vraag in en word gematcht met mensen die jou kunnen helpen. Deze keer zit jij aan het stuur!';
 
   @override
   String get tutorialButtonPrevious => 'Vorige';
@@ -57,11 +71,18 @@ class AppLocalizationsNl extends AppLocalizations {
   String get tutorialButtonNext => 'Volgende';
 
   @override
-  String get registrationCompleteTitle => 'Je profiel is klaar! 🎉';
+  String get tutorialDoneTitle => 'Je bent volledig mee!';
+
+  @override
+  String get tutorialDoneDescription =>
+      'Laten we je profiel voltooien.\nDit duurt maar een minuutje.';
+
+  @override
+  String get registrationCompleteTitle => 'Bijna klaar!';
 
   @override
   String get registrationCompleteDescription =>
-      'Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag ons helpt om de juiste match te vinden voor jou.';
+      'Bedankt voor het opstellen van je profiel. Laten we nu je aanbod toevoegen aan je profiel. Maak het duidelijk zodat we je kunnen matchen met de juiste vragen!';
 
   @override
   String get registrationCompleteButton => 'Doorgaan';
@@ -71,7 +92,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptEntryDescriptionFirstTime =>
-      'Hier zijn 3 voorbeeldprompts om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!';
+      'Hier zijn 3 voorbeeldvragen om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!';
 
   @override
   String get promptEntryButtonFirstTime => 'Start tutorial';
@@ -88,16 +109,16 @@ class AppLocalizationsNl extends AppLocalizations {
   String get dailyPromptsButtonNext => 'Volgende';
 
   @override
-  String get dailyPromptsReportSuccess => 'Prompt succesvol gerapporteerd';
+  String get dailyPromptsReportSuccess => 'Vraag succesvol gerapporteerd';
 
   @override
-  String get dailyPromptsReportError => 'Rapporteren mislukt';
+  String get dailyPromptsReportError => 'Vraag rapporteren mislukt';
 
   @override
-  String get dailyPromptsNoPromptsAvailable => 'Geen prompts beschikbaar';
+  String get dailyPromptsNoPromptsAvailable => 'Geen vragen beschikbaar';
 
   @override
-  String get dailyPromptsExampleTag => 'Voorbeeld prompt';
+  String get dailyPromptsExampleTag => 'Voorbeeldvraag';
 
   @override
   String get dailyPromptsReferralCodeSent =>
@@ -108,7 +129,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte prompts te beantwoorden en gematcht te worden met andere ondernemers.';
+      'Voel je vrij om de app nu te verkennen! We laten je weten wanneer we vragen vinden die passen bij jouw aanbod.\n\nPro tip: Je kan meer aanbiedingen toevoegen in je profiel voor nog betere matches.\n\nMake the net work 🤝';
 
   @override
   String get tutorialFinishedButton => 'Oké!';
@@ -118,7 +139,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationFinishDescription =>
-      'Je account is helemaal ingesteld en je hebt je eerste 3 prompts beantwoord. Kom morgen terug om meer prompts te beantwoorden en nieuwe matches te ontdekken.';
+      'Je account is helemaal ingesteld en je hebt je eerste 3 vragen beantwoord. Kom morgen terug om meer vragen te beantwoorden en nieuwe matches te ontdekken.';
 
   @override
   String get registrationFinishButton => 'Klaar!';
@@ -140,11 +161,11 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get errorNoCardsAvailable =>
-      'Momenteel geen prompts beschikbaar. Kom later terug!';
+      'Momenteel geen vragen beschikbaar. Kom later terug!';
 
   @override
   String get errorFailedToLoadCards =>
-      'Prompts laden mislukt. Probeer het opnieuw.';
+      'Vragen laden mislukt. Probeer het opnieuw.';
 
   @override
   String get errorFailedToRefreshProfile =>
@@ -224,6 +245,18 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeNotRelevantHint => 'Wat wil je delen?';
 
   @override
+  String get interactionTypeThisIsMeNewTitle => 'Nieuw aanbod';
+
+  @override
+  String get interactionTypeLookingForThisNewTitle => 'Nieuwe vraag';
+
+  @override
+  String get interactionTypeKnowSomeoneNewTitle => 'Nieuwe connectie';
+
+  @override
+  String get interactionTypeNotRelevantNewTitle => 'Overslaan';
+
+  @override
   String get registrationStepNameTitle => 'Persoonlijke informatie';
 
   @override
@@ -255,6 +288,19 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get registrationStepNotificationsTitle => 'Activeer meldingen';
+
+  @override
+  String get registrationStepOptinTitle => 'Haal meer uit Venyu';
+
+  @override
+  String get registrationStepOptinBody =>
+      'Wil je tips ontvangen om je profiel te verbeteren en als eerste op de hoogte zijn van nieuwe functies?';
+
+  @override
+  String get registrationStepOptinButtonYes => 'Ja, hou me op de hoogte';
+
+  @override
+  String get registrationStepOptinButtonNo => 'Nee, bedankt';
 
   @override
   String get registrationStepCompleteTitle => 'Welkom bij Venyu!';
@@ -312,7 +358,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get benefitDiscreetPreviewDescription =>
-      'Op je prompts krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.';
+      'Op je vragen krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.';
 
   @override
   String get benefitUnlimitedIntroductionsTitle => 'Oneindige introductions';
@@ -336,11 +382,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Begrijp je bereik met eenvoudige statistieken';
 
   @override
-  String get benefitDailyCardsBoostTitle => 'Meer dagelijkse prompts';
+  String get benefitDailyCardsBoostTitle => 'Meer dagelijkse vragen';
 
   @override
   String get benefitDailyCardsBoostDescription =>
-      'Meer prompts om je netwerk sneller te laten groeien.';
+      'Meer vragen om je netwerk sneller te laten groeien.';
 
   @override
   String get benefitAiPoweredMatchesTitle => 'AI-gedreven matches (later)';
@@ -353,13 +399,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get editCompanyInfoNameTitle => 'Bedrijfsgegevens';
 
   @override
-  String get editCompanyInfoNameDescription => 'Naam en website van je bedrijf';
+  String get editCompanyInfoNameDescription => 'Naam van je bedrijf';
 
   @override
   String get editPersonalInfoNameTitle => 'Naam';
 
   @override
-  String get editPersonalInfoNameDescription => 'Je naam en LinkedIn URL';
+  String get editPersonalInfoNameDescription => 'Je naam';
 
   @override
   String get editPersonalInfoBioTitle => 'Bio';
@@ -495,6 +541,19 @@ class AppLocalizationsNl extends AppLocalizations {
       'Automatisch introductie aanvragen bij matches';
 
   @override
+  String get accountSettingsInviteCodesTitle => 'Uitnodigingscodes';
+
+  @override
+  String get accountSettingsInviteCodesDescription =>
+      'Beschikbare uitnodigingscodes';
+
+  @override
+  String get accountSettingsLinksTitle => 'Links';
+
+  @override
+  String get accountSettingsLinksDescription => 'Je persoonlijke sociale links';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override
@@ -504,14 +563,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get reviewTypeUserTitle => 'Door gebruiker aangemaakt';
 
   @override
-  String get reviewTypeUserDescription => 'Prompts ingediend door gebruikers';
+  String get reviewTypeUserDescription => 'Vragen ingediend door gebruikers';
 
   @override
   String get reviewTypeSystemTitle => 'AI gegenereerd';
 
   @override
   String get reviewTypeSystemDescription =>
-      'Dagelijks gegenereerde prompts door AI';
+      'Dagelijks gegenereerde vragen door AI';
 
   @override
   String get appName => 'Venyu';
@@ -523,7 +582,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Prompts';
+  String get navCards => 'Vragen';
 
   @override
   String get navNotifications => 'Updates';
@@ -533,6 +592,9 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get actionSave => 'Opslaan';
+
+  @override
+  String get actionSend => 'Versturen';
 
   @override
   String get actionCancel => 'Annuleren';
@@ -588,7 +650,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get validationUrlInvalid =>
-      'Voer een geldige URL in (beginnend met http:// of https://)';
+      'Voer een geldige URL in (bijv. voorbeeld.com)';
 
   @override
   String get validationLinkedInUrlInvalid =>
@@ -650,7 +712,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSectionCardTitle => 'Status';
 
   @override
-  String get promptSectionCardDescription => 'Bekijk je prompt details';
+  String get promptSectionCardDescription => 'Bekijk je vraag details';
 
   @override
   String get promptSectionStatsTitle => 'Statistieken';
@@ -669,7 +731,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptStatusDraftInfo =>
-      'Je prompt is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.';
+      'Je vraag is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.';
 
   @override
   String get promptStatusPendingReviewDisplay =>
@@ -677,35 +739,35 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptStatusPendingReviewInfo =>
-      'Je prompt wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.';
+      'Je vraag wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.';
 
   @override
   String get promptStatusPendingTranslationDisplay => 'Wordt vertaald';
 
   @override
   String get promptStatusPendingTranslationInfo =>
-      'Je prompt wordt vertaald naar andere talen.';
+      'Je vraag wordt vertaald naar andere talen.';
 
   @override
   String get promptStatusApprovedDisplay => 'Goedgekeurd';
 
   @override
   String get promptStatusApprovedInfo =>
-      'Je prompt is goedgekeurd en staat live. Je kunt matches ontvangen.';
+      'Je vraag is goedgekeurd en staat live. Je kunt matches ontvangen.';
 
   @override
   String get promptStatusRejectedDisplay => 'Afgewezen';
 
   @override
   String get promptStatusRejectedInfo =>
-      'Je prompt werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.';
+      'Je vraag werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.';
 
   @override
   String get promptStatusArchivedDisplay => 'Gearchiveerd';
 
   @override
   String get promptStatusArchivedInfo =>
-      'Je prompt is gearchiveerd en niet meer zichtbaar voor andere gebruikers.';
+      'Je vraag is gearchiveerd en niet meer zichtbaar voor andere gebruikers.';
 
   @override
   String get venueTypeEventDisplayName => 'Evenement';
@@ -733,21 +795,21 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateReviewsDescription =>
-      'Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier';
+      'Wanneer vragen ter beoordeling worden ingediend, verschijnen ze hier';
 
   @override
   String get emptyStateMatchesTitle => 'Wachten op je eerste match!';
 
   @override
   String get emptyStateMatchesDescription =>
-      'Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe prompt om sneller gematcht te worden.';
+      'Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe vraag om sneller gematcht te worden.';
 
   @override
   String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
+      'Vragen helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -869,6 +931,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get joinVenuePlaceholder => 'Voer venue code in';
 
   @override
+  String get matchItemReachOut => 'Stel jezelf voor';
+
+  @override
   String get matchDetailLoading => 'Laden...';
 
   @override
@@ -927,6 +992,114 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchDetailTypeMatch => 'match';
 
   @override
+  String get matchReachOutTitle => 'Introductie';
+
+  @override
+  String matchReachOutSubtitle(String name) {
+    return 'Stel jezelf voor aan $name';
+  }
+
+  @override
+  String get matchReachOutGreeting => 'Hallo';
+
+  @override
+  String get matchReachOutPromptContextSingular => 'De vraag die ons matcht:';
+
+  @override
+  String get matchReachOutPromptContextPlural => 'De vragen die ons matchen:';
+
+  @override
+  String get matchReachOutMessagePlaceholder => 'Schrijf je bericht hier...';
+
+  @override
+  String get matchReachOutInfoMessage =>
+      'Je bericht wordt rechtstreeks via e-mail verzonden en wordt niet opgeslagen door Venyu. Je kan één introductie per match sturen, dus hou het duidelijk, respectvol en professioneel.';
+
+  @override
+  String get matchReachOutContactsSubtitle => 'Deel extra links (optioneel)';
+
+  @override
+  String get matchReachOutPreviewTitle => 'Voorbeeld';
+
+  @override
+  String get matchReachOutPreviewFromLabel => 'Van';
+
+  @override
+  String matchReachOutPreviewFromValue(String name) {
+    return '$name (via Venyu)';
+  }
+
+  @override
+  String get matchReachOutPreviewReplyToLabel => 'Antwoord naar';
+
+  @override
+  String get matchReachOutPreviewSubjectLabel => 'Onderwerp';
+
+  @override
+  String matchReachOutPreviewSubject(String firstName) {
+    return 'Introductie van $firstName';
+  }
+
+  @override
+  String get matchReachOutPreviewPS =>
+      'PS: Antwoord gerust rechtstreeks op deze e-mail.';
+
+  @override
+  String get matchReachOutFinishTitle => 'Introductie verzonden!';
+
+  @override
+  String matchReachOutFinishDescription(String name) {
+    return 'Je bericht is verzonden naar $name. Ze ontvangen het rechtstreeks in hun inbox.';
+  }
+
+  @override
+  String get matchReachOutFinishDoneButton => 'Klaar';
+
+  @override
+  String get matchReachOutSuccessMessage => 'Bericht succesvol verzonden';
+
+  @override
+  String get matchReachOutErrorMessage => 'Bericht verzenden mislukt';
+
+  @override
+  String get matchStagesTitle => 'Connectie fase';
+
+  @override
+  String get matchStagesDescription =>
+      'Volg de voortgang van deze match. Zowel jij als je match kunnen deze fase aanpassen.';
+
+  @override
+  String get matchStagesSaveButton => 'Opslaan';
+
+  @override
+  String get matchStagesSavingButton => 'Opslaan...';
+
+  @override
+  String get matchStagesLoadErrorTitle => 'Fout bij laden fases';
+
+  @override
+  String get matchStagesRetryButton => 'Opnieuw proberen';
+
+  @override
+  String get matchStagesNoStagesMessage => 'Geen fases beschikbaar';
+
+  @override
+  String get matchStagesSaveErrorTitle => 'Fout bij opslaan fase';
+
+  @override
+  String matchStagesSaveErrorMessage(String error) {
+    return 'Fase opslaan mislukt: $error';
+  }
+
+  @override
+  String get matchStagesErrorDialogOk => 'OK';
+
+  @override
+  String matchDetailFirstCallWarning(String firstName) {
+    return 'Enkel jij ziet deze match. Zodra je jezelf voorstelt, ziet $firstName jou ook.';
+  }
+
+  @override
   String get matchDetailErrorLoad => 'Match details laden mislukt';
 
   @override
@@ -954,10 +1127,10 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get matchDetailCard => 'prompt';
+  String get matchDetailCard => 'vraag';
 
   @override
-  String get matchDetailCards => 'prompts';
+  String get matchDetailCards => 'vragen';
 
   @override
   String matchDetailSharedIntros(int count, String intros) {
@@ -965,10 +1138,10 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get matchDetailIntroduction => 'introductie';
+  String get matchDetailIntroduction => 'match';
 
   @override
-  String get matchDetailIntroductions => 'introductions';
+  String get matchDetailIntroductions => 'matches';
 
   @override
   String matchDetailSharedVenues(int count, String venues) {
@@ -1182,6 +1355,23 @@ class AppLocalizationsNl extends AppLocalizations {
   String get contactSectionEmptyContacts => 'Geen contactopties beschikbaar';
 
   @override
+  String get aboutMeSectionEmptyTitle => 'Dit ben ik';
+
+  @override
+  String get aboutMeSectionEmptyDescription =>
+      'Voeg een paar aanbiedingen toe die beschrijven hoe je anderen kan helpen. Ze zijn privé en worden alleen gebruikt voor matching met vragen van anderen.';
+
+  @override
+  String get aboutMeSectionEmptyAction => 'Voeg aanbod toe';
+
+  @override
+  String get profileSectionAboutMeTitle => 'Mijn aanbod';
+
+  @override
+  String get profileSectionAboutMeDescription =>
+      'Aanbiedingen over wie je bent en hoe je anderen helpt. Ze verbeteren je matches.';
+
+  @override
   String get profileSectionPersonalTitle => 'Persoonlijk';
 
   @override
@@ -1206,10 +1396,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get profileSectionInvitesDescription => 'Uitnodigingen en codes';
 
   @override
-  String get profileSectionContactTitle => 'Contact';
+  String get profileSectionContactTitle => 'Links';
 
   @override
-  String get profileSectionContactDescription => 'Contactgegevens';
+  String get profileSectionContactDescription => 'Je contact links';
 
   @override
   String get profileSectionReviewsTitle => 'Reviews';
@@ -1258,7 +1448,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountDataExportDescription =>
-      'Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.';
+      'Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, vragen, aanbiedingen, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.';
 
   @override
   String get editAccountExportDataButton => 'Exporteer al je gegevens';
@@ -1268,7 +1458,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAccountDeleteDescription =>
-      'Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, prompts en matches worden verwijderd.';
+      'Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, vragen, aanbiedingen en matches worden verwijderd.';
 
   @override
   String get editAccountDeleteButton => 'Account verwijderen';
@@ -1462,7 +1652,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Gebruikt geschatte locatie. Schakel \'Precieze locatie\' in bij instellingen voor betere matches.';
 
   @override
-  String get editNameTitle => 'Jij';
+  String get editNameTitle => 'Jouw naam';
 
   @override
   String get editNameSuccessMessage => 'Wijzigingen succesvol opgeslagen';
@@ -1546,7 +1736,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editEmailInfoMessage =>
-      'We gebruiken dit e-mailadres alleen voor app notificaties zoals nieuwe matches, introducties en belangrijke updates';
+      'We gebruiken je e-mail alleen voor accountverificatie, matchmeldingen, updates over je vragen en serviceberichten.';
 
   @override
   String get editEmailNewsletterLabel => 'INSCHRIJVEN VOOR VENYU UPDATES';
@@ -1589,7 +1779,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editCityInfoMessage =>
-      'Je stad wordt alleen gedeeld met mensen aan wie je geïntroduceerd wordt, niet met matches. Dit helpt om betere persoonlijke ontmoetingen te faciliteren zodra een connectie is gemaakt.';
+      'Je stad wordt alleen gedeeld met mensen waarmee je matcht en is niet publiek zichtbaar. Dit helpt om betere persoonlijke ontmoetingen te faciliteren zodra een connectie is gemaakt.';
 
   @override
   String get editCompanyNameTitle => 'Bedrijfsnaam';
@@ -1635,7 +1825,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editAvatarInfoMessage =>
-      'Je foto is vaak je eerste indruk. Kies een duidelijke, vriendelijke headshot. Deze verschijnt wazig in matches, maar zichtbaar zodra je geïntroduceerd bent.';
+      'Je foto is vaak je eerste indruk. Kies een duidelijke, vriendelijke headshot.';
 
   @override
   String get editAvatarCameraButton => 'Camera';
@@ -1673,11 +1863,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptCardStatusLabel => 'Status';
 
   @override
-  String get promptCardUpgradeTitle => 'Verleng je prompt zichtbaarheid';
+  String get promptCardUpgradeTitle => 'Verleng je vraag zichtbaarheid';
 
   @override
   String get promptCardUpgradeSubtitle =>
-      'Upgrade naar Venyu Pro om je prompt 10 dagen in plaats van 3 online te houden.';
+      'Upgrade naar Venyu Pro om je vraag 10 dagen in plaats van 3 online te houden.';
 
   @override
   String get promptCardUpgradeButton => 'Upgraden naar Pro';
@@ -1693,14 +1883,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptIntroEmptyDescription =>
-      'Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.';
+      'Wanneer mensen matchen met je vraag, verschijnen hun profielen hier.';
 
   @override
   String get promptStatsTitle => 'Statistieken komen binnenkort';
 
   @override
   String get promptStatsDescription =>
-      'Volg de prestaties, weergaven en engagement metrics van je prompt.';
+      'Volg de prestaties, weergaven en engagement metrics van je vraag.';
 
   @override
   String interactionTypeSelectionTitleFromPrompts(String name) {
@@ -1716,15 +1906,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeSelectionSubtitleDefault =>
-      'Schrijf zelf een prompt';
+      'Schrijf zelf een aanbod of vraag';
 
   @override
   String get interactionTypeSelectionDisclaimerText =>
-      'Prompts worden nagekeken voordat ze live gaan';
+      'Vragen worden nagekeken voordat ze live gaan';
 
   @override
   String get interactionTypeSelectionDisclaimerBeforeLinkText =>
-      'Prompts worden nagekeken volgens onze ';
+      'Vragen worden nagekeken volgens onze ';
 
   @override
   String get interactionTypeSelectionDisclaimerLinkText =>
@@ -1742,7 +1932,11 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeSelectionNotNowButton => 'Niet nu';
 
   @override
-  String get promptDetailTitle => 'Prompt detail';
+  String get interactionTypeSelectionPrivatePromptsInfo =>
+      'Een aanbod beschrijft hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.';
+
+  @override
+  String get promptDetailTitle => 'Detail';
 
   @override
   String get promptDetailStatusTitle => 'Status';
@@ -1752,7 +1946,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptDetailHowYouMatchDescription =>
-      'Pauzeer het matchen op deze prompt om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.';
+      'Pauzeer het matchen op deze vraag om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.';
 
   @override
   String get promptDetailFirstCallTitle => 'First Call';
@@ -1761,13 +1955,21 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailPublishedInTitle => 'Gepubliceerd in';
 
   @override
-  String get promptDetailMatchesTitle => 'Matches';
+  String promptDetailMatchesTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get promptDetailErrorMessage => 'Laden van prompt mislukt';
+  String get promptDetailErrorMessage => 'Laden van vraag mislukt';
 
   @override
-  String get promptDetailErrorDataMessage => 'Laden van prompt mislukt';
+  String get promptDetailErrorDataMessage => 'Laden van vraag mislukt';
 
   @override
   String get promptDetailRetryButton => 'Opnieuw proberen';
@@ -1777,10 +1979,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptDetailEmptyMatchesDescription =>
-      'Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.';
+      'Wanneer mensen matchen met je vraag, verschijnen hun profielen hier.';
 
   @override
-  String get promptDetailEditButton => 'Prompt bewerken';
+  String get promptDetailEditButton => 'Vraag bewerken';
 
   @override
   String get promptDetailPreviewUpdatedMessage =>
@@ -1795,7 +1997,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String promptDetailPauseMatchingMessage(String interactionType) {
-    return 'Je ontvangt geen matches meer voor \"$interactionType\" op deze prompt. Je kunt matching altijd hervatten.';
+    return 'Je ontvangt geen matches meer voor \"$interactionType\" op deze vraag. Je kunt matching altijd hervatten.';
   }
 
   @override
@@ -1806,7 +2008,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptDetailPauseMatchingMessageGeneric =>
-      'Je ontvangt geen matches meer op deze prompt. Je kan matchen op elk moment hervatten.';
+      'Je ontvangt geen matches meer op deze vraag. Je kan matchen op elk moment hervatten.';
 
   @override
   String get promptDetailMatchingActiveLabel => 'Matchen is actief';
@@ -1818,26 +2020,37 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptItemPausedTag => 'Gepauzeerd';
 
   @override
+  String promptItemMatchCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get promptDetailRejectButton => 'Afwijzen';
 
   @override
   String get promptDetailApproveButton => 'Goedkeuren';
 
   @override
-  String get promptDetailApprovedMessage => 'Prompt goedgekeurd';
+  String get promptDetailApprovedMessage => 'Vraag goedgekeurd';
 
   @override
-  String get promptDetailRejectedMessage => 'Prompt afgewezen';
+  String get promptDetailRejectedMessage => 'Vraag afgewezen';
 
   @override
-  String get promptDetailDeleteButton => 'Prompt verwijderen';
+  String get promptDetailDeleteButton => 'Verwijderen';
 
   @override
-  String get promptDetailDeleteConfirmTitle => 'Prompt verwijderen?';
+  String get promptDetailDeleteConfirmTitle => 'Verwijderen?';
 
   @override
   String get promptDetailDeleteConfirmMessage =>
-      'Dit zal je prompt permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.';
+      'Dit zal je gegevens permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.';
 
   @override
   String get promptDetailDeleteConfirmButton => 'Verwijderen';
@@ -1846,7 +2059,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptDetailDeleteCancelButton => 'Annuleren';
 
   @override
-  String get promptDetailDeletedMessage => 'Prompt verwijderd';
+  String get promptDetailDeletedMessage => 'Verwijderd';
 
   @override
   String get promptDetailDeleteErrorMessage => 'Verwijderen mislukt';
@@ -1860,24 +2073,27 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get promptEntryGreetingFirstTime => 'Laten we eerst oefenen!';
+
+  @override
   String promptEntryFirstTimeDescription(int count) {
-    return 'De volgende $count prompts zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.';
+    return 'De volgende $count vragen zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.';
   }
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Je dagelijkse $count prompts wachten op je';
+    return 'Je dagelijkse $count vragen wachten op je';
   }
 
   @override
   String get promptEntryButton => 'Laat zien';
 
   @override
-  String get promptFinishTitle => 'Prompt ingediend!';
+  String get promptFinishTitle => 'Vraag ingediend!';
 
   @override
   String get promptFinishDescription =>
-      'Je prompt is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.';
+      'Je vraag is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.';
 
   @override
   String get promptFinishReviewInfo =>
@@ -1885,6 +2101,13 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get promptFinishDoneButton => 'Klaar';
+
+  @override
+  String get promptFinishSavedTitle => 'Aanbod opgeslagen';
+
+  @override
+  String get promptFinishSavedDescription =>
+      'Je aanbod is succesvol opgeslagen!';
 
   @override
   String get promptPreviewTitle => 'Voorbeeld';
@@ -1896,10 +2119,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptPreviewSubmitButton => 'Indienen';
 
   @override
-  String get promptPreviewErrorUpdate => 'Bijwerken van prompt mislukt';
+  String get promptPreviewErrorUpdate => 'Bijwerken mislukt';
 
   @override
-  String get promptPreviewErrorSubmit => 'Indienen van prompt mislukt';
+  String get promptPreviewErrorSubmit => 'Indienen mislukt';
 
   @override
   String get promptSelectVenueTitle => 'Selecteer publiek';
@@ -1924,7 +2147,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSelectVenueSubmitButton => 'Indienen';
 
   @override
-  String get promptSelectVenueErrorSubmit => 'Indienen van prompt mislukt';
+  String get promptSelectVenueErrorSubmit => 'Indienen mislukt';
 
   @override
   String get promptSettingsTitle => 'Instellingen';
@@ -1933,23 +2156,23 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptSettingsSubmitButton => 'Indienen';
 
   @override
-  String get promptSettingsErrorSubmit => 'Indienen van prompt mislukt';
+  String get promptSettingsErrorSubmit => 'Indienen mislukt';
 
   @override
-  String get promptsViewTitle => 'Prompts';
+  String get promptsViewTitle => 'Vragen';
 
   @override
-  String get promptsViewEmptyActionButton => 'Nieuwe prompt';
+  String get promptsViewEmptyActionButton => 'Nieuwe vraag';
 
   @override
-  String get promptsViewAnswerPromptsButton => 'Onbeantwoorde prompts';
+  String get promptsViewAnswerPromptsButton => 'Onbeantwoorde vragen';
 
   @override
   String get promptsViewAllAnsweredMessage =>
-      'Alle prompts beantwoord voor vandaag';
+      'Alle vragen beantwoord voor vandaag';
 
   @override
-  String get promptsViewMyPromptsTitle => 'Mijn prompts';
+  String get promptsViewMyPromptsTitle => 'Mijn vragen';
 
   @override
   String get venueCodeFieldPlaceholder => 'Uitnodigingscode';
@@ -1973,10 +2196,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get venueDetailMembersPlural => 'Leden';
 
   @override
-  String get venueDetailCardSingular => 'Prompt';
+  String get venueDetailCardSingular => 'Vraag';
 
   @override
-  String get venueDetailCardsPlural => 'Prompts';
+  String get venueDetailCardsPlural => 'Vragen';
 
   @override
   String get venueDetailMatchSingular => 'Match';
@@ -2032,15 +2255,15 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String venuePromptsViewTitle(String venueName) {
-    return '$venueName prompts';
+    return '$venueName vragen';
   }
 
   @override
-  String get venuePromptsViewEmptyTitle => 'Geen prompts gevonden';
+  String get venuePromptsViewEmptyTitle => 'Geen vragen gevonden';
 
   @override
   String get venuePromptsViewEmptyDescription =>
-      'Deze venue heeft nog geen prompts.';
+      'Deze venue heeft nog geen vragen.';
 
   @override
   String get communityGuidelinesTitle => 'Richtlijnen';
@@ -2051,7 +2274,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get communityGuidelinesProhibited =>
-      'Spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.';
+      'Een verdoken aanbod, spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.';
 
   @override
   String get errorStateDefaultTitle => 'Er ging iets mis';
@@ -2143,7 +2366,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Nieuwe prompt';
+  String get matchesViewEmptyActionButton => 'Nieuwe vraag';
 
   @override
   String get profileViewTitle => 'Profiel';
@@ -2155,14 +2378,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get profileHeaderBioPlaceholder => 'Schrijf iets over jezelf...';
 
   @override
+  String get profileHeaderReachOutButton => 'Stel jezelf voor';
+
+  @override
+  String get profileHeaderAlreadyConnectedButton => 'Al in contact?';
+
+  @override
   String get getMatchedButtonLabel => 'Word gematcht';
 
   @override
-  String get reviewPendingPromptsErrorUpdate => 'Bijwerken van prompts mislukt';
+  String get reviewPendingPromptsErrorUpdate => 'Bijwerken mislukt';
 
   @override
   String get reviewPendingPromptsErrorUpdateAll =>
-      'Bijwerken van alle prompts mislukt';
+      'Bijwerken van alles mislukt';
 
   @override
   String reviewPendingPromptsRejectSelected(int count) {
@@ -2307,7 +2536,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get venueErrorAdminRequiredPrompts =>
-      'Je hebt admin rechten nodig om venue prompts te bekijken.';
+      'Je hebt admin rechten nodig om venue vragen te bekijken.';
 
   @override
   String get venueErrorPermissionDenied =>
@@ -2315,4 +2544,23 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get optionButtonCompleteProfile => 'Profiel voltooien';
+
+  @override
+  String returningUserTutorialWelcome(String name) {
+    return 'Welkom terug $name';
+  }
+
+  @override
+  String get returningUserTutorialDescription =>
+      'De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.';
+
+  @override
+  String get returningUserTutorialButton => 'Laat zien';
+
+  @override
+  String get returningUserTutorialDoneDescription =>
+      'Bedankt om even de tijd te nemen, veel plezier met deze nieuwe versie!';
+
+  @override
+  String get returningUserTutorialDoneButton => 'Sluiten';
 }

@@ -124,53 +124,77 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get onboardButtonStart;
 
+  /// No description provided for @tutorialStep0Title.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get tutorialStep0Title;
+
+  /// No description provided for @tutorialStep0Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Venyu brings people together by matching their offers with the requests of others.'**
+  String get tutorialStep0Description;
+
   /// No description provided for @tutorialStep1Title.
   ///
   /// In en, this message translates to:
-  /// **'Prompts'**
+  /// **'Your offer'**
   String get tutorialStep1Title;
 
   /// No description provided for @tutorialStep1Description.
   ///
   /// In en, this message translates to:
-  /// **'Every day, you can answer 3 prompts. It takes less than a minute and helps us find the right matches for you.'**
+  /// **'Describe in a few words what you have to offer or how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.'**
   String get tutorialStep1Description;
 
   /// No description provided for @tutorialStep2Title.
   ///
   /// In en, this message translates to:
-  /// **'Matches'**
+  /// **'Answer requests'**
   String get tutorialStep2Title;
 
   /// No description provided for @tutorialStep2Description.
   ///
   /// In en, this message translates to:
-  /// **'Once we’ve found the right match, we’ll let you know so you can decide if you’d like an introduction.'**
+  /// **'We\'ll notify you when we found requests from others matching your offer. Decide for yourself if you want or can help.'**
   String get tutorialStep2Description;
 
   /// No description provided for @tutorialStep3Title.
   ///
   /// In en, this message translates to:
-  /// **'Introductions'**
+  /// **'Get matched'**
   String get tutorialStep3Title;
 
   /// No description provided for @tutorialStep3Description.
   ///
   /// In en, this message translates to:
-  /// **'When the interest is mutual, we\'ll make the introduction via email so you can connect directly.'**
+  /// **'The person who posted the request gets matched with you if you can help. At this point, you don\'t see the match yet. Complete your profile for an optimal matching score.'**
   String get tutorialStep3Description;
 
   /// No description provided for @tutorialStep4Title.
   ///
   /// In en, this message translates to:
-  /// **'You\'re all set!'**
+  /// **'Introduction'**
   String get tutorialStep4Title;
 
   /// No description provided for @tutorialStep4Description.
   ///
   /// In en, this message translates to:
-  /// **'Let’s complete your profile and start finding the right matches.'**
+  /// **'The person handling the request decides which match receives an introduction. Once you receive the introduction email, you\'ll gain access to the match\'s profile and can start connecting.'**
   String get tutorialStep4Description;
+
+  /// No description provided for @tutorialStep5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get tutorialStep5Title;
+
+  /// No description provided for @tutorialStep5Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit your own request and get matched with people who can help you. This time, you\'re in the driver\'s seat!'**
+  String get tutorialStep5Description;
 
   /// No description provided for @tutorialButtonPrevious.
   ///
@@ -184,16 +208,28 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get tutorialButtonNext;
 
+  /// No description provided for @tutorialDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up!'**
+  String get tutorialDoneTitle;
+
+  /// No description provided for @tutorialDoneDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s complete your profile.\nThis will only take a minute.'**
+  String get tutorialDoneDescription;
+
   /// No description provided for @registrationCompleteTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your profile is ready! 🎉'**
+  /// **'Almost there!'**
   String get registrationCompleteTitle;
 
   /// No description provided for @registrationCompleteDescription.
   ///
   /// In en, this message translates to:
-  /// **'Thanks for setting up your profile. Now let\'s see how answering 3 prompts each day helps us finding the right match for you.'**
+  /// **'Thanks for setting up your profile. Now let\'s add your offer to your profile. Make it clear so we can match you with the right requests!'**
   String get registrationCompleteDescription;
 
   /// No description provided for @registrationCompleteButton.
@@ -211,7 +247,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptEntryDescriptionFirstTime.
   ///
   /// In en, this message translates to:
-  /// **'Here are 3 example prompts to help you understand how it works. Don\'t worry, these are just for practice.'**
+  /// **'Here are 3 example requests to help you understand how it works. Don\'t worry, these are just for practice.'**
   String get promptEntryDescriptionFirstTime;
 
   /// No description provided for @promptEntryButtonFirstTime.
@@ -241,25 +277,25 @@ abstract class AppLocalizations {
   /// No description provided for @dailyPromptsReportSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Prompt reported successfully'**
+  /// **'Request reported successfully'**
   String get dailyPromptsReportSuccess;
 
   /// No description provided for @dailyPromptsReportError.
   ///
   /// In en, this message translates to:
-  /// **'Failed to report prompt'**
+  /// **'Failed to report request'**
   String get dailyPromptsReportError;
 
   /// No description provided for @dailyPromptsNoPromptsAvailable.
   ///
   /// In en, this message translates to:
-  /// **'No prompts available'**
+  /// **'No requests available'**
   String get dailyPromptsNoPromptsAvailable;
 
   /// No description provided for @dailyPromptsExampleTag.
   ///
   /// In en, this message translates to:
-  /// **'Example prompt'**
+  /// **'Example request'**
   String get dailyPromptsExampleTag;
 
   /// No description provided for @dailyPromptsReferralCodeSent.
@@ -277,7 +313,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialFinishedDescription.
   ///
   /// In en, this message translates to:
-  /// **'You\'ve completed the quick tour. Now you\'re ready to start answering your first 3 real prompts to get matched with other entrepreneurs.'**
+  /// **'Feel free to explore the app now! We\'ll let you know when we find requests that match your offer.\n\nPro tip: You can add more offers in your profile to get even better matches.\n\nMake the net work 🤝'**
   String get tutorialFinishedDescription;
 
   /// No description provided for @tutorialFinishedButton.
@@ -295,7 +331,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationFinishDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your account is all set up and you\'ve answered your first 3 prompts. Come back tomorrow to answer more prompts and discover new matches.'**
+  /// **'Your account is all set up and you\'ve answered your first 3 requests. Come back tomorrow to answer more requests and discover new matches.'**
   String get registrationFinishDescription;
 
   /// No description provided for @registrationFinishButton.
@@ -337,13 +373,13 @@ abstract class AppLocalizations {
   /// No description provided for @errorNoCardsAvailable.
   ///
   /// In en, this message translates to:
-  /// **'No Prompts available at the moment. Check back later!'**
+  /// **'No requests available at the moment. Check back later!'**
   String get errorNoCardsAvailable;
 
   /// No description provided for @errorFailedToLoadCards.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load prompts. Please try again.'**
+  /// **'Failed to load requests. Please try again.'**
   String get errorFailedToLoadCards;
 
   /// No description provided for @errorFailedToRefreshProfile.
@@ -484,6 +520,30 @@ abstract class AppLocalizations {
   /// **'What would you like to share?'**
   String get interactionTypeNotRelevantHint;
 
+  /// No description provided for @interactionTypeThisIsMeNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New offer'**
+  String get interactionTypeThisIsMeNewTitle;
+
+  /// No description provided for @interactionTypeLookingForThisNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New request'**
+  String get interactionTypeLookingForThisNewTitle;
+
+  /// No description provided for @interactionTypeKnowSomeoneNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New connection'**
+  String get interactionTypeKnowSomeoneNewTitle;
+
+  /// No description provided for @interactionTypeNotRelevantNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get interactionTypeNotRelevantNewTitle;
+
   /// No description provided for @registrationStepNameTitle.
   ///
   /// In en, this message translates to:
@@ -549,6 +609,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get registrationStepNotificationsTitle;
+
+  /// No description provided for @registrationStepOptinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get more out of Venyu'**
+  String get registrationStepOptinTitle;
+
+  /// No description provided for @registrationStepOptinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Want to receive tips to boost your profile and be the first to know about new features?'**
+  String get registrationStepOptinBody;
+
+  /// No description provided for @registrationStepOptinButtonYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, keep me posted'**
+  String get registrationStepOptinButtonYes;
+
+  /// No description provided for @registrationStepOptinButtonNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No, thanks'**
+  String get registrationStepOptinButtonNo;
 
   /// No description provided for @registrationStepCompleteTitle.
   ///
@@ -649,7 +733,7 @@ abstract class AppLocalizations {
   /// No description provided for @benefitDiscreetPreviewDescription.
   ///
   /// In en, this message translates to:
-  /// **'On your prompts, you get the first call. Matches are only shown to others if you\'re interested.'**
+  /// **'On your requests, you get the first call. Matches are only shown to others if you\'re interested.'**
   String get benefitDiscreetPreviewDescription;
 
   /// No description provided for @benefitUnlimitedIntroductionsTitle.
@@ -691,13 +775,13 @@ abstract class AppLocalizations {
   /// No description provided for @benefitDailyCardsBoostTitle.
   ///
   /// In en, this message translates to:
-  /// **'More daily prompts'**
+  /// **'More daily requests'**
   String get benefitDailyCardsBoostTitle;
 
   /// No description provided for @benefitDailyCardsBoostDescription.
   ///
   /// In en, this message translates to:
-  /// **'More prompts to grow your network faster.'**
+  /// **'More requests to grow your network faster.'**
   String get benefitDailyCardsBoostDescription;
 
   /// No description provided for @benefitAiPoweredMatchesTitle.
@@ -721,7 +805,7 @@ abstract class AppLocalizations {
   /// No description provided for @editCompanyInfoNameDescription.
   ///
   /// In en, this message translates to:
-  /// **'Name and website of your company'**
+  /// **'Name of your company'**
   String get editCompanyInfoNameDescription;
 
   /// No description provided for @editPersonalInfoNameTitle.
@@ -733,7 +817,7 @@ abstract class AppLocalizations {
   /// No description provided for @editPersonalInfoNameDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your name and LinkedIn URL'**
+  /// **'Your name'**
   String get editPersonalInfoNameDescription;
 
   /// No description provided for @editPersonalInfoBioTitle.
@@ -976,6 +1060,30 @@ abstract class AppLocalizations {
   /// **'Automatically opt-in for introductions on matches'**
   String get accountSettingsAutoIntroductionDescription;
 
+  /// No description provided for @accountSettingsInviteCodesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite codes'**
+  String get accountSettingsInviteCodesTitle;
+
+  /// No description provided for @accountSettingsInviteCodesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Available invite codes'**
+  String get accountSettingsInviteCodesDescription;
+
+  /// No description provided for @accountSettingsLinksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get accountSettingsLinksTitle;
+
+  /// No description provided for @accountSettingsLinksDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal social links'**
+  String get accountSettingsLinksDescription;
+
   /// No description provided for @profileEditAccountTitle.
   ///
   /// In en, this message translates to:
@@ -997,7 +1105,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewTypeUserDescription.
   ///
   /// In en, this message translates to:
-  /// **'Prompts submitted by users'**
+  /// **'Requests submitted by users'**
   String get reviewTypeUserDescription;
 
   /// No description provided for @reviewTypeSystemTitle.
@@ -1009,7 +1117,7 @@ abstract class AppLocalizations {
   /// No description provided for @reviewTypeSystemDescription.
   ///
   /// In en, this message translates to:
-  /// **'Daily generated prompts by AI'**
+  /// **'Daily generated requests by AI'**
   String get reviewTypeSystemDescription;
 
   /// No description provided for @appName.
@@ -1033,7 +1141,7 @@ abstract class AppLocalizations {
   /// No description provided for @navCards.
   ///
   /// In en, this message translates to:
-  /// **'Prompts'**
+  /// **'Requests'**
   String get navCards;
 
   /// No description provided for @navNotifications.
@@ -1053,6 +1161,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get actionSave;
+
+  /// No description provided for @actionSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get actionSend;
 
   /// No description provided for @actionCancel.
   ///
@@ -1159,7 +1273,7 @@ abstract class AppLocalizations {
   /// No description provided for @validationUrlInvalid.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid URL (starting with http:// or https://)'**
+  /// **'Please enter a valid URL (e.g., example.com)'**
   String get validationUrlInvalid;
 
   /// No description provided for @validationLinkedInUrlInvalid.
@@ -1267,7 +1381,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptSectionCardDescription.
   ///
   /// In en, this message translates to:
-  /// **'View your prompt details'**
+  /// **'View your request details'**
   String get promptSectionCardDescription;
 
   /// No description provided for @promptSectionStatsTitle.
@@ -1303,7 +1417,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusDraftInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt is saved as a draft. Complete and submit it to start getting matches.'**
+  /// **'Your request is saved as a draft. Complete and submit it to start getting matches.'**
   String get promptStatusDraftInfo;
 
   /// No description provided for @promptStatusPendingReviewDisplay.
@@ -1315,7 +1429,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusPendingReviewInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.'**
+  /// **'Your request is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.'**
   String get promptStatusPendingReviewInfo;
 
   /// No description provided for @promptStatusPendingTranslationDisplay.
@@ -1327,7 +1441,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusPendingTranslationInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt is being translated to other languages.'**
+  /// **'Your request is being translated to other languages.'**
   String get promptStatusPendingTranslationInfo;
 
   /// No description provided for @promptStatusApprovedDisplay.
@@ -1339,7 +1453,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusApprovedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt has been approved and is live. You can receive matches.'**
+  /// **'Your request has been approved and is live. You can receive matches.'**
   String get promptStatusApprovedInfo;
 
   /// No description provided for @promptStatusRejectedDisplay.
@@ -1351,7 +1465,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusRejectedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt was rejected for not following community guidelines. Please edit and resubmit.'**
+  /// **'Your request was rejected for not following community guidelines. Please edit and resubmit.'**
   String get promptStatusRejectedInfo;
 
   /// No description provided for @promptStatusArchivedDisplay.
@@ -1363,7 +1477,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatusArchivedInfo.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt has been archived and is no longer visible to other users.'**
+  /// **'Your request has been archived and is no longer visible to other users.'**
   String get promptStatusArchivedInfo;
 
   /// No description provided for @venueTypeEventDisplayName.
@@ -1411,7 +1525,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateReviewsDescription.
   ///
   /// In en, this message translates to:
-  /// **'When prompts are submitted for review, they will appear here'**
+  /// **'When requests are submitted for review, they will appear here'**
   String get emptyStateReviewsDescription;
 
   /// No description provided for @emptyStateMatchesTitle.
@@ -1423,7 +1537,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Once you have a match, it will appear here. Write a new prompt to get matched faster.'**
+  /// **'Once you have a match, it will appear here. Write a new request to get matched faster.'**
   String get emptyStateMatchesDescription;
 
   /// No description provided for @emptyStatePromptsTitle.
@@ -1435,7 +1549,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Prompts help us find the right matches that lead to real introductions. Write yours to get started.'**
+  /// **'Requests help us find the right matches that lead to real introductions. Write yours to get started.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @emptyStateNotificationSettingsTitle.
@@ -1648,6 +1762,12 @@ abstract class AppLocalizations {
   /// **'Enter venue code'**
   String get joinVenuePlaceholder;
 
+  /// No description provided for @matchItemReachOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduce yourself'**
+  String get matchItemReachOut;
+
   /// No description provided for @matchDetailLoading.
   ///
   /// In en, this message translates to:
@@ -1756,6 +1876,192 @@ abstract class AppLocalizations {
   /// **'match'**
   String get matchDetailTypeMatch;
 
+  /// No description provided for @matchReachOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction'**
+  String get matchReachOutTitle;
+
+  /// No description provided for @matchReachOutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduce yourself to {name}'**
+  String matchReachOutSubtitle(String name);
+
+  /// No description provided for @matchReachOutGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi'**
+  String get matchReachOutGreeting;
+
+  /// No description provided for @matchReachOutPromptContextSingular.
+  ///
+  /// In en, this message translates to:
+  /// **'The request that matched us:'**
+  String get matchReachOutPromptContextSingular;
+
+  /// No description provided for @matchReachOutPromptContextPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'The requests that matched us:'**
+  String get matchReachOutPromptContextPlural;
+
+  /// No description provided for @matchReachOutMessagePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your message here...'**
+  String get matchReachOutMessagePlaceholder;
+
+  /// No description provided for @matchReachOutInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message is sent directly by email and isn\'t stored by Venyu. You can send one introduction per match, so please keep it clear, respectful and professional.'**
+  String get matchReachOutInfoMessage;
+
+  /// No description provided for @matchReachOutContactsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share additional links (optional)'**
+  String get matchReachOutContactsSubtitle;
+
+  /// No description provided for @matchReachOutPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get matchReachOutPreviewTitle;
+
+  /// No description provided for @matchReachOutPreviewFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get matchReachOutPreviewFromLabel;
+
+  /// No description provided for @matchReachOutPreviewFromValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (via Venyu)'**
+  String matchReachOutPreviewFromValue(String name);
+
+  /// No description provided for @matchReachOutPreviewReplyToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply-to'**
+  String get matchReachOutPreviewReplyToLabel;
+
+  /// No description provided for @matchReachOutPreviewSubjectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get matchReachOutPreviewSubjectLabel;
+
+  /// No description provided for @matchReachOutPreviewSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction from {firstName}'**
+  String matchReachOutPreviewSubject(String firstName);
+
+  /// No description provided for @matchReachOutPreviewPS.
+  ///
+  /// In en, this message translates to:
+  /// **'PS: Feel free to reply directly to this email.'**
+  String get matchReachOutPreviewPS;
+
+  /// No description provided for @matchReachOutFinishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction sent!'**
+  String get matchReachOutFinishTitle;
+
+  /// No description provided for @matchReachOutFinishDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message has been sent to {name}. They will receive it directly in their inbox.'**
+  String matchReachOutFinishDescription(String name);
+
+  /// No description provided for @matchReachOutFinishDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get matchReachOutFinishDoneButton;
+
+  /// No description provided for @matchReachOutSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message sent successfully'**
+  String get matchReachOutSuccessMessage;
+
+  /// No description provided for @matchReachOutErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send message'**
+  String get matchReachOutErrorMessage;
+
+  /// No description provided for @matchStagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection stage'**
+  String get matchStagesTitle;
+
+  /// No description provided for @matchStagesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Track the progress of this match. Both you and your match can update this stage.'**
+  String get matchStagesDescription;
+
+  /// No description provided for @matchStagesSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get matchStagesSaveButton;
+
+  /// No description provided for @matchStagesSavingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get matchStagesSavingButton;
+
+  /// No description provided for @matchStagesLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading stages'**
+  String get matchStagesLoadErrorTitle;
+
+  /// No description provided for @matchStagesRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get matchStagesRetryButton;
+
+  /// No description provided for @matchStagesNoStagesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No stages available'**
+  String get matchStagesNoStagesMessage;
+
+  /// No description provided for @matchStagesSaveErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving stage'**
+  String get matchStagesSaveErrorTitle;
+
+  /// No description provided for @matchStagesSaveErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save stage: {error}'**
+  String matchStagesSaveErrorMessage(String error);
+
+  /// No description provided for @matchStagesErrorDialogOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get matchStagesErrorDialogOk;
+
+  /// No description provided for @matchDetailFirstCallWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Only you can see this match. Once you introduce yourself, {firstName} will see you too.'**
+  String matchDetailFirstCallWarning(String firstName);
+
   /// No description provided for @matchDetailErrorLoad.
   ///
   /// In en, this message translates to:
@@ -1807,13 +2113,13 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailCard.
   ///
   /// In en, this message translates to:
-  /// **'prompt'**
+  /// **'request'**
   String get matchDetailCard;
 
   /// No description provided for @matchDetailCards.
   ///
   /// In en, this message translates to:
-  /// **'prompts'**
+  /// **'requests'**
   String get matchDetailCards;
 
   /// No description provided for @matchDetailSharedIntros.
@@ -1825,13 +2131,13 @@ abstract class AppLocalizations {
   /// No description provided for @matchDetailIntroduction.
   ///
   /// In en, this message translates to:
-  /// **'introduction'**
+  /// **'match'**
   String get matchDetailIntroduction;
 
   /// No description provided for @matchDetailIntroductions.
   ///
   /// In en, this message translates to:
-  /// **'introductions'**
+  /// **'matches'**
   String get matchDetailIntroductions;
 
   /// No description provided for @matchDetailSharedVenues.
@@ -2194,6 +2500,36 @@ abstract class AppLocalizations {
   /// **'No contact options available'**
   String get contactSectionEmptyContacts;
 
+  /// No description provided for @aboutMeSectionEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is me'**
+  String get aboutMeSectionEmptyTitle;
+
+  /// No description provided for @aboutMeSectionEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few offers describing how you can help others. They\'re private and only used for matching with requests from others.'**
+  String get aboutMeSectionEmptyDescription;
+
+  /// No description provided for @aboutMeSectionEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add offer'**
+  String get aboutMeSectionEmptyAction;
+
+  /// No description provided for @profileSectionAboutMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My offers'**
+  String get profileSectionAboutMeTitle;
+
+  /// No description provided for @profileSectionAboutMeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers about who you are and how you help others. They improve your matches.'**
+  String get profileSectionAboutMeDescription;
+
   /// No description provided for @profileSectionPersonalTitle.
   ///
   /// In en, this message translates to:
@@ -2245,13 +2581,13 @@ abstract class AppLocalizations {
   /// No description provided for @profileSectionContactTitle.
   ///
   /// In en, this message translates to:
-  /// **'Contact'**
+  /// **'Links'**
   String get profileSectionContactTitle;
 
   /// No description provided for @profileSectionContactDescription.
   ///
   /// In en, this message translates to:
-  /// **'Contact information'**
+  /// **'Your contact links'**
   String get profileSectionContactDescription;
 
   /// No description provided for @profileSectionReviewsTitle.
@@ -2281,7 +2617,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileContactPrivacyMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your contact details are never shared automatically, even in introductions. You choose what to include when you reach out.'**
+  /// **'Your links are not shared automatically with a match. You choose which information to include when you send an introduction.'**
   String get profileContactPrivacyMessage;
 
   /// No description provided for @editAccountTitle.
@@ -2335,7 +2671,7 @@ abstract class AppLocalizations {
   /// No description provided for @editAccountDataExportDescription.
   ///
   /// In en, this message translates to:
-  /// **'You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.'**
+  /// **'You can request a copy of all your personal data. This includes your profile information, requests, offers, matches, and activity history. The export will be sent to your registered email address.'**
   String get editAccountDataExportDescription;
 
   /// No description provided for @editAccountExportDataButton.
@@ -2353,7 +2689,7 @@ abstract class AppLocalizations {
   /// No description provided for @editAccountDeleteDescription.
   ///
   /// In en, this message translates to:
-  /// **'Deleting your account is permanent. All your data, including your profile, prompts and matches will be removed.'**
+  /// **'Deleting your account is permanent. All your data, including your profile, requests, offers and matches will be removed.'**
   String get editAccountDeleteDescription;
 
   /// No description provided for @editAccountDeleteButton.
@@ -2695,7 +3031,7 @@ abstract class AppLocalizations {
   /// No description provided for @editNameTitle.
   ///
   /// In en, this message translates to:
-  /// **'You'**
+  /// **'Your name'**
   String get editNameTitle;
 
   /// No description provided for @editNameSuccessMessage.
@@ -2845,7 +3181,7 @@ abstract class AppLocalizations {
   /// No description provided for @editEmailInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'We\'ll only use this email for app notifications like new matches, introductions and important updates'**
+  /// **'We only use your email for account verification, match notifications, request status updates, and service messages.'**
   String get editEmailInfoMessage;
 
   /// No description provided for @editEmailNewsletterLabel.
@@ -2923,7 +3259,7 @@ abstract class AppLocalizations {
   /// No description provided for @editCityInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.'**
+  /// **'Your city is only shared with people you match with and is not publicly visible. This helps facilitate better in-person meetups once a connection is established.'**
   String get editCityInfoMessage;
 
   /// No description provided for @editCompanyNameTitle.
@@ -3007,7 +3343,7 @@ abstract class AppLocalizations {
   /// No description provided for @editAvatarInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you\'re introduced.'**
+  /// **'Your photo is often your first impression. Choose a clear, friendly headshot that feels like you.'**
   String get editAvatarInfoMessage;
 
   /// No description provided for @editAvatarCameraButton.
@@ -3079,13 +3415,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptCardUpgradeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Extend your prompt visibility'**
+  /// **'Extend your request visibility'**
   String get promptCardUpgradeTitle;
 
   /// No description provided for @promptCardUpgradeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Upgrade to Venyu Pro to keep your prompt online for 10 days instead of 3.'**
+  /// **'Upgrade to Venyu Pro to keep your request online for 10 days instead of 3.'**
   String get promptCardUpgradeSubtitle;
 
   /// No description provided for @promptCardUpgradeButton.
@@ -3115,7 +3451,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptIntroEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'When people match with your prompt, their profiles will appear here.'**
+  /// **'When people match with your request, their profiles will appear here.'**
   String get promptIntroEmptyDescription;
 
   /// No description provided for @promptStatsTitle.
@@ -3127,7 +3463,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptStatsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Track your prompt\'s performance, views, and engagement metrics.'**
+  /// **'Track your request\'s performance, views, and engagement metrics.'**
   String get promptStatsDescription;
 
   /// No description provided for @interactionTypeSelectionTitleFromPrompts.
@@ -3151,19 +3487,19 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeSelectionSubtitleDefault.
   ///
   /// In en, this message translates to:
-  /// **'Write your own prompt'**
+  /// **'Write your own offer or request'**
   String get interactionTypeSelectionSubtitleDefault;
 
   /// No description provided for @interactionTypeSelectionDisclaimerText.
   ///
   /// In en, this message translates to:
-  /// **'Prompts are reviewed before going live'**
+  /// **'Requests are reviewed before going live'**
   String get interactionTypeSelectionDisclaimerText;
 
   /// No description provided for @interactionTypeSelectionDisclaimerBeforeLinkText.
   ///
   /// In en, this message translates to:
-  /// **'Prompts are reviewed according to our '**
+  /// **'Requests are reviewed according to our '**
   String get interactionTypeSelectionDisclaimerBeforeLinkText;
 
   /// No description provided for @interactionTypeSelectionDisclaimerLinkText.
@@ -3190,10 +3526,16 @@ abstract class AppLocalizations {
   /// **'Not now'**
   String get interactionTypeSelectionNotNowButton;
 
+  /// No description provided for @interactionTypeSelectionPrivatePromptsInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'An offer describes how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.'**
+  String get interactionTypeSelectionPrivatePromptsInfo;
+
   /// No description provided for @promptDetailTitle.
   ///
   /// In en, this message translates to:
-  /// **'Prompt detail'**
+  /// **'Detail'**
   String get promptDetailTitle;
 
   /// No description provided for @promptDetailStatusTitle.
@@ -3211,7 +3553,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailHowYouMatchDescription.
   ///
   /// In en, this message translates to:
-  /// **'Pause matching on this prompt to temporarily stop receiving new matches. You can resume at any time.'**
+  /// **'Pause matching on this request to temporarily stop receiving new matches. You can resume at any time.'**
   String get promptDetailHowYouMatchDescription;
 
   /// No description provided for @promptDetailFirstCallTitle.
@@ -3229,19 +3571,19 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailMatchesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Matches'**
-  String get promptDetailMatchesTitle;
+  /// **'{count, plural, =1{1 match} other{{count} matches}}'**
+  String promptDetailMatchesTitle(int count);
 
   /// No description provided for @promptDetailErrorMessage.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load prompt'**
+  /// **'Failed to load request'**
   String get promptDetailErrorMessage;
 
   /// No description provided for @promptDetailErrorDataMessage.
   ///
   /// In en, this message translates to:
-  /// **'Failed to load prompt data'**
+  /// **'Failed to load request data'**
   String get promptDetailErrorDataMessage;
 
   /// No description provided for @promptDetailRetryButton.
@@ -3259,13 +3601,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailEmptyMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'When people match with your prompt, their profiles will appear here.'**
+  /// **'When people match with your request, their profiles will appear here.'**
   String get promptDetailEmptyMatchesDescription;
 
   /// No description provided for @promptDetailEditButton.
   ///
   /// In en, this message translates to:
-  /// **'Edit prompt'**
+  /// **'Edit request'**
   String get promptDetailEditButton;
 
   /// No description provided for @promptDetailPreviewUpdatedMessage.
@@ -3289,7 +3631,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailPauseMatchingMessage.
   ///
   /// In en, this message translates to:
-  /// **'You will no longer receive matches for \"{interactionType}\" on this prompt. You can resume matching anytime.'**
+  /// **'You will no longer receive matches for \"{interactionType}\" on this request. You can resume matching anytime.'**
   String promptDetailPauseMatchingMessage(String interactionType);
 
   /// No description provided for @promptDetailPauseMatchingConfirm.
@@ -3307,7 +3649,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailPauseMatchingMessageGeneric.
   ///
   /// In en, this message translates to:
-  /// **'You will no longer receive matches on this prompt. You can resume matching anytime.'**
+  /// **'You will no longer receive matches on this request. You can resume matching anytime.'**
   String get promptDetailPauseMatchingMessageGeneric;
 
   /// No description provided for @promptDetailMatchingActiveLabel.
@@ -3328,6 +3670,12 @@ abstract class AppLocalizations {
   /// **'Paused'**
   String get promptItemPausedTag;
 
+  /// No description provided for @promptItemMatchCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 match} other{{count} matches}}'**
+  String promptItemMatchCount(int count);
+
   /// No description provided for @promptDetailRejectButton.
   ///
   /// In en, this message translates to:
@@ -3343,31 +3691,31 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailApprovedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Prompt approved'**
+  /// **'Request approved'**
   String get promptDetailApprovedMessage;
 
   /// No description provided for @promptDetailRejectedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Prompt rejected'**
+  /// **'Request rejected'**
   String get promptDetailRejectedMessage;
 
   /// No description provided for @promptDetailDeleteButton.
   ///
   /// In en, this message translates to:
-  /// **'Delete prompt'**
+  /// **'Delete'**
   String get promptDetailDeleteButton;
 
   /// No description provided for @promptDetailDeleteConfirmTitle.
   ///
   /// In en, this message translates to:
-  /// **'Delete prompt?'**
+  /// **'Delete?'**
   String get promptDetailDeleteConfirmTitle;
 
   /// No description provided for @promptDetailDeleteConfirmMessage.
   ///
   /// In en, this message translates to:
-  /// **'This will permanently delete your prompt. This action cannot be undone.'**
+  /// **'This will permanently delete your data. This action cannot be undone.'**
   String get promptDetailDeleteConfirmMessage;
 
   /// No description provided for @promptDetailDeleteConfirmButton.
@@ -3385,13 +3733,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptDetailDeletedMessage.
   ///
   /// In en, this message translates to:
-  /// **'Prompt deleted'**
+  /// **'Deleted'**
   String get promptDetailDeletedMessage;
 
   /// No description provided for @promptDetailDeleteErrorMessage.
   ///
   /// In en, this message translates to:
-  /// **'Failed to delete prompt'**
+  /// **'Failed to delete'**
   String get promptDetailDeleteErrorMessage;
 
   /// No description provided for @promptEditNextButton.
@@ -3406,16 +3754,22 @@ abstract class AppLocalizations {
   /// **'Hi{firstName} 👋'**
   String promptEntryGreeting(String firstName);
 
+  /// No description provided for @promptEntryGreetingFirstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s practice first!'**
+  String get promptEntryGreetingFirstTime;
+
   /// No description provided for @promptEntryFirstTimeDescription.
   ///
   /// In en, this message translates to:
-  /// **'The next {count} prompts are practice examples to help you learn how to answer them.'**
+  /// **'The next {count} requests are practise examples to help you learn how to answer them.'**
   String promptEntryFirstTimeDescription(int count);
 
   /// No description provided for @promptEntryDailyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your daily {count} prompts are waiting for you'**
+  /// **'Your daily {count} requests are waiting for you'**
   String promptEntryDailyDescription(int count);
 
   /// No description provided for @promptEntryButton.
@@ -3427,13 +3781,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptFinishTitle.
   ///
   /// In en, this message translates to:
-  /// **'Prompt submitted!'**
+  /// **'Request submitted!'**
   String get promptFinishTitle;
 
   /// No description provided for @promptFinishDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your prompt has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.'**
+  /// **'Your request has been successfully submitted and is being reviewed. We\'ll notify you once it\'s live.'**
   String get promptFinishDescription;
 
   /// No description provided for @promptFinishReviewInfo.
@@ -3447,6 +3801,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get promptFinishDoneButton;
+
+  /// No description provided for @promptFinishSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer saved'**
+  String get promptFinishSavedTitle;
+
+  /// No description provided for @promptFinishSavedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your offer has been successfully saved!'**
+  String get promptFinishSavedDescription;
 
   /// No description provided for @promptPreviewTitle.
   ///
@@ -3469,13 +3835,13 @@ abstract class AppLocalizations {
   /// No description provided for @promptPreviewErrorUpdate.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update prompt'**
+  /// **'Failed to update'**
   String get promptPreviewErrorUpdate;
 
   /// No description provided for @promptPreviewErrorSubmit.
   ///
   /// In en, this message translates to:
-  /// **'Failed to submit prompt'**
+  /// **'Failed to submit'**
   String get promptPreviewErrorSubmit;
 
   /// No description provided for @promptSelectVenueTitle.
@@ -3523,7 +3889,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptSelectVenueErrorSubmit.
   ///
   /// In en, this message translates to:
-  /// **'Failed to submit prompt'**
+  /// **'Failed to submit'**
   String get promptSelectVenueErrorSubmit;
 
   /// No description provided for @promptSettingsTitle.
@@ -3541,37 +3907,37 @@ abstract class AppLocalizations {
   /// No description provided for @promptSettingsErrorSubmit.
   ///
   /// In en, this message translates to:
-  /// **'Failed to submit prompt'**
+  /// **'Failed to submit'**
   String get promptSettingsErrorSubmit;
 
   /// No description provided for @promptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'Prompts'**
+  /// **'Requests'**
   String get promptsViewTitle;
 
   /// No description provided for @promptsViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'New prompt'**
+  /// **'New request'**
   String get promptsViewEmptyActionButton;
 
   /// No description provided for @promptsViewAnswerPromptsButton.
   ///
   /// In en, this message translates to:
-  /// **'Unanswered prompts'**
+  /// **'Unanswered requests'**
   String get promptsViewAnswerPromptsButton;
 
   /// No description provided for @promptsViewAllAnsweredMessage.
   ///
   /// In en, this message translates to:
-  /// **'All prompts answered for today'**
+  /// **'All requests answered for today'**
   String get promptsViewAllAnsweredMessage;
 
   /// No description provided for @promptsViewMyPromptsTitle.
   ///
   /// In en, this message translates to:
-  /// **'My prompts'**
+  /// **'My requests'**
   String get promptsViewMyPromptsTitle;
 
   /// No description provided for @venueCodeFieldPlaceholder.
@@ -3619,13 +3985,13 @@ abstract class AppLocalizations {
   /// No description provided for @venueDetailCardSingular.
   ///
   /// In en, this message translates to:
-  /// **'Prompt'**
+  /// **'Request'**
   String get venueDetailCardSingular;
 
   /// No description provided for @venueDetailCardsPlural.
   ///
   /// In en, this message translates to:
-  /// **'Prompts'**
+  /// **'Requests'**
   String get venueDetailCardsPlural;
 
   /// No description provided for @venueDetailMatchSingular.
@@ -3715,19 +4081,19 @@ abstract class AppLocalizations {
   /// No description provided for @venuePromptsViewTitle.
   ///
   /// In en, this message translates to:
-  /// **'{venueName} prompts'**
+  /// **'{venueName} requests'**
   String venuePromptsViewTitle(String venueName);
 
   /// No description provided for @venuePromptsViewEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No prompts found'**
+  /// **'No requests found'**
   String get venuePromptsViewEmptyTitle;
 
   /// No description provided for @venuePromptsViewEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'This venue doesn\'t have any prompts yet.'**
+  /// **'This venue doesn\'t have any requests yet.'**
   String get venuePromptsViewEmptyDescription;
 
   /// No description provided for @communityGuidelinesTitle.
@@ -3745,7 +4111,7 @@ abstract class AppLocalizations {
   /// No description provided for @communityGuidelinesProhibited.
   ///
   /// In en, this message translates to:
-  /// **'Spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.'**
+  /// **'Hidden offers, spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.'**
   String get communityGuidelinesProhibited;
 
   /// No description provided for @errorStateDefaultTitle.
@@ -3913,7 +4279,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchesViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'New prompt'**
+  /// **'New request'**
   String get matchesViewEmptyActionButton;
 
   /// No description provided for @profileViewTitle.
@@ -3934,6 +4300,18 @@ abstract class AppLocalizations {
   /// **'Write something about yourself...'**
   String get profileHeaderBioPlaceholder;
 
+  /// No description provided for @profileHeaderReachOutButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduce yourself'**
+  String get profileHeaderReachOutButton;
+
+  /// No description provided for @profileHeaderAlreadyConnectedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Already connected?'**
+  String get profileHeaderAlreadyConnectedButton;
+
   /// No description provided for @getMatchedButtonLabel.
   ///
   /// In en, this message translates to:
@@ -3943,13 +4321,13 @@ abstract class AppLocalizations {
   /// No description provided for @reviewPendingPromptsErrorUpdate.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update prompts'**
+  /// **'Failed to update'**
   String get reviewPendingPromptsErrorUpdate;
 
   /// No description provided for @reviewPendingPromptsErrorUpdateAll.
   ///
   /// In en, this message translates to:
-  /// **'Failed to update all prompts'**
+  /// **'Failed to update all'**
   String get reviewPendingPromptsErrorUpdateAll;
 
   /// No description provided for @reviewPendingPromptsRejectSelected.
@@ -4189,7 +4567,7 @@ abstract class AppLocalizations {
   /// No description provided for @venueErrorAdminRequiredPrompts.
   ///
   /// In en, this message translates to:
-  /// **'You need admin privileges to view venue prompts.'**
+  /// **'You need admin privileges to view venue requests.'**
   String get venueErrorAdminRequiredPrompts;
 
   /// No description provided for @venueErrorPermissionDenied.
@@ -4203,6 +4581,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete profile'**
   String get optionButtonCompleteProfile;
+
+  /// No description provided for @returningUserTutorialWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back {name}'**
+  String returningUserTutorialWelcome(String name);
+
+  /// No description provided for @returningUserTutorialDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The rules in Venyu have changed and we\'d like to walk you through them step by step.'**
+  String get returningUserTutorialDescription;
+
+  /// No description provided for @returningUserTutorialButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me'**
+  String get returningUserTutorialButton;
+
+  /// No description provided for @returningUserTutorialDoneDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for taking the time, enjoy this new version!'**
+  String get returningUserTutorialDoneDescription;
+
+  /// No description provided for @returningUserTutorialDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get returningUserTutorialDoneButton;
 }
 
 class _AppLocalizationsDelegate

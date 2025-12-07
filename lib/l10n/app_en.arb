@@ -3,34 +3,43 @@
 
   "@_ONBOARDING": {},
   "onboardTitle": "Welcome to Venyu",
-  "onboardDescription": "Venyu matches you with other entrepreneurs based on your shared goals, ambitions, and who you know. Answer 3 daily prompts to help us find the right match for you.",
+  "onboardDescription": "Venyu matches you with other entrepreneurs based on your shared goals, ambitions, and who you know.",
   "onboardStartTutorial": "Before we set up your profile, let's show you how Venyu works with a quick tutorial.",
   "onboardButtonStart": "Start",
 
   "@_TUTORIAL": {},
-  "tutorialStep1Title": "Prompts",
-  "tutorialStep1Description": "Every day, you can answer 3 prompts. It takes less than a minute and helps us find the right matches for you.",
+  "tutorialStep0Title": "How it works",
+  "tutorialStep0Description": "Venyu brings people together by matching their offers with the requests of others.",
 
-  "tutorialStep2Title": "Matches",
-  "tutorialStep2Description": "Once we’ve found the right match, we’ll let you know so you can decide if you’d like an introduction.",
+  "tutorialStep1Title": "Your offer",
+  "tutorialStep1Description": "Describe in a few words what you have to offer or how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.",
 
-  "tutorialStep3Title": "Introductions",
-  "tutorialStep3Description": "When the interest is mutual, we'll make the introduction via email so you can connect directly.",
+  "tutorialStep2Title": "Answer requests",
+  "tutorialStep2Description": "We'll notify you when we found requests from others matching your offer. Decide for yourself if you want or can help.",
 
-  "tutorialStep4Title": "You're all set!",
-  "tutorialStep4Description": "Let’s complete your profile and start finding the right matches.",
+  "tutorialStep3Title": "Get matched",
+  "tutorialStep3Description": "The person who posted the request gets matched with you if you can help. At this point, you don't see the match yet. Complete your profile for an optimal matching score.",
+
+  "tutorialStep4Title": "Introduction",
+  "tutorialStep4Description": "The person handling the request decides which match receives an introduction. Once you receive the introduction email, you'll gain access to the match's profile and can start connecting.",
+
+  "tutorialStep5Title": "Search",
+  "tutorialStep5Description": "Submit your own request and get matched with people who can help you. This time, you're in the driver's seat!",
 
   "tutorialButtonPrevious": "Previous",
   "tutorialButtonNext": "Next",
 
+  "tutorialDoneTitle": "You're all caught up!",
+  "tutorialDoneDescription": "Let's complete your profile.\nThis will only take a minute.",
+
   "@_REGISTRATION_COMPLETE": {},
-  "registrationCompleteTitle": "Your profile is ready! 🎉",
-  "registrationCompleteDescription": "Thanks for setting up your profile. Now let's see how answering 3 prompts each day helps us finding the right match for you.",
+  "registrationCompleteTitle": "Almost there!",
+  "registrationCompleteDescription": "Thanks for setting up your profile. Now let's add your offer to your profile. Make it clear so we can match you with the right requests!",
   "registrationCompleteButton": "Continue",
 
   "@_PROMPT_ENTRY": {},
   "promptEntryTitleFirstTime": "Let's try it out!",
-  "promptEntryDescriptionFirstTime": "Here are 3 example prompts to help you understand how it works. Don't worry, these are just for practice.",
+  "promptEntryDescriptionFirstTime": "Here are 3 example requests to help you understand how it works. Don't worry, these are just for practice.",
   "promptEntryButtonFirstTime": "Start tutorial",
 
   "@_DAILY_PROMPTS": {},
@@ -44,20 +53,20 @@
   },
   "dailyPromptsHintConfirm": "Select \"Next\"",
   "dailyPromptsButtonNext": "Next",
-  "dailyPromptsReportSuccess": "Prompt reported successfully",
-  "dailyPromptsReportError": "Failed to report prompt",
-  "dailyPromptsNoPromptsAvailable": "No prompts available",
-  "dailyPromptsExampleTag": "Example prompt",
+  "dailyPromptsReportSuccess": "Request reported successfully",
+  "dailyPromptsReportError": "Failed to report request",
+  "dailyPromptsNoPromptsAvailable": "No requests available",
+  "dailyPromptsExampleTag": "Example request",
   "dailyPromptsReferralCodeSent": "Check your email for an invite code to share with the person you know",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
-  "tutorialFinishedDescription": "You've completed the quick tour. Now you're ready to start answering your first 3 real prompts to get matched with other entrepreneurs.",
+  "tutorialFinishedDescription": "Feel free to explore the app now! We'll let you know when we find requests that match your offer.\n\nPro tip: You can add more offers in your profile to get even better matches.\n\nMake the net work 🤝",
   "tutorialFinishedButton": "Let's go!",
 
   "@_REGISTRATION_FINISH": {},
   "registrationFinishTitle": "That's it! 🎉",
-  "registrationFinishDescription": "Your account is all set up and you've answered your first 3 prompts. Come back tomorrow to answer more prompts and discover new matches.",
+  "registrationFinishDescription": "Your account is all set up and you've answered your first 3 requests. Come back tomorrow to answer more requests and discover new matches.",
   "registrationFinishButton": "Done!",
 
   "@_COMMON": {},
@@ -68,8 +77,8 @@
   "buttonGotIt": "Got it",
 
   "@_ERRORS": {},
-  "errorNoCardsAvailable": "No Prompts available at the moment. Check back later!",
-  "errorFailedToLoadCards": "Failed to load prompts. Please try again.",
+  "errorNoCardsAvailable": "No requests available at the moment. Check back later!",
+  "errorFailedToLoadCards": "Failed to load requests. Please try again.",
   "errorFailedToRefreshProfile": "Failed to refresh profile. Please try again.",
   "errorNoInternetConnection": "No internet connection. Please check your connection and try again.",
   "errorAuthenticationFailed": "Sign in failed. Please try again.",
@@ -104,6 +113,11 @@
   "interactionTypeNotRelevantSubtitle": "Pass on this one",
   "interactionTypeNotRelevantHint": "What would you like to share?",
 
+  "interactionTypeThisIsMeNewTitle": "New offer",
+  "interactionTypeLookingForThisNewTitle": "New request",
+  "interactionTypeKnowSomeoneNewTitle": "New connection",
+  "interactionTypeNotRelevantNewTitle": "Skip",
+
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Personal Information",
   "registrationStepEmailTitle": "Email Verification",
@@ -116,6 +130,10 @@
   "registrationStepNetworkingGoalsTitle": "Networking Goals",
   "registrationStepAvatarTitle": "Profile Picture",
   "registrationStepNotificationsTitle": "Notifications",
+  "registrationStepOptinTitle": "Get more out of Venyu",
+  "registrationStepOptinBody": "Want to receive tips to boost your profile and be the first to know about new features?",
+  "registrationStepOptinButtonYes": "Yes, keep me posted",
+  "registrationStepOptinButtonNo": "No, thanks",
   "registrationStepCompleteTitle": "Welcome to Venyu!",
 
   "@_ONBOARDING_BENEFIT": {},
@@ -134,25 +152,25 @@
   "benefitFocusedReachTitle": "Smart targeting",
   "benefitFocusedReachDescription": "Publish your questions to the right audience",
   "benefitDiscreetPreviewTitle": "First call",
-  "benefitDiscreetPreviewDescription": "On your prompts, you get the first call. Matches are only shown to others if you're interested.",
+  "benefitDiscreetPreviewDescription": "On your requests, you get the first call. Matches are only shown to others if you're interested.",
   "benefitUnlimitedIntroductionsTitle": "Infinite intros",
   "benefitUnlimitedIntroductionsDescription": "Keep growing your network with unlimited introductions and never miss an opportunity",
   "benefitUnlockFullProfilesTitle": "Full profiles",
   "benefitUnlockFullProfilesDescription": "Discover who's behind the match by seeing their avatar and checking mutual interests",
   "benefitViewsAndImpressionsTitle": "Views and impressions",
   "benefitViewsAndImpressionsDescription": "Understand your reach with simple stats",
-  "benefitDailyCardsBoostTitle": "More daily prompts",
-  "benefitDailyCardsBoostDescription": "More prompts to grow your network faster.",
+  "benefitDailyCardsBoostTitle": "More daily requests",
+  "benefitDailyCardsBoostDescription": "More requests to grow your network faster.",
   "benefitAiPoweredMatchesTitle": "AI-powered matches (later)",
   "benefitAiPoweredMatchesDescription": "Receive smart suggestions based on your profile.",
 
   "@_EDIT_COMPANY_INFO_TYPE": {},
   "editCompanyInfoNameTitle": "Company information",
-  "editCompanyInfoNameDescription": "Name and website of your company",
+  "editCompanyInfoNameDescription": "Name of your company",
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Name",
-  "editPersonalInfoNameDescription": "Your name and LinkedIn URL",
+  "editPersonalInfoNameDescription": "Your name",
   "editPersonalInfoBioTitle": "Bio",
   "editPersonalInfoBioDescription": "A short intro about yourself",
   "editPersonalInfoLocationTitle": "City",
@@ -195,6 +213,10 @@
   "accountSettingsBlockedUsersDescription": "View and manage blocked users",
   "accountSettingsAutoIntroductionTitle": "Auto-introduction",
   "accountSettingsAutoIntroductionDescription": "Automatically opt-in for introductions on matches",
+  "accountSettingsInviteCodesTitle": "Invite codes",
+  "accountSettingsInviteCodesDescription": "Available invite codes",
+  "accountSettingsLinksTitle": "Links",
+  "accountSettingsLinksDescription": "Your personal social links",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",
@@ -202,9 +224,9 @@
 
   "@_REVIEW_TYPE": {},
   "reviewTypeUserTitle": "User generated",
-  "reviewTypeUserDescription": "Prompts submitted by users",
+  "reviewTypeUserDescription": "Requests submitted by users",
   "reviewTypeSystemTitle": "AI generated",
-  "reviewTypeSystemDescription": "Daily generated prompts by AI",
+  "reviewTypeSystemDescription": "Daily generated requests by AI",
 
   "@_APP_METADATA": {},
   "appName": "Venyu",
@@ -212,12 +234,13 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Prompts",
+  "navCards": "Requests",
   "navNotifications": "Updates",
   "navProfile": "Profile",
 
   "@_COMMON_ACTIONS": {},
   "actionSave": "Save",
+  "actionSend": "Send",
   "actionCancel": "Cancel",
   "actionDelete": "Delete",
   "actionEdit": "Edit",
@@ -241,7 +264,7 @@
   "@_VALIDATION_MESSAGES": {},
   "validationEmailRequired": "Email is required",
   "validationEmailInvalid": "Please enter a valid email address",
-  "validationUrlInvalid": "Please enter a valid URL (starting with http:// or https://)",
+  "validationUrlInvalid": "Please enter a valid URL (e.g., example.com)",
   "validationLinkedInUrlInvalid": "Please enter a valid LinkedIn profile URL\n(e.g., https://www.linkedin.com/in/yourname)",
   "validationFieldRequired": "{fieldName} is required",
   "@validationFieldRequired": {
@@ -292,7 +315,7 @@
 
   "@_PROMPT_SECTIONS": {},
   "promptSectionCardTitle": "Status",
-  "promptSectionCardDescription": "View your prompt details",
+  "promptSectionCardDescription": "View your request details",
   "promptSectionStatsTitle": "Stats",
   "promptSectionStatsDescription": "Performance and analytics",
   "promptSectionIntroTitle": "Intros",
@@ -300,17 +323,17 @@
 
   "@_PROMPT_STATUS": {},
   "promptStatusDraftDisplay": "Draft",
-  "promptStatusDraftInfo": "Your prompt is saved as a draft. Complete and submit it to start getting matches.",
+  "promptStatusDraftInfo": "Your request is saved as a draft. Complete and submit it to start getting matches.",
   "promptStatusPendingReviewDisplay": "Pending Review",
-  "promptStatusPendingReviewInfo": "Your prompt is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.",
+  "promptStatusPendingReviewInfo": "Your request is being reviewed by our team. This usually takes 12-24 hours to check if the content follows community guidelines.",
   "promptStatusPendingTranslationDisplay": "Pending Translation",
-  "promptStatusPendingTranslationInfo": "Your prompt is being translated to other languages.",
+  "promptStatusPendingTranslationInfo": "Your request is being translated to other languages.",
   "promptStatusApprovedDisplay": "Approved",
-  "promptStatusApprovedInfo": "Your prompt has been approved and is live. You can receive matches.",
+  "promptStatusApprovedInfo": "Your request has been approved and is live. You can receive matches.",
   "promptStatusRejectedDisplay": "Rejected",
-  "promptStatusRejectedInfo": "Your prompt was rejected for not following community guidelines. Please edit and resubmit.",
+  "promptStatusRejectedInfo": "Your request was rejected for not following community guidelines. Please edit and resubmit.",
   "promptStatusArchivedDisplay": "Archived",
-  "promptStatusArchivedInfo": "Your prompt has been archived and is no longer visible to other users.",
+  "promptStatusArchivedInfo": "Your request has been archived and is no longer visible to other users.",
 
   "@_VENUE_TYPE": {},
   "venueTypeEventDisplayName": "Event",
@@ -322,11 +345,11 @@
   "emptyStateNotificationsTitle": "All caught up!",
   "emptyStateNotificationsDescription": "When something happens that you should know about, we'll update you here",
   "emptyStateReviewsTitle": "All caught up!",
-  "emptyStateReviewsDescription": "When prompts are submitted for review, they will appear here",
+  "emptyStateReviewsDescription": "When requests are submitted for review, they will appear here",
   "emptyStateMatchesTitle": "Waiting for your first match!",
-  "emptyStateMatchesDescription": "Once you have a match, it will appear here. Write a new prompt to get matched faster.",
+  "emptyStateMatchesDescription": "Once you have a match, it will appear here. Write a new request to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
-  "emptyStatePromptsDescription": "Prompts help us find the right matches that lead to real introductions. Write yours to get started.",
+  "emptyStatePromptsDescription": "Requests help us find the right matches that lead to real introductions. Write yours to get started.",
   "emptyStateNotificationSettingsTitle": "No settings available",
   "emptyStateNotificationSettingsDescription": "Notification settings will appear here once they are configured.",
 
@@ -383,6 +406,7 @@
   "joinVenuePlaceholder": "Enter venue code",
 
   "@_MATCH_VIEWS": {},
+  "matchItemReachOut": "Introduce yourself",
   "matchDetailLoading": "Loading...",
   "matchDetailTitleIntroduction": "Introduction",
   "matchDetailTitleMatch": "Match",
@@ -408,6 +432,79 @@
   "matchDetailRemoveSuccessMatch": "Match removed successfully",
   "matchDetailTypeIntroduction": "introduction",
   "matchDetailTypeMatch": "match",
+  "matchReachOutTitle": "Introduction",
+  "matchReachOutSubtitle": "Introduce yourself to {name}",
+  "@matchReachOutSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutGreeting": "Hi",
+  "matchReachOutPromptContextSingular": "The request that matched us:",
+  "matchReachOutPromptContextPlural": "The requests that matched us:",
+  "matchReachOutMessagePlaceholder": "Write your message here...",
+  "matchReachOutInfoMessage": "Your message is sent directly by email and isn't stored by Venyu. You can send one introduction per match, so please keep it clear, respectful and professional.",
+  "matchReachOutContactsSubtitle": "Share additional links (optional)",
+  "matchReachOutPreviewTitle": "Preview",
+  "matchReachOutPreviewFromLabel": "From",
+  "matchReachOutPreviewFromValue": "{name} (via Venyu)",
+  "@matchReachOutPreviewFromValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutPreviewReplyToLabel": "Reply-to",
+  "matchReachOutPreviewSubjectLabel": "Subject",
+  "matchReachOutPreviewSubject": "Introduction from {firstName}",
+  "@matchReachOutPreviewSubject": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutPreviewPS": "PS: Feel free to reply directly to this email.",
+  "matchReachOutFinishTitle": "Introduction sent!",
+  "matchReachOutFinishDescription": "Your message has been sent to {name}. They will receive it directly in their inbox.",
+  "@matchReachOutFinishDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutFinishDoneButton": "Done",
+  "matchReachOutSuccessMessage": "Message sent successfully",
+  "matchReachOutErrorMessage": "Failed to send message",
+  "matchStagesTitle": "Connection stage",
+  "matchStagesDescription": "Track the progress of this match. Both you and your match can update this stage.",
+  "matchStagesSaveButton": "Save",
+  "matchStagesSavingButton": "Saving...",
+  "matchStagesLoadErrorTitle": "Error loading stages",
+  "matchStagesRetryButton": "Retry",
+  "matchStagesNoStagesMessage": "No stages available",
+  "matchStagesSaveErrorTitle": "Error saving stage",
+  "matchStagesSaveErrorMessage": "Failed to save stage: {error}",
+  "@matchStagesSaveErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "matchStagesErrorDialogOk": "OK",
+  "matchDetailFirstCallWarning": "Only you can see this match. Once you introduce yourself, {firstName} will see you too.",
+  "@matchDetailFirstCallWarning": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
   "matchDetailErrorLoad": "Failed to load match details",
   "matchDetailRetry": "Retry",
   "matchDetailNotFound": "Match not found",
@@ -426,8 +523,8 @@
       }
     }
   },
-  "matchDetailCard": "prompt",
-  "matchDetailCards": "prompts",
+  "matchDetailCard": "request",
+  "matchDetailCards": "requests",
   "matchDetailSharedIntros": "{count} shared {intros}",
   "@matchDetailSharedIntros": {
     "placeholders": {
@@ -439,8 +536,8 @@
       }
     }
   },
-  "matchDetailIntroduction": "introduction",
-  "matchDetailIntroductions": "introductions",
+  "matchDetailIntroduction": "match",
+  "matchDetailIntroductions": "matches",
   "matchDetailSharedVenues": "{count} shared {venues}",
   "@matchDetailSharedVenues": {
     "placeholders": {
@@ -586,6 +683,11 @@
   "companySectionEmptyTagGroups": "No company tag groups available",
   "personalSectionEmptyTagGroups": "No personal tag groups available",
   "contactSectionEmptyContacts": "No contact options available",
+  "aboutMeSectionEmptyTitle": "This is me",
+  "aboutMeSectionEmptyDescription": "Add a few offers describing how you can help others. They're private and only used for matching with requests from others.",
+  "aboutMeSectionEmptyAction": "Add offer",
+  "profileSectionAboutMeTitle": "My offers",
+  "profileSectionAboutMeDescription": "Offers about who you are and how you help others. They improve your matches.",
   "profileSectionPersonalTitle": "Personal",
   "profileSectionPersonalDescription": "Personal information",
   "profileSectionCompanyTitle": "Professional",
@@ -594,8 +696,8 @@
   "profileSectionVenuesDescription": "Events and organizations",
   "profileSectionInvitesTitle": "Codes",
   "profileSectionInvitesDescription": "Invites and invitations",
-  "profileSectionContactTitle": "Contact",
-  "profileSectionContactDescription": "Contact information",
+  "profileSectionContactTitle": "Links",
+  "profileSectionContactDescription": "Your contact links",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "User reviews and feedback",
   "profilePersonalCompletenessMessage": "Your personal profile is {percentage}% complete. Finish it to get better and more relevant matches.",
@@ -614,7 +716,7 @@
       }
     }
   },
-  "profileContactPrivacyMessage": "Your contact details are never shared automatically, even in introductions. You choose what to include when you reach out.",
+  "profileContactPrivacyMessage": "Your links are not shared automatically with a match. You choose which information to include when you send an introduction.",
 
   "@_EDIT_ACCOUNT": {},
   "editAccountTitle": "Settings",
@@ -625,10 +727,10 @@
   "editAccountReviewsSectionLabel": "Reviews",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
-  "editAccountDataExportDescription": "You can request a copy of all your personal data. This includes your profile information, prompts, matches, and activity history. The export will be sent to your registered email address.",
+  "editAccountDataExportDescription": "You can request a copy of all your personal data. This includes your profile information, requests, offers, matches, and activity history. The export will be sent to your registered email address.",
   "editAccountExportDataButton": "Export all your data",
   "editAccountDeleteTitle": "Delete Account",
-  "editAccountDeleteDescription": "Deleting your account is permanent. All your data, including your profile, prompts and matches will be removed.",
+  "editAccountDeleteDescription": "Deleting your account is permanent. All your data, including your profile, requests, offers and matches will be removed.",
   "editAccountDeleteButton": "Delete account",
   "editAccountLogoutButton": "Logout",
   "editAccountExportDialogTitle": "Export data",
@@ -700,7 +802,7 @@
   "editLocationApproximateInfo": "Using approximate location. Enable 'Precise Location' in settings for better matching.",
 
   "@_EDIT_NAME": {},
-  "editNameTitle": "You",
+  "editNameTitle": "Your name",
   "editNameSuccessMessage": "Changes successfully saved",
   "editNameErrorMessage": "Failed to update, please try again",
   "editNameLinkedInFormatError": "LinkedIn URL format is invalid",
@@ -734,7 +836,7 @@
   "editEmailVerifyCodeErrorMessage": "Failed to verify code, please try again",
   "editEmailVerifyCodeButton": "Verify code",
   "editEmailAddressHint": "A valid email address",
-  "editEmailInfoMessage": "We'll only use this email for app notifications like new matches, introductions and important updates",
+  "editEmailInfoMessage": "We only use your email for account verification, match notifications, request status updates, and service messages.",
   "editEmailNewsletterLabel": "SUBSCRIBE FOR VENYU UPDATES",
   "editEmailVerificationCodeLabel": "Verification code",
   "editEmailVerificationCodeHint": "Enter 6-digit code",
@@ -751,7 +853,7 @@
   "editCityErrorMessage": "Failed to update city, please try again",
   "editCityCityLabel": "CITY",
   "editCityCityHint": "City",
-  "editCityInfoMessage": "Your city is only shared with people you get introduced to, not with matches. This helps facilitate better in-person meetups once a connection is established.",
+  "editCityInfoMessage": "Your city is only shared with people you match with and is not publicly visible. This helps facilitate better in-person meetups once a connection is established.",
 
   "@_EDIT_COMPANY_NAME": {},
   "editCompanyNameTitle": "Company name",
@@ -769,7 +871,7 @@
   "editAvatarErrorMessage": "Failed to save profile picture",
   "editAvatarRemoveButton": "Remove",
   "editAvatarAddTitle": "Add a profile picture",
-  "editAvatarInfoMessage": "Your photo is often your first impression. Choose a clear, friendly headshot that feels like you. It will appear blurred in matches, but visible once you're introduced.",
+  "editAvatarInfoMessage": "Your photo is often your first impression. Choose a clear, friendly headshot that feels like you.",
   "editAvatarCameraButton": "Camera",
   "editAvatarGalleryButton": "Gallery",
   "editAvatarNextButton": "Next",
@@ -785,19 +887,19 @@
   "promptCardCreatedLabel": "Created",
   "promptCardReviewedLabel": "Reviewed",
   "promptCardStatusLabel": "Status",
-  "promptCardUpgradeTitle": "Extend your prompt visibility",
-  "promptCardUpgradeSubtitle": "Upgrade to Venyu Pro to keep your prompt online for 10 days instead of 3.",
+  "promptCardUpgradeTitle": "Extend your request visibility",
+  "promptCardUpgradeSubtitle": "Upgrade to Venyu Pro to keep your request online for 10 days instead of 3.",
   "promptCardUpgradeButton": "Upgrade to Pro",
 
   "@_PROMPT_INTRO_SECTION": {},
   "promptIntroErrorMessage": "Failed to load matches",
   "promptIntroRetryButton": "Retry",
   "promptIntroEmptyTitle": "No matches yet",
-  "promptIntroEmptyDescription": "When people match with your prompt, their profiles will appear here.",
+  "promptIntroEmptyDescription": "When people match with your request, their profiles will appear here.",
 
   "@_PROMPT_STATS_SECTION": {},
   "promptStatsTitle": "Stats coming soon",
-  "promptStatsDescription": "Track your prompt's performance, views, and engagement metrics.",
+  "promptStatsDescription": "Track your request's performance, views, and engagement metrics.",
 
   "@_INTERACTION_TYPE_SELECTION": {},
   "interactionTypeSelectionTitleFromPrompts": "Thank you{name}",
@@ -810,32 +912,40 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Now, let's make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "Write your own prompt",
-  "interactionTypeSelectionDisclaimerText": "Prompts are reviewed before going live",
-  "interactionTypeSelectionDisclaimerBeforeLinkText": "Prompts are reviewed according to our ",
+  "interactionTypeSelectionSubtitleDefault": "Write your own offer or request",
+  "interactionTypeSelectionDisclaimerText": "Requests are reviewed before going live",
+  "interactionTypeSelectionDisclaimerBeforeLinkText": "Requests are reviewed according to our ",
   "interactionTypeSelectionDisclaimerLinkText": "community guidelines",
   "interactionTypeSelectionShowGuidelines": "Show community guidelines",
   "interactionTypeSelectionHideGuidelines": "Hide community guidelines",
   "interactionTypeSelectionNotNowButton": "Not now",
+  "interactionTypeSelectionPrivatePromptsInfo": "An offer describes how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Prompt detail",
+  "promptDetailTitle": "Detail",
   "promptDetailStatusTitle": "Status",
   "promptDetailHowYouMatchTitle": "Control matching",
-  "promptDetailHowYouMatchDescription": "Pause matching on this prompt to temporarily stop receiving new matches. You can resume at any time.",
+  "promptDetailHowYouMatchDescription": "Pause matching on this request to temporarily stop receiving new matches. You can resume at any time.",
   "promptDetailFirstCallTitle": "First Call",
   "promptDetailPublishedInTitle": "Published in",
-  "promptDetailMatchesTitle": "Matches",
-  "promptDetailErrorMessage": "Failed to load prompt",
-  "promptDetailErrorDataMessage": "Failed to load prompt data",
+  "promptDetailMatchesTitle": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@promptDetailMatchesTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptDetailErrorMessage": "Failed to load request",
+  "promptDetailErrorDataMessage": "Failed to load request data",
   "promptDetailRetryButton": "Retry",
   "promptDetailEmptyMatchesTitle": "No matches yet",
-  "promptDetailEmptyMatchesDescription": "When people match with your prompt, their profiles will appear here.",
-  "promptDetailEditButton": "Edit prompt",
+  "promptDetailEmptyMatchesDescription": "When people match with your request, their profiles will appear here.",
+  "promptDetailEditButton": "Edit request",
   "promptDetailPreviewUpdatedMessage": "Preview setting updated",
   "promptDetailMatchSettingUpdatedMessage": "Match setting updated",
   "promptDetailPauseMatchingTitle": "Pause matching?",
-  "promptDetailPauseMatchingMessage": "You will no longer receive matches for \"{interactionType}\" on this prompt. You can resume matching anytime.",
+  "promptDetailPauseMatchingMessage": "You will no longer receive matches for \"{interactionType}\" on this request. You can resume matching anytime.",
   "@promptDetailPauseMatchingMessage": {
     "placeholders": {
       "interactionType": {
@@ -845,21 +955,29 @@
   },
   "promptDetailPauseMatchingConfirm": "Pause",
   "promptDetailPauseMatchingCancel": "Cancel",
-  "promptDetailPauseMatchingMessageGeneric": "You will no longer receive matches on this prompt. You can resume matching anytime.",
+  "promptDetailPauseMatchingMessageGeneric": "You will no longer receive matches on this request. You can resume matching anytime.",
   "promptDetailMatchingActiveLabel": "Matching is active",
   "promptDetailMatchingPausedLabel": "Matching is paused",
   "promptItemPausedTag": "Paused",
+  "promptItemMatchCount": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@promptItemMatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "promptDetailRejectButton": "Reject",
   "promptDetailApproveButton": "Approve",
-  "promptDetailApprovedMessage": "Prompt approved",
-  "promptDetailRejectedMessage": "Prompt rejected",
-  "promptDetailDeleteButton": "Delete prompt",
-  "promptDetailDeleteConfirmTitle": "Delete prompt?",
-  "promptDetailDeleteConfirmMessage": "This will permanently delete your prompt. This action cannot be undone.",
+  "promptDetailApprovedMessage": "Request approved",
+  "promptDetailRejectedMessage": "Request rejected",
+  "promptDetailDeleteButton": "Delete",
+  "promptDetailDeleteConfirmTitle": "Delete?",
+  "promptDetailDeleteConfirmMessage": "This will permanently delete your data. This action cannot be undone.",
   "promptDetailDeleteConfirmButton": "Delete",
   "promptDetailDeleteCancelButton": "Cancel",
-  "promptDetailDeletedMessage": "Prompt deleted",
-  "promptDetailDeleteErrorMessage": "Failed to delete prompt",
+  "promptDetailDeletedMessage": "Deleted",
+  "promptDetailDeleteErrorMessage": "Failed to delete",
 
   "@_PROMPT_EDIT_VIEW": {},
   "promptEditNextButton": "Next",
@@ -873,7 +991,8 @@
       }
     }
   },
-  "promptEntryFirstTimeDescription": "The next {count} prompts are practice examples to help you learn how to answer them.",
+  "promptEntryGreetingFirstTime": "Let's practice first!",
+  "promptEntryFirstTimeDescription": "The next {count} requests are practise examples to help you learn how to answer them.",
   "@promptEntryFirstTimeDescription": {
     "placeholders": {
       "count": {
@@ -881,7 +1000,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Your daily {count} prompts are waiting for you",
+  "promptEntryDailyDescription": "Your daily {count} requests are waiting for you",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {
@@ -892,17 +1011,19 @@
   "promptEntryButton": "Show me",
 
   "@_PROMPT_FINISH_VIEW": {},
-  "promptFinishTitle": "Prompt submitted!",
-  "promptFinishDescription": "Your prompt has been successfully submitted and is being reviewed. We'll notify you once it's live.",
+  "promptFinishTitle": "Request submitted!",
+  "promptFinishDescription": "Your request has been successfully submitted and is being reviewed. We'll notify you once it's live.",
   "promptFinishReviewInfo": "Reviews typically take less than 24 hours",
   "promptFinishDoneButton": "Done",
+  "promptFinishSavedTitle": "Offer saved",
+  "promptFinishSavedDescription": "Your offer has been successfully saved!",
 
   "@_PROMPT_PREVIEW_VIEW": {},
   "promptPreviewTitle": "Preview",
   "promptPreviewNextButton": "Next",
   "promptPreviewSubmitButton": "Submit",
-  "promptPreviewErrorUpdate": "Failed to update prompt",
-  "promptPreviewErrorSubmit": "Failed to submit prompt",
+  "promptPreviewErrorUpdate": "Failed to update",
+  "promptPreviewErrorSubmit": "Failed to submit",
 
   "@_PROMPT_SELECT_VENUE_VIEW": {},
   "promptSelectVenueTitle": "Select audience",
@@ -912,19 +1033,19 @@
   "promptSelectVenueOrTitle": "Or select a specific venue",
   "promptSelectVenueNextButton": "Next",
   "promptSelectVenueSubmitButton": "Submit",
-  "promptSelectVenueErrorSubmit": "Failed to submit prompt",
+  "promptSelectVenueErrorSubmit": "Failed to submit",
 
   "@_PROMPT_SETTINGS_VIEW": {},
   "promptSettingsTitle": "Settings",
   "promptSettingsSubmitButton": "Submit",
-  "promptSettingsErrorSubmit": "Failed to submit prompt",
+  "promptSettingsErrorSubmit": "Failed to submit",
 
   "@_PROMPTS_VIEW": {},
-  "promptsViewTitle": "Prompts",
-  "promptsViewEmptyActionButton": "New prompt",
-  "promptsViewAnswerPromptsButton": "Unanswered prompts",
-  "promptsViewAllAnsweredMessage": "All prompts answered for today",
-  "promptsViewMyPromptsTitle": "My prompts",
+  "promptsViewTitle": "Requests",
+  "promptsViewEmptyActionButton": "New request",
+  "promptsViewAnswerPromptsButton": "Unanswered requests",
+  "promptsViewAllAnsweredMessage": "All requests answered for today",
+  "promptsViewMyPromptsTitle": "My requests",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Invite code",
@@ -936,8 +1057,8 @@
   "venueDetailNotFound": "Venue not found",
   "venueDetailMemberSingular": "Member",
   "venueDetailMembersPlural": "Members",
-  "venueDetailCardSingular": "Prompt",
-  "venueDetailCardsPlural": "Prompts",
+  "venueDetailCardSingular": "Request",
+  "venueDetailCardsPlural": "Requests",
   "venueDetailMatchSingular": "Match",
   "venueDetailMatchesPlural": "Matches",
   "venueDetailIntroductionSingular": "Introduction",
@@ -987,7 +1108,7 @@
   "venueProfilesViewEmptyDescription": "This venue doesn't have any members yet.",
 
   "@_VENUE_PROMPTS_VIEW": {},
-  "venuePromptsViewTitle": "{venueName} prompts",
+  "venuePromptsViewTitle": "{venueName} requests",
   "@venuePromptsViewTitle": {
     "placeholders": {
       "venueName": {
@@ -995,13 +1116,13 @@
       }
     }
   },
-  "venuePromptsViewEmptyTitle": "No prompts found",
-  "venuePromptsViewEmptyDescription": "This venue doesn't have any prompts yet.",
+  "venuePromptsViewEmptyTitle": "No requests found",
+  "venuePromptsViewEmptyDescription": "This venue doesn't have any requests yet.",
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Guidelines",
   "communityGuidelinesAllowed": "Networking, sharing knowledge, asking for help, sharing experience and expertise, making relevant introductions, exploring collaboration, sparring on challenges, searching for co-founders or strategic partners, entrepreneurial questions, seeking or giving recommendations.",
-  "communityGuidelinesProhibited": "Spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.",
+  "communityGuidelinesProhibited": "Hidden offers, spam, fraud, deception, offensive or explicit content, toxic or discriminatory behavior, religious discussions, hateful statements, politics, job postings or vacancies, advertising or commercial messages.",
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Something went wrong",
   "errorStateRetryButton": "Retry",
@@ -1055,7 +1176,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "New prompt",
+  "matchesViewEmptyActionButton": "New request",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profile",
@@ -1063,13 +1184,15 @@
 
   "@_PROFILE_HEADER": {},
   "profileHeaderBioPlaceholder": "Write something about yourself...",
+  "profileHeaderReachOutButton": "Introduce yourself",
+  "profileHeaderAlreadyConnectedButton": "Already connected?",
 
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "Get matched",
 
   "@_REVIEW_PENDING_PROMPTS_VIEW": {},
-  "reviewPendingPromptsErrorUpdate": "Failed to update prompts",
-  "reviewPendingPromptsErrorUpdateAll": "Failed to update all prompts",
+  "reviewPendingPromptsErrorUpdate": "Failed to update",
+  "reviewPendingPromptsErrorUpdateAll": "Failed to update all",
   "reviewPendingPromptsRejectSelected": "Reject {count}",
   "@reviewPendingPromptsRejectSelected": {
     "placeholders": {
@@ -1159,9 +1282,23 @@
   "venueErrorCodeLength": "The code must be exactly 8 characters long.",
   "venueErrorAdminRequired": "You need admin privileges to view venue members.",
   "venueErrorIdRequired": "Venue ID is required.",
-  "venueErrorAdminRequiredPrompts": "You need admin privileges to view venue prompts.",
+  "venueErrorAdminRequiredPrompts": "You need admin privileges to view venue requests.",
   "venueErrorPermissionDenied": "You don't have permission to view matches for this venue.",
 
   "@_OPTION_BUTTON": {},
-  "optionButtonCompleteProfile": "Complete profile"
+  "optionButtonCompleteProfile": "Complete profile",
+
+  "@_RETURNING_USER_TUTORIAL": {},
+  "returningUserTutorialWelcome": "Welcome back {name}",
+  "@returningUserTutorialWelcome": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "returningUserTutorialDescription": "The rules in Venyu have changed and we'd like to walk you through them step by step.",
+  "returningUserTutorialButton": "Show me",
+  "returningUserTutorialDoneDescription": "Thanks for taking the time, enjoy this new version!",
+  "returningUserTutorialDoneButton": "Close"
 }

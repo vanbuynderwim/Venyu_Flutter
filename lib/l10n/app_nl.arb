@@ -3,34 +3,43 @@
 
   "@_ONBOARDING": {},
   "onboardTitle": "Welkom bij Venyu",
-  "onboardDescription": "Venyu matcht je met andere ondernemers op basis van jullie gedeelde doelen, ambities en wie je kent. Beantwoord dagelijks 3 prompts om ons te helpen de juiste match voor je te vinden.",
+  "onboardDescription": "Venyu matcht je met andere ondernemers op basis van jullie gedeelde doelen, ambities en wie je kent.",
   "onboardStartTutorial": "Voordat we je profiel aanmaken, laten we je tonen hoe Venyu werkt met een korte tutorial.",
   "onboardButtonStart": "Start",
 
   "@_TUTORIAL": {},
-  "tutorialStep1Title": "Prompts",
-  "tutorialStep1Description": "Elke dag kan je 3 prompts beantwoorden. Het duurt nog geen minuut en helpt ons om de juiste matches te vinden.",
+  "tutorialStep0Title": "Hoe het werkt",
+  "tutorialStep0Description": "Venyu brengt mensen samen door hun aanbiedingen te matchen met de vragen van anderen.",
 
-  "tutorialStep2Title": "Matches",
-  "tutorialStep2Description": "Zodra we de juiste match hebben gevonden, laten we het je weten zodat jij kunt kiezen of je een introductie wil.",
+  "tutorialStep1Title": "Jouw aanbod",
+  "tutorialStep1Description": "Beschrijf in een paar woorden wat je te bieden hebt of hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.",
 
-  "tutorialStep3Title": "Introducties",
-  "tutorialStep3Description": "Is de interesse wederzijds, dan maken we de introductie via e-mail en kan je rechtstreeks kennismaken.",
+  "tutorialStep2Title": "Beantwoord vragen",
+  "tutorialStep2Description": "We laten je weten wanneer we vragen van anderen hebben gevonden die passen bij jouw aanbod. Beslis zelf of je wil of kan helpen.",
 
-  "tutorialStep4Title": "Je bent er klaar voor!",
-  "tutorialStep4Description": "Laten we je profiel aanvullen en beginnen met het vinden van de juiste matches.",
+  "tutorialStep3Title": "Word gematcht",
+  "tutorialStep3Description": "De persoon van wie de vraag komt wordt met jou gematcht indien je kan helpen. Op dit punt zie jij de match nog niet. Zorg voor een compleet profiel voor een optimale matching score.",
+
+  "tutorialStep4Title": "Introduction",
+  "tutorialStep4Description": "De persoon die de vraag behandelt beslist welke match een introductie krijgt. Zodra je de introductie e-mail ontvangt, krijg je toegang tot het profiel van de match en kan je beginnen connecteren.",
+
+  "tutorialStep5Title": "Zoeken",
+  "tutorialStep5Description": "Dien je eigen vraag in en word gematcht met mensen die jou kunnen helpen. Deze keer zit jij aan het stuur!",
 
   "tutorialButtonPrevious": "Vorige",
   "tutorialButtonNext": "Volgende",
 
+  "tutorialDoneTitle": "Je bent volledig mee!",
+  "tutorialDoneDescription": "Laten we je profiel voltooien.\nDit duurt maar een minuutje.",
+
   "@_REGISTRATION_COMPLETE": {},
-  "registrationCompleteTitle": "Je profiel is klaar! 🎉",
-  "registrationCompleteDescription": "Bedankt voor het opstellen van je profiel. Laten we nu kijken hoe het beantwoorden van 3 prompts per dag ons helpt om de juiste match te vinden voor jou.",
+  "registrationCompleteTitle": "Bijna klaar!",
+  "registrationCompleteDescription": "Bedankt voor het opstellen van je profiel. Laten we nu je aanbod toevoegen aan je profiel. Maak het duidelijk zodat we je kunnen matchen met de juiste vragen!",
   "registrationCompleteButton": "Doorgaan",
 
   "@_PROMPT_ENTRY": {},
   "promptEntryTitleFirstTime": "Laten we het uitproberen!",
-  "promptEntryDescriptionFirstTime": "Hier zijn 3 voorbeeldprompts om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!",
+  "promptEntryDescriptionFirstTime": "Hier zijn 3 voorbeeldvragen om je te helpen begrijpen hoe het werkt. Dit is nog niet voor echt!",
   "promptEntryButtonFirstTime": "Start tutorial",
 
   "@_DAILY_PROMPTS": {},
@@ -44,20 +53,20 @@
   },
   "dailyPromptsHintConfirm": "Selecteer \"Volgende\"",
   "dailyPromptsButtonNext": "Volgende",
-  "dailyPromptsReportSuccess": "Prompt succesvol gerapporteerd",
-  "dailyPromptsReportError": "Rapporteren mislukt",
-  "dailyPromptsNoPromptsAvailable": "Geen prompts beschikbaar",
-  "dailyPromptsExampleTag": "Voorbeeld prompt",
+  "dailyPromptsReportSuccess": "Vraag succesvol gerapporteerd",
+  "dailyPromptsReportError": "Vraag rapporteren mislukt",
+  "dailyPromptsNoPromptsAvailable": "Geen vragen beschikbaar",
+  "dailyPromptsExampleTag": "Voorbeeldvraag",
   "dailyPromptsReferralCodeSent": "Check je mail voor een uitnodigingscode om te delen met de persoon die je kent",
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
-  "tutorialFinishedDescription": "Je hebt de korte rondleiding afgerond. Nu ben je klaar om je eerste 3 echte prompts te beantwoorden en gematcht te worden met andere ondernemers.",
+  "tutorialFinishedDescription": "Voel je vrij om de app nu te verkennen! We laten je weten wanneer we vragen vinden die passen bij jouw aanbod.\n\nPro tip: Je kan meer aanbiedingen toevoegen in je profiel voor nog betere matches.\n\nMake the net work 🤝",
   "tutorialFinishedButton": "Oké!",
 
   "@_REGISTRATION_FINISH": {},
   "registrationFinishTitle": "That's it! 🎉",
-  "registrationFinishDescription": "Je account is helemaal ingesteld en je hebt je eerste 3 prompts beantwoord. Kom morgen terug om meer prompts te beantwoorden en nieuwe matches te ontdekken.",
+  "registrationFinishDescription": "Je account is helemaal ingesteld en je hebt je eerste 3 vragen beantwoord. Kom morgen terug om meer vragen te beantwoorden en nieuwe matches te ontdekken.",
   "registrationFinishButton": "Klaar!",
 
   "@_COMMON": {},
@@ -68,8 +77,8 @@
   "buttonGotIt": "Begrepen",
 
   "@_ERRORS": {},
-  "errorNoCardsAvailable": "Momenteel geen prompts beschikbaar. Kom later terug!",
-  "errorFailedToLoadCards": "Prompts laden mislukt. Probeer het opnieuw.",
+  "errorNoCardsAvailable": "Momenteel geen vragen beschikbaar. Kom later terug!",
+  "errorFailedToLoadCards": "Vragen laden mislukt. Probeer het opnieuw.",
   "errorFailedToRefreshProfile": "Profiel vernieuwen mislukt. Probeer het opnieuw.",
   "errorNoInternetConnection": "Geen internetverbinding. Controleer je verbinding en probeer opnieuw.",
   "errorAuthenticationFailed": "Aanmelden mislukt. Probeer het opnieuw.",
@@ -102,6 +111,11 @@
   "interactionTypeNotRelevantSubtitle": "Deze sla ik over",
   "interactionTypeNotRelevantHint": "Wat wil je delen?",
 
+  "interactionTypeThisIsMeNewTitle": "Nieuw aanbod",
+  "interactionTypeLookingForThisNewTitle": "Nieuwe vraag",
+  "interactionTypeKnowSomeoneNewTitle": "Nieuwe connectie",
+  "interactionTypeNotRelevantNewTitle": "Overslaan",
+
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Persoonlijke informatie",
   "registrationStepEmailTitle": "E-mailverificatie",
@@ -114,6 +128,10 @@
   "registrationStepNetworkingGoalsTitle": "Netwerkdoelen",
   "registrationStepAvatarTitle": "Profielfoto",
   "registrationStepNotificationsTitle": "Activeer meldingen",
+  "registrationStepOptinTitle": "Haal meer uit Venyu",
+  "registrationStepOptinBody": "Wil je tips ontvangen om je profiel te verbeteren en als eerste op de hoogte zijn van nieuwe functies?",
+  "registrationStepOptinButtonYes": "Ja, hou me op de hoogte",
+  "registrationStepOptinButtonNo": "Nee, bedankt",
   "registrationStepCompleteTitle": "Welkom bij Venyu!",
 
   "@_ONBOARDING_BENEFIT": {},
@@ -132,25 +150,25 @@
   "benefitFocusedReachTitle": "Slimme targeting",
   "benefitFocusedReachDescription": "Publiceer je vragen naar het juiste publiek",
   "benefitDiscreetPreviewTitle": "First call",
-  "benefitDiscreetPreviewDescription": "Op je prompts krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.",
+  "benefitDiscreetPreviewDescription": "Op je vragen krijg jij de first call. Matches worden pas aan anderen getoond als jij interesse toont.",
   "benefitUnlimitedIntroductionsTitle": "Oneindige introductions",
   "benefitUnlimitedIntroductionsDescription": "Blijf je netwerk uitbreiden met onbeperkte introducties en mis nooit een kans",
   "benefitUnlockFullProfilesTitle": "Volledige profielen",
   "benefitUnlockFullProfilesDescription": "Ontdek wie achter de match zit door hun avatar te zien en wederzijdse interesses te bekijken",
   "benefitViewsAndImpressionsTitle": "Weergaven en vertoningen",
   "benefitViewsAndImpressionsDescription": "Begrijp je bereik met eenvoudige statistieken",
-  "benefitDailyCardsBoostTitle": "Meer dagelijkse prompts",
-  "benefitDailyCardsBoostDescription": "Meer prompts om je netwerk sneller te laten groeien.",
+  "benefitDailyCardsBoostTitle": "Meer dagelijkse vragen",
+  "benefitDailyCardsBoostDescription": "Meer vragen om je netwerk sneller te laten groeien.",
   "benefitAiPoweredMatchesTitle": "AI-gedreven matches (later)",
   "benefitAiPoweredMatchesDescription": "Ontvang slimme suggesties op basis van je profiel.",
 
   "@_EDIT_COMPANY_INFO_TYPE": {},
   "editCompanyInfoNameTitle": "Bedrijfsgegevens",
-  "editCompanyInfoNameDescription": "Naam en website van je bedrijf",
+  "editCompanyInfoNameDescription": "Naam van je bedrijf",
 
   "@_EDIT_PERSONAL_INFO_TYPE": {},
   "editPersonalInfoNameTitle": "Naam",
-  "editPersonalInfoNameDescription": "Je naam en LinkedIn URL",
+  "editPersonalInfoNameDescription": "Je naam",
   "editPersonalInfoBioTitle": "Bio",
   "editPersonalInfoBioDescription": "Een korte introductie over jezelf",
   "editPersonalInfoLocationTitle": "Stad",
@@ -193,6 +211,10 @@
   "accountSettingsBlockedUsersDescription": "Bekijk en beheer geblokkeerde gebruikers",
   "accountSettingsAutoIntroductionTitle": "Automatische introductie",
   "accountSettingsAutoIntroductionDescription": "Automatisch introductie aanvragen bij matches",
+  "accountSettingsInviteCodesTitle": "Uitnodigingscodes",
+  "accountSettingsInviteCodesDescription": "Beschikbare uitnodigingscodes",
+  "accountSettingsLinksTitle": "Links",
+  "accountSettingsLinksDescription": "Je persoonlijke sociale links",
 
   "@_PROFILE_EDIT_TYPE": {},
   "profileEditAccountTitle": "Account",
@@ -200,9 +222,9 @@
 
   "@_REVIEW_TYPE": {},
   "reviewTypeUserTitle": "Door gebruiker aangemaakt",
-  "reviewTypeUserDescription": "Prompts ingediend door gebruikers",
+  "reviewTypeUserDescription": "Vragen ingediend door gebruikers",
   "reviewTypeSystemTitle": "AI gegenereerd",
-  "reviewTypeSystemDescription": "Dagelijks gegenereerde prompts door AI",
+  "reviewTypeSystemDescription": "Dagelijks gegenereerde vragen door AI",
 
   "@_APP_METADATA": {},
   "appName": "Venyu",
@@ -210,12 +232,13 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Prompts",
+  "navCards": "Vragen",
   "navNotifications": "Updates",
   "navProfile": "Profiel",
 
   "@_COMMON_ACTIONS": {},
   "actionSave": "Opslaan",
+  "actionSend": "Versturen",
   "actionCancel": "Annuleren",
   "actionDelete": "Verwijderen",
   "actionEdit": "Bewerken",
@@ -239,7 +262,7 @@
   "@_VALIDATION_MESSAGES": {},
   "validationEmailRequired": "E-mail is verplicht",
   "validationEmailInvalid": "Voer een geldig e-mailadres in",
-  "validationUrlInvalid": "Voer een geldige URL in (beginnend met http:// of https://)",
+  "validationUrlInvalid": "Voer een geldige URL in (bijv. voorbeeld.com)",
   "validationLinkedInUrlInvalid": "Voer een geldige LinkedIn profiel URL in\n(bijv. https://www.linkedin.com/in/jouwnaam)",
   "validationFieldRequired": "{fieldName} is verplicht",
   "@validationFieldRequired": {
@@ -290,7 +313,7 @@
 
   "@_PROMPT_SECTIONS": {},
   "promptSectionCardTitle": "Status",
-  "promptSectionCardDescription": "Bekijk je prompt details",
+  "promptSectionCardDescription": "Bekijk je vraag details",
   "promptSectionStatsTitle": "Statistieken",
   "promptSectionStatsDescription": "Prestaties en analyses",
   "promptSectionIntroTitle": "Introductions",
@@ -298,17 +321,17 @@
 
   "@_PROMPT_STATUS": {},
   "promptStatusDraftDisplay": "Concept",
-  "promptStatusDraftInfo": "Je prompt is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.",
+  "promptStatusDraftInfo": "Je vraag is opgeslagen als concept. Maak het af en dien het in om matches te ontvangen.",
   "promptStatusPendingReviewDisplay": "In afwachting van beoordeling",
-  "promptStatusPendingReviewInfo": "Je prompt wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.",
+  "promptStatusPendingReviewInfo": "Je vraag wordt beoordeeld door ons team. Dit duurt meestal 12-24 uur om te controleren of de inhoud voldoet aan de community richtlijnen.",
   "promptStatusPendingTranslationDisplay": "Wordt vertaald",
-  "promptStatusPendingTranslationInfo": "Je prompt wordt vertaald naar andere talen.",
+  "promptStatusPendingTranslationInfo": "Je vraag wordt vertaald naar andere talen.",
   "promptStatusApprovedDisplay": "Goedgekeurd",
-  "promptStatusApprovedInfo": "Je prompt is goedgekeurd en staat live. Je kunt matches ontvangen.",
+  "promptStatusApprovedInfo": "Je vraag is goedgekeurd en staat live. Je kunt matches ontvangen.",
   "promptStatusRejectedDisplay": "Afgewezen",
-  "promptStatusRejectedInfo": "Je prompt werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.",
+  "promptStatusRejectedInfo": "Je vraag werd afgewezen omdat het niet voldoet aan de community richtlijnen. Pas het aan en dien het opnieuw in.",
   "promptStatusArchivedDisplay": "Gearchiveerd",
-  "promptStatusArchivedInfo": "Je prompt is gearchiveerd en niet meer zichtbaar voor andere gebruikers.",
+  "promptStatusArchivedInfo": "Je vraag is gearchiveerd en niet meer zichtbaar voor andere gebruikers.",
 
   "@_VENUE_TYPE": {},
   "venueTypeEventDisplayName": "Evenement",
@@ -320,11 +343,11 @@
   "emptyStateNotificationsTitle": "Helemaal up-to-date",
   "emptyStateNotificationsDescription": "Als er iets gebeurt waar je van moet weten, laten we het je hier weten",
   "emptyStateReviewsTitle": "Helemaal up-to-date",
-  "emptyStateReviewsDescription": "Wanneer prompts ter beoordeling worden ingediend, verschijnen ze hier",
+  "emptyStateReviewsDescription": "Wanneer vragen ter beoordeling worden ingediend, verschijnen ze hier",
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
-  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe prompt om sneller gematcht te worden.",
+  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe vraag om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
-  "emptyStatePromptsDescription": "Prompts helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
+  "emptyStatePromptsDescription": "Vragen helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
   "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
   "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
 
@@ -381,6 +404,7 @@
   "joinVenuePlaceholder": "Voer venue code in",
 
   "@_MATCH_VIEWS": {},
+  "matchItemReachOut": "Stel jezelf voor",
   "matchDetailLoading": "Laden...",
   "matchDetailTitleIntroduction": "Introductie",
   "matchDetailTitleMatch": "Match",
@@ -406,6 +430,79 @@
   "matchDetailRemoveSuccessMatch": "Match succesvol verwijderd",
   "matchDetailTypeIntroduction": "introductie",
   "matchDetailTypeMatch": "match",
+  "matchReachOutTitle": "Introductie",
+  "matchReachOutSubtitle": "Stel jezelf voor aan {name}",
+  "@matchReachOutSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutGreeting": "Hallo",
+  "matchReachOutPromptContextSingular": "De vraag die ons matcht:",
+  "matchReachOutPromptContextPlural": "De vragen die ons matchen:",
+  "matchReachOutMessagePlaceholder": "Schrijf je bericht hier...",
+  "matchReachOutInfoMessage": "Je bericht wordt rechtstreeks via e-mail verzonden en wordt niet opgeslagen door Venyu. Je kan één introductie per match sturen, dus hou het duidelijk, respectvol en professioneel.",
+  "matchReachOutContactsSubtitle": "Deel extra links (optioneel)",
+  "matchReachOutPreviewTitle": "Voorbeeld",
+  "matchReachOutPreviewFromLabel": "Van",
+  "matchReachOutPreviewFromValue": "{name} (via Venyu)",
+  "@matchReachOutPreviewFromValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutPreviewReplyToLabel": "Antwoord naar",
+  "matchReachOutPreviewSubjectLabel": "Onderwerp",
+  "matchReachOutPreviewSubject": "Introductie van {firstName}",
+  "@matchReachOutPreviewSubject": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutPreviewPS": "PS: Antwoord gerust rechtstreeks op deze e-mail.",
+  "matchReachOutFinishTitle": "Introductie verzonden!",
+  "matchReachOutFinishDescription": "Je bericht is verzonden naar {name}. Ze ontvangen het rechtstreeks in hun inbox.",
+  "@matchReachOutFinishDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "matchReachOutFinishDoneButton": "Klaar",
+  "matchReachOutSuccessMessage": "Bericht succesvol verzonden",
+  "matchReachOutErrorMessage": "Bericht verzenden mislukt",
+  "matchStagesTitle": "Connectie fase",
+  "matchStagesDescription": "Volg de voortgang van deze match. Zowel jij als je match kunnen deze fase aanpassen.",
+  "matchStagesSaveButton": "Opslaan",
+  "matchStagesSavingButton": "Opslaan...",
+  "matchStagesLoadErrorTitle": "Fout bij laden fases",
+  "matchStagesRetryButton": "Opnieuw proberen",
+  "matchStagesNoStagesMessage": "Geen fases beschikbaar",
+  "matchStagesSaveErrorTitle": "Fout bij opslaan fase",
+  "matchStagesSaveErrorMessage": "Fase opslaan mislukt: {error}",
+  "@matchStagesSaveErrorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "matchStagesErrorDialogOk": "OK",
+  "matchDetailFirstCallWarning": "Enkel jij ziet deze match. Zodra je jezelf voorstelt, ziet {firstName} jou ook.",
+  "@matchDetailFirstCallWarning": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
   "matchDetailErrorLoad": "Match details laden mislukt",
   "matchDetailRetry": "Opnieuw proberen",
   "matchDetailNotFound": "Match niet gevonden",
@@ -424,8 +521,8 @@
       }
     }
   },
-  "matchDetailCard": "prompt",
-  "matchDetailCards": "prompts",
+  "matchDetailCard": "vraag",
+  "matchDetailCards": "vragen",
   "matchDetailSharedIntros": "{count} gedeelde {intros}",
   "@matchDetailSharedIntros": {
     "placeholders": {
@@ -437,8 +534,8 @@
       }
     }
   },
-  "matchDetailIntroduction": "introductie",
-  "matchDetailIntroductions": "introductions",
+  "matchDetailIntroduction": "match",
+  "matchDetailIntroductions": "matches",
   "matchDetailSharedVenues": "{count} gedeelde {venues}",
   "@matchDetailSharedVenues": {
     "placeholders": {
@@ -584,6 +681,11 @@
   "companySectionEmptyTagGroups": "Geen bedrijfs tag groepen beschikbaar",
   "personalSectionEmptyTagGroups": "Geen persoonlijke tag groepen beschikbaar",
   "contactSectionEmptyContacts": "Geen contactopties beschikbaar",
+  "aboutMeSectionEmptyTitle": "Dit ben ik",
+  "aboutMeSectionEmptyDescription": "Voeg een paar aanbiedingen toe die beschrijven hoe je anderen kan helpen. Ze zijn privé en worden alleen gebruikt voor matching met vragen van anderen.",
+  "aboutMeSectionEmptyAction": "Voeg aanbod toe",
+  "profileSectionAboutMeTitle": "Mijn aanbod",
+  "profileSectionAboutMeDescription": "Aanbiedingen over wie je bent en hoe je anderen helpt. Ze verbeteren je matches.",
   "profileSectionPersonalTitle": "Persoonlijk",
   "profileSectionPersonalDescription": "Persoonlijke informatie",
   "profileSectionCompanyTitle": "Professioneel",
@@ -592,8 +694,8 @@
   "profileSectionVenuesDescription": "Evenementen en organisaties",
   "profileSectionInvitesTitle": "Codes",
   "profileSectionInvitesDescription": "Uitnodigingen en codes",
-  "profileSectionContactTitle": "Contact",
-  "profileSectionContactDescription": "Contactgegevens",
+  "profileSectionContactTitle": "Links",
+  "profileSectionContactDescription": "Je contact links",
   "profileSectionReviewsTitle": "Reviews",
   "profileSectionReviewsDescription": "Gebruikersbeoordelingen en feedback",
   "profilePersonalCompletenessMessage": "Je persoonlijk profiel is {percentage}% compleet. Vul het volledig in om betere en meer relevante matches te krijgen.",
@@ -623,10 +725,10 @@
   "editAccountReviewsSectionLabel": "Reviews",
   "editAccountSectionLabel": "Account",
   "editAccountDataExportTitle": "Data Export",
-  "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, prompts, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",
+  "editAccountDataExportDescription": "Je kunt een kopie van al je persoonlijke gegevens aanvragen. Dit omvat je profielinformatie, vragen, aanbiedingen, matches en activiteitengeschiedenis. De export wordt naar je geregistreerde e-mailadres gestuurd.",
   "editAccountExportDataButton": "Exporteer al je gegevens",
   "editAccountDeleteTitle": "Account verwijderen",
-  "editAccountDeleteDescription": "Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, prompts en matches worden verwijderd.",
+  "editAccountDeleteDescription": "Het verwijderen van je account is definitief. Al je gegevens, inclusief je profiel, vragen, aanbiedingen en matches worden verwijderd.",
   "editAccountDeleteButton": "Account verwijderen",
   "editAccountLogoutButton": "Uitloggen",
   "editAccountExportDialogTitle": "Gegevens exporteren",
@@ -698,7 +800,7 @@
   "editLocationApproximateInfo": "Gebruikt geschatte locatie. Schakel 'Precieze locatie' in bij instellingen voor betere matches.",
 
   "@_EDIT_NAME": {},
-  "editNameTitle": "Jij",
+  "editNameTitle": "Jouw naam",
   "editNameSuccessMessage": "Wijzigingen succesvol opgeslagen",
   "editNameErrorMessage": "Bijwerken mislukt, probeer het opnieuw",
   "editNameLinkedInFormatError": "LinkedIn URL formaat is ongeldig",
@@ -732,7 +834,7 @@
   "editEmailVerifyCodeErrorMessage": "Verifiëren van code mislukt, probeer het opnieuw",
   "editEmailVerifyCodeButton": "Code verifiëren",
   "editEmailAddressHint": "Een geldig e-mailadres",
-  "editEmailInfoMessage": "We gebruiken dit e-mailadres alleen voor app notificaties zoals nieuwe matches, introducties en belangrijke updates",
+  "editEmailInfoMessage": "We gebruiken je e-mail alleen voor accountverificatie, matchmeldingen, updates over je vragen en serviceberichten.",
   "editEmailNewsletterLabel": "INSCHRIJVEN VOOR VENYU UPDATES",
   "editEmailVerificationCodeLabel": "Verificatiecode",
   "editEmailVerificationCodeHint": "Voer 6-cijferige code in",
@@ -749,7 +851,7 @@
   "editCityErrorMessage": "Bijwerken van stad mislukt, probeer het opnieuw",
   "editCityCityLabel": "STAD",
   "editCityCityHint": "Stad",
-  "editCityInfoMessage": "Je stad wordt alleen gedeeld met mensen aan wie je geïntroduceerd wordt, niet met matches. Dit helpt om betere persoonlijke ontmoetingen te faciliteren zodra een connectie is gemaakt.",
+  "editCityInfoMessage": "Je stad wordt alleen gedeeld met mensen waarmee je matcht en is niet publiek zichtbaar. Dit helpt om betere persoonlijke ontmoetingen te faciliteren zodra een connectie is gemaakt.",
 
   "@_EDIT_COMPANY_NAME": {},
   "editCompanyNameTitle": "Bedrijfsnaam",
@@ -767,7 +869,7 @@
   "editAvatarErrorMessage": "Opslaan van profielfoto mislukt",
   "editAvatarRemoveButton": "Verwijderen",
   "editAvatarAddTitle": "Voeg een profielfoto toe",
-  "editAvatarInfoMessage": "Je foto is vaak je eerste indruk. Kies een duidelijke, vriendelijke headshot. Deze verschijnt wazig in matches, maar zichtbaar zodra je geïntroduceerd bent.",
+  "editAvatarInfoMessage": "Je foto is vaak je eerste indruk. Kies een duidelijke, vriendelijke headshot.",
   "editAvatarCameraButton": "Camera",
   "editAvatarGalleryButton": "Galerij",
   "editAvatarNextButton": "Volgende",
@@ -783,19 +885,19 @@
   "promptCardCreatedLabel": "Aangemaakt",
   "promptCardReviewedLabel": "Beoordeeld",
   "promptCardStatusLabel": "Status",
-  "promptCardUpgradeTitle": "Verleng je prompt zichtbaarheid",
-  "promptCardUpgradeSubtitle": "Upgrade naar Venyu Pro om je prompt 10 dagen in plaats van 3 online te houden.",
+  "promptCardUpgradeTitle": "Verleng je vraag zichtbaarheid",
+  "promptCardUpgradeSubtitle": "Upgrade naar Venyu Pro om je vraag 10 dagen in plaats van 3 online te houden.",
   "promptCardUpgradeButton": "Upgraden naar Pro",
 
   "@_PROMPT_INTRO_SECTION": {},
   "promptIntroErrorMessage": "Laden van matches mislukt",
   "promptIntroRetryButton": "Opnieuw proberen",
   "promptIntroEmptyTitle": "Nog geen matches",
-  "promptIntroEmptyDescription": "Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.",
+  "promptIntroEmptyDescription": "Wanneer mensen matchen met je vraag, verschijnen hun profielen hier.",
 
   "@_PROMPT_STATS_SECTION": {},
   "promptStatsTitle": "Statistieken komen binnenkort",
-  "promptStatsDescription": "Volg de prestaties, weergaven en engagement metrics van je prompt.",
+  "promptStatsDescription": "Volg de prestaties, weergaven en engagement metrics van je vraag.",
 
   "@_INTERACTION_TYPE_SELECTION": {},
   "interactionTypeSelectionTitleFromPrompts": "Bedankt{name}",
@@ -808,32 +910,40 @@
   },
   "interactionTypeSelectionTitleDefault": "Make the net work",
   "interactionTypeSelectionSubtitleFromPrompts": "Make the net work for you",
-  "interactionTypeSelectionSubtitleDefault": "Schrijf zelf een prompt",
-  "interactionTypeSelectionDisclaimerText": "Prompts worden nagekeken voordat ze live gaan",
-  "interactionTypeSelectionDisclaimerBeforeLinkText": "Prompts worden nagekeken volgens onze ",
+  "interactionTypeSelectionSubtitleDefault": "Schrijf zelf een aanbod of vraag",
+  "interactionTypeSelectionDisclaimerText": "Vragen worden nagekeken voordat ze live gaan",
+  "interactionTypeSelectionDisclaimerBeforeLinkText": "Vragen worden nagekeken volgens onze ",
   "interactionTypeSelectionDisclaimerLinkText": "community richtlijnen",
   "interactionTypeSelectionShowGuidelines": "Community richtlijnen tonen",
   "interactionTypeSelectionHideGuidelines": "Community richtlijnen verbergen",
   "interactionTypeSelectionNotNowButton": "Niet nu",
+  "interactionTypeSelectionPrivatePromptsInfo": "Een aanbod beschrijft hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Prompt detail",
+  "promptDetailTitle": "Detail",
   "promptDetailStatusTitle": "Status",
   "promptDetailHowYouMatchTitle": "Matchen beheren",
-  "promptDetailHowYouMatchDescription": "Pauzeer het matchen op deze prompt om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.",
+  "promptDetailHowYouMatchDescription": "Pauzeer het matchen op deze vraag om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.",
   "promptDetailFirstCallTitle": "First Call",
   "promptDetailPublishedInTitle": "Gepubliceerd in",
-  "promptDetailMatchesTitle": "Matches",
-  "promptDetailErrorMessage": "Laden van prompt mislukt",
-  "promptDetailErrorDataMessage": "Laden van prompt mislukt",
+  "promptDetailMatchesTitle": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@promptDetailMatchesTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "promptDetailErrorMessage": "Laden van vraag mislukt",
+  "promptDetailErrorDataMessage": "Laden van vraag mislukt",
   "promptDetailRetryButton": "Opnieuw proberen",
   "promptDetailEmptyMatchesTitle": "Nog geen matches",
-  "promptDetailEmptyMatchesDescription": "Wanneer mensen matchen met je prompt, verschijnen hun profielen hier.",
-  "promptDetailEditButton": "Prompt bewerken",
+  "promptDetailEmptyMatchesDescription": "Wanneer mensen matchen met je vraag, verschijnen hun profielen hier.",
+  "promptDetailEditButton": "Vraag bewerken",
   "promptDetailPreviewUpdatedMessage": "Preview instelling bijgewerkt",
   "promptDetailMatchSettingUpdatedMessage": "Match instelling bijgewerkt",
   "promptDetailPauseMatchingTitle": "Matching pauzeren?",
-  "promptDetailPauseMatchingMessage": "Je ontvangt geen matches meer voor \"{interactionType}\" op deze prompt. Je kunt matching altijd hervatten.",
+  "promptDetailPauseMatchingMessage": "Je ontvangt geen matches meer voor \"{interactionType}\" op deze vraag. Je kunt matching altijd hervatten.",
   "@promptDetailPauseMatchingMessage": {
     "placeholders": {
       "interactionType": {
@@ -843,20 +953,28 @@
   },
   "promptDetailPauseMatchingConfirm": "Pauzeren",
   "promptDetailPauseMatchingCancel": "Annuleren",
-  "promptDetailPauseMatchingMessageGeneric": "Je ontvangt geen matches meer op deze prompt. Je kan matchen op elk moment hervatten.",
+  "promptDetailPauseMatchingMessageGeneric": "Je ontvangt geen matches meer op deze vraag. Je kan matchen op elk moment hervatten.",
   "promptDetailMatchingActiveLabel": "Matchen is actief",
   "promptDetailMatchingPausedLabel": "Matchen is gepauzeerd",
   "promptItemPausedTag": "Gepauzeerd",
+  "promptItemMatchCount": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@promptItemMatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "promptDetailRejectButton": "Afwijzen",
   "promptDetailApproveButton": "Goedkeuren",
-  "promptDetailApprovedMessage": "Prompt goedgekeurd",
-  "promptDetailRejectedMessage": "Prompt afgewezen",
-  "promptDetailDeleteButton": "Prompt verwijderen",
-  "promptDetailDeleteConfirmTitle": "Prompt verwijderen?",
-  "promptDetailDeleteConfirmMessage": "Dit zal je prompt permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.",
+  "promptDetailApprovedMessage": "Vraag goedgekeurd",
+  "promptDetailRejectedMessage": "Vraag afgewezen",
+  "promptDetailDeleteButton": "Verwijderen",
+  "promptDetailDeleteConfirmTitle": "Verwijderen?",
+  "promptDetailDeleteConfirmMessage": "Dit zal je gegevens permanent verwijderen. Deze actie kan niet ongedaan gemaakt worden.",
   "promptDetailDeleteConfirmButton": "Verwijderen",
   "promptDetailDeleteCancelButton": "Annuleren",
-  "promptDetailDeletedMessage": "Prompt verwijderd",
+  "promptDetailDeletedMessage": "Verwijderd",
   "promptDetailDeleteErrorMessage": "Verwijderen mislukt",
 
   "@_PROMPT_EDIT_VIEW": {},
@@ -871,7 +989,8 @@
       }
     }
   },
-  "promptEntryFirstTimeDescription": "De volgende {count} prompts zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.",
+  "promptEntryGreetingFirstTime": "Laten we eerst oefenen!",
+  "promptEntryFirstTimeDescription": "De volgende {count} vragen zijn oefenvoorbeelden om je te leren hoe je ze beantwoordt.",
   "@promptEntryFirstTimeDescription": {
     "placeholders": {
       "count": {
@@ -879,7 +998,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Je dagelijkse {count} prompts wachten op je",
+  "promptEntryDailyDescription": "Je dagelijkse {count} vragen wachten op je",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {
@@ -890,17 +1009,19 @@
   "promptEntryButton": "Laat zien",
 
   "@_PROMPT_FINISH_VIEW": {},
-  "promptFinishTitle": "Prompt ingediend!",
-  "promptFinishDescription": "Je prompt is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.",
+  "promptFinishTitle": "Vraag ingediend!",
+  "promptFinishDescription": "Je vraag is succesvol ingediend en wordt beoordeeld. We laten je weten wanneer deze live is.",
   "promptFinishReviewInfo": "Beoordelingen duren meestal minder dan 24 uur",
   "promptFinishDoneButton": "Klaar",
+  "promptFinishSavedTitle": "Aanbod opgeslagen",
+  "promptFinishSavedDescription": "Je aanbod is succesvol opgeslagen!",
 
   "@_PROMPT_PREVIEW_VIEW": {},
   "promptPreviewTitle": "Voorbeeld",
   "promptPreviewNextButton": "Volgende",
   "promptPreviewSubmitButton": "Indienen",
-  "promptPreviewErrorUpdate": "Bijwerken van prompt mislukt",
-  "promptPreviewErrorSubmit": "Indienen van prompt mislukt",
+  "promptPreviewErrorUpdate": "Bijwerken mislukt",
+  "promptPreviewErrorSubmit": "Indienen mislukt",
 
   "@_PROMPT_SELECT_VENUE_VIEW": {},
   "promptSelectVenueTitle": "Selecteer publiek",
@@ -910,19 +1031,19 @@
   "promptSelectVenueOrTitle": "Of selecteer een specifieke venue",
   "promptSelectVenueNextButton": "Volgende",
   "promptSelectVenueSubmitButton": "Indienen",
-  "promptSelectVenueErrorSubmit": "Indienen van prompt mislukt",
+  "promptSelectVenueErrorSubmit": "Indienen mislukt",
 
   "@_PROMPT_SETTINGS_VIEW": {},
   "promptSettingsTitle": "Instellingen",
   "promptSettingsSubmitButton": "Indienen",
-  "promptSettingsErrorSubmit": "Indienen van prompt mislukt",
+  "promptSettingsErrorSubmit": "Indienen mislukt",
 
   "@_PROMPTS_VIEW": {},
-  "promptsViewTitle": "Prompts",
-  "promptsViewEmptyActionButton": "Nieuwe prompt",
-  "promptsViewAnswerPromptsButton": "Onbeantwoorde prompts",
-  "promptsViewAllAnsweredMessage": "Alle prompts beantwoord voor vandaag",
-  "promptsViewMyPromptsTitle": "Mijn prompts",
+  "promptsViewTitle": "Vragen",
+  "promptsViewEmptyActionButton": "Nieuwe vraag",
+  "promptsViewAnswerPromptsButton": "Onbeantwoorde vragen",
+  "promptsViewAllAnsweredMessage": "Alle vragen beantwoord voor vandaag",
+  "promptsViewMyPromptsTitle": "Mijn vragen",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Uitnodigingscode",
@@ -934,8 +1055,8 @@
   "venueDetailNotFound": "Venue niet gevonden",
   "venueDetailMemberSingular": "Lid",
   "venueDetailMembersPlural": "Leden",
-  "venueDetailCardSingular": "Prompt",
-  "venueDetailCardsPlural": "Prompts",
+  "venueDetailCardSingular": "Vraag",
+  "venueDetailCardsPlural": "Vragen",
   "venueDetailMatchSingular": "Match",
   "venueDetailMatchesPlural": "Matches",
   "venueDetailIntroductionSingular": "Introductie",
@@ -985,7 +1106,7 @@
   "venueProfilesViewEmptyDescription": "Deze venue heeft nog geen leden.",
 
   "@_VENUE_PROMPTS_VIEW": {},
-  "venuePromptsViewTitle": "{venueName} prompts",
+  "venuePromptsViewTitle": "{venueName} vragen",
   "@venuePromptsViewTitle": {
     "placeholders": {
       "venueName": {
@@ -993,13 +1114,13 @@
       }
     }
   },
-  "venuePromptsViewEmptyTitle": "Geen prompts gevonden",
-  "venuePromptsViewEmptyDescription": "Deze venue heeft nog geen prompts.",
+  "venuePromptsViewEmptyTitle": "Geen vragen gevonden",
+  "venuePromptsViewEmptyDescription": "Deze venue heeft nog geen vragen.",
 
   "@_COMMUNITY_GUIDELINES_WIDGET": {},
   "communityGuidelinesTitle": "Richtlijnen",
   "communityGuidelinesAllowed": "Netwerken, kennis delen, hulp vragen, ervaringen en expertise delen, relevante introducties leggen, samenwerking verkennen, sparren over uitdagingen, co-founders of strategische partners zoeken, ondernemersvragen, aanbevelingen zoeken of geven.",
-  "communityGuidelinesProhibited": "Spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.",
+  "communityGuidelinesProhibited": "Een verdoken aanbod, spam, oplichting, misleiding, aanstootgevende of expliciete inhoud, toxisch of discriminerend gedrag, religieuze discussies, haatdragende uitspraken, vacatures of jobadvertenties, politiek, reclame of commerciële boodschappen.",
   "@_ERROR_STATE_WIDGET": {},
   "errorStateDefaultTitle": "Er ging iets mis",
   "errorStateRetryButton": "Opnieuw proberen",
@@ -1053,7 +1174,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "Nieuwe prompt",
+  "matchesViewEmptyActionButton": "Nieuwe vraag",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profiel",
@@ -1061,13 +1182,15 @@
 
   "@_PROFILE_HEADER": {},
   "profileHeaderBioPlaceholder": "Schrijf iets over jezelf...",
+  "profileHeaderReachOutButton": "Stel jezelf voor",
+  "profileHeaderAlreadyConnectedButton": "Al in contact?",
 
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "Word gematcht",
 
   "@_REVIEW_PENDING_PROMPTS_VIEW": {},
-  "reviewPendingPromptsErrorUpdate": "Bijwerken van prompts mislukt",
-  "reviewPendingPromptsErrorUpdateAll": "Bijwerken van alle prompts mislukt",
+  "reviewPendingPromptsErrorUpdate": "Bijwerken mislukt",
+  "reviewPendingPromptsErrorUpdateAll": "Bijwerken van alles mislukt",
   "reviewPendingPromptsRejectSelected": "{count} afwijzen",
   "@reviewPendingPromptsRejectSelected": {
     "placeholders": {
@@ -1156,9 +1279,23 @@
   "venueErrorCodeLength": "De code moet precies 8 karakters lang zijn.",
   "venueErrorAdminRequired": "Je hebt admin rechten nodig om venue leden te bekijken.",
   "venueErrorIdRequired": "Venue ID is vereist.",
-  "venueErrorAdminRequiredPrompts": "Je hebt admin rechten nodig om venue prompts te bekijken.",
+  "venueErrorAdminRequiredPrompts": "Je hebt admin rechten nodig om venue vragen te bekijken.",
   "venueErrorPermissionDenied": "Je hebt geen toestemming om matches voor deze venue te bekijken.",
 
   "@_OPTION_BUTTON": {},
-  "optionButtonCompleteProfile": "Profiel voltooien"
+  "optionButtonCompleteProfile": "Profiel voltooien",
+
+  "@_RETURNING_USER_TUTORIAL": {},
+  "returningUserTutorialWelcome": "Welkom terug {name}",
+  "@returningUserTutorialWelcome": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "returningUserTutorialDescription": "De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.",
+  "returningUserTutorialButton": "Laat zien",
+  "returningUserTutorialDoneDescription": "Bedankt om even de tijd te nemen, veel plezier met deze nieuwe versie!",
+  "returningUserTutorialDoneButton": "Sluiten"
 }
