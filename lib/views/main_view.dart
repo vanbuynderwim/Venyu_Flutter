@@ -13,12 +13,14 @@ import '../services/notification_service.dart';
 import '../services/version_service.dart';
 import '../services/connectivity_service.dart';
 import '../services/deep_link_service.dart';
+import '../services/tutorial_service.dart';
 import '../models/badge_data.dart';
 import 'matches/matches_view.dart';
 import 'prompts/prompts_view.dart';
 import 'notifications/notifications_view.dart';
 import 'profile/profile_view.dart';
 import 'prompts/prompt_entry_view.dart';
+import 'onboarding/returning_user_tutorial_view.dart';
 
 /// MainView - Tab navigation using flutter_platform_widgets (based on Test project pattern)
 class MainView extends StatefulWidget {
@@ -30,7 +32,9 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   static bool _hasCheckedPromptsThisSession = false; // Track if we've already checked for prompts this session
+  static bool _hasCheckedTutorialThisSession = false; // Track if we've already checked for tutorial this session
   bool _isCheckingPrompts = false; // Prevent multiple simultaneous checks
+  bool _isCheckingTutorial = false; // Prevent multiple simultaneous tutorial checks
 
   // Badge counts
   BadgeData? _badgeData;
@@ -72,10 +76,10 @@ class _MainViewState extends State<MainView> {
     // Set up deep link navigation callback
     DeepLinkService.shared.setNavigateToTabCallback(_navigateToTab);
 
-    // Check for prompts, badges, version, connectivity, and permissions on app startup
+    // Check for tutorial, prompts, badges, version, connectivity, and permissions on app startup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAndRequestPermissions();
-      _checkForPrompts();
+      _checkForReturningUserTutorial(); // Check tutorial BEFORE prompts
       _fetchBadges();
       _checkVersion();
       ConnectivityService.shared.initialize(context);
@@ -97,6 +101,92 @@ class _MainViewState extends State<MainView> {
       AppLogger.info('Navigating to tab $tabIndex via deep link', context: 'MainView');
       _tabController.setIndex(context, tabIndex);
     }
+  }
+
+  /// Check if returning user needs to see the updated tutorial
+  ///
+  /// This shows the tutorial modal for existing users after an app update
+  /// that changed the rules. It runs BEFORE the prompts check.
+  Future<void> _checkForReturningUserTutorial() async {
+    // Skip if we've already checked tutorial this session
+    if (_hasCheckedTutorialThisSession) {
+      AppLogger.debug('Already checked tutorial this session, proceeding to prompts', context: 'MainView');
+      _checkForPrompts();
+      return;
+    }
+
+    // Prevent multiple simultaneous checks
+    if (_isCheckingTutorial) {
+      AppLogger.debug('Already checking tutorial, skipping duplicate check', context: 'MainView');
+      return;
+    }
+
+    _isCheckingTutorial = true;
+    _hasCheckedTutorialThisSession = true;
+
+    try {
+      // Only check for registered users (registeredAt != null)
+      final authService = context.authService;
+      if (!authService.isAuthenticated) {
+        AppLogger.info('User not authenticated, skipping tutorial check', context: 'MainView');
+        _checkForPrompts();
+        return;
+      }
+
+      final profileService = context.profileService;
+      final profile = profileService.currentProfile;
+
+      // Only show tutorial for existing users (those who have registered)
+      if (profile?.registeredAt == null) {
+        AppLogger.info('User not registered yet, skipping returning user tutorial', context: 'MainView');
+        _checkForPrompts();
+        return;
+      }
+
+      // Check if user needs to see the tutorial
+      final needsTutorial = await TutorialService.shared.needsToShowTutorial();
+
+      if (needsTutorial && mounted) {
+        AppLogger.info('Showing returning user tutorial', context: 'MainView');
+        await _showReturningUserTutorialModal();
+        // After tutorial is done, check for prompts
+        _checkForPrompts();
+      } else {
+        AppLogger.debug('Tutorial already shown or not needed', context: 'MainView');
+        _checkForPrompts();
+      }
+    } catch (error) {
+      AppLogger.error('Error checking for returning user tutorial', error: error, context: 'MainView');
+      // Continue to prompts check even on error
+      _checkForPrompts();
+    } finally {
+      _isCheckingTutorial = false;
+    }
+  }
+
+  /// Show the ReturningUserTutorialView as a fullscreen modal
+  Future<void> _showReturningUserTutorialModal() async {
+    void closeModalCallback() {
+      // Pop all routes (including modal) until we're back at MainView level
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+
+    await showPlatformModalSheet<void>(
+      context: context,
+      material: MaterialModalSheetData(
+        useRootNavigator: false,
+        isScrollControlled: true,
+        useSafeArea: true,
+        isDismissible: false, // Don't allow dismissing by tapping outside
+      ),
+      cupertino: CupertinoModalSheetData(
+        useRootNavigator: false,
+        barrierDismissible: false, // Don't allow dismissing by tapping outside
+      ),
+      builder: (sheetCtx) => ReturningUserTutorialView(
+        onCloseModal: closeModalCallback,
+      ),
+    );
   }
 
   /// Check and request missing permissions for returning users
@@ -201,12 +291,6 @@ class _MainViewState extends State<MainView> {
 
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
-    
-    void closeModalCallback() {
-      // Pop all routes (including modal) until we're back at MainView level
-      Navigator.of(context).popUntil((route) => route.isFirst);
-    }
-
     await showPlatformModalSheet<void>(
       context: context,
       material: MaterialModalSheetData(
@@ -219,11 +303,18 @@ class _MainViewState extends State<MainView> {
         useRootNavigator: false,
         barrierDismissible: true,
       ),
-      builder: (sheetCtx) => PromptEntryView(
-        prompts: prompts,
-        isModal: true, // Geef aan dat dit in een modal is
-        onCloseModal: closeModalCallback,
-      ),
+      builder: (sheetCtx) {
+        void closeModalCallback() {
+          // Use the modal's own context to close it, not the parent widget's context
+          Navigator.of(sheetCtx).pop();
+        }
+
+        return PromptEntryView(
+          prompts: prompts,
+          isModal: true,
+          onCloseModal: closeModalCallback,
+        );
+      },
     );
   }
   
@@ -285,15 +376,15 @@ class _MainViewState extends State<MainView> {
           icon: _availablePromptsCount > 0
               ? Badge.count(
                   count: _availablePromptsCount,
-                  child: context.themedIcon('card', selected: false),
+                  child: context.themedIcon('search', selected: false),
                 )
-              : context.themedIcon('card', selected: false),
+              : context.themedIcon('search', selected: false),
           activeIcon: _availablePromptsCount > 0
               ? Badge.count(
                   count: _availablePromptsCount,
-                  child: context.themedIcon('card', selected: true),
+                  child: context.themedIcon('search', selected: true),
                 )
-              : context.themedIcon('card', selected: true),
+              : context.themedIcon('search', selected: true),
           label: AppLocalizations.of(context)!.promptsViewTitle,
         ),
         BottomNavigationBarItem(
@@ -312,15 +403,15 @@ class _MainViewState extends State<MainView> {
           label: AppLocalizations.of(context)!.navNotifications,
         ),
         BottomNavigationBarItem(
-          icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount) > 0
+          icon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
                   child: context.themedIcon('profile', selected: false),
                 )
               : context.themedIcon('profile', selected: false),
-          activeIcon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount) > 0
+          activeIcon: _badgeData != null && (_badgeData!.totalReviews + _badgeData!.invitesCount) > 0
               ? Badge.count(
-                  count: _badgeData!.totalReviews + _badgeData!.invitesCount + _availablePromptsCount,
+                  count: _badgeData!.totalReviews + _badgeData!.invitesCount,
                   child: context.themedIcon('profile', selected: true),
                 )
               : context.themedIcon('profile', selected: true),
