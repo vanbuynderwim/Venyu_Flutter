@@ -23,6 +23,8 @@ import '../../services/toast_service.dart';
 import '../../widgets/buttons/option_button.dart';
 import 'edit_personal_info_view.dart';
 import 'edit_company_name_view.dart';
+import 'edit_links_view.dart';
+import 'invite_codes_view.dart';
 import 'review_pending_prompts_view.dart';
 import '../notifications/notification_settings_view.dart';
 
@@ -56,11 +58,8 @@ class _EditAccountViewState extends State<EditAccountView> {
     _fetchBadges();
   }
 
-  /// Fetch badge counts for reviews section
+  /// Fetch badge counts for reviews section and invite codes
   Future<void> _fetchBadges() async {
-    final profile = ProfileService.shared.currentProfile;
-    if (profile?.isSuperAdmin != true) return;
-
     try {
       final badges = await NotificationService.shared.fetchBadges();
       if (badges != null && mounted) {
@@ -233,6 +232,27 @@ class _EditAccountViewState extends State<EditAccountView> {
           withDescription: true,
           onSelect: () => _handleCompanyName(context),
         ),
+
+        // Links button
+        OptionButton(
+          option: AccountSettingsType.links,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          withDescription: true,
+          onSelect: () => _handleLinks(context),
+        ),
+
+        // Invite codes button
+        OptionButton(
+          option: AccountSettingsType.inviteCodes,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          withDescription: true,
+          badgeCount: _badgeData?.invitesCount ?? 0,
+          onSelect: () => _handleInviteCodes(context),
+        ),
       ],
     );
   }
@@ -265,61 +285,10 @@ class _EditAccountViewState extends State<EditAccountView> {
           onSelect: () => _handleNotifications(context),
         ),
 
-        // Auto-introduction toggle
-        OptionButton(
-          option: AccountSettingsType.autoIntroduction,
-          isSelected: _autoIntroduction,
-          isMultiSelect: true,
-          isButton: true,
-          withDescription: true,
-          disabled: _isUpdatingAutoIntroduction,
-          onSelect: _isUpdatingAutoIntroduction ? null : () => _handleAutoIntroductionToggle(!_autoIntroduction),
-        ),
       ],
     );
   }
 
-  /// Handle auto-introduction toggle
-  Future<void> _handleAutoIntroductionToggle(bool value) async {
-    if (_isUpdatingAutoIntroduction) return;
-
-    setState(() {
-      _isUpdatingAutoIntroduction = true;
-    });
-
-    try {
-      await ProfileManager.shared.updateProfileSetting('auto_introduction', value);
-
-      if (mounted) {
-        setState(() {
-          _autoIntroduction = value;
-        });
-
-        // Update local profile
-        final currentProfile = context.profileService.currentProfile;
-        if (currentProfile != null) {
-          // Refresh profile to get updated data
-          final refreshedProfile = await ProfileManager.shared.fetchUserProfile();
-          ProfileService.shared.updateCurrentProfile(refreshedProfile);
-        }
-      }
-    } catch (error) {
-      AppLogger.error('Failed to update auto-introduction setting', error: error, context: 'EditAccountView');
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ToastService.error(
-          context: context,
-          message: l10n.editAccountSettingsUpdateError,
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isUpdatingAutoIntroduction = false;
-        });
-      }
-    }
-  }
 
   /// Build the Feedback section with option buttons
   Widget _buildFeedbackSection() {
@@ -793,6 +762,28 @@ App Version: $appVersion
       platformPageRoute(
         context: context,
         builder: (context) => const EditCompanyNameView(),
+      ),
+    );
+  }
+
+  /// Handle links - navigate to links edit view
+  void _handleLinks(BuildContext context) {
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => const EditLinksView(),
+      ),
+    );
+  }
+
+  /// Handle invite codes - navigate to invite codes view
+  void _handleInviteCodes(BuildContext context) {
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => const InviteCodesView(),
       ),
     );
   }

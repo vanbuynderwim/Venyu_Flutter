@@ -7,10 +7,9 @@ import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/profile_sections.dart';
 import '../../models/enums/category_type.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../models/profile.dart';
 import '../../models/tag_group.dart';
-import '../../models/invite.dart';
-import '../../models/contact.dart';
 import '../../models/badge_data.dart';
 import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
@@ -21,23 +20,22 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
-import '../../widgets/buttons/action_button.dart';
-import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/warning_box_widget.dart';
+import '../../widgets/common/info_box_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import '../venues/join_venue_view.dart';
 import 'profile_header.dart';
 import 'profile_view/profile_section_button_bar.dart';
+import 'profile_view/about_me_section.dart';
 import 'profile_view/personal_info_section.dart';
 import 'profile_view/company_info_section.dart';
 import 'profile_view/venues_section.dart';
-import 'profile_view/invites_section.dart';
-import 'profile_view/contact_info_section.dart';
 import 'edit_tag_group_view.dart';
-import 'edit_contact_setting_view.dart';
 import 'edit_account_view.dart';
-import '../prompts/prompt_entry_view.dart';
+import '../prompts/prompt_detail_view.dart';
+import '../../core/helpers/get_matched_helper.dart';
+import '../../widgets/buttons/get_matched_button.dart';
 
 /// ProfileView - Current user's profile page
 /// 
@@ -64,19 +62,15 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   // State
   bool _isProfileLoading = true;
-  ProfileSections _selectedSection = ProfileSections.personal;
+  ProfileSections _selectedSection = ProfileSections.aboutMe;
+  List<Prompt>? _offers;
+  bool _offersLoading = false;
   List<TagGroup>? _personalTagGroups;
   List<TagGroup>? _companyTagGroups;
   bool _personalTagGroupsLoading = false;
   bool _companyTagGroupsLoading = false;
   bool _hasVenues = false;
-  List<Invite>? _inviteCodes;
-  bool _inviteCodesLoading = false;
-  List<Contact>? _contacts;
-  bool _contactsLoading = false;
   BadgeData? _badgeData;
-  List<Prompt>? _availablePrompts; // Available daily prompts to answer
-  bool _isCheckingPrompts = false;
 
   @override
   void initState() {
@@ -85,33 +79,18 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     _profileManager = ProfileManager.shared;
     _notificationService = NotificationService.shared;
 
-    // Set up available prompts update callback
-    _contentManager.addAvailablePromptsCallback(_onAvailablePromptsUpdate);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshProfile();
-      // Load personal tag groups since it's the default selected section
-      _loadPersonalTagGroups();
+      // Load offers since it's the default selected section
+      _loadOffers();
       // Load badge data
       _fetchBadges();
-      // Check for available daily prompts
-      _checkForPrompts();
     });
   }
 
   @override
   void dispose() {
-    _contentManager.removeAvailablePromptsCallback(_onAvailablePromptsUpdate);
     super.dispose();
-  }
-
-  /// Callback for available prompts updates
-  void _onAvailablePromptsUpdate(List<Prompt> prompts) {
-    if (mounted) {
-      setState(() {
-        _availablePrompts = prompts;
-      });
-    }
   }
 
   @override
@@ -126,7 +105,12 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         trailingActions: [
           PlatformIconButton(
             padding: EdgeInsets.zero,
-            icon: context.themedIcon('hamburger'),
+            icon: _badgeData != null && _badgeData!.invitesCount > 0
+                ? Badge.count(
+                    count: _badgeData!.invitesCount,
+                    child: context.themedIcon('hamburger'),
+                  )
+                : context.themedIcon('hamburger'),
             onPressed: () async {
               await Navigator.push(
                 context,
@@ -135,20 +119,14 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                   builder: (context) => const EditAccountView(),
                 ),
               );
-              
+
               // No need to manually refresh - ProfileView automatically updates
               // when SessionManager.currentProfile changes via listener
             },
           ),
         ],
       ),
-      floatingActionButton: _shouldShowFAB()
-          ? FABButton(
-              icon: context.themedIcon('plus'),
-              label: l10n.profileViewFabJoinVenue,
-              onPressed: _openJoinVenueModal,
-            )
-          : null,
+      floatingActionButton: _buildFloatingActionButton(),
       useSafeArea: true,
       body: Column(
         children: [
@@ -168,39 +146,22 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                 
                 const SizedBox(height: 16),
 
-                // Daily Prompts Action Button (if prompts available)
-                if (_availablePrompts != null && _availablePrompts!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                    child: ActionButton(
-                      label: l10n.promptsViewAnswerPromptsButton,
-                      onPressed: _showPromptsModal,
-                      type: ActionButtonType.secondary,
-                      icon: context.themedIcon('prompts'),
-                      badgeCount: _availablePrompts!.length,
-                    ),
-                  ),
-                
                 // Section Button Bar
                 if (!_isProfileLoading && profile != null)
                   ProfileSectionButtonBar(
                     profile: profile,
                     selectedSection: _selectedSection,
-                    badgeData: _badgeData,
                     onSectionSelected: (section) {
                       setState(() {
                         _selectedSection = section;
                       });
                       // Load data when section is selected
-                      if (section == ProfileSections.personal && _personalTagGroups == null) {
+                      if (section == ProfileSections.aboutMe && _offers == null) {
+                        _loadOffers();
+                      } else if (section == ProfileSections.personal && _personalTagGroups == null) {
                         _loadPersonalTagGroups();
                       } else if (section == ProfileSections.company && _companyTagGroups == null) {
                         _loadCompanyTagGroups();
-                      } else if (section == ProfileSections.invites) {
-                        // Always reload invite codes when switching to invites section
-                        _loadInviteCodes(forceRefresh: true);
-                      } else if (section == ProfileSections.contact && _contacts == null) {
-                        _loadContacts();
                       }
                     },
                   ),
@@ -240,8 +201,14 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     // Determine which completeness to show based on selected section
     int? completeness;
     String message = '';
+    bool useInfoBox = false;
 
     switch (_selectedSection) {
+      case ProfileSections.aboutMe:
+        // Always show info message for about me section
+        message = l10n.aboutMeSectionEmptyDescription;
+        useInfoBox = true;
+        break;
       case ProfileSections.personal:
         completeness = profile.personalCompleteness;
         if (completeness != null && completeness < 100) {
@@ -253,10 +220,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         if (completeness != null && completeness < 100) {
           message = l10n.profileCompanyCompletenessMessage(completeness);
         }
-        break;
-      case ProfileSections.contact:
-        // Always show privacy info for contact section
-        message = l10n.profileContactPrivacyMessage;
         break;
       default:
         // No completeness warning for other sections
@@ -271,10 +234,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        //const SizedBox(height: 4),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-          child: WarningBoxWidget(text: message),
+          padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 8),
+          child: useInfoBox
+              ? InfoBoxWidget(text: message, iconName: null)
+              : WarningBoxWidget(text: message),
         ),
       ],
     );
@@ -283,6 +247,13 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   /// Builds the content for the selected section
   Widget _buildSectionContent() {
     switch (_selectedSection) {
+      case ProfileSections.aboutMe:
+        return AboutMeSection(
+          offers: _offers,
+          offersLoading: _offersLoading,
+          onOfferTap: _handleOfferTap,
+          onCreateOffer: _handleCreateOffer,
+        );
       case ProfileSections.personal:
         return PersonalInfoSection(
           personalTagGroups: _personalTagGroups,
@@ -303,28 +274,34 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
             });
           },
         );
-      case ProfileSections.invites:
-        return InvitesSection(
-          inviteCodes: _inviteCodes,
-          inviteCodesLoading: _inviteCodesLoading,
-          onInviteMarkedAsSent: _markInviteAsSentLocally,
-          onRefreshRequested: () {
-            _loadInviteCodes(forceRefresh: true);
-            _fetchBadges(); // Refresh badges when invite codes are refreshed
-          },
-        );
-      case ProfileSections.contact:
-        return ContactInfoSection(
-          contacts: _contacts,
-          contactsLoading: _contactsLoading,
-          onContactTap: _handleContactTap,
-        );
     }
   }
 
-  /// Determines if the FAB should be shown
-  bool _shouldShowFAB() {
-    return AppConfig.showVenues && _selectedSection == ProfileSections.venues && _hasVenues;
+  /// Builds the floating action button based on selected section
+  Widget? _buildFloatingActionButton() {
+    // Show GetMatchedButton FAB for About Me section with offers
+    if (_selectedSection == ProfileSections.aboutMe && _offers != null && _offers!.isNotEmpty) {
+      return GetMatchedButton(
+        buttonType: GetMatchedButtonType.fab,
+        initialInteractionType: InteractionType.thisIsMe,
+        isFromPrompts: true,
+        onModalClosed: (_) {
+          AppLogger.debug('Modal closed, refreshing offers list', context: 'ProfileView');
+          _loadOffers();
+        },
+      );
+    }
+
+    // Show FAB for Venues section
+    if (AppConfig.showVenues && _selectedSection == ProfileSections.venues && _hasVenues) {
+      return FABButton(
+        icon: context.themedIcon('plus'),
+        label: AppLocalizations.of(context)!.profileViewFabJoinVenue,
+        onPressed: _openJoinVenueModal,
+      );
+    }
+
+    return null;
   }
 
   /// Opens the join venue modal
@@ -374,27 +351,23 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       // Force refresh section data if this is a forced refresh (pull-to-refresh)
       if (forceRefresh) {
         // Reset cached data to force reload
+        _offers = null;
         _personalTagGroups = null;
         _companyTagGroups = null;
-        _inviteCodes = null;
-        _contacts = null;
 
         // Reload current section data
         switch (_selectedSection) {
+          case ProfileSections.aboutMe:
+            _loadOffers();
+            break;
           case ProfileSections.personal:
             _loadPersonalTagGroups();
             break;
           case ProfileSections.company:
             _loadCompanyTagGroups();
             break;
-          case ProfileSections.invites:
-            _loadInviteCodes(forceRefresh: true);
-            break;
           case ProfileSections.venues:
             // VenuesSection manages its own refresh
-            break;
-          case ProfileSections.contact:
-            _loadContacts(forceRefresh: true);
             break;
         }
 
@@ -418,6 +391,67 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     }
   }
   
+  /// Loads user offers (this_is_me prompts)
+  void _loadOffers() async {
+    if (!mounted) return;
+    setState(() => _offersLoading = true);
+
+    await executeSilently(
+      operation: () async {
+        final offers = await _profileManager.getMyOffers();
+        AppLogger.success('Loaded ${offers.length} offers', context: 'ProfileView');
+        safeSetState(() {
+          _offers = offers;
+          _offersLoading = false;
+        });
+      },
+      onError: (error) {
+        AppLogger.error('Error loading offers', error: error, context: 'ProfileView');
+        safeSetState(() {
+          _offers = [];
+          _offersLoading = false;
+        });
+      },
+    );
+  }
+
+  /// Handles offer tap - navigate to prompt detail
+  void _handleOfferTap(Prompt offer) async {
+    AppLogger.ui('Tapped on offer: ${offer.label}', context: 'ProfileView');
+
+    final result = await Navigator.push<bool>(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => PromptDetailView(
+          promptId: offer.promptID,
+          interactionType: InteractionType.thisIsMe,
+        ),
+      ),
+    );
+
+    // If prompt was deleted (result == true), remove it from the list locally
+    if (result == true && mounted) {
+      AppLogger.debug('Offer was deleted, removing from list', context: 'ProfileView');
+      setState(() {
+        _offers?.removeWhere((p) => p.promptID == offer.promptID);
+      });
+    }
+  }
+
+  /// Handles create offer action - opens GetMatched modal
+  Future<void> _handleCreateOffer() async {
+    await GetMatchedHelper.openGetMatchedModal(
+      context: context,
+      initialInteractionType: InteractionType.thisIsMe,
+      isFromPrompts: true,
+      callerContext: 'ProfileView',
+    );
+
+    // Refresh offers list after modal closes (user might have created an offer)
+    _loadOffers();
+  }
+
   /// Loads personal tag groups
   void _loadPersonalTagGroups() async {
     if (!mounted) return;
@@ -466,97 +500,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     );
   }
 
-  /// Mark invite code as sent locally (instant UI update)
-  void _markInviteAsSentLocally(String codeId) {
-    if (_inviteCodes == null) return;
-
-    safeSetState(() {
-      _inviteCodes = _inviteCodes!.map((invite) {
-        if (invite.id == codeId) {
-          // Create a new invite marked as sent
-          return invite.copyWith(isSent: true);
-        }
-        return invite;
-      }).toList();
-    });
-
-    AppLogger.info('Invite code marked as sent locally: $codeId', context: 'ProfileView');
-
-    // Refresh badge data after marking invite as sent
-    _fetchBadges();
-  }
-
-  /// Loads invite codes
-  void _loadInviteCodes({bool forceRefresh = false}) async {
-    // Always reload if forceRefresh is true, or if we don't have data yet
-    if (!forceRefresh && _inviteCodes != null) return;
-
-    if (!mounted) return;
-    setState(() => _inviteCodesLoading = true);
-
-    await executeSilently(
-      operation: () async {
-        final inviteCodes = await _profileManager.getMyInviteCodes();
-        AppLogger.success('Loaded ${inviteCodes.length} invite codes', context: 'ProfileView');
-        safeSetState(() {
-          _inviteCodes = inviteCodes;
-          _inviteCodesLoading = false;
-        });
-      },
-      onError: (error) {
-        AppLogger.error('Error loading invite codes', error: error, context: 'ProfileView');
-        safeSetState(() {
-          _inviteCodes = [];
-          _inviteCodesLoading = false;
-        });
-      },
-    );
-  }
-
-  /// Loads contact settings
-  void _loadContacts({bool forceRefresh = false}) async {
-    // Always reload if forceRefresh is true, or if we don't have data yet
-    if (!forceRefresh && _contacts != null) return;
-
-    if (!mounted) return;
-    setState(() => _contactsLoading = true);
-
-    await executeSilently(
-      operation: () async {
-        final contacts = await _profileManager.getProfileContactSettings();
-        AppLogger.success('Loaded ${contacts.length} contact settings', context: 'ProfileView');
-        safeSetState(() {
-          _contacts = contacts;
-          _contactsLoading = false;
-        });
-      },
-      onError: (error) {
-        AppLogger.error('Error loading contact settings', error: error, context: 'ProfileView');
-        safeSetState(() {
-          _contacts = [];
-          _contactsLoading = false;
-        });
-      },
-    );
-  }
-
-  /// Handles contact setting tap
-  void _handleContactTap(Contact contact) async {
-    AppLogger.ui('Tapped on contact: ${contact.label}', context: 'ProfileView');
-
-    final result = await Navigator.push<bool>(
-      context,
-      platformPageRoute(
-        context: context,
-        builder: (context) => EditContactSettingView(contact: contact),
-      ),
-    );
-
-    if (result == true) {
-      _loadContacts(forceRefresh: true);
-    }
-  }
-
   /// Fetch badge counts for section buttons
   Future<void> _fetchBadges() async {
     try {
@@ -569,56 +512,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     } catch (error) {
       AppLogger.error('Failed to fetch badges in ProfileView', error: error, context: 'ProfileView');
     }
-  }
-
-  /// Check for available daily prompts
-  /// The callback will automatically update _availablePrompts state
-  Future<void> _checkForPrompts() async {
-    if (_isCheckingPrompts) return;
-
-    _isCheckingPrompts = true;
-
-    try {
-      final authService = context.authService;
-      if (!authService.isAuthenticated) return;
-
-      AppLogger.debug('Checking for available daily prompts', context: 'ProfileView');
-      await _contentManager.fetchPrompts(); // Callback will update state
-    } catch (error) {
-      AppLogger.error('Error fetching available prompts', error: error, context: 'ProfileView');
-    } finally {
-      _isCheckingPrompts = false;
-    }
-  }
-
-  /// Show the PromptEntryView as a fullscreen modal
-  Future<void> _showPromptsModal() async {
-    if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
-
-    void closeModalCallback() {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-    }
-
-    await showPlatformModalSheet<bool>(
-      context: context,
-      material: MaterialModalSheetData(
-        useRootNavigator: false,
-        isScrollControlled: true,
-        useSafeArea: true,
-        isDismissible: true,
-      ),
-      cupertino: CupertinoModalSheetData(
-        useRootNavigator: false,
-        barrierDismissible: true,
-      ),
-      builder: (sheetCtx) => PromptEntryView(
-        prompts: _availablePrompts!,
-        isModal: true,
-        onCloseModal: closeModalCallback,
-      ),
-    );
-
-    // The available prompts will be updated via callback when PromptEntryView notifies
   }
 
   /// Handles personal info option tap

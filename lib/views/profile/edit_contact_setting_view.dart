@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/utils/validation_utils.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/contact.dart';
 import '../../widgets/common/app_text_field.dart';
@@ -51,7 +52,29 @@ class _EditContactSettingViewState extends BaseFormViewState<EditContactSettingV
   }
 
   @override
-  bool get canSave => true; // Allow saving empty values (will delete the contact info)
+  bool get canSave {
+    final value = _valueController.text.trim();
+
+    // Allow saving empty values (will delete the contact info)
+    if (value.isEmpty) {
+      return true;
+    }
+
+    // Validate URL format for all contact settings
+    return ValidationUtils.validateUrl(value, context) == null;
+  }
+
+  /// Get text field state based on validation
+  AppTextFieldState _getTextFieldState() {
+    final value = _valueController.text.trim();
+
+    // No error state if empty or valid
+    if (value.isEmpty || ValidationUtils.validateUrl(value, context) == null) {
+      return AppTextFieldState.normal;
+    }
+
+    return AppTextFieldState.error;
+  }
 
   @override
   String getSuccessMessage() {
@@ -99,8 +122,10 @@ class _EditContactSettingViewState extends BaseFormViewState<EditContactSettingV
             hintText: l10n.editContactSettingValueHint,
             textInputAction: TextInputAction.done,
             style: AppTextFieldStyle.large,
-            state: AppTextFieldState.normal,
+            textCapitalization: TextCapitalization.none,
+            state: _getTextFieldState(),
             enabled: !isUpdating,
+            keyboardType: TextInputType.url,
           ),
         ),
 

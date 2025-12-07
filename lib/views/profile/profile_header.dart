@@ -5,12 +5,15 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/profile.dart';
+import '../../models/stage.dart';
+import '../../models/enums/action_button_type.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/matching_score_widget.dart';
 import 'edit_bio_view.dart';
 import 'profile_header/profile_avatar_section.dart';
 import 'profile_header/profile_info_section.dart';
 import 'profile_header/profile_tags_section.dart';
-import 'profile_header/profile_actions_section.dart';
 
 /// Reusable profile header widget used in both ProfileView and MatchDetailView
 ///
@@ -19,29 +22,26 @@ import 'profile_header/profile_actions_section.dart';
 class ProfileHeader extends StatefulWidget {
   final Profile profile;
   final bool isEditable;
-  final bool isConnection;
   final double avatarSize;
   final VoidCallback? onAvatarTap;
-  final VoidCallback? onLinkedInTap;
-  final VoidCallback? onEmailTap;
-  final VoidCallback? onWebsiteTap;
   final VoidCallback? onSectorsEditTap;
-  final bool? shouldBlur;
+  final VoidCallback? onReachOutTap;
+  final VoidCallback? onStageTap;
   final double? matchingScore;
+  final Stage? stage;
 
   const ProfileHeader({
     super.key,
     required this.profile,
     this.isEditable = false,
-    this.isConnection = false,
     this.avatarSize = 105.0,
     this.onAvatarTap,
-    this.onLinkedInTap,
-    this.onEmailTap,
-    this.onWebsiteTap,
     this.onSectorsEditTap,
-    this.shouldBlur,
+    this.onReachOutTap,
+    this.onStageTap,
+
     this.matchingScore,
+    this.stage,
   });
 
   @override
@@ -71,7 +71,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   isEditable: widget.isEditable,
                   avatarSize: widget.avatarSize,
                   onAvatarTap: widget.onAvatarTap,
-                  shouldBlur: widget.shouldBlur,
                   onAvatarChanged: () {
                     // Refresh parent widget when avatar changes
                     setState(() {});
@@ -97,7 +96,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   ProfileInfoSection(
                     profile: widget.profile,
                     isEditable: widget.isEditable,
-                    showCity: widget.isConnection || widget.isEditable,
+                    showCity: widget.isEditable,
                   ),
                   
                   const SizedBox(height: 10),
@@ -119,15 +118,40 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         // Bio section
         _buildBioSection(context, venyuTheme),
         
-        // Action buttons (LinkedIn, Email, Website) for connections
-        if (!widget.isEditable && widget.isConnection) ...[
-          const SizedBox(height: 16),
-          ProfileActionsSection(
-            profile: widget.profile,
-            onLinkedInTap: widget.onLinkedInTap,
-            onEmailTap: widget.onEmailTap,
-            onWebsiteTap: widget.onWebsiteTap,
-          ),
+        // Reach out button or stage button for connections
+        if (!widget.isEditable) ...[
+          // Only add spacing if there's a bio
+          if (widget.profile.bio?.isNotEmpty == true)
+            const SizedBox(height: 16),
+          if (widget.stage == null) ...[
+            ActionButton(
+              label: AppLocalizations.of(context)!.profileHeaderReachOutButton,
+              icon: context.themedIcon('edit'),
+              type: ActionButtonType.primary,
+              onPressed: widget.onReachOutTap,
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: widget.onStageTap,
+              child: Text(
+                AppLocalizations.of(context)!.profileHeaderAlreadyConnectedButton,
+                style: AppTextStyles.subheadline.copyWith(
+                  color: venyuTheme.primary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ] else
+            OptionButton(
+              option: widget.stage!,
+              isSelected: false,
+              isSelectable: false,
+              isCheckmarkVisible: false,
+              isChevronVisible: true,
+              isButton: true,
+              withDescription: true,
+              onSelect: widget.onStageTap,
+            ),
         ],
       ],
     );

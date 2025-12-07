@@ -42,16 +42,14 @@ class ProfileAvatarSection extends StatefulWidget {
   final double avatarSize;
   final VoidCallback? onAvatarTap;
   final VoidCallback? onAvatarChanged; // Callback when avatar changes
-  final bool? shouldBlur;
 
   const ProfileAvatarSection({
     super.key,
     required this.profile,
     this.isEditable = false,
-    this.avatarSize = 100.0,
+    this.avatarSize = 105.0,
     this.onAvatarTap,
     this.onAvatarChanged,
-    this.shouldBlur,
   });
 
   @override
@@ -89,8 +87,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
           final avatarContent = AvatarView(
             key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
             avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
-            size: widget.avatarSize,
-            shouldBlur: widget.shouldBlur ?? false,
+            size: widget.avatarSize
           );
           
           return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
@@ -103,8 +100,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
 
       final avatarContent = AvatarView(
         avatarId: currentProfile.avatarID,
-        size: widget.avatarSize,
-        shouldBlur: widget.shouldBlur ?? false,
+        size: widget.avatarSize
       );
 
       return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);

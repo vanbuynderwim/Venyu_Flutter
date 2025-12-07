@@ -10,8 +10,7 @@ import '../../services/toast_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../models/enums/interaction_type.dart';
-import '../../models/prompt.dart';
-import '../prompts/prompt_entry_view.dart';
+import '../prompts/prompt_edit_view.dart';
 
 /// Final view in the registration wizard that completes the user's profile
 /// 
@@ -28,7 +27,7 @@ class RegistrationCompleteView extends StatefulWidget {
 class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
   bool _isCompleting = false;
 
-  Future<void> _navigateToPromptEntry() async {
+  Future<void> _navigateToPromptEdit() async {
     if (_isCompleting) return;
 
     setState(() {
@@ -46,44 +45,14 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
 
       if (!mounted) return;
 
-      // Get localized strings before creating prompts
-      final l10n = AppLocalizations.of(context)!;
-
-      // Create 4 dummy tutorial prompts - one for each main interaction type
-      final dummyPrompts = [
-        Prompt(
-          promptID: 'tutorial_1',
-          label: l10n.registrationCompleteTutorialPrompt1,
-          interactionType: InteractionType.lookingForThis,
-          matchInteractionType: InteractionType.thisIsMe
-        ),
-        Prompt(
-          promptID: 'tutorial_2',
-          label: l10n.registrationCompleteTutorialPrompt2,
-          interactionType: InteractionType.thisIsMe,
-          matchInteractionType: InteractionType.lookingForThis
-        ),
-        Prompt(
-          promptID: 'tutorial_3',
-          label: l10n.registrationCompleteTutorialPrompt3,
-          interactionType: InteractionType.lookingForThis,
-          matchInteractionType: InteractionType.knowSomeone
-        ),
-        Prompt(
-          promptID: 'tutorial_4',
-          label: l10n.registrationCompleteTutorialPrompt4,
-          interactionType: InteractionType.thisIsMe,
-          matchInteractionType: InteractionType.notRelevant
-        ),
-      ];
-
-      // Navigate to prompt entry
+      // Navigate to PromptEditView with thisIsMe interaction type for creating the user's offer
       Navigator.of(context).push(
         platformPageRoute(
           context: context,
-          builder: (context) => PromptEntryView(
-            prompts: dummyPrompts,
-            isFirstTimeUser: true,
+          builder: (context) => const PromptEditView(
+            initialInteractionType: InteractionType.thisIsMe,
+            isNewPrompt: true,
+            isRegistrationFlow: true,
           ),
         ),
       );
@@ -150,7 +119,7 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
                   ActionButton(
                     label: l10n.registrationCompleteButton,
                     width: 120,
-                    onPressed: _isCompleting ? null : _navigateToPromptEntry,
+                    onPressed: _isCompleting ? null : _navigateToPromptEdit,
                   ),
                   
                   const Spacer(),

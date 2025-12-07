@@ -1,146 +1,181 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../widgets/common/loading_state_widget.dart';
-import '../../../widgets/common/empty_state_widget.dart';
-import '../../../widgets/common/warning_box_widget.dart';
-import '../../../widgets/common/sub_title.dart';
-import '../../../widgets/buttons/action_button.dart';
-import '../../../widgets/menus/menu_option_builder.dart';
-import '../../../core/utils/app_logger.dart';
-import '../../../core/theme/app_text_styles.dart';
-import '../../../core/theme/app_layout_styles.dart';
-import '../../../core/theme/venyu_theme.dart';
-import '../../../core/utils/dialog_utils.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../../models/invite.dart';
-import '../../../services/toast_service.dart';
-import '../../../services/profile_service.dart';
-import '../../invites/invite_item_view.dart';
+import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/empty_state_widget.dart';
+import '../../widgets/common/warning_box_widget.dart';
+import '../../widgets/common/sub_title.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/menus/menu_option_builder.dart';
+import '../../core/utils/app_logger.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../core/utils/dialog_utils.dart';
+import '../../l10n/app_localizations.dart';
+import '../../models/invite.dart';
+import '../../services/toast_service.dart';
+import '../../services/profile_service.dart';
+import '../../services/supabase_managers/profile_manager.dart';
+import '../invites/invite_item_view.dart';
 
 /// Enum for invite menu actions
 enum _InviteAction { share, copy, markSent }
 
-/// InvitesSection - Invites and invitations section
+/// InviteCodesView - Standalone view for managing invite codes
 ///
-/// This widget displays the user's invites and invitations including:
+/// This view displays and manages the user's invite codes including:
 /// - Available invites
 /// - Sent invitations
-/// - Invite history
+/// - Redeemed codes
 ///
 /// Features:
 /// - Loading states and empty states
-/// - Invite management functionality
-/// - Invitation tracking
-class InvitesSection extends StatefulWidget {
-  final List<Invite>? inviteCodes;
-  final bool inviteCodesLoading;
-  final Function(String codeId)? onInviteMarkedAsSent;
-  final VoidCallback? onRefreshRequested;
-
-  const InvitesSection({
-    super.key,
-    this.inviteCodes,
-    this.inviteCodesLoading = false,
-    this.onInviteMarkedAsSent,
-    this.onRefreshRequested,
-  });
+/// - Invite management functionality (share, copy, mark as sent)
+/// - Generate new codes
+class InviteCodesView extends StatefulWidget {
+  const InviteCodesView({super.key});
 
   @override
-  State<InvitesSection> createState() => _InvitesSectionState();
+  State<InviteCodesView> createState() => _InviteCodesViewState();
 }
 
-class _InvitesSectionState extends State<InvitesSection> {
+class _InviteCodesViewState extends State<InviteCodesView> {
+  List<Invite>? _inviteCodes;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInviteCodes();
+  }
+
+  Future<void> _loadInviteCodes() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final codes = await ProfileManager.shared.getMyInviteCodes();
+
+      if (mounted) {
+        setState(() {
+          _inviteCodes = codes;
+          _isLoading = false;
+        });
+      }
+    } catch (error) {
+      AppLogger.error('Failed to load invite codes', error: error, context: 'InviteCodesView');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    AppLogger.debug('Building invites section. InviteCodes: ${widget.inviteCodes?.length ?? 'null'}, Loading: ${widget.inviteCodesLoading}', context: 'InvitesSection');
 
-    if (widget.inviteCodesLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: LoadingStateWidget(),
-      );
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: Text(l10n.accountSettingsInviteCodesTitle),
+      ),
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: _loadInviteCodes,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            child: _buildContent(context),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    if (_isLoading) {
+      return const LoadingStateWidget();
     }
 
-    if (widget.inviteCodes == null || widget.inviteCodes!.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Center(
-          child: EmptyStateWidget(
-            message: l10n.invitesEmptyTitle,
-            description: l10n.invitesEmptyDescription,
-            iconName: 'notickets',
-            actionText: l10n.invitesEmptyAction,
-            actionButtonIcon: context.themedIcon('plus'),
-            onAction: () => _generateMoreCodes(context),
-          ),
+    if (_inviteCodes == null || _inviteCodes!.isEmpty) {
+      return Center(
+        child: EmptyStateWidget(
+          message: l10n.invitesEmptyTitle,
+          description: l10n.invitesEmptyDescription,
+          iconName: 'notickets',
+          actionText: l10n.invitesEmptyAction,
+          actionButtonIcon: context.themedIcon('plus'),
+          onAction: () => _generateMoreCodes(context),
         ),
       );
     }
 
     // Group invites by status to check if there are available codes
-    final availableInvites = widget.inviteCodes!.where((invite) => !invite.isSent && !invite.isRedeemed).toList();
+    final availableInvites = _inviteCodes!.where((invite) => !invite.isSent && !invite.isRedeemed).toList();
     final hasAvailableCodes = availableInvites.isNotEmpty;
 
-    // Invite codes found - show warning box or container based on availability
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Warning box when there are available codes
-          if (hasAvailableCodes)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-              child: WarningBoxWidget(
-                text: l10n.invitesAvailableDescription(
-                  availableInvites.length,
-                  availableInvites.length == 1 ? l10n.invitesCode : l10n.invitesCodes,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Warning box when there are available codes
+        if (hasAvailableCodes)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+            child: WarningBoxWidget(
+              text: l10n.invitesAvailableDescription(
+                availableInvites.length,
+                availableInvites.length == 1 ? l10n.invitesCode : l10n.invitesCodes,
+              ),
+            ),
+          ),
+
+        // Container with action button when no available codes
+        if (!hasAvailableCodes)
+          Container(
+            decoration: AppLayoutStyles.cardDecoration(context),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Description text
+                Text(
+                  l10n.invitesAllSharedDescription,
+                  style: AppTextStyles.subheadline.copyWith(
+                    color: context.venyuTheme.primaryText,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                // Generate more codes button
+                ActionButton(
+                  label: l10n.invitesGenerateMore,
+                  icon: context.themedIcon('plus'),
+                  onPressed: () => _generateMoreCodes(context),
+                  isCompact: false,
+                ),
+              ],
             ),
+          ),
 
-          // Container with action button when no available codes
-          if (!hasAvailableCodes)
-            Container(
-              decoration: AppLayoutStyles.cardDecoration(context),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Description text
-                  Text(
-                    l10n.invitesAllSharedDescription,
-                    style: AppTextStyles.subheadline.copyWith(
-                      color: context.venyuTheme.primaryText,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Generate more codes button
-                  ActionButton(
-                    label: l10n.invitesGenerateMore,
-                    icon: context.themedIcon('plus'),
-                    onPressed: () => _generateMoreCodes(context),
-                    isCompact: false,
-                  ),
-                ],
-              ),
-            ),
+        const SizedBox(height: 8),
 
-          const SizedBox(height: 8),
-
-          // Invite codes list with subtitles
-          ..._buildInviteListWithSubtitles(),
-        ],
-      );
+        // Invite codes list with subtitles
+        ..._buildInviteListWithSubtitles(),
+      ],
+    );
   }
 
   /// Builds the invite list with appropriate subtitles for different statuses
   List<Widget> _buildInviteListWithSubtitles() {
     final widgets = <Widget>[];
-    final invites = widget.inviteCodes!;
+    final invites = _inviteCodes!;
 
     // Group invites by status: available, sent, redeemed
     final availableInvites = invites.where((invite) => !invite.isSent && !invite.isRedeemed).toList();
@@ -213,23 +248,22 @@ class _InvitesSectionState extends State<InvitesSection> {
         context: context,
         label: l10n.invitesMenuShare,
         iconName: 'share',
-        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
+        onTap: (_) {},
       ),
       MenuOptionBuilder.create(
         context: context,
         label: l10n.invitesMenuCopy,
         iconName: 'copy',
-        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
+        onTap: (_) {},
       ),
       MenuOptionBuilder.create(
         context: context,
         label: l10n.invitesMenuMarkShared,
         iconName: 'email',
-        onTap: (_) {},  // Dummy onTap, handled by DialogUtils
+        onTap: (_) {},
       ),
     ];
 
-    // Show the menu using centralized DialogUtils
     final selectedAction = await DialogUtils.showMenuModalSheet<_InviteAction>(
       context: context,
       menuOptions: menuOptions,
@@ -240,7 +274,6 @@ class _InvitesSectionState extends State<InvitesSection> {
       ],
     );
 
-    // Sheet is now closed - perform the action
     if (!context.mounted) return;
 
     switch (selectedAction) {
@@ -254,7 +287,6 @@ class _InvitesSectionState extends State<InvitesSection> {
         await _markAsSent(context, invite);
         break;
       case null:
-        // User cancelled or tapped outside
         break;
     }
   }
@@ -262,9 +294,8 @@ class _InvitesSectionState extends State<InvitesSection> {
   /// Share invite functionality
   Future<void> _shareInvite(BuildContext context, Invite invite) async {
     final l10n = AppLocalizations.of(context)!;
-    AppLogger.info('Share invite code: ${invite.code}', context: 'InvitesSection');
+    AppLogger.info('Share invite code: ${invite.code}', context: 'InviteCodesView');
 
-    // Voor iPad: gebruik het centrum van het scherm als anchor point
     final screenSize = MediaQuery.of(context).size;
     final origin = Rect.fromCenter(
       center: Offset(screenSize.width / 2, screenSize.height / 2),
@@ -278,7 +309,7 @@ class _InvitesSectionState extends State<InvitesSection> {
       ShareParams(
         text: text,
         subject: l10n.invitesShareSubject,
-        sharePositionOrigin: origin, // belangrijk voor iPad
+        sharePositionOrigin: origin,
       ),
     );
   }
@@ -287,7 +318,7 @@ class _InvitesSectionState extends State<InvitesSection> {
   Future<void> _copyInvite(BuildContext context, Invite invite) async {
     final l10n = AppLocalizations.of(context)!;
     await Clipboard.setData(ClipboardData(text: invite.code));
-    AppLogger.info('Copied invite code to clipboard: ${invite.code}', context: 'InvitesSection');
+    AppLogger.info('Copied invite code to clipboard: ${invite.code}', context: 'InviteCodesView');
 
     if (context.mounted) {
       ToastService.success(
@@ -300,14 +331,21 @@ class _InvitesSectionState extends State<InvitesSection> {
   /// Mark as sent functionality
   Future<void> _markAsSent(BuildContext context, Invite invite) async {
     final l10n = AppLocalizations.of(context)!;
-    AppLogger.info('Mark as sent: ${invite.code}', context: 'InvitesSection');
+    AppLogger.info('Mark as sent: ${invite.code}', context: 'InviteCodesView');
 
     try {
       final profileService = context.read<ProfileService>();
       await profileService.markInviteCodeAsSent(invite.id);
 
-      // Notify parent to update local state
-      widget.onInviteMarkedAsSent?.call(invite.id);
+      // Update local state
+      if (mounted) {
+        setState(() {
+          final index = _inviteCodes?.indexWhere((i) => i.id == invite.id);
+          if (index != null && index >= 0) {
+            _inviteCodes![index] = _inviteCodes![index].copyWith(isSent: true);
+          }
+        });
+      }
 
       if (context.mounted) {
         ToastService.success(
@@ -316,7 +354,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         );
       }
     } catch (error) {
-      AppLogger.error('Failed to mark invite as sent', error: error, context: 'InvitesSection');
+      AppLogger.error('Failed to mark invite as sent', error: error, context: 'InviteCodesView');
 
       if (context.mounted) {
         ToastService.error(
@@ -330,12 +368,11 @@ class _InvitesSectionState extends State<InvitesSection> {
   /// Generate more invite codes functionality
   Future<void> _generateMoreCodes(BuildContext context) async {
     final l10n = AppLocalizations.of(context)!;
-    AppLogger.info('Generate more codes button tapped', context: 'InvitesSection');
+    AppLogger.info('Generate more codes button tapped', context: 'InviteCodesView');
 
     try {
       final profileService = context.read<ProfileService>();
 
-      // Show confirmation dialog first
       final confirmed = await DialogUtils.showConfirmationDialog(
         context: context,
         title: l10n.invitesGenerateDialogTitle,
@@ -347,11 +384,10 @@ class _InvitesSectionState extends State<InvitesSection> {
 
       if (!confirmed || !context.mounted) return;
 
-      // Generate 5 new invite codes
       await profileService.issueProfileInviteCodes(count: 5);
 
-      // Trigger refresh of invite codes
-      widget.onRefreshRequested?.call();
+      // Refresh the list
+      await _loadInviteCodes();
 
       if (context.mounted) {
         ToastService.success(
@@ -360,7 +396,7 @@ class _InvitesSectionState extends State<InvitesSection> {
         );
       }
     } catch (error) {
-      AppLogger.error('Failed to generate invite codes', error: error, context: 'InvitesSection');
+      AppLogger.error('Failed to generate invite codes', error: error, context: 'InviteCodesView');
 
       if (context.mounted) {
         ToastService.error(

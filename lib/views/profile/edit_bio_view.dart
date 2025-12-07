@@ -120,30 +120,27 @@ class _EditBioViewState extends BaseFormViewState<EditBioView> {
         const SizedBox(height: 16),
 
         // Bio text area with character counter
-        SizedBox(
-          height: 300, // Fixed height for text area
-          child: Stack(
-            children: [
-              // Main text area
-              AppTextField(
-                controller: _bioController,
-                hintText: l10n.editBioPlaceholder,
-                style: AppTextFieldStyle.textarea,
-                maxLines: null, // Allow unlimited lines
-                minLines: 10,   // Minimum height
-                textCapitalization: TextCapitalization.sentences,
-                keyboardType: TextInputType.multiline,
-                textInputAction: TextInputAction.newline,
-                enabled: !isUpdating,
-              ),
+        Stack(
+          children: [
+            // Main text area
+            AppTextField(
+              controller: _bioController,
+              hintText: l10n.editBioPlaceholder,
+              style: AppTextFieldStyle.textarea,
+              maxLines: null, // Allow unlimited lines
+              minLines: 10,   // Minimum height
+              textCapitalization: TextCapitalization.sentences,
+              keyboardType: TextInputType.multiline,
+              textInputAction: TextInputAction.newline,
+              enabled: !isUpdating,
+            ),
 
-              // Character counter overlay
-              CharacterCounterOverlay(
-                currentLength: _bioController.text.length,
-                maxLength: _textLimit,
-              ),
-            ],
-          ),
+            // Character counter overlay
+            CharacterCounterOverlay(
+              currentLength: _bioController.text.length,
+              maxLength: _textLimit,
+            ),
+          ],
         ),
       ],
     );
