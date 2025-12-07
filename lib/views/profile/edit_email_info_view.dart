@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../core/theme/app_input_styles.dart';
-import '../../core/theme/venyu_theme.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/profile_service.dart';
@@ -16,12 +13,10 @@ import '../../widgets/common/info_box_widget.dart';
 import '../base/base_form_view.dart';
 
 /// A form screen for editing user email address with OTP verification.
-/// 
+///
 /// This view handles a two-step process:
 /// 1. Enter and validate email address, send OTP
-/// 2. Enter OTP code and newsletter subscription preference, verify and save
-/// 
-/// Equivalent to iOS EditEmailInfoView with complete functionality migration.
+/// 2. Enter OTP code to verify and save
 class EditEmailInfoView extends BaseFormView {
   const EditEmailInfoView({
     super.key,
@@ -45,7 +40,6 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   bool _showOTPField = false;
   bool _isEmailValid = false;
   bool _emailFieldDisabled = false;
-  bool _isSubscribedToNewsletter = false;
   String? _buttonLabel;
   bool _isSendingOTP = false;
   bool _isVerifyingOTP = false;
@@ -70,7 +64,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
     super.dispose();
   }
 
-  /// Preload current email and newsletter subscription if exists
+  /// Preload current email if exists
   void _preloadEmail() {
     final profile = ProfileService.shared.currentProfile;
 
@@ -81,13 +75,6 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
       if (currentEmail != null && currentEmail.isNotEmpty) {
         _emailController.text = currentEmail;
         _isEmailValid = true;
-      }
-
-      // Load newsletter subscription status
-      if (profile?.newsletterSubscribed != null) {
-        setState(() {
-          _isSubscribedToNewsletter = profile!.newsletterSubscribed!;
-        });
       }
     }
   }
@@ -283,12 +270,13 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
   /// Perform OTP verification and save
   @override
   Future<void> performSave() async {
+    // Always send false for newsletter subscription (not shown in UI)
     await profileManager.verifyEmailOTP(
       _emailController.text.trim(),
       _otpController.text.trim(),
-      _isSubscribedToNewsletter,
+      false,
     );
-    
+
     // Update local profile
     ProfileService.shared.updateCurrentProfileFields(
       contactEmail: _emailController.text.trim(),
@@ -311,7 +299,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         if (widget.registrationWizard) ...[
           ProgressBar(
             pageNumber: 2,
-            numberOfPages: 11,
+            numberOfPages: 12,
           ),
           const SizedBox(height: 16),
         ],
@@ -337,43 +325,6 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         if (_showEmailHelperBox) ...[
           FormInfoBox(
             content: l10n.editEmailInfoMessage,
-          ),
-        ],
-
-        // Newsletter subscription toggle (shown when OTP field is visible)
-        if (_showOTPField) ...[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    l10n.editEmailNewsletterLabel,
-                    style: AppTextStyles.caption1.copyWith(
-                      letterSpacing: 0.5,
-                      color: context.venyuTheme.secondaryText,
-                    ),
-                  ),
-                ),
-                PlatformSwitch(
-                  value: _isSubscribedToNewsletter,
-                  onChanged: (value) {
-                    setState(() {
-                      _isSubscribedToNewsletter = value;
-                    });
-                  },
-                  material: (_, _) => MaterialSwitchData(
-                    // For Material Design, the thumb color is automatically handled
-                  ),
-                  cupertino: (_, _) => CupertinoSwitchData(
-                    // For iOS, we can set thumbColor for better contrast in dark mode
-                    thumbColor: Theme.of(context).brightness == Brightness.dark
-                        ? context.venyuTheme.adaptiveBackground  // Dark thumb on light track
-                        : null,  // Default white thumb
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
 
