@@ -20,20 +20,17 @@ import '../../widgets/common/section_type.dart';
 /// Icon(ProfileSections.company.icon);
 /// ```
 enum ProfileSections implements SectionType {
+  /// User's about me / bio card.
+  aboutMe,
+
   /// User's personal information.
   personal,
-  
+
   /// User's company information.
   company,
-  
+
   /// User's venues and organizations.
-  venues,
-
-  /// User's invites and invitations.
-  invites,
-
-  /// User's contact information settings.
-  contact;
+  venues;
 
   @override
   String get id => name;
@@ -43,16 +40,14 @@ enum ProfileSections implements SectionType {
   String title(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
+      case ProfileSections.aboutMe:
+        return l10n.profileSectionAboutMeTitle;
       case ProfileSections.personal:
         return l10n.profileSectionPersonalTitle;
       case ProfileSections.company:
         return l10n.profileSectionCompanyTitle;
       case ProfileSections.venues:
         return l10n.profileSectionVenuesTitle;
-      case ProfileSections.invites:
-        return l10n.profileSectionInvitesTitle;
-      case ProfileSections.contact:
-        return l10n.profileSectionContactTitle;
     }
   }
 
@@ -61,16 +56,14 @@ enum ProfileSections implements SectionType {
   String description(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
+      case ProfileSections.aboutMe:
+        return l10n.profileSectionAboutMeDescription;
       case ProfileSections.personal:
         return l10n.profileSectionPersonalDescription;
       case ProfileSections.company:
         return l10n.profileSectionCompanyDescription;
       case ProfileSections.venues:
         return l10n.profileSectionVenuesDescription;
-      case ProfileSections.invites:
-        return l10n.profileSectionInvitesDescription;
-      case ProfileSections.contact:
-        return l10n.profileSectionContactDescription;
     }
   }
 
@@ -78,16 +71,14 @@ enum ProfileSections implements SectionType {
   @override
   String get icon {
     switch (this) {
+      case ProfileSections.aboutMe:
+        return 'card';
       case ProfileSections.personal:
         return 'profile';
       case ProfileSections.company:
         return 'company';
       case ProfileSections.venues:
         return 'venue';
-      case ProfileSections.invites:
-        return 'ticket';
-      case ProfileSections.contact:
-        return 'email';
     }
   }
 }

@@ -49,8 +49,17 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
   /// Manually trigger available prompts update
   /// This is useful when prompts are answered and we want to notify all listeners
   void notifyAvailablePromptsUpdate(List<Prompt> prompts) {
-    for (final callback in _availablePromptsCallbacks) {
-      callback(prompts);
+    // Use a copy of the list to avoid issues with concurrent modification
+    // and wrap in try-catch to handle stale callbacks gracefully
+    final callbacks = List<Function(List<Prompt>)>.from(_availablePromptsCallbacks);
+    for (final callback in callbacks) {
+      try {
+        callback(prompts);
+      } catch (e) {
+        // Remove stale callback that throws an error
+        _availablePromptsCallbacks.remove(callback);
+        AppLogger.warning('Removed stale available prompts callback', context: 'ContentManager');
+      }
     }
   }
 
@@ -145,9 +154,9 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching user prompts with pagination: $paginatedRequest', context: 'ContentManager');
 
-      // Call the get_profile_prompts RPC function with payload
+      // Call the get_my_prompts RPC function with payload
       final result = await client
-          .rpc('get_profile_prompts', params: {'payload': paginatedRequest.toJson()})
+          .rpc('get_my_prompts', params: {'payload': paginatedRequest.toJson()})
           .select();
 
       AppLogger.success('Profile prompts RPC call successful', context: 'ContentManager');
@@ -169,9 +178,9 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching prompt with ID: $promptId', context: 'ContentManager');
 
-      // Call the get_prompt RPC function
+      // Call the get_my_prompt RPC function
       final result = await client
-          .rpc('get_prompt', params: {'p_prompt_id': promptId})
+          .rpc('get_my_prompt', params: {'p_prompt_id': promptId})
           .select()
           .single();
 
@@ -180,6 +189,25 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
 
       final prompt = Prompt.fromJson(result);
       AppLogger.success('Prompt parsed successfully', context: 'ContentManager');
+      return prompt;
+    });
+  }
+
+  /// Fetch a single offer (this_is_me prompt) by ID
+  Future<Prompt?> fetchOffer(String promptId) async {
+    checkNotDisposed('ContentManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching offer with ID: $promptId', context: 'ContentManager');
+
+      final result = await client
+          .rpc('get_my_offer', params: {'p_prompt_id': promptId})
+          .select()
+          .single();
+
+      AppLogger.success('Offer RPC call successful', context: 'ContentManager');
+
+      final prompt = Prompt.fromJson(result);
+      AppLogger.success('Offer parsed successfully', context: 'ContentManager');
       return prompt;
     });
   }

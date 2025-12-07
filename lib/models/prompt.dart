@@ -1,5 +1,6 @@
 import 'profile.dart';
 import 'venue.dart';
+import 'match.dart';
 import 'enums/prompt_status.dart';
 import 'enums/interaction_type.dart';
 
@@ -25,14 +26,18 @@ class Prompt {
   /// This is populated when fetching detailed prompt information.
   final int? connectionCount;
 
-  /// Whether this prompt includes preview mode functionality (optional).
-  final bool? withPreview;
-
   /// Whether the current user is the author of this prompt (optional).
   final bool? fromAuthor;
 
   /// Whether this prompt is paused (optional).
   final bool? isPaused;
+
+  /// Whether this prompt has new (unviewed) matches (optional).
+  final bool? hasNewMatches;
+
+  /// List of matches associated with this prompt (optional).
+  /// This is populated when fetching detailed prompt information via get_my_prompt.
+  final List<Match>? matches;
 
   const Prompt({
     this.feedID,
@@ -49,9 +54,10 @@ class Prompt {
     this.venue,
     this.matchCount,
     this.connectionCount,
-    this.withPreview,
     this.fromAuthor,
     this.isPaused,
+    this.hasNewMatches,
+    this.matches,
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
@@ -80,9 +86,14 @@ class Prompt {
       connectionCount: json['connection_count'] != null
           ? (json['connection_count'] as num).toInt()
           : null,
-      withPreview: json['with_preview'] as bool?,
       fromAuthor: json['from_author'] as bool?,
       isPaused: json['is_paused'] as bool?,
+      hasNewMatches: json['has_new_matches'] as bool?,
+      matches: json['matches'] != null
+          ? (json['matches'] as List<dynamic>)
+              .map((m) => Match.fromJson(m as Map<String, dynamic>))
+              .toList()
+          : null,
     );
   }
 
@@ -102,9 +113,10 @@ class Prompt {
       'venue': venue?.toJson(),
       if (matchCount != null) 'match_count': matchCount,
       if (connectionCount != null) 'connection_count': connectionCount,
-      'with_preview': withPreview,
       'from_author': fromAuthor,
       'is_paused': isPaused,
+      'has_new_matches': hasNewMatches,
+      if (matches != null) 'matches': matches!.map((m) => m.toJson()).toList(),
     };
   }
 

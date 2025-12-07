@@ -198,4 +198,21 @@ enum InteractionType {
         return l10n.interactionTypeNotRelevantSubtitle;
     }
   }
+
+  /// Returns the new title for creating a new prompt of this interaction type.
+  ///
+  /// Used when displaying "New offer" or "New request" in the UI.
+  String newTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeThisIsMeNewTitle;
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeLookingForThisNewTitle;
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeKnowSomeoneNewTitle;
+      case InteractionType.notRelevant:
+        return l10n.interactionTypeNotRelevantNewTitle;
+    }
+  }
 }

@@ -11,9 +11,9 @@ class ValidationUtils {
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
 
-  // URL validation regex
+  // URL validation regex - accepts with or without http(s):// and www.
   static final _urlRegex = RegExp(
-    r'^https?:\/\/([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$',
+    r'^(https?:\/\/)?(www\.)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$',
   );
 
   // LinkedIn URL validation regex

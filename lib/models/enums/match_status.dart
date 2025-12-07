@@ -1,6 +1,6 @@
 enum MatchStatus {
-  matched('matched'),
-  connected('connected');
+  matched('matched');
+  //connected('connected');
 
   const MatchStatus(this.value);
   

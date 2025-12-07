@@ -35,7 +35,7 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       
       // Call the get_matches RPC function - exact equivalent of iOS implementation
       final result = await client
-          .rpc('get_pair_matches', params: {'payload': paginatedRequest.toJson()})
+          .rpc('get_matches', params: {'payload': paginatedRequest.toJson()})
           .select();
       
       AppLogger.success('Matches RPC call successful', context: 'MatchingManager');
@@ -55,55 +55,21 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
   Future<Match> fetchMatchDetail(String matchId) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching match detail for ID: $matchId', context: 'MatchingManager');
-      
-      // Call the get_match RPC function - exact equivalent of iOS implementation
+
+      // Call the get_match RPC function
       final result = await client
-          .rpc('get_pair_match', params: {'p_match_id': matchId})
+          .rpc('get_match', params: {'p_match_id': matchId})
           .select()
           .single();
-      
+
       AppLogger.success('Match detail RPC call successful', context: 'MatchingManager');
       AppLogger.debug('Match detail data received', context: 'MatchingManager');
 
       // Convert response to Match object
       final match = Match.fromJson(result);
       AppLogger.success('Match detail parsed: ${match.profile.fullName}', context: 'MatchingManager');
-      
+
       return match;
-    });
-  }
-
-  /// Fetch matches for a specific prompt
-  Future<List<Match>> fetchPromptMatches(String promptId) async {
-    return executeAuthenticatedRequest(() async {
-      AppLogger.info('Fetching prompt matches for: $promptId', context: 'MatchingManager');
-      
-      final result = await client.rpc('get_prompt_pair_matches', params: {'p_prompt_id': promptId});
-      
-      AppLogger.success('Prompt matches RPC call successful', context: 'MatchingManager');
-      AppLogger.debug('Prompt matches data received', context: 'MatchingManager');
-      
-      // Convert response to List<Match>
-      final matches = (result as List).map((item) => Match.fromJson(item)).toList();
-      AppLogger.success('Fetched ${matches.length} matches for prompt', context: 'MatchingManager');
-      
-      return matches;
-    });
-  }
-
-  /// Insert match response (like/skip)
-  Future<void> insertMatchResponse(String matchId, MatchResponse response) async {
-    return executeAuthenticatedRequest(() async {
-      AppLogger.info('Inserting match response', context: 'MatchingManager');
-
-      final payload = {
-        'match_id': matchId,
-        'response': response.toJson(),
-      };
-
-      await client.rpc('insert_match_response', params: {'payload': payload});
-
-      AppLogger.success('Match response inserted successfully', context: 'MatchingManager');
     });
   }
 
@@ -193,6 +159,32 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
       await client.rpc('send_contact_request', params: {'payload': payload});
 
       AppLogger.success('Contact request sent successfully', context: 'MatchingManager');
+    });
+  }
+
+  /// Get all connection stages for a match
+  ///
+  /// This method retrieves all available connection stages with their selection status
+  /// for the specified match.
+  ///
+  /// [matchId] The UUID of the match to get stages for
+  /// Returns a list of [Stage] objects with the `selected` property indicating
+  /// the current stage of the match
+  Future<List<Stage>> getMatchConnectionStages(String matchId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching connection stages for match: $matchId', context: 'MatchingManager');
+
+      final result = await client.rpc(
+        'get_match_connection_stages',
+        params: {'p_match_id': matchId},
+      );
+
+      AppLogger.success('Connection stages RPC call successful', context: 'MatchingManager');
+
+      final stages = (result as List).map((json) => Stage.fromJson(json)).toList();
+      AppLogger.debug('Fetched ${stages.length} connection stages', context: 'MatchingManager');
+
+      return stages;
     });
   }
 

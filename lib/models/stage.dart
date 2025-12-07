@@ -15,12 +15,14 @@ class Stage implements OptionType {
   final String _description;
   @override
   final String? icon;
+  final bool selected;
 
   const Stage({
     required this.id,
     required this.label,
     required String description,
     this.icon,
+    this.selected = false,
   }) : _description = description;
 
   factory Stage.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class Stage implements OptionType {
       label: json['label'] as String,
       description: json['description'] as String,
       icon: json['icon'] as String?,
+      selected: json['selected'] as bool? ?? false,
     );
   }
 
@@ -38,6 +41,7 @@ class Stage implements OptionType {
       'label': label,
       'description': _description,
       'icon': icon,
+      'selected': selected,
     };
   }
 
@@ -47,12 +51,14 @@ class Stage implements OptionType {
     String? label,
     String? description,
     String? icon,
+    bool? selected,
   }) {
     return Stage(
       id: id ?? this.id,
       label: label ?? this.label,
       description: description ?? _description,
       icon: icon ?? this.icon,
+      selected: selected ?? this.selected,
     );
   }
 

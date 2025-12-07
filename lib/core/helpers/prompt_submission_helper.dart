@@ -24,6 +24,7 @@ class PromptSubmissionHelper {
     bool withPreview = false,
     bool isFromPrompts = false,
     VoidCallback? onCloseModal,
+    bool isRegistrationFlow = false,
   }) async {
     AppLogger.info('Submitting prompt: $promptLabel', context: 'PromptSubmissionHelper');
 
@@ -50,6 +51,7 @@ class PromptSubmissionHelper {
             interactionType: interactionType,
             isFromPrompts: isFromPrompts,
             onCloseModal: onCloseModal,
+            isRegistrationFlow: isRegistrationFlow,
           ),
         ),
       );

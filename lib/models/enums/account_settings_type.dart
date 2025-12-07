@@ -11,6 +11,7 @@ import '../tag.dart';
 enum AccountSettingsType implements OptionType {
   companyName,
   personalInfo,
+  links,
   deleteAccount,
   exportData,
   logout,
@@ -26,7 +27,8 @@ enum AccountSettingsType implements OptionType {
   locationSettings,
   linkedIn,
   blockedUsers,
-  autoIntroduction;
+  autoIntroduction,
+  inviteCodes;
 
   @override
   String get id => toString();
@@ -39,6 +41,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.editCompanyInfoNameTitle;
       case AccountSettingsType.personalInfo:
         return l10n.accountSettingsPersonalInfoTitle;
+      case AccountSettingsType.links:
+        return l10n.accountSettingsLinksTitle;
       case AccountSettingsType.deleteAccount:
         return l10n.accountSettingsDeleteAccountTitle;
       case AccountSettingsType.exportData:
@@ -71,6 +75,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsBlockedUsersTitle;
       case AccountSettingsType.autoIntroduction:
         return l10n.accountSettingsAutoIntroductionTitle;
+      case AccountSettingsType.inviteCodes:
+        return l10n.accountSettingsInviteCodesTitle;
     }
   }
 
@@ -82,6 +88,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.editCompanyInfoNameDescription;
       case AccountSettingsType.personalInfo:
         return l10n.accountSettingsPersonalInfoDescription;
+      case AccountSettingsType.links:
+        return l10n.accountSettingsLinksDescription;
       case AccountSettingsType.deleteAccount:
         return l10n.accountSettingsDeleteAccountDescription;
       case AccountSettingsType.exportData:
@@ -114,6 +122,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsBlockedUsersDescription;
       case AccountSettingsType.autoIntroduction:
         return l10n.accountSettingsAutoIntroductionDescription;
+      case AccountSettingsType.inviteCodes:
+        return l10n.accountSettingsInviteCodesDescription;
     }
   }
 
@@ -124,6 +134,8 @@ enum AccountSettingsType implements OptionType {
         return 'company';
       case AccountSettingsType.personalInfo:
         return 'profile';
+      case AccountSettingsType.links:
+        return 'link';
       case AccountSettingsType.deleteAccount:
         return 'delete_account';
       case AccountSettingsType.exportData:
@@ -156,6 +168,8 @@ enum AccountSettingsType implements OptionType {
         return 'blocked';
       case AccountSettingsType.autoIntroduction:
         return 'handshake';
+      case AccountSettingsType.inviteCodes:
+        return 'ticket';
     }
   }
 

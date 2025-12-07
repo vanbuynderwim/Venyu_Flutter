@@ -100,8 +100,8 @@ class Match {
   }
 
   // Helper methods
-  bool get isMatched => status == MatchStatus.matched;
-  bool get isConnected => status == MatchStatus.connected;
+  //bool get isMatched => status == MatchStatus.matched;
+  //bool get isConnected => status == MatchStatus.connected;
   bool get hasUnreadMessages => unreadCount != null && unreadCount! > 0;
   
   int get sharedTagsCount {

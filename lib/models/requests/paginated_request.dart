@@ -8,7 +8,7 @@ enum ServerListType {
   pendingUserReviews('get_pending_user_reviews'),
   pendingSystemReviews('get_pending_system_reviews'),
   matches('get_matches'),
-  profilePrompts('get_profile_prompts');
+  profilePrompts('get_my_prompts');
 
   const ServerListType(this.value);
   final String value;
