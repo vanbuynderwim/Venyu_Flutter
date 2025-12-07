@@ -28,7 +28,6 @@ class StatusBadgeView extends StatelessWidget {
             style: AppTextStyles.footnote.copyWith(
               color: context.venyuTheme.darkText,
               fontSize: fontSize,
-              fontWeight: FontWeight.w600,
             ),
           );
 
@@ -40,7 +39,7 @@ class StatusBadgeView extends StatelessWidget {
     return Container(
       padding: padding ?? const EdgeInsets.symmetric(
         horizontal: 10.0,
-        vertical: 4.0,
+        vertical: 6.0,
       ),
       decoration: BoxDecoration(
         color: status.backgroundColor(context).withValues(alpha: 0.7),

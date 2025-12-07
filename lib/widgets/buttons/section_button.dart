@@ -88,7 +88,7 @@ class _SectionButtonState<T extends SectionType> extends State<SectionButton<T>>
         highlightColor: venyuTheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.zero, // No border radius for section buttons
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(6),
           constraints: const BoxConstraints(
             minHeight: 60,
           ),

@@ -16,6 +16,7 @@ class OptionIconView extends StatelessWidget {
   final String placeholder;
   final double opacity;
   final bool isLocal;
+  final bool selected;
 
   const OptionIconView({
     super.key,
@@ -26,6 +27,7 @@ class OptionIconView extends StatelessWidget {
     this.placeholder = 'hashtag',
     this.opacity = 1.0,
     this.isLocal = false,
+    this.selected = false,
   });
 
   @override
@@ -71,8 +73,8 @@ class OptionIconView extends StatelessWidget {
 
   Widget _buildLocalIcon(BuildContext context) {
     // Use VenyuTheme helper for consistent icon theming
-    final iconPath = context.getIconPath(icon!);
-    
+    final iconPath = context.getIconPath(icon!, selected: selected);
+
     return Opacity(
       opacity: opacity,
       child: Image.asset(

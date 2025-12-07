@@ -2,24 +2,28 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/venyu_theme.dart';
 import '../../core/helpers/get_matched_helper.dart';
+import '../../models/enums/interaction_type.dart';
 import '../buttons/fab_button.dart';
 import '../buttons/action_button.dart';
 import '../../l10n/app_localizations.dart';
 
-/// Reusable GetMatchedButton widget that opens InteractionTypeSelectionView
+/// Reusable GetMatchedButton widget that opens PromptEditView directly
 ///
 /// This widget provides a consistent "Get matched" button that can be used
 /// across the app in different contexts. It can be displayed as either:
 /// - A FABButton (floating action button style)
 /// - An ActionButton (full-width button style)
 ///
-/// The optional venueId parameter allows the button to pass venue context
-/// to the interaction type selection view when opened from venue-specific screens.
+/// The initialInteractionType parameter determines which type of prompt
+/// will be created (lookingForThis or thisIsMe).
 class GetMatchedButton extends StatelessWidget {
   /// The type of button to display
   final GetMatchedButtonType buttonType;
 
-  /// Optional venue ID to pass to the interaction selection
+  /// The interaction type to use when creating a new prompt
+  final InteractionType initialInteractionType;
+
+  /// Optional venue ID to pass to the prompt edit view
   final String? venueId;
 
   /// Optional callback when the modal is closed with a result
@@ -34,16 +38,18 @@ class GetMatchedButton extends StatelessWidget {
   const GetMatchedButton({
     super.key,
     required this.buttonType,
+    required this.initialInteractionType,
     this.venueId,
     this.onModalClosed,
     this.isVisible = true,
     this.isFromPrompts = false,
   });
 
-  /// Opens the interaction type selection modal
+  /// Opens the prompt edit modal directly
   Future<void> _openAddPromptModal(BuildContext context) async {
     final result = await GetMatchedHelper.openGetMatchedModal(
       context: context,
+      initialInteractionType: initialInteractionType,
       venueId: venueId,
       isFromPrompts: isFromPrompts,
       callerContext: 'GetMatchedButton',

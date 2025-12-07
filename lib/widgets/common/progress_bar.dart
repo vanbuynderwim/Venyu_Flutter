@@ -50,15 +50,15 @@ class ProgressBar extends StatelessWidget {
           
           return Expanded(
             child: Container(
-              height: 4,
+              height: 6,
               margin: EdgeInsets.only(
-                right: 5,
+                right: 6
               ),
               decoration: BoxDecoration(
                 color: isActive 
                     ? AppColors.accent1Tangerine 
                     : AppColors.secundair6Rocket,
-                borderRadius: BorderRadius.circular(AppModifiers.tinyRadius),
+                borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
               ),
             ),
           );

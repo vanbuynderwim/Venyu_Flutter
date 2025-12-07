@@ -15,7 +15,6 @@ class RoleView extends StatelessWidget {
   final bool buttonDisabled;
   final VoidCallback? onTap;
   final EdgeInsets? padding;
-  final bool shouldBlur;
   final bool showNotificationDot;
   final Match? match;
   final double? matchingScore;
@@ -28,7 +27,6 @@ class RoleView extends StatelessWidget {
     this.buttonDisabled = false,
     this.onTap,
     this.padding,
-    this.shouldBlur = false,
     this.showNotificationDot = false,
     this.match,
     this.matchingScore,
@@ -42,8 +40,8 @@ class RoleView extends StatelessWidget {
         children: [
           // Avatar
           _buildAvatar(context),
-          const SizedBox(width: 12),
           
+          const SizedBox(width: 16),          
           // Text content
           Expanded(
             child: Column(
@@ -96,19 +94,11 @@ class RoleView extends StatelessWidget {
                     child: MatchingScoreWidget(score: matchingScore!),
                   ),
 
-                // Bio if available
-                if (profile.bio != null && profile.bio!.isNotEmpty)
-                  Text(
-                    profile.bio!,
-                    style: AppTextStyles.footnote.copyWith(
-                      color: context.venyuTheme.disabledText,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
               ],
             ),
           ),
+
+          const SizedBox(width: 16),     
           
           // Notification dot and chevron
           if (showNotificationDot && !buttonDisabled) ...[
@@ -144,7 +134,6 @@ class RoleView extends StatelessWidget {
     final avatar = AvatarView(
       avatarId: profile.avatarID,
       size: avatarSize,
-      shouldBlur: shouldBlur,
     );
 
     // If no match provided or preview is false, just return avatar

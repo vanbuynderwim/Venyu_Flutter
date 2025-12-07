@@ -71,7 +71,6 @@ class _ProfileItemViewState extends State<ProfileItemView> {
         AvatarView(
           avatarId: widget.profile.avatarID,
           size: 60,
-          shouldBlur: false,
         ),
         const SizedBox(width: 12),
         

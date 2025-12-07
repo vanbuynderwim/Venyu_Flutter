@@ -68,8 +68,20 @@ class TagView extends StatelessWidget {
   /// Optional custom text color. Uses theme default if not specified.
   final Color? textColor;
 
+  /// Optional custom border color. Uses theme default if not specified.
+  final Color? borderColor;
+
   /// Maximum width for the label text. If set, text will be truncated with ellipsis.
   final double? maxWidth;
+
+  /// Whether the icon is a local asset. Defaults to false (remote icon).
+  final bool isLocal;
+
+  /// Whether to use the selected variant of the icon (appends _selected suffix).
+  final bool isSelected;
+
+  /// Custom font weight for the label text.
+  final FontWeight? fontWeight;
 
   /// Creates a [TagView] widget.
   ///
@@ -85,17 +97,25 @@ class TagView extends StatelessWidget {
     this.iconSize = 16,
     this.backgroundColor,
     this.textColor,
+    this.borderColor,
     this.maxWidth,
+    this.isLocal = false,
+    this.isSelected = false,
+    this.fontWeight,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
 
-    // Use custom backgroundColor if provided, otherwise use default tagDecoration
-    final decoration = backgroundColor != null
+    // Use custom colors if provided, otherwise use default tagDecoration
+    final hasCustomColors = backgroundColor != null || borderColor != null;
+    final decoration = hasCustomColors
         ? AppLayoutStyles.tagDecoration(context).copyWith(
             color: backgroundColor,
+            border: borderColor != null
+                ? Border.all(color: borderColor!, width: 0.5)
+                : null,
           )
         : AppLayoutStyles.tagDecoration(context);
 
@@ -116,11 +136,12 @@ class TagView extends StatelessWidget {
               emoji: emoji,
               size: iconSize,
               color: color ?? context.venyuTheme.primary,
-              isLocal: false, // TagView meestal gebruikt voor remote icons van tags
+              isLocal: isLocal,
+              selected: isSelected,
             ),
             const SizedBox(width: 4),
           ],
-          
+
           // Label
           if (maxWidth != null)
             ConstrainedBox(
@@ -129,6 +150,7 @@ class TagView extends StatelessWidget {
                 label,
                 style: (fontSize ?? AppTextStyles.footnote).copyWith(
                   color: textColor ?? venyuTheme.primaryText,
+                  fontWeight: fontWeight,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -139,6 +161,7 @@ class TagView extends StatelessWidget {
               label,
               style: (fontSize ?? AppTextStyles.footnote).copyWith(
                 color: textColor ?? venyuTheme.primaryText,
+                fontWeight: fontWeight,
               ),
             ),
         ],

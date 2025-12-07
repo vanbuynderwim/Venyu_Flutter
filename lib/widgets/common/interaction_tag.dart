@@ -31,7 +31,7 @@ class InteractionTag extends StatelessWidget {
       height: height ?? (compact ? 32 : 40),
       decoration: BoxDecoration(
         color: interactionType.color,
-        borderRadius: BorderRadius.circular(AppModifiers.capsuleRadius),
+        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

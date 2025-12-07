@@ -12,6 +12,7 @@ import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/venue_manager.dart';
 import '../../models/venue.dart';
 import '../../models/match.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_view.dart';
 import '../../widgets/common/tag_view.dart';
@@ -551,6 +552,7 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
   Widget _buildBottomSection() {
     return GetMatchedButton(
       buttonType: GetMatchedButtonType.action,
+      initialInteractionType: InteractionType.lookingForThis,
       venueId: _venue?.id,
       onModalClosed: (result) {
         if (result == true) {
@@ -629,7 +631,6 @@ class _VenueDetailViewState extends State<VenueDetailView> with ErrorHandlingMix
           padding: const EdgeInsets.only(bottom: 0),
           child: MatchItemView(
             match: match,
-            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
             onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
           ),
         )),

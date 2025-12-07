@@ -48,16 +48,12 @@ class AvatarView extends StatefulWidget {
   /// Defaults to false for backward compatibility.
   final bool preserveAspectRatio;
 
-  /// Whether the avatar should be blurred with optional lock overlay.
-  final bool shouldBlur;
-
   const AvatarView({
     super.key,
     this.avatarId,
     this.size = 80,
     this.showBorder = true,
     this.preserveAspectRatio = false,
-    this.shouldBlur = false,
   });
 
   @override
@@ -181,9 +177,7 @@ class _AvatarViewState extends State<AvatarView> {
       if (imageUrl == null || imageUrl.isEmpty) {
         return _buildPlaceholder(context, venyuTheme);
       }
-      
-      // Use the provided shouldBlur parameter
-      
+            
       Widget avatarImage = CachedNetworkImage(
         imageUrl: imageUrl,
         fit: BoxFit.cover, // Gebruik BoxFit.cover
@@ -200,15 +194,7 @@ class _AvatarViewState extends State<AvatarView> {
         memCacheWidth: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
         memCacheHeight: widget.preserveAspectRatio ? null : (widget.size * 2).toInt(),
       );
-      
-      // Apply blur if needed (only when there's an actual avatar)
-      if (widget.shouldBlur && widget.avatarId != null && widget.avatarId!.isNotEmpty) {
-        avatarImage = ImageFiltered(
-          imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: avatarImage,
-        );
-      }
-      
+            
       return Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -221,37 +207,7 @@ class _AvatarViewState extends State<AvatarView> {
               Positioned.fill(
                 child: avatarImage,
               ),
-              // Add overlay if blurred (only when there's an actual avatar)
-              if (widget.shouldBlur && widget.avatarId != null && widget.avatarId!.isNotEmpty)
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    child: (AppConfig.showPro && widget.size > 70)
-                        ? Center(
-                            child: Container(
-                              width: widget.size * 0.35,
-                              height: widget.size * 0.35,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white.withValues(alpha: 0.9),
-                              ),
-                              child: Center(
-                                child: context.themedIcon(
-                                  'lock',
-                                  size: widget.size * 0.25,
-                                  selected: true,
-                                  overrideColor: AppColors.info,
-                                ),
-                              ),
-                            ),
-                          )
-                        : null,
-                  ),
-                ),
-            ],
+          ],
           ),
         ),
       );
