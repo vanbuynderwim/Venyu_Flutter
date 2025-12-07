@@ -19,6 +19,7 @@ import '../profile/edit_city_view.dart';
 import '../profile/edit_tag_group_view.dart';
 import '../profile/edit_avatar_view.dart';
 import '../profile/edit_notifications_view.dart';
+import '../profile/edit_optin_view.dart';
 import '../profile/registration_complete_view.dart';
 
 /// Base class for all form-based views in the application.
@@ -169,7 +170,19 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.email,
         );
-        
+
+      case RegistrationStep.optin:
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditOptinView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.optin,
+            ),
+          ),
+        );
+        return;
+
       case RegistrationStep.location:
         nextView = const EditLocationView(
           registrationWizard: true,
@@ -259,7 +272,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           ),
         );
         return;
-        
+
       case RegistrationStep.complete:
         Navigator.of(context).push(
           platformPageRoute(

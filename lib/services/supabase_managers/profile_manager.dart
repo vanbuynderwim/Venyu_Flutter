@@ -118,36 +118,33 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
   }
 
   /// Update user's name
-  Future<void> updateProfileName(String firstName, String lastName, String linkedInURL, bool linkedInURLValid) async {
+  Future<void> updateProfileName(String firstName, String lastName) async {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Updating profile name', context: 'ProfileManager');
-      
+
       final payload = {
         'first_name': firstName,
         'last_name': lastName,
-        'linkedin_url': linkedInURL,
-        'linkedin_url_valid': linkedInURLValid,
       };
-      
-      await client.rpc('update_profile_name', params: {'payload': payload});
-      
+
+      await client.rpc('update_profile_name_only', params: {'payload': payload});
+
       AppLogger.success('Profile name updated successfully', context: 'ProfileManager');
     });
   }
 
-  /// Update user's company information
-  Future<void> updateCompanyInfo(String companyName, String websiteURL) async {
+  /// Update user's company name
+  Future<void> updateCompanyName(String companyName) async {
     return executeAuthenticatedRequest(() async {
-      AppLogger.info('Updating company information', context: 'ProfileManager');
+      AppLogger.info('Updating company name', context: 'ProfileManager');
 
       final payload = {
         'company_name': companyName,
-        'website_url': websiteURL,
       };
 
-      await client.rpc('update_company_info', params: {'payload': payload});
+      await client.rpc('update_company_name', params: {'payload': payload});
 
-      AppLogger.success('Company information updated successfully', context: 'ProfileManager');
+      AppLogger.success('Company name updated successfully', context: 'ProfileManager');
     });
   }
 
@@ -660,6 +657,80 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
       await client.rpc('update_profile_setting', params: {'payload': payload});
 
       AppLogger.success('Profile setting updated successfully: $setting', context: 'ProfileManager');
+    });
+  }
+
+  /// Get user's offers (prompts with interaction type 'this_is_me')
+  ///
+  /// Fetches the current user's offers with pagination support.
+  /// These are prompts where the user indicated "This is me".
+  ///
+  /// Parameters:
+  /// - [limit]: Maximum number of results to return (default: 20)
+  /// - [cursorTime]: Cursor timestamp for pagination (optional)
+  /// - [cursorId]: Cursor ID for pagination (optional)
+  ///
+  /// Returns a list of [Prompt] objects representing the user's offers.
+  Future<List<Prompt>> getMyOffers({
+    int limit = 20,
+    DateTime? cursorTime,
+    String? cursorId,
+  }) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Fetching my offers', context: 'ProfileManager');
+
+      final payload = <String, dynamic>{
+        'limit': limit,
+      };
+
+      // Add cursor parameters if provided
+      if (cursorTime != null) {
+        payload['cursor_time'] = cursorTime.toIso8601String();
+      }
+      if (cursorId != null) {
+        payload['cursor_id'] = cursorId;
+      }
+
+      try {
+        final response = await client.rpc('get_my_offers', params: {'payload': payload});
+
+        if (response == null) {
+          AppLogger.info('No offers found', context: 'ProfileManager');
+          return <Prompt>[];
+        }
+
+        final List<dynamic> data = response as List<dynamic>;
+        final offers = data.map((json) => Prompt.fromJson(json as Map<String, dynamic>)).toList();
+
+        AppLogger.success('Fetched ${offers.length} offers', context: 'ProfileManager');
+        return offers;
+      } catch (error) {
+        AppLogger.error('Failed to fetch offers', error: error, context: 'ProfileManager');
+        rethrow;
+      }
+    });
+  }
+
+  /// Subscribe to email newsletter
+  ///
+  /// This method calls the email_optin RPC function which:
+  /// - Sets newsletter_subscribed to true in the profile
+  /// - Sends subscription data to the newsletter edge function
+  ///
+  /// [email] The email address to subscribe
+  Future<void> emailOptin(String email) async {
+    checkNotDisposed('ProfileManager');
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Subscribing email to newsletter', context: 'ProfileManager');
+
+      final payload = {
+        'email': email,
+      };
+
+      await client.rpc('email_optin', params: {'payload': payload});
+
+      AppLogger.success('Email subscribed to newsletter successfully', context: 'ProfileManager');
     });
   }
 

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../utils/website_validator.dart';
 import '../../services/profile_service.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/app_text_field.dart';
-import '../../widgets/common/form_info_box.dart';
 import '../base/base_form_view.dart';
 
-/// A form screen for editing company name and website information.
-/// 
-/// Refactored to use BaseFormView - reduced from 365 to ~140 lines
+/// A form screen for editing company name.
 class EditCompanyNameView extends BaseFormView {
   const EditCompanyNameView({
     super.key,
@@ -28,46 +24,34 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
   // Form controllers
   final _companyNameController = TextEditingController();
-  final _websiteController = TextEditingController();
 
   // Form validation state
   bool _companyNameTouched = false;
-  bool _websiteTouched = false;
-  bool _websiteFormatIsValid = true;
 
   @override
   void initializeForm() {
     super.initializeForm();
     _preloadValues();
-    
+
     // Add listeners for validation
     _companyNameController.addListener(_onCompanyNameChanged);
-    _websiteController.addListener(_onWebsiteChanged);
   }
 
   void _preloadValues() {
     final profile = ProfileService.shared.currentProfile;
     if (profile != null) {
       _companyNameController.text = profile.companyName ?? '';
-      _websiteController.text = profile.websiteURL ?? '';
-
-      // Validate preloaded values without marking as touched
-      _validateWebsite();
     }
   }
 
   @override
   void dispose() {
     _companyNameController.dispose();
-    _websiteController.dispose();
     super.dispose();
   }
 
   @override
-  bool get canSave =>
-    _companyNameController.text.trim().isNotEmpty &&
-    _websiteController.text.trim().isNotEmpty &&
-    _websiteFormatIsValid;
+  bool get canSave => _companyNameController.text.trim().isNotEmpty;
 
   @override
   String getSuccessMessage() {
@@ -83,16 +67,11 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
 
   @override
   Future<void> performSave() async {
-    // Normalize the website URL for storage
-    final cleanedWebsiteURL = WebsiteValidator.normalizeForStorage(_websiteController.text) 
-        ?? _websiteController.text;
-    
-    await profileManager.updateCompanyInfo(_companyNameController.text, cleanedWebsiteURL);
-    
+    await profileManager.updateCompanyName(_companyNameController.text);
+
     // Update only the changed fields in ProfileService
     ProfileService.shared.updateCurrentProfileFields(
       companyName: _companyNameController.text,
-      websiteURL: cleanedWebsiteURL,
     );
   }
 
@@ -104,26 +83,8 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
     });
   }
 
-  void _validateWebsite() {
-    final isValid = _websiteController.text.trim().isNotEmpty &&
-        WebsiteValidator.isValidFormat(_websiteController.text);
-
-    setState(() {
-      _websiteFormatIsValid = isValid;
-    });
-  }
-
-  void _onWebsiteChanged() {
-    setState(() {
-      if (!_websiteTouched) {
-        _websiteTouched = true;
-      }
-    });
-    _validateWebsite();
-  }
-
   @override
-  bool get useScrollView => true; // Enable scroll view for info box content
+  bool get useScrollView => true;
 
   @override
   Widget buildFormContent(BuildContext context) {
@@ -137,8 +98,8 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
-              pageNumber: 5,
-              numberOfPages: 11,
+              pageNumber: 6,
+              numberOfPages: 12,
             ),
           ),
 
@@ -148,7 +109,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
           content: AppTextField(
             controller: _companyNameController,
             hintText: l10n.editCompanyNameCompanyHint,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             textCapitalization: TextCapitalization.words,
             style: AppTextFieldStyle.large,
             state: _companyNameTouched && _companyNameController.text.trim().isEmpty
@@ -157,29 +118,6 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             autofillHints: const [AutofillHints.organizationName],
             enabled: !isUpdating,
           ),
-        ),
-
-        // Website URL field
-        buildFieldSection(
-          title: l10n.editCompanyNameWebsiteLabel,
-          content: AppTextField(
-            controller: _websiteController,
-            hintText: l10n.editCompanyNameWebsiteHint,
-            keyboardType: TextInputType.url,
-            textInputAction: TextInputAction.done,
-            textCapitalization: TextCapitalization.none,
-            style: AppTextFieldStyle.large,
-            state: _websiteTouched && !_websiteFormatIsValid
-                ? AppTextFieldState.error
-                : AppTextFieldState.normal,
-            autofillHints: const [AutofillHints.url],
-            enabled: !isUpdating,
-          ),
-        ),
-
-        // Company info box
-        FormInfoBox(
-          content: l10n.editCompanyNameInfoMessage,
         ),
       ],
     );

@@ -71,8 +71,8 @@ class _EditNotificationsViewState extends BaseFormViewState<EditNotificationsVie
         // Registration wizard progress bar
         if (widget.registrationWizard) ...[
           ProgressBar(
-            pageNumber: 11,
-            numberOfPages: 11,
+            pageNumber: 12,
+            numberOfPages: 12,
           ),
           const SizedBox(height: 16),
         ],

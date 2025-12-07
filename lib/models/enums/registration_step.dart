@@ -14,8 +14,11 @@ enum RegistrationStep {
   
   /// Step 2: Collect and verify user's email address with OTP
   email,
-  
-  /// Step 3: Collect user's location/country information
+
+  /// Step 3: Email opt-in for updates
+  optin,
+
+  /// Step 4: Collect user's location/country information
   location,
 
   /// Step 4: Collect user's city
@@ -39,9 +42,9 @@ enum RegistrationStep {
   /// Step 10: Upload user's profile avatar
   avatar,
 
-  /// Step 11: Configure notification preferences
+  /// Step 12: Configure notification preferences
   notifications,
-  
+
   /// Final step: Show completion screen
   complete;
 
@@ -81,6 +84,8 @@ enum RegistrationStep {
         return l10n.registrationStepNameTitle;
       case RegistrationStep.email:
         return l10n.registrationStepEmailTitle;
+      case RegistrationStep.optin:
+        return l10n.registrationStepOptinTitle;
       case RegistrationStep.location:
         return l10n.registrationStepLocationTitle;
       case RegistrationStep.city:
