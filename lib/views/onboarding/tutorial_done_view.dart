@@ -7,14 +7,26 @@ import '../../core/theme/app_text_styles.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../models/enums/registration_step.dart';
+import '../../services/tutorial_service.dart';
 import '../profile/edit_name_view.dart';
 
 /// View shown after completing the tutorial introduction
 ///
 /// This view shows the "You got it!" message and explains that the user
 /// is now ready to set up their profile and join the community.
+/// For returning users, it shows a different message and closes the modal.
 class TutorialDoneView extends StatelessWidget {
-  const TutorialDoneView({super.key});
+  /// Whether this is a returning user seeing the tutorial again after an update
+  final bool isReturningUser;
+
+  /// Callback to close the modal when tutorial is complete (for returning users)
+  final VoidCallback? onCloseModal;
+
+  const TutorialDoneView({
+    super.key,
+    this.isReturningUser = false,
+    this.onCloseModal,
+  });
 
   void _navigateToRegistration(BuildContext context) {
     Navigator.of(context).push(
@@ -28,10 +40,32 @@ class TutorialDoneView extends StatelessWidget {
     );
   }
 
+  Future<void> _handleReturningUserClose(BuildContext context) async {
+    // Mark the tutorial as shown so it won't appear again
+    await TutorialService.shared.markTutorialShown();
+
+    // Close the modal
+    if (onCloseModal != null) {
+      onCloseModal!();
+    } else if (context.mounted) {
+      // Fallback: pop to first route
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
     final l10n = AppLocalizations.of(context)!;
+
+    // Use different text and action for returning users
+    final title = l10n.tutorialDoneTitle; // Same title for both
+    final description = isReturningUser
+        ? l10n.returningUserTutorialDoneDescription
+        : l10n.tutorialDoneDescription;
+    final buttonLabel = isReturningUser
+        ? l10n.returningUserTutorialDoneButton
+        : l10n.tutorialButtonNext;
 
     return Scaffold(
       body: SizedBox.expand(
@@ -50,7 +84,7 @@ class TutorialDoneView extends StatelessWidget {
                     children: [
                       // Main content
                       Text(
-                        l10n.tutorialStep4Title,
+                        title,
                         style: AppTextStyles.title2.copyWith(
                           color: venyuTheme.primaryText,
                         ),
@@ -60,7 +94,7 @@ class TutorialDoneView extends StatelessWidget {
                       const SizedBox(height: 24),
 
                       Text(
-                        l10n.tutorialStep4Description,
+                        description,
                         style: AppTextStyles.subheadline.copyWith(
                           color: venyuTheme.secondaryText,
                         ),
@@ -69,11 +103,13 @@ class TutorialDoneView extends StatelessWidget {
 
                       const SizedBox(height: 24),
 
-                      // Start button
+                      // Action button - different behavior for returning users
                       ActionButton(
-                        label: l10n.tutorialButtonNext,
+                        label: buttonLabel,
                         width: 120,
-                        onPressed: () => _navigateToRegistration(context),
+                        onPressed: isReturningUser
+                            ? () => _handleReturningUserClose(context)
+                            : () => _navigateToRegistration(context),
                       ),
                     ],
                   ),

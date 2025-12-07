@@ -5,11 +5,10 @@ import '../../l10n/app_localizations.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
-import '../../services/supabase_managers/content_manager.dart';
-import '../../services/toast_service.dart';
+import '../../services/profile_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
-import '../prompts/daily_prompts_view.dart';
+import '../main_view.dart';
 
 /// View shown after completing the tutorial dummy prompts
 ///
@@ -33,59 +32,30 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
     });
 
     try {
-      // Fetch real prompts (created by complete_registration RPC)
-      // Note: We don't refresh profile here to avoid MainView showing prompts modal
-      // Profile will be refreshed after user answers these prompts
-      AppLogger.debug('Fetching real prompts', context: 'TutorialFinishedView');
-      final contentManager = ContentManager.shared;
-      final prompts = await contentManager.fetchPrompts();
+      // Refresh profile before navigating to MainView
+      AppLogger.debug('Refreshing profile', context: 'TutorialFinishedView');
+      final profileService = ProfileService.shared;
+      await profileService.refreshProfile();
 
-      AppLogger.success('Fetched ${prompts.length} prompts', context: 'TutorialFinishedView');
+      AppLogger.success('Profile refreshed, navigating to MainView', context: 'TutorialFinishedView');
 
       if (!mounted) return;
 
-      if (prompts.isEmpty) {
-        // No prompts available - show message and return
-        final l10n = AppLocalizations.of(context)!;
-        ToastService.info(
-          context: context,
-          message: l10n.errorNoCardsAvailable,
-        );
-        setState(() {
-          _isLoading = false;
-        });
-        return;
-      }
-
-      // Navigate to daily prompts with real prompts
-      // Mark as post-tutorial so profile refresh happens after completion
-      Navigator.of(context).push(
+      // Navigate to MainView and remove all previous routes (complete onboarding)
+      Navigator.of(context).pushAndRemoveUntil(
         platformPageRoute(
           context: context,
-          builder: (_) => DailyPromptsView(
-            prompts: prompts,
-            isFirstTimeUser: false,
-            isPostTutorialRealPrompts: true,
-          ),
+          builder: (_) => const MainView(),
         ),
+        (route) => false, // Remove all previous routes
       );
-
-      setState(() {
-        _isLoading = false;
-      });
     } catch (error) {
-      AppLogger.error('Failed to fetch prompts', error: error, context: 'TutorialFinishedView');
+      AppLogger.error('Failed to refresh profile', error: error, context: 'TutorialFinishedView');
 
       if (mounted) {
         setState(() {
           _isLoading = false;
         });
-
-        final l10n = AppLocalizations.of(context)!;
-        ToastService.error(
-          context: context,
-          message: l10n.errorFailedToLoadCards,
-        );
       }
     }
   }

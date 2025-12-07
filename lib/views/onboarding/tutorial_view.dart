@@ -14,13 +14,24 @@ import 'tutorial_done_view.dart';
 
 /// Tutorial view that shows onboarding steps after registration
 ///
-/// Shows 4 onboarding screens with images explaining how Venyu works:
-/// 1. Cards - Create and publish your cards
-/// 2. Match - Get matched with relevant people
-/// 3. Interest - Express interest in matches
-/// 4. Introduction - Get introduced to connections
+/// Shows 5 onboarding screens with images explaining how Venyu works:
+/// 1. Offer - Create prompts about what you offer
+/// 2. Answer - Answer prompts from others you can help with
+/// 3. Match - Get matched when you can help
+/// 4. Introduction - The searcher decides to introduce
+/// 5. Search - Create your own search prompt
 class TutorialView extends StatefulWidget {
-  const TutorialView({super.key});
+  /// Whether this is a returning user seeing the tutorial again after an update
+  final bool isReturningUser;
+
+  /// Callback to close the modal when tutorial is complete (for returning users)
+  final VoidCallback? onCloseModal;
+
+  const TutorialView({
+    super.key,
+    this.isReturningUser = false,
+    this.onCloseModal,
+  });
 
   @override
   State<TutorialView> createState() => _TutorialViewState();
@@ -28,13 +39,16 @@ class TutorialView extends StatefulWidget {
 
 class _TutorialViewState extends State<TutorialView> {
   int _currentStep = 0;
-  static const int _totalSteps = 3;
+  static const int _totalSteps = 6;
 
   // Tutorial content for each step - images are static
   final List<String> _stepImages = const [
+    'assets/images/visuals/onboarding_logo.png',
+    'assets/images/visuals/onboarding_prompt.png',
     'assets/images/visuals/onboarding_cards.png',
     'assets/images/visuals/onboarding_match.png',
     'assets/images/visuals/onboarding_introduction.png',
+    'assets/images/visuals/onboarding_search.png',
   ];
 
   void _handleNext() {
@@ -54,7 +68,10 @@ class _TutorialViewState extends State<TutorialView> {
     Navigator.of(context).push(
       platformPageRoute(
         context: context,
-        builder: (context) => const TutorialDoneView(),
+        builder: (context) => TutorialDoneView(
+          isReturningUser: widget.isReturningUser,
+          onCloseModal: widget.onCloseModal,
+        ),
       ),
     );
   }
@@ -73,9 +90,12 @@ class _TutorialViewState extends State<TutorialView> {
   String _getStepTitle(BuildContext context, int index) {
     final l10n = AppLocalizations.of(context)!;
     switch (index) {
-      case 0: return l10n.tutorialStep1Title;
-      case 1: return l10n.tutorialStep2Title;
-      case 2: return l10n.tutorialStep3Title;
+      case 0: return l10n.tutorialStep0Title;
+      case 1: return l10n.tutorialStep1Title;
+      case 2: return l10n.tutorialStep2Title;
+      case 3: return l10n.tutorialStep3Title;
+      case 4: return l10n.tutorialStep4Title;
+      case 5: return l10n.tutorialStep5Title;
       default: return '';
     }
   }
@@ -83,9 +103,12 @@ class _TutorialViewState extends State<TutorialView> {
   String _getStepDescription(BuildContext context, int index) {
     final l10n = AppLocalizations.of(context)!;
     switch (index) {
-      case 0: return l10n.tutorialStep1Description;
-      case 1: return l10n.tutorialStep2Description;
-      case 2: return l10n.tutorialStep3Description;
+      case 0: return l10n.tutorialStep0Description;
+      case 1: return l10n.tutorialStep1Description;
+      case 2: return l10n.tutorialStep2Description;
+      case 3: return l10n.tutorialStep3Description;
+      case 4: return l10n.tutorialStep4Description;
+      case 5: return l10n.tutorialStep5Description;
       default: return '';
     }
   }
