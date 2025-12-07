@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_layout_styles.dart';
@@ -17,7 +16,6 @@ import 'prompt_item.dart';
 // import 'prompt_detail/prompt_section_button_bar.dart';
 // import 'prompt_detail/prompt_card_section.dart';
 // import 'prompt_detail/prompt_stats_section.dart';
-import '../../services/supabase_managers/matching_manager.dart';
 import '../../models/match.dart';
 import '../matches/match_detail_view.dart';
 import '../matches/match_item_view.dart';
@@ -25,6 +23,7 @@ import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../models/enums/prompt_setting.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/community_guidelines_widget.dart';
 import '../../widgets/common/sub_title.dart';
@@ -32,23 +31,26 @@ import '../venues/venue_item_view.dart';
 import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
-import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../services/profile_service.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../models/enums/action_button_type.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
-/// 
+///
 /// This view displays:
 /// - The prompt at the top (using PromptItem)
-/// - List of matches associated with this prompt
+/// - List of matches associated with this prompt (for looking_for_this type)
 /// - Navigation to match details when tapping a match
 class PromptDetailView extends StatefulWidget {
   final String promptId;
+  final InteractionType? interactionType;
+  final Function(Prompt)? onPromptUpdated;
 
   const PromptDetailView({
     super.key,
     required this.promptId,
+    this.interactionType,
+    this.onPromptUpdated,
   });
 
   @override
@@ -57,12 +59,9 @@ class PromptDetailView extends StatefulWidget {
 
 class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingMixin {
   late final ContentManager _contentManager;
-  late final MatchingManager _matchingManager;
   NotificationService? _notificationService;
 
   Prompt? _prompt;
-  List<Match> _matches = [];
-  bool _matchesLoaded = false;
   String? _error;
   bool _isProcessingApprove = false;
   bool _isProcessingReject = false;
@@ -72,10 +71,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   void initState() {
     super.initState();
     _contentManager = ContentManager.shared;
-    _matchingManager = MatchingManager.shared;
     _notificationService = NotificationService.shared;
     _loadPromptData();
   }
+
 
   Future<void> _loadPromptData() async {
     if (!mounted) return;
@@ -83,13 +82,21 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
     await executeWithLoading(
       operation: () async {
-        // Fetch the prompt
-        final prompt = await _contentManager.fetchPrompt(widget.promptId);
+        Prompt? prompt;
+
+        // Use different API based on interaction type
+        if (widget.interactionType == InteractionType.thisIsMe) {
+          // Fetch offer (this_is_me prompt) via content_manager
+          prompt = await _contentManager.fetchOffer(widget.promptId);
+          AppLogger.debug('Offer loaded', context: 'PromptDetailView');
+        } else {
+          // Fetch prompt (looking_for_this) via content_manager - includes matches
+          prompt = await _contentManager.fetchPrompt(widget.promptId);
+          AppLogger.debug('Prompt loaded with ${prompt?.matches?.length ?? 0} matches', context: 'PromptDetailView');
+        }
 
         if (prompt != null && mounted) {
           setState(() => _prompt = prompt);
-          // Load matches after prompt is loaded
-          _loadMatches();
         } else if (mounted) {
           setState(() => _error = AppLocalizations.of(context)!.promptDetailErrorMessage);
         }
@@ -104,39 +111,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     );
   }
 
-  Future<void> _loadMatches() async {
-    if (_prompt == null) return;
-
-    try {
-      AppLogger.debug('Loading matches for prompt: ${_prompt!.promptID}', context: 'PromptDetailView');
-
-      final matches = await _matchingManager.fetchPromptMatches(_prompt!.promptID).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () {
-          AppLogger.warning('fetchPromptMatches timed out', context: 'PromptDetailView');
-          return <Match>[];
-        },
-      );
-
-      AppLogger.debug('Received ${matches.length} matches', context: 'PromptDetailView');
-
-      if (mounted) {
-        setState(() {
-          _matches = matches;
-          _matchesLoaded = true;
-        });
-      }
-    } catch (e) {
-      AppLogger.error('Error loading matches: $e', context: 'PromptDetailView');
-      if (mounted) {
-        setState(() {
-          _matches = [];
-          _matchesLoaded = true;
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -145,12 +119,30 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                              (currentProfile?.isSuperAdmin ?? false);
     final showDeleteButton = _prompt != null &&
                              _prompt!.fromAuthor == true &&
-                             (_prompt!.status == PromptStatus.pendingReview ||
-                              _prompt!.status == PromptStatus.rejected);
+                             ((_prompt!.status == PromptStatus.pendingReview ||
+                               _prompt!.status == PromptStatus.rejected) ||
+                              _prompt!.interactionType == InteractionType.thisIsMe);
+
+    // Show pause/play button in app bar for approved looking_for_this prompts
+    final showPauseButton = _prompt != null &&
+                            _prompt!.interactionType == InteractionType.lookingForThis &&
+                            _prompt!.displayStatus == PromptStatus.approved;
 
     return AppScaffold(
-      appBar: PlatformAppBar(
-        title: Text(l10n.promptDetailTitle),
+        appBar: PlatformAppBar(
+          title: Text(l10n.promptDetailTitle),
+        trailingActions: [
+          if (showPauseButton)
+            IconButton(
+              icon: _prompt!.isPaused == true
+                  ? context.themedIcon('play', size: 24, selected: true, overrideColor: context.venyuTheme.primary)
+                  : context.themedIcon('pause', size: 24, selected: true, overrideColor: context.venyuTheme.error),
+              color: _prompt!.isPaused == true
+                  ? context.venyuTheme.primary
+                  : context.venyuTheme.error,
+              onPressed: _handleToggleMatching,
+            ),
+        ],
       ),
       usePadding: false,
       useSafeArea: true,
@@ -173,12 +165,12 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                   isFirst: true,
                   isLast: true,
                   showMatchInteraction: false,
-                  shouldShowStatus: false,
+                  shouldShowStatus: _prompt!.displayStatus == PromptStatus.approved,
                 ),
               ),
 
-              // Status section - only show if user is the author
-              if (_prompt!.fromAuthor == true) ...[
+              // Status section - only show if user is the author and status is not approved
+              if (_prompt!.fromAuthor == true && _prompt!.displayStatus != PromptStatus.approved) ...[
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -191,27 +183,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
                 // Status info section
                 _buildStatusInfoSection(),
-              ],
-
-              // Pause/Resume matching section - only show if prompt is approved
-              if (_prompt?.displayStatus == PromptStatus.approved)
-                _buildMatchingControlSection(),
-
-              // First Call section - only show if Pro features are enabled
-              if (AppConfig.showPro) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SubTitle(
-                    iconName: 'eye',
-                    title: l10n.promptDetailFirstCallTitle,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Prior Preview section
-                _buildPreviewSection(),
-
-                const SizedBox(height: 16),
               ],
 
               // Venue section - show if prompt has a venue
@@ -257,6 +228,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
   Widget _buildMatchesContent() {
     final l10n = AppLocalizations.of(context)!;
+    final matches = _prompt?.matches ?? [];
 
     if (isLoading) {
       return const Padding(
@@ -287,18 +259,12 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
       );
     }
 
-    // Show loading while matches are being loaded
-    if (!_matchesLoaded) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 48),
-        child: LoadingStateWidget(),
-      );
-    }
-
     // Show matches content
-    if (_matches.isEmpty) {
-      // Show empty state for approved prompts
-      if (_prompt?.displayStatus == PromptStatus.approved) {
+    if (matches.isEmpty) {
+      // Only show empty state for approved looking_for_this prompts
+      // this_is_me prompts (offers) don't have matches
+      if (_prompt?.displayStatus == PromptStatus.approved && 
+          _prompt?.interactionType == InteractionType.lookingForThis) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: EmptyStateWidget(
@@ -309,7 +275,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
           ),
         );
       } else {
-        // For non-approved prompts, don't show matches section at all
+        // For non-approved prompts or this_is_me prompts, don't show matches section at all
         return const SizedBox.shrink();
       }
     }
@@ -317,23 +283,22 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //const SizedBox(height: 16),
+        const SizedBox(height: 16),
         // Introductions title
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SubTitle(
-            iconName: 'handshake',
-            title: l10n.promptDetailMatchesTitle,
+            iconName: 'match',
+            title: l10n.promptDetailMatchesTitle(matches.length),
           ),
         ),
         const SizedBox(height: 8),
 
         // Matches list
-        ..._matches.map((match) => Padding(
+        ...matches.map((match) => Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: MatchItemView(
             match: match,
-            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
             onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
           ),
         )),
@@ -344,16 +309,8 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
   void _navigateToMatchDetail(Match match) {
     AppLogger.ui('Navigating to match detail from prompt: ${match.id}', context: 'PromptDetailView');
 
-    // Mark match as viewed if it wasn't already
+    // Decrease badge count if match wasn't viewed yet
     if (match.isViewed != true) {
-      setState(() {
-        final matchIndex = _matches.indexWhere((m) => m.id == match.id);
-        if (matchIndex != -1) {
-          _matches[matchIndex] = match.copyWith(isViewed: true);
-        }
-      });
-
-      // Decrease badge count manually
       _decreaseMatchesBadge();
     }
 
@@ -468,111 +425,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     }
   }
 
-  /// Build the Prior Preview settings section
-  Widget _buildPreviewSection() {
-    return FirstCallSettingsWidget(
-      withPreview: _prompt?.withPreview ?? false,
-      showTitle: false,
-      onChanged: (value) {
-        // Handle toggle change
-        _handlePreviewToggle(value);
-      },
-      isEditing: true, // This is always editing an existing prompt
-      hasVenue: _prompt?.venue != null, // Check if prompt has a venue
-    );
-  }
-
-  /// Build matching control section with pause/resume functionality
-  Widget _buildMatchingControlSection() {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SubTitle(
-            iconName: 'settings',
-            title: l10n.promptSettingsTitle,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: AppLayoutStyles.cardDecoration(context),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.promptDetailHowYouMatchDescription,
-                  style: AppTextStyles.footnote.copyWith(
-                    color: context.venyuTheme.secondaryText,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _prompt!.isPaused == true
-                            ? l10n.promptDetailMatchingPausedLabel
-                            : l10n.promptDetailMatchingActiveLabel,
-                        style: AppTextStyles.subheadline.copyWith(
-                          color: context.venyuTheme.primaryText,
-                          fontWeight: FontWeight.w600
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    ActionButton(
-                      label: _prompt!.isPaused == true
-                          ? l10n.promptInteractionResumeButton
-                          : l10n.promptInteractionPauseButton,
-                      type: _prompt!.isPaused == true
-                          ? ActionButtonType.primary
-                          : ActionButtonType.destructive,
-                      icon: _prompt!.isPaused == true
-                              ? context.themedIcon('play', selected:true)
-                              : context.themedIcon('pause', selected: true),
-                      onPressed: _handleToggleMatching,
-                      isCompact: true,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-      ],
-    );
-  }
-
-  /// Handle preview toggle change
-  void _handlePreviewToggle(bool value) async {
-    if (_prompt?.promptID == null) return;
-
-    final l10n = AppLocalizations.of(context)!;
-
-    AppLogger.debug('Preview toggle changed to: $value for prompt: ${_prompt?.promptID}', context: 'PromptDetailView');
-
-    await executeWithLoading(
-      operation: () async {
-        await _contentManager.togglePreview(_prompt!.promptID, value);
-
-        // Reload prompt data to get updated state
-        await _loadPromptData();
-
-        AppLogger.success('Preview setting updated successfully', context: 'PromptDetailView');
-      },
-      showSuccessToast: true,
-      successMessage: l10n.promptDetailPreviewUpdatedMessage,
-      showErrorToast: true,
-    );
-  }
 
   /// Handle matching toggle (pause/resume)
   void _handleToggleMatching() async {
@@ -610,6 +462,11 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         await _loadPromptData();
 
         AppLogger.success('Matching ${isPaused ? "resumed" : "paused"} successfully', context: 'PromptDetailView');
+        
+        // Notify parent to update prompt in the list
+        if (_prompt != null) {
+          widget.onPromptUpdated?.call(_prompt!);
+        }
       },
       showSuccessToast: true,
       successMessage: l10n.promptDetailMatchSettingUpdatedMessage,

@@ -276,6 +276,7 @@ class _NotificationsViewState extends State<NotificationsView>
                                       context: context,
                                       builder: (context) => PromptDetailView(
                                         promptId: selectedNotification.prompt!.promptID,
+                                        interactionType: selectedNotification.prompt!.interactionType,
                                       ),
                                     ),
                                   );

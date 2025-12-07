@@ -184,7 +184,6 @@ class _NotificationItemViewState extends State<NotificationItemView> {
         profile: match.profile,
         avatarSize: 40,
         showChevron: false,
-        shouldBlur: !match.isConnected,
         buttonDisabled: true,
       ),
     );

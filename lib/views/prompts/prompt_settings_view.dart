@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/models.dart';
 import '../../models/venue.dart';
-import '../../widgets/prompts/first_call_settings_widget.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -42,23 +41,18 @@ class PromptSettingsView extends StatefulWidget {
 }
 
 class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandlingMixin {
-  bool _withPreview = false;
+
   final bool _isProcessing = false;
 
   @override
   void initState() {
     super.initState();
-
-    // If editing existing prompt, use its preview setting
-    if (widget.existingPrompt != null) {
-      _withPreview = widget.existingPrompt!.withPreview ?? false;
-    }
   }
 
   /// Handle submit button - saves the prompt
   Future<void> _handleSubmit() async {
     final l10n = AppLocalizations.of(context)!;
-    AppLogger.info('Submitting prompt with First Call: $_withPreview', context: 'PromptSettingsView');
+    
 
     await executeWithLoading(
       operation: () async {
@@ -68,7 +62,6 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
           promptLabel: widget.promptLabel,
           promptId: widget.existingPrompt?.promptID,
           venueId: widget.selectedVenue?.id,
-          withPreview: _withPreview,
           isFromPrompts: widget.isFromPrompts,
           onCloseModal: widget.onCloseModal,
         );
@@ -123,18 +116,6 @@ class _PromptSettingsViewState extends State<PromptSettingsView> with ErrorHandl
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 24),
-
-                          // First Call settings widget
-                          FirstCallSettingsWidget(
-                            withPreview: _withPreview,
-                            onChanged: (value) {
-                              setState(() => _withPreview = value);
-                            },
-                            isEditing: widget.existingPrompt != null,
-                            hasVenue: widget.selectedVenue != null,
-                          ),
-
                           const SizedBox(height: 24),
                         ],
                       ),

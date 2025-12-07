@@ -3,11 +3,13 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/enums/interaction_type.dart';
+import '../../models/prompt.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
+import 'prompt_entry_view.dart';
 
 /// Prompt finish view - final confirmation screen
 ///
@@ -17,13 +19,58 @@ class PromptFinishView extends StatelessWidget {
   final InteractionType interactionType;
   final bool isFromPrompts;
   final VoidCallback? onCloseModal;
+  final bool isRegistrationFlow;
 
   const PromptFinishView({
     super.key,
     required this.interactionType,
     this.isFromPrompts = false,
     this.onCloseModal,
+    this.isRegistrationFlow = false,
   });
+
+  /// Navigate to PromptEntryView with tutorial prompts for registration flow
+  void _navigateToPromptEntry(BuildContext context, AppLocalizations l10n) {
+    // Create 4 dummy tutorial prompts - one for each main interaction type
+    final dummyPrompts = [
+      Prompt(
+        promptID: 'tutorial_1',
+        label: l10n.registrationCompleteTutorialPrompt1,
+        interactionType: InteractionType.lookingForThis,
+        matchInteractionType: InteractionType.thisIsMe,
+      ),
+      Prompt(
+        promptID: 'tutorial_2',
+        label: l10n.registrationCompleteTutorialPrompt2,
+        interactionType: InteractionType.lookingForThis,
+        matchInteractionType: InteractionType.lookingForThis,
+      ),
+      Prompt(
+        promptID: 'tutorial_3',
+        label: l10n.registrationCompleteTutorialPrompt3,
+        interactionType: InteractionType.lookingForThis,
+        matchInteractionType: InteractionType.knowSomeone,
+      ),
+      Prompt(
+        promptID: 'tutorial_4',
+        label: l10n.registrationCompleteTutorialPrompt4,
+        interactionType: InteractionType.lookingForThis,
+        matchInteractionType: InteractionType.notRelevant,
+      ),
+    ];
+
+    // Navigate to PromptEntryView (replaces all previous screens in the stack)
+    Navigator.of(context).pushAndRemoveUntil(
+      platformPageRoute(
+        context: context,
+        builder: (context) => PromptEntryView(
+          prompts: dummyPrompts,
+          isFirstTimeUser: true,
+        ),
+      ),
+      (route) => route.isFirst, // Keep only the first route (MainView or similar)
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +134,9 @@ class PromptFinishView extends StatelessWidget {
 
                                     // Success title
                                     Text(
-                                      l10n.promptFinishTitle,
+                                      interactionType == InteractionType.thisIsMe 
+                                          ? l10n.promptFinishSavedTitle
+                                          : l10n.promptFinishTitle,
                                       style: TextStyle(
                                         color: venyuTheme.darkText,
                                         fontSize: 36,
@@ -100,7 +149,9 @@ class PromptFinishView extends StatelessWidget {
 
                                     // Explanation text
                                     Text(
-                                      l10n.promptFinishDescription,
+                                      interactionType == InteractionType.thisIsMe 
+                                          ? l10n.promptFinishSavedDescription
+                                          : l10n.promptFinishDescription,
                                       style: AppTextStyles.body.copyWith(
                                         color: venyuTheme.darkText,
                                       ),
@@ -109,16 +160,19 @@ class PromptFinishView extends StatelessWidget {
 
                                     const SizedBox(height: 24),
 
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 36.0),
-                                      child: Text(
-                                        l10n.promptFinishReviewInfo,
-                                        style: AppTextStyles.footnote.copyWith(
-                                          color: venyuTheme.darkText,
+                                    // Review info - only show for looking_for_this prompts
+                                    if (interactionType == InteractionType.lookingForThis) ...[
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                                        child: Text(
+                                          l10n.promptFinishReviewInfo,
+                                          style: AppTextStyles.footnote.copyWith(
+                                            color: venyuTheme.darkText,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
+                                    ],
 
                                     const Spacer(flex: 3),
                                   ],
@@ -136,7 +190,10 @@ class PromptFinishView extends StatelessWidget {
                             onInvertedBackground: true,
                             onPressed: () {
                               // Close all prompt views and return to main screen
-                              if (isFromPrompts && onCloseModal != null) {
+                              if (isRegistrationFlow) {
+                                // For registration flow, navigate to PromptEntryView with tutorial prompts
+                                _navigateToPromptEntry(context, l10n);
+                              } else if (isFromPrompts && onCloseModal != null) {
                                 // If from prompts flow, use the callback
                                 onCloseModal!();
                               } else {

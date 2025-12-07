@@ -136,20 +136,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
 
                 const SizedBox(height: 40),
                 
-                // "I need this" button
-                Theme(
-                  data: ThemeData.light().copyWith(
-                    extensions: [VenyuTheme.light],
-                  ),
-                  child: _InteractionTypeButton(
-                    interactionType: InteractionType.lookingForThis,
-                    onTap: () => _handleSelection(context, InteractionType.lookingForThis),
-                  ),
-                ),
-                
-                const SizedBox(height: AppModifiers.smallSpacing),
-                
-                // "I can help" button
+                // "I can help" button (This is me - now first)
                 Theme(
                   data: ThemeData.light().copyWith(
                     extensions: [VenyuTheme.light],
@@ -159,8 +146,34 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                     onTap: () => _handleSelection(context, InteractionType.thisIsMe),
                   ),
                 ),
+                
+                // Private prompts info text under "This is me" button
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text(
+                    l10n.interactionTypeSelectionPrivatePromptsInfo,
+                    style: TextStyle(
+                      color: venyuTheme.darkText,
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                
+                const SizedBox(height: AppModifiers.smallSpacing),
+                
+                // "I need this" button (now second)
+                Theme(
+                  data: ThemeData.light().copyWith(
+                    extensions: [VenyuTheme.light],
+                  ),
+                  child: _InteractionTypeButton(
+                    interactionType: InteractionType.lookingForThis,
+                    onTap: () => _handleSelection(context, InteractionType.lookingForThis),
+                  ),
+                ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // Disclaimer text with clickable community guidelines
                 GestureDetector(
@@ -289,7 +302,7 @@ class _InteractionTypeButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      interactionType.selectionTitle(context),
+                      interactionType.newTitle(context),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

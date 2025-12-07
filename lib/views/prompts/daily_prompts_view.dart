@@ -19,7 +19,6 @@ import '../../services/supabase_managers/content_manager.dart';
 import '../../services/toast_service.dart';
 import 'interaction_type_selection_view.dart';
 import '../onboarding/tutorial_finished_view.dart';
-import '../onboarding/registration_finish_view.dart';
 
 /// DailyPromptsView - Fullscreen modal for displaying daily prompts to users
 /// 
@@ -33,14 +32,12 @@ class DailyPromptsView extends StatefulWidget {
   final List<Prompt> prompts;
   final VoidCallback? onCloseModal;
   final bool isFirstTimeUser;
-  final bool isPostTutorialRealPrompts; // True when showing real prompts after tutorial
 
   const DailyPromptsView({
     super.key,
     required this.prompts,
     this.onCloseModal,
     this.isFirstTimeUser = false,
-    this.isPostTutorialRealPrompts = false,
   });
 
   @override
@@ -168,34 +165,20 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             // Silent failure - don't show error to user
           });
 
-          // If these were real prompts after tutorial, navigate to RegistrationFinishView
-          if (widget.isPostTutorialRealPrompts) {
-            AppLogger.debug('Completed onboarding prompts, navigating to RegistrationFinishView', context: 'DailyPromptsView');
-
-            if (mounted) {
-              Navigator.of(context).push(
-                platformPageRoute(
-                  context: context,
-                  builder: (_) => const RegistrationFinishView(),
-                ),
-              );
-            }
-          } else {
-            // Normal flow - navigate to InteractionTypeSelectionView
-            final result = await Navigator.of(context).push<bool>(
-              platformPageRoute(
-                context: context,
-                builder: (_) => InteractionTypeSelectionView(
-                  isFromPrompts: true,
-                  onCloseModal: widget.onCloseModal,
-                ),
+          // Navigate to InteractionTypeSelectionView to create a new prompt
+          final result = await Navigator.of(context).push<bool>(
+            platformPageRoute(
+              context: context,
+              builder: (_) => InteractionTypeSelectionView(
+                isFromPrompts: true,
+                onCloseModal: widget.onCloseModal,
               ),
-            );
+            ),
+          );
 
-            // If prompt was successfully created, close the modal
-            if (result == true && widget.onCloseModal != null) {
-              widget.onCloseModal!();
-            }
+          // If prompt was successfully created, close the modal
+          if (result == true && widget.onCloseModal != null) {
+            widget.onCloseModal!();
           }
         }
       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
+import '../../models/enums/prompt_status.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
@@ -7,7 +8,6 @@ import '../../core/theme/venyu_theme.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/interaction_tag.dart';
 import '../../widgets/common/venue_tag.dart';
-import '../../widgets/common/prompt_counters.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/tag_view.dart';
 import '../../widgets/prompts/selection_title_with_icon.dart';
@@ -58,8 +58,14 @@ class _PromptItemState extends State<PromptItem> {
     final hasTags = hasInteractionTag || hasVenueTag || hasMatchInteractionTag;
     final showTagsRow = hasTags || widget.showCounters;
 
+    // Helper variables for status badges row
+    final showStatusBadge = widget.prompt.fromAuthor == true && widget.prompt.displayStatus != PromptStatus.approved;
+    final showPausedTag = widget.prompt.isPaused == true;
+    final showMatchCountTag = widget.showCounters && (widget.prompt.matchCount ?? 0) > 0;
+    final hasAnyBadge = showStatusBadge || showPausedTag || showMatchCountTag;
+
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      margin: const EdgeInsets.only(bottom: 0),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -107,9 +113,17 @@ class _PromptItemState extends State<PromptItem> {
 
                     // Selection title and timeAgo row - above prompt label
                     if (widget.prompt.interactionType != null) ...[
-                      SelectionTitleWithIcon(
-                        interactionType: widget.prompt.interactionType!,
-                        size: 18,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SelectionTitleWithIcon(
+                              interactionType: widget.prompt.interactionType!,
+                              size: 18,
+                            ),
+                          ),
+                          if (widget.showMatchInteraction)
+                            context.themedIcon('chevron', size: 18),
+                        ],
                       ),
                       const SizedBox(height: 4),
                     ],
@@ -126,17 +140,32 @@ class _PromptItemState extends State<PromptItem> {
                       overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
                     ),
 
-                    // Status badge and paused tag - below prompt label
-                    if (widget.shouldShowStatus && !widget.showMatchInteraction) ...[
+                    // Match count tag, status badge, and paused tag - below prompt label
+                    if (widget.shouldShowStatus && !widget.showMatchInteraction && hasAnyBadge) ...[
                       const SizedBox(height: 16),
                       Row(
                         children: [
-                          StatusBadgeView(
-                            status: widget.prompt.displayStatus,
-                            compact: false,
-                          ),
-                          if (widget.prompt.isPaused == true) ...[
-                            const SizedBox(width: 4),
+                          // Match count tag first (only if matches > 0)
+                          if (showMatchCountTag)
+                            TagView(
+                              id: 'matches_${widget.prompt.promptID}',
+                              label: AppLocalizations.of(context)!.promptItemMatchCount(widget.prompt.matchCount!),
+                              icon: 'match',
+                              isLocal: true,
+                              isSelected: widget.prompt.hasNewMatches == true,
+                              fontWeight: widget.prompt.hasNewMatches == true ? FontWeight.w600 : null,
+                            ),
+                          // Status badge only for own prompts
+                          if (showStatusBadge) ...[
+                            if (showMatchCountTag) const SizedBox(width: 4),
+                            StatusBadgeView(
+                              status: widget.prompt.displayStatus,
+                              compact: false,
+                            ),
+                          ],
+                          // Paused tag for all prompts
+                          if (showPausedTag) ...[
+                            if (showMatchCountTag || showStatusBadge) const SizedBox(width: 4),
                             TagView(
                               id: 'paused_${widget.prompt.promptID}',
                               label: AppLocalizations.of(context)!.promptItemPausedTag,
@@ -177,27 +206,12 @@ class _PromptItemState extends State<PromptItem> {
                           // Spacer to push right content to the end
                           const Spacer(),
 
-                          // Right side: match interaction tag and/or counters
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // Match interaction tag (for match views)
-                              if (hasMatchInteractionTag) ...[
-                                InteractionTag(
-                                  interactionType: widget.prompt.matchInteractionType!,
-                                  compact: true,
-                                ),
-                                if (widget.showCounters) const SizedBox(width: 12),
-                              ],
-
-                              // Counters
-                              if (widget.showCounters)
-                                PromptCounters(
-                                  matchCount: widget.prompt.matchCount,
-                                  connectionCount: widget.prompt.connectionCount,
-                                ),
-                            ],
-                          ),
+                          // Right side: match interaction tag
+                          if (hasMatchInteractionTag)
+                            InteractionTag(
+                              interactionType: widget.prompt.matchInteractionType!,
+                              compact: true,
+                            ),
                         ],
                       ),
                     ],

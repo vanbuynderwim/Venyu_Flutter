@@ -12,7 +12,7 @@ import 'prompt_detail/prompt_content_field.dart';
 import 'prompt_preview_view.dart';
 
 /// Prompt detail view for creating or editing prompts.
-/// 
+///
 /// This view provides a clean form interface for users to create new prompts or edit existing ones.
 /// Features:
 /// - Toggle between "Searching for" and "I can help with" interaction types
@@ -25,6 +25,7 @@ class PromptEditView extends StatefulWidget {
   final bool isFromPrompts; // Whether coming from prompts flow
   final VoidCallback? onCloseModal; // Callback to close modal when from prompts
   final String? venueId; // Optional venue ID to associate with the new prompt
+  final bool isRegistrationFlow; // Whether this is part of the registration flow
 
   const PromptEditView({
     super.key,
@@ -34,6 +35,7 @@ class PromptEditView extends StatefulWidget {
     this.isFromPrompts = false,
     this.onCloseModal,
     this.venueId,
+    this.isRegistrationFlow = false,
   });
 
   @override
@@ -108,6 +110,7 @@ class _PromptEditViewState extends State<PromptEditView> with ErrorHandlingMixin
           isFromPrompts: widget.isFromPrompts,
           onCloseModal: widget.onCloseModal,
           venueId: widget.venueId,
+          isRegistrationFlow: widget.isRegistrationFlow,
         ),
       ),
     );

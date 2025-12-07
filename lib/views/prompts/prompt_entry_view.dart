@@ -89,9 +89,11 @@ class PromptEntryView extends StatelessWidget {
               children: [
                 const Spacer(flex: 1),
                 
-                // Greeting text
+                // Greeting text - different for first time users
                 Text(
-                  l10n.promptEntryGreeting(_getFirstName(context)),
+                  isFirstTimeUser
+                      ? l10n.promptEntryGreetingFirstTime
+                      : l10n.promptEntryGreeting(_getFirstName(context)),
                   style: TextStyle(
                     color: venyuTheme.darkText,
                     fontSize: 28,

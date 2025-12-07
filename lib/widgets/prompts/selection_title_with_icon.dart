@@ -40,20 +40,6 @@ class SelectionTitleWithIcon extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         // Icon
-        Image.asset(
-          interactionType.assetPath,
-          width: size,
-          height: size,
-          color: textColor,
-          errorBuilder: (context, error, stackTrace) {
-            return Icon(
-              interactionType.fallbackIcon,
-              size: size,
-              color: textColor,
-            );
-          },
-        ),
-        const SizedBox(width: 6),
         // Selection title
         Flexible(
           child: Text(

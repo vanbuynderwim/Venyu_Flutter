@@ -31,6 +31,7 @@ class PromptPreviewView extends StatefulWidget {
   final bool isFromPrompts;
   final VoidCallback? onCloseModal;
   final String? venueId;
+  final bool isRegistrationFlow;
 
   const PromptPreviewView({
     super.key,
@@ -40,6 +41,7 @@ class PromptPreviewView extends StatefulWidget {
     this.isFromPrompts = false,
     this.onCloseModal,
     this.venueId,
+    this.isRegistrationFlow = false,
   });
 
   @override
@@ -94,9 +96,9 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
           promptLabel: widget.promptLabel,
           promptId: widget.existingPrompt?.promptID,
           venueId: widget.venueId,
-          withPreview: widget.existingPrompt?.withPreview ?? false,
           isFromPrompts: widget.isFromPrompts,
           onCloseModal: widget.onCloseModal,
+          isRegistrationFlow: widget.isRegistrationFlow,
         );
       },
       useProcessingState: true,
@@ -159,7 +161,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                         Padding(
                           padding: const EdgeInsets.all(16),
                           child: ActionButton(
-                            label: widget.existingPrompt != null ? l10n.promptPreviewSubmitButton : l10n.promptPreviewNextButton,
+                            label: widget.existingPrompt == null ? l10n.promptPreviewSubmitButton : l10n.promptPreviewNextButton,
                             onInvertedBackground: true,
                             isLoading: _isProcessing,
                             onPressed: _venuesLoaded && !_isProcessing ? () async {
@@ -189,8 +191,8 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                 );
                               } else {
                                 // No venues available
-                                if (AppConfig.showPro) {
-                                  // Navigate to settings view if Pro features are enabled
+                                if (AppConfig.showPro && !widget.isRegistrationFlow) {
+                                  // Navigate to settings view if Pro features are enabled (skip for registration flow)
                                   Navigator.push(
                                     context,
                                     platformPageRoute(
@@ -205,7 +207,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                     ),
                                   );
                                 } else {
-                                  // Submit directly if Pro features are disabled
+                                  // Submit directly if Pro features are disabled or during registration flow
                                   await executeWithLoading(
                                     operation: () async {
                                       await PromptSubmissionHelper.submitPrompt(
@@ -217,6 +219,7 @@ class _PromptPreviewViewState extends State<PromptPreviewView> with ErrorHandlin
                                         withPreview: false, // First Call is disabled when showPro is false
                                         isFromPrompts: widget.isFromPrompts,
                                         onCloseModal: widget.onCloseModal,
+                                        isRegistrationFlow: widget.isRegistrationFlow,
                                       );
                                     },
                                     useProcessingState: true,

@@ -8,6 +8,7 @@ import '../../core/helpers/get_matched_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import '../../models/prompt.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../models/requests/paginated_request.dart';
 import '../../core/providers/app_providers.dart';
 import '../../services/supabase_managers/content_manager.dart';
@@ -106,6 +107,7 @@ class _PromptsViewState extends State<PromptsView>
       floatingActionButton: _prompts.isNotEmpty
           ? GetMatchedButton(
               buttonType: GetMatchedButtonType.fab,
+              initialInteractionType: InteractionType.lookingForThis,
               isFromPrompts: true,
               onModalClosed: (_) {
                 // Always refresh when modal closes (user might have created a prompt)
@@ -151,12 +153,15 @@ class _PromptsViewState extends State<PromptsView>
                       }
 
                       final prompt = _prompts[index];
-                      return PromptItem(
-                        prompt: prompt,
-                        showChevron: true,
-                        showCounters: true,
-                        limitPromptLines: true,
-                        onPromptSelected: _openPromptDetail,
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: PromptItem(
+                          prompt: prompt,
+                          showChevron: true,
+                          showCounters: true,
+                          limitPromptLines: true,
+                          onPromptSelected: _openPromptDetail,
+                        ),
                       );
                     },
                   ),
@@ -169,6 +174,7 @@ class _PromptsViewState extends State<PromptsView>
   Future<void> _handleGetMatchedPressed() async {
     await GetMatchedHelper.openGetMatchedModal(
       context: context,
+      initialInteractionType: InteractionType.lookingForThis,
       isFromPrompts: true,
       callerContext: 'PromptsView',
     );
@@ -188,7 +194,22 @@ class _PromptsViewState extends State<PromptsView>
         context,
         platformPageRoute(
           context: context,
-          builder: (context) => PromptDetailView(promptId: prompt.promptID),
+          builder: (context) => PromptDetailView(
+            promptId: prompt.promptID,
+            interactionType: prompt.interactionType,
+            onPromptUpdated: (updatedPrompt) {
+              // Update the prompt in the local list
+              if (mounted) {
+                setState(() {
+                  final index = _prompts.indexWhere((p) => p.promptID == updatedPrompt.promptID);
+                  if (index != -1) {
+                    _prompts[index] = updatedPrompt;
+                  }
+                });
+                AppLogger.debug('Prompt updated in local list: ${updatedPrompt.label}', context: 'PromptsView');
+              }
+            },
+          ),
         ),
       );
 
