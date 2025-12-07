@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import '../../models/match.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_layout_styles.dart';
+import '../../core/theme/app_text_styles.dart';
+import '../../core/theme/venyu_theme.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/common/role_view.dart';
+import '../../widgets/common/tag_view.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
 /// 
@@ -30,13 +34,12 @@ class MatchItemView extends StatefulWidget {
   final Function(Match)? onMatchSelected;
   
   /// Whether the avatar should be blurred (true when user is not Pro and not connected)
-  final bool shouldBlur;
+
 
   const MatchItemView({
     super.key,
     required this.match,
-    this.onMatchSelected,
-    this.shouldBlur = false,
+    this.onMatchSelected
   });
 
   @override
@@ -46,29 +49,56 @@ class MatchItemView extends StatefulWidget {
 class _MatchItemViewState extends State<MatchItemView> {
   @override
   Widget build(BuildContext context) {
-    final isConnection = widget.match.isConnected;
+  
+    final venyuTheme = context.venyuTheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return AppLayoutStyles.interactiveCard(
       context: context,
       onTap: widget.onMatchSelected != null
           ? () => widget.onMatchSelected!(widget.match)
           : null,
-      useGradient: !isConnection,
+      useGradient: false,
       child: Padding(
         padding: AppModifiers.cardContentPadding,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RoleView(
               profile: widget.match.profile,
-              avatarSize: 80,
+              avatarSize: 85,
               showChevron: true,
               buttonDisabled: false,
-              shouldBlur: widget.shouldBlur,
               showNotificationDot: widget.match.isViewed == false,
               match: widget.match,
               matchingScore: widget.match.score,
             ),
+            // Stage tag for connections with a stage
+            if (widget.match.stage != null) ...[
+              const SizedBox(height: 16),
+              TagView(
+                id: widget.match.stage!.id,
+                label: widget.match.stage!.label,
+                icon: widget.match.stage!.icon,
+                fontSize: AppTextStyles.caption1,
+                backgroundColor: venyuTheme.tagBackground,
+                textColor: venyuTheme.primaryText,
+              ),
+            // Reach out info box for connections without stage
+            ] else ...[
+              const SizedBox(height: 8),
+              TagView(
+                id: 'match_reach_out',
+                label: l10n.matchItemReachOut,
+                fontSize: AppTextStyles.caption1,
+                backgroundColor: context.venyuTheme.gradientPrimary,
+                textColor: Colors.white,
+                icon: 'edit',
+                color: Colors.white,
+                isLocal: true,
+              ),
+            ],
           ],
         ),
       ),

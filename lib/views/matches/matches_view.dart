@@ -8,6 +8,7 @@ import '../../widgets/common/loading_state_widget.dart';
 import '../../core/helpers/get_matched_helper.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../models/match.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../models/requests/paginated_request.dart';
 import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
@@ -144,6 +145,7 @@ class _MatchesViewState extends State<MatchesView>
   Future<void> _handleGetMatchedPressed() async {
     final result = await GetMatchedHelper.openGetMatchedModal(
       context: context,
+      initialInteractionType: InteractionType.lookingForThis,
       callerContext: 'MatchesView',
     );
 
@@ -198,7 +200,6 @@ class _MatchesViewState extends State<MatchesView>
                         children: [
                           MatchItemView(
                             match: match,
-                            shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || match.isConnected),
                             onMatchSelected: (selectedMatch) {
                               // Mark match as viewed if it wasn't already
                               if (selectedMatch.isViewed != true) {
@@ -226,6 +227,16 @@ class _MatchesViewState extends State<MatchesView>
                                         });
                                         // Update badges after match is removed
                                         _fetchBadges();
+                                      }
+                                    },
+                                    onStageUpdated: (stage) {
+                                      if (mounted) {
+                                        setState(() {
+                                          final matchIndex = _matches.indexWhere((m) => m.id == selectedMatch.id);
+                                          if (matchIndex != -1) {
+                                            _matches[matchIndex] = _matches[matchIndex].copyWith(stage: stage);
+                                          }
+                                        });
                                       }
                                     },
                                   ),

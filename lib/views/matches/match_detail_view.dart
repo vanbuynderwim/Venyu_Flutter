@@ -1,26 +1,21 @@
 import 'package:app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../../core/utils/url_helper.dart';
-
 import '../../l10n/app_localizations.dart';
-import '../../core/config/app_config.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/matching_manager.dart';
-import '../../services/profile_service.dart';
 import '../../services/rating_service.dart';
 import '../../core/providers/app_providers.dart';
-import '../../widgets/common/upgrade_prompt_widget.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
+import '../../widgets/common/warning_box_widget.dart';
 import '../../widgets/menus/menu_option_builder.dart';
 import '../profile/profile_header.dart';
-import 'match_detail/match_actions_section.dart';
 import 'match_detail/match_connections_section.dart';
 import 'match_detail/match_prompts_section.dart';
 import '../../widgets/common/sub_title.dart';
@@ -28,7 +23,8 @@ import 'match_detail/match_tags_section.dart';
 import 'match_detail/match_venues_section.dart';
 import 'match_detail/match_preview_indicator.dart';
 import 'match_detail/match_score_section.dart';
-import 'match_reasons_view.dart';
+import 'match_detail/match_stages_view.dart';
+import 'match_reach_out_view.dart';
 
 /// Enum for match menu actions
 enum _MatchAction { report, remove, block }
@@ -45,11 +41,13 @@ enum _MatchAction { report, remove, block }
 class MatchDetailView extends StatefulWidget {
   final String matchId;
   final VoidCallback? onMatchRemoved;
+  final void Function(Stage stage)? onStageUpdated;
 
   const MatchDetailView({
     super.key,
     required this.matchId,
     this.onMatchRemoved,
+    this.onStageUpdated,
   });
 
   @override
@@ -86,9 +84,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     if (match != null) {
       setState(() => _match = match);
 
-      // Request app rating if match is connected and user hasn't been asked before
+      // Request app rating if match has no stage (first time viewing) and user hasn't been asked before
       // This is a positive moment to ask for a rating
-      if (match.isConnected) {
+      if (match.stage == null) {
         _requestAppRatingIfAppropriate();
       }
     }
@@ -157,8 +155,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     );
 
     // Remove option (only for connections)
-    if (_match?.isConnected == true) {
-      options.add(
+    options.add(
         MenuOptionBuilder.create(
           context: context,
           label: l10n.matchDetailMenuRemove,
@@ -167,7 +164,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           isDestructive: true,
         ),
       );
-    }
 
     // Block option (always available)
     options.add(
@@ -191,9 +187,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
     actions.add(_MatchAction.report);
 
     // Remove option (only for connections)
-    if (_match?.isConnected == true) {
-      actions.add(_MatchAction.remove);
-    }
+    actions.add(_MatchAction.remove);
 
     // Block option (always available)
     actions.add(_MatchAction.block);
@@ -255,7 +249,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   Future<void> _handleRemoveMatch() async {
     final l10n = AppLocalizations.of(context)!;
     AppLogger.debug('Remove match tapped for match: ${widget.matchId}', context: 'MatchDetailView');
-    final matchType = _match!.isConnected ? l10n.matchDetailTypeIntroduction : l10n.matchDetailTypeMatch;
+    final matchType = l10n.matchDetailTypeMatch;
 
     final confirmed = await DialogUtils.showConfirmationDialog(
       context: context,
@@ -280,37 +274,23 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
           }
         },
         showSuccessToast: true,
-        successMessage: _match!.isConnected ? l10n.matchDetailRemoveSuccessIntroduction : l10n.matchDetailRemoveSuccessMatch,
+        successMessage: l10n.matchDetailRemoveSuccessMatch,
         showErrorToast: true,
       );
     }
   }
 
   /// Build the bottom section - either action buttons or upgrade prompt
-  Widget _buildBottomSection() {
-    // Show regular action buttons if user is Pro or hasn't reached limit
-    return MatchActionsSection(
-      match: _match!,
-      onMatchRemoved: widget.onMatchRemoved,
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    // Check if we should hide the bottom section due to connection limit
-    final currentProfile = ProfileService.shared.currentProfile;
-    final isPro = currentProfile?.isPro ?? false;
-    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
-    final shouldHideBottomSection = AppConfig.showPro && !isPro && connectionsLimitReached;
-
+   
     return AppScaffold(
       appBar: PlatformAppBar(
         title: Text(_match == null
           ? l10n.matchDetailLoading
-          : _match!.isConnected
-            ? l10n.matchDetailTitleIntroduction
-            : l10n.matchDetailTitleMatch),
+          : l10n.matchDetailTitleMatch),
         trailingActions: _match != null
           ? [
               GestureDetector(
@@ -338,9 +318,6 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
               ),
             ),
-            // Fixed bottom action buttons only if not connected, no response, and limit not reached
-            if (_match != null && !_match!.isConnected && _match!.response == null && !shouldHideBottomSection)
-              _buildBottomSection(),
           ],
         ),
       ),
@@ -381,62 +358,40 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       );
     }
 
-    // Check if connection limit is reached for non-Pro users
-    final currentProfile = ProfileService.shared.currentProfile;
-    final isPro = currentProfile?.isPro ?? false;
-    final connectionsLimitReached = currentProfile?.connectionsLimitReached ?? false;
-    final shouldShowLimitedView = AppConfig.showPro && !isPro && connectionsLimitReached && !_match!.isConnected && _match!.response == null;
-
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom + 8,
       ),
       children: [
+            // Warning box for matches without stage (First Call)
+            if (_match!.stage == null) ...[
+              Padding(
+                padding: const EdgeInsets.only(left: 0, right: 0, top: 8, bottom: 16),
+                child: WarningBoxWidget(
+                  text: l10n.matchDetailFirstCallWarning(_match!.profile.firstName),
+                ),
+              ),
+            ],
+            
             // Profile Header
             ProfileHeader(
               profile: _match!.profile,
               avatarSize: 85,
               isEditable: false,
-              isConnection: _match!.isConnected,
               matchingScore: _match!.score,
+              stage: _match!.stage,
               // Blur avatar when user is not Pro AND not connected (same logic as matches_view)
-              shouldBlur: !((ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected),
-              onAvatarTap: _match!.profile.avatarID != null && _match!.isConnected
+              onAvatarTap: _match!.profile.avatarID != null
                   // Only allow avatar tap for connections
                   // This prevents non-Pro users from viewing unblurred photos of matched profiles
                   ? () => _viewMatchAvatar(context)
                   : null,
-              onLinkedInTap: _match!.isConnected && _match!.profile.linkedInURL != null
-                  ? () => UrlHelper.openLinkedIn(context, _match!.profile.linkedInURL!)
-                  : null,
-              onEmailTap: _match!.isConnected && _match!.profile.contactEmail != null
-                  ? () => UrlHelper.composeEmail(
-                      context,
-                      _match!.profile.contactEmail!,
-                      subject: l10n.matchDetailEmailSubject,
-                    )
-                  : null,
-              onWebsiteTap: _match!.isConnected && _match!.profile.websiteURL != null
-                  ? () => UrlHelper.openWebsite(context, _match!.profile.websiteURL!)
-                  : null,
+              onReachOutTap: () => _handleReachOut(context),
+              onStageTap: () => _handleStageTap(context),
             ),
 
             const SizedBox(height: 16),
-
-            // Preview mode indicator if match is in preview
-            if (_match!.isPreview == true) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: SubTitle(
-                  iconName: 'eye',
-                  title: l10n.matchDetailFirstCallTitle,
-                ),
-              ),
-              const SizedBox(height: 16),
-              MatchPreviewIndicator(match: _match!),
-              const SizedBox(height: 16),
-            ],
 
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
@@ -453,36 +408,14 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
-                shouldBlur: (ProfileService.shared.currentProfile?.isPro ?? false) || _match!.isConnected,
               ),
               const SizedBox(height: 16),
             ],
             
             // If connection limit is reached, show upgrade prompt instead of other sections
-            if (shouldShowLimitedView) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                child: UpgradePromptWidget(
-                  title: l10n.matchDetailLimitTitle,
-                  subtitle: l10n.matchDetailLimitMessage,
-                  buttonText: l10n.matchDetailLimitButton,
-                  onSubscriptionCompleted: () {
-                    // Refresh the view to update Pro status
-                    setState(() {
-                      final currentProfile = ProfileService.shared.currentProfile;
-                      final isPro = currentProfile?.isPro ?? false;
-                      AppLogger.debug('Subscription completed - isPro status: $isPro', context: 'MatchDetailView');
-                    });
-                  },
-                ),
-              ),
-            ] else ...[
-              // Show all other sections only if limit is not reached
-              
-              // Shared Connections Section
-              if (_match!.nrOfConnections > 0) ...[
+            if (_match!.nrOfConnections > 0) ...[
                 SubTitle(
-                  iconName: 'handshake',
+                  iconName: 'match',
                   title: l10n.matchDetailSharedIntros(_match!.nrOfConnections, _match!.nrOfConnections == 1 ? l10n.matchDetailIntroduction : l10n.matchDetailIntroductions),
                 ),
                 const SizedBox(height: 16),
@@ -500,20 +433,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 MatchVenuesSection(match: _match!),
                 const SizedBox(height: 16),
               ],    
-
-              // Match reasons section (only for connected status)
-              if (_match!.status == MatchStatus.connected &&
-                  _match!.motivation != null &&
-                  _match!.motivation!.isNotEmpty) ...[
-                SubTitle(
-                  iconName: 'bulb',
-                  title: l10n.matchDetailWhyMatch(_match!.profile.firstName),
-                ),
-                const SizedBox(height: 16),
-                MatchReasonsView(match: _match!),
-                const SizedBox(height: 16),
-              ],         
-              
+               
               // Personal matches section
               if (_match!.nrOfPersonalTags > 0) ...[
                 SubTitle(
@@ -539,13 +459,12 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               // Match score breakdown section
               if (_match!.scoreDetails != null && _match!.scoreDetails!.isNotEmpty) ...[
                 SubTitle(
-                  iconName: 'match',
+                  iconName: 'target',
                   title: l10n.matchDetailScoreBreakdown,
                 ),
                 const SizedBox(height: 16),
                 MatchScoreSection(match: _match!),
               ],
-            ],
 
       ],
     );
@@ -553,31 +472,8 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
 
   /// Build personal matches content based on user's Pro status and connection status
   Widget _buildPersonalMatchesContent() {
-    final l10n = AppLocalizations.of(context)!;
-    final currentProfile = ProfileService.shared.currentProfile;
-    final isPro = currentProfile?.isPro ?? false;
-    final isConnection = _match!.isConnected;
-
     // Show personal matches if user is Pro OR if they're already connected
-    if (!AppConfig.showPro || isPro || isConnection) {
-      // Show actual personal matches for Pro users or connections
-      return MatchTagsSection(tagGroups: _match!.personalTagGroups);
-    } else {
-      // Show upgrade prompt for free users who aren't connected
-      return UpgradePromptWidget(
-        title: l10n.matchDetailUnlockTitle,
-        subtitle: l10n.matchDetailUnlockMessage(_match!.profile.firstName),
-        buttonText: l10n.matchDetailUnlockButton,
-        onSubscriptionCompleted: () {
-          // Refresh the view to show personal matches
-          setState(() {
-            final currentProfile = ProfileService.shared.currentProfile;
-            final isPro = currentProfile?.isPro ?? false;
-            AppLogger.debug('Subscription completed - isPro status: $isPro', context: 'MatchDetailView');
-          });
-        },
-      );
-    }
+    return MatchTagsSection(tagGroups: _match!.personalTagGroups);
   }
 
   /// Shows the match avatar in fullscreen view
@@ -588,5 +484,49 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
       showBorder: false,
       preserveAspectRatio: true,
     );
+  }
+
+  /// Handles reaching out to a connection
+  Future<void> _handleReachOut(BuildContext context) async {
+    if (_match == null) return;
+
+    final result = await Navigator.push<Stage?>(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchReachOutView(match: _match!),
+      ),
+    );
+
+    // If a new stage was returned, update the local match object
+    if (result != null && mounted) {
+      setState(() {
+        _match = _match!.copyWith(stage: result);
+      });
+      // Notify parent to update matches list
+      widget.onStageUpdated?.call(result);
+    }
+  }
+
+  /// Handles tapping on a stage button
+  Future<void> _handleStageTap(BuildContext context) async {
+    if (_match == null) return;
+
+    final result = await Navigator.push<Stage>(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchStagesView(match: _match!),
+      ),
+    );
+
+    // If a new stage was selected, update the local match object
+    if (result != null && mounted) {
+      setState(() {
+        _match = _match!.copyWith(stage: result);
+      });
+      // Notify parent to update matches list
+      widget.onStageUpdated?.call(result);
+    }
   }
 }
