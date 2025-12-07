@@ -7,6 +7,7 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/toast_service.dart';
+import '../../services/tutorial_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../models/enums/interaction_type.dart';
@@ -39,6 +40,9 @@ class _RegistrationCompleteViewState extends State<RegistrationCompleteView> {
       AppLogger.debug('Completing registration', context: 'RegistrationCompleteView');
       final profileManager = ProfileManager.shared;
       await profileManager.completeRegistration();
+
+      // Mark tutorial as shown so new users don't see the returning user tutorial
+      await TutorialService.shared.markTutorialShown();
 
       AppLogger.success('Registration completed successfully', context: 'RegistrationCompleteView');
       AppLogger.debug('Profile refresh will happen after tutorial', context: 'RegistrationCompleteView');
