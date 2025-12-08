@@ -4,6 +4,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/profile.dart';
+import '../../../widgets/common/matching_score_widget.dart';
 
 /// ProfileInfoSection - Displays profile name, role, distance, and city
 ///
@@ -22,12 +23,14 @@ class ProfileInfoSection extends StatelessWidget {
   final Profile profile;
   final bool isEditable;
   final bool showCity;
+  final double? matchingScore;
 
   const ProfileInfoSection({
     super.key,
     required this.profile,
     this.isEditable = false,
     this.showCity = false,
+    this.matchingScore,
   });
 
   @override
@@ -82,7 +85,7 @@ class ProfileInfoSection extends StatelessWidget {
               // City
               if (showCity && profile.city != null) ...[
                 context.themedIcon('map', size: 14),
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 Text(
                   profile.city!,
                   style: AppTextStyles.caption1.copyWith(
@@ -92,6 +95,12 @@ class ProfileInfoSection extends StatelessWidget {
               ],
             ],
           ),
+        ],
+
+        // Matching Score (below distance/city row)
+        if (matchingScore != null) ...[
+          const SizedBox(height: 6),
+          MatchingScoreWidget(score: matchingScore!),
         ],
       ],
     );

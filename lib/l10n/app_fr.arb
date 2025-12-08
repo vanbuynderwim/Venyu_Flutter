@@ -23,7 +23,7 @@
   "tutorialStep4Title": "Introduction",
   "tutorialStep4Description": "La personne qui traite la demande décide quel match reçoit une introduction. Une fois que vous recevez l'e-mail d'introduction, vous aurez accès au profil du match et pourrez commencer à connecter.",
 
-  "tutorialStep5Title": "Chercher",
+  "tutorialStep5Title": "Votre demande",
   "tutorialStep5Description": "Soumettez votre propre demande et soyez matché avec des personnes qui peuvent vous aider. Cette fois, c'est vous qui êtes aux commandes !",
 
   "tutorialButtonPrevious": "Précédent",
@@ -129,8 +129,9 @@
   "registrationStepNetworkingGoalsTitle": "Objectifs de r\u00e9seautage",
   "registrationStepAvatarTitle": "Photo de profil",
   "registrationStepNotificationsTitle": "Notifications",
+  "registrationStepReferrerTitle": "Comment nous avez-vous trouvé ?",
   "registrationStepOptinTitle": "Tirez le meilleur parti de Venyu",
-  "registrationStepOptinBody": "Voulez-vous recevoir des conseils pour améliorer votre profil et être le premier informé des nouvelles fonctionnalités ?",
+  "registrationStepOptinBody": "Recevez des conseils pour renforcer votre profil et obtenir de meilleures correspondances, et restez informé des nouvelles fonctionnalités dès qu'elles sont disponibles.",
   "registrationStepOptinButtonYes": "Oui, tenez-moi au courant",
   "registrationStepOptinButtonNo": "Non, merci",
   "registrationStepCompleteTitle": "Bienvenue sur Venyu !",
@@ -233,7 +234,7 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Demandes",
+  "navCards": "Mes demandes",
   "navNotifications": "Updates",
   "navProfile": "Profil",
 
@@ -348,7 +349,7 @@
   "emptyStateMatchesTitle": "En attente de votre premier match !",
   "emptyStateMatchesDescription": "Une fois que vous aurez un match, il apparaîtra ici. Écrivez une nouvelle demande pour être matché plus rapidement.",
   "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
-  "emptyStatePromptsDescription": "Les demandes nous aident à trouver les bons matches qui mènent à de vraies introductions. Écrivez la vôtre pour commencer.",
+  "emptyStatePromptsDescription": "Les demandes sont matchées avec les offres d'autres entrepreneurs. Écrivez la vôtre pour découvrir qui peut vous aider.",
   "emptyStateNotificationSettingsTitle": "Aucun param\u00e8tre disponible",
   "emptyStateNotificationSettingsDescription": "Les param\u00e8tres de notification appara\u00eetront ici une fois configur\u00e9s.",
 
@@ -879,7 +880,7 @@
   "editBioTitle": "\u00c0 propos de vous",
   "editBioSuccessMessage": "Bio du profil enregistr\u00e9e",
   "editBioErrorMessage": "\u00c9chec de la mise \u00e0 jour de la bio du profil, veuillez r\u00e9essayer",
-  "editBioInfoMessage": "Votre bio est visible par tous ceux avec qui vous matchez. Gardez \u00e0 l'esprit : si vous ne voulez pas que certains d\u00e9tails personnels soient connus avant une introduction (comme le nom de votre entreprise, profil LinkedIn, ou autres informations identificatrices), veuillez les omettre.\n\nUtilisez cet espace pour mettre en avant votre exp\u00e9rience, int\u00e9r\u00eats et ce pour quoi vous \u00eates ouvert, sans partager de d\u00e9tails sensibles que vous pr\u00e9f\u00e9reriez garder priv\u00e9s jusqu'\u00e0 apr\u00e8s une introduction.",
+  "editBioInfoMessage": "Votre bio est votre introduction professionnelle. Partagez ce que vous faites, ce qui vous intéresse et comment vous aimez travailler avec les autres. Une bio claire aide les gens à comprendre qui se cache derrière le match.",
   "editBioPlaceholder": "\u00c9crivez votre bio ici...",
 
   "@_PROMPT_CARD_SECTION": {},
@@ -999,7 +1000,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Vos {count} demandes quotidiennes vous attendent",
+  "promptEntryDailyDescription": "{count, plural, =1{Nous avons trouvé 1 nouvelle demande qui correspond à vos offres.} other{Nous avons trouvé {count} nouvelles demandes qui correspondent à vos offres.}}",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {
@@ -1299,7 +1300,7 @@
       }
     }
   },
-  "returningUserTutorialDescription": "Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.",
+  "returningUserTutorialDescription": "Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.\n\nSpoiler : nous disons adieu aux 3 prompts quotidiens, et même au mot 'prompt'.",
   "returningUserTutorialButton": "Montrez-moi",
   "returningUserTutorialDoneDescription": "Merci d'avoir pris le temps, profitez de cette nouvelle version !",
   "returningUserTutorialDoneButton": "Fermer"

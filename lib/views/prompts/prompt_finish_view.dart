@@ -193,8 +193,8 @@ class PromptFinishView extends StatelessWidget {
                               if (isRegistrationFlow) {
                                 // For registration flow, navigate to PromptEntryView with tutorial prompts
                                 _navigateToPromptEntry(context, l10n);
-                              } else if (isFromPrompts && onCloseModal != null) {
-                                // If from prompts flow, use the callback
+                              } else if (onCloseModal != null) {
+                                // Use the callback to close the entire modal
                                 onCloseModal!();
                               } else {
                                 // Pop all screens in the modal and return true to trigger refresh

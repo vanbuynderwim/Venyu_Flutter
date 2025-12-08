@@ -72,7 +72,7 @@ enum ProfileSections implements SectionType {
   String get icon {
     switch (this) {
       case ProfileSections.aboutMe:
-        return 'card';
+        return 'offer';
       case ProfileSections.personal:
         return 'profile';
       case ProfileSections.company:

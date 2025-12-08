@@ -187,7 +187,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialStep5Title.
   ///
   /// In en, this message translates to:
-  /// **'Search'**
+  /// **'Your Request'**
   String get tutorialStep5Title;
 
   /// No description provided for @tutorialStep5Description.
@@ -610,6 +610,12 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get registrationStepNotificationsTitle;
 
+  /// No description provided for @registrationStepReferrerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How did you find us?'**
+  String get registrationStepReferrerTitle;
+
   /// No description provided for @registrationStepOptinTitle.
   ///
   /// In en, this message translates to:
@@ -619,7 +625,7 @@ abstract class AppLocalizations {
   /// No description provided for @registrationStepOptinBody.
   ///
   /// In en, this message translates to:
-  /// **'Want to receive tips to boost your profile and be the first to know about new features?'**
+  /// **'Get tips to strengthen your profile and get better matches, and stay informed about new features as soon as they become available.'**
   String get registrationStepOptinBody;
 
   /// No description provided for @registrationStepOptinButtonYes.
@@ -1141,7 +1147,7 @@ abstract class AppLocalizations {
   /// No description provided for @navCards.
   ///
   /// In en, this message translates to:
-  /// **'Requests'**
+  /// **'My requests'**
   String get navCards;
 
   /// No description provided for @navNotifications.
@@ -1549,7 +1555,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Requests help us find the right matches that lead to real introductions. Write yours to get started.'**
+  /// **'Requests are matched with the offers of other entrepreneurs. Write yours to discover who can help you.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @emptyStateNotificationSettingsTitle.
@@ -3385,7 +3391,7 @@ abstract class AppLocalizations {
   /// No description provided for @editBioInfoMessage.
   ///
   /// In en, this message translates to:
-  /// **'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.'**
+  /// **'Your bio is your professional introduction. Share what you do, what interests you, and how you like to work with others. A clear bio helps people understand who\'s behind the match.'**
   String get editBioInfoMessage;
 
   /// No description provided for @editBioPlaceholder.
@@ -3769,7 +3775,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptEntryDailyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your daily {count} requests are waiting for you'**
+  /// **'{count, plural, =1{We\'ve found 1 new request that matches your offers.} other{We\'ve found {count} new requests that match your offers.}}'**
   String promptEntryDailyDescription(int count);
 
   /// No description provided for @promptEntryButton.
@@ -4591,7 +4597,7 @@ abstract class AppLocalizations {
   /// No description provided for @returningUserTutorialDescription.
   ///
   /// In en, this message translates to:
-  /// **'The rules in Venyu have changed and we\'d like to walk you through them step by step.'**
+  /// **'The rules in Venyu have changed and we\'d like to walk you through them step by step.\n\nSpoiler: we\'re saying goodbye to the 3 daily prompts, and even to the word \'prompt\'.'**
   String get returningUserTutorialDescription;
 
   /// No description provided for @returningUserTutorialButton.

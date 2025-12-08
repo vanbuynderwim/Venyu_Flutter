@@ -205,9 +205,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
     switch (_selectedSection) {
       case ProfileSections.aboutMe:
-        // Always show info message for about me section
-        message = l10n.aboutMeSectionEmptyDescription;
-        useInfoBox = true;
+        // Only show info message if user has prompts (offers)
+        if (_offers != null && _offers!.isNotEmpty) {
+          message = l10n.aboutMeSectionEmptyDescription;
+          useInfoBox = true;
+        }
         break;
       case ProfileSections.personal:
         completeness = profile.personalCompleteness;

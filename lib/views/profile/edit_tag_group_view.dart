@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import '../../core/config/app_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
@@ -17,10 +18,13 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
+import '../onboarding/tutorial_done_view.dart';
+import '../subscription/paywall_view.dart';
 import 'edit_avatar_view.dart';
+import 'registration_complete_view.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
-/// 
+///
 /// This view allows users to select/deselect tags within a specific TagGroup.
 /// It supports both single-select and multi-select modes based on the TagGroup configuration.
 class EditTagGroupView extends StatefulWidget {
@@ -28,11 +32,19 @@ class EditTagGroupView extends StatefulWidget {
   final bool registrationWizard;
   final RegistrationStep? currentStep;
 
+  /// Whether this is a returning user seeing the view after tutorial
+  final bool isReturningUser;
+
+  /// Callback to close the modal when complete (for returning users)
+  final VoidCallback? onCloseModal;
+
   const EditTagGroupView({
     super.key,
     required this.tagGroup,
     this.registrationWizard = false,
     this.currentStep,
+    this.isReturningUser = false,
+    this.onCloseModal,
   });
 
   @override
@@ -107,7 +119,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: ProgressBar(
                 pageNumber: _progressPageNumber,
-                numberOfPages: 12, // 12 steps with progress bar (complete step has no progress bar)
+                numberOfPages: 13, // 13 steps with progress bar (complete step has no progress bar)
               ),
             ),
           Expanded(
@@ -301,6 +313,17 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
         if (widget.registrationWizard && widget.currentStep != null) {
           // Navigate to next step in wizard
           _navigateToNextStep();
+        } else if (widget.isReturningUser && widget.currentStep == RegistrationStep.referrer) {
+          // Returning user completing referrer step - go to tutorial done
+          Navigator.of(context).push(
+            platformPageRoute(
+              context: context,
+              builder: (context) => TutorialDoneView(
+                isReturningUser: widget.isReturningUser,
+                onCloseModal: widget.onCloseModal,
+              ),
+            ),
+          );
         } else {
           // Normal mode: navigate back
           Navigator.of(context).pop(true); // Return true to indicate changes were saved
@@ -382,21 +405,21 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
 
   void _navigateToNextStep() {
     AppLogger.debug('EditTagGroupView: Navigating from ${widget.currentStep} to next step', context: 'EditTagGroupView');
-    
+
     final nextStep = widget.currentStep!.nextStep;
     AppLogger.debug('Next step: $nextStep', context: 'EditTagGroupView');
-    
+
     // Check if next step is still a tag group step
     final tagGroupSteps = [
       RegistrationStep.sectors,
       RegistrationStep.meetingPreferences,
       RegistrationStep.networkingGoals,
     ];
-    
+
     if (nextStep == null || !tagGroupSteps.contains(nextStep)) {
       // No more tag group steps, navigate to next registration step
       AppLogger.success('No more tag group steps, navigating to next registration step: $nextStep', context: 'EditTagGroupView');
-      
+
       if (nextStep == RegistrationStep.avatar) {
         // Navigate to avatar step
         Navigator.of(context).push(
@@ -408,6 +431,23 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
             ),
           ),
         );
+      } else if (nextStep == RegistrationStep.complete) {
+        // Navigate to registration complete (with optional paywall)
+        if (AppConfig.showPro) {
+          Navigator.of(context).push(
+            platformPageRoute(
+              context: context,
+              builder: (context) => const PaywallView(registrationWizard: true),
+            ),
+          );
+        } else {
+          Navigator.of(context).push(
+            platformPageRoute(
+              context: context,
+              builder: (context) => const RegistrationCompleteView(),
+            ),
+          );
+        }
       } else {
         // For any other case, pop back
         Navigator.of(context).pop(true);
@@ -421,21 +461,21 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
       RegistrationStep.meetingPreferences: 'meeting_preferences',
       RegistrationStep.networkingGoals: 'network_goals',
     };
-    
+
     final code = tagGroupCodes[nextStep]!;
     final tagGroup = TagGroupService.shared.getTagGroupByCode(code);
-    
+
     // Use cached data or fallback to hardcoded
     final nextTagGroup = tagGroup ?? TagGroup(
       id: '',
       code: code,
-      label: code.replaceAll('_', ' ').split(' ').map((word) => 
+      label: code.replaceAll('_', ' ').split(' ').map((word) =>
           word[0].toUpperCase() + word.substring(1)).join(' '),
       desc: 'Select your ${code.replaceAll('_', ' ')}',
     );
 
     AppLogger.debug('Navigating to ${nextTagGroup.label} with code ${nextTagGroup.code}', context: 'EditTagGroupView');
-    
+
     // Use push instead of pushReplacement to keep navigation stack intact
     Navigator.of(context).push(
       platformPageRoute(

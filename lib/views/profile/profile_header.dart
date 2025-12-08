@@ -9,7 +9,6 @@ import '../../models/stage.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/buttons/option_button.dart';
-import '../../widgets/common/matching_score_widget.dart';
 import 'edit_bio_view.dart';
 import 'profile_header/profile_avatar_section.dart';
 import 'profile_header/profile_info_section.dart';
@@ -78,10 +77,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 ),
 
                 // Matching score if available
-                if (widget.matchingScore != null) ...[
-                  const SizedBox(height: 10),
-                  MatchingScoreWidget(score: widget.matchingScore!),
-                ],
+                
               ],
             ),
 
@@ -96,17 +92,12 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   ProfileInfoSection(
                     profile: widget.profile,
                     isEditable: widget.isEditable,
-                    showCity: widget.isEditable,
+                    showCity: true,
+                    matchingScore: widget.matchingScore,
                   ),
-                  
-                  const SizedBox(height: 10),
                   
                   // Sectors/Tags
-                  ProfileTagsSection(
-                    profile: widget.profile,
-                    isEditable: widget.isEditable,
-                    onSectorsEditTap: widget.onSectorsEditTap,
-                  ),
+                  
                 ],
               ),
             ),
@@ -114,7 +105,14 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         ),
         
         const SizedBox(height: 20),
-        
+
+        ProfileTagsSection(
+                    profile: widget.profile,
+                    isEditable: widget.isEditable,
+                    onSectorsEditTap: widget.onSectorsEditTap,
+                  ),
+
+        const SizedBox(height: 16),
         // Bio section
         _buildBioSection(context, venyuTheme),
         

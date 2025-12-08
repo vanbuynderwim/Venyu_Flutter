@@ -48,12 +48,9 @@ class MatchConnectionsSection extends StatelessWidget {
 
     return Column(
       children: match.connections!.asMap().entries.map((entry) {
-        final index = entry.key;
         final connection = entry.value;
-        final isLast = index == match.connections!.length - 1;
-        
         return Padding(
-          padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
+          padding: EdgeInsets.only(bottom: 0),
           child: MatchItemView(
             match: connection,
             onMatchSelected: (selectedMatch) {

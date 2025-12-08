@@ -58,7 +58,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'De persoon die de vraag behandelt beslist welke match een introductie krijgt. Zodra je de introductie e-mail ontvangt, krijg je toegang tot het profiel van de match en kan je beginnen connecteren.';
 
   @override
-  String get tutorialStep5Title => 'Zoeken';
+  String get tutorialStep5Title => 'Jouw vraag';
 
   @override
   String get tutorialStep5Description =>
@@ -290,11 +290,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get registrationStepNotificationsTitle => 'Activeer meldingen';
 
   @override
+  String get registrationStepReferrerTitle => 'Hoe heb je ons gevonden?';
+
+  @override
   String get registrationStepOptinTitle => 'Haal meer uit Venyu';
 
   @override
   String get registrationStepOptinBody =>
-      'Wil je tips ontvangen om je profiel te verbeteren en als eerste op de hoogte zijn van nieuwe functies?';
+      'Krijg tips om je profiel te versterken en betere matches te krijgen, en blijf op de hoogte van nieuwe functies zodra ze beschikbaar zijn.';
 
   @override
   String get registrationStepOptinButtonYes => 'Ja, hou me op de hoogte';
@@ -582,7 +585,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Vragen';
+  String get navCards => 'Mijn vragen';
 
   @override
   String get navNotifications => 'Updates';
@@ -809,7 +812,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Vragen helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.';
+      'Vragen worden gematcht met het aanbod van andere ondernemers. Schrijf de jouwe om te ontdekken wie jou kan helpen.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -1848,7 +1851,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editBioInfoMessage =>
-      'Je bio is zichtbaar voor iedereen waarmee je matcht. Houd in gedachten: als je niet wilt dat bepaalde persoonlijke details bekend zijn vóór een introductie (zoals je bedrijfsnaam, LinkedIn profiel, of andere identificerende informatie), laat die dan weg.\n\nGebruik deze ruimte om je ervaring, interesses en waar je voor openstaat te benadrukken, zonder gevoelige details te delen die je liever privé houdt tot na een introductie.';
+      'Je bio is je professionele introductie. Deel wat je doet, wat je interesseert en hoe je graag samenwerkt met anderen. Een duidelijke bio helpt mensen begrijpen wie er achter de match zit.';
 
   @override
   String get editBioPlaceholder => 'Schrijf hier je bio...';
@@ -2082,7 +2085,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Je dagelijkse $count vragen wachten op je';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'We hebben $count nieuwe vragen gevonden die matchen met je aanbod.',
+      one: 'We hebben 1 nieuwe vraag gevonden die matcht met je aanbod.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2552,7 +2562,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get returningUserTutorialDescription =>
-      'De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.';
+      'De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.\n\nSpoiler: we nemen afscheid van de 3 dagelijkse prompts, en zelfs van het woord \'prompt\'.';
 
   @override
   String get returningUserTutorialButton => 'Laat zien';

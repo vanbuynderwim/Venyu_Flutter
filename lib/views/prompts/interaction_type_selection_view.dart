@@ -222,7 +222,7 @@ class _InteractionTypeSelectionViewState extends State<InteractionTypeSelectionV
                       onInvertedBackground: true,
                       onPressed: () {
                         if (widget.isFromPrompts && widget.onCloseModal != null) {
-                          // Use the callback to close the modal
+                          // Use the callback to close the entire modal
                           widget.onCloseModal!();
                         } else {
                           Navigator.of(context).pop();
@@ -281,8 +281,8 @@ class _InteractionTypeButton extends StatelessWidget {
               // Icon asset image
               Image.asset(
                 interactionType.assetPath,
-                width: 24,
-                height: 24,
+                width: 30,
+                height: 30,
                 color: Colors.white,
                 errorBuilder: (context, error, stackTrace) {
                   // Fallback to icon if asset fails

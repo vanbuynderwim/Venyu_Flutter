@@ -54,7 +54,7 @@ class InviteScreeningView extends StatelessWidget {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/visuals/hero.jpeg'),
+            image: AssetImage('assets/images/visuals/onboarding.png'),
             fit: BoxFit.cover,
             opacity: 0.6, // Apply opacity to background image
           ),

@@ -299,7 +299,7 @@ class _EditEmailInfoViewState extends BaseFormViewState<EditEmailInfoView> {
         if (widget.registrationWizard) ...[
           ProgressBar(
             pageNumber: 2,
-            numberOfPages: 12,
+            numberOfPages: 13,
           ),
           const SizedBox(height: 16),
         ],

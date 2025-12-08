@@ -58,7 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'The person handling the request decides which match receives an introduction. Once you receive the introduction email, you\'ll gain access to the match\'s profile and can start connecting.';
 
   @override
-  String get tutorialStep5Title => 'Search';
+  String get tutorialStep5Title => 'Your Request';
 
   @override
   String get tutorialStep5Description =>
@@ -291,11 +291,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registrationStepNotificationsTitle => 'Notifications';
 
   @override
+  String get registrationStepReferrerTitle => 'How did you find us?';
+
+  @override
   String get registrationStepOptinTitle => 'Get more out of Venyu';
 
   @override
   String get registrationStepOptinBody =>
-      'Want to receive tips to boost your profile and be the first to know about new features?';
+      'Get tips to strengthen your profile and get better matches, and stay informed about new features as soon as they become available.';
 
   @override
   String get registrationStepOptinButtonYes => 'Yes, keep me posted';
@@ -578,7 +581,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Requests';
+  String get navCards => 'My requests';
 
   @override
   String get navNotifications => 'Updates';
@@ -804,7 +807,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Requests help us find the right matches that lead to real introductions. Write yours to get started.';
+      'Requests are matched with the offers of other entrepreneurs. Write yours to discover who can help you.';
 
   @override
   String get emptyStateNotificationSettingsTitle => 'No settings available';
@@ -1837,7 +1840,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editBioInfoMessage =>
-      'Your bio is visible to everyone you match with. Keep in mind: if you don\'t want certain personal details to be known before an introduction (such as your company name, LinkedIn profile, or other identifying information), please leave those out.\n\nUse this space to highlight your experience, interests, and what you\'re open to, without sharing sensitive details you\'d rather keep private until after an introduction is made.';
+      'Your bio is your professional introduction. Share what you do, what interests you, and how you like to work with others. A clear bio helps people understand who\'s behind the match.';
 
   @override
   String get editBioPlaceholder => 'Write your bio here...';
@@ -2069,7 +2072,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Your daily $count requests are waiting for you';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'We\'ve found $count new requests that match your offers.',
+      one: 'We\'ve found 1 new request that matches your offers.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2533,7 +2542,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get returningUserTutorialDescription =>
-      'The rules in Venyu have changed and we\'d like to walk you through them step by step.';
+      'The rules in Venyu have changed and we\'d like to walk you through them step by step.\n\nSpoiler: we\'re saying goodbye to the 3 daily prompts, and even to the word \'prompt\'.';
 
   @override
   String get returningUserTutorialButton => 'Show me';

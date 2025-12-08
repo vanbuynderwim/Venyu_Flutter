@@ -23,7 +23,7 @@
   "tutorialStep4Title": "Introduction",
   "tutorialStep4Description": "De persoon die de vraag behandelt beslist welke match een introductie krijgt. Zodra je de introductie e-mail ontvangt, krijg je toegang tot het profiel van de match en kan je beginnen connecteren.",
 
-  "tutorialStep5Title": "Zoeken",
+  "tutorialStep5Title": "Jouw vraag",
   "tutorialStep5Description": "Dien je eigen vraag in en word gematcht met mensen die jou kunnen helpen. Deze keer zit jij aan het stuur!",
 
   "tutorialButtonPrevious": "Vorige",
@@ -128,8 +128,9 @@
   "registrationStepNetworkingGoalsTitle": "Netwerkdoelen",
   "registrationStepAvatarTitle": "Profielfoto",
   "registrationStepNotificationsTitle": "Activeer meldingen",
+  "registrationStepReferrerTitle": "Hoe heb je ons gevonden?",
   "registrationStepOptinTitle": "Haal meer uit Venyu",
-  "registrationStepOptinBody": "Wil je tips ontvangen om je profiel te verbeteren en als eerste op de hoogte zijn van nieuwe functies?",
+  "registrationStepOptinBody": "Krijg tips om je profiel te versterken en betere matches te krijgen, en blijf op de hoogte van nieuwe functies zodra ze beschikbaar zijn.",
   "registrationStepOptinButtonYes": "Ja, hou me op de hoogte",
   "registrationStepOptinButtonNo": "Nee, bedankt",
   "registrationStepCompleteTitle": "Welkom bij Venyu!",
@@ -232,7 +233,7 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Vragen",
+  "navCards": "Mijn vragen",
   "navNotifications": "Updates",
   "navProfile": "Profiel",
 
@@ -347,7 +348,7 @@
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
   "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe vraag om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
-  "emptyStatePromptsDescription": "Vragen helpen ons de juiste matches te vinden die leiden tot echte introducties. Schrijf er zelf één om te beginnen.",
+  "emptyStatePromptsDescription": "Vragen worden gematcht met het aanbod van andere ondernemers. Schrijf de jouwe om te ontdekken wie jou kan helpen.",
   "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
   "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
 
@@ -878,7 +879,7 @@
   "editBioTitle": "Over jou",
   "editBioSuccessMessage": "Profiel bio opgeslagen",
   "editBioErrorMessage": "Bijwerken van profiel bio mislukt, probeer het opnieuw",
-  "editBioInfoMessage": "Je bio is zichtbaar voor iedereen waarmee je matcht. Houd in gedachten: als je niet wilt dat bepaalde persoonlijke details bekend zijn vóór een introductie (zoals je bedrijfsnaam, LinkedIn profiel, of andere identificerende informatie), laat die dan weg.\n\nGebruik deze ruimte om je ervaring, interesses en waar je voor openstaat te benadrukken, zonder gevoelige details te delen die je liever privé houdt tot na een introductie.",
+  "editBioInfoMessage": "Je bio is je professionele introductie. Deel wat je doet, wat je interesseert en hoe je graag samenwerkt met anderen. Een duidelijke bio helpt mensen begrijpen wie er achter de match zit.",
   "editBioPlaceholder": "Schrijf hier je bio...",
 
   "@_PROMPT_CARD_SECTION": {},
@@ -998,7 +999,7 @@
       }
     }
   },
-  "promptEntryDailyDescription": "Je dagelijkse {count} vragen wachten op je",
+  "promptEntryDailyDescription": "{count, plural, =1{We hebben 1 nieuwe vraag gevonden die matcht met je aanbod.} other{We hebben {count} nieuwe vragen gevonden die matchen met je aanbod.}}",
   "@promptEntryDailyDescription": {
     "placeholders": {
       "count": {
@@ -1294,7 +1295,7 @@
       }
     }
   },
-  "returningUserTutorialDescription": "De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.",
+  "returningUserTutorialDescription": "De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.\n\nSpoiler: we nemen afscheid van de 3 dagelijkse prompts, en zelfs van het woord 'prompt'.",
   "returningUserTutorialButton": "Laat zien",
   "returningUserTutorialDoneDescription": "Bedankt om even de tijd te nemen, veel plezier met deze nieuwe versie!",
   "returningUserTutorialDoneButton": "Sluiten"

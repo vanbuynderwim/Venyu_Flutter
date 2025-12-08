@@ -273,6 +273,18 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
         );
         return;
 
+      case RegistrationStep.referrer:
+        final tagGroup = TagGroupService.shared.getTagGroupByCode('referrer');
+        if (tagGroup == null) {
+          AppLogger.warning('TagGroup "referrer" not found in cache, skipping step', context: 'BaseFormView');
+          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.referrer);
+        }
+        nextView = EditTagGroupView(
+          tagGroup: tagGroup,
+          registrationWizard: true,
+          currentStep: RegistrationStep.referrer,
+        );
+
       case RegistrationStep.complete:
         Navigator.of(context).push(
           platformPageRoute(

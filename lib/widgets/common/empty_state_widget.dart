@@ -30,12 +30,13 @@ import 'visual_icon_widget.dart';
 class EmptyStateWidget extends StatelessWidget {
   /// Primary message to display
   final String message;
-  
+
   /// Optional description/subtitle
   final String? description;
-  
+
   /// Themed icon name (from assets/images/icons/ or visuals/)
-  final String iconName;
+  /// If null, no icon will be shown
+  final String? iconName;
   
   /// Optional action button callback
   final VoidCallback? onAction;
@@ -59,7 +60,7 @@ class EmptyStateWidget extends StatelessWidget {
   const EmptyStateWidget({
     super.key,
     required this.message,
-    required this.iconName,
+    this.iconName,
     this.description,
     this.onAction,
     this.actionText,
@@ -70,23 +71,27 @@ class EmptyStateWidget extends StatelessWidget {
   });
 
   /// Builds the icon with safe fallback for themedIcon errors
-  Widget _buildIcon(BuildContext context) {
+  Widget? _buildIcon(BuildContext context) {
+    if (iconName == null) return null;
     return VisualIconWidget(
-        iconName: iconName,
+        iconName: iconName!,
         imageSize: iconSize,
       );
   }
 
   @override
   Widget build(BuildContext context) {
+    final icon = _buildIcon(context);
+
     final content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: fullHeight ? MainAxisSize.min : MainAxisSize.max,
       children: [
-        // Icon with safe fallback
-        _buildIcon(context),
-
-        AppModifiers.verticalSpaceMedium,
+        // Icon (only if provided)
+        if (icon != null) ...[
+          icon,
+          AppModifiers.verticalSpaceMedium,
+        ],
 
         // Primary message
         Text(

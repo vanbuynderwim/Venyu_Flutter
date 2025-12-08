@@ -58,7 +58,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'La personne qui traite la demande décide quel match reçoit une introduction. Une fois que vous recevez l\'e-mail d\'introduction, vous aurez accès au profil du match et pourrez commencer à connecter.';
 
   @override
-  String get tutorialStep5Title => 'Chercher';
+  String get tutorialStep5Title => 'Votre demande';
 
   @override
   String get tutorialStep5Description =>
@@ -293,11 +293,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get registrationStepNotificationsTitle => 'Notifications';
 
   @override
+  String get registrationStepReferrerTitle => 'Comment nous avez-vous trouvé ?';
+
+  @override
   String get registrationStepOptinTitle => 'Tirez le meilleur parti de Venyu';
 
   @override
   String get registrationStepOptinBody =>
-      'Voulez-vous recevoir des conseils pour améliorer votre profil et être le premier informé des nouvelles fonctionnalités ?';
+      'Recevez des conseils pour renforcer votre profil et obtenir de meilleures correspondances, et restez informé des nouvelles fonctionnalités dès qu\'elles sont disponibles.';
 
   @override
   String get registrationStepOptinButtonYes => 'Oui, tenez-moi au courant';
@@ -591,7 +594,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Demandes';
+  String get navCards => 'Mes demandes';
 
   @override
   String get navNotifications => 'Updates';
@@ -823,7 +826,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Les demandes nous aident à trouver les bons matches qui mènent à de vraies introductions. Écrivez la vôtre pour commencer.';
+      'Les demandes sont matchées avec les offres d\'autres entrepreneurs. Écrivez la vôtre pour découvrir qui peut vous aider.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -1875,7 +1878,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get editBioInfoMessage =>
-      'Votre bio est visible par tous ceux avec qui vous matchez. Gardez à l\'esprit : si vous ne voulez pas que certains détails personnels soient connus avant une introduction (comme le nom de votre entreprise, profil LinkedIn, ou autres informations identificatrices), veuillez les omettre.\n\nUtilisez cet espace pour mettre en avant votre expérience, intérêts et ce pour quoi vous êtes ouvert, sans partager de détails sensibles que vous préféreriez garder privés jusqu\'à après une introduction.';
+      'Votre bio est votre introduction professionnelle. Partagez ce que vous faites, ce qui vous intéresse et comment vous aimez travailler avec les autres. Une bio claire aide les gens à comprendre qui se cache derrière le match.';
 
   @override
   String get editBioPlaceholder => 'Écrivez votre bio ici...';
@@ -2110,7 +2113,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String promptEntryDailyDescription(int count) {
-    return 'Vos $count demandes quotidiennes vous attendent';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Nous avons trouvé $count nouvelles demandes qui correspondent à vos offres.',
+      one: 'Nous avons trouvé 1 nouvelle demande qui correspond à vos offres.',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -2583,7 +2593,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get returningUserTutorialDescription =>
-      'Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.';
+      'Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.\n\nSpoiler : nous disons adieu aux 3 prompts quotidiens, et même au mot \'prompt\'.';
 
   @override
   String get returningUserTutorialButton => 'Montrez-moi';

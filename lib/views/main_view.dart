@@ -291,6 +291,11 @@ class _MainViewState extends State<MainView> {
 
   /// Show the PromptEntryView as a fullscreen modal
   Future<void> _showPromptsModal(List<Prompt> prompts) async {
+    void closeModalCallback() {
+      // Pop all routes (including modal) until we're back at MainView level
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+
     await showPlatformModalSheet<void>(
       context: context,
       material: MaterialModalSheetData(
@@ -303,18 +308,11 @@ class _MainViewState extends State<MainView> {
         useRootNavigator: false,
         barrierDismissible: true,
       ),
-      builder: (sheetCtx) {
-        void closeModalCallback() {
-          // Use the modal's own context to close it, not the parent widget's context
-          Navigator.of(sheetCtx).pop();
-        }
-
-        return PromptEntryView(
-          prompts: prompts,
-          isModal: true,
-          onCloseModal: closeModalCallback,
-        );
-      },
+      builder: (sheetCtx) => PromptEntryView(
+        prompts: prompts,
+        isModal: true,
+        onCloseModal: closeModalCallback,
+      ),
     );
   }
   
@@ -376,16 +374,16 @@ class _MainViewState extends State<MainView> {
           icon: _availablePromptsCount > 0
               ? Badge.count(
                   count: _availablePromptsCount,
-                  child: context.themedIcon('search', selected: false),
+                  child: context.themedIcon('request', selected: false),
                 )
-              : context.themedIcon('search', selected: false),
+              : context.themedIcon('request', selected: false),
           activeIcon: _availablePromptsCount > 0
               ? Badge.count(
                   count: _availablePromptsCount,
-                  child: context.themedIcon('search', selected: true),
+                  child: context.themedIcon('request', selected: true),
                 )
-              : context.themedIcon('search', selected: true),
-          label: AppLocalizations.of(context)!.promptsViewTitle,
+              : context.themedIcon('request', selected: true),
+          label: AppLocalizations.of(context)!.navCards,
         ),
         BottomNavigationBarItem(
           icon: _badgeData != null && _badgeData!.unreadNotifications > 0

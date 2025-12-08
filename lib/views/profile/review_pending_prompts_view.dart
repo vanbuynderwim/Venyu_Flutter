@@ -329,7 +329,7 @@ class _ReviewPendingPromptsViewState extends State<ReviewPendingPromptsView>
           final canSelect = isSelected || _selectedPromptIds.length < 10;
 
           return Container(
-            margin: const EdgeInsets.symmetric(vertical: 0),
+            margin: const EdgeInsets.symmetric(vertical: 4),
             child: PromptItem(
               prompt: prompt,
               reviewing: true,

@@ -48,9 +48,8 @@ class AboutMeSection extends StatelessWidget {
     if (offers == null || offers!.isEmpty) {
       children.add(
         EmptyStateWidget(
-          message: l10n.aboutMeSectionEmptyTitle,
+          message: l10n.profileSectionAboutMeTitle,
           description: l10n.aboutMeSectionEmptyDescription,
-          iconName: 'nocards',
           onAction: onCreateOffer,
           actionText: l10n.aboutMeSectionEmptyAction,
           actionButtonIcon: context.themedIcon('edit'),

@@ -16,7 +16,7 @@ class TutorialService {
   // Key for storing if user has seen the v2 tutorial (after app update)
   // Increment this version number when you want to show the tutorial again
   static const String _tutorialVersionKey = 'tutorial_version_shown';
-  static const String _currentTutorialVersion = 'v2'; // Change this to force re-show
+  static const String _currentTutorialVersion = 'v5'; // Change this to force re-show
 
   /// Check if user needs to see the re-tutorial
   /// Returns true if user has NOT seen the current tutorial version

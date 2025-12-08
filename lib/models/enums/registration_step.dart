@@ -45,6 +45,9 @@ enum RegistrationStep {
   /// Step 12: Configure notification preferences
   notifications,
 
+  /// Step 13: How did you hear about us (referrer)
+  referrer,
+
   /// Final step: Show completion screen
   complete;
 
@@ -104,6 +107,8 @@ enum RegistrationStep {
         return l10n.registrationStepAvatarTitle;
       case RegistrationStep.notifications:
         return l10n.registrationStepNotificationsTitle;
+      case RegistrationStep.referrer:
+        return l10n.registrationStepReferrerTitle;
       case RegistrationStep.complete:
         return l10n.registrationStepCompleteTitle;
     }

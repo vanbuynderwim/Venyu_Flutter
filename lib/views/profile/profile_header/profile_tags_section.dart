@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/venyu_theme.dart';
-import '../../../core/utils/app_logger.dart';
 import '../../../models/profile.dart';
+import '../../../models/tag_group.dart';
+import '../../../services/tag_group_service.dart';
 import '../../../widgets/common/tag_view.dart';
+import '../edit_tag_group_view.dart';
 
 /// ProfileTagsSection - Displays profile sectors/tags
 /// 
@@ -39,24 +41,36 @@ class ProfileTagsSection extends StatelessWidget {
       // Sort sectors by title like in Swift
       final sortedSectors = List.from(profile.sectors);
       sortedSectors.sort((a, b) => a.label.compareTo(b.label));
-      
-      return Wrap(
-        spacing: 4,
-        runSpacing: 4,
-        children: sortedSectors.map<Widget>((sector) {
-          return TagView(
-            id: sector.id,
-            label: sector.label,
-            icon: sector.icon,
-          );
-        }).toList(),
+
+      final content = SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: sortedSectors.map<Widget>((sector) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: TagView(
+                id: sector.id,
+                label: sector.label,
+                icon: sector.icon,
+              ),
+            );
+          }).toList(),
+        ),
       );
+
+      // Make tappable if editable
+      if (isEditable) {
+        return GestureDetector(
+          onTap: () => _navigateToSectorsEdit(context),
+          child: content,
+        );
+      }
+
+      return content;
     } else if (isEditable) {
       // No sectors - show placeholder only if editable
       return GestureDetector(
-        onTap: onSectorsEditTap ?? () {
-          AppLogger.debug('Navigate to sectors edit requested', context: 'ProfileTagsSection');
-        },
+        onTap: () => _navigateToSectorsEdit(context),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
@@ -74,6 +88,34 @@ class ProfileTagsSection extends StatelessWidget {
     } else {
       // For non-editable profiles without sectors, show nothing
       return const SizedBox.shrink();
+    }
+  }
+
+  /// Navigate to EditTagGroupView with 'sectors' code
+  void _navigateToSectorsEdit(BuildContext context) {
+    final tagGroup = TagGroupService.shared.getTagGroupByCode('sectors');
+    if (tagGroup != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => EditTagGroupView(
+            tagGroup: tagGroup,
+          ),
+        ),
+      );
+    } else {
+      // Fallback: create a basic tag group if not in cache
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => EditTagGroupView(
+            tagGroup: TagGroup(
+              id: '',
+              code: 'sectors',
+              label: 'Sectors',
+              desc: 'Select your sectors',
+            ),
+          ),
+        ),
+      );
     }
   }
 }

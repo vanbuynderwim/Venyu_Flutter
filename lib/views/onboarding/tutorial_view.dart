@@ -10,6 +10,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../models/enums/action_button_type.dart';
+import '../profile/edit_optin_view.dart';
 import 'tutorial_done_view.dart';
 
 /// Tutorial view that shows onboarding steps after registration
@@ -65,15 +66,30 @@ class _TutorialViewState extends State<TutorialView> {
   }
 
   void _navigateToDoneView() {
-    Navigator.of(context).push(
-      platformPageRoute(
-        context: context,
-        builder: (context) => TutorialDoneView(
-          isReturningUser: widget.isReturningUser,
-          onCloseModal: widget.onCloseModal,
+    if (widget.isReturningUser) {
+      // For returning users, show opt-in screen first
+      Navigator.of(context).push(
+        platformPageRoute(
+          context: context,
+          builder: (context) => EditOptinView(
+            registrationWizard: false,
+            isReturningUser: true,
+            onCloseModal: widget.onCloseModal,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      // For new users, go directly to done view
+      Navigator.of(context).push(
+        platformPageRoute(
+          context: context,
+          builder: (context) => TutorialDoneView(
+            isReturningUser: widget.isReturningUser,
+            onCloseModal: widget.onCloseModal,
+          ),
+        ),
+      );
+    }
   }
 
   void _handlePrevious() {

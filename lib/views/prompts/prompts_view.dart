@@ -322,6 +322,7 @@ class _PromptsViewState extends State<PromptsView>
     if (_availablePrompts == null || _availablePrompts!.isEmpty) return;
 
     void closeModalCallback() {
+      // Pop all routes (including modal) until we're back at PromptsView level
       Navigator.of(context).popUntil((route) => route.isFirst);
     }
 

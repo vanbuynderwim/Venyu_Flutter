@@ -67,7 +67,9 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    
+    // Use smaller avatar size for editable profiles (own profile)
+    final effectiveAvatarSize = widget.isEditable ? 70.0 : widget.avatarSize;
+
     // If this is an editable profile (own profile), use Consumer for live updates
     // Otherwise, just use the provided profile directly
     if (widget.isEditable) {
@@ -76,20 +78,20 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
           // For editable profiles, use live data from ProfileService
           final currentProfile = profileService.currentProfile ?? widget.profile;
           _currentProfile = currentProfile; // Cache for event handlers
-          
+
           // Always use regular avatar - no local preview
           // Use key to force rebuild when avatar changes
           // During removal or if we've marked this avatar ID as removed, show null
-          final shouldShowAvatar = !_isRemoving && 
-                                  currentProfile.avatarID != null && 
+          final shouldShowAvatar = !_isRemoving &&
+                                  currentProfile.avatarID != null &&
                                   currentProfile.avatarID != _forceNoAvatar;
-          
+
           final avatarContent = AvatarView(
             key: ValueKey(shouldShowAvatar ? currentProfile.avatarID : 'no_avatar_${DateTime.now().millisecondsSinceEpoch}'),
             avatarId: shouldShowAvatar ? currentProfile.avatarID : null,
-            size: widget.avatarSize
+            size: effectiveAvatarSize,
           );
-          
+
           return _buildAvatarWidget(context, venyuTheme, avatarContent, currentProfile);
         },
       );
@@ -129,26 +131,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection>
                   ),
                 ),
               // Edit icon overlay for own profile (hide during upload/remove)
-              if (!_isUploading && !_isRemoving)
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    width: 30,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: venyuTheme.secondaryButtonBackground,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: venyuTheme.borderColor,
-                        width: AppModifiers.extraThinBorder,
-                      ),
-                    ),
-                    child: Center(
-                      child: context.themedIcon('edit', size: 20),
-                    ),
-                  ),
-                ),
+              
             ],
           )
         : avatarContent;
