@@ -73,8 +73,8 @@ class _EditAvatarViewState extends BaseFormViewState<EditAvatarView> {
         // Registration wizard progress bar
         if (widget.registrationWizard) ...[
           ProgressBar(
-            pageNumber: 11,
-            numberOfPages: 13,
+            pageNumber: 9,
+            numberOfPages: 11,
           ),
           const SizedBox(height: 16),
         ],

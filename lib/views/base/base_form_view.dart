@@ -20,7 +20,7 @@ import '../profile/edit_tag_group_view.dart';
 import '../profile/edit_avatar_view.dart';
 import '../profile/edit_notifications_view.dart';
 import '../profile/edit_optin_view.dart';
-import '../profile/registration_complete_view.dart';
+import '../onboarding/tutorial_finished_view.dart';
 
 /// Base class for all form-based views in the application.
 /// 
@@ -224,31 +224,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.sectors,
         );
-        
-      case RegistrationStep.meetingPreferences:
-        final tagGroup = TagGroupService.shared.getTagGroupByCode('meeting_preferences');
-        if (tagGroup == null) {
-          AppLogger.warning('TagGroup "meeting_preferences" not found in cache, skipping step', context: 'BaseFormView');
-          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.meetingPreferences);
-        }
-        nextView = EditTagGroupView(
-          tagGroup: tagGroup,
-          registrationWizard: true,
-          currentStep: RegistrationStep.meetingPreferences,
-        );
-        
-      case RegistrationStep.networkingGoals:
-        final tagGroup = TagGroupService.shared.getTagGroupByCode('network_goals');
-        if (tagGroup == null) {
-          AppLogger.warning('TagGroup "network_goals" not found in cache, skipping step', context: 'BaseFormView');
-          return _navigateToNextRegistrationStep(fromStep: RegistrationStep.networkingGoals);
-        }
-        nextView = EditTagGroupView(
-          tagGroup: tagGroup,
-          registrationWizard: true,
-          currentStep: RegistrationStep.networkingGoals,
-        );
-        
+
       case RegistrationStep.avatar:
         Navigator.of(context).push(
           platformPageRoute(
@@ -289,7 +265,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
         Navigator.of(context).push(
           platformPageRoute(
             context: context,
-            builder: (context) => const RegistrationCompleteView(),
+            builder: (context) => const TutorialFinishedView(),
           ),
         );
         return;

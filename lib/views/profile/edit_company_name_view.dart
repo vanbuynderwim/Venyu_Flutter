@@ -99,7 +99,7 @@ class _EditCompanyNameViewState extends BaseFormViewState<EditCompanyNameView> {
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
               pageNumber: 6,
-              numberOfPages: 13,
+              numberOfPages: 11,
             ),
           ),
 

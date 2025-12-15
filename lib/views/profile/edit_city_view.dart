@@ -102,7 +102,7 @@ class _EditCityViewState extends BaseFormViewState<EditCityView> {
             padding: const EdgeInsets.only(bottom: 16),
             child: ProgressBar(
               pageNumber: 5,
-              numberOfPages: 13,
+              numberOfPages: 11,
             ),
           ),
 

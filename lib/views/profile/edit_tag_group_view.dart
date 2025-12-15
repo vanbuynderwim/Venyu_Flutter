@@ -19,9 +19,9 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../onboarding/tutorial_done_view.dart';
+import '../onboarding/tutorial_finished_view.dart';
 import '../subscription/paywall_view.dart';
 import 'edit_avatar_view.dart';
-import 'registration_complete_view.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
 ///
@@ -119,7 +119,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: ProgressBar(
                 pageNumber: _progressPageNumber,
-                numberOfPages: 13, // 13 steps with progress bar (complete step has no progress bar)
+                numberOfPages: 11, // 11 steps with progress bar (complete step has no progress bar)
               ),
             ),
           Expanded(
@@ -412,8 +412,6 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     // Check if next step is still a tag group step
     final tagGroupSteps = [
       RegistrationStep.sectors,
-      RegistrationStep.meetingPreferences,
-      RegistrationStep.networkingGoals,
     ];
 
     if (nextStep == null || !tagGroupSteps.contains(nextStep)) {
@@ -444,7 +442,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           Navigator.of(context).push(
             platformPageRoute(
               context: context,
-              builder: (context) => const RegistrationCompleteView(),
+              builder: (context) => const TutorialFinishedView(),
             ),
           );
         }
@@ -458,8 +456,6 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
     // Get dynamic tag group data for next step
     final tagGroupCodes = {
       RegistrationStep.sectors: 'sectors',
-      RegistrationStep.meetingPreferences: 'meeting_preferences',
-      RegistrationStep.networkingGoals: 'network_goals',
     };
 
     final code = tagGroupCodes[nextStep]!;

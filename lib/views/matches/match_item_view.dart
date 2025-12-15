@@ -7,6 +7,7 @@ import '../../core/theme/venyu_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/tag_view.dart';
+import '../../widgets/prompts/prompt_section_card.dart';
 
 /// MatchItemView - Flutter equivalent of Swift MatchItemView
 /// 
@@ -74,9 +75,13 @@ class _MatchItemViewState extends State<MatchItemView> {
               match: widget.match,
               matchingScore: widget.match.score,
             ),
+            if (widget.match.prompt != null) ...[
+              AppModifiers.verticalSpaceMedium,
+              PromptSectionCard(prompt: widget.match.prompt!),
+            ],
             // Stage tag for connections with a stage
             if (widget.match.stage != null) ...[
-              const SizedBox(height: 16),
+              AppModifiers.verticalSpaceSmall,
               TagView(
                 id: widget.match.stage!.id,
                 label: widget.match.stage!.label,
@@ -87,7 +92,7 @@ class _MatchItemViewState extends State<MatchItemView> {
               ),
             // Reach out info box for connections without stage
             ] else ...[
-              const SizedBox(height: 8),
+              AppModifiers.verticalSpaceSmall,
               TagView(
                 id: 'match_reach_out',
                 label: l10n.matchItemReachOut,
@@ -99,6 +104,8 @@ class _MatchItemViewState extends State<MatchItemView> {
                 isLocal: true,
               ),
             ],
+            // Optional prompt section
+            
           ],
         ),
       ),

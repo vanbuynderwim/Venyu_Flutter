@@ -129,7 +129,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'Voel je vrij om de app nu te verkennen! We laten je weten wanneer we vragen vinden die passen bij jouw aanbod.\n\nPro tip: Je kan meer aanbiedingen toevoegen in je profiel voor nog betere matches.\n\nMake the net work 🤝';
+      'Maak je profiel compleet voor sterke en relevante matches.\n\nMake the net work 🤝';
 
   @override
   String get tutorialFinishedButton => 'Oké!';
@@ -805,14 +805,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe vraag om sneller gematcht te worden.';
+      'Zodra je een match hebt, verschijnt deze hier. Stel je eerste vraag om sneller gematcht te worden.';
 
   @override
   String get emptyStatePromptsTitle => 'Klaar om gematcht te worden?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Vragen worden gematcht met het aanbod van andere ondernemers. Schrijf de jouwe om te ontdekken wie jou kan helpen.';
+      'Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -2172,7 +2172,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptsViewTitle => 'Vragen';
 
   @override
-  String get promptsViewEmptyActionButton => 'Nieuwe vraag';
+  String get promptsViewEmptyActionButton => 'Stel een vraag';
 
   @override
   String get promptsViewAnswerPromptsButton => 'Onbeantwoorde vragen';
@@ -2376,7 +2376,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Nieuwe vraag';
+  String get matchesViewEmptyActionButton => 'Stel een vraag';
 
   @override
   String get profileViewTitle => 'Profiel';
@@ -2488,7 +2488,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get versionCheckUpdateAvailable =>
-      'Een nieuwe versie van Venyu is beschikbaar. Update nu voor de nieuwste functies!';
+      'Een nieuwe versie is beschikbaar. Tik hier om te updaten!';
 
   @override
   String get baseListViewLoading => 'Laden...';

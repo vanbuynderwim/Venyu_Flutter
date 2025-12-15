@@ -61,7 +61,7 @@
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Je bent helemaal klaar! 🎉",
-  "tutorialFinishedDescription": "Voel je vrij om de app nu te verkennen! We laten je weten wanneer we vragen vinden die passen bij jouw aanbod.\n\nPro tip: Je kan meer aanbiedingen toevoegen in je profiel voor nog betere matches.\n\nMake the net work 🤝",
+  "tutorialFinishedDescription": "Maak je profiel compleet voor sterke en relevante matches.\n\nMake the net work 🤝",
   "tutorialFinishedButton": "Oké!",
 
   "@_REGISTRATION_FINISH": {},
@@ -346,9 +346,9 @@
   "emptyStateReviewsTitle": "Helemaal up-to-date",
   "emptyStateReviewsDescription": "Wanneer vragen ter beoordeling worden ingediend, verschijnen ze hier",
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
-  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Schrijf een nieuwe vraag om sneller gematcht te worden.",
+  "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Stel je eerste vraag om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
-  "emptyStatePromptsDescription": "Vragen worden gematcht met het aanbod van andere ondernemers. Schrijf de jouwe om te ontdekken wie jou kan helpen.",
+  "emptyStatePromptsDescription": "Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.",
   "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
   "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
 
@@ -1041,7 +1041,7 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Vragen",
-  "promptsViewEmptyActionButton": "Nieuwe vraag",
+  "promptsViewEmptyActionButton": "Stel een vraag",
   "promptsViewAnswerPromptsButton": "Onbeantwoorde vragen",
   "promptsViewAllAnsweredMessage": "Alle vragen beantwoord voor vandaag",
   "promptsViewMyPromptsTitle": "Mijn vragen",
@@ -1175,7 +1175,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "Nieuwe vraag",
+  "matchesViewEmptyActionButton": "Stel een vraag",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profiel",
@@ -1245,7 +1245,7 @@
   "avatarRemoveError": "Verwijderen van foto mislukt. Probeer het opnieuw.",
 
   "@_VERSION_CHECK": {},
-  "versionCheckUpdateAvailable": "Een nieuwe versie van Venyu is beschikbaar. Update nu voor de nieuwste functies!",
+  "versionCheckUpdateAvailable": "Een nieuwe versie is beschikbaar. Tik hier om te updaten!",
 
   "@_BASE_LIST_VIEW": {},
   "baseListViewLoading": "Laden...",

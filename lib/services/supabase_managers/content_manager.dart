@@ -283,22 +283,6 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
-  /// Toggle prompt preview mode
-  Future<void> togglePreview(String promptId, bool withPreview) async {
-    return executeAuthenticatedRequest(() async {
-      AppLogger.info('Toggling prompt preview for $promptId to: $withPreview', context: 'ContentManager');
-
-      final payload = {
-        'prompt_id': promptId,
-        'with_preview': withPreview,
-      };
-
-      await client.rpc('toggle_preview', params: {'payload': payload});
-
-      AppLogger.success('Prompt preview toggled successfully', context: 'ContentManager');
-    });
-  }
-
   /// Toggle prompt interaction matching
   Future<void> togglePromptInteraction(int interactionId) async {
     return executeAuthenticatedRequest(() async {

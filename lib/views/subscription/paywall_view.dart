@@ -13,7 +13,7 @@ import '../../widgets/buttons/action_button.dart';
 import '../../models/enums/action_button_type.dart';
 import '../../widgets/common/radar_background.dart';
 import '../../widgets/common/onboarding_benefits_card.dart';
-import '../profile/registration_complete_view.dart';
+import '../onboarding/tutorial_finished_view.dart';
 import '../../models/enums/onboarding_benefit.dart';
 import '../../models/package_option.dart';
 import '../../widgets/buttons/option_button.dart';
@@ -158,7 +158,7 @@ class _PaywallViewState extends State<PaywallView> {
       Navigator.of(context).pushReplacement(
         platformPageRoute(
           context: context,
-          builder: (context) => const RegistrationCompleteView(),
+          builder: (context) => const TutorialFinishedView(),
         ),
       );
     } else {

@@ -26,6 +26,7 @@ class ToastService {
     required ToastType type,
     Duration duration = const Duration(seconds: 5),
     bool persistent = false,
+    VoidCallback? onTap,
   }) {
     // Remove any existing toast
     _currentToast?.remove();
@@ -53,6 +54,7 @@ class ToastService {
             type: type,
             duration: duration,
             persistent: persistent,
+            onTap: onTap,
             onDismiss: () {
               overlayEntry.remove();
               if (_currentToast == overlayEntry) {
@@ -120,6 +122,7 @@ class ToastService {
     required String message,
     Duration duration = const Duration(seconds: 5),
     bool persistent = false,
+    VoidCallback? onTap,
   }) {
     show(
       context: context,
@@ -127,6 +130,7 @@ class ToastService {
       type: ToastType.info,
       duration: duration,
       persistent: persistent,
+      onTap: onTap,
     );
   }
 

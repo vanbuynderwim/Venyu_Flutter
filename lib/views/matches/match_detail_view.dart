@@ -391,20 +391,11 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
               onStageTap: () => _handleStageTap(context),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: SubTitle(
-                  iconName: 'card',
-                  title: l10n.matchDetailMatchingCards(_match!.nrOfPrompts, _match!.nrOfPrompts == 1 ? l10n.matchDetailCard : l10n.matchDetailCards),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              
+                            
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
@@ -418,9 +409,9 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                   iconName: 'match',
                   title: l10n.matchDetailSharedIntros(_match!.nrOfConnections, _match!.nrOfConnections == 1 ? l10n.matchDetailIntroduction : l10n.matchDetailIntroductions),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 MatchConnectionsSection(match: _match!),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
               ],
 
               // Shared Venues Section
@@ -431,7 +422,7 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
                 const SizedBox(height: 8),
                 MatchVenuesSection(match: _match!),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
               ],    
                
               // Personal matches section

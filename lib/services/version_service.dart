@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../core/utils/app_logger.dart';
 import '../l10n/app_localizations.dart';
@@ -15,6 +18,13 @@ class VersionService {
   VersionService._();
 
   static final VersionService shared = VersionService._();
+
+  /// Set to true to always show the update toast (for testing)
+  static const bool _forceShowUpdateToast = false;
+
+  /// Store URLs
+  static const String _appStoreUrl = 'https://apps.apple.com/be/app/venyu/id6742804932';
+  static const String _playStoreUrl = 'https://play.google.com/store/apps/details?id=com.venyu.app';
 
   /// Parse current app version from package info
   Future<AppVersion?> _getCurrentAppVersion() async {
@@ -36,6 +46,16 @@ class VersionService {
     } catch (error) {
       AppLogger.error('Failed to get current app version', error: error, context: 'VersionService');
       return null;
+    }
+  }
+
+  /// Open the appropriate store based on platform
+  Future<void> _openStore() async {
+    final url = Platform.isIOS ? _appStoreUrl : _playStoreUrl;
+    try {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } catch (error) {
+      AppLogger.error('Failed to open store', error: error, context: 'VersionService');
     }
   }
 
@@ -75,7 +95,7 @@ class VersionService {
       );
 
       // Check if update is available
-      if (_isNewerVersion(serverVersion, currentVersion)) {
+      if (_forceShowUpdateToast || _isNewerVersion(serverVersion, currentVersion)) {
         AppLogger.info('Update available: ${serverVersion.toString()}', context: 'VersionService');
 
         if (context.mounted) {
@@ -84,6 +104,7 @@ class VersionService {
             context: context,
             message: l10n.versionCheckUpdateAvailable,
             persistent: true, // Don't auto-dismiss version updates
+            onTap: _openStore,
           );
         }
       } else {

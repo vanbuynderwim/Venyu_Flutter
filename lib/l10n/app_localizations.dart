@@ -313,7 +313,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorialFinishedDescription.
   ///
   /// In en, this message translates to:
-  /// **'Feel free to explore the app now! We\'ll let you know when we find requests that match your offer.\n\nPro tip: You can add more offers in your profile to get even better matches.\n\nMake the net work 🤝'**
+  /// **'Complete your profile for strong and relevant matches.\n\nMake the net work 🤝'**
   String get tutorialFinishedDescription;
 
   /// No description provided for @tutorialFinishedButton.
@@ -1543,7 +1543,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateMatchesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Once you have a match, it will appear here. Write a new request to get matched faster.'**
+  /// **'Once you have a match, it will appear here. Ask your first question to get matched faster.'**
   String get emptyStateMatchesDescription;
 
   /// No description provided for @emptyStatePromptsTitle.
@@ -1555,7 +1555,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Requests are matched with the offers of other entrepreneurs. Write yours to discover who can help you.'**
+  /// **'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @emptyStateNotificationSettingsTitle.
@@ -3925,7 +3925,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'New request'**
+  /// **'Ask a question'**
   String get promptsViewEmptyActionButton;
 
   /// No description provided for @promptsViewAnswerPromptsButton.
@@ -4285,7 +4285,7 @@ abstract class AppLocalizations {
   /// No description provided for @matchesViewEmptyActionButton.
   ///
   /// In en, this message translates to:
-  /// **'New request'**
+  /// **'Ask a question'**
   String get matchesViewEmptyActionButton;
 
   /// No description provided for @profileViewTitle.
@@ -4477,7 +4477,7 @@ abstract class AppLocalizations {
   /// No description provided for @versionCheckUpdateAvailable.
   ///
   /// In en, this message translates to:
-  /// **'A new version of Venyu is available. Update now for the latest features!'**
+  /// **'A new version is available. Tap here to update!'**
   String get versionCheckUpdateAvailable;
 
   /// No description provided for @baseListViewLoading.

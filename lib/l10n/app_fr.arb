@@ -61,7 +61,7 @@
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "Vous \u00eates pr\u00eat ! \ud83c\udf89",
-  "tutorialFinishedDescription": "N'hésitez pas à explorer l'application maintenant ! Nous vous informerons lorsque nous trouverons des demandes correspondant à votre offre.\n\nAstuce : Vous pouvez ajouter plus d'offres dans votre profil pour obtenir de meilleures correspondances.\n\nMake the net work 🤝",
+  "tutorialFinishedDescription": "Complétez votre profil pour des correspondances fortes et pertinentes.\n\nMake the net work 🤝",
   "tutorialFinishedButton": "C'est parti !",
 
   "@_REGISTRATION_FINISH": {},
@@ -347,9 +347,9 @@
   "emptyStateReviewsTitle": "Tout est \u00e0 jour !",
   "emptyStateReviewsDescription": "Quand des demandes sont soumises pour examen, elles apparaîtront ici",
   "emptyStateMatchesTitle": "En attente de votre premier match !",
-  "emptyStateMatchesDescription": "Une fois que vous aurez un match, il apparaîtra ici. Écrivez une nouvelle demande pour être matché plus rapidement.",
+  "emptyStateMatchesDescription": "Une fois que vous aurez un match, il apparaîtra ici. Posez votre première question pour être matché plus rapidement.",
   "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
-  "emptyStatePromptsDescription": "Les demandes sont matchées avec les offres d'autres entrepreneurs. Écrivez la vôtre pour découvrir qui peut vous aider.",
+  "emptyStatePromptsDescription": "Les demandes sont matchées avec les offres d'autres entrepreneurs. Posez la vôtre pour découvrir qui peut vous aider.",
   "emptyStateNotificationSettingsTitle": "Aucun param\u00e8tre disponible",
   "emptyStateNotificationSettingsDescription": "Les param\u00e8tres de notification appara\u00eetront ici une fois configur\u00e9s.",
 
@@ -1042,7 +1042,7 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Demandes",
-  "promptsViewEmptyActionButton": "Nouvelle demande",
+  "promptsViewEmptyActionButton": "Posez une question",
   "promptsViewAnswerPromptsButton": "Demandes non répondues",
   "promptsViewAllAnsweredMessage": "Toutes les demandes répondues pour aujourd'hui",
   "promptsViewMyPromptsTitle": "Mes demandes",
@@ -1177,7 +1177,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "Nouvelle demande",
+  "matchesViewEmptyActionButton": "Posez une question",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profil",
@@ -1250,7 +1250,7 @@
   "avatarRemoveError": "\u00c9chec de la suppression de la photo. Veuillez r\u00e9essayer.",
 
   "@_VERSION_CHECK": {},
-  "versionCheckUpdateAvailable": "Une nouvelle version de Venyu est disponible. Mettez \u00e0 jour maintenant pour les derni\u00e8res fonctionnalit\u00e9s !",
+  "versionCheckUpdateAvailable": "Une nouvelle version est disponible. Appuyez ici pour mettre à jour !",
 
   "@_BASE_LIST_VIEW": {},
   "baseListViewLoading": "Chargement...",

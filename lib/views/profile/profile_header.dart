@@ -112,7 +112,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                     onSectorsEditTap: widget.onSectorsEditTap,
                   ),
 
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         // Bio section
         _buildBioSection(context, venyuTheme),
         
@@ -120,7 +120,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
         if (!widget.isEditable) ...[
           // Only add spacing if there's a bio
           if (widget.profile.bio?.isNotEmpty == true)
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
           if (widget.stage == null) ...[
             ActionButton(
               label: AppLocalizations.of(context)!.profileHeaderReachOutButton,

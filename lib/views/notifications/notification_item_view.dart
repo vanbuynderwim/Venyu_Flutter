@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_layout_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/app_text_styles.dart';
@@ -10,7 +8,7 @@ import '../../core/utils/date_extensions.dart';
 import '../../models/notification.dart' as venyu;
 import '../../widgets/common/role_view.dart';
 import '../../widgets/common/sub_title.dart';
-import '../../widgets/prompts/selection_title_with_icon.dart';
+import '../../widgets/prompts/prompt_section_card.dart';
 
 /// NotificationItemView - Flutter equivalent of Swift NotificationItemView
 /// 
@@ -87,17 +85,18 @@ class _NotificationItemViewState extends State<NotificationItemView> {
             // Body text
             _buildBody(context),
 
-            // Optional prompt section
-            if (widget.notification.prompt != null) ...[
-              AppModifiers.verticalSpaceSmall,
-              _buildPromptSection(context),
-            ],
-
             // Optional match section
             if (widget.notification.match != null) ...[
               AppModifiers.verticalSpaceSmall,
               _buildMatchSection(context),
             ],
+
+            // Optional prompt section
+            if (widget.notification.prompt != null) ...[
+              AppModifiers.verticalSpaceSmall,
+              PromptSectionCard(prompt: widget.notification.prompt!),
+            ],
+            
           ],
         ),
       ),
@@ -115,76 +114,20 @@ class _NotificationItemViewState extends State<NotificationItemView> {
     );
   }
 
-  Widget _buildPromptSection(BuildContext context) {
-    final prompt = widget.notification.prompt!;
-    final venyuTheme = context.venyuTheme;
-
-    // Get interaction type color, default to gradientPrimary if null
-    final gradientColor = prompt.interactionType?.color ?? venyuTheme.gradientPrimary;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            gradientColor.withValues(alpha: 0.3),
-            venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-        borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Selection title (if interaction type exists)
-          if (prompt.interactionType != null) ...[
-            SelectionTitleWithIcon(
-              interactionType: prompt.interactionType!,
-              size: 16,
-            ),
-            const SizedBox(height: 4),
-          ],
-          // Prompt label
-          Text(
-            prompt.label,
-            style: AppTextStyles.subheadline.copyWith(
-              color: context.venyuTheme.primaryText,
-              fontSize: 16,
-              fontFamily: AppFonts.graphie,
-            ),
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildMatchSection(BuildContext context) {
     final match = widget.notification.match!;
-    
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primair5Lavender.withValues(alpha: 0.2),
-            AppColors.accent3Peach.withValues(alpha: 0.2),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
       child: RoleView(
         profile: match.profile,
-        avatarSize: 40,
-        showChevron: false,
+        avatarSize: 85,
+        showChevron: true,
         buttonDisabled: true,
+        matchingScore: match.score,
       ),
     );
   }

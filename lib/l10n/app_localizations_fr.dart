@@ -129,7 +129,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'N\'hésitez pas à explorer l\'application maintenant ! Nous vous informerons lorsque nous trouverons des demandes correspondant à votre offre.\n\nAstuce : Vous pouvez ajouter plus d\'offres dans votre profil pour obtenir de meilleures correspondances.\n\nMake the net work 🤝';
+      'Complétez votre profil pour des correspondances fortes et pertinentes.\n\nMake the net work 🤝';
 
   @override
   String get tutorialFinishedButton => 'C\'est parti !';
@@ -819,14 +819,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Une fois que vous aurez un match, il apparaîtra ici. Écrivez une nouvelle demande pour être matché plus rapidement.';
+      'Une fois que vous aurez un match, il apparaîtra ici. Posez votre première question pour être matché plus rapidement.';
 
   @override
   String get emptyStatePromptsTitle => 'Prêt à être matché ?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Les demandes sont matchées avec les offres d\'autres entrepreneurs. Écrivez la vôtre pour découvrir qui peut vous aider.';
+      'Les demandes sont matchées avec les offres d\'autres entrepreneurs. Posez la vôtre pour découvrir qui peut vous aider.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -2200,7 +2200,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get promptsViewTitle => 'Demandes';
 
   @override
-  String get promptsViewEmptyActionButton => 'Nouvelle demande';
+  String get promptsViewEmptyActionButton => 'Posez une question';
 
   @override
   String get promptsViewAnswerPromptsButton => 'Demandes non répondues';
@@ -2406,7 +2406,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'Nouvelle demande';
+  String get matchesViewEmptyActionButton => 'Posez une question';
 
   @override
   String get profileViewTitle => 'Profil';
@@ -2518,7 +2518,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get versionCheckUpdateAvailable =>
-      'Une nouvelle version de Venyu est disponible. Mettez à jour maintenant pour les dernières fonctionnalités !';
+      'Une nouvelle version est disponible. Appuyez ici pour mettre à jour !';
 
   @override
   String get baseListViewLoading => 'Chargement...';

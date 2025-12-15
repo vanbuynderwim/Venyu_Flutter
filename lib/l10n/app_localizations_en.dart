@@ -129,7 +129,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tutorialFinishedDescription =>
-      'Feel free to explore the app now! We\'ll let you know when we find requests that match your offer.\n\nPro tip: You can add more offers in your profile to get even better matches.\n\nMake the net work 🤝';
+      'Complete your profile for strong and relevant matches.\n\nMake the net work 🤝';
 
   @override
   String get tutorialFinishedButton => 'Let\'s go!';
@@ -800,14 +800,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStateMatchesDescription =>
-      'Once you have a match, it will appear here. Write a new request to get matched faster.';
+      'Once you have a match, it will appear here. Ask your first question to get matched faster.';
 
   @override
   String get emptyStatePromptsTitle => 'Ready to get matched?';
 
   @override
   String get emptyStatePromptsDescription =>
-      'Requests are matched with the offers of other entrepreneurs. Write yours to discover who can help you.';
+      'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.';
 
   @override
   String get emptyStateNotificationSettingsTitle => 'No settings available';
@@ -2157,7 +2157,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptsViewTitle => 'Requests';
 
   @override
-  String get promptsViewEmptyActionButton => 'New request';
+  String get promptsViewEmptyActionButton => 'Ask a question';
 
   @override
   String get promptsViewAnswerPromptsButton => 'Unanswered requests';
@@ -2359,7 +2359,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matchesViewTitle => 'Matches';
 
   @override
-  String get matchesViewEmptyActionButton => 'New request';
+  String get matchesViewEmptyActionButton => 'Ask a question';
 
   @override
   String get profileViewTitle => 'Profile';
@@ -2468,7 +2468,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get versionCheckUpdateAvailable =>
-      'A new version of Venyu is available. Update now for the latest features!';
+      'A new version is available. Tap here to update!';
 
   @override
   String get baseListViewLoading => 'Loading...';

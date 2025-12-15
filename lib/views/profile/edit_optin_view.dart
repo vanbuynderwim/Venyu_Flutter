@@ -67,7 +67,7 @@ class _EditOptinViewState extends BaseFormViewState<EditOptinView> {
         if (widget.registrationWizard) ...[
           ProgressBar(
             pageNumber: 3,
-            numberOfPages: 13,
+            numberOfPages: 11,
           ),
           const SizedBox(height: 16),
         ],

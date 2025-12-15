@@ -56,9 +56,10 @@ class RoleView extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                
+
                 // Role (company name)
-                if (profile.role.isNotEmpty)
+                if (profile.role.isNotEmpty) ...[
+                  const SizedBox(height: 4),
                   Text(
                     profile.role,
                     style: AppTextStyles.subheadline.copyWith(
@@ -67,43 +68,66 @@ class RoleView extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                
-                // Distance if available
-                if (profile.formattedDistance != null)
+                ],
+
+                // Distance and city if available
+                if (profile.formattedDistance != null || profile.city != null) ...[
+                  const SizedBox(height: 4),
                   Row(
                     children: [
-                      context.themedIcon(
-                        'location',
-                        size: 14,
-                        overrideColor: context.venyuTheme.secondaryText,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        profile.formattedDistance!,
-                        style: AppTextStyles.caption1.copyWith(
-                          color: context.venyuTheme.secondaryText,
+                      if (profile.formattedDistance != null) ...[
+                        context.themedIcon(
+                          'location',
+                          size: 14,
+                          overrideColor: context.venyuTheme.secondaryText,
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        Text(
+                          profile.formattedDistance!,
+                          style: AppTextStyles.caption1.copyWith(
+                            color: context.venyuTheme.secondaryText,
+                          ),
+                        ),
+                      ],
+                      if (profile.formattedDistance != null && profile.city != null)
+                        const SizedBox(width: 6),
+                      if (profile.city != null) ...[
+                        context.themedIcon(
+                          'map',
+                          size: 14,
+                          overrideColor: context.venyuTheme.secondaryText,
+                        ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            profile.city!,
+                            style: AppTextStyles.caption1.copyWith(
+                              color: context.venyuTheme.secondaryText,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
+                ],
 
                 // Matching score if available
-                if (matchingScore != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: MatchingScoreWidget(score: matchingScore!),
-                  ),
-
+                if (matchingScore != null) ...[
+                  const SizedBox(height: 8),
+                  MatchingScoreWidget(score: matchingScore!),
+                ],
               ],
             ),
           ),
 
-          const SizedBox(width: 16),     
+          const SizedBox(width: 8),     
           
           // Notification dot and chevron
           if (showNotificationDot && !buttonDisabled) ...[
             _buildNotificationDot(context),
-            const SizedBox(width: 6),
+            const SizedBox(width: 4),
           ],
           if (showChevron && !buttonDisabled)
             _buildChevronIcon(context),

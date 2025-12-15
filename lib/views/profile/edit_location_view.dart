@@ -74,7 +74,7 @@ class _EditLocationViewState extends BaseFormViewState<EditLocationView> {
         if (widget.registrationWizard) ...[
           ProgressBar(
             pageNumber: 4,
-            numberOfPages: 13,
+            numberOfPages: 11,
           ),
           const SizedBox(height: 16),
         ],

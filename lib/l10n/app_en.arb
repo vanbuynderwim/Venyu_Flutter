@@ -61,7 +61,7 @@
 
   "@_TUTORIAL_FINISHED": {},
   "tutorialFinishedTitle": "You're all set! 🎉",
-  "tutorialFinishedDescription": "Feel free to explore the app now! We'll let you know when we find requests that match your offer.\n\nPro tip: You can add more offers in your profile to get even better matches.\n\nMake the net work 🤝",
+  "tutorialFinishedDescription": "Complete your profile for strong and relevant matches.\n\nMake the net work 🤝",
   "tutorialFinishedButton": "Let's go!",
 
   "@_REGISTRATION_FINISH": {},
@@ -348,9 +348,9 @@
   "emptyStateReviewsTitle": "All caught up!",
   "emptyStateReviewsDescription": "When requests are submitted for review, they will appear here",
   "emptyStateMatchesTitle": "Waiting for your first match!",
-  "emptyStateMatchesDescription": "Once you have a match, it will appear here. Write a new request to get matched faster.",
+  "emptyStateMatchesDescription": "Once you have a match, it will appear here. Ask your first question to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
-  "emptyStatePromptsDescription": "Requests are matched with the offers of other entrepreneurs. Write yours to discover who can help you.",
+  "emptyStatePromptsDescription": "Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.",
   "emptyStateNotificationSettingsTitle": "No settings available",
   "emptyStateNotificationSettingsDescription": "Notification settings will appear here once they are configured.",
 
@@ -1043,7 +1043,7 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Requests",
-  "promptsViewEmptyActionButton": "New request",
+  "promptsViewEmptyActionButton": "Ask a question",
   "promptsViewAnswerPromptsButton": "Unanswered requests",
   "promptsViewAllAnsweredMessage": "All requests answered for today",
   "promptsViewMyPromptsTitle": "My requests",
@@ -1177,7 +1177,7 @@
 
   "@_MATCHES_VIEW": {},
   "matchesViewTitle": "Matches",
-  "matchesViewEmptyActionButton": "New request",
+  "matchesViewEmptyActionButton": "Ask a question",
 
   "@_PROFILE_VIEW": {},
   "profileViewTitle": "Profile",
@@ -1248,7 +1248,7 @@
   "avatarRemoveError": "Failed to remove photo. Please try again.",
 
   "@_VERSION_CHECK": {},
-  "versionCheckUpdateAvailable": "A new version of Venyu is available. Update now for the latest features!",
+  "versionCheckUpdateAvailable": "A new version is available. Tap here to update!",
 
   "@_BASE_LIST_VIEW": {},
   "baseListViewLoading": "Loading...",

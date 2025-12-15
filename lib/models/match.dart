@@ -15,6 +15,7 @@ class Match {
   final List<String>? motivation;
   final MatchResponse? response;
   final DateTime? updatedAt;
+  final Prompt? prompt;
   final List<Prompt>? prompts;
   final List<Match>? connections;
   final List<TagGroup>? tagGroups;
@@ -33,6 +34,7 @@ class Match {
     this.motivation,
     this.response,
     this.updatedAt,
+    this.prompt,
     this.prompts,
     this.connections,
     this.tagGroups,
@@ -54,8 +56,9 @@ class Match {
           ? (json['motivation'] as List).map((item) => item as String).toList()
           : null,
       response: json['response'] != null ? MatchResponse.fromJson(json['response']) : null,
-      updatedAt: json['updated_at'] != null && json['updated_at'] is String 
+      updatedAt: json['updated_at'] != null && json['updated_at'] is String
           ? DateTime.parse(json['updated_at']) : null,
+      prompt: json['prompt'] != null ? Prompt.fromJson(json['prompt']) : null,
       prompts: json['prompts'] != null
           ? (json['prompts'] as List).map((prompt) => Prompt.fromJson(prompt)).toList()
           : null,
@@ -87,7 +90,8 @@ class Match {
       'motivation': motivation,
       'response': response?.toJson(),
       'updated_at': updatedAt?.toIso8601String(),
-      'prompts': prompts?.map((prompt) => prompt.toJson()).toList(),
+      'prompt': prompt?.toJson(),
+      'prompts': prompts?.map((p) => p.toJson()).toList(),
       'connections': connections?.map((conn) => conn.toJson()).toList(),
       'taggroups': tagGroups?.map((group) => group.toJson()).toList(),
       'venues': venues?.map((venue) => venue.toJson()).toList(),
@@ -152,6 +156,7 @@ class Match {
     List<String>? motivation,
     MatchResponse? response,
     DateTime? updatedAt,
+    Prompt? prompt,
     List<Prompt>? prompts,
     List<Match>? connections,
     List<TagGroup>? tagGroups,
@@ -170,6 +175,7 @@ class Match {
       motivation: motivation ?? this.motivation,
       response: response ?? this.response,
       updatedAt: updatedAt ?? this.updatedAt,
+      prompt: prompt ?? this.prompt,
       prompts: prompts ?? this.prompts,
       connections: connections ?? this.connections,
       tagGroups: tagGroups ?? this.tagGroups,

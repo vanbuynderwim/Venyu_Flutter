@@ -33,13 +33,7 @@ enum RegistrationStep {
   /// Step 7: Select sectors (using EditTagGroupView)
   sectors,
 
-  /// Step 8: Set meeting preferences (using EditTagGroupView)
-  meetingPreferences,
-
-  /// Step 9: Set networking goals (using EditTagGroupView)
-  networkingGoals,
-
-  /// Step 10: Upload user's profile avatar
+  /// Step 8: Upload user's profile avatar
   avatar,
 
   /// Step 12: Configure notification preferences
@@ -99,10 +93,6 @@ enum RegistrationStep {
         return l10n.registrationStepRolesTitle;
       case RegistrationStep.sectors:
         return l10n.registrationStepSectorsTitle;
-      case RegistrationStep.meetingPreferences:
-        return l10n.registrationStepMeetingPreferencesTitle;
-      case RegistrationStep.networkingGoals:
-        return l10n.registrationStepNetworkingGoalsTitle;
       case RegistrationStep.avatar:
         return l10n.registrationStepAvatarTitle;
       case RegistrationStep.notifications:

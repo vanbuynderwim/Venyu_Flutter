@@ -268,17 +268,6 @@ class Profile {
   /// Used for categorization and discovery features.
   List<Tag> get sectors => _getTagsForCategory('sectors');
 
-  /// Gets all meeting preference tags for this profile.
-  /// 
-  /// Meeting preferences indicate how the user prefers to connect with others.
-  /// Examples: "In-person", "Virtual", "Coffee meetings", etc.
-  List<Tag> get meetingPreferences => _getTagsForCategory('meetingPreferences');
-
-  /// Gets all network goal tags for this profile.
-  /// 
-  /// Network goals represent what the user hopes to achieve through networking.
-  /// Examples: "Find mentors", "Build partnerships", "Career growth", etc.
-  List<Tag> get networkGoals => _getTagsForCategory('networkGoals');
 
   /// Gets the formatted role string combining roles and company information.
   /// 

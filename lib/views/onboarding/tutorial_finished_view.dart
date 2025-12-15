@@ -6,6 +6,9 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../services/profile_service.dart';
+import '../../services/supabase_managers/profile_manager.dart';
+import '../../services/toast_service.dart';
+import '../../services/tutorial_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background.dart';
 import '../main_view.dart';
@@ -32,6 +35,16 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
     });
 
     try {
+      // Complete registration on server
+      AppLogger.debug('Completing registration', context: 'TutorialFinishedView');
+      final profileManager = ProfileManager.shared;
+      await profileManager.completeRegistration();
+
+      // Mark tutorial as shown so new users don't see the returning user tutorial
+      await TutorialService.shared.markTutorialShown();
+
+      AppLogger.success('Registration completed successfully', context: 'TutorialFinishedView');
+
       // Refresh profile before navigating to MainView
       AppLogger.debug('Refreshing profile', context: 'TutorialFinishedView');
       final profileService = ProfileService.shared;
@@ -50,12 +63,17 @@ class _TutorialFinishedViewState extends State<TutorialFinishedView> {
         (route) => false, // Remove all previous routes
       );
     } catch (error) {
-      AppLogger.error('Failed to refresh profile', error: error, context: 'TutorialFinishedView');
+      AppLogger.error('Failed to complete registration', error: error, context: 'TutorialFinishedView');
 
       if (mounted) {
         setState(() {
           _isLoading = false;
         });
+
+        ToastService.error(
+          context: context,
+          message: AppLocalizations.of(context)!.registrationCompleteError,
+        );
       }
     }
   }

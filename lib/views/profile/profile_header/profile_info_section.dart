@@ -47,9 +47,11 @@ class ProfileInfoSection extends StatelessWidget {
           style: AppTextStyles.headline.copyWith(
             color: venyuTheme.primaryText,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
 
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
 
         // Role (computed property from profile)
         Text(
@@ -59,11 +61,13 @@ class ProfileInfoSection extends StatelessWidget {
           style: AppTextStyles.subheadline.copyWith(
             color: venyuTheme.primaryText,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
 
         // Distance and City
         if (!isEditable && profile.formattedDistance != null || showCity && profile.city != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           Row(
             children: [
               // Distance
@@ -80,7 +84,7 @@ class ProfileInfoSection extends StatelessWidget {
 
               // Spacing between distance and city
               if (!isEditable && profile.formattedDistance != null && showCity && profile.city != null)
-                const SizedBox(width: 12),
+                const SizedBox(width: 6),
 
               // City
               if (showCity && profile.city != null) ...[
@@ -99,7 +103,7 @@ class ProfileInfoSection extends StatelessWidget {
 
         // Matching Score (below distance/city row)
         if (matchingScore != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           MatchingScoreWidget(score: matchingScore!),
         ],
       ],

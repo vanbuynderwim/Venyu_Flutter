@@ -15,6 +15,7 @@ class Toast extends StatefulWidget {
   final ToastType type;
   final Duration duration;
   final VoidCallback? onDismiss;
+  final VoidCallback? onTap;
   final bool persistent;
 
   const Toast({
@@ -23,6 +24,7 @@ class Toast extends StatefulWidget {
     required this.type,
     this.duration = const Duration(seconds: 3),
     this.onDismiss,
+    this.onTap,
     this.persistent = false,
   });
 
@@ -90,7 +92,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
       child: FadeTransition(
         opacity: _fadeAnimation,
         child: GestureDetector(
-          onTap: _dismiss,
+          onTap: widget.onTap ?? _dismiss,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             constraints: const BoxConstraints(
