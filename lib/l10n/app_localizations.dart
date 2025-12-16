@@ -1090,6 +1090,60 @@ abstract class AppLocalizations {
   /// **'Your personal social links'**
   String get accountSettingsLinksDescription;
 
+  /// No description provided for @accountSettingsRadiusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius'**
+  String get accountSettingsRadiusTitle;
+
+  /// No description provided for @accountSettingsRadiusDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Set how far we can match you from your current location'**
+  String get accountSettingsRadiusDescription;
+
+  /// No description provided for @editRadiusSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius saved'**
+  String get editRadiusSavedMessage;
+
+  /// No description provided for @editRadiusSaveErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save radius'**
+  String get editRadiusSaveErrorMessage;
+
+  /// No description provided for @editRadiusUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited'**
+  String get editRadiusUnlimited;
+
+  /// No description provided for @editRadiusInfoText.
+  ///
+  /// In en, this message translates to:
+  /// **'Set to 0 for unlimited range. We\'ll match you with relevant people regardless of distance.'**
+  String get editRadiusInfoText;
+
+  /// No description provided for @editRadiusLocationRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location required'**
+  String get editRadiusLocationRequiredTitle;
+
+  /// No description provided for @editRadiusLocationRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'To set a match radius, we need access to your location. Enable location sharing to use this feature.'**
+  String get editRadiusLocationRequiredMessage;
+
+  /// No description provided for @editRadiusEnableLocationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable location'**
+  String get editRadiusEnableLocationButton;
+
   /// No description provided for @profileEditAccountTitle.
   ///
   /// In en, this message translates to:

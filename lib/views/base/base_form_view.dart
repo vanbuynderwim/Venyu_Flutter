@@ -13,7 +13,6 @@ import '../../services/supabase_managers/profile_manager.dart';
 import '../../services/tag_group_service.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../profile/edit_company_name_view.dart';
-import '../profile/edit_email_info_view.dart';
 import '../profile/edit_location_view.dart';
 import '../profile/edit_city_view.dart';
 import '../profile/edit_tag_group_view.dart';
@@ -164,24 +163,6 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
       case RegistrationStep.name:
         // This shouldn't happen as name is the first step
         throw Exception('Cannot navigate to name step from another step');
-      
-      case RegistrationStep.email:
-        nextView = const EditEmailInfoView(
-          registrationWizard: true,
-          currentStep: RegistrationStep.email,
-        );
-
-      case RegistrationStep.optin:
-        Navigator.of(context).push(
-          platformPageRoute(
-            context: context,
-            builder: (context) => const EditOptinView(
-              registrationWizard: true,
-              currentStep: RegistrationStep.optin,
-            ),
-          ),
-        );
-        return;
 
       case RegistrationStep.location:
         nextView = const EditLocationView(
@@ -200,7 +181,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.company,
         );
-        
+
       case RegistrationStep.roles:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('roles');
         if (tagGroup == null) {
@@ -212,7 +193,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.roles,
         );
-        
+
       case RegistrationStep.sectors:
         final tagGroup = TagGroupService.shared.getTagGroupByCode('sectors');
         if (tagGroup == null) {
@@ -236,7 +217,7 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           ),
         );
         return;
-        
+
       case RegistrationStep.notifications:
         Navigator.of(context).push(
           platformPageRoute(
@@ -260,6 +241,18 @@ abstract class BaseFormViewState<T extends BaseFormView> extends State<T> with E
           registrationWizard: true,
           currentStep: RegistrationStep.referrer,
         );
+
+      case RegistrationStep.optin:
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditOptinView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.optin,
+            ),
+          ),
+        );
+        return;
 
       case RegistrationStep.complete:
         Navigator.of(context).push(

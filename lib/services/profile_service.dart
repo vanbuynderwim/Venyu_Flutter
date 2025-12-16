@@ -272,6 +272,7 @@ class ProfileService extends ChangeNotifier {
     String? languageCode,
     List<TagGroup>? taggroups,
     bool? autoIntroduction,
+    int? matchRadius,
   }) {
     if (_disposed) return;
 
@@ -303,6 +304,7 @@ class ProfileService extends ChangeNotifier {
       languageCode: languageCode,
       taggroups: taggroups,
       autoIntroduction: autoIntroduction,
+      matchRadius: matchRadius,
     );
     
     notifyListeners();

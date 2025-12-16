@@ -8,39 +8,39 @@ import '../../l10n/app_localizations.dart';
 /// Each step corresponds to a specific form view that collects user information.
 ///
 /// The order of these enum values determines the flow sequence.
+///
+/// Note: Email is no longer collected during registration - it's automatically
+/// obtained from OAuth providers (Apple/Google) during sign-in.
 enum RegistrationStep {
   /// Step 1: Collect user's first name, last name, and LinkedIn URL
   name,
-  
-  /// Step 2: Collect and verify user's email address with OTP
-  email,
 
-  /// Step 3: Email opt-in for updates
-  optin,
-
-  /// Step 4: Collect user's location/country information
+  /// Step 2: Collect user's location/country information
   location,
 
-  /// Step 4: Collect user's city
+  /// Step 3: Collect user's city
   city,
 
-  /// Step 5: Collect user's company name and website
+  /// Step 4: Collect user's company name and website
   company,
 
-  /// Step 6: Select user roles (using EditTagGroupView)
+  /// Step 5: Select user roles (using EditTagGroupView)
   roles,
 
-  /// Step 7: Select sectors (using EditTagGroupView)
+  /// Step 6: Select sectors (using EditTagGroupView)
   sectors,
 
-  /// Step 8: Upload user's profile avatar
+  /// Step 7: Upload user's profile avatar
   avatar,
 
-  /// Step 12: Configure notification preferences
+  /// Step 8: Configure notification preferences
   notifications,
 
-  /// Step 13: How did you hear about us (referrer)
+  /// Step 9: How did you hear about us (referrer)
   referrer,
+
+  /// Step 10: Email opt-in for updates (moved to end of flow)
+  optin,
 
   /// Final step: Show completion screen
   complete;
@@ -79,10 +79,6 @@ enum RegistrationStep {
     switch (this) {
       case RegistrationStep.name:
         return l10n.registrationStepNameTitle;
-      case RegistrationStep.email:
-        return l10n.registrationStepEmailTitle;
-      case RegistrationStep.optin:
-        return l10n.registrationStepOptinTitle;
       case RegistrationStep.location:
         return l10n.registrationStepLocationTitle;
       case RegistrationStep.city:
@@ -99,6 +95,8 @@ enum RegistrationStep {
         return l10n.registrationStepNotificationsTitle;
       case RegistrationStep.referrer:
         return l10n.registrationStepReferrerTitle;
+      case RegistrationStep.optin:
+        return l10n.registrationStepOptinTitle;
       case RegistrationStep.complete:
         return l10n.registrationStepCompleteTitle;
     }

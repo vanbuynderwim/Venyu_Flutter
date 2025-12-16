@@ -554,6 +554,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSettingsLinksDescription => 'Your personal social links';
 
   @override
+  String get accountSettingsRadiusTitle => 'Radius';
+
+  @override
+  String get accountSettingsRadiusDescription =>
+      'Set how far we can match you from your current location';
+
+  @override
+  String get editRadiusSavedMessage => 'Radius saved';
+
+  @override
+  String get editRadiusSaveErrorMessage => 'Failed to save radius';
+
+  @override
+  String get editRadiusUnlimited => 'Unlimited';
+
+  @override
+  String get editRadiusInfoText =>
+      'Set to 0 for unlimited range. We\'ll match you with relevant people regardless of distance.';
+
+  @override
+  String get editRadiusLocationRequiredTitle => 'Location required';
+
+  @override
+  String get editRadiusLocationRequiredMessage =>
+      'To set a match radius, we need access to your location. Enable location sharing to use this feature.';
+
+  @override
+  String get editRadiusEnableLocationButton => 'Enable location';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override

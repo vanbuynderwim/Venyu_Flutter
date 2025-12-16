@@ -565,6 +565,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get accountSettingsLinksDescription => 'Vos liens sociaux personnels';
 
   @override
+  String get accountSettingsRadiusTitle => 'Rayon';
+
+  @override
+  String get accountSettingsRadiusDescription =>
+      'Définissez jusqu\'où nous pouvons vous matcher depuis votre position actuelle';
+
+  @override
+  String get editRadiusSavedMessage => 'Rayon enregistré';
+
+  @override
+  String get editRadiusSaveErrorMessage =>
+      'Échec de l\'enregistrement du rayon';
+
+  @override
+  String get editRadiusUnlimited => 'Illimité';
+
+  @override
+  String get editRadiusInfoText =>
+      'Réglez sur 0 pour une portée illimitée. Nous vous matcherons avec des personnes pertinentes quelle que soit la distance.';
+
+  @override
+  String get editRadiusLocationRequiredTitle => 'Localisation requise';
+
+  @override
+  String get editRadiusLocationRequiredMessage =>
+      'Pour définir un rayon de match, nous avons besoin d\'accéder à votre position. Activez le partage de localisation pour utiliser cette fonctionnalité.';
+
+  @override
+  String get editRadiusEnableLocationButton => 'Activer la localisation';
+
+  @override
   String get profileEditAccountTitle => 'Compte';
 
   @override

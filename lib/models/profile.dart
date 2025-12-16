@@ -106,6 +106,10 @@ class Profile {
   /// When enabled, the user automatically opts-in for introductions when matching.
   final bool? autoIntroduction;
 
+  /// Match radius in kilometers (0-100).
+  /// 0 means unlimited range, otherwise limits matches to within this distance.
+  final int? matchRadius;
+
   /// Creates a [Profile] instance.
   /// 
   /// [id] and [firstName] are required. [isSuperAdmin] and [isPro] default to false
@@ -136,6 +140,7 @@ class Profile {
     this.companyCompleteness,
     this.personalCompleteness,
     this.autoIntroduction,
+    this.matchRadius,
   });
 
   /// Creates a [Profile] from a JSON object.
@@ -171,6 +176,7 @@ class Profile {
       companyCompleteness: json['company_completeness'] as int?,
       personalCompleteness: json['personal_completeness'] as int?,
       autoIntroduction: json['auto_introduction'] as bool?,
+      matchRadius: (json['match_radius'] as num?)?.toInt(),
     );
   }
 
@@ -205,6 +211,7 @@ class Profile {
       'company_completeness': companyCompleteness,
       'personal_completeness': personalCompleteness,
       'auto_introduction': autoIntroduction,
+      'match_radius': matchRadius,
     };
   }
 
@@ -350,6 +357,7 @@ class Profile {
     int? companyCompleteness,
     int? personalCompleteness,
     bool? autoIntroduction,
+    int? matchRadius,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -377,6 +385,7 @@ class Profile {
       companyCompleteness: companyCompleteness ?? this.companyCompleteness,
       personalCompleteness: personalCompleteness ?? this.personalCompleteness,
       autoIntroduction: autoIntroduction ?? this.autoIntroduction,
+      matchRadius: matchRadius ?? this.matchRadius,
     );
   }
 }

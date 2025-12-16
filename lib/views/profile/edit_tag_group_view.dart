@@ -18,10 +18,10 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/progress_bar.dart';
-import '../onboarding/tutorial_done_view.dart';
 import '../onboarding/tutorial_finished_view.dart';
 import '../subscription/paywall_view.dart';
 import 'edit_avatar_view.dart';
+import 'edit_optin_view.dart';
 
 /// EditTagGroupView - Flutter equivalent of iOS EditTagGroupView
 ///
@@ -119,7 +119,7 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: ProgressBar(
                 pageNumber: _progressPageNumber,
-                numberOfPages: 11, // 11 steps with progress bar (complete step has no progress bar)
+                numberOfPages: 10, // 10 steps with progress bar (complete step has no progress bar)
               ),
             ),
           Expanded(
@@ -314,11 +314,12 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
           // Navigate to next step in wizard
           _navigateToNextStep();
         } else if (widget.isReturningUser && widget.currentStep == RegistrationStep.referrer) {
-          // Returning user completing referrer step - go to tutorial done
+          // Returning user completing referrer step - go to optin, then done
           Navigator.of(context).push(
             platformPageRoute(
               context: context,
-              builder: (context) => TutorialDoneView(
+              builder: (context) => EditOptinView(
+                registrationWizard: false,
                 isReturningUser: widget.isReturningUser,
                 onCloseModal: widget.onCloseModal,
               ),
@@ -426,6 +427,17 @@ class _EditTagGroupViewState extends State<EditTagGroupView> {
             builder: (context) => const EditAvatarView(
               registrationWizard: true,
               currentStep: RegistrationStep.avatar,
+            ),
+          ),
+        );
+      } else if (nextStep == RegistrationStep.optin) {
+        // Navigate to optin step (after referrer)
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => const EditOptinView(
+              registrationWizard: true,
+              currentStep: RegistrationStep.optin,
             ),
           ),
         );

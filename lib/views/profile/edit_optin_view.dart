@@ -5,17 +5,14 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/app_logger.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/enums/action_button_type.dart';
-import '../../models/enums/registration_step.dart';
 import '../../services/profile_service.dart';
 import '../../services/supabase_managers/profile_manager.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../widgets/common/visual_icon_widget.dart';
-import '../../models/tag_group.dart';
-import '../../services/tag_group_service.dart';
 import '../base/base_form_view.dart';
-import 'edit_location_view.dart';
-import 'edit_tag_group_view.dart';
+import '../onboarding/tutorial_done_view.dart';
+import '../onboarding/tutorial_finished_view.dart';
 
 /// A form screen for email opt-in during registration.
 ///
@@ -66,8 +63,8 @@ class _EditOptinViewState extends BaseFormViewState<EditOptinView> {
         // Registration wizard progress bar
         if (widget.registrationWizard) ...[
           ProgressBar(
-            pageNumber: 3,
-            numberOfPages: 11,
+            pageNumber: 10,
+            numberOfPages: 10,
           ),
           const SizedBox(height: 16),
         ],
@@ -183,52 +180,24 @@ class _EditOptinViewState extends BaseFormViewState<EditOptinView> {
   /// Navigate to the next step
   void _navigateToNext() {
     if (widget.registrationWizard) {
-      // During registration, go to location
+      // During registration, go to completion (optin is now the last step before complete)
       Navigator.of(context).push(
         platformPageRoute(
           context: context,
-          builder: (context) => const EditLocationView(
-            registrationWizard: true,
-            currentStep: RegistrationStep.location,
-          ),
+          builder: (context) => const TutorialFinishedView(),
         ),
       );
     } else {
-      // For returning users, go to referrer tag group view first
-      final tagGroup = TagGroupService.shared.getTagGroupByCode('referrer');
-      if (tagGroup != null) {
-        Navigator.of(context).push(
-          platformPageRoute(
-            context: context,
-            builder: (context) => EditTagGroupView(
-              tagGroup: tagGroup,
-              registrationWizard: false,
-              currentStep: RegistrationStep.referrer,
-              isReturningUser: widget.isReturningUser,
-              onCloseModal: widget.onCloseModal,
-            ),
+      // For returning users, go to done view (optin is the last step after referrer)
+      Navigator.of(context).push(
+        platformPageRoute(
+          context: context,
+          builder: (context) => TutorialDoneView(
+            isReturningUser: widget.isReturningUser,
+            onCloseModal: widget.onCloseModal,
           ),
-        );
-      } else {
-        // Fallback: create a basic tag group if not in cache
-        Navigator.of(context).push(
-          platformPageRoute(
-            context: context,
-            builder: (context) => EditTagGroupView(
-              tagGroup: TagGroup(
-                id: '',
-                code: 'referrer',
-                label: 'How did you hear about us?',
-                desc: 'Please select how you heard about Venyu',
-              ),
-              registrationWizard: false,
-              currentStep: RegistrationStep.referrer,
-              isReturningUser: widget.isReturningUser,
-              onCloseModal: widget.onCloseModal,
-            ),
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 }

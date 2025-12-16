@@ -9,6 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../core/config/environment.dart';
 import '../../core/utils/app_logger.dart';
 import 'base_supabase_manager.dart';
+import 'profile_manager.dart';
 import '../../mixins/disposable_manager_mixin.dart';
 
 /// AuthenticationManager - Handles all OAuth authentication operations
@@ -246,6 +247,21 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
     AppLogger.success('Supabase Apple sign-in successful', context: 'AuthenticationManager');
     AppLogger.debug('User: ${response.user?.email ?? 'No email'}', context: 'AuthenticationManager');
     AppLogger.debug('Session: ${response.session != null ? 'Active' : 'None'}', context: 'AuthenticationManager');
+
+    // Step 6: Save email to profile via RPC
+    // Try credential email first (only available on first sign-in), then fall back to Supabase user email
+    final email = credential.email ?? response.user?.email;
+    if (email != null && email.isNotEmpty) {
+      try {
+        await ProfileManager.shared.updateProfileEmail(email);
+        AppLogger.success('Apple email saved to profile: $email', context: 'AuthenticationManager');
+      } catch (e) {
+        AppLogger.warning('Failed to save Apple email to profile: $e', context: 'AuthenticationManager');
+        // Don't throw - email save failure shouldn't block authentication
+      }
+    } else {
+      AppLogger.warning('No email available from Apple sign-in', context: 'AuthenticationManager');
+    }
 
     return response;
   }
@@ -521,11 +537,22 @@ class AuthenticationManager extends BaseSupabaseManager with DisposableManagerMi
         idToken: idToken,
         accessToken: accessToken,
       );
-      
+
       AppLogger.success('Supabase Google sign-in successful', context: 'AuthenticationManager');
       AppLogger.debug('User: ${response.user?.email ?? 'No email'}', context: 'AuthenticationManager');
       AppLogger.debug('Session: ${response.session != null ? 'Active' : 'None'}', context: 'AuthenticationManager');
-      
+
+      // Step 7: Save email to profile via RPC
+      // Google always provides email
+      final email = googleUser.email;
+      try {
+        await ProfileManager.shared.updateProfileEmail(email);
+        AppLogger.success('Google email saved to profile: $email', context: 'AuthenticationManager');
+      } catch (e) {
+        AppLogger.warning('Failed to save Google email to profile: $e', context: 'AuthenticationManager');
+        // Don't throw - email save failure shouldn't block authentication
+      }
+
       return response;
     });
   }

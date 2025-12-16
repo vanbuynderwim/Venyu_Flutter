@@ -557,6 +557,36 @@ class AppLocalizationsNl extends AppLocalizations {
   String get accountSettingsLinksDescription => 'Je persoonlijke sociale links';
 
   @override
+  String get accountSettingsRadiusTitle => 'Straal';
+
+  @override
+  String get accountSettingsRadiusDescription =>
+      'Stel in tot hoever we je mogen matchen van je huidige locatie';
+
+  @override
+  String get editRadiusSavedMessage => 'Straal opgeslagen';
+
+  @override
+  String get editRadiusSaveErrorMessage => 'Opslaan van straal mislukt';
+
+  @override
+  String get editRadiusUnlimited => 'Onbeperkt';
+
+  @override
+  String get editRadiusInfoText =>
+      'Zet op 0 voor onbeperkt bereik. We matchen je dan met relevante mensen ongeacht de afstand.';
+
+  @override
+  String get editRadiusLocationRequiredTitle => 'Locatie vereist';
+
+  @override
+  String get editRadiusLocationRequiredMessage =>
+      'Om een match straal in te stellen, hebben we toegang tot je locatie nodig. Schakel locatie delen in om deze functie te gebruiken.';
+
+  @override
+  String get editRadiusEnableLocationButton => 'Locatie inschakelen';
+
+  @override
   String get profileEditAccountTitle => 'Account';
 
   @override

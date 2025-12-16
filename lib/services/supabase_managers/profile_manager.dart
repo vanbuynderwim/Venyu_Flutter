@@ -117,6 +117,23 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
     });
   }
 
+  /// Update user's email address from OAuth provider
+  ///
+  /// This method is called after OAuth sign-in (Apple/Google) to save
+  /// the email address obtained from the authentication provider.
+  /// The email is automatically marked as verified since it comes from OAuth.
+  Future<void> updateProfileEmail(String email) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating profile email from OAuth', context: 'ProfileManager');
+
+      await client.rpc('update_profile_email', params: {
+        'p_email': email,
+      });
+
+      AppLogger.success('Profile email updated successfully', context: 'ProfileManager');
+    });
+  }
+
   /// Update user's name
   Future<void> updateProfileName(String firstName, String lastName) async {
     return executeAuthenticatedRequest(() async {
@@ -171,6 +188,19 @@ class ProfileManager extends BaseSupabaseManager with DisposableManagerMixin {
       });
       
       AppLogger.success('Profile bio updated successfully', context: 'ProfileManager');
+    });
+  }
+
+  /// Update user's match radius
+  Future<void> updateProfileRadius(int radius) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Updating profile radius to $radius km', context: 'ProfileManager');
+
+      await client.rpc('update_profile_radius', params: {
+        'p_radius': radius,
+      });
+
+      AppLogger.success('Profile radius updated successfully', context: 'ProfileManager');
     });
   }
 

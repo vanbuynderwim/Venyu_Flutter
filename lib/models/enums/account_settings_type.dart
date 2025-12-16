@@ -28,7 +28,8 @@ enum AccountSettingsType implements OptionType {
   linkedIn,
   blockedUsers,
   autoIntroduction,
-  inviteCodes;
+  inviteCodes,
+  radius;
 
   @override
   String get id => toString();
@@ -77,6 +78,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsAutoIntroductionTitle;
       case AccountSettingsType.inviteCodes:
         return l10n.accountSettingsInviteCodesTitle;
+      case AccountSettingsType.radius:
+        return l10n.accountSettingsRadiusTitle;
     }
   }
 
@@ -124,6 +127,8 @@ enum AccountSettingsType implements OptionType {
         return l10n.accountSettingsAutoIntroductionDescription;
       case AccountSettingsType.inviteCodes:
         return l10n.accountSettingsInviteCodesDescription;
+      case AccountSettingsType.radius:
+        return l10n.accountSettingsRadiusDescription;
     }
   }
 
@@ -170,6 +175,8 @@ enum AccountSettingsType implements OptionType {
         return 'handshake';
       case AccountSettingsType.inviteCodes:
         return 'ticket';
+      case AccountSettingsType.radius:
+        return 'network';
     }
   }
 

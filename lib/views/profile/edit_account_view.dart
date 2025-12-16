@@ -24,6 +24,7 @@ import '../../widgets/buttons/option_button.dart';
 import 'edit_personal_info_view.dart';
 import 'edit_company_name_view.dart';
 import 'edit_links_view.dart';
+import 'edit_radius_view.dart';
 import 'invite_codes_view.dart';
 import 'review_pending_prompts_view.dart';
 import '../notifications/notification_settings_view.dart';
@@ -285,10 +286,18 @@ class _EditAccountViewState extends State<EditAccountView> {
           onSelect: () => _handleNotifications(context),
         ),
 
+        // Radius button
+        OptionButton(
+          option: AccountSettingsType.radius,
+          isButton: true,
+          isChevronVisible: true,
+          isSelectable: false,
+          withDescription: true,
+          onSelect: () => _handleRadius(context),
+        ),
       ],
     );
   }
-
 
   /// Build the Feedback section with option buttons
   Widget _buildFeedbackSection() {
@@ -795,6 +804,17 @@ App Version: $appVersion
       platformPageRoute(
         context: context,
         builder: (context) => const NotificationSettingsView(),
+      ),
+    );
+  }
+
+  /// Handle radius - navigate to radius settings view
+  void _handleRadius(BuildContext context) {
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => const EditRadiusView(),
       ),
     );
   }

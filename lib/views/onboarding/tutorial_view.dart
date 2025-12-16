@@ -10,7 +10,10 @@ import '../../widgets/buttons/action_button.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/common/progress_bar.dart';
 import '../../models/enums/action_button_type.dart';
+import '../../models/enums/registration_step.dart';
+import '../../services/tag_group_service.dart';
 import '../profile/edit_optin_view.dart';
+import '../profile/edit_tag_group_view.dart';
 import 'tutorial_done_view.dart';
 
 /// Tutorial view that shows onboarding steps after registration
@@ -67,17 +70,34 @@ class _TutorialViewState extends State<TutorialView> {
 
   void _navigateToDoneView() {
     if (widget.isReturningUser) {
-      // For returning users, show opt-in screen first
-      Navigator.of(context).push(
-        platformPageRoute(
-          context: context,
-          builder: (context) => EditOptinView(
-            registrationWizard: false,
-            isReturningUser: true,
-            onCloseModal: widget.onCloseModal,
+      // For returning users, show referrer screen first, then optin
+      final tagGroup = TagGroupService.shared.getTagGroupByCode('referrer');
+      if (tagGroup != null) {
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => EditTagGroupView(
+              tagGroup: tagGroup,
+              registrationWizard: false,
+              currentStep: RegistrationStep.referrer,
+              isReturningUser: true,
+              onCloseModal: widget.onCloseModal,
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        // Fallback: go directly to optin if referrer not found
+        Navigator.of(context).push(
+          platformPageRoute(
+            context: context,
+            builder: (context) => EditOptinView(
+              registrationWizard: false,
+              isReturningUser: true,
+              onCloseModal: widget.onCloseModal,
+            ),
+          ),
+        );
+      }
     } else {
       // For new users, go directly to done view
       Navigator.of(context).push(
