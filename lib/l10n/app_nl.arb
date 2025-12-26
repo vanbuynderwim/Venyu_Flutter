@@ -103,11 +103,11 @@
   "interactionTypeLookingForThisSubtitle": "die advies, ervaring of netwerk kan bieden",
   "interactionTypeThisIsMeSubtitle": "die kan helpen met advies, ervaring of netwerk",
  
-  "interactionTypeKnowSomeoneSelection": "Ik kan verbinden",
+  "interactionTypeKnowSomeoneSelection": "Ik ken iemand",
   "interactionTypeKnowSomeoneSubtitle": "Stel mensen voor die kunnen helpen",
   "interactionTypeKnowSomeoneHint": "Wie kun je aanraden?",
 
-  "interactionTypeNotRelevantSelection": "Overslaan",
+  "interactionTypeNotRelevantSelection": "Ik ken niemand",
   "interactionTypeNotRelevantSubtitle": "Deze sla ik over",
   "interactionTypeNotRelevantHint": "Wat wil je delen?",
 
@@ -115,6 +115,60 @@
   "interactionTypeLookingForThisNewTitle": "Nieuwe vraag",
   "interactionTypeKnowSomeoneNewTitle": "Nieuwe connectie",
   "interactionTypeNotRelevantNewTitle": "Overslaan",
+
+  "interactionTypeMatchThisIsMe": "{firstName} biedt dit aan",
+  "@interactionTypeMatchThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchLookingForThis": "{firstName} zoekt dit",
+  "@interactionTypeMatchLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchKnowSomeone": "{firstName} kent iemand",
+  "@interactionTypeMatchKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "interactionTypeSelfThisIsMe": "Ik bied dit aan",
+  "interactionTypeSelfLookingForThis": "Ik zoek dit",
+  "interactionTypeSelfKnowSomeone": "Ik ken iemand",
+
+  "interactionTypePromptThisIsMe": "{firstName} is iemand",
+  "@interactionTypePromptThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptLookingForThis": "{firstName} zoekt iemand",
+  "@interactionTypePromptLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptKnowSomeone": "{firstName} kent iemand",
+  "@interactionTypePromptKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
 
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Persoonlijke informatie",
@@ -242,7 +296,7 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Mijn vragen",
+  "navCards": "Vraag & aanbod",
   "navNotifications": "Updates",
   "navProfile": "Profiel",
 
@@ -358,6 +412,8 @@
   "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Stel je eerste vraag om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
   "emptyStatePromptsDescription": "Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.",
+  "emptyStateKnowSomeoneTitle": "Nog geen doorverwijzingen",
+  "emptyStateKnowSomeoneDescription": "Wanneer je vragen beantwoordt met \"Die ken ik\", verschijnen ze hier.",
   "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
   "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
 
@@ -975,6 +1031,14 @@
       }
     }
   },
+  "promptItemOtherMatchCount": "{count, plural, =1{1 andere match} other{{count} andere matches}}",
+  "@promptItemOtherMatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "promptDetailRejectButton": "Afwijzen",
   "promptDetailApproveButton": "Goedkeuren",
   "promptDetailApprovedMessage": "Vraag goedgekeurd",
@@ -1053,7 +1117,7 @@
   "promptsViewEmptyActionButton": "Stel een vraag",
   "promptsViewAnswerPromptsButton": "Onbeantwoorde vragen",
   "promptsViewAllAnsweredMessage": "Alle vragen beantwoord voor vandaag",
-  "promptsViewMyPromptsTitle": "Mijn vragen",
+  "promptsViewMyPromptsTitle": "Vraag en aanbod",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Uitnodigingscode",
@@ -1193,7 +1257,7 @@
   "@_PROFILE_HEADER": {},
   "profileHeaderBioPlaceholder": "Schrijf iets over jezelf...",
   "profileHeaderReachOutButton": "Stel jezelf voor",
-  "profileHeaderAlreadyConnectedButton": "Al in contact?",
+  "profileHeaderAlreadyConnectedButton": "Al geconnecteerd ?",
 
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "Word gematcht",

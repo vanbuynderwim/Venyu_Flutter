@@ -33,9 +33,9 @@ class MatchingManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching matches with pagination: $paginatedRequest', context: 'MatchingManager');
       
-      // Call the get_matches RPC function - exact equivalent of iOS implementation
+      // Call the get_my_matches RPC function - exact equivalent of iOS implementation
       final result = await client
-          .rpc('get_matches', params: {'payload': paginatedRequest.toJson()})
+          .rpc('get_my_matches', params: {'payload': paginatedRequest.toJson()})
           .select();
       
       AppLogger.success('Matches RPC call successful', context: 'MatchingManager');

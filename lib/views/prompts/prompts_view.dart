@@ -16,6 +16,7 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/buttons/get_matched_button.dart';
+import '../../widgets/buttons/interaction_button.dart';
 import 'prompt_item.dart';
 import 'prompt_detail_view.dart';
 import 'prompt_entry_view.dart';
@@ -46,6 +47,7 @@ class _PromptsViewState extends State<PromptsView>
   final List<Prompt> _prompts = [];
   List<Prompt>? _availablePrompts; // Available daily prompts to answer
   bool _isCheckingPrompts = false;
+  InteractionType _selectedInteractionType = InteractionType.lookingForThis;
 
   @override
   void initState() {
@@ -104,11 +106,12 @@ class _PromptsViewState extends State<PromptsView>
               ]
             : null,
       ),
-      floatingActionButton: _prompts.isNotEmpty
+      floatingActionButton: _prompts.isNotEmpty && _selectedInteractionType != InteractionType.knowSomeone
           ? GetMatchedButton(
               buttonType: GetMatchedButtonType.fab,
-              initialInteractionType: InteractionType.lookingForThis,
+              initialInteractionType: _selectedInteractionType,
               isFromPrompts: true,
+              backgroundColor: _selectedInteractionType.color,
               onModalClosed: (_) {
                 // Always refresh when modal closes (user might have created a prompt)
                 AppLogger.debug('Modal closed, refreshing prompts list', context: 'PromptsView');
@@ -118,57 +121,126 @@ class _PromptsViewState extends State<PromptsView>
           : null,
       usePadding: false,
       useSafeArea: true,
-      body: isLoading
-          ? const LoadingStateWidget()
-          : _prompts.isEmpty
-              ? RefreshIndicator(
-                  onRefresh: _handleRefresh,
-                  child: CustomScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      SliverFillRemaining(
-                        child: EmptyStateWidget(
-                          message: ServerListType.profilePrompts.emptyStateTitle(context),
-                          description: ServerListType.profilePrompts.emptyStateDescription(context),
-                          iconName: ServerListType.profilePrompts.emptyStateIcon,
-                          fullHeight: true,
-                          onAction: () => _handleGetMatchedPressed(),
-                          actionText: l10n.promptsViewEmptyActionButton,
-                          actionButtonIcon: context.themedIcon('edit'),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _handleRefresh,
-                  child: ListView.builder(
-                    controller: scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index == _prompts.length) {
-                        return buildLoadingIndicator();
-                      }
-
-                      final prompt = _prompts[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: PromptItem(
-                          prompt: prompt,
-                          showChevron: true,
-                          showCounters: true,
-                          limitPromptLines: true,
-                          onPromptSelected: _openPromptDetail,
-                        ),
-                      );
-                    },
+      body: Column(
+        children: [
+          // Interaction type filter buttons
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InteractionButton(
+                    interactionType: InteractionType.lookingForThis,
+                    isSelected: _selectedInteractionType == InteractionType.lookingForThis,
+                    onPressed: () => _onInteractionTypeSelected(InteractionType.lookingForThis),
+                    height: 44,
                   ),
                 ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: InteractionButton(
+                    interactionType: InteractionType.thisIsMe,
+                    isSelected: _selectedInteractionType == InteractionType.thisIsMe,
+                    onPressed: () => _onInteractionTypeSelected(InteractionType.thisIsMe),
+                    height: 44,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: InteractionButton(
+                    interactionType: InteractionType.knowSomeone,
+                    isSelected: _selectedInteractionType == InteractionType.knowSomeone,
+                    onPressed: () => _onInteractionTypeSelected(InteractionType.knowSomeone),
+                    height: 44,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Content
+          Expanded(
+            child: isLoading
+                ? const LoadingStateWidget()
+                : _prompts.isEmpty
+                    ? RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: CustomScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          slivers: [
+                            SliverFillRemaining(
+                              child: EmptyStateWidget(
+                                message: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? l10n.emptyStateKnowSomeoneTitle
+                                    : ServerListType.profilePrompts.emptyStateTitle(context),
+                                description: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? l10n.emptyStateKnowSomeoneDescription
+                                    : _selectedInteractionType == InteractionType.thisIsMe
+                                        ? l10n.aboutMeSectionEmptyDescription
+                                        : ServerListType.profilePrompts.emptyStateDescription(context),
+                                iconName: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? null
+                                    : _selectedInteractionType == InteractionType.thisIsMe
+                                        ? 'nooffer'
+                                        : 'norequest',
+                                accentColor: _selectedInteractionType.color,
+                                buttonColor: _selectedInteractionType.color,
+                                fullHeight: true,
+                                onAction: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? null
+                                    : () => _handleGetMatchedPressed(),
+                                actionText: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? null
+                                    : l10n.promptsViewEmptyActionButton,
+                                actionButtonIcon: _selectedInteractionType == InteractionType.knowSomeone
+                                    ? null
+                                    : context.themedIcon('edit'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: ListView.builder(
+                          controller: scrollController,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          itemCount: _prompts.length + (isLoadingMore ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            if (index == _prompts.length) {
+                              return buildLoadingIndicator();
+                            }
+
+                            final prompt = _prompts[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: PromptItem(
+                                prompt: prompt,
+                                showChevron: true,
+                                showCounters: true,
+                                limitPromptLines: true,
+                                onPromptSelected: _openPromptDetail,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+          ),
+        ],
+      ),
     );
   }
 
+
+  /// Handle interaction type selection
+  void _onInteractionTypeSelected(InteractionType type) {
+    if (_selectedInteractionType == type) return;
+
+    setState(() {
+      _selectedInteractionType = type;
+    });
+    _loadPrompts(forceRefresh: true);
+  }
 
   /// Handles the Get Matched button press (both FAB and EmptyState button)
   Future<void> _handleGetMatchedPressed() async {
@@ -244,6 +316,7 @@ class _PromptsViewState extends State<PromptsView>
           final request = PaginatedRequest(
             limit: PaginatedRequest.numberOfPrompts,
             list: ServerListType.profilePrompts,
+            interactionType: _selectedInteractionType,
           );
 
           final prompts = await _contentManager.fetchProfilePrompts(request);
@@ -272,7 +345,10 @@ class _PromptsViewState extends State<PromptsView>
           limit: PaginatedRequest.numberOfPrompts,
           cursorId: lastPrompt.promptID,
           cursorTime: lastPrompt.createdAt,
+          cursorPaused: lastPrompt.isPaused,
+          cursorMatchCount: lastPrompt.matchCount,
           list: ServerListType.profilePrompts,
+          interactionType: _selectedInteractionType,
         );
 
         final prompts = await _contentManager.fetchProfilePrompts(request);

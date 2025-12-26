@@ -226,7 +226,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'die kan helpen met advies, ervaring of netwerk';
 
   @override
-  String get interactionTypeKnowSomeoneSelection => 'Ik kan verbinden';
+  String get interactionTypeKnowSomeoneSelection => 'Ik ken iemand';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
@@ -236,7 +236,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get interactionTypeKnowSomeoneHint => 'Wie kun je aanraden?';
 
   @override
-  String get interactionTypeNotRelevantSelection => 'Overslaan';
+  String get interactionTypeNotRelevantSelection => 'Ik ken niemand';
 
   @override
   String get interactionTypeNotRelevantSubtitle => 'Deze sla ik over';
@@ -255,6 +255,45 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get interactionTypeNotRelevantNewTitle => 'Overslaan';
+
+  @override
+  String interactionTypeMatchThisIsMe(String firstName) {
+    return '$firstName biedt dit aan';
+  }
+
+  @override
+  String interactionTypeMatchLookingForThis(String firstName) {
+    return '$firstName zoekt dit';
+  }
+
+  @override
+  String interactionTypeMatchKnowSomeone(String firstName) {
+    return '$firstName kent iemand';
+  }
+
+  @override
+  String get interactionTypeSelfThisIsMe => 'Ik bied dit aan';
+
+  @override
+  String get interactionTypeSelfLookingForThis => 'Ik zoek dit';
+
+  @override
+  String get interactionTypeSelfKnowSomeone => 'Ik ken iemand';
+
+  @override
+  String interactionTypePromptThisIsMe(String firstName) {
+    return '$firstName is iemand';
+  }
+
+  @override
+  String interactionTypePromptLookingForThis(String firstName) {
+    return '$firstName zoekt iemand';
+  }
+
+  @override
+  String interactionTypePromptKnowSomeone(String firstName) {
+    return '$firstName kent iemand';
+  }
 
   @override
   String get registrationStepNameTitle => 'Persoonlijke informatie';
@@ -615,7 +654,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'Mijn vragen';
+  String get navCards => 'Vraag & aanbod';
 
   @override
   String get navNotifications => 'Updates';
@@ -843,6 +882,13 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.';
+
+  @override
+  String get emptyStateKnowSomeoneTitle => 'Nog geen doorverwijzingen';
+
+  @override
+  String get emptyStateKnowSomeoneDescription =>
+      'Wanneer je vragen beantwoordt met \"Die ken ik\", verschijnen ze hier.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -2064,6 +2110,17 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String promptItemOtherMatchCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count andere matches',
+      one: '1 andere match',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get promptDetailRejectButton => 'Afwijzen';
 
   @override
@@ -2212,7 +2269,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Alle vragen beantwoord voor vandaag';
 
   @override
-  String get promptsViewMyPromptsTitle => 'Mijn vragen';
+  String get promptsViewMyPromptsTitle => 'Vraag en aanbod';
 
   @override
   String get venueCodeFieldPlaceholder => 'Uitnodigingscode';
@@ -2421,7 +2478,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get profileHeaderReachOutButton => 'Stel jezelf voor';
 
   @override
-  String get profileHeaderAlreadyConnectedButton => 'Al in contact?';
+  String get profileHeaderAlreadyConnectedButton => 'Al geconnecteerd ?';
 
   @override
   String get getMatchedButtonLabel => 'Word gematcht';

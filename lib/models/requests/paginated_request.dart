@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
+import '../enums/interaction_type.dart';
 import '../enums/match_status.dart';
 
 /// Server list types for paginated requests
@@ -7,8 +8,8 @@ enum ServerListType {
   notifications('get_notifications'),
   pendingUserReviews('get_pending_user_reviews'),
   pendingSystemReviews('get_pending_system_reviews'),
-  matches('get_matches'),
-  profilePrompts('get_my_prompts');
+  matches('get_my_matches'),
+  profilePrompts('get_requests');
 
   const ServerListType(this.value);
   final String value;
@@ -69,7 +70,11 @@ class PaginatedRequest {
   final DateTime? cursorTime;
   final MatchStatus? cursorStatus;
   final bool? cursorExpired;
+  final bool? cursorPaused;
+  final int? cursorMatchCount;
+  final bool? cursorHasStage;
   final ServerListType list;
+  final InteractionType? interactionType;
 
   const PaginatedRequest({
     this.limit = numberOfMatches,
@@ -77,7 +82,11 @@ class PaginatedRequest {
     this.cursorTime,
     this.cursorStatus,
     this.cursorExpired,
+    this.cursorPaused,
+    this.cursorMatchCount,
+    this.cursorHasStage,
     required this.list,
+    this.interactionType,
   });
 
   Map<String, dynamic> toJson() {
@@ -102,11 +111,27 @@ class PaginatedRequest {
       json['cursor_expired'] = cursorExpired;
     }
 
+    if (cursorPaused != null) {
+      json['cursor_paused'] = cursorPaused;
+    }
+
+    if (cursorMatchCount != null) {
+      json['cursor_match_count'] = cursorMatchCount;
+    }
+
+    if (cursorHasStage != null) {
+      json['cursor_has_stage'] = cursorHasStage;
+    }
+
+    if (interactionType != null) {
+      json['interaction_type'] = interactionType!.value;
+    }
+
     return json;
   }
 
   @override
   String toString() {
-    return 'PaginatedRequest(limit: $limit, cursorId: $cursorId, cursorTime: $cursorTime, cursorStatus: $cursorStatus, cursorExpired: $cursorExpired, list: $list)';
+    return 'PaginatedRequest(limit: $limit, cursorId: $cursorId, cursorTime: $cursorTime, cursorStatus: $cursorStatus, cursorExpired: $cursorExpired, cursorPaused: $cursorPaused, cursorMatchCount: $cursorMatchCount, cursorHasStage: $cursorHasStage, list: $list, interactionType: $interactionType)';
   }
 }

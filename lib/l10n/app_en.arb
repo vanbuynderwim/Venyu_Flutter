@@ -105,11 +105,11 @@
   "interactionTypeLookingForThisSubtitle": "can offer advice, experience, introductions...",
   "interactionTypeThisIsMeSubtitle": "can help with experience, learnings, netwerk...",
 
-  "interactionTypeKnowSomeoneSelection": "I can connect",
+  "interactionTypeKnowSomeoneSelection": "I know someone",
   "interactionTypeKnowSomeoneSubtitle": "Introduce people who can help",
   "interactionTypeKnowSomeoneHint": "Who can you connect for this need?",
   
-  "interactionTypeNotRelevantSelection": "Skip",
+  "interactionTypeNotRelevantSelection": "I don’t know anyone",
   "interactionTypeNotRelevantSubtitle": "Pass on this one",
   "interactionTypeNotRelevantHint": "What would you like to share?",
 
@@ -117,6 +117,60 @@
   "interactionTypeLookingForThisNewTitle": "New request",
   "interactionTypeKnowSomeoneNewTitle": "New connection",
   "interactionTypeNotRelevantNewTitle": "Skip",
+
+  "interactionTypeMatchThisIsMe": "{firstName} offers this",
+  "@interactionTypeMatchThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchLookingForThis": "{firstName} needs this",
+  "@interactionTypeMatchLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchKnowSomeone": "{firstName} knows someone",
+  "@interactionTypeMatchKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "interactionTypeSelfThisIsMe": "I offer this",
+  "interactionTypeSelfLookingForThis": "I need this",
+  "interactionTypeSelfKnowSomeone": "I know someone",
+
+  "interactionTypePromptThisIsMe": "{firstName} is someone",
+  "@interactionTypePromptThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptLookingForThis": "{firstName} is looking for someone",
+  "@interactionTypePromptLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptKnowSomeone": "{firstName} knows someone",
+  "@interactionTypePromptKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
 
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Personal Information",
@@ -244,7 +298,7 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "My requests",
+  "navCards": "Request & offer",
   "navNotifications": "Updates",
   "navProfile": "Profile",
 
@@ -360,6 +414,8 @@
   "emptyStateMatchesDescription": "Once you have a match, it will appear here. Ask your first question to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
   "emptyStatePromptsDescription": "Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.",
+  "emptyStateKnowSomeoneTitle": "No referrals yet",
+  "emptyStateKnowSomeoneDescription": "When you answer requests with \"I know someone\", they will appear here.",
   "emptyStateNotificationSettingsTitle": "No settings available",
   "emptyStateNotificationSettingsDescription": "Notification settings will appear here once they are configured.",
 
@@ -977,6 +1033,14 @@
       }
     }
   },
+  "promptItemOtherMatchCount": "{count, plural, =1{1 other match} other{{count} other matches}}",
+  "@promptItemOtherMatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "promptDetailRejectButton": "Reject",
   "promptDetailApproveButton": "Approve",
   "promptDetailApprovedMessage": "Request approved",
@@ -1055,7 +1119,7 @@
   "promptsViewEmptyActionButton": "Ask a question",
   "promptsViewAnswerPromptsButton": "Unanswered requests",
   "promptsViewAllAnsweredMessage": "All requests answered for today",
-  "promptsViewMyPromptsTitle": "My requests",
+  "promptsViewMyPromptsTitle": "Request & offer",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Invite code",
@@ -1195,7 +1259,7 @@
   "@_PROFILE_HEADER": {},
   "profileHeaderBioPlaceholder": "Write something about yourself...",
   "profileHeaderReachOutButton": "Introduce yourself",
-  "profileHeaderAlreadyConnectedButton": "Already connected?",
+  "profileHeaderAlreadyConnectedButton": "Already connected ?",
 
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "Get matched",

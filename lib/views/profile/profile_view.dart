@@ -7,11 +7,9 @@ import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../models/enums/profile_sections.dart';
 import '../../models/enums/category_type.dart';
-import '../../models/enums/interaction_type.dart';
 import '../../models/profile.dart';
 import '../../models/tag_group.dart';
 import '../../models/badge_data.dart';
-import '../../models/prompt.dart';
 import '../../core/providers/app_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/profile_service.dart';
@@ -22,20 +20,15 @@ import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/buttons/fab_button.dart';
 import '../../widgets/common/loading_state_widget.dart';
 import '../../widgets/common/warning_box_widget.dart';
-import '../../widgets/common/info_box_widget.dart';
 import '../../mixins/data_refresh_mixin.dart';
 import '../venues/join_venue_view.dart';
 import 'profile_header.dart';
 import 'profile_view/profile_section_button_bar.dart';
-import 'profile_view/about_me_section.dart';
 import 'profile_view/personal_info_section.dart';
 import 'profile_view/company_info_section.dart';
 import 'profile_view/venues_section.dart';
 import 'edit_tag_group_view.dart';
 import 'edit_account_view.dart';
-import '../prompts/prompt_detail_view.dart';
-import '../../core/helpers/get_matched_helper.dart';
-import '../../widgets/buttons/get_matched_button.dart';
 
 /// ProfileView - Current user's profile page
 /// 
@@ -62,9 +55,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   // State
   bool _isProfileLoading = true;
-  ProfileSections _selectedSection = ProfileSections.aboutMe;
-  List<Prompt>? _offers;
-  bool _offersLoading = false;
+  ProfileSections _selectedSection = ProfileSections.personal;
   List<TagGroup>? _personalTagGroups;
   List<TagGroup>? _companyTagGroups;
   bool _personalTagGroupsLoading = false;
@@ -81,8 +72,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _refreshProfile();
-      // Load offers since it's the default selected section
-      _loadOffers();
+      // Load personal tag groups since it's the default selected section
+      _loadPersonalTagGroups();
       // Load badge data
       _fetchBadges();
     });
@@ -156,9 +147,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
                         _selectedSection = section;
                       });
                       // Load data when section is selected
-                      if (section == ProfileSections.aboutMe && _offers == null) {
-                        _loadOffers();
-                      } else if (section == ProfileSections.personal && _personalTagGroups == null) {
+                      if (section == ProfileSections.personal && _personalTagGroups == null) {
                         _loadPersonalTagGroups();
                       } else if (section == ProfileSections.company && _companyTagGroups == null) {
                         _loadCompanyTagGroups();
@@ -201,16 +190,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
     // Determine which completeness to show based on selected section
     int? completeness;
     String message = '';
-    bool useInfoBox = false;
 
     switch (_selectedSection) {
-      case ProfileSections.aboutMe:
-        // Only show info message if user has prompts (offers)
-        if (_offers != null && _offers!.isNotEmpty) {
-          message = l10n.aboutMeSectionEmptyDescription;
-          useInfoBox = true;
-        }
-        break;
       case ProfileSections.personal:
         completeness = profile.personalCompleteness;
         if (completeness != null && completeness < 100) {
@@ -223,8 +204,8 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
           message = l10n.profileCompanyCompletenessMessage(completeness);
         }
         break;
-      default:
-        // No completeness warning for other sections
+      case ProfileSections.venues:
+        // No completeness warning for venues section
         return const SizedBox.shrink();
     }
 
@@ -238,9 +219,7 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 8),
-          child: useInfoBox
-              ? InfoBoxWidget(text: message, iconName: null)
-              : WarningBoxWidget(text: message),
+          child: WarningBoxWidget(text: message),
         ),
       ],
     );
@@ -249,13 +228,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
   /// Builds the content for the selected section
   Widget _buildSectionContent() {
     switch (_selectedSection) {
-      case ProfileSections.aboutMe:
-        return AboutMeSection(
-          offers: _offers,
-          offersLoading: _offersLoading,
-          onOfferTap: _handleOfferTap,
-          onCreateOffer: _handleCreateOffer,
-        );
       case ProfileSections.personal:
         return PersonalInfoSection(
           personalTagGroups: _personalTagGroups,
@@ -281,19 +253,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
 
   /// Builds the floating action button based on selected section
   Widget? _buildFloatingActionButton() {
-    // Show GetMatchedButton FAB for About Me section with offers
-    if (_selectedSection == ProfileSections.aboutMe && _offers != null && _offers!.isNotEmpty) {
-      return GetMatchedButton(
-        buttonType: GetMatchedButtonType.fab,
-        initialInteractionType: InteractionType.thisIsMe,
-        isFromPrompts: true,
-        onModalClosed: (_) {
-          AppLogger.debug('Modal closed, refreshing offers list', context: 'ProfileView');
-          _loadOffers();
-        },
-      );
-    }
-
     // Show FAB for Venues section
     if (AppConfig.showVenues && _selectedSection == ProfileSections.venues && _hasVenues) {
       return FABButton(
@@ -353,15 +312,11 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
       // Force refresh section data if this is a forced refresh (pull-to-refresh)
       if (forceRefresh) {
         // Reset cached data to force reload
-        _offers = null;
         _personalTagGroups = null;
         _companyTagGroups = null;
 
         // Reload current section data
         switch (_selectedSection) {
-          case ProfileSections.aboutMe:
-            _loadOffers();
-            break;
           case ProfileSections.personal:
             _loadPersonalTagGroups();
             break;
@@ -391,67 +346,6 @@ class _ProfileViewState extends State<ProfileView> with DataRefreshMixin, ErrorH
         });
       }
     }
-  }
-  
-  /// Loads user offers (this_is_me prompts)
-  void _loadOffers() async {
-    if (!mounted) return;
-    setState(() => _offersLoading = true);
-
-    await executeSilently(
-      operation: () async {
-        final offers = await _profileManager.getMyOffers();
-        AppLogger.success('Loaded ${offers.length} offers', context: 'ProfileView');
-        safeSetState(() {
-          _offers = offers;
-          _offersLoading = false;
-        });
-      },
-      onError: (error) {
-        AppLogger.error('Error loading offers', error: error, context: 'ProfileView');
-        safeSetState(() {
-          _offers = [];
-          _offersLoading = false;
-        });
-      },
-    );
-  }
-
-  /// Handles offer tap - navigate to prompt detail
-  void _handleOfferTap(Prompt offer) async {
-    AppLogger.ui('Tapped on offer: ${offer.label}', context: 'ProfileView');
-
-    final result = await Navigator.push<bool>(
-      context,
-      platformPageRoute(
-        context: context,
-        builder: (context) => PromptDetailView(
-          promptId: offer.promptID,
-          interactionType: InteractionType.thisIsMe,
-        ),
-      ),
-    );
-
-    // If prompt was deleted (result == true), remove it from the list locally
-    if (result == true && mounted) {
-      AppLogger.debug('Offer was deleted, removing from list', context: 'ProfileView');
-      setState(() {
-        _offers?.removeWhere((p) => p.promptID == offer.promptID);
-      });
-    }
-  }
-
-  /// Handles create offer action - opens GetMatched modal
-  Future<void> _handleCreateOffer() async {
-    await GetMatchedHelper.openGetMatchedModal(
-      context: context,
-      initialInteractionType: InteractionType.thisIsMe,
-      isFromPrompts: true,
-      callerContext: 'ProfileView',
-    );
-
-    // Refresh offers list after modal closes (user might have created an offer)
-    _loadOffers();
   }
 
   /// Loads personal tag groups

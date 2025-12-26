@@ -93,6 +93,9 @@ class ActionButton extends StatefulWidget {
   /// Optional badge count to display on the icon.
   final int? badgeCount;
 
+  /// Optional custom background color that overrides the type's background color.
+  final Color? backgroundColor;
+
   /// Creates an [ActionButton] widget.
   ///
   /// Either [label] must be provided, or [icon] must be provided with [isIconOnly] set to true.
@@ -110,6 +113,7 @@ class ActionButton extends StatefulWidget {
     this.isCompact = false,
     this.onInvertedBackground = false,
     this.badgeCount,
+    this.backgroundColor,
   }) : assert(label != null || (icon != null && isIconOnly),
          'Either label must be provided or icon must be provided with isIconOnly=true');
 
@@ -135,9 +139,11 @@ class _ActionButtonState extends State<ActionButton> {
       child: AppLayoutStyles.interactiveButton(
         context: context,
         onTap: isActuallyDisabled ? null : widget.onPressed,
-        backgroundColor: widget.type.backgroundColor(context, onInvertedBackground: widget.onInvertedBackground),
-        borderColor: widget.type.borderColor(context, onInvertedBackground: widget.onInvertedBackground),
-        highlightColor: widget.type.highlightColor(context, onInvertedBackground: widget.onInvertedBackground),
+        backgroundColor: widget.backgroundColor ?? widget.type.backgroundColor(context, onInvertedBackground: widget.onInvertedBackground),
+        borderColor: widget.backgroundColor != null ? widget.backgroundColor! : widget.type.borderColor(context, onInvertedBackground: widget.onInvertedBackground),
+        highlightColor: widget.backgroundColor != null
+            ? widget.backgroundColor!.withValues(alpha: 0.8)
+            : widget.type.highlightColor(context, onInvertedBackground: widget.onInvertedBackground),
         opacity: isActuallyDisabled ? 0.7 : 1.0,
         child: Container(
           padding: EdgeInsets.symmetric(

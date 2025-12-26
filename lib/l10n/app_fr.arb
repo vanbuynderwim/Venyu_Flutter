@@ -104,11 +104,11 @@
   "interactionTypeLookingForThisSubtitle": "peut offrir des conseils, de l'exp\u00e9rience, des introductions...",
   "interactionTypeThisIsMeSubtitle": "peut aider avec de l'exp\u00e9rience, des apprentissages, un r\u00e9seau...",
 
-  "interactionTypeKnowSomeoneSelection": "Je peux connecter",
+  "interactionTypeKnowSomeoneSelection": "Je connais quelqu'un",
   "interactionTypeKnowSomeoneSubtitle": "Pr\u00e9senter des personnes qui peuvent aider",
   "interactionTypeKnowSomeoneHint": "Qui pouvez-vous connecter pour ce besoin ?",
 
-  "interactionTypeNotRelevantSelection": "Passer",
+  "interactionTypeNotRelevantSelection": "Je ne connais personne",
   "interactionTypeNotRelevantSubtitle": "Passer celui-ci",
   "interactionTypeNotRelevantHint": "Que souhaitez-vous partager ?",
 
@@ -116,6 +116,60 @@
   "interactionTypeLookingForThisNewTitle": "Nouvelle demande",
   "interactionTypeKnowSomeoneNewTitle": "Nouvelle connexion",
   "interactionTypeNotRelevantNewTitle": "Passer",
+
+  "interactionTypeMatchThisIsMe": "{firstName} propose ceci",
+  "@interactionTypeMatchThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchLookingForThis": "{firstName} cherche ceci",
+  "@interactionTypeMatchLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypeMatchKnowSomeone": "{firstName} connaît quelqu'un",
+  "@interactionTypeMatchKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "interactionTypeSelfThisIsMe": "J'offre ceci",
+  "interactionTypeSelfLookingForThis": "Je cherche ceci",
+  "interactionTypeSelfKnowSomeone": "Je connais quelqu'un",
+
+  "interactionTypePromptThisIsMe": "{firstName} est quelqu'un",
+  "@interactionTypePromptThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptLookingForThis": "{firstName} cherche quelqu'un",
+  "@interactionTypePromptLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptKnowSomeone": "{firstName} connaît quelqu'un",
+  "@interactionTypePromptKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
 
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Informations personnelles",
@@ -243,7 +297,7 @@
 
   "@_NAVIGATION": {},
   "navMatches": "Matches",
-  "navCards": "Mes demandes",
+  "navCards": "Offre & demande",
   "navNotifications": "Updates",
   "navProfile": "Profil",
 
@@ -359,6 +413,8 @@
   "emptyStateMatchesDescription": "Une fois que vous aurez un match, il apparaîtra ici. Posez votre première question pour être matché plus rapidement.",
   "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
   "emptyStatePromptsDescription": "Les demandes sont matchées avec les offres d'autres entrepreneurs. Posez la vôtre pour découvrir qui peut vous aider.",
+  "emptyStateKnowSomeoneTitle": "Pas encore de recommandations",
+  "emptyStateKnowSomeoneDescription": "Lorsque vous répondez aux demandes avec \"Je connais quelqu'un\", elles apparaîtront ici.",
   "emptyStateNotificationSettingsTitle": "Aucun param\u00e8tre disponible",
   "emptyStateNotificationSettingsDescription": "Les param\u00e8tres de notification appara\u00eetront ici une fois configur\u00e9s.",
 
@@ -976,6 +1032,14 @@
       }
     }
   },
+  "promptItemOtherMatchCount": "{count, plural, =1{1 autre match} other{{count} autres matches}}",
+  "@promptItemOtherMatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "promptDetailRejectButton": "Rejeter",
   "promptDetailApproveButton": "Approuver",
   "promptDetailApprovedMessage": "Demande approuvée",
@@ -1054,7 +1118,7 @@
   "promptsViewEmptyActionButton": "Posez une question",
   "promptsViewAnswerPromptsButton": "Demandes non répondues",
   "promptsViewAllAnsweredMessage": "Toutes les demandes répondues pour aujourd'hui",
-  "promptsViewMyPromptsTitle": "Mes demandes",
+  "promptsViewMyPromptsTitle": "Offre et demande",
 
   "@_VENUE_CODE_FIELD": {},
   "venueCodeFieldPlaceholder": "Code d'invitation",
@@ -1195,7 +1259,7 @@
   "@_PROFILE_HEADER": {},
   "profileHeaderBioPlaceholder": "Écrivez quelque chose sur vous...",
   "profileHeaderReachOutButton": "Présentez-vous",
-  "profileHeaderAlreadyConnectedButton": "Déjà en contact ?",
+  "profileHeaderAlreadyConnectedButton": "Déjà connecté ?",
 
   "@_GET_MATCHED_BUTTON": {},
   "getMatchedButtonLabel": "\u00catre match\u00e9",

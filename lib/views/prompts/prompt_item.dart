@@ -6,11 +6,8 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../widgets/common/role_view.dart';
-import '../../widgets/common/interaction_tag.dart';
-import '../../widgets/common/venue_tag.dart';
 import '../../widgets/common/status_badge_view.dart';
 import '../../widgets/common/tag_view.dart';
-import '../../widgets/prompts/selection_title_with_icon.dart';
 import '../../l10n/app_localizations.dart';
 
 /// PromptItem - Flutter equivalent van Swift CardItemView
@@ -25,6 +22,7 @@ class PromptItem extends StatefulWidget {
   final bool shouldShowStatus;
   final bool showCounters;
   final bool limitPromptLines;
+  final String? matchFirstName;
   final Function(Prompt)? onPromptSelected;
 
   const PromptItem({
@@ -39,6 +37,7 @@ class PromptItem extends StatefulWidget {
     this.shouldShowStatus = true,
     this.showCounters = false,
     this.limitPromptLines = false,
+    this.matchFirstName,
     this.onPromptSelected,
   });
 
@@ -51,17 +50,14 @@ class _PromptItemState extends State<PromptItem> {
 
   @override
   Widget build(BuildContext context) {
-    // Helper variables for cleaner conditions
-    final hasInteractionTag = widget.showMatchInteraction && widget.prompt.userInteractionType != null;
-    final hasVenueTag = widget.prompt.venue != null;
-    final hasMatchInteractionTag = widget.showMatchInteraction && widget.prompt.matchInteractionType != null;
-    final hasTags = hasInteractionTag || hasVenueTag || hasMatchInteractionTag;
-    final showTagsRow = hasTags || widget.showCounters;
-
     // Helper variables for status badges row
     final showStatusBadge = widget.prompt.fromAuthor == true && widget.prompt.displayStatus != PromptStatus.approved;
     final showPausedTag = widget.prompt.isPaused == true;
-    final showMatchCountTag = widget.showCounters && (widget.prompt.matchCount ?? 0) > 0;
+
+    // Calculate effective match count: show "other matches" (count - 1) when in match detail view
+    final rawMatchCount = widget.prompt.matchCount ?? 0;
+    final effectiveMatchCount = widget.showMatchInteraction ? rawMatchCount - 1 : rawMatchCount;
+    final showMatchCountTag = widget.showCounters && effectiveMatchCount > 0;
     final hasAnyBadge = showStatusBadge || showPausedTag || showMatchCountTag;
 
     return Container(
@@ -111,37 +107,26 @@ class _PromptItemState extends State<PromptItem> {
                             AppModifiers.verticalSpaceMedium,
                           ],
 
-                    // Selection title and timeAgo row - above prompt label
-                    if (widget.prompt.interactionType != null) ...[
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SelectionTitleWithIcon(
-                              interactionType: widget.prompt.interactionType!,
-                              size: 18,
+                    // Combined selection title + prompt label with chevron
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.prompt.buildTitle(context, matchFirstName: widget.matchFirstName),
+                            style: AppTextStyles.body.copyWith(
+                              color: context.venyuTheme.primaryText,
+                              fontSize: 15
                             ),
+                            maxLines: widget.limitPromptLines ? 4 : null,
+                            overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
                           ),
-                          if (widget.showMatchInteraction)
-                            context.themedIcon('chevron', size: 18),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                    ],
-
-                    // Prompt label - takes full width
-                    Text(
-                      widget.prompt.label,
-                      style: AppTextStyles.body.copyWith(
-                        color: context.venyuTheme.primaryText,
-                        fontSize: 18,
-                        fontFamily: AppFonts.graphie,
-                      ),
-                      maxLines: widget.limitPromptLines ? 4 : null,
-                      overflow: widget.limitPromptLines ? TextOverflow.ellipsis : null,
+                        ),
+                      ],
                     ),
 
                     // Match count tag, status badge, and paused tag - below prompt label
-                    if (widget.shouldShowStatus && !widget.showMatchInteraction && hasAnyBadge) ...[
+                    if (widget.shouldShowStatus && hasAnyBadge) ...[
                       const SizedBox(height: 16),
                       Row(
                         children: [
@@ -149,7 +134,9 @@ class _PromptItemState extends State<PromptItem> {
                           if (showMatchCountTag)
                             TagView(
                               id: 'matches_${widget.prompt.promptID}',
-                              label: AppLocalizations.of(context)!.promptItemMatchCount(widget.prompt.matchCount!),
+                              label: widget.showMatchInteraction
+                                  ? AppLocalizations.of(context)!.promptItemOtherMatchCount(effectiveMatchCount)
+                                  : AppLocalizations.of(context)!.promptItemMatchCount(effectiveMatchCount),
                               icon: 'match',
                               isLocal: true,
                               isSelected: widget.prompt.hasNewMatches == true,
@@ -172,46 +159,6 @@ class _PromptItemState extends State<PromptItem> {
                               icon: 'pause',
                             ),
                           ],
-                        ],
-                      ),
-                    ],
-                    
-                    // Interaction tags and counters row - below the label
-                    if (showTagsRow) ...[
-                      // Only show spacing if there are actual tags
-                      if (hasTags)
-                        SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Left side: interaction tag and venue tag
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (hasInteractionTag) ...[
-                                InteractionTag(
-                                  interactionType: widget.prompt.userInteractionType!,
-                                  compact: true,
-                                ),
-                                if (hasVenueTag) const SizedBox(width: 8),
-                              ],
-                              if (hasVenueTag)
-                                VenueTag(
-                                  venue: widget.prompt.venue!,
-                                  compact: true,
-                                ),
-                            ],
-                          ),
-
-                          // Spacer to push right content to the end
-                          const Spacer(),
-
-                          // Right side: match interaction tag
-                          if (hasMatchInteractionTag)
-                            InteractionTag(
-                              interactionType: widget.prompt.matchInteractionType!,
-                              compact: true,
-                            ),
                         ],
                       ),
                     ],
@@ -253,26 +200,26 @@ class _PromptItemState extends State<PromptItem> {
   /// Build gradient overlay - show interaction colors for matches, status-based colors otherwise
   BoxDecoration? _buildGradientOverlay() {
     final venyuTheme = context.venyuTheme;
+    final isPaused = widget.prompt.isPaused == true;
+    final gradientAlpha = isPaused ? 0.1 : 0.25;
 
-    // If showing match interactions, always show the two interaction colors
+    // If showing match interactions, use match interaction color on left, adaptive background on right
     if (widget.showMatchInteraction) {
-      final leftColor = widget.prompt.userInteractionType?.color;
-      final rightColor = widget.prompt.matchInteractionType?.color;
+      final gradientColor = widget.prompt.matchInteractionType?.color;
 
-      // If we have both colors, show gradient
-      if (leftColor != null && rightColor != null) {
+      if (gradientColor != null) {
         return BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              leftColor.withValues(alpha: 0.3),
-              rightColor.withValues(alpha: 0.3),
+              gradientColor.withValues(alpha: gradientAlpha),
+              venyuTheme.adaptiveBackground.withValues(alpha: gradientAlpha),
             ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
         );
       }
-      // If missing colors, no gradient
+      // If missing color, no gradient
       return null;
     }
 
@@ -283,8 +230,8 @@ class _PromptItemState extends State<PromptItem> {
     return BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            gradientColor.withValues(alpha: 0.3),
-            venyuTheme.adaptiveBackground.withValues(alpha: 0.3),
+            gradientColor.withValues(alpha: gradientAlpha),
+            venyuTheme.adaptiveBackground.withValues(alpha: gradientAlpha),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -295,20 +242,32 @@ class _PromptItemState extends State<PromptItem> {
 
   /// Simple card border radius - equivalent to Swift applyCardShape
   BorderRadius _getCardBorderRadius() {
-    final roundedBottom = widget.isLast && widget.isSharedPromptView;
-    final roundedCard = !widget.isSharedPromptView;
+    // If not shared prompt view, all corners rounded
+    if (!widget.isSharedPromptView) {
+      return BorderRadius.circular(AppModifiers.defaultRadius);
+    }
 
-    if (roundedBottom) {
-      // Only bottom corners rounded
+    // For shared prompt view, round corners based on position
+    final roundTop = widget.isFirst;
+    final roundBottom = widget.isLast;
+
+    if (roundTop && roundBottom) {
+      // Only item - all corners rounded
+      return BorderRadius.circular(AppModifiers.defaultRadius);
+    } else if (roundTop) {
+      // First item - top corners rounded
+      return const BorderRadius.only(
+        topLeft: Radius.circular(AppModifiers.defaultRadius),
+        topRight: Radius.circular(AppModifiers.defaultRadius),
+      );
+    } else if (roundBottom) {
+      // Last item - bottom corners rounded
       return const BorderRadius.only(
         bottomLeft: Radius.circular(AppModifiers.defaultRadius),
         bottomRight: Radius.circular(AppModifiers.defaultRadius),
       );
-    } else if (roundedCard) {
-      // All corners rounded
-      return BorderRadius.circular(AppModifiers.defaultRadius);
     } else {
-      // No corners rounded
+      // Middle item - no corners rounded
       return BorderRadius.zero;
     }
   }

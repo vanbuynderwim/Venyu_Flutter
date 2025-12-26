@@ -12,16 +12,20 @@ import '../../models/prompt.dart';
 /// Used in notification items and match items.
 class PromptSectionCard extends StatelessWidget {
   final Prompt prompt;
+  final String? matchFirstName;
 
   const PromptSectionCard({
     super.key,
     required this.prompt,
+    this.matchFirstName,
   });
 
   @override
   Widget build(BuildContext context) {
     final venyuTheme = context.venyuTheme;
-    final gradientColor = venyuTheme.gradientPrimary;
+
+    // Use matchInteractionType color if available, otherwise fallback to gradientPrimary
+    final gradientColor = prompt.matchInteractionType?.color ?? prompt.interactionType?.color ?? venyuTheme.gradientPrimary;
 
     return Container(
       width: double.infinity,
@@ -29,8 +33,8 @@ class PromptSectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            gradientColor.withValues(alpha: 0.1),
-            venyuTheme.adaptiveBackground.withValues(alpha: 0.1),
+            gradientColor.withValues(alpha: 0.2),
+            venyuTheme.adaptiveBackground.withValues(alpha: 0.2),
           ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -38,15 +42,12 @@ class PromptSectionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
       child: Text(
-        prompt.interactionType != null
-            ? '${prompt.interactionType!.selectionTitle(context)} ${prompt.label}'
-            : prompt.label,
+        prompt.buildTitle(context, matchFirstName: matchFirstName),
         style: AppTextStyles.subheadline.copyWith(
           color: venyuTheme.primaryText,
-          fontSize: 14,
-          fontFamily: AppFonts.graphie,
+          fontSize: 14
         ),
-        maxLines: 2,
+        maxLines: 3,
         overflow: TextOverflow.ellipsis,
       ),
     );

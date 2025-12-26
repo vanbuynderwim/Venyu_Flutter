@@ -14,7 +14,6 @@ import 'match_item_view.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/notification_service.dart';
 import '../../core/providers/app_providers.dart';
-import '../../services/profile_service.dart';
 import '../../mixins/paginated_list_view_mixin.dart';
 import 'match_detail_view.dart';
 import '../../l10n/app_localizations.dart';
@@ -94,8 +93,9 @@ class _MatchesViewState extends State<MatchesView>
         final request = PaginatedRequest(
           limit: PaginatedRequest.numberOfMatches,
           cursorId: lastMatch.id,
-          cursorTime: lastMatch.updatedAt,
+          cursorTime: lastMatch.createdAt,
           cursorStatus: lastMatch.status,
+          cursorHasStage: lastMatch.stage != null,
           list: ServerListType.matches,
         );
 

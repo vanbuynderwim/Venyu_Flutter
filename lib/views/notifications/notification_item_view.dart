@@ -94,7 +94,10 @@ class _NotificationItemViewState extends State<NotificationItemView> {
             // Optional prompt section
             if (widget.notification.prompt != null) ...[
               AppModifiers.verticalSpaceSmall,
-              PromptSectionCard(prompt: widget.notification.prompt!),
+              PromptSectionCard(
+                prompt: widget.notification.prompt!,
+                matchFirstName: widget.notification.match?.profile.firstName,
+              ),
             ],
             
           ],

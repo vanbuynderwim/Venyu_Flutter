@@ -154,9 +154,9 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
     return executeAuthenticatedRequest(() async {
       AppLogger.info('Fetching user prompts with pagination: $paginatedRequest', context: 'ContentManager');
 
-      // Call the get_my_prompts RPC function with payload
+      // Call the get_requests RPC function with payload
       final result = await client
-          .rpc('get_my_prompts', params: {'payload': paginatedRequest.toJson()})
+          .rpc(paginatedRequest.list.value, params: {'payload': paginatedRequest.toJson()})
           .select();
 
       AppLogger.success('Profile prompts RPC call successful', context: 'ContentManager');

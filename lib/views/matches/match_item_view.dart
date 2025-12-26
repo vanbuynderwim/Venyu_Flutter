@@ -77,7 +77,10 @@ class _MatchItemViewState extends State<MatchItemView> {
             ),
             if (widget.match.prompt != null) ...[
               AppModifiers.verticalSpaceMedium,
-              PromptSectionCard(prompt: widget.match.prompt!),
+              PromptSectionCard(
+                prompt: widget.match.prompt!,
+                matchFirstName: widget.match.profile.firstName,
+              ),
             ],
             // Stage tag for connections with a stage
             if (widget.match.stage != null) ...[

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'profile.dart';
 import 'venue.dart';
 import 'match.dart';
@@ -128,5 +130,20 @@ class Prompt {
   /// Get the display status for the UI - just returns the actual status
   PromptStatus get displayStatus {
     return status ?? PromptStatus.draft;
+  }
+
+  /// Build the full prompt title combining interaction type prefix and label.
+  ///
+  /// If [matchFirstName] is provided and [matchInteractionType] is available,
+  /// uses promptTitle format: "{firstName} is iemand {label}"
+  /// Otherwise falls back to selectionTitle format: "Ik zoek iemand {label}"
+  /// If no interaction type is available, returns just the label.
+  String buildTitle(BuildContext context, {String? matchFirstName}) {
+    if (matchFirstName != null && matchInteractionType != null) {
+      return '${matchInteractionType!.promptTitle(context, matchFirstName)} $label';
+    } else if (interactionType != null) {
+      return '${interactionType!.selectionTitle(context)} $label';
+    }
+    return label;
   }
 }

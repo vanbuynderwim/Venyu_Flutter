@@ -55,7 +55,12 @@ class EmptyStateWidget extends StatelessWidget {
   
   /// Size of the icon
   final double iconSize;
-  
+
+  /// Accent color for the icon
+  final Color? accentColor;
+
+  /// Background color for the action button
+  final Color? buttonColor;
 
   const EmptyStateWidget({
     super.key,
@@ -67,7 +72,9 @@ class EmptyStateWidget extends StatelessWidget {
     this.actionButtonIcon,
     this.height = 300,
     this.fullHeight = false,
-    this.iconSize = 60
+    this.iconSize = 60,
+    this.accentColor,
+    this.buttonColor,
   });
 
   /// Builds the icon with safe fallback for themedIcon errors
@@ -76,6 +83,7 @@ class EmptyStateWidget extends StatelessWidget {
     return VisualIconWidget(
         iconName: iconName!,
         imageSize: iconSize,
+        imageColor: accentColor,
       );
   }
 
@@ -121,6 +129,7 @@ class EmptyStateWidget extends StatelessWidget {
             icon: actionButtonIcon,
             onPressed: onAction,
             width: 250,
+            backgroundColor: buttonColor,
           ),
         ],
       ],

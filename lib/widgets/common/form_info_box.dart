@@ -26,7 +26,7 @@ class FormInfoBox extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: venyuTheme.primary.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: venyuTheme.primary.withValues(alpha: 0.3),
           width: 1,

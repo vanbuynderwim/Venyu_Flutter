@@ -487,7 +487,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeKnowSomeoneSelection.
   ///
   /// In en, this message translates to:
-  /// **'I can connect'**
+  /// **'I know someone'**
   String get interactionTypeKnowSomeoneSelection;
 
   /// No description provided for @interactionTypeKnowSomeoneSubtitle.
@@ -505,7 +505,7 @@ abstract class AppLocalizations {
   /// No description provided for @interactionTypeNotRelevantSelection.
   ///
   /// In en, this message translates to:
-  /// **'Skip'**
+  /// **'I don’t know anyone'**
   String get interactionTypeNotRelevantSelection;
 
   /// No description provided for @interactionTypeNotRelevantSubtitle.
@@ -543,6 +543,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip'**
   String get interactionTypeNotRelevantNewTitle;
+
+  /// No description provided for @interactionTypeMatchThisIsMe.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} offers this'**
+  String interactionTypeMatchThisIsMe(String firstName);
+
+  /// No description provided for @interactionTypeMatchLookingForThis.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} needs this'**
+  String interactionTypeMatchLookingForThis(String firstName);
+
+  /// No description provided for @interactionTypeMatchKnowSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} knows someone'**
+  String interactionTypeMatchKnowSomeone(String firstName);
+
+  /// No description provided for @interactionTypeSelfThisIsMe.
+  ///
+  /// In en, this message translates to:
+  /// **'I offer this'**
+  String get interactionTypeSelfThisIsMe;
+
+  /// No description provided for @interactionTypeSelfLookingForThis.
+  ///
+  /// In en, this message translates to:
+  /// **'I need this'**
+  String get interactionTypeSelfLookingForThis;
+
+  /// No description provided for @interactionTypeSelfKnowSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'I know someone'**
+  String get interactionTypeSelfKnowSomeone;
+
+  /// No description provided for @interactionTypePromptThisIsMe.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} is someone'**
+  String interactionTypePromptThisIsMe(String firstName);
+
+  /// No description provided for @interactionTypePromptLookingForThis.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} is looking for someone'**
+  String interactionTypePromptLookingForThis(String firstName);
+
+  /// No description provided for @interactionTypePromptKnowSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} knows someone'**
+  String interactionTypePromptKnowSomeone(String firstName);
 
   /// No description provided for @registrationStepNameTitle.
   ///
@@ -1201,7 +1255,7 @@ abstract class AppLocalizations {
   /// No description provided for @navCards.
   ///
   /// In en, this message translates to:
-  /// **'My requests'**
+  /// **'Request & offer'**
   String get navCards;
 
   /// No description provided for @navNotifications.
@@ -1611,6 +1665,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.'**
   String get emptyStatePromptsDescription;
+
+  /// No description provided for @emptyStateKnowSomeoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No referrals yet'**
+  String get emptyStateKnowSomeoneTitle;
+
+  /// No description provided for @emptyStateKnowSomeoneDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When you answer requests with \"I know someone\", they will appear here.'**
+  String get emptyStateKnowSomeoneDescription;
 
   /// No description provided for @emptyStateNotificationSettingsTitle.
   ///
@@ -3736,6 +3802,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 match} other{{count} matches}}'**
   String promptItemMatchCount(int count);
 
+  /// No description provided for @promptItemOtherMatchCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 other match} other{{count} other matches}}'**
+  String promptItemOtherMatchCount(int count);
+
   /// No description provided for @promptDetailRejectButton.
   ///
   /// In en, this message translates to:
@@ -3997,7 +4069,7 @@ abstract class AppLocalizations {
   /// No description provided for @promptsViewMyPromptsTitle.
   ///
   /// In en, this message translates to:
-  /// **'My requests'**
+  /// **'Request & offer'**
   String get promptsViewMyPromptsTitle;
 
   /// No description provided for @venueCodeFieldPlaceholder.
@@ -4369,7 +4441,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileHeaderAlreadyConnectedButton.
   ///
   /// In en, this message translates to:
-  /// **'Already connected?'**
+  /// **'Already connected ?'**
   String get profileHeaderAlreadyConnectedButton;
 
   /// No description provided for @getMatchedButtonLabel.

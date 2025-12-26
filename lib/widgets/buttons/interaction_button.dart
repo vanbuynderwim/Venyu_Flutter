@@ -60,7 +60,7 @@ class InteractionButton extends StatelessWidget {
             // Add border for non-selected state
             border: !isSelected ? Border.all(
               color: isDisabled ? theme.disabledText : interactionType.color,
-              width: AppModifiers.thickBorder,
+              width: AppModifiers.thinBorder,
             ) : null,
           ),
           child: Material(
@@ -68,7 +68,7 @@ class InteractionButton extends StatelessWidget {
             child: InkWell(
               onTap: isUpdating ? null : () {
                 if (!isSelected) {
-                  HapticFeedback.mediumImpact();
+                  HapticFeedback.lightImpact();
                 }
                 onPressed?.call();
               },
@@ -85,7 +85,7 @@ class InteractionButton extends StatelessWidget {
                         customTitle ?? interactionType.buttonTitle(context),
                         style: AppTextStyles.callout.copyWith(
                           color: textColor,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,

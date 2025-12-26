@@ -30,7 +30,6 @@ class ProfileSectionButtonBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availableSections = <ProfileSections>[
-      ProfileSections.aboutMe,
       ProfileSections.personal,
       ProfileSections.company,
       // Only show venues if feature is enabled

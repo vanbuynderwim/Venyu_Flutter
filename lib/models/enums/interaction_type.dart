@@ -89,6 +89,60 @@ enum InteractionType {
     }
   }
 
+  /// Returns the match-specific text for this interaction type.
+  ///
+  /// Used in match views to show "<firstName> is this", "<firstName> is looking for this", etc.
+  /// Returns empty string for notRelevant.
+  String matchTitle(BuildContext context, String firstName) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeMatchThisIsMe(firstName);
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeMatchLookingForThis(firstName);
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeMatchKnowSomeone(firstName);
+      case InteractionType.notRelevant:
+        return '';
+    }
+  }
+
+  /// Returns the self-specific text for this interaction type.
+  ///
+  /// Used in match views to show "I offer this", "I need this", etc. for the current user's interaction.
+  /// Returns empty string for notRelevant.
+  String selfTitle(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypeSelfThisIsMe;
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypeSelfLookingForThis;
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypeSelfKnowSomeone;
+      case InteractionType.notRelevant:
+        return '';
+    }
+  }
+
+  /// Returns the prompt title for this interaction type.
+  ///
+  /// Used in prompt items to show "{firstName} is someone", "{firstName} is looking for someone", etc.
+  /// Returns empty string for notRelevant.
+  String promptTitle(BuildContext context, String firstName) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypePromptThisIsMe(firstName);
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypePromptLookingForThis(firstName);
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypePromptKnowSomeone(firstName);
+      case InteractionType.notRelevant:
+        return '';
+    }
+  }
+
   /// Returns the user-facing button text when matching the same interaction type as the prompt.
   ///
   /// Used in daily prompts to show "This is me too" instead of "This is me" when

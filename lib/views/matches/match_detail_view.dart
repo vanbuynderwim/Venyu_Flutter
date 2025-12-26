@@ -7,22 +7,20 @@ import '../../core/theme/venyu_theme.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../mixins/error_handling_mixin.dart';
+import '../../models/enums/match_detail_section_type.dart';
 import '../../services/supabase_managers/matching_manager.dart';
 import '../../services/rating_service.dart';
 import '../../core/providers/app_providers.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
+import '../../widgets/buttons/action_button.dart';
+import '../../widgets/buttons/option_button.dart';
 import '../../widgets/common/avatar_fullscreen_viewer.dart';
 import '../../widgets/common/loading_state_widget.dart';
-import '../../widgets/common/warning_box_widget.dart';
+import '../../widgets/common/form_info_box.dart';
 import '../../widgets/menus/menu_option_builder.dart';
 import '../profile/profile_header.dart';
-import 'match_detail/match_connections_section.dart';
 import 'match_detail/match_prompts_section.dart';
-import '../../widgets/common/sub_title.dart';
-import 'match_detail/match_tags_section.dart';
-import 'match_detail/match_venues_section.dart';
-import 'match_detail/match_preview_indicator.dart';
-import 'match_detail/match_score_section.dart';
+import 'match_detail/match_section_detail_view.dart';
 import 'match_detail/match_stages_view.dart';
 import 'match_reach_out_view.dart';
 
@@ -318,8 +316,50 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
                 ),
               ),
             ),
+            // Fixed bottom action button when stage is null (reach out)
+            if (_match != null && _match!.stage == null)
+              _buildBottomSection(),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Build the bottom section with reach out button
+  Widget _buildBottomSection() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Container(
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 8,
+        bottom: 24,
+      ),
+      decoration: BoxDecoration(
+        color: context.venyuTheme.pageBackground,
+        border: Border(
+          top: BorderSide(
+            color: context.venyuTheme.borderColor,
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Info box for first call
+          FormInfoBox(
+            content: l10n.matchDetailFirstCallWarning(_match!.profile.firstName),
+          ),
+          const SizedBox(height: 8),
+          ActionButton(
+            label: l10n.profileHeaderReachOutButton,
+            icon: context.themedIcon('edit'),
+            type: ActionButtonType.primary,
+            onPressed: () => _handleReachOut(context),
+          ),
+        ],
       ),
     );
   }
@@ -364,107 +404,91 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
         bottom: MediaQuery.of(context).padding.bottom + 8,
       ),
       children: [
-            // Warning box for matches without stage (First Call)
-            if (_match!.stage == null) ...[
-              Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0, top: 8, bottom: 16),
-                child: WarningBoxWidget(
-                  text: l10n.matchDetailFirstCallWarning(_match!.profile.firstName),
-                ),
-              ),
-            ],
-            
             // Profile Header
             ProfileHeader(
               profile: _match!.profile,
               avatarSize: 85,
               isEditable: false,
               matchingScore: _match!.score,
-              stage: _match!.stage,
-              // Blur avatar when user is not Pro AND not connected (same logic as matches_view)
               onAvatarTap: _match!.profile.avatarID != null
-                  // Only allow avatar tap for connections
-                  // This prevents non-Pro users from viewing unblurred photos of matched profiles
                   ? () => _viewMatchAvatar(context)
                   : null,
-              onReachOutTap: () => _handleReachOut(context),
-              onStageTap: () => _handleStageTap(context),
             ),
 
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
 
             // Matching Cards Section
             if (_match!.nrOfPrompts > 0) ...[
-                            
               MatchPromptsSection(
                 match: _match!,
                 currentProfile: context.profileService.currentProfile!,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 4),
             ],
-            
-            // If connection limit is reached, show upgrade prompt instead of other sections
-            if (_match!.nrOfConnections > 0) ...[
-                SubTitle(
-                  iconName: 'match',
-                  title: l10n.matchDetailSharedIntros(_match!.nrOfConnections, _match!.nrOfConnections == 1 ? l10n.matchDetailIntroduction : l10n.matchDetailIntroductions),
-                ),
-                const SizedBox(height: 8),
-                MatchConnectionsSection(match: _match!),
-                const SizedBox(height: 8),
-              ],
 
-              // Shared Venues Section
-              if (_match!.nrOfVenues > 0) ...[
-                SubTitle(
-                  iconName: 'venue',
-                  title: l10n.matchDetailSharedVenues(_match!.nrOfVenues, _match!.nrOfVenues == 1 ? l10n.matchDetailVenue : l10n.matchDetailVenues),
-                ),
-                const SizedBox(height: 8),
-                MatchVenuesSection(match: _match!),
-                const SizedBox(height: 8),
-              ],    
-               
-              // Personal matches section
-              if (_match!.nrOfPersonalTags > 0) ...[
-                SubTitle(
-                  iconName: 'profile',
-                  title: l10n.matchDetailPersonalInterests(_match!.nrOfPersonalTags, _match!.nrOfPersonalTags == 1 ? l10n.matchDetailArea : l10n.matchDetailAreas),
-                ),
-                const SizedBox(height: 16),
-                _buildPersonalMatchesContent(),
-               const SizedBox(height: 16),
-              ],
+            // Stage button when connected (stage != null) - shown before section buttons
+            if (_match!.stage != null) ...[
+              OptionButton(
+                option: _match!.stage!,
+                isSelected: false,
+                isSelectable: false,
+                isCheckmarkVisible: false,
+                isChevronVisible: true,
+                isButton: true,
+                withDescription: true,
+                onSelect: () => _handleStageTap(context),
+              ),
+              //const SizedBox(height: 4),
+            ],
 
-              // Company matches section
-              if (_match!.nrOfCompanyTags > 0) ...[
-                SubTitle(
-                  iconName: 'company',
-                  title: l10n.matchDetailCompanyFacts(_match!.nrOfCompanyTags, _match!.nrOfCompanyTags == 1 ? l10n.matchDetailArea : l10n.matchDetailAreas),
-                ),
-                const SizedBox(height: 16),
-                MatchTagsSection(tagGroups: _match!.companyTagGroups),
-                const SizedBox(height: 16),
-              ],
-
-              // Match score breakdown section
-              if (_match!.scoreDetails != null && _match!.scoreDetails!.isNotEmpty) ...[
-                SubTitle(
-                  iconName: 'target',
-                  title: l10n.matchDetailScoreBreakdown,
-                ),
-                const SizedBox(height: 16),
-                MatchScoreSection(match: _match!),
-              ],
+            // Section buttons - each navigates to detailed view
+            ..._buildSectionButtons(context),
 
       ],
     );
   }
 
-  /// Build personal matches content based on user's Pro status and connection status
-  Widget _buildPersonalMatchesContent() {
-    // Show personal matches if user is Pro OR if they're already connected
-    return MatchTagsSection(tagGroups: _match!.personalTagGroups);
+  /// Build section buttons for navigating to detailed section views
+  List<Widget> _buildSectionButtons(BuildContext context) {
+    final List<Widget> buttons = [];
+
+    for (final sectionType in MatchDetailSectionType.values) {
+      if (sectionType.isVisible(_match!)) {
+        final option = MatchSectionOption(
+          sectionType: sectionType,
+          match: _match!,
+          context: context,
+        );
+
+        buttons.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: OptionButton(
+              option: option,
+              isChevronVisible: true,
+              isCheckmarkVisible: false,
+              onSelect: () => _navigateToSection(context, sectionType),
+            ),
+          ),
+        );
+      }
+    }
+
+    return buttons;
+  }
+
+  /// Navigate to a section detail view
+  void _navigateToSection(BuildContext context, MatchDetailSectionType sectionType) {
+    Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (context) => MatchSectionDetailView(
+          match: _match!,
+          sectionType: sectionType,
+        ),
+      ),
+    );
   }
 
   /// Shows the match avatar in fullscreen view

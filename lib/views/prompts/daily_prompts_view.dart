@@ -55,16 +55,15 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
   late final ContentManager _contentManager;
 
   Prompt get _currentPrompt => widget.prompts[_currentPromptIndex];
-  
-  /// Get the top gradient color from the current prompt's interaction type
+
+  /// Get the top gradient color based on selected interaction type, fallback to prompt's interaction type
   Color get _topGradientColor {
-    return _currentPrompt.interactionType?.color ?? context.venyuTheme.gradientPrimary;
+    return _selectedInteractionType?.color ?? _currentPrompt.interactionType?.color ?? context.venyuTheme.gradientPrimary;
   }
 
-  /// Get the bottom gradient color based on selected interaction type or default
+  /// Get the bottom gradient color - always adaptive background
   Color get _bottomGradientColor {
-    // Use selected interaction type color when available, otherwise adaptive background
-    return _selectedInteractionType?.color ?? context.venyuTheme.adaptiveBackground;
+    return context.venyuTheme.adaptiveBackground;
   }
 
   void _handleInteractionPressed(InteractionType interactionType) {
@@ -303,7 +302,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                       promptLabel: _currentPrompt.label,
                       venue: _currentPrompt.venue,
                       isFirstTimeUser: widget.isFirstTimeUser,
-                      interactionType: _currentPrompt.interactionType,
+                      interactionType: _selectedInteractionType ?? _currentPrompt.interactionType,
                       showSelectionTitle: true,
                     ),
                   ),
@@ -316,18 +315,6 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
                   const SizedBox(height: AppModifiers.largeSpacing),
 
-                  // Tutorial hint tag for first time users showing which button to press
-                  if (widget.isFirstTimeUser && _currentPrompt.matchInteractionType != null) ...[
-                    TagView(
-                      id: 'tutorial-hint',
-                      emoji: '👇',
-                      iconSize: 18, // Slightly larger for better emoji visibility
-                      label: _selectedInteractionType == null
-                          ? AppLocalizations.of(context)!.dailyPromptsHintSelect(_currentPrompt.matchInteractionType!.buttonTitle(context))
-                          : AppLocalizations.of(context)!.dailyPromptsHintConfirm,
-                    ),
-                    const SizedBox(height: AppModifiers.mediumSpacing),
-                  ],
 
                   // Interaction buttons - fixed at bottom (base_form_view pattern)
                   Container(

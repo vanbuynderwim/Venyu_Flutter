@@ -20,9 +20,6 @@ import '../../widgets/common/section_type.dart';
 /// Icon(ProfileSections.company.icon);
 /// ```
 enum ProfileSections implements SectionType {
-  /// User's about me / bio card.
-  aboutMe,
-
   /// User's personal information.
   personal,
 
@@ -40,8 +37,6 @@ enum ProfileSections implements SectionType {
   String title(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
-      case ProfileSections.aboutMe:
-        return l10n.profileSectionAboutMeTitle;
       case ProfileSections.personal:
         return l10n.profileSectionPersonalTitle;
       case ProfileSections.company:
@@ -56,8 +51,6 @@ enum ProfileSections implements SectionType {
   String description(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     switch (this) {
-      case ProfileSections.aboutMe:
-        return l10n.profileSectionAboutMeDescription;
       case ProfileSections.personal:
         return l10n.profileSectionPersonalDescription;
       case ProfileSections.company:
@@ -71,8 +64,6 @@ enum ProfileSections implements SectionType {
   @override
   String get icon {
     switch (this) {
-      case ProfileSections.aboutMe:
-        return 'offer';
       case ProfileSections.personal:
         return 'profile';
       case ProfileSections.company:

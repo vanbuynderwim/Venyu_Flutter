@@ -35,6 +35,9 @@ class GetMatchedButton extends StatelessWidget {
   /// Whether this button is used in PromptsView (affects modal behavior)
   final bool isFromPrompts;
 
+  /// Custom background color for FAB button type
+  final Color? backgroundColor;
+
   const GetMatchedButton({
     super.key,
     required this.buttonType,
@@ -43,6 +46,7 @@ class GetMatchedButton extends StatelessWidget {
     this.onModalClosed,
     this.isVisible = true,
     this.isFromPrompts = false,
+    this.backgroundColor,
   });
 
   /// Opens the prompt edit modal directly
@@ -67,6 +71,7 @@ class GetMatchedButton extends StatelessWidget {
         return FABButton(
           icon: context.themedIcon('edit'),
           label: null,
+          backgroundColor: backgroundColor,
           onPressed: () => _openAddPromptModal(context),
         );
 

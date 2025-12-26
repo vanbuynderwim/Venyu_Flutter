@@ -226,7 +226,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'can help with experience, learnings, netwerk...';
 
   @override
-  String get interactionTypeKnowSomeoneSelection => 'I can connect';
+  String get interactionTypeKnowSomeoneSelection => 'I know someone';
 
   @override
   String get interactionTypeKnowSomeoneSubtitle =>
@@ -237,7 +237,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Who can you connect for this need?';
 
   @override
-  String get interactionTypeNotRelevantSelection => 'Skip';
+  String get interactionTypeNotRelevantSelection => 'I don’t know anyone';
 
   @override
   String get interactionTypeNotRelevantSubtitle => 'Pass on this one';
@@ -256,6 +256,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get interactionTypeNotRelevantNewTitle => 'Skip';
+
+  @override
+  String interactionTypeMatchThisIsMe(String firstName) {
+    return '$firstName offers this';
+  }
+
+  @override
+  String interactionTypeMatchLookingForThis(String firstName) {
+    return '$firstName needs this';
+  }
+
+  @override
+  String interactionTypeMatchKnowSomeone(String firstName) {
+    return '$firstName knows someone';
+  }
+
+  @override
+  String get interactionTypeSelfThisIsMe => 'I offer this';
+
+  @override
+  String get interactionTypeSelfLookingForThis => 'I need this';
+
+  @override
+  String get interactionTypeSelfKnowSomeone => 'I know someone';
+
+  @override
+  String interactionTypePromptThisIsMe(String firstName) {
+    return '$firstName is someone';
+  }
+
+  @override
+  String interactionTypePromptLookingForThis(String firstName) {
+    return '$firstName is looking for someone';
+  }
+
+  @override
+  String interactionTypePromptKnowSomeone(String firstName) {
+    return '$firstName knows someone';
+  }
 
   @override
   String get registrationStepNameTitle => 'Personal Information';
@@ -611,7 +650,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navMatches => 'Matches';
 
   @override
-  String get navCards => 'My requests';
+  String get navCards => 'Request & offer';
 
   @override
   String get navNotifications => 'Updates';
@@ -838,6 +877,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emptyStatePromptsDescription =>
       'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.';
+
+  @override
+  String get emptyStateKnowSomeoneTitle => 'No referrals yet';
+
+  @override
+  String get emptyStateKnowSomeoneDescription =>
+      'When you answer requests with \"I know someone\", they will appear here.';
 
   @override
   String get emptyStateNotificationSettingsTitle => 'No settings available';
@@ -2051,6 +2097,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String promptItemOtherMatchCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count other matches',
+      one: '1 other match',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get promptDetailRejectButton => 'Reject';
 
   @override
@@ -2196,7 +2253,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptsViewAllAnsweredMessage => 'All requests answered for today';
 
   @override
-  String get promptsViewMyPromptsTitle => 'My requests';
+  String get promptsViewMyPromptsTitle => 'Request & offer';
 
   @override
   String get venueCodeFieldPlaceholder => 'Invite code';
@@ -2404,7 +2461,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileHeaderReachOutButton => 'Introduce yourself';
 
   @override
-  String get profileHeaderAlreadyConnectedButton => 'Already connected?';
+  String get profileHeaderAlreadyConnectedButton => 'Already connected ?';
 
   @override
   String get getMatchedButtonLabel => 'Get matched';

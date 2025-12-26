@@ -10,7 +10,6 @@ import '../../../models/match.dart';
 import '../../../models/profile.dart';
 import '../../prompts/prompt_item.dart';
 import '../../prompts/prompt_detail_view.dart';
-import '../match_overview_header.dart';
 
 /// MatchPromptsSection - Displays matching prompts/cards section
 /// 
@@ -50,26 +49,31 @@ class MatchPromptsSection extends StatelessWidget {
     return Column(
       children: [
         // Match Overview Header
-        MatchOverviewHeader(
-          match: match,
-          currentProfile: currentProfile,
-        ),
         
-        // Prompt Cards - no spacing between cards in shared view
+        // Prompt Cards with 4px spacing between them
         ...match.prompts!.asMap().entries.map((entry) {
           final index = entry.key;
           final prompt = entry.value;
           final isFirst = index == 0;
           final isLast = index == match.prompts!.length - 1;
 
-          return PromptItem(
-            prompt: prompt,
-            isSharedPromptView: true,
-            showMatchInteraction: true,
-            isFirst: isFirst,
-            isLast: isLast,
-            limitPromptLines: true,
-            onPromptSelected: (selectedPrompt) => _navigateToPromptDetail(context, selectedPrompt.promptID),
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PromptItem(
+                prompt: prompt,
+                isSharedPromptView: true,
+                showMatchInteraction: true,
+                showCounters: true,
+                showChevron: true,
+                isFirst: isFirst,
+                isLast: isLast,
+                limitPromptLines: true,
+                matchFirstName: match.profile.firstName,
+                onPromptSelected: (selectedPrompt) => _navigateToPromptDetail(context, selectedPrompt.promptID),
+              ),
+              if (!isLast) const SizedBox(height: 8),
+            ],
           );
         }),
       ],

@@ -5,10 +5,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/venyu_theme.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/profile.dart';
-import '../../models/stage.dart';
-import '../../models/enums/action_button_type.dart';
-import '../../widgets/buttons/action_button.dart';
-import '../../widgets/buttons/option_button.dart';
 import 'edit_bio_view.dart';
 import 'profile_header/profile_avatar_section.dart';
 import 'profile_header/profile_info_section.dart';
@@ -24,10 +20,7 @@ class ProfileHeader extends StatefulWidget {
   final double avatarSize;
   final VoidCallback? onAvatarTap;
   final VoidCallback? onSectorsEditTap;
-  final VoidCallback? onReachOutTap;
-  final VoidCallback? onStageTap;
   final double? matchingScore;
-  final Stage? stage;
 
   const ProfileHeader({
     super.key,
@@ -36,11 +29,7 @@ class ProfileHeader extends StatefulWidget {
     this.avatarSize = 105.0,
     this.onAvatarTap,
     this.onSectorsEditTap,
-    this.onReachOutTap,
-    this.onStageTap,
-
     this.matchingScore,
-    this.stage,
   });
 
   @override
@@ -112,44 +101,10 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                     onSectorsEditTap: widget.onSectorsEditTap,
                   ),
 
-        const SizedBox(height: 8),
-        // Bio section
-        _buildBioSection(context, venyuTheme),
-        
-        // Reach out button or stage button for connections
-        if (!widget.isEditable) ...[
-          // Only add spacing if there's a bio
-          if (widget.profile.bio?.isNotEmpty == true)
-            const SizedBox(height: 8),
-          if (widget.stage == null) ...[
-            ActionButton(
-              label: AppLocalizations.of(context)!.profileHeaderReachOutButton,
-              icon: context.themedIcon('edit'),
-              type: ActionButtonType.primary,
-              onPressed: widget.onReachOutTap,
-            ),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: widget.onStageTap,
-              child: Text(
-                AppLocalizations.of(context)!.profileHeaderAlreadyConnectedButton,
-                style: AppTextStyles.subheadline.copyWith(
-                  color: venyuTheme.primary,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-          ] else
-            OptionButton(
-              option: widget.stage!,
-              isSelected: false,
-              isSelectable: false,
-              isCheckmarkVisible: false,
-              isChevronVisible: true,
-              isButton: true,
-              withDescription: true,
-              onSelect: widget.onStageTap,
-            ),
+        // Bio section (with spacing only if bio will be shown)
+        if (widget.profile.bio?.isNotEmpty == true || widget.isEditable) ...[
+          const SizedBox(height: 16),
+          _buildBioSection(context, venyuTheme),
         ],
       ],
     );

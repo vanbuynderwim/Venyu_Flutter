@@ -85,15 +85,15 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
         Prompt? prompt;
 
         // Use different API based on interaction type
-        if (widget.interactionType == InteractionType.thisIsMe) {
+        //if (widget.interactionType == InteractionType.thisIsMe) {
           // Fetch offer (this_is_me prompt) via content_manager
-          prompt = await _contentManager.fetchOffer(widget.promptId);
-          AppLogger.debug('Offer loaded', context: 'PromptDetailView');
-        } else {
+        //  prompt = await _contentManager.fetchOffer(widget.promptId);
+        //  AppLogger.debug('Offer loaded', context: 'PromptDetailView');
+        //} else {
           // Fetch prompt (looking_for_this) via content_manager - includes matches
           prompt = await _contentManager.fetchPrompt(widget.promptId);
           AppLogger.debug('Prompt loaded with ${prompt?.matches?.length ?? 0} matches', context: 'PromptDetailView');
-        }
+        //}
 
         if (prompt != null && mounted) {
           setState(() => _prompt = prompt);
@@ -125,7 +125,6 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
 
     // Show pause/play button in app bar for approved looking_for_this prompts
     final showPauseButton = _prompt != null &&
-                            _prompt!.interactionType == InteractionType.lookingForThis &&
                             _prompt!.displayStatus == PromptStatus.approved;
 
     return AppScaffold(
@@ -263,8 +262,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     if (matches.isEmpty) {
       // Only show empty state for approved looking_for_this prompts
       // this_is_me prompts (offers) don't have matches
-      if (_prompt?.displayStatus == PromptStatus.approved && 
-          _prompt?.interactionType == InteractionType.lookingForThis) {
+      if (_prompt?.displayStatus == PromptStatus.approved) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: EmptyStateWidget(

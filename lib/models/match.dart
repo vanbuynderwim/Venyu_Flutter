@@ -14,7 +14,7 @@ class Match {
   final double? score;
   final List<String>? motivation;
   final MatchResponse? response;
-  final DateTime? updatedAt;
+  final DateTime? createdAt;
   final Prompt? prompt;
   final List<Prompt>? prompts;
   final List<Match>? connections;
@@ -33,7 +33,7 @@ class Match {
     this.score,
     this.motivation,
     this.response,
-    this.updatedAt,
+    this.createdAt,
     this.prompt,
     this.prompts,
     this.connections,
@@ -56,8 +56,8 @@ class Match {
           ? (json['motivation'] as List).map((item) => item as String).toList()
           : null,
       response: json['response'] != null ? MatchResponse.fromJson(json['response']) : null,
-      updatedAt: json['updated_at'] != null && json['updated_at'] is String
-          ? DateTime.parse(json['updated_at']) : null,
+      createdAt: json['created_at'] != null && json['created_at'] is String
+          ? DateTime.parse(json['created_at']) : null,
       prompt: json['prompt'] != null ? Prompt.fromJson(json['prompt']) : null,
       prompts: json['prompts'] != null
           ? (json['prompts'] as List).map((prompt) => Prompt.fromJson(prompt)).toList()
@@ -89,7 +89,7 @@ class Match {
       'score': score,
       'motivation': motivation,
       'response': response?.toJson(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
       'prompt': prompt?.toJson(),
       'prompts': prompts?.map((p) => p.toJson()).toList(),
       'connections': connections?.map((conn) => conn.toJson()).toList(),
@@ -155,7 +155,7 @@ class Match {
     double? score,
     List<String>? motivation,
     MatchResponse? response,
-    DateTime? updatedAt,
+    DateTime? createdAt,
     Prompt? prompt,
     List<Prompt>? prompts,
     List<Match>? connections,
@@ -174,7 +174,7 @@ class Match {
       score: score ?? this.score,
       motivation: motivation ?? this.motivation,
       response: response ?? this.response,
-      updatedAt: updatedAt ?? this.updatedAt,
+      createdAt: createdAt ?? this.createdAt,
       prompt: prompt ?? this.prompt,
       prompts: prompts ?? this.prompts,
       connections: connections ?? this.connections,
