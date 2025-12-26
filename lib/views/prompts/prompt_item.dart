@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
 import '../../models/enums/prompt_status.dart';
-import '../../core/theme/app_fonts.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
 import '../../core/theme/venyu_theme.dart';
@@ -22,6 +21,7 @@ class PromptItem extends StatefulWidget {
   final bool shouldShowStatus;
   final bool showCounters;
   final bool limitPromptLines;
+  final bool canShowPausedTag;
   final String? matchFirstName;
   final Function(Prompt)? onPromptSelected;
 
@@ -37,6 +37,7 @@ class PromptItem extends StatefulWidget {
     this.shouldShowStatus = true,
     this.showCounters = false,
     this.limitPromptLines = false,
+    this.canShowPausedTag = true,
     this.matchFirstName,
     this.onPromptSelected,
   });
@@ -52,7 +53,7 @@ class _PromptItemState extends State<PromptItem> {
   Widget build(BuildContext context) {
     // Helper variables for status badges row
     final showStatusBadge = widget.prompt.fromAuthor == true && widget.prompt.displayStatus != PromptStatus.approved;
-    final showPausedTag = widget.prompt.isPaused == true;
+    final showPausedTag = widget.canShowPausedTag && widget.prompt.isPaused == true;
 
     // Calculate effective match count: show "other matches" (count - 1) when in match detail view
     final rawMatchCount = widget.prompt.matchCount ?? 0;
