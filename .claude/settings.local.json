@@ -45,11 +45,6 @@
       "Bash(cat:*)",
       "Bash(git log:*)",
       "Read(//Users/wimvanbuynder/.pub-cache/hosted/pub.dev/**)",
-      "Bash(for file in lib/views/**/*.dart)",
-      "Bash(do if grep -Pzo '} catch[^}]*\\{(?:(?!if \\(mounted\\)).)*setState' \"$file\")",
-      "Bash(then echo \"$file\" fi done)",
-      "Bash(while read file)",
-      "Bash(do if grep -A 10 \"} catch\" \"$file\")",
       "Bash(chmod:*)",
       "Bash(bash:*)",
       "Bash(python3:*)",
@@ -83,7 +78,10 @@
       "Bash('/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/keytool' -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android)",
       "Bash(while read f)",
       "Bash(do echo \"=== $f ===\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git restore:*)",
+      "Bash(flutter gen-l10n:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n✨ Dynamic empty states, remove aboutMe section, and Match model updates\n\n- Add dynamic EmptyStateWidget coloring based on InteractionType\n- Add accentColor and buttonColor parameters to EmptyStateWidget\n- Add backgroundColor parameter to ActionButton\n- Remove aboutMe section from ProfileSections enum and ProfileView\n- Change Match model from updatedAt to createdAt for pagination\n- Add new localization strings for knowSomeone empty state\n- Update prompts_view with dynamic icons, messages, and button visibility\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

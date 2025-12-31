@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/prompt.dart';
+import '../../models/enums/interaction_type.dart';
 import '../../models/enums/prompt_status.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/theme/app_modifiers.dart';
@@ -90,7 +91,7 @@ class _PromptItemState extends State<PromptItem> {
             ),
             child: Container(
               padding: AppModifiers.cardContentPadding,
-              decoration: _buildGradientOverlay(),
+              decoration: _buildBackgroundOverlay(),
               child: Row(
                   children: [
                     Expanded(
@@ -160,6 +161,8 @@ class _PromptItemState extends State<PromptItem> {
                               icon: 'pause',
                             ),
                           ],
+                          // Share tag for know_someone prompts
+                          
                         ],
                       ),
                     ],
@@ -198,46 +201,17 @@ class _PromptItemState extends State<PromptItem> {
     return context.themedIcon('checkbox', selected: isSelected);
   }
 
-  /// Build gradient overlay - show interaction colors for matches, status-based colors otherwise
-  BoxDecoration? _buildGradientOverlay() {
-    final venyuTheme = context.venyuTheme;
-    final isPaused = widget.prompt.isPaused == true;
-    final gradientAlpha = isPaused ? 0.1 : 0.25;
+  /// Build background overlay based on interaction type
+  BoxDecoration? _buildBackgroundOverlay() {
+    final gradientAlpha = widget.prompt.isPaused == true ? 0.1 : 0.2;
 
-    // If showing match interactions, use match interaction color on left, adaptive background on right
-    if (widget.showMatchInteraction) {
-      final gradientColor = widget.prompt.matchInteractionType?.color;
+    final color = widget.showMatchInteraction
+        ? widget.prompt.matchInteractionType?.color
+        : widget.prompt.interactionType?.color ?? context.venyuTheme.gradientPrimary;
 
-      if (gradientColor != null) {
-        return BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              gradientColor.withValues(alpha: gradientAlpha),
-              venyuTheme.adaptiveBackground.withValues(alpha: gradientAlpha),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-        );
-      }
-      // If missing color, no gradient
-      return null;
-    }
+    if (color == null) return null;
 
-    // Regular logic for non-match views
-    // If prompt is approved, show interaction type color gradient
-    final gradientColor = widget.prompt.interactionType?.color ?? venyuTheme.gradientPrimary;
-
-    return BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            gradientColor.withValues(alpha: gradientAlpha),
-            venyuTheme.adaptiveBackground.withValues(alpha: gradientAlpha),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      );
+    return BoxDecoration(color: color.withValues(alpha: gradientAlpha));
   }
 
 

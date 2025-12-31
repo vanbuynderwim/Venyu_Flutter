@@ -9,7 +9,6 @@ import '../../core/utils/dialog_utils.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/utils/url_helper.dart';
 import '../../core/utils/device_info.dart';
-import '../../core/providers/app_providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../../main.dart';
 import '../../models/enums/account_settings_type.dart';

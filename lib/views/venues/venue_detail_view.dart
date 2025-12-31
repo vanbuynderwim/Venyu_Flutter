@@ -22,7 +22,6 @@ import '../../widgets/common/empty_state_widget.dart';
 import '../../widgets/common/sub_title.dart';
 import '../matches/match_item_view.dart';
 import '../matches/match_detail_view.dart';
-import '../../services/profile_service.dart';
 import 'venue_profiles_view.dart';
 import 'venue_prompts_view.dart';
 

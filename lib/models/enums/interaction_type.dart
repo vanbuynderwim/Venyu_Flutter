@@ -143,6 +143,24 @@ enum InteractionType {
     }
   }
 
+  /// Returns the compact prompt title for this interaction type.
+  ///
+  /// Used in prompt items to show "{firstName} is this", "{firstName} wants this", etc.
+  /// Returns empty string for notRelevant.
+  String compactPromptTitle(BuildContext context, String firstName) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (this) {
+      case InteractionType.thisIsMe:
+        return l10n.interactionTypePromptCompactThisIsMe(firstName);
+      case InteractionType.lookingForThis:
+        return l10n.interactionTypePromptCompactLookingForThis(firstName);
+      case InteractionType.knowSomeone:
+        return l10n.interactionTypePromptCompactKnowSomeone(firstName);
+      case InteractionType.notRelevant:
+        return '';
+    }
+  }
+
   /// Returns the user-facing button text when matching the same interaction type as the prompt.
   ///
   /// Used in daily prompts to show "This is me too" instead of "This is me" when

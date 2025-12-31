@@ -7,7 +7,6 @@ import '../../models/venue.dart';
 import '../../widgets/common/radar_background_overlay.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../core/theme/venyu_theme.dart';
-import '../../core/utils/app_logger.dart';
 import '../../core/helpers/prompt_submission_helper.dart';
 import '../../mixins/error_handling_mixin.dart';
 

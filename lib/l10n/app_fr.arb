@@ -171,6 +171,31 @@
     }
   },
 
+  "interactionTypePromptCompactThisIsMe": "{firstName} offre ceci",
+  "@interactionTypePromptCompactThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactLookingForThis": "{firstName} cherche ceci",
+  "@interactionTypePromptCompactLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactKnowSomeone": "{firstName} connaît quelqu'un",
+  "@interactionTypePromptCompactKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Informations personnelles",
   "registrationStepEmailTitle": "V\u00e9rification de l'e-mail",
@@ -412,9 +437,9 @@
   "emptyStateMatchesTitle": "En attente de votre premier match !",
   "emptyStateMatchesDescription": "Une fois que vous aurez un match, il apparaîtra ici. Posez votre première question pour être matché plus rapidement.",
   "emptyStatePromptsTitle": "Pr\u00eat \u00e0 \u00eatre match\u00e9 ?",
-  "emptyStatePromptsDescription": "Les demandes sont matchées avec les offres d'autres entrepreneurs. Posez la vôtre pour découvrir qui peut vous aider.",
+  "emptyStatePromptsDescription": "Les questions sont affichées aux membres dont les offres correspondent. Chaque question est vérifiée et ne peut pas contenir d'offre cachée. Posez votre question pour découvrir qui peut vous aider.",
   "emptyStateKnowSomeoneTitle": "Pas encore de recommandations",
-  "emptyStateKnowSomeoneDescription": "Lorsque vous répondez aux demandes avec \"Je connais quelqu'un\", elles apparaîtront ici.",
+  "emptyStateKnowSomeoneDescription": "Les réponses marquées \"Je connais quelqu'un\" apparaissent ici. Vous pouvez les partager en dehors de Venyu.",
   "emptyStateNotificationSettingsTitle": "Aucun param\u00e8tre disponible",
   "emptyStateNotificationSettingsDescription": "Les param\u00e8tres de notification appara\u00eetront ici une fois configur\u00e9s.",
 
@@ -749,7 +774,7 @@
   "personalSectionEmptyTagGroups": "Aucun groupe de tags personnel disponible",
   "contactSectionEmptyContacts": "Aucune option de contact disponible",
   "aboutMeSectionEmptyTitle": "C'est moi",
-  "aboutMeSectionEmptyDescription": "Ajoutez quelques offres décrivant comment vous pouvez aider les autres. Elles sont privées et utilisées uniquement pour le matching avec les demandes des autres.",
+  "aboutMeSectionEmptyDescription": "Ajoutez plusieurs offres courtes au lieu d'une longue. Vos offres sont utilisées pour vous apporter les bonnes questions. Vos offres restent privées et ne sont pas affichées aux autres membres.",
   "aboutMeSectionEmptyAction": "Ajouter une offre",
   "profileSectionAboutMeTitle": "Mes offres",
   "profileSectionAboutMeDescription": "Offres sur qui vous êtes et comment vous aidez les autres. Elles améliorent vos matches.",
@@ -987,7 +1012,9 @@
   "interactionTypeSelectionPrivatePromptsInfo": "Une offre décrit comment vous pouvez aider les autres. Gardez-le court mais clair, plus c'est spécifique, mieux nous pourrons vous matcher avec les bonnes demandes.",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Détail",
+  "promptDetailTitleRequest": "Ma demande",
+  "promptDetailTitleOffer": "Mon offre",
+  "promptDetailTitleIntroduction": "Ma recommandation",
   "promptDetailStatusTitle": "Statut",
   "promptDetailHowYouMatchTitle": "Contrôler le matching",
   "promptDetailHowYouMatchDescription": "Mettez en pause le matching sur cette demande pour arrêter temporairement de recevoir de nouveaux matches. Vous pouvez reprendre à tout moment.",
@@ -1115,7 +1142,8 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Demandes",
-  "promptsViewEmptyActionButton": "Posez une question",
+  "promptsViewEmptyActionButtonQuestion": "Posez une question",
+  "promptsViewEmptyActionButtonOffer": "Rédigez une offre",
   "promptsViewAnswerPromptsButton": "Demandes non répondues",
   "promptsViewAllAnsweredMessage": "Toutes les demandes répondues pour aujourd'hui",
   "promptsViewMyPromptsTitle": "Offre et demande",
@@ -1376,5 +1404,24 @@
   "returningUserTutorialDescription": "Les règles de Venyu ont changé et nous aimerions vous les expliquer étape par étape.\n\nSpoiler : nous disons adieu aux 3 prompts quotidiens, et même au mot 'prompt'.",
   "returningUserTutorialButton": "Montrez-moi",
   "returningUserTutorialDoneDescription": "Merci d'avoir pris le temps, profitez de cette nouvelle version !",
-  "returningUserTutorialDoneButton": "Fermer"
+  "returningUserTutorialDoneButton": "Fermer",
+
+  "@_PROMPT_SHARES": {},
+  "sharesSectionTitle": "Make the net work",
+  "sharesSectionDescription": "Partagez cette demande avec quelqu'un que vous connaissez.",
+  "sharesShareLinkButton": "Partager la demande",
+  "sharesCreateError": "Échec de la création du lien",
+  "sharesShareSubject": "Une demande sur Venyu",
+  "sharesShareText": "Je suis tombé sur cette question sur Venyu :\n\n\"{question}\"\n\nJ'ai pensé que cela pourrait te correspondre.\n\nRecevez votre code d'invitation personnel via ce lien :\n{url}",
+  "@sharesShareText": {
+    "placeholders": {
+      "question": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "sharesCopiedToast": "Lien copié dans le presse-papiers"
 }

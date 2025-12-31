@@ -13,11 +13,13 @@ import '../../models/prompt.dart';
 class PromptSectionCard extends StatelessWidget {
   final Prompt prompt;
   final String? matchFirstName;
+  final bool compact;
 
   const PromptSectionCard({
     super.key,
     required this.prompt,
     this.matchFirstName,
+    this.compact = false,
   });
 
   @override
@@ -31,21 +33,13 @@ class PromptSectionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            gradientColor.withValues(alpha: 0.2),
-            venyuTheme.adaptiveBackground.withValues(alpha: 0.2),
-          ],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
+        color: gradientColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(AppModifiers.defaultRadius),
       ),
       child: Text(
-        prompt.buildTitle(context, matchFirstName: matchFirstName),
-        style: AppTextStyles.subheadline.copyWith(
-          color: venyuTheme.primaryText,
-          fontSize: 14
+        prompt.buildTitle(context, matchFirstName: matchFirstName, compact: compact),
+        style: AppTextStyles.footnote.copyWith(
+          color: venyuTheme.primaryText
         ),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,

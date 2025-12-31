@@ -297,6 +297,21 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String interactionTypePromptCompactThisIsMe(String firstName) {
+    return '$firstName offers this';
+  }
+
+  @override
+  String interactionTypePromptCompactLookingForThis(String firstName) {
+    return '$firstName wants this';
+  }
+
+  @override
+  String interactionTypePromptCompactKnowSomeone(String firstName) {
+    return '$firstName knows someone';
+  }
+
+  @override
   String get registrationStepNameTitle => 'Personal Information';
 
   @override
@@ -876,14 +891,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.';
+      'Questions are shown to members whose offers match. Each question is reviewed and may not contain a hidden offer. Ask your question to discover who can help you.';
 
   @override
   String get emptyStateKnowSomeoneTitle => 'No referrals yet';
 
   @override
   String get emptyStateKnowSomeoneDescription =>
-      'When you answer requests with \"I know someone\", they will appear here.';
+      'Replies marked as \"I know someone\" appear here. You can share them outside Venyu.';
 
   @override
   String get emptyStateNotificationSettingsTitle => 'No settings available';
@@ -1430,7 +1445,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeSectionEmptyDescription =>
-      'Add a few offers describing how you can help others. They\'re private and only used for matching with requests from others.';
+      'Add multiple short offers instead of one long one. Your offers are used to bring the right questions to you. Your offers remain private and are not shown to other members.';
 
   @override
   String get aboutMeSectionEmptyAction => 'Add offer';
@@ -2004,7 +2019,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'An offer describes how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.';
 
   @override
-  String get promptDetailTitle => 'Detail';
+  String get promptDetailTitleRequest => 'My request';
+
+  @override
+  String get promptDetailTitleOffer => 'My offer';
+
+  @override
+  String get promptDetailTitleIntroduction => 'My referral';
 
   @override
   String get promptDetailStatusTitle => 'Status';
@@ -2244,7 +2265,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get promptsViewTitle => 'Requests';
 
   @override
-  String get promptsViewEmptyActionButton => 'Ask a question';
+  String get promptsViewEmptyActionButtonQuestion => 'Ask a question';
+
+  @override
+  String get promptsViewEmptyActionButtonOffer => 'Write an offer';
 
   @override
   String get promptsViewAnswerPromptsButton => 'Unanswered requests';
@@ -2640,4 +2664,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get returningUserTutorialDoneButton => 'Close';
+
+  @override
+  String get sharesSectionTitle => 'Make the net work';
+
+  @override
+  String get sharesSectionDescription =>
+      'Share this request with someone you know.';
+
+  @override
+  String get sharesShareLinkButton => 'Share request';
+
+  @override
+  String get sharesCreateError => 'Failed to create link';
+
+  @override
+  String get sharesShareSubject => 'A request on Venyu';
+
+  @override
+  String sharesShareText(String question, String url) {
+    return 'I came across this question on Venyu:\n\n\"$question\"\n\nI thought this might be relevant for you.\n\nReceive your personal invite code via this link:\n$url';
+  }
+
+  @override
+  String get sharesCopiedToast => 'Link copied to clipboard';
 }

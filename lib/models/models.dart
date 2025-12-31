@@ -11,6 +11,7 @@ export 'tag_group.dart';
 export 'badge.dart';
 export 'language.dart';
 export 'invite.dart';
+export 'prompt_share.dart';
 export 'app_version.dart';
 export 'score_detail.dart';
 export 'requests/paginated_request.dart';

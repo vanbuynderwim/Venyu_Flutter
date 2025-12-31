@@ -68,17 +68,20 @@ class _MatchDetailViewState extends State<MatchDetailView> with ErrorHandlingMix
   }
 
   Future<void> _loadMatchDetail() async {
+    if (!mounted) return;
     setState(() => _error = null);
 
     final match = await executeWithLoadingAndReturn<Match>(
       operation: () => _matchingManager.fetchMatchDetail(widget.matchId),
       showErrorToast: false,  // We show custom error UI
       onError: (error) {
+        if (!mounted) return;
         final l10n = AppLocalizations.of(context)!;
         setState(() => _error = l10n.matchDetailErrorLoad);
       },
     );
 
+    if (!mounted) return;
     if (match != null) {
       setState(() => _match = match);
 

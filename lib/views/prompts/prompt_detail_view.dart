@@ -9,6 +9,7 @@ import '../../core/utils/app_logger.dart';
 import '../../mixins/error_handling_mixin.dart';
 // import '../../models/enums/prompt_sections.dart';
 import '../../models/prompt.dart';
+import '../../models/prompt_share.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../widgets/scaffolds/app_scaffold.dart';
 import '../../widgets/common/loading_state_widget.dart';
@@ -32,8 +33,10 @@ import '../venues/venue_detail_view.dart';
 import 'prompt_edit_view.dart';
 import '../../services/notification_service.dart';
 import '../../services/profile_service.dart';
+import '../../services/toast_service.dart';
 import '../../core/utils/dialog_utils.dart';
 import '../../models/enums/action_button_type.dart';
+import '../../widgets/prompts/prompt_share_card.dart';
 
 /// PromptDetailView - Shows a prompt with its associated matches
 ///
@@ -127,9 +130,27 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     final showPauseButton = _prompt != null &&
                             _prompt!.displayStatus == PromptStatus.approved;
 
+    // Determine title based on interaction type (from prompt or widget parameter)
+    final String title;
+    if (_prompt == null) {
+      title = l10n.dialogLoadingMessage;
+    } else {
+      final interactionType = _prompt?.interactionType ?? widget.interactionType;
+      switch (interactionType) {
+        case InteractionType.thisIsMe:
+          title = l10n.promptDetailTitleOffer;
+          break;
+        case InteractionType.knowSomeone:
+          title = l10n.promptDetailTitleIntroduction;
+          break;
+        default:
+          title = l10n.promptDetailTitleRequest;
+      }
+    }
+
     return AppScaffold(
         appBar: PlatformAppBar(
-          title: Text(l10n.promptDetailTitle),
+          title: Text(title),
         trailingActions: [
           if (showPauseButton)
             IconButton(
@@ -157,7 +178,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
             // Prompt item header (scrolls with content)
             if (_prompt != null) ...[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: PromptItem(
                   prompt: _prompt!,
                   reviewing: false,
@@ -207,6 +228,10 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
                 const SizedBox(height: 16),
               ],
             ],
+
+            // Shares section - only for know_someone prompts
+            if (_prompt?.interactionType == InteractionType.knowSomeone)
+              _buildSharesContent(),
 
             // Matches content
             _buildMatchesContent(),
@@ -281,7 +306,7 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         // Introductions title
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -297,11 +322,49 @@ class _PromptDetailViewState extends State<PromptDetailView> with ErrorHandlingM
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: MatchItemView(
             match: match,
+            compact: true,
             onMatchSelected: (selectedMatch) => _navigateToMatchDetail(selectedMatch),
           ),
         )),
       ],
     );
+  }
+
+  Widget _buildSharesContent() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+      child: PromptShareCard(
+        share: _prompt?.share,
+        onCreateShare: _createShare,
+        promptLabel: _prompt?.label ?? '',
+        compact: false,
+      ),
+    );
+  }
+
+  /// Create a share and return it
+  Future<PromptShare?> _createShare() async {
+    if (_prompt == null) return null;
+
+    try {
+      final share = await _contentManager.createPromptShare(_prompt!.promptID);
+      AppLogger.success('Created share for prompt: ${share.slug}', context: 'PromptDetailView');
+
+      // Reload prompt data to get updated share in state
+      await _loadPromptData();
+
+      return share;
+    } catch (error) {
+      AppLogger.error('Failed to create share', error: error, context: 'PromptDetailView');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ToastService.error(
+          context: context,
+          message: l10n.sharesCreateError,
+        );
+      }
+      return null;
+    }
   }
 
   void _navigateToMatchDetail(Match match) {

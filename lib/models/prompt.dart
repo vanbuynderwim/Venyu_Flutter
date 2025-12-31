@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'profile.dart';
 import 'venue.dart';
 import 'match.dart';
+import 'prompt_share.dart';
 import 'enums/prompt_status.dart';
 import 'enums/interaction_type.dart';
 
@@ -38,8 +39,12 @@ class Prompt {
   final bool? hasNewMatches;
 
   /// List of matches associated with this prompt (optional).
-  /// This is populated when fetching detailed prompt information via get_my_prompt.
+  /// This is populated when fetching detailed prompt information via get_request.
   final List<Match>? matches;
+
+  /// Share associated with this prompt (optional).
+  /// This is populated for know_someone prompts when fetching via get_request.
+  final PromptShare? share;
 
   const Prompt({
     this.feedID,
@@ -60,6 +65,7 @@ class Prompt {
     this.isPaused,
     this.hasNewMatches,
     this.matches,
+    this.share,
   });
 
   factory Prompt.fromJson(Map<String, dynamic> json) {
@@ -96,6 +102,9 @@ class Prompt {
               .map((m) => Match.fromJson(m as Map<String, dynamic>))
               .toList()
           : null,
+      share: json['share'] != null
+          ? PromptShare.fromJson(json['share'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -119,6 +128,7 @@ class Prompt {
       'is_paused': isPaused,
       'has_new_matches': hasNewMatches,
       if (matches != null) 'matches': matches!.map((m) => m.toJson()).toList(),
+      if (share != null) 'share': share!.toJson(),
     };
   }
 
@@ -138,8 +148,14 @@ class Prompt {
   /// uses promptTitle format: "{firstName} is iemand {label}"
   /// Otherwise falls back to selectionTitle format: "Ik zoek iemand {label}"
   /// If no interaction type is available, returns just the label.
-  String buildTitle(BuildContext context, {String? matchFirstName}) {
+  ///
+  /// If [compact] is true, uses a shorter format without the label:
+  /// "{firstName} is dit", "{firstName} zoekt dit", "{firstName} kent iemand"
+  String buildTitle(BuildContext context, {String? matchFirstName, bool compact = false}) {
     if (matchFirstName != null && matchInteractionType != null) {
+      if (compact) {
+        return matchInteractionType!.compactPromptTitle(context, matchFirstName);
+      }
       return '${matchInteractionType!.promptTitle(context, matchFirstName)} $label';
     } else if (interactionType != null) {
       return '${interactionType!.selectionTitle(context)} $label';

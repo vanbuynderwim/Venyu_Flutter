@@ -296,6 +296,21 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String interactionTypePromptCompactThisIsMe(String firstName) {
+    return '$firstName biedt dit aan';
+  }
+
+  @override
+  String interactionTypePromptCompactLookingForThis(String firstName) {
+    return '$firstName zoekt dit';
+  }
+
+  @override
+  String interactionTypePromptCompactKnowSomeone(String firstName) {
+    return '$firstName kent iemand';
+  }
+
+  @override
   String get registrationStepNameTitle => 'Persoonlijke informatie';
 
   @override
@@ -881,14 +896,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get emptyStatePromptsDescription =>
-      'Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.';
+      'Vragen worden getoond aan leden waarvan het aanbod matcht. Elke vraag wordt nagekeken en mag geen verborgen aanbod bevatten. Stel je vraag om te ontdekken wie je kan helpen.';
 
   @override
   String get emptyStateKnowSomeoneTitle => 'Nog geen doorverwijzingen';
 
   @override
   String get emptyStateKnowSomeoneDescription =>
-      'Wanneer je vragen beantwoordt met \"Die ken ik\", verschijnen ze hier.';
+      'Reacties gemarkeerd als \"Die ken ik\" verschijnen hier. Je kan ze delen buiten Venyu.';
 
   @override
   String get emptyStateNotificationSettingsTitle =>
@@ -1438,7 +1453,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get aboutMeSectionEmptyDescription =>
-      'Voeg een paar aanbiedingen toe die beschrijven hoe je anderen kan helpen. Ze zijn privé en worden alleen gebruikt voor matching met vragen van anderen.';
+      'Voeg meerdere korte aanbiedingen toe in plaats van één lange. Je aanbod wordt gebruikt om de juiste vragen tot bij jou te brengen. Je aanbod blijft privé en wordt niet getoond aan andere leden.';
 
   @override
   String get aboutMeSectionEmptyAction => 'Voeg aanbod toe';
@@ -2015,7 +2030,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Een aanbod beschrijft hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.';
 
   @override
-  String get promptDetailTitle => 'Detail';
+  String get promptDetailTitleRequest => 'Mijn vraag';
+
+  @override
+  String get promptDetailTitleOffer => 'Mijn aanbod';
+
+  @override
+  String get promptDetailTitleIntroduction => 'Mijn doorverwijzing';
 
   @override
   String get promptDetailStatusTitle => 'Status';
@@ -2259,7 +2280,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get promptsViewTitle => 'Vragen';
 
   @override
-  String get promptsViewEmptyActionButton => 'Stel een vraag';
+  String get promptsViewEmptyActionButtonQuestion => 'Stel een vraag';
+
+  @override
+  String get promptsViewEmptyActionButtonOffer => 'Schrijf een aanbod';
 
   @override
   String get promptsViewAnswerPromptsButton => 'Onbeantwoorde vragen';
@@ -2660,4 +2684,28 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get returningUserTutorialDoneButton => 'Sluiten';
+
+  @override
+  String get sharesSectionTitle => 'Make the net work';
+
+  @override
+  String get sharesSectionDescription =>
+      'Deel deze vraag met de persoon die je kent.';
+
+  @override
+  String get sharesShareLinkButton => 'Deel vraag';
+
+  @override
+  String get sharesCreateError => 'Link aanmaken mislukt';
+
+  @override
+  String get sharesShareSubject => 'Een vraag op Venyu';
+
+  @override
+  String sharesShareText(String question, String url) {
+    return 'Ik kwam deze vraag tegen op Venyu:\n\n\"$question\"\n\nIk dacht dat dit wel iets voor jou kan zijn.\n\nOntvang je persoonlijke invite code via deze link:\n$url';
+  }
+
+  @override
+  String get sharesCopiedToast => 'Link gekopieerd naar klembord';
 }

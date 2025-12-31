@@ -170,6 +170,31 @@
     }
   },
 
+  "interactionTypePromptCompactThisIsMe": "{firstName} biedt dit aan",
+  "@interactionTypePromptCompactThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactLookingForThis": "{firstName} zoekt dit",
+  "@interactionTypePromptCompactLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactKnowSomeone": "{firstName} kent iemand",
+  "@interactionTypePromptCompactKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Persoonlijke informatie",
   "registrationStepEmailTitle": "E-mailverificatie",
@@ -411,9 +436,9 @@
   "emptyStateMatchesTitle": "Wachten op je eerste match!",
   "emptyStateMatchesDescription": "Zodra je een match hebt, verschijnt deze hier. Stel je eerste vraag om sneller gematcht te worden.",
   "emptyStatePromptsTitle": "Klaar om gematcht te worden?",
-  "emptyStatePromptsDescription": "Vragen worden gematcht met het aanbod van andere ondernemers. Stel die van jou om te ontdekken wie jou kan helpen.",
+  "emptyStatePromptsDescription": "Vragen worden getoond aan leden waarvan het aanbod matcht. Elke vraag wordt nagekeken en mag geen verborgen aanbod bevatten. Stel je vraag om te ontdekken wie je kan helpen.",
   "emptyStateKnowSomeoneTitle": "Nog geen doorverwijzingen",
-  "emptyStateKnowSomeoneDescription": "Wanneer je vragen beantwoordt met \"Die ken ik\", verschijnen ze hier.",
+  "emptyStateKnowSomeoneDescription": "Reacties gemarkeerd als \"Die ken ik\" verschijnen hier. Je kan ze delen buiten Venyu.",
   "emptyStateNotificationSettingsTitle": "Geen instellingen beschikbaar",
   "emptyStateNotificationSettingsDescription": "Notificatie-instellingen verschijnen hier zodra ze zijn geconfigureerd.",
 
@@ -748,7 +773,7 @@
   "personalSectionEmptyTagGroups": "Geen persoonlijke tag groepen beschikbaar",
   "contactSectionEmptyContacts": "Geen contactopties beschikbaar",
   "aboutMeSectionEmptyTitle": "Dit ben ik",
-  "aboutMeSectionEmptyDescription": "Voeg een paar aanbiedingen toe die beschrijven hoe je anderen kan helpen. Ze zijn privé en worden alleen gebruikt voor matching met vragen van anderen.",
+  "aboutMeSectionEmptyDescription": "Voeg meerdere korte aanbiedingen toe in plaats van één lange. Je aanbod wordt gebruikt om de juiste vragen tot bij jou te brengen. Je aanbod blijft privé en wordt niet getoond aan andere leden.",
   "aboutMeSectionEmptyAction": "Voeg aanbod toe",
   "profileSectionAboutMeTitle": "Mijn aanbod",
   "profileSectionAboutMeDescription": "Aanbiedingen over wie je bent en hoe je anderen helpt. Ze verbeteren je matches.",
@@ -986,7 +1011,9 @@
   "interactionTypeSelectionPrivatePromptsInfo": "Een aanbod beschrijft hoe je anderen kan helpen. Hou het kort maar duidelijk, hoe specifieker hoe beter we jou kunnen matchen met de juiste vragen.",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Detail",
+  "promptDetailTitleRequest": "Mijn vraag",
+  "promptDetailTitleOffer": "Mijn aanbod",
+  "promptDetailTitleIntroduction": "Mijn doorverwijzing",
   "promptDetailStatusTitle": "Status",
   "promptDetailHowYouMatchTitle": "Matchen beheren",
   "promptDetailHowYouMatchDescription": "Pauzeer het matchen op deze vraag om tijdelijk te stoppen met nieuwe matches ontvangen. Je kan op elk moment hervatten.",
@@ -1114,7 +1141,8 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Vragen",
-  "promptsViewEmptyActionButton": "Stel een vraag",
+  "promptsViewEmptyActionButtonQuestion": "Stel een vraag",
+  "promptsViewEmptyActionButtonOffer": "Schrijf een aanbod",
   "promptsViewAnswerPromptsButton": "Onbeantwoorde vragen",
   "promptsViewAllAnsweredMessage": "Alle vragen beantwoord voor vandaag",
   "promptsViewMyPromptsTitle": "Vraag en aanbod",
@@ -1371,5 +1399,24 @@
   "returningUserTutorialDescription": "De spelregels in Venyu zijn veranderd en we leggen je het graag even stap voor stap uit.\n\nSpoiler: we nemen afscheid van de 3 dagelijkse prompts, en zelfs van het woord 'prompt'.",
   "returningUserTutorialButton": "Laat zien",
   "returningUserTutorialDoneDescription": "Bedankt om even de tijd te nemen, veel plezier met deze nieuwe versie!",
-  "returningUserTutorialDoneButton": "Sluiten"
+  "returningUserTutorialDoneButton": "Sluiten",
+
+  "@_PROMPT_SHARES": {},
+  "sharesSectionTitle": "Make the net work",
+  "sharesSectionDescription": "Deel deze vraag met de persoon die je kent.",
+  "sharesShareLinkButton": "Deel vraag",
+  "sharesCreateError": "Link aanmaken mislukt",
+  "sharesShareSubject": "Een vraag op Venyu",
+  "sharesShareText": "Ik kwam deze vraag tegen op Venyu:\n\n\"{question}\"\n\nIk dacht dat dit wel iets voor jou kan zijn.\n\nOntvang je persoonlijke invite code via deze link:\n{url}",
+  "@sharesShareText": {
+    "placeholders": {
+      "question": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "sharesCopiedToast": "Link gekopieerd naar klembord"
 }

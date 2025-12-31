@@ -4,6 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/prompt.dart';
+import '../../models/prompt_share.dart';
 import '../../models/enums/interaction_type.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/app_logger.dart';
@@ -12,8 +13,8 @@ import '../../core/theme/venyu_theme.dart';
 import '../../widgets/buttons/interaction_button.dart';
 import '../../widgets/buttons/action_button.dart';
 import '../../widgets/prompts/prompt_display_widget.dart';
+import '../../widgets/prompts/prompt_share_card.dart';
 import '../../widgets/common/radar_background_overlay.dart';
-import '../../widgets/common/tag_view.dart';
 import '../../mixins/error_handling_mixin.dart';
 import '../../services/supabase_managers/content_manager.dart';
 import '../../services/toast_service.dart';
@@ -50,6 +51,8 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
   List<InteractionType?> _promptInteractions = [];
   bool _isPromptReported = false;
 
+  // Share state
+  PromptShare? _promptShare;
 
   // Services
   late final ContentManager _contentManager;
@@ -61,10 +64,6 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
     return _selectedInteractionType?.color ?? _currentPrompt.interactionType?.color ?? context.venyuTheme.gradientPrimary;
   }
 
-  /// Get the bottom gradient color - always adaptive background
-  Color get _bottomGradientColor {
-    return context.venyuTheme.adaptiveBackground;
-  }
 
   void _handleInteractionPressed(InteractionType interactionType) {
     HapticFeedback.mediumImpact();
@@ -72,11 +71,40 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
     setState(() {
       _selectedInteractionType = interactionType;
       _promptInteractions[_currentPromptIndex] = interactionType;
+      // Reset share when changing interaction type
+      if (interactionType != InteractionType.knowSomeone) {
+        _promptShare = null;
+      }
     });
-    
+
     AppLogger.ui('User selected interaction: ${interactionType.value} for prompt: ${_currentPrompt.label}', context: 'PromptsView');
   }
 
+  /// Create a prompt share and return it
+  Future<PromptShare?> _createPromptShare() async {
+    try {
+      final share = await _contentManager.createPromptShare(_currentPrompt.promptID);
+      AppLogger.success('Created share with slug: ${share.slug}', context: 'DailyPromptsView');
+
+      if (mounted) {
+        setState(() {
+          _promptShare = share;
+        });
+      }
+
+      return share;
+    } catch (error) {
+      AppLogger.error('Failed to create share', error: error, context: 'DailyPromptsView');
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ToastService.error(
+          context: context,
+          message: l10n.sharesCreateError,
+        );
+      }
+      return null;
+    }
+  }
 
   @override
   void initState() {
@@ -101,6 +129,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
           _currentPromptIndex++;
           _selectedInteractionType = null;
           _isPromptReported = false;
+          _promptShare = null;
         });
       } else {
         // Last prompt - navigate to TutorialFinishedView
@@ -134,15 +163,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
       showErrorToast: false, // Handle navigation in callbacks
       useProcessingState: true,
       onSuccess: () async {
-        // Show toast if knowSomeone was selected
-        if (_selectedInteractionType == InteractionType.knowSomeone) {
-          final l10n = AppLocalizations.of(context)!;
-          ToastService.info(
-            context: context,
-            message: l10n.dailyPromptsReferralCodeSent,
-          );
-        }
-
+        
         // Check if there are more prompts
         if (_currentPromptIndex < widget.prompts.length - 1) {
           // Move to next prompt and reset interaction selection
@@ -150,6 +171,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
             _currentPromptIndex++;
             _selectedInteractionType = null;
             _isPromptReported = false; // Reset report state for new prompt
+            _promptShare = null;
           });
         } else {
           // Last prompt completed - notify all listeners immediately
@@ -263,14 +285,7 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
       canPop: _currentPromptIndex == 0 || _selectedInteractionType != null,
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              _topGradientColor,
-              _bottomGradientColor,
-            ],
-          ),
+          color: _topGradientColor,
         ),
         child: Stack(
           children: [
@@ -315,7 +330,6 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
 
                   const SizedBox(height: AppModifiers.largeSpacing),
 
-
                   // Interaction buttons - fixed at bottom (base_form_view pattern)
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -329,7 +343,21 @@ class _DailyPromptsViewState extends State<DailyPromptsView> with ErrorHandlingM
                     ),
                   ),
 
-                  const SizedBox(height: AppModifiers.mediumSpacing),
+                  // Share card for know_someone interaction
+                  if (_selectedInteractionType == InteractionType.knowSomeone) ...[
+                    const SizedBox(height: AppModifiers.smallSpacing),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: PromptShareCard(
+                        share: _promptShare,
+                        onCreateShare: _createPromptShare,
+                        promptLabel: _currentPrompt.label,
+                        compact: true,
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: AppModifiers.smallSpacing),
 
                   // Next button - enabled when interaction is selected, wrapped in light theme
                   Container(

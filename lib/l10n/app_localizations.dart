@@ -598,6 +598,24 @@ abstract class AppLocalizations {
   /// **'{firstName} knows someone'**
   String interactionTypePromptKnowSomeone(String firstName);
 
+  /// No description provided for @interactionTypePromptCompactThisIsMe.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} offers this'**
+  String interactionTypePromptCompactThisIsMe(String firstName);
+
+  /// No description provided for @interactionTypePromptCompactLookingForThis.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} wants this'**
+  String interactionTypePromptCompactLookingForThis(String firstName);
+
+  /// No description provided for @interactionTypePromptCompactKnowSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'{firstName} knows someone'**
+  String interactionTypePromptCompactKnowSomeone(String firstName);
+
   /// No description provided for @registrationStepNameTitle.
   ///
   /// In en, this message translates to:
@@ -1663,7 +1681,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStatePromptsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.'**
+  /// **'Questions are shown to members whose offers match. Each question is reviewed and may not contain a hidden offer. Ask your question to discover who can help you.'**
   String get emptyStatePromptsDescription;
 
   /// No description provided for @emptyStateKnowSomeoneTitle.
@@ -1675,7 +1693,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyStateKnowSomeoneDescription.
   ///
   /// In en, this message translates to:
-  /// **'When you answer requests with \"I know someone\", they will appear here.'**
+  /// **'Replies marked as \"I know someone\" appear here. You can share them outside Venyu.'**
   String get emptyStateKnowSomeoneDescription;
 
   /// No description provided for @emptyStateNotificationSettingsTitle.
@@ -2635,7 +2653,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeSectionEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Add a few offers describing how you can help others. They\'re private and only used for matching with requests from others.'**
+  /// **'Add multiple short offers instead of one long one. Your offers are used to bring the right questions to you. Your offers remain private and are not shown to other members.'**
   String get aboutMeSectionEmptyDescription;
 
   /// No description provided for @aboutMeSectionEmptyAction.
@@ -3658,11 +3676,23 @@ abstract class AppLocalizations {
   /// **'An offer describes how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.'**
   String get interactionTypeSelectionPrivatePromptsInfo;
 
-  /// No description provided for @promptDetailTitle.
+  /// No description provided for @promptDetailTitleRequest.
   ///
   /// In en, this message translates to:
-  /// **'Detail'**
-  String get promptDetailTitle;
+  /// **'My request'**
+  String get promptDetailTitleRequest;
+
+  /// No description provided for @promptDetailTitleOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'My offer'**
+  String get promptDetailTitleOffer;
+
+  /// No description provided for @promptDetailTitleIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'My referral'**
+  String get promptDetailTitleIntroduction;
 
   /// No description provided for @promptDetailStatusTitle.
   ///
@@ -4048,11 +4078,17 @@ abstract class AppLocalizations {
   /// **'Requests'**
   String get promptsViewTitle;
 
-  /// No description provided for @promptsViewEmptyActionButton.
+  /// No description provided for @promptsViewEmptyActionButtonQuestion.
   ///
   /// In en, this message translates to:
   /// **'Ask a question'**
-  String get promptsViewEmptyActionButton;
+  String get promptsViewEmptyActionButtonQuestion;
+
+  /// No description provided for @promptsViewEmptyActionButtonOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Write an offer'**
+  String get promptsViewEmptyActionButtonOffer;
 
   /// No description provided for @promptsViewAnswerPromptsButton.
   ///
@@ -4743,6 +4779,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get returningUserTutorialDoneButton;
+
+  /// No description provided for @sharesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the net work'**
+  String get sharesSectionTitle;
+
+  /// No description provided for @sharesSectionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this request with someone you know.'**
+  String get sharesSectionDescription;
+
+  /// No description provided for @sharesShareLinkButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share request'**
+  String get sharesShareLinkButton;
+
+  /// No description provided for @sharesCreateError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create link'**
+  String get sharesCreateError;
+
+  /// No description provided for @sharesShareSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'A request on Venyu'**
+  String get sharesShareSubject;
+
+  /// No description provided for @sharesShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'I came across this question on Venyu:\n\n\"{question}\"\n\nI thought this might be relevant for you.\n\nReceive your personal invite code via this link:\n{url}'**
+  String sharesShareText(String question, String url);
+
+  /// No description provided for @sharesCopiedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied to clipboard'**
+  String get sharesCopiedToast;
 }
 
 class _AppLocalizationsDelegate

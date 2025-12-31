@@ -172,6 +172,31 @@
     }
   },
 
+  "interactionTypePromptCompactThisIsMe": "{firstName} offers this",
+  "@interactionTypePromptCompactThisIsMe": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactLookingForThis": "{firstName} wants this",
+  "@interactionTypePromptCompactLookingForThis": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "interactionTypePromptCompactKnowSomeone": "{firstName} knows someone",
+  "@interactionTypePromptCompactKnowSomeone": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+
   "@_REGISTRATION_STEP": {},
   "registrationStepNameTitle": "Personal Information",
   "registrationStepEmailTitle": "Email Verification",
@@ -413,9 +438,9 @@
   "emptyStateMatchesTitle": "Waiting for your first match!",
   "emptyStateMatchesDescription": "Once you have a match, it will appear here. Ask your first question to get matched faster.",
   "emptyStatePromptsTitle": "Ready to get matched?",
-  "emptyStatePromptsDescription": "Requests are matched with the offers of other entrepreneurs. Ask yours to discover who can help you.",
+  "emptyStatePromptsDescription": "Questions are shown to members whose offers match. Each question is reviewed and may not contain a hidden offer. Ask your question to discover who can help you.",
   "emptyStateKnowSomeoneTitle": "No referrals yet",
-  "emptyStateKnowSomeoneDescription": "When you answer requests with \"I know someone\", they will appear here.",
+  "emptyStateKnowSomeoneDescription": "Replies marked as \"I know someone\" appear here. You can share them outside Venyu.",
   "emptyStateNotificationSettingsTitle": "No settings available",
   "emptyStateNotificationSettingsDescription": "Notification settings will appear here once they are configured.",
 
@@ -750,7 +775,7 @@
   "personalSectionEmptyTagGroups": "No personal tag groups available",
   "contactSectionEmptyContacts": "No contact options available",
   "aboutMeSectionEmptyTitle": "This is me",
-  "aboutMeSectionEmptyDescription": "Add a few offers describing how you can help others. They're private and only used for matching with requests from others.",
+  "aboutMeSectionEmptyDescription": "Add multiple short offers instead of one long one. Your offers are used to bring the right questions to you. Your offers remain private and are not shown to other members.",
   "aboutMeSectionEmptyAction": "Add offer",
   "profileSectionAboutMeTitle": "My offers",
   "profileSectionAboutMeDescription": "Offers about who you are and how you help others. They improve your matches.",
@@ -988,7 +1013,9 @@
   "interactionTypeSelectionPrivatePromptsInfo": "An offer describes how you can help others. Keep it short but clear, the more specific the better we can match you with the right requests.",
 
   "@_PROMPT_DETAIL_VIEW": {},
-  "promptDetailTitle": "Detail",
+  "promptDetailTitleRequest": "My request",
+  "promptDetailTitleOffer": "My offer",
+  "promptDetailTitleIntroduction": "My referral",
   "promptDetailStatusTitle": "Status",
   "promptDetailHowYouMatchTitle": "Control matching",
   "promptDetailHowYouMatchDescription": "Pause matching on this request to temporarily stop receiving new matches. You can resume at any time.",
@@ -1116,7 +1143,8 @@
 
   "@_PROMPTS_VIEW": {},
   "promptsViewTitle": "Requests",
-  "promptsViewEmptyActionButton": "Ask a question",
+  "promptsViewEmptyActionButtonQuestion": "Ask a question",
+  "promptsViewEmptyActionButtonOffer": "Write an offer",
   "promptsViewAnswerPromptsButton": "Unanswered requests",
   "promptsViewAllAnsweredMessage": "All requests answered for today",
   "promptsViewMyPromptsTitle": "Request & offer",
@@ -1374,5 +1402,24 @@
   "returningUserTutorialDescription": "The rules in Venyu have changed and we'd like to walk you through them step by step.\n\nSpoiler: we're saying goodbye to the 3 daily prompts, and even to the word 'prompt'.",
   "returningUserTutorialButton": "Show me",
   "returningUserTutorialDoneDescription": "Thanks for taking the time, enjoy this new version!",
-  "returningUserTutorialDoneButton": "Close"
+  "returningUserTutorialDoneButton": "Close",
+
+  "@_PROMPT_SHARES": {},
+  "sharesSectionTitle": "Make the net work",
+  "sharesSectionDescription": "Share this request with someone you know.",
+  "sharesShareLinkButton": "Share request",
+  "sharesCreateError": "Failed to create link",
+  "sharesShareSubject": "A request on Venyu",
+  "sharesShareText": "I came across this question on Venyu:\n\n\"{question}\"\n\nI thought this might be relevant for you.\n\nReceive your personal invite code via this link:\n{url}",
+  "@sharesShareText": {
+    "placeholders": {
+      "question": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "sharesCopiedToast": "Link copied to clipboard"
 }

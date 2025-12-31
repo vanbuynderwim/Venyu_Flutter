@@ -30,17 +30,18 @@ import '../../widgets/prompts/prompt_section_card.dart';
 class MatchItemView extends StatefulWidget {
   /// The match data to display
   final Match match;
-  
+
   /// Callback when the match is selected/tapped
   final Function(Match)? onMatchSelected;
-  
-  /// Whether the avatar should be blurred (true when user is not Pro and not connected)
 
+  /// Whether to use compact prompt title format
+  final bool compact;
 
   const MatchItemView({
     super.key,
     required this.match,
-    this.onMatchSelected
+    this.onMatchSelected,
+    this.compact = false,
   });
 
   @override
@@ -80,21 +81,11 @@ class _MatchItemViewState extends State<MatchItemView> {
               PromptSectionCard(
                 prompt: widget.match.prompt!,
                 matchFirstName: widget.match.profile.firstName,
+                compact: widget.compact,
               ),
             ],
             // Stage tag for connections with a stage
-            if (widget.match.stage != null) ...[
-              AppModifiers.verticalSpaceSmall,
-              TagView(
-                id: widget.match.stage!.id,
-                label: widget.match.stage!.label,
-                icon: widget.match.stage!.icon,
-                fontSize: AppTextStyles.caption1,
-                backgroundColor: venyuTheme.tagBackground,
-                textColor: venyuTheme.primaryText,
-              ),
-            // Reach out info box for connections without stage
-            ] else ...[
+            if (widget.match.stage == null) ...[
               AppModifiers.verticalSpaceSmall,
               TagView(
                 id: 'match_reach_out',
@@ -103,10 +94,13 @@ class _MatchItemViewState extends State<MatchItemView> {
                 backgroundColor: context.venyuTheme.gradientPrimary,
                 textColor: Colors.white,
                 icon: 'edit',
+                iconSize: 14,
                 color: Colors.white,
                 isLocal: true,
               ),
             ],
+            // Reach out info box for connections without stage
+            
             // Optional prompt section
             
           ],

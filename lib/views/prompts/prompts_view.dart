@@ -190,7 +190,9 @@ class _PromptsViewState extends State<PromptsView>
                                     : () => _handleGetMatchedPressed(),
                                 actionText: _selectedInteractionType == InteractionType.knowSomeone
                                     ? null
-                                    : l10n.promptsViewEmptyActionButton,
+                                    : _selectedInteractionType == InteractionType.lookingForThis
+                                        ? l10n.promptsViewEmptyActionButtonQuestion
+                                        : l10n.promptsViewEmptyActionButtonOffer,
                                 actionButtonIcon: _selectedInteractionType == InteractionType.knowSomeone
                                     ? null
                                     : context.themedIcon('edit'),

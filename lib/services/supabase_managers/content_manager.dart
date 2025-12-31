@@ -180,7 +180,7 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
 
       // Call the get_my_prompt RPC function
       final result = await client
-          .rpc('get_my_prompt', params: {'p_prompt_id': promptId})
+          .rpc('get_request', params: {'p_prompt_id': promptId})
           .select()
           .single();
 
@@ -447,6 +447,47 @@ class ContentManager extends BaseSupabaseManager with DisposableManagerMixin {
       await client.rpc('delete_prompt_setting', params: {'payload': payload});
 
       AppLogger.success('Prompt setting deleted successfully', context: 'ContentManager');
+    });
+  }
+
+  /// Create a shareable link for a prompt
+  ///
+  /// This generates a unique slug that can be used to share a prompt with others.
+  /// The share includes an invite code valid for 1 year.
+  ///
+  /// Parameters:
+  /// - [promptId]: The ID of the prompt to share
+  ///
+  /// Returns a [PromptShare] containing the generated slug
+  Future<PromptShare> createPromptShare(String promptId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Creating prompt share for prompt: $promptId', context: 'ContentManager');
+
+      final result = await client.rpc(
+        'create_prompt_share',
+        params: {'p_prompt_id': promptId},
+      );
+
+      final slug = result as String;
+      AppLogger.success('Prompt share created with slug: $slug', context: 'ContentManager');
+
+      return PromptShare.fromSlug(slug, promptId);
+    });
+  }
+
+  /// Delete a prompt share for a specific prompt
+  ///
+  /// Deletes the share link for the given prompt owned by the current user
+  Future<void> deletePromptShare(String promptId) async {
+    return executeAuthenticatedRequest(() async {
+      AppLogger.info('Deleting prompt share for prompt: $promptId', context: 'ContentManager');
+
+      await client.rpc(
+        'delete_prompt_share',
+        params: {'p_prompt_id': promptId},
+      );
+
+      AppLogger.success('Prompt share deleted for prompt: $promptId', context: 'ContentManager');
     });
   }
 
